@@ -74,7 +74,7 @@ jobs:
           password: ${{ secrets.SERVER_1_SSH_PASSWORD }}
           port: ${{ secrets.SERVER_1_SSH_PORT }}
           script: |
-            docker pull ghcr.io/Minyoungkyu/cit:latest
+            docker pull ghcr.io/minyoungkyu/cit:latest
             docker stop cit_1
             docker rm cit_1
             docker run \
@@ -82,5 +82,5 @@ jobs:
                 -d \
                 -v /docker_projects/cit_1/volume/gen:/gen \
                 --name cit_1 \
-                ghcr.io/Minyoungkyu/cit:latest
+                ghcr.io/minyoungkyu/cit:latest
             docker image prune
