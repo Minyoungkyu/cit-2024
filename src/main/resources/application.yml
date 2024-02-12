@@ -62,7 +62,7 @@ custom:
     frontUrl: "https://${custom.prod.cookieDomain}"
     backUrl: "https://cit.myk.co.kr"      #"https://api.${custom.prod.cookieDomain}"
     database:
-      password: NEED_TO_SECRET
+      password: NEED_TO_SECRETg
     members:
       system:
         password: NEED_TO_SECRET
