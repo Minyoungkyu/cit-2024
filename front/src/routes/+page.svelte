@@ -10,3 +10,9 @@
 <button class="btn btn-primary btn-wide" onclick={() => rq.msgInfo('안녕')}>버튼</button>
 
 <p>이것은 CI/CD 테스트입니다.</p>
+
+{#if rq.isLogin()}
+  <button class="btn btn-primary btn-wide" onclick={() => rq.msgInfo('로그아웃')}>로그아웃</button>
+{:else}
+  <button class="btn btn-primary btn-wide" onclick={() => rq.msgInfo('로그인')}>로그인</button>
+{/if}
