@@ -60,7 +60,7 @@ custom:
   prod:
     cookieDomain: minyoungkyu-cit.vercel.app
     frontUrl: "https://${custom.prod.cookieDomain}"
-    backUrl: "http://cit.myk.co.kr"      #"https://api.${custom.prod.cookieDomain}"
+    backUrl: "https://cit.myk.co.kr"      #"https://api.${custom.prod.cookieDomain}"
     database:
       password: NEED_TO_SECRET
     members:
