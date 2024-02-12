@@ -58,9 +58,9 @@ custom:
     frontUrl: "http://${custom.dev.cookieDomain}:5173"
     backUrl: "http://${custom.dev.cookieDomain}:${server.port}"
   prod:
-    cookieDomain: cit.myk.co.kr
+    cookieDomain: minyoungkyu-cit.vercel.app
     frontUrl: "https://${custom.prod.cookieDomain}"
-    backUrl: "https://api.${custom.prod.cookieDomain}"
+    backUrl: "http://cit.myk.co.kr"      #"https://api.${custom.prod.cookieDomain}"
     database:
       password: NEED_TO_SECRET
     members:
