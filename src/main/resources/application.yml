@@ -72,12 +72,12 @@ custom:
     cookieDomain: "${custom.dev.cookieDomain}"
     frontUrl: "${custom.dev.frontUrl}"
     backUrl: "${custom.dev.backUrl}"
-    name: slog
+    name: cit
   jwt:
     secretKey: ON_SECRET
   accessToken:
     expirationSec: '#{60*60}'
   temp:
-    dirPath: c:/temp/slog_dev/temp
+    dirPath: c:/temp/cit_dev/temp
   genFile:
-    dirPath: c:/temp/slog_dev
+    dirPath: c:/temp/cit_dev

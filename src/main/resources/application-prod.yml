@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mariadb://172.17.0.1:3306/cit_prod
     username: hdlocal
-    password: 1234
+    password: ${custom.prod.database.password}
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
@@ -31,3 +31,7 @@ custom:
     cookieDomain: "${custom.prod.cookieDomain}"
     frontUrl: "${custom.prod.frontUrl}"
     backUrl: "${custom.prod.backUrl}"
+  temp:
+    dirPath: /tmp
+  genFile:
+    dirPath: /gen

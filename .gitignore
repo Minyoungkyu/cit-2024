@@ -39,4 +39,6 @@ out/
 ### Other ###
 db_dev.mv.db
 db_dev.trace.db
-application-secrets.yml
+.github
+.Dockerfile
+
