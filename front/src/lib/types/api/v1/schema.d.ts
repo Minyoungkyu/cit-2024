@@ -5,6 +5,10 @@
 
 
 export interface paths {
+  "/api/v1/members/{id}/name": {
+    /** 별명등록, 초회 이벤트 별명등록 */
+    put: operations["setName"];
+  };
   "/api/v1/members/logout": {
     /** 로그아웃 */
     post: operations["logout"];
@@ -35,12 +39,8 @@ export interface components {
       msg: string;
       data: components["schemas"]["Empty"];
     };
-    LoginRequestBody: {
-      username: string;
-      password: string;
-    };
-    LoginResponseBody: {
-      item: components["schemas"]["MemberDto"];
+    SetNameRequestBody: {
+      nickname: string;
     };
     MemberDto: {
       /** Format: int64 */
@@ -51,6 +51,25 @@ export interface components {
       modifyDate: string;
       name: string;
       authorities: string[];
+    };
+    RsDataSetNameResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SetNameResponseBody"];
+    };
+    SetNameResponseBody: {
+      item: components["schemas"]["MemberDto"];
+    };
+    LoginRequestBody: {
+      /** Format: int32 */
+      roleLevel: number;
+      username: string;
+      password: string;
+    };
+    LoginResponseBody: {
+      item: components["schemas"]["MemberDto"];
     };
     RsDataLoginResponseBody: {
       resultCode: string;
@@ -83,6 +102,33 @@ export type external = Record<string, never>;
 
 export interface operations {
 
+  /** 별명등록, 초회 이벤트 별명등록 */
+  setName: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SetNameRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataSetNameResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 로그아웃 */
   logout: {
     responses: {

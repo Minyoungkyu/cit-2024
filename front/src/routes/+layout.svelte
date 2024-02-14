@@ -1,8 +1,13 @@
 <script lang="ts">
 	import rq from '$lib/rq/rq.svelte';
+	import { onMount } from 'svelte';
 	import '../app.pcss';
 
 	const { children } = $props();
+
+	onMount(() => {
+		rq.initAuth();
+	});
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

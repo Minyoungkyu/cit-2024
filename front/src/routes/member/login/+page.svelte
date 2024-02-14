@@ -40,6 +40,7 @@
 
     const { data, error } = await rq.apiEndPoints().POST('/api/v1/members/login', {
       body: {
+        roleLevel: form.roleLevel.value,
         username: form.username.value,
         password: form.password.value
       }
@@ -47,23 +48,28 @@
 
     if (error) rq.msgError(error.msg);
     else {
-      rq.msgAndRedirect(data, undefined, '/', () => rq.setLogined(data.data.item))
+      if(rq.member.name.length === 0) {
+        rq.msgAndRedirect(data, undefined, '/', () => rq.setLogined(data.data.item))
+      } else {
+        rq.msgAndRedirect(data, undefined, '/', () => rq.setLogined(data.data.item))
+      }
     }
   }
-
 </script>
 
 
 
 
-<div class="flex-1 flex items-center justify-center">
-    <div class="max-w-2xl w-full px-4">
-        <h1 class="mb-4">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-            로그인
-        </h1>
-
+<div class="flex flex-col items-center justify-center p-8">
+    <div class="border-2 border-black w-full h-[50vh] flex justify-center items-center">
+        <span>타이틀 이미지</span>
+    </div>
+    <div class="flex justify-center border-2 p-4 mt-4">
         <form class="flex flex-col gap-6" method="POST" on:submit|preventDefault={submitLoginForm}>
+            <div class="flex items-center gap-4">
+                <input type="radio" name="roleLevel" value="1" class="radio-sm radio-primary" checked=""/>학생
+                <input type="radio" name="roleLevel" value="2" class="radio-sm radio-primary"/>선생님
+            </div>
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">아이디</span>
@@ -82,14 +88,8 @@
             <div class="flex flex-col gap-2">
                 <button class="btn btn-block btn-primary gap-1">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                    <span>로그인</span>
+                    <span>시작</span>
                 </button>
-
-                <div class="text-center">
-                    <a class="btn btn-link" href="/usr/member/join">회원가입</a>
-                    <a class="btn btn-link" href="/usr/member/findUsername">아이디 찾기</a>
-                    <a class="btn btn-link" href="/usr/member/findPassword">비밀번호 찾기</a>
-                </div>
             </div>
         </form>      
     </div>

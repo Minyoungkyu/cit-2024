@@ -1,7 +1,9 @@
 package com.example.cit.domain.member.member.controller;
 
 import com.example.cit.domain.member.member.dto.MemberDto;
+import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.MemberService;
+import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +31,7 @@ public class ApiV1MemberController {
     private final Rq rq;
 
 
-    public record LoginRequestBody(@NotBlank String username, @NotBlank String password) {
+    public record LoginRequestBody(@NotNull int roleLevel, @NotBlank String username, @NotBlank String password) {
     }
 
     public record LoginResponseBody(@NonNull MemberDto item) {
@@ -37,10 +40,21 @@ public class ApiV1MemberController {
     @PostMapping(value = "/login")
     @Operation(summary = "로그인, accessToken, refreshToken 쿠키 생성됨")
     public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody body) {
-        RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs = memberService.memberLogin(
-                body.username,
-                body.password
-        );
+
+        RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs;
+
+        if (body.roleLevel == 1) {
+            authAndMakeTokensRs = memberService.memberLogin(
+                    body.username,
+                    body.password
+            );
+
+        } else {
+            authAndMakeTokensRs = memberService.adminLogin(
+                    body.username,
+                    body.password
+            );
+        }
 
         rq.setCrossDomainCookie("refreshToken", authAndMakeTokensRs.getData().refreshToken());
         rq.setCrossDomainCookie("accessToken", authAndMakeTokensRs.getData().accessToken());
@@ -93,5 +107,31 @@ public class ApiV1MemberController {
         rq.setLogout();
 
         return RsData.of("로그아웃 성공");
+    }
+
+    public record SetNameRequestBody(@NotBlank String nickname) {
+    }
+
+    public record SetNameResponseBody(@NonNull MemberDto item) {
+    }
+
+    @PutMapping("/{id}/name")
+    @Operation(summary = "별명등록, 초회 이벤트 별명등록")
+    @Transactional
+    public RsData<SetNameResponseBody> setName(
+            @PathVariable("id") long id,
+            @Valid @RequestBody SetNameRequestBody body
+    ) {
+        Member member = memberService.findById(id)
+                .orElseThrow(GlobalException.E404::new);
+
+        memberService.setName(member, body.nickname);
+
+        return RsData.of(
+                "환영합니다 %s님".formatted(body.nickname),
+                new SetNameResponseBody(
+                        new MemberDto(member)
+                )
+        );
     }
 }

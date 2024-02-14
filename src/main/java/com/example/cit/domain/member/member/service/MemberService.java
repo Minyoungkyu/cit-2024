@@ -87,6 +87,11 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
+    @Transactional
+    public void setName(Member member, String nickname) {
+        member.setNickname(nickname);
+    }
+
     public record AuthAndMakeTokensResponseBody(
             @NonNull Member member,
             @NonNull String accessToken,
