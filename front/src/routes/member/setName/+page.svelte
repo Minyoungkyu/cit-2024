@@ -34,11 +34,14 @@
 
 
 <div class="flex flex-col items-center justify-center p-8">
-    <div class="border-2 border-black w-full h-[50vh] flex justify-center items-center">
+    <div class="border-2 border-black w-full h-[40vh] flex justify-center items-center">
         <span>타이틀 이미지</span>
     </div>
     <div class="flex justify-center border-2 p-4 mt-4">
         <form class="flex flex-col gap-6" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
+            <div class="border-2 border-black h-[15vh] flex justify-center items-center">
+                <div>코드이썬 설명</div>
+            </div>
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">닉네임</span>
@@ -49,7 +52,6 @@
 
             <div class="flex flex-col gap-2">
                 <button class="btn btn-block btn-primary gap-1">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     <span>시작</span>
                 </button>
             </div>

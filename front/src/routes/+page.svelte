@@ -11,8 +11,10 @@
 
 <p>이것은 CI/CD 테스트입니다.</p>
 
+<div>이름: {rq.member.name}</div>
+
 {#if rq.isLogin()}
-  <button class="btn btn-primary btn-wide" onclick={() => rq.msgInfo('로그아웃')}>로그아웃</button>
+    <button class="btn btn-primary btn-wide" onclick={() => rq.logoutAndRedirect('/')}>로그아웃</button>
 {:else}
-  <button class="btn btn-primary btn-wide" onclick={() => rq.msgInfo('로그인')}>로그인</button>
+    <a href="/member/login" class="btn btn-primary btn-wide"><i class="fa-solid fa-right-to-bracket"></i>로그인</a>
 {/if}

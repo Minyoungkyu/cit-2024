@@ -20,6 +20,7 @@
 		"@sveltejs/adapter-vercel": "^4.0.3",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@types/ace": "^0.0.52",
 		"@types/eslint": "8.56.0",
 		"@types/toastr": "^2.1.43",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
@@ -34,6 +35,7 @@
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^5.0.0-next.1",
+		"svelte-ace-editor": "^0.0.2",
 		"svelte-check": "^3.6.0",
 		"tailwindcss": "^3.4.1",
 		"tslib": "^2.4.1",
@@ -43,6 +45,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"ace-builds": "^1.32.6",
 		"openapi-fetch": "^0.8.2",
 		"toastr": "^2.1.4"
 	}
