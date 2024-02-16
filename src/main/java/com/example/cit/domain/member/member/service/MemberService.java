@@ -25,12 +25,7 @@ public class MemberService {
     private final AuthTokenService authTokenService;
 
     @Transactional
-    public RsData<Member> join(String username, String password) {
-        return join(username, password, username, 1 );
-    }
-
-    @Transactional
-    public RsData<Member> join(String username, String password, String nickname, int roleLevel) {
+    public RsData<Member> join(String username, String password, String nickname, String cellphoneNo, int roleLevel) {
         if (findByUsername(username).isPresent()) {
             return RsData.of("400-2", "이미 존재하는 회원입니다.");
         }
@@ -40,6 +35,7 @@ public class MemberService {
                 .password(passwordEncoder.encode(password))
                 .refreshToken(authTokenService.genRefreshToken())
                 .nickname(nickname)
+                .cellphoneNo(cellphoneNo)
                 .roleLevel(roleLevel)
                 .build();
         memberRepository.save(member);
@@ -63,24 +59,33 @@ public class MemberService {
         return memberRepository.count();
     }
 
+//    @Transactional
+//    public RsData<Member> modifyOrJoin(String username, String providerTypeCode, String nickname) {
+//        Member member = findByUsername(username).orElse(null);
+//
+//        if (member == null) {
+//            return join(
+//                    username, "", nickname, "", 1
+//            );
+//        }
+//
+//        return modify(member, nickname);
+//    }
+
     @Transactional
-    public RsData<Member> modifyOrJoin(String username, String providerTypeCode, String nickname) {
-        Member member = findByUsername(username).orElse(null);
-
-        if (member == null) {
-            return join(
-                    username, "", nickname, 1
-            );
-        }
-
-        return modify(member, nickname);
-    }
-
-    @Transactional
-    public RsData<Member> modify(Member member, String nickname) {
-        member.setNickname(nickname);
-
-        return RsData.of("회원정보가 수정되었습니다.".formatted(member.getUsername()), member);
+    public RsData<Member> modify(long id, String oldPassword, String newPassword, String nickname, String cellphoneNo) {
+        return memberRepository.findById(id)
+                .map(member -> {
+                    if(!passwordMatches(member, oldPassword)) {
+                        throw new GlobalException("400-2", "비밀번호가 일치하지 않습니다.");
+                    }
+                    member.setPassword(passwordEncoder.encode(newPassword));
+                    member.setNickname(nickname);
+                    member.setCellphoneNo(cellphoneNo);
+                    return member;
+                })
+                .map(member -> RsData.of("회원정보가 수정되었습니다.", member))
+                .orElseThrow(() -> new GlobalException("400-1", "해당 유저가 존재하지 않습니다."));
     }
 
     public Optional<Member> findById(long id) {

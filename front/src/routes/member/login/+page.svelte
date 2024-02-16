@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>{rq.SITE_NAME} | 로그인</title>
+</svelte:head>
+
 <script lang="ts">
 
     import rq from '$lib/rq/rq.svelte';
@@ -51,7 +55,7 @@
       if(data.data.item.name.length === 0) {
         rq.msgAndRedirect(data, undefined, '/member/setName', () => rq.setLogined(data.data.item))
       } else {
-        rq.msgAndRedirect(data, undefined, '/', () => rq.setLogined(data.data.item))
+        rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.setLogined(data.data.item))
       }
     }
   }

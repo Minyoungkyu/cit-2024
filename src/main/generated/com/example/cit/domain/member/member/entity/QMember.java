@@ -23,6 +23,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final BooleanPath admin = createBoolean("admin");
 
+    public final StringPath cellphoneNo = createString("cellphoneNo");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 

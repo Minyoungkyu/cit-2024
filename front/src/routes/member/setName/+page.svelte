@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>{rq.SITE_NAME} | 닉네임 입력</title>
+</svelte:head>
+
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
 
@@ -27,7 +31,7 @@
 
     if (error) rq.msgError(error.msg);
     else {
-      rq.msgAndRedirect(data, undefined, '/')
+      rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.setLogined(data.data.item))
     }
   }
 </script>

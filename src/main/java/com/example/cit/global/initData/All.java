@@ -39,16 +39,16 @@ public class All {
                 String memberSystemPassword = AppConfig.isProd() ? prodMemberSystemPassword : "1234";
                 String memberAdminPassword = AppConfig.isProd() ? prodMemberAdminPassword : "1234";
 
-                Member memberSystem = memberService.join("system", memberSystemPassword, "system", 4).getData();
+                Member memberSystem = memberService.join("system", memberSystemPassword, "슈퍼관리자", "010-1234-1234", 4).getData();
                 memberSystem.setRefreshToken("system");
 
-                Member memberAdmin = memberService.join("admin", memberAdminPassword, "admin", 2).getData();
+                Member memberAdmin = memberService.join("admin", memberAdminPassword, "홍길동", "010-1234-1234", 2).getData();
                 memberAdmin.setRefreshToken("admin");
 
-                Member memberUser1 = memberService.join("testUser1", "1234", "testUser1", 1).getData();
+                Member memberUser1 = memberService.join("testUser1", memberSystemPassword, "testUser1", "", 1).getData();
                 memberUser1.setRefreshToken("testUser1");
 
-                Member memberUser2 = memberService.join("testUser2", "1234", "", 1).getData();
+                Member memberUser2 = memberService.join("testUser2", memberAdminPassword, "", "", 1).getData();
                 memberUser2.setRefreshToken("testUser2");
             }
         };

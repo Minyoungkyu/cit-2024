@@ -20,7 +20,11 @@ public class MemberDto {
     @NonNull
     private LocalDateTime modifyDate;
     @NonNull
+    private String username;
+    @NonNull
     private String name;
+    @NonNull
+    private String cellphoneNo;
     @NonNull
     private List<String> authorities;
 
@@ -28,7 +32,9 @@ public class MemberDto {
         this.id = member.getId();
         this.createDate = member.getCreateDate();
         this.modifyDate = member.getModifyDate();
+        this.username = member.getUsername();
         this.name = member.getName();
+        this.cellphoneNo = member.getCellphoneNo();
         this.authorities = member.getAuthoritiesAsStringList();
     }
 }

@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>{rq.SITE_NAME} | 스테이지</title>
+</svelte:head>
+
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
     import DifficultySelector from './DifficultySelector.svelte';

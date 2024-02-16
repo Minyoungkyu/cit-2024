@@ -12,6 +12,8 @@
 <p>이것은 CI/CD 테스트입니다.</p>
 
 <div>이름: {rq.member.name}</div>
+<div>권한: {rq.getAuthToString()}</div>
+<div>번호: {rq.member.cellphoneNo}</div>
 
 {#if rq.isLogin()}
     <button class="btn btn-primary btn-wide" onclick={() => rq.logoutAndRedirect('/')}>로그아웃</button>

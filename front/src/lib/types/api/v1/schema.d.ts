@@ -9,6 +9,10 @@ export interface paths {
     /** 별명등록, 초회 이벤트 별명등록 */
     put: operations["setName"];
   };
+  "/api/v1/members/{id}/modify": {
+    /** 관리자정보 수정 */
+    put: operations["modify"];
+  };
   "/api/v1/members/logout": {
     /** 로그아웃 */
     post: operations["logout"];
@@ -49,7 +53,9 @@ export interface components {
       createDate: string;
       /** Format: date-time */
       modifyDate: string;
+      username: string;
       name: string;
+      cellphoneNo: string;
       authorities: string[];
     };
     RsDataSetNameResponseBody: {
@@ -61,6 +67,22 @@ export interface components {
     };
     SetNameResponseBody: {
       item: components["schemas"]["MemberDto"];
+    };
+    ModifyRequestBody: {
+      oldPassword: string;
+      newPassword: string;
+      nickname: string;
+      cellphoneNo: string;
+    };
+    ModifyResponseBody: {
+      item: components["schemas"]["MemberDto"];
+    };
+    RsDataModifyResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ModifyResponseBody"];
     };
     LoginRequestBody: {
       /** Format: int32 */
@@ -77,6 +99,10 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["LoginResponseBody"];
+    };
+    AdminLoginRequestBody: {
+      username: string;
+      password: string;
     };
     MeResponseBody: {
       item: components["schemas"]["MemberDto"];
@@ -119,6 +145,33 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataSetNameResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 관리자정보 수정 */
+  modify: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifyRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataModifyResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -172,7 +225,7 @@ export interface operations {
   adminLogin: {
     requestBody: {
       content: {
-        "application/json": components["schemas"]["LoginRequestBody"];
+        "application/json": components["schemas"]["AdminLoginRequestBody"];
       };
     };
     responses: {

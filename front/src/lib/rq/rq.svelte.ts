@@ -17,6 +17,8 @@ toastr.options = {
 class Rq {
   public member: components['schemas']['MemberDto'];
 
+  public SITE_NAME: String = "코드이썬";
+
   constructor() {
     this.member = this.makeReactivityMember();
   }
@@ -93,9 +95,10 @@ class Rq {
   public makeReactivityMember() {
     let id = $state(0);
     let name = $state('');
-    let profileImgUrl = $state('');
+    let username = $state('');
     let createDate = $state('');
     let modifyDate = $state('');
+    let cellphoneNo = $state('');
     let authorities: string[] = $state([]);
     let social = $state(false);
 
@@ -118,17 +121,23 @@ class Rq {
       set modifyDate(value: string) {
         modifyDate = value;
       },
+      get username() {
+        return username;
+      },
+      set username(value: string) { 
+        username = value;
+      },
       get name() {
         return name;
       },
       set name(value: string) {
         name = value;
       },
-      get profileImgUrl() {
-        return profileImgUrl;
+      get cellphoneNo() {
+        return cellphoneNo;
       },
-      set profileImgUrl(value: string) {
-        profileImgUrl = value;
+      set cellphoneNo(value: string) {
+        cellphoneNo = value;
       },
       get authorities() {
         return authorities;
@@ -145,6 +154,24 @@ class Rq {
     };
   }
 
+  public getAuthToString() {
+    return this.member.authorities.map(authority => {
+      switch (authority) {
+        case 'ROLE_CLASSADMIN':
+          return '하급관리'; 
+        case 'ROLE_SYSTEMADMIN':
+          return '중급관리'; 
+        case 'ROLE_SUPERADMIN':
+          return '고급관리'; 
+        default: 
+          return '';
+      }
+    }).filter(Boolean);
+  }
+
+
+  
+
   public setLogined(member: components['schemas']['MemberDto']) {
     Object.assign(this.member, member);
   }
@@ -154,6 +181,8 @@ class Rq {
     this.member.createDate = '';
     this.member.modifyDate = '';
     this.member.name = '';
+    this.member.username = '';
+    this.member.cellphoneNo = '';
     this.member.authorities = [];	
   }
 

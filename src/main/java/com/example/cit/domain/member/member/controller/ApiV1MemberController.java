@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,9 +67,11 @@ public class ApiV1MemberController {
         );
     }
 
+    public record AdminLoginRequestBody(@NotBlank String username, @NotBlank String password) {}
+
     @PostMapping(value = "/admin/login")
     @Operation(summary = "관리자 로그인, accessToken, refreshToken 쿠키 생성됨")
-    public RsData<LoginResponseBody> adminLogin(@Valid @RequestBody LoginRequestBody body) {
+    public RsData<LoginResponseBody> adminLogin(@Valid @RequestBody AdminLoginRequestBody body) {
         RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs = memberService.adminLogin(
                 body.username,
                 body.password
@@ -134,4 +137,34 @@ public class ApiV1MemberController {
                 )
         );
     }
+
+    public record ModifyRequestBody(@NotBlank String oldPassword, @NotBlank String newPassword, @NotBlank String nickname, @NotBlank String cellphoneNo) {}
+    public record ModifyResponseBody(@NonNull MemberDto item) {}
+
+
+
+    @PutMapping("/{id}/modify")
+    @Operation(summary = "관리자정보 수정")
+    @PreAuthorize("hasRole('CLASSADMIN')")
+    @Transactional
+    public RsData<ModifyResponseBody> modify(
+            @PathVariable("id") long id,
+            @Valid @RequestBody ModifyRequestBody body
+    ) {
+        RsData<Member> modifyRs = memberService.modify(
+                id,
+                body.oldPassword,
+                body.newPassword,
+                body.nickname,
+                body.cellphoneNo
+        );
+
+        return modifyRs.newDataOf(
+                new ModifyResponseBody(
+                        new MemberDto(modifyRs.getData())
+                )
+        );
+    }
+
+
 }

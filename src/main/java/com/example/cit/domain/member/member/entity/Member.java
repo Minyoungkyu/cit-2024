@@ -27,6 +27,7 @@ public class Member extends BaseTime {
     @Column(unique = true)
     private String refreshToken;
     private String nickname;
+    private String cellphoneNo;
     private int roleLevel; // 권한 레벨
     // 캐시 데이터
     // admin ( class < system < super )
