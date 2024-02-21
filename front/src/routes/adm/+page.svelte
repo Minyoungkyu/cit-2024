@@ -49,13 +49,8 @@
         }
         });
 
-        if (error) rq.msgError(error.msg);
-        else {
-        if(data.data.item.name.length === 0) {
-            rq.msgAndRedirect(data, undefined, '/member/setName', () => rq.setLogined(data.data.item))
-        } else {
-            rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.setLogined(data.data.item))
-        }
+        if(data) {
+            rq.msgAndRedirect(data, undefined, '/adm/main', () => rq.setLogined(data.data.item))
         }
     }
 </script>

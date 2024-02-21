@@ -112,36 +112,8 @@ public class ApiV1MemberController {
         return RsData.of("로그아웃 성공");
     }
 
-    public record SetNameRequestBody(@NotBlank String nickname) {
-    }
-
-    public record SetNameResponseBody(@NonNull MemberDto item) {
-    }
-
-    @PutMapping("/{id}/name")
-    @Operation(summary = "별명등록, 초회 이벤트 별명등록")
-    @Transactional
-    public RsData<SetNameResponseBody> setName(
-            @PathVariable("id") long id,
-            @Valid @RequestBody SetNameRequestBody body
-    ) {
-        Member member = memberService.findById(id)
-                .orElseThrow(GlobalException.E404::new);
-
-        memberService.setName(member, body.nickname);
-
-        return RsData.of(
-                "환영합니다 %s님".formatted(body.nickname),
-                new SetNameResponseBody(
-                        new MemberDto(member)
-                )
-        );
-    }
-
     public record ModifyRequestBody(@NotBlank String oldPassword, @NotBlank String newPassword, @NotBlank String nickname, @NotBlank String cellphoneNo) {}
     public record ModifyResponseBody(@NonNull MemberDto item) {}
-
-
 
     @PutMapping("/{id}/modify")
     @Operation(summary = "관리자정보 수정")

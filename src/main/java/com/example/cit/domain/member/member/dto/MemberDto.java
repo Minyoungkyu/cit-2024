@@ -1,6 +1,8 @@
 package com.example.cit.domain.member.member.dto;
 
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.player.player.dto.PlayerDto;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -27,6 +29,8 @@ public class MemberDto {
     private String cellphoneNo;
     @NonNull
     private List<String> authorities;
+    @NotNull
+    private PlayerDto player;
 
     public MemberDto(Member member) {
         this.id = member.getId();
@@ -36,5 +40,6 @@ public class MemberDto {
         this.name = member.getName();
         this.cellphoneNo = member.getCellphoneNo();
         this.authorities = member.getAuthoritiesAsStringList();
+        this.player = new PlayerDto(member.getPlayer());
     }
 }

@@ -5,13 +5,17 @@
 
 
 export interface paths {
-  "/api/v1/members/{id}/name": {
+  "/api/v1/players/{id}/name": {
     /** 별명등록, 초회 이벤트 별명등록 */
     put: operations["setName"];
   };
   "/api/v1/members/{id}/modify": {
     /** 관리자정보 수정 */
     put: operations["modify"];
+  };
+  "/api/v1/schools/createSchool": {
+    /** 관리자 - 학교생성 */
+    post: operations["createSchool"];
   };
   "/api/v1/members/logout": {
     /** 로그아웃 */
@@ -43,8 +47,33 @@ export interface components {
       msg: string;
       data: components["schemas"]["Empty"];
     };
-    SetNameRequestBody: {
+    SetNickNameRequestBody: {
       nickname: string;
+    };
+    PlayerDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      nickname: string;
+    };
+    RsDataSetNickNameResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SetNickNameResponseBody"];
+    };
+    SetNickNameResponseBody: {
+      item: components["schemas"]["PlayerDto"];
+    };
+    ModifyRequestBody: {
+      oldPassword: string;
+      newPassword: string;
+      nickname: string;
+      cellphoneNo: string;
     };
     MemberDto: {
       /** Format: int64 */
@@ -57,22 +86,7 @@ export interface components {
       name: string;
       cellphoneNo: string;
       authorities: string[];
-    };
-    RsDataSetNameResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["SetNameResponseBody"];
-    };
-    SetNameResponseBody: {
-      item: components["schemas"]["MemberDto"];
-    };
-    ModifyRequestBody: {
-      oldPassword: string;
-      newPassword: string;
-      nickname: string;
-      cellphoneNo: string;
+      player: components["schemas"]["PlayerDto"];
     };
     ModifyResponseBody: {
       item: components["schemas"]["MemberDto"];
@@ -83,6 +97,28 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["ModifyResponseBody"];
+    };
+    CreateSchoolRequestBody: {
+      name?: string;
+      location?: string;
+      phoneNo?: string;
+    };
+    CreateSchoolResponseBody: {
+      schoolDto?: components["schemas"]["SchoolDto"];
+    };
+    RsDataCreateSchoolResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["CreateSchoolResponseBody"];
+    };
+    SchoolDto: {
+      /** Format: int64 */
+      id: number;
+      name: string;
+      location: string;
+      phoneNo: string;
     };
     LoginRequestBody: {
       /** Format: int32 */
@@ -137,14 +173,14 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["SetNameRequestBody"];
+        "application/json": components["schemas"]["SetNickNameRequestBody"];
       };
     };
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataSetNameResponseBody"];
+          "application/json": components["schemas"]["RsDataSetNickNameResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -172,6 +208,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataModifyResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 관리자 - 학교생성 */
+  createSchool: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateSchoolRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataCreateSchoolResponseBody"];
         };
       };
       /** @description Bad Request */

@@ -52,7 +52,9 @@
 
     if (error) rq.msgError(error.msg);
     else {
-      if(data.data.item.name.length === 0) {
+      if(data.data.item.player.nickname.length === 0) {
+        console.log(data.data.item.player.nickname.trim.length)
+        console.log(data.data.item.player.nickname)
         rq.msgAndRedirect(data, undefined, '/member/setName', () => rq.setLogined(data.data.item))
       } else {
         rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.setLogined(data.data.item))

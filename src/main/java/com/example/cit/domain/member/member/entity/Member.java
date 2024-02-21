@@ -1,9 +1,11 @@
 package com.example.cit.domain.member.member.entity;
 
+import com.example.cit.domain.player.player.entity.Player;
+import com.example.cit.domain.program.program.entity.Program;
+import com.example.cit.domain.school.school.entity.School;
+import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.global.jpa.base.BaseTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -26,9 +30,30 @@ public class Member extends BaseTime {
     private String password;
     @Column(unique = true)
     private String refreshToken;
-    private String nickname;
+    private String name;
     private String cellphoneNo;
+
     private int roleLevel; // 권한 레벨
+
+    @OneToOne(fetch = LAZY, cascade = ALL)
+    private Player player;
+
+    @ManyToMany(fetch = LAZY)
+    @ToString.Exclude
+    @Builder.Default
+    private List<Program> programs = new ArrayList<>();
+
+
+    @ManyToMany(fetch = LAZY)
+    @ToString.Exclude
+    @Builder.Default
+    private List<School> schools = new ArrayList<>();
+
+    @ManyToMany(fetch = LAZY)
+    @ToString.Exclude
+    @Builder.Default
+    private List<SchoolClass> schoolClasses = new ArrayList<>();
+
     // 캐시 데이터
     // admin ( class < system < super )
     @Transient
@@ -59,11 +84,6 @@ public class Member extends BaseTime {
 
         return authorities;
     }
-
-    public String getName() {
-        return nickname;
-    }
-
 
     public boolean isAdmin() {
         if (this._isAdmin != null)

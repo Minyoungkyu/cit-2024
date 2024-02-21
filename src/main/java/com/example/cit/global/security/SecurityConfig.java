@@ -33,6 +33,7 @@ public class SecurityConfig {
                                     .requestMatchers("/h2-console/**")
                                     .permitAll();
 
+
                             if (AppConfig.isProd()) authorizeRequests
                                     .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
 //                                    .hasRole("ADMIN");

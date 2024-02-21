@@ -45,7 +45,7 @@ public class All {
                 Member memberAdmin = memberService.join("admin", memberAdminPassword, "홍길동", "010-1234-1234", 2).getData();
                 memberAdmin.setRefreshToken("admin");
 
-                Member memberUser1 = memberService.join("testUser1", memberSystemPassword, "testUser1", "", 1).getData();
+                Member memberUser1 = memberService.join("testUser1", memberSystemPassword, "", "", 1).getData();
                 memberUser1.setRefreshToken("testUser1");
 
                 Member memberUser2 = memberService.join("testUser2", memberAdminPassword, "", "", 1).getData();

@@ -30,11 +30,11 @@ class Rq {
   public isAdmin() {
     if (this.isLogout()) return false;
 
-    return this.member.authorities.includes('ROLE_ADMIN');
+    return this.member.authorities.includes('ROLE_CLASSADMIN');
   }
 
   public isAdmPage($page: Page<Record<string, string>>) {
-    return $page.url.pathname.startsWith('/adm');
+    return $page.url.pathname.startsWith('/adm/');
   }
 
   public isUsrPage($page: Page<Record<string, string>>) {
@@ -75,7 +75,6 @@ class Rq {
     }
     if (error) {
       this.msgError(error.msg);
-      
     }
 
     if (callback) window.setTimeout(callback, 100);
@@ -100,7 +99,13 @@ class Rq {
     let modifyDate = $state('');
     let cellphoneNo = $state('');
     let authorities: string[] = $state([]);
-    let social = $state(false);
+
+    let player = $state({
+      id: 0,
+      createDate: '',
+      modifyDate: '',
+      nickname: ''
+    });
 
     return {
       get id() {
@@ -145,11 +150,14 @@ class Rq {
       set authorities(value: string[]) {
         authorities = value;
       },
-      get social() {
-        return social;
+      get player() {
+        return player;
       },
-      set social(value: boolean) {
-        social = value;
+      set player(value: components['schemas']['PlayerDto']) {
+        player.id = value.id;
+        player.createDate = value.createDate;
+        player.modifyDate = value.modifyDate;
+        player.nickname = value.nickname;
       }
     };
   }
@@ -184,6 +192,7 @@ class Rq {
     this.member.username = '';
     this.member.cellphoneNo = '';
     this.member.authorities = [];	
+    this.member.player = { id: 0, createDate: '', modifyDate: '', nickname: '' };
   }
 
   public isLogin() {

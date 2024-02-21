@@ -24,14 +24,14 @@
         return;
     }
 
-    const { data, error } = await rq.apiEndPoints().PUT('/api/v1/members/{id}/name', {
+    const { data, error } = await rq.apiEndPoints().PUT('/api/v1/players/{id}/name', {
       params: { path: { id: rq.member.id } },
       body: { nickname: form.nickname.value }
     });
 
     if (error) rq.msgError(error.msg);
     else {
-      rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.setLogined(data.data.item))
+      rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.member.player.nickname = data.data.item.nickname)    
     }
   }
 </script>
