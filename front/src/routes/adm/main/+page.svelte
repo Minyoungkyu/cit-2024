@@ -6,7 +6,7 @@
 <script lang="ts">
 
     import rq from '$lib/rq/rq.svelte';
-    import SideMenu from './sideMenu.svelte';
+    import SideMenu from '../sideMenu.svelte';
 
 </script>
 
