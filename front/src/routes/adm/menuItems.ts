@@ -10,3 +10,4 @@ export const menuItems = [
     { label: '통계', path: '#' },
     { label: '환경설정', path: '#' },
 ];
+    
