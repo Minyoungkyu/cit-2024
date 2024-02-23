@@ -7,6 +7,7 @@ export function setupAceEditor(editorId: string, customCompletions: any[]) {
     const editor = ace.edit(editorId);
     editor.setTheme('ace/theme/monokai');
     editor.session.setMode('ace/mode/python');
+    editor.setFontSize("15px");
     editor.setOptions({
         enableBasicAutocompletion: false,
         enableLiveAutocompletion: true

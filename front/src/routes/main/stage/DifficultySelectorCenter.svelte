@@ -18,7 +18,7 @@
         }
   }
 </script>
-<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box right-[-210%]">
+<ul tabindex="0" class="dropdown-content z-[1] menu right-[50%]">
     <div class="flex flex-col gap-2 items-center border-2 border-black p-2">
         <div class="border-2 border-black w-full h-20 flex justify-center items-center">
             <span>스테이지 정보</span>

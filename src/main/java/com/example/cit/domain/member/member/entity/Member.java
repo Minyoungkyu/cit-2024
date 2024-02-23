@@ -72,13 +72,13 @@ public class Member extends BaseTime {
         List<String> authorities = new ArrayList<>();
 
         if (roleLevel >= 4) {
-            authorities.add("ROLE_SUPERADMIN");
+            authorities.add("ROLE_SUPERADMIN"); // 최고 관리자
         }
         if (roleLevel >= 3) {
-            authorities.add("ROLE_SYSTEMADMIN");
+            authorities.add("ROLE_SYSTEMADMIN"); // 사업 관리자
         }
         if (roleLevel >= 2) {
-            authorities.add("ROLE_CLASSADMIN");
+            authorities.add("ROLE_CLASSADMIN"); // 학급 관리자
         }
         authorities.add("ROLE_MEMBER"); // 모든 사용자에게 기본적으로 부여
 

@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>{rq.SITE_NAME} | 닉네임 입력</title>
+    <title>{rq.SITE_NAME} | 환영합니다</title>
 </svelte:head>
 
 <script lang="ts">
@@ -37,28 +37,29 @@
 </script>
 
 
-<div class="flex flex-col items-center justify-center p-8">
-    <div class="border-2 border-black w-full h-[40vh] flex justify-center items-center">
+<div class="flex flex-col items-center justify-center">
+    <div class="w-screen h-screen flex justify-center relative">
         <span>타이틀 이미지</span>
-    </div>
-    <div class="flex justify-center border-2 p-4 mt-4">
-        <form class="flex flex-col gap-6" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
-            <div class="border-2 border-black h-[15vh] flex justify-center items-center">
+        <img src="" alt="" class="absolute w-full h-full object-fill z-[-1]">
+        <div class="flex flex-col items-center gap-6 border-2 p-4 w-[450px] absolute bottom-[4vh]">
+            <div class="border-2 border-black w-full h-[15vh] flex justify-center items-center">
                 <div>코드이썬 설명</div>
             </div>
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">닉네임</span>
-                </label>
-                <input class="input input-bordered" maxlength="30"
-                       name="nickname" placeholder="닉네임" type="text">
-            </div>
-
-            <div class="flex flex-col gap-2">
-                <button class="btn btn-block btn-primary gap-1">
-                    <span>시작</span>
-                </button>
-            </div>
-        </form>      
+            <form class="flex flex-col gap-6 w-2/3" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">닉네임</span>
+                    </label>
+                    <input class="input input-bordered" maxlength="30"
+                           name="nickname" placeholder="닉네임" type="text">
+                </div>
+    
+                <div class="flex flex-col gap-2">
+                    <button class="btn btn-block btn-primary gap-1">
+                        <span>시작</span>
+                    </button>
+                </div>
+            </form>      
+        </div>
     </div>
 </div>

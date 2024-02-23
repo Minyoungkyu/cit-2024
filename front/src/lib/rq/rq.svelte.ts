@@ -33,6 +33,18 @@ class Rq {
     return this.member.authorities.includes('ROLE_CLASSADMIN');
   }
 
+  public isSystemAdmin() {
+    if (this.isLogout()) return false;
+
+    return this.member.authorities.includes('ROLE_SYSTEMADMIN');
+  }
+
+  public isSuperAdmin() {
+    if (this.isLogout()) return false;
+
+    return this.member.authorities.includes('ROLE_SUPERADMIN');
+  }
+
   public isAdmPage($page: Page<Record<string, string>>) {
     return $page.url.pathname.startsWith('/adm/');
   }
@@ -166,11 +178,11 @@ class Rq {
     return this.member.authorities.map(authority => {
       switch (authority) {
         case 'ROLE_CLASSADMIN':
-          return '하급관리'; 
+          return '학급관리자'; 
         case 'ROLE_SYSTEMADMIN':
-          return '중급관리'; 
+          return '사업관리자'; 
         case 'ROLE_SUPERADMIN':
-          return '고급관리'; 
+          return '최고관리자'; 
         default: 
           return '';
       }

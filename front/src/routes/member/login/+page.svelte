@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>{rq.SITE_NAME} | 로그인</title>
+    <title>{rq.SITE_NAME} | 시작하기</title>
 </svelte:head>
 
 <script lang="ts">
@@ -66,36 +66,37 @@
 
 
 
-<div class="flex flex-col items-center justify-center p-8">
-    <div class="border-2 border-black w-full h-[40vh] flex justify-center items-center">
-        <span>타이틀 이미지</span>
-    </div>
-    <div class="flex justify-center border-2 p-4 mt-4">
-        <form class="flex flex-col gap-6" method="POST" on:submit|preventDefault={submitLoginForm}>
-            <div class="flex items-center gap-4">
-                <input type="radio" name="roleLevel" value="1" class="radio-sm radio-primary" checked=""/>학생
-                <input type="radio" name="roleLevel" value="2" class="radio-sm radio-primary"/>선생님
-            </div>
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">아이디</span>
-                </label>
-                <input class="input input-bordered" maxlength="30"
-                       name="username" placeholder="아이디" type="text">
-            </div>
-
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">비밀번호</span>
-                </label>
-                <input class="input input-bordered" maxlength="30" name="password" placeholder="비밀번호">
-            </div>
-
-            <div class="flex flex-col gap-2">
-                <button class="btn btn-block btn-primary gap-1">
-                    <span>시작</span>
-                </button>
-            </div>
-        </form>      
+<div class="flex flex-col items-center justify-center">
+    <div class="w-screen h-screen flex justify-center relative">
+        <span class="absolute">타이틀 이미지</span>
+        <img src="" alt="" class="absolute w-full h-full object-fill z-[-1]">
+        <div class="flex justify-center border-2 p-4 w-[450px] absolute bottom-[4vh]">
+            <form class="flex flex-col gap-6" method="POST" on:submit|preventDefault={submitLoginForm}>
+                <div class="flex items-center gap-4">
+                    <input type="radio" name="roleLevel" value="1" class="radio-sm radio-primary" checked=""/>학생
+                    <input type="radio" name="roleLevel" value="2" class="radio-sm radio-primary"/>선생님
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">아이디</span>
+                    </label>
+                    <input class="input input-bordered" maxlength="30"
+                           name="username" placeholder="아이디" type="text">
+                </div>
+    
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">비밀번호</span>
+                    </label>
+                    <input class="input input-bordered" type="password" maxlength="30" name="password" placeholder="비밀번호">
+                </div>
+    
+                <div class="flex flex-col gap-2">
+                    <button class="btn btn-block btn-primary gap-1">
+                        <span>시작</span>
+                    </button>
+                </div>
+            </form>      
+        </div>
     </div>
 </div>
