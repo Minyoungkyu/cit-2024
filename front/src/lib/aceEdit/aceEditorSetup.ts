@@ -10,7 +10,8 @@ export function setupAceEditor(editorId: string, customCompletions: any[]) {
     editor.setFontSize("15px");
     editor.setOptions({
         enableBasicAutocompletion: false,
-        enableLiveAutocompletion: true
+        enableLiveAutocompletion: true,
+        wrap:true
     });
 
     const langTools = ace.require("ace/ext/language_tools");

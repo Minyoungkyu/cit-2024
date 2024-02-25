@@ -45,6 +45,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@tweenjs/tween.js": "^23.1.1",
 		"ace-builds": "^1.32.6",
 		"openapi-fetch": "^0.8.2",
 		"toastr": "^2.1.4"

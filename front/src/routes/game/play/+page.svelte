@@ -12,8 +12,10 @@
     import { onMount } from 'svelte';
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
     import { runPythonCode } from '$lib/brython/brythonSetup';
+    import TWEEN from '@tweenjs/tween.js';
   
     let editor: any;
+    let modal: HTMLDialogElement;
 
     const explanation: String = `#로켓의 재료를 향해 가세요.\n#폭탄을 피하세요!\n#아래에 코드를 입력하고 완료되면 실행을 클릭합니다.\n\n`;// TODO : 문제에 맞게 코드넣기(fetch)
     const customCompletions = [ // TODO : 문제에 맞게 코드넣기(fetch)
@@ -23,15 +25,107 @@
             {value: "hero.moveRight();", score: 1000, meta: "custom"}
     ];
 
+    let opacity = 0; 
+    let otherOpacity = 0;
+    let otherOpacity2 = 0;
+    let otherOpacity3 = 0;
+    let otherOpacity4 = 0;
+    let otherOpacity5 = 0;
+    let mainOpacity = 0;
+    let scale = 0;
+    let scaleY = 0;
+
+    function startHideAnimation() {
+          new TWEEN.Tween({ opacity: 1, scaleY: 1, mainOpacity: 0 })
+            .to({ opacity: 0, scaleY: 0, mainOpacity: 1 }, 1000) 
+            .easing(TWEEN.Easing.Linear.None) 
+            .onUpdate(({ opacity: updatedOpacity, scaleY: updatedHeight, mainOpacity: updatedMainOpacity }) => {
+              opacity = updatedOpacity;
+              scaleY = updatedHeight;
+              mainOpacity = updatedMainOpacity;
+            })
+            .start();
+        }
+
     onMount(() => {
         editor = setupAceEditor('editor', customCompletions);
         editor.setValue(explanation, 1); 
         editor.focus();
+
+        new TWEEN.Tween({ opacity: 0, scaleY: 0})
+          .to({ opacity: 1, scaleY: 1}, 1000) 
+          .easing(TWEEN.Easing.Linear.None) 
+          .onUpdate(({ opacity: updatedOpacity, scaleY: updatedScaleY }) => {
+            opacity = updatedOpacity;
+            scaleY = updatedScaleY;
+          })
+          .onComplete(() => { // 메인 애니메이션 완료 후
+            new TWEEN.Tween({ otherOpacity: 0, scale: 1.2 })
+              .to({ otherOpacity: 1, scale: 1 }, 500) 
+              .easing(TWEEN.Easing.Back.Out)
+              .onUpdate(({ otherOpacity: updatedOpacity, scale: updatedScale }) => {
+                otherOpacity = updatedOpacity;
+                scale = updatedScale;
+              })
+              .onComplete(() => {
+                new TWEEN.Tween({ otherOpacity2: 0 })
+                  .to({ otherOpacity2: 1 }, 500) 
+                  .easing(TWEEN.Easing.Back.Out)
+                  .onUpdate(({ otherOpacity2: updatedOpacity }) => {
+                    otherOpacity2 = updatedOpacity;
+                  })
+                  .onComplete(() => {
+                    new TWEEN.Tween({ otherOpacity3: 0 })
+                      .to({ otherOpacity3: 1 }, 500) 
+                      .easing(TWEEN.Easing.Back.Out)
+                      .onUpdate(({ otherOpacity3: updatedOpacity }) => {
+                        otherOpacity3 = updatedOpacity;
+                      })
+                      .onComplete(() => {
+                        new TWEEN.Tween({ otherOpacity4: 0 })
+                          .to({ otherOpacity4: 1 }, 500) 
+                          .easing(TWEEN.Easing.Back.Out)
+                          .onUpdate(({ otherOpacity4: updatedOpacity }) => {
+                            otherOpacity4 = updatedOpacity;
+                          })
+                          .onComplete(() => {
+                            new TWEEN.Tween({ otherOpacity5: 0 })
+                              .to({ otherOpacity5: 1 }, 500) 
+                              .easing(TWEEN.Easing.Back.Out)
+                              .onUpdate(({ otherOpacity5: updatedOpacity }) => {
+                                otherOpacity5 = updatedOpacity;
+                              })
+                              .start();
+                          })
+                          .start();
+                      })
+                      .start();                     
+                  })
+                  .start();
+              })
+              .start();
+          })
+          .start();
+
+        function animate(time: number) {
+          requestAnimationFrame(animate);
+          TWEEN.update(time);
+        }
+
+        requestAnimationFrame(animate);
     });
 
     async function handleRunCode() {
         await runPythonCode(editor);
 
+    }
+
+    function showModal() {
+      modal.showModal(); // 모달을 보여주는 함수
+    }
+  
+    function closeModal() {
+      modal.close(); // 모달을 닫는 함수
     }
 
 </script>
@@ -45,18 +139,19 @@
         <div class="border-2 border-black w-2/3 relative">
             <div id="game-player-container"></div>
             <a href="/main/stage" class="absolute border-2 border-black w-fit top-[2%] left-[1%]">뒤로가기</a>
-            <div class="avatar top-[10%] left-[1%]">
+            <div class="avatar top-[10%] left-[1%]" style="opacity:{otherOpacity2};">
                 <div class="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 </div>
             </div>
             <div class="flex flex-row absolute top-[20%] left-[1%] gap-2">
-                <div class="border-2 h-fit">8</div>
+                <div class="border-2 h-fit" style="opacity:{otherOpacity3};">8</div>
                 <div>
-                    <div>홍길동</div>
-                    <div>체력바</div>
+                    <div style="opacity:{otherOpacity4};">홍길동</div>
+                    <div style="opacity:{otherOpacity5};">체력바</div>
                 </div>
             </div>
-            <div class="w-[10vw] h-[8vw] border-2 border-black flex justify-center items-center absolute right-0 top-4 fadeInSlideUp">
+            <div class="w-[10vw] h-[8vw] border-2 border-black flex justify-center items-center absolute right-0 top-4" 
+                  style="transform:scale({scale})">
                 미션정보
             </div>
             <div class="flex flex-row items-center absolute bottom-[4%] left-[auto] w-[95%] ml-[2.5%] gap-6" style="background-color:#181818;">
@@ -77,24 +172,55 @@
             </div>
         </div>
         <div class="border-2 border-black w-1/3 relative">
-            <div class="flex flex-row justify-between mx-4">
-                <div>
-                    \\\\
+            <div class="absolute top-0 left-0 w-full h-full z-[5] flex flex-col gap-8 items-center justify-center bg-gray-700"
+                  style="opacity:{opacity};transform:scaleY({scaleY});transform-origin:center;">
+                <div class="w-[95%] h-1/4 border-2">
+                    미션 설명
                 </div>
-                <div class="flex flex-row gap-2">
-                    <div>X</div>
-                    <div>?</div>
-                    <div>O</div>
+                <div class="w-[95%] h-1/4 border-2">
+                    미션 설명
                 </div>
+                <div class="w-[95%] h-1/4 border-2">
+                    미션 설명
+                </div>
+                <button class="btn btn-wide" on:click={startHideAnimation}>시작하기</button>               
             </div>
-            <div id="editor" class="w-full h-2/3"></div>
-            <div class="flex flex-row justify-around mt-4">
-                <button class="btn btn-outline" on:click={handleRunCode}>Run Python Code</button>
-                <button class="btn btn-outline">완료</button>
-            </div>
-            <div class="flex justify-start items-center mt-8 ml-8">
-                <div class="border-2 border-black w-[16vw] h-[8vw] flex justify-center items-center">
-                    코드힌트
+            <div class="w-full h-full" style="opacity:{mainOpacity};">
+                <div class="flex flex-row justify-between mx-4">
+                    <div>
+                        \\\\
+                    </div>
+                    <div class="flex flex-row gap-2">
+                        <div>X</div>
+                        <div class="cursor-pointer" on:click={showModal}>?</div>
+                        <dialog bind:this={modal} id="my_modal_1" class="modal">
+                          <div class="w-[600px] h-[90%] rounded-lg flex flex-col gap-8 items-center justify-center bg-gray-700">
+                            <div class="w-[95%] h-1/4 border-2">
+                              미션 설명
+                            </div>
+                            <div class="w-[95%] h-1/4 border-2">
+                                미션 설명
+                            </div>
+                            <div class="w-[95%] h-1/4 border-2">
+                                미션 설명
+                            </div>
+                            <div class="modal-action">
+                            <button class="btn" on:click={closeModal}>Close</button>
+                            </div>
+                          </div>
+                        </dialog>
+                        <div>O</div>
+                    </div>
+                </div>
+                <div id="editor" class="w-full h-2/3"></div>
+                <div class="flex flex-row justify-around mt-4">
+                    <button class="btn btn-outline" on:click={handleRunCode}>Run Python Code</button>
+                    <button class="btn btn-outline">완료</button>
+                </div>
+                <div class="flex justify-start items-center mt-8 ml-8">
+                    <div class="border-2 border-black w-[16vw] h-[8vw] flex justify-center items-center">
+                        코드힌트
+                    </div>
                 </div>
             </div>
         </div>
