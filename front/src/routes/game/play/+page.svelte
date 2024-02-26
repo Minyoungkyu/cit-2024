@@ -13,9 +13,13 @@
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
     import { runPythonCode } from '$lib/brython/brythonSetup';
     import TWEEN from '@tweenjs/tween.js';
+    import Cocos from '$lib/cocos/cocos.svelte';
   
+    // style="opacity:{opacity};transform:scaleY({scaleY});transform-origin:center;"
+
     let editor: any;
     let modal: HTMLDialogElement;
+    let scan: HTMLDivElement;
 
     const explanation: String = `#로켓의 재료를 향해 가세요.\n#폭탄을 피하세요!\n#아래에 코드를 입력하고 완료되면 실행을 클릭합니다.\n\n`;// TODO : 문제에 맞게 코드넣기(fetch)
     const customCompletions = [ // TODO : 문제에 맞게 코드넣기(fetch)
@@ -35,6 +39,28 @@
     let scale = 0;
     let scaleY = 0;
 
+    let scanning = false;
+    let reverseScanning = false;
+
+    function startScanning() {
+        scanning = true;
+        reverseScanning = false;
+
+        setTimeout(() => {
+            scanning = false;
+        }, 3000); // 애니메이션 시간과 동일하게 설정
+    }
+
+    function reverseScan() {
+        reverseScanning = true; // 역방향 스캐닝 활성화
+        scanning = false;
+        mainOpacity = 1;
+
+        setTimeout(() => {
+            // reverseScanning = false; // 애니메이션이 끝나면 상태를 다시 false로 설정
+        }, 3000); // 역방향 애니메이션 시간 설정
+    }
+
     function startHideAnimation() {
           new TWEEN.Tween({ opacity: 1, scaleY: 1, mainOpacity: 0 })
             .to({ opacity: 0, scaleY: 0, mainOpacity: 1 }, 1000) 
@@ -51,6 +77,8 @@
         editor = setupAceEditor('editor', customCompletions);
         editor.setValue(explanation, 1); 
         editor.focus();
+
+        startScanning();
 
         new TWEEN.Tween({ opacity: 0, scaleY: 0})
           .to({ opacity: 1, scaleY: 1}, 1000) 
@@ -137,7 +165,9 @@
 <div class="flex flex-col items-center justify-center">
     <div class="w-screen h-screen flex flex-row">
         <div class="border-2 border-black w-2/3 relative">
-            <div id="game-player-container"></div>
+            <div id="game-player-container">
+              <Cocos />
+            </div>
             <a href="/main/stage" class="absolute border-2 border-black w-fit top-[2%] left-[1%]">뒤로가기</a>
             <div class="avatar top-[10%] left-[1%]" style="opacity:{otherOpacity2};">
                 <div class="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -172,8 +202,7 @@
             </div>
         </div>
         <div class="border-2 border-black w-1/3 relative">
-            <div class="absolute top-0 left-0 w-full h-full z-[5] flex flex-col gap-8 items-center justify-center bg-gray-700"
-                  style="opacity:{opacity};transform:scaleY({scaleY});transform-origin:center;">
+            <div bind:this={scan} class={`absolute top-0 left-0 w-full h-full z-[5] flex flex-col gap-8 items-center justify-center bg-gray-700 ${reverseScanning ? 'reverse-scanning-effect' : (scanning ? 'scanning-effect' : '')}`}>
                 <div class="w-[95%] h-1/4 border-2">
                     미션 설명
                 </div>
@@ -183,7 +212,7 @@
                 <div class="w-[95%] h-1/4 border-2">
                     미션 설명
                 </div>
-                <button class="btn btn-wide" on:click={startHideAnimation}>시작하기</button>               
+                <button class="btn btn-wide" on:click={reverseScan}>시작하기</button>               
             </div>
             <div class="w-full h-full" style="opacity:{mainOpacity};">
                 <div class="flex flex-row justify-between mx-4">
@@ -228,6 +257,32 @@
 </div>
 
 <style>
+    @keyframes scan {
+        0% {
+            clip-path: inset(0 0 100% 0);
+        }
+        100% {
+            clip-path: inset(0 0 0 0);
+        }
+    }
+
+    .scanning-effect {
+        animation: scan 3s linear forwards;
+    }
+
+    @keyframes reverseScan {
+        0% {
+            clip-path: inset(0 0 0 0);
+        }
+        100% {
+            clip-path: inset(0 0 100% 0);
+        }
+    }
+
+    .reverse-scanning-effect {
+        animation: reverseScan 3s linear forwards;
+    }
+
 .rotated-input {
         transform: rotate(270deg);
     }
