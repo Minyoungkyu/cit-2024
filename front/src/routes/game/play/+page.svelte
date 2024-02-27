@@ -14,6 +14,13 @@
     import { runPythonCode } from '$lib/brython/brythonSetup';
     import TWEEN from '@tweenjs/tween.js';
     import Cocos from '$lib/cocos/cocos.svelte';
+    import { getContext } from 'svelte';
+    import type { Writable } from 'svelte/store';
+    const isInitialized = getContext<Writable<boolean>>('isInitialized');
+
+    let readyToShow = false;
+    
+    $: $isInitialized ? readyToShow = true : null;
   
     // style="opacity:{opacity};transform:scaleY({scaleY});transform-origin:center;"
 
@@ -166,7 +173,7 @@
     <div class="w-screen h-screen flex flex-row">
         <div class="border-2 border-black w-2/3 relative">
             <div id="game-player-container">
-              <Cocos />
+                <Cocos />
             </div>
             <a href="/main/stage" class="absolute border-2 border-black w-fit top-[2%] left-[1%]">뒤로가기</a>
             <div class="avatar top-[10%] left-[1%]" style="opacity:{otherOpacity2};">

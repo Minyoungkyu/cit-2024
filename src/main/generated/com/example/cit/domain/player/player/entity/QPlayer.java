@@ -30,12 +30,16 @@ public class QPlayer extends EntityPathBase<Player> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
+    public final com.example.cit.domain.stage.stage.entity.QStage lastPlayedStage;
+
     public final com.example.cit.domain.member.member.entity.QMember member;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifyDate = _super.modifyDate;
 
     public final StringPath nickname = createString("nickname");
+
+    public final ListPath<com.example.cit.domain.stage.stageRecord.entity.StageRecord, com.example.cit.domain.stage.stageRecord.entity.QStageRecord> stageRecords = this.<com.example.cit.domain.stage.stageRecord.entity.StageRecord, com.example.cit.domain.stage.stageRecord.entity.QStageRecord>createList("stageRecords", com.example.cit.domain.stage.stageRecord.entity.StageRecord.class, com.example.cit.domain.stage.stageRecord.entity.QStageRecord.class, PathInits.DIRECT2);
 
     public QPlayer(String variable) {
         this(Player.class, forVariable(variable), INITS);
@@ -55,6 +59,7 @@ public class QPlayer extends EntityPathBase<Player> {
 
     public QPlayer(Class<? extends Player> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.lastPlayedStage = inits.isInitialized("lastPlayedStage") ? new com.example.cit.domain.stage.stage.entity.QStage(forProperty("lastPlayedStage")) : null;
         this.member = inits.isInitialized("member") ? new com.example.cit.domain.member.member.entity.QMember(forProperty("member"), inits.get("member")) : null;
     }
 

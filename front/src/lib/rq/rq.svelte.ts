@@ -170,6 +170,7 @@ class Rq {
         player.createDate = value.createDate;
         player.modifyDate = value.modifyDate;
         player.nickname = value.nickname;
+        
       }
     };
   }
@@ -204,7 +205,7 @@ class Rq {
     this.member.username = '';
     this.member.cellphoneNo = '';
     this.member.authorities = [];	
-    this.member.player = { id: 0, createDate: '', modifyDate: '', nickname: '' };
+    this.member.player = { id: 0, createDate: '', modifyDate: '', nickname: ''};
   }
 
   public isLogin() {
