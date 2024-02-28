@@ -1,0 +1,39 @@
+package com.example.cit.domain.gameMap.gameMap.entity;
+
+import com.example.cit.domain.item.item.entity.Item;
+import com.example.cit.global.jpa.base.BaseTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import lombok.*;
+
+import static jakarta.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PROTECTED;
+
+@Entity
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
+@Builder
+@Getter
+@Setter
+public class GameMap extends BaseTime {
+
+    private String stage; // 발사체장
+    private String step; // 1-1
+    private String difficulty; // Easy
+    private int level; // 1-1 : 1, 1-1 : 2, 1-1 : 3
+    private String editorAutoComplete;
+    private String editorMessage;
+    private String clearGoal;
+    private String cocosInfo;
+    @Column(columnDefinition = "TEXT")
+    private String guideText;
+    private String guideImage;
+    @Column(columnDefinition = "TEXT")
+    private String commandGuide;
+    private int rewardExp;
+    private int rewardJewel;
+
+    @ManyToOne(fetch = LAZY)
+    private Item rewardItem;
+}

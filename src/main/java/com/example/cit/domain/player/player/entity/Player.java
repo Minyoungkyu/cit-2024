@@ -1,14 +1,11 @@
 package com.example.cit.domain.player.player.entity;
 
 import com.example.cit.domain.member.member.entity.Member;
-import com.example.cit.domain.stage.stage.entity.Stage;
-import com.example.cit.domain.stage.stageRecord.entity.StageRecord;
+import com.example.cit.domain.player.inventroy.entity.Inventory;
 import com.example.cit.global.jpa.base.BaseTime;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -33,11 +30,8 @@ public class Player extends BaseTime {
     @ToString.Exclude
     private Member member;
 
-    @OneToMany(fetch = LAZY, mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = ALL, orphanRemoval = true)
     @ToString.Exclude
     @Builder.Default
-    private List<StageRecord> stageRecords = new ArrayList<>();
-
-    @ManyToOne(fetch = LAZY)
-    private Stage lastPlayedStage;
+    private List<Inventory> inventories = new ArrayList<>();
 }
