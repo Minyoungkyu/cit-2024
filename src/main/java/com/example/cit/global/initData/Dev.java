@@ -66,33 +66,65 @@ public class Dev {
 
                 inventoryService.createInventory(memberUser1.getPlayer(), item1, false);
 
-                GameMap gameMap1 = gameMapService.createGameMap("1", "튜토리얼", "", 0,
+                GameMap gameMap1 = gameMapService.createGameMap("1", "tutorial", "", 0,
                         "hero.test0();", "테스트용 메시지입니다.0", "테스트용 목표입니다.0", "cocosInfo", "테스트용 텍스트입니다.0", "guideImage0", "테스트용 커멘드입니다.0",
                         1, 1);
 
-                gameMapService.createGameMap("1", "1-1", "Easy", 1,
+                GameMap gameMap11 = gameMapService.createGameMap("1", "1-1", "Easy", 1,
                         "hero.test1();", "테스트용 메시지입니다.1", "테스트용 목표입니다.1", "cocosInfo", "테스트용 텍스트입니다.1", "guideImage1", "테스트용 커멘드입니다.1",
                         1, 1);
 
-                gameMapService.createGameMap("1", "1-1", "Easy", 2,
+                GameMap gameMap12 = gameMapService.createGameMap("1", "1-1", "Easy", 2,
                         "hero.test2();", "테스트용 메시지입니다.2", "테스트용 목표입니다.2", "cocosInfo", "테스트용 텍스트입니다.2", "guideImage2", "테스트용 커멘드입니다.2",
                         1, 1);
 
-                gameMapService.createGameMap("1", "1-1", "Easy", 3,
+                GameMap gameMap13 = gameMapService.createGameMap("1", "1-1", "Easy", 3,
                         "hero.test3();", "테스트용 메시지입니다.3", "테스트용 목표입니다.3", "cocosInfo", "테스트용 텍스트입니다.3", "guideImage3", "테스트용 커멘드입니다.3",
                         1, 1);
 
-                gameMapService.createGameMap("1", "1-2", "Easy", 1,
+                GameMap gameMap2 = gameMapService.createGameMap("1", "1-2", "Easy", 1,
                         "hero.test4();", "테스트용 메시지입니다.4", "테스트용 목표입니다.4", "cocosInfo", "테스트용 텍스트입니다.4", "guideImage4", "테스트용 커멘드입니다.4",
                         1, 1);
 
                 playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(),
                         gameMap1.getId(), gameMap1.getStage(), gameMap1.getStep(), gameMap1.getDifficulty(), gameMap1.getLevel(),
-                        "", "1");
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(),
+                        gameMap11.getId(), gameMap11.getStage(), gameMap11.getStep(), gameMap11.getDifficulty(), gameMap11.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(),
+                        gameMap12.getId(), gameMap12.getStage(), gameMap12.getStep(), gameMap12.getDifficulty(), gameMap12.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(),
+                        gameMap13.getId(), gameMap13.getStage(), gameMap13.getStep(), gameMap13.getDifficulty(), gameMap13.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(),
+                        gameMap2.getId(), gameMap2.getStage(), gameMap2.getStep(), gameMap2.getDifficulty(), gameMap2.getLevel(),
+                        "", 1);
 
                 playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(),
                         gameMap1.getId(), gameMap1.getStage(), gameMap1.getStep(), gameMap1.getDifficulty(), gameMap1.getLevel(),
-                        "hero.turnRight();\nhero.move();", "1");
+                        "hero.turnRight();\nhero.move();", 1);
+
+                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(),
+                        gameMap11.getId(), gameMap11.getStage(), gameMap11.getStep(), gameMap11.getDifficulty(), gameMap11.getLevel(),
+                        "hero.turnLeft();\nhero.move();", 1);
+
+                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(),
+                        gameMap12.getId(), gameMap12.getStage(), gameMap12.getStep(), gameMap12.getDifficulty(), gameMap12.getLevel(),
+                        "hero.turnLeft();\nhero.turnLeft();\nhero.move();", 1);
+
+                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(),
+                        gameMap13.getId(), gameMap13.getStage(), gameMap13.getStep(), gameMap13.getDifficulty(), gameMap13.getLevel(),
+                        "hero.turnRight();\nhero.turnRight();\nhero.move();", 1);
+
+                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(),
+                        gameMap2.getId(), gameMap2.getStage(), gameMap2.getStep(), gameMap2.getDifficulty(), gameMap2.getLevel(),
+                        "hero.turnRight();\nhero.move();", 1);
 
 
 

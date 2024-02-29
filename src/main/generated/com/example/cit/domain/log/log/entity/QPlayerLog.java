@@ -24,7 +24,7 @@ public class QPlayerLog extends EntityPathBase<PlayerLog> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
-    public final StringPath detailInt = createString("detailInt");
+    public final NumberPath<Integer> detailInt = createNumber("detailInt", Integer.class);
 
     public final StringPath detailText = createString("detailText");
 

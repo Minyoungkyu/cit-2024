@@ -29,6 +29,14 @@ export interface paths {
     /** 관리자 로그인, accessToken, refreshToken 쿠키 생성됨 */
     post: operations["adminLogin"];
   };
+  "/api/v1/playerLogs/gamesLastLog/{gameMapId}": {
+    /** 해당 게임의 마지막 로그 */
+    get: operations["getGamesLastLog"];
+  };
+  "/api/v1/playerLogs/clearLog/{stage}": {
+    /** 스테이지 클리어 로그 */
+    get: operations["getClearLog"];
+  };
   "/api/v1/members/me": {
     /** 내 정보 */
     get: operations["getMe"];
@@ -139,6 +147,46 @@ export interface components {
     AdminLoginRequestBody: {
       username: string;
       password: string;
+    };
+    GamesLastLogResponseBody: {
+      playerLogDtoList: components["schemas"]["PlayerLogDto"][];
+    };
+    PlayerLogDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      logType: string;
+      username: string;
+      /** Format: int64 */
+      gameMapId: number;
+      gameMapStage: string;
+      gameMapStep: string;
+      gameMapDifficulty: string;
+      /** Format: int32 */
+      gameMapLevel: number;
+      detailText: string;
+      /** Format: int32 */
+      detailInt: number;
+    };
+    RsDataGamesLastLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GamesLastLogResponseBody"];
+    };
+    ClearLogResponseBody: {
+      playerLogDtoList: components["schemas"]["PlayerLogDto"][];
+    };
+    RsDataClearLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ClearLogResponseBody"];
     };
     MeResponseBody: {
       item: components["schemas"]["MemberDto"];
@@ -291,6 +339,50 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataLoginResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 해당 게임의 마지막 로그 */
+  getGamesLastLog: {
+    parameters: {
+      path: {
+        gameMapId: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGamesLastLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 스테이지 클리어 로그 */
+  getClearLog: {
+    parameters: {
+      path: {
+        stage: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataClearLogResponseBody"];
         };
       };
       /** @description Bad Request */

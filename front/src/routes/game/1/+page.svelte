@@ -4,12 +4,27 @@
 
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
-    import DifficultySelector from './DifficultySelector.svelte';
-    import TopMenuShop from './TopMenuShop.svelte';
-    import TopMenuCharacter from './TopMenuCharacter.svelte';
-    import TopMenuItem from './TopMenuItem.svelte';
-    import TopMenuSetting from './TopMenuSetting.svelte';
 	import { onMount } from 'svelte';
+    import type { components } from '$lib/types/api/v1/schema';
+
+    import DifficultySelector from '$lib/game/DifficultySelector.svelte';
+    import TutorialSelector from '$lib/game//TutorialSelector.svelte';
+    import TopMenuShop from '$lib/game//TopMenuShop.svelte';
+    import TopMenuCharacter from '$lib/game//TopMenuCharacter.svelte';
+    import TopMenuItem from '$lib/game//TopMenuItem.svelte';
+    import TopMenuSetting from '$lib/game//TopMenuSetting.svelte';
+
+    const { data } = $props<{ data: { playerLogList: components['schemas']['PlayerLogDto'][] } }>();
+    const { playerLogList } = data;
+
+    const clearedgameMapIds = playerLogList.map(log => log.gameMapId);
+    const highestClearedgameMapId = Math.max(...clearedgameMapIds);
+    
+    console.log(highestClearedgameMapId)
+
+    function isOpen(stageId: number) {
+        return clearedgameMapIds.includes(stageId) || stageId === highestClearedgameMapId + 1;
+    }
 
     onMount(() => {
         function adjustBackgroundContainer() {
@@ -66,20 +81,36 @@
     <div class="background-container relative" style="background-image:url('/sampleImg.avif');background-position:center;background-size:100%;">
 
         <div class="dropdown dropdown-top dropdown-start absolute bottom-[8%] left-[4%]">
-            <div tabindex="0" role="button" class="btn m-1 w-[6vw]">튜토리얼</div>
-            <DifficultySelector/>
+            
+            <div tabindex="0" role="button" class="btn m-1 w-[6vw]" data-gameMapId="1">튜토리얼(열림)</div>
+            <TutorialSelector/>
         </div>
 
         <div class="dropdown dropdown-top dropdown-start absolute bottom-[16%] left-[14%]">
-            <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-1</div>
+            {#if isOpen(2)}
+                <div tabindex="0" role="button" class="btn m-1 w-[6vw]" data-gameMapId="2">1-1(열림)</div>
+                <DifficultySelector gameMapId={2} stepsLevelCount={3} playerLogList={playerLogList}/>
+            {:else}
+                <div tabindex="0" role="button" class="btn m-1 w-[6vw]" data-gameMapId="2">1-1(잠금)</div>
+            {/if}
         </div>
 
         <div class="dropdown dropdown-top dropdown-start absolute bottom-[8%] left-[24%]">
-            <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-2</div>
+            {#if isOpen(5)}
+                <div tabindex="0" role="button" class="btn m-1 w-[6vw]" data-gameMapId="5">1-2(열림)</div>
+                <DifficultySelector gameMapId={5} stepsLevelCount={3} playerLogList={playerLogList}/>
+            {:else}
+                <div tabindex="0" role="button" class="btn m-1 w-[6vw]" data-gameMapId="5">1-2(잠금)</div>
+            {/if}
         </div>
 
         <div class="dropdown dropdown-top dropdown-start absolute bottom-[16%] left-[34%]">
-            <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-3</div>
+            {#if isOpen(8)}
+                <div tabindex="0" role="button" class="btn m-1 w-[6vw]" data-gameMapId="8">1-3(열림)</div>
+                <DifficultySelector gameMapId={8} stepsLevelCount={3} playerLogList={playerLogList}/>
+            {:else}
+                <div tabindex="0" role="button" class="btn m-1 w-[6vw]" data-gameMapId="8">1-3(잠금)</div>
+            {/if}
         </div>
     </div>
 </div>

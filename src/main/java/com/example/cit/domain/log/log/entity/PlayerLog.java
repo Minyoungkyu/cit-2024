@@ -22,6 +22,6 @@ public class PlayerLog extends BaseTime {
     private String gameMapDifficulty;
     private Integer gameMapLevel;
     private String detailText;
-    private String detailInt;
+    private Integer detailInt;
 
 }
