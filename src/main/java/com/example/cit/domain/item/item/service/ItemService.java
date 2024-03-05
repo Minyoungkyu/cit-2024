@@ -16,11 +16,12 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public Item createItem(ItemParts itemParts, String name, String availableCommands, String sourcePath, int price) {
+    public Item createItem(ItemParts itemParts, String name, String description, String availableCommands, String sourcePath, int price) {
 
         Item item = Item.builder()
                 .itemParts(itemParts)
                 .name(name)
+                .description(description)
                 .availableCommands(availableCommands)
                 .sourcePath(sourcePath)
                 .price(price)

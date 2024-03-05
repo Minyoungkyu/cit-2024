@@ -21,6 +21,7 @@ public class Item extends BaseTime {
     private ItemParts itemParts;
 
     private String name;
+    private String description;
     private String availableCommands;
     private String sourcePath;
     private int price;

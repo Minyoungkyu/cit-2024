@@ -31,7 +31,7 @@
 
     if (error) rq.msgError(error.msg);
     else {
-      rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.member.player.nickname = data.data.item.nickname)    
+      rq.msgAndRedirect(data, undefined, '/game/1', () => rq.member.player.nickname = data.data.item.nickname)    
     }
   }
 </script>

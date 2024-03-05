@@ -41,14 +41,13 @@ public class PlayerLogService {
         playerLogRepository.save(playerLog);
     }
 
-    public List<PlayerLog> getGamesLastLog(Member member, Long gameMapId) {
+    public Optional<PlayerLog> getGamesLastLog(Member member, Long gameMapId) {
 
-        return gameMapService.findGameMapById(gameMapId)
-                .flatMap(gameMap -> playerLogRepository.findTop1ByLogTypeAndUsernameAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByCreateDateDesc(
-                        "STAGECLEAR", member.getUsername(), gameMap.getStage(), gameMap.getStep(), gameMap.getDifficulty()))
-                .flatMap(playerLog1 -> findPlayerLogById(playerLog1.getId())
-                        .map(playerLog2 -> List.of(playerLog1, playerLog2)))
-                .orElse(List.of());
+        GameMap gameMap = gameMapService.findGameMapById(gameMapId).get();
+
+        return playerLogRepository.findTop1ByLogTypeAndUsernameAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByCreateDateDesc(
+                "STAGECLEAR", member.getUsername(), gameMap.getStage(), gameMap.getStep(), gameMap.getDifficulty());
+
     }
 
     public Optional<PlayerLog> findPlayerLogById(Long id) {

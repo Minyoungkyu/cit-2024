@@ -49,7 +49,7 @@ public class ApiV1PlayerLogController {
         );
     }
 
-    public record GamesLastLogResponseBody(@NonNull List<PlayerLogDto> playerLogDtoList) {}
+    public record GamesLastLogResponseBody(PlayerLogDto playerLogDto) {}
 
     @GetMapping(value = "/gamesLastLog/{gameMapId}", consumes = ALL_VALUE)
     @Operation(summary = "해당 게임의 마지막 로그")
@@ -62,7 +62,8 @@ public class ApiV1PlayerLogController {
         return RsData.of(
                 new GamesLastLogResponseBody(
                         playerLogService.getGamesLastLog(rq.getMember(), gameMapId)
-                                .stream().map(PlayerLogDto::new).toList()
+                                .map(PlayerLogDto::new)
+                                .orElse(null)
                 )
         );
     }

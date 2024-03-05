@@ -1,12 +1,29 @@
 package com.example.cit.domain.gameMap.gameMap.controller;
 
+import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
+import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
+import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
+import com.example.cit.domain.gameMap.requireParts.dto.RequirePartsDto;
+import com.example.cit.domain.gameMap.requireParts.service.RequirePartsService;
+import com.example.cit.domain.log.log.controller.ApiV1PlayerLogController;
+import com.example.cit.domain.log.log.dto.PlayerLogDto;
+import com.example.cit.global.rsData.RsData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
 @RestController
 @RequestMapping(value = "/api/v1/gameMaps", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -15,5 +32,29 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Transactional(readOnly = true)
 public class ApiV1GameMapController {
 
+    private final GameMapService gameMapService;
+    private final RequirePartsService requirePartsService;
 
+
+    public record GameMapResponseBody(@NonNull GameMapDto gameMapDto, @NonNull List<RequirePartsDto> requirePartsDto) {}
+
+    @GetMapping(value = "/gameMap/{id}", consumes = ALL_VALUE)
+    @Operation(summary = "특정 게임 맵 조회")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<GameMapResponseBody> getGameMap(
+            @PathVariable("id") Long id
+    ) {
+
+        GameMap gameMap = gameMapService.findGameMapById(id).get();
+
+        return RsData.of(
+                new GameMapResponseBody(
+                         new GameMapDto(gameMap),
+                         gameMap.getRequireParts().stream().map(RequirePartsDto::new).toList()
+
+                )
+        );
+    }
 }

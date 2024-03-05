@@ -3,6 +3,7 @@ package com.example.cit.global.initData;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.repository.GameMapRepository;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
+import com.example.cit.domain.gameMap.requireParts.service.RequirePartsService;
 import com.example.cit.domain.item.item.entity.Item;
 import com.example.cit.domain.item.item.service.ItemService;
 import com.example.cit.domain.item.itemParts.entity.ItemParts;
@@ -31,6 +32,7 @@ public class Dev {
     private final ItemPartsService itemPartsService;
     private final ItemService itemService;
     private final InventoryService inventoryService;
+    private final RequirePartsService requirePartsService;
 
     @Bean
     @Order(4)
@@ -62,9 +64,11 @@ public class Dev {
 
                 ItemParts itemParts1 = itemPartsService.createItemParts("신발");
 
-                Item item1 = itemService.createItem(itemParts1, "똥신발", "hero.move(), hero.turnRight(), hero.turnLeft()", "sourcePath", 0);
+                Item item1 = itemService.createItem(itemParts1, "똥신발", "정말 별로인 신발입니다.", "hero.move(), hero.turnRight(), hero.turnLeft()", "sourcePath", 0);
+                Item item2 = itemService.createItem(itemParts1, "그냥신발", "그냥 별로인 신발입니다.", "hero.move(), hero.turnRight(), hero.turnLeft()", "sourcePath", 12);
 
                 inventoryService.createInventory(memberUser1.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser1.getPlayer(), item2, false);
 
                 GameMap gameMap1 = gameMapService.createGameMap("1", "tutorial", "", 0,
                         "hero.test0();", "테스트용 메시지입니다.0", "테스트용 목표입니다.0", "cocosInfo", "테스트용 텍스트입니다.0", "guideImage0", "테스트용 커멘드입니다.0",
@@ -85,6 +89,14 @@ public class Dev {
                 GameMap gameMap2 = gameMapService.createGameMap("1", "1-2", "Easy", 1,
                         "hero.test4();", "테스트용 메시지입니다.4", "테스트용 목표입니다.4", "cocosInfo", "테스트용 텍스트입니다.4", "guideImage4", "테스트용 커멘드입니다.4",
                         1, 1);
+
+                GameMap gameMap21 = gameMapService.createGameMap("1", "1-2", "Easy", 2,
+                        "hero.test5();", "테스트용 메시지입니다.5", "테스트용 목표입니다.5", "cocosInfo", "테스트용 텍스트입니다.5", "guideImage5", "테스트용 커멘드입니다.5",
+                        1, 1);
+
+                requirePartsService.addRequireParts(gameMap2, itemParts1);
+                requirePartsService.addRequireParts(gameMap21, itemParts1);
+
 
                 playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(),
                         gameMap1.getId(), gameMap1.getStage(), gameMap1.getStep(), gameMap1.getDifficulty(), gameMap1.getLevel(),

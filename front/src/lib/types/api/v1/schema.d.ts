@@ -41,6 +41,14 @@ export interface paths {
     /** 내 정보 */
     get: operations["getMe"];
   };
+  "/api/v1/inventory/myInventory": {
+    /** 플레이어 인벤토리 조회 */
+    get: operations["getMyInventory"];
+  };
+  "/api/v1/gameMaps/gameMap/{id}": {
+    /** 특정 게임 맵 조회 */
+    get: operations["getGameMap"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -149,7 +157,7 @@ export interface components {
       password: string;
     };
     GamesLastLogResponseBody: {
-      playerLogDtoList: components["schemas"]["PlayerLogDto"][];
+      playerLogDto?: components["schemas"]["PlayerLogDto"];
     };
     PlayerLogDto: {
       /** Format: int64 */
@@ -167,9 +175,9 @@ export interface components {
       gameMapDifficulty: string;
       /** Format: int32 */
       gameMapLevel: number;
-      detailText: string;
+      detailText?: string;
       /** Format: int32 */
-      detailInt: number;
+      detailInt?: number;
     };
     RsDataGamesLastLogResponseBody: {
       resultCode: string;
@@ -197,6 +205,82 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["MeResponseBody"];
+    };
+    InventoryDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      item: components["schemas"]["ItemDto"];
+      isEquipped: boolean;
+    };
+    ItemDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      /** Format: int64 */
+      itemPartsId: number;
+      name: string;
+      description: string;
+      availableCommands: string;
+      sourcePath: string;
+    };
+    MyInventoryResponseBody: {
+      inventoryDto: components["schemas"]["InventoryDto"][];
+    };
+    RsDataMyInventoryResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["MyInventoryResponseBody"];
+    };
+    GameMapDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      stage: string;
+      step: string;
+      difficulty: string;
+      /** Format: int32 */
+      level: number;
+      editorAutoComplete: string;
+      editorMessage: string;
+      clearGoal: string;
+      cocosInfo: string;
+      guideText: string;
+      guideImage: string;
+      commandGuide: string;
+      /** Format: int32 */
+      rewardExp: number;
+      /** Format: int32 */
+      rewardJewel: number;
+      rewardItem?: components["schemas"]["ItemDto"];
+    };
+    GameMapResponseBody: {
+      gameMapDto: components["schemas"]["GameMapDto"];
+      requirePartsDto: components["schemas"]["RequirePartsDto"][];
+    };
+    RequirePartsDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: int64 */
+      itemPartsId: number;
+    };
+    RsDataGameMapResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GameMapResponseBody"];
     };
   };
   responses: never;
@@ -400,6 +484,45 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataMeResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 플레이어 인벤토리 조회 */
+  getMyInventory: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataMyInventoryResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 특정 게임 맵 조회 */
+  getGameMap: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGameMapResponseBody"];
         };
       };
       /** @description Bad Request */

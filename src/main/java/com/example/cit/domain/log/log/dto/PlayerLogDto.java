@@ -17,8 +17,8 @@ public record PlayerLogDto(
         @NonNull String gameMapStep,
         @NonNull String gameMapDifficulty,
         @NonNull Integer gameMapLevel,
-        @NonNull String detailText,
-        @NonNull Integer detailInt
+        String detailText,
+        Integer detailInt
 
 ) {
     public PlayerLogDto(PlayerLog playerLog) {

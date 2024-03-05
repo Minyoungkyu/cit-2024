@@ -51,6 +51,8 @@ public class QGameMap extends EntityPathBase<GameMap> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifyDate = _super.modifyDate;
 
+    public final ListPath<com.example.cit.domain.gameMap.requireParts.entity.RequireParts, com.example.cit.domain.gameMap.requireParts.entity.QRequireParts> requireParts = this.<com.example.cit.domain.gameMap.requireParts.entity.RequireParts, com.example.cit.domain.gameMap.requireParts.entity.QRequireParts>createList("requireParts", com.example.cit.domain.gameMap.requireParts.entity.RequireParts.class, com.example.cit.domain.gameMap.requireParts.entity.QRequireParts.class, PathInits.DIRECT2);
+
     public final NumberPath<Integer> rewardExp = createNumber("rewardExp", Integer.class);
 
     public final com.example.cit.domain.item.item.entity.QItem rewardItem;

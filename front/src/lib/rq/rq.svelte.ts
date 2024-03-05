@@ -2,7 +2,7 @@ import { goto } from '$app/navigation';
 
 import type { components, paths } from '$lib/types/api/v1/schema';
 import type { Page } from '@sveltejs/kit';
-import createClient from 'openapi-fetch';
+import createClient, { type DefaultParamsOption } from 'openapi-fetch';
 
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
@@ -16,11 +16,13 @@ toastr.options = {
 
 class Rq {
   public member: components['schemas']['MemberDto'];
+  public inventories: ReturnType<typeof this.makeReactivityInventories>;
 
   public SITE_NAME: String = "코드이썬";
 
   constructor() {
     this.member = this.makeReactivityMember();
+    this.inventories = this.makeReactivityInventories();
   }
 
   public effect(fn: () => void) {
@@ -106,6 +108,59 @@ class Rq {
 
   public msgError(message: string) {
     toastr.error(message);
+  }
+
+  public equipItem(inventoryId: number) {
+    const targetInventory = rq.inventories.all.find(inv => inv.id === inventoryId);
+
+    if (targetInventory) {
+      rq.inventories.all.forEach(inventory => {
+        if (inventory.item.itemPartsId === targetInventory.item.itemPartsId) {
+          inventory.isEquipped = false;
+        }
+      });
+  
+      targetInventory.isEquipped = true;
+    }
+  }
+
+  public unEquipItem(inventoryId: number | undefined) {
+    const inventory = this.inventories.all.find(inv => inv.id === inventoryId);
+    if (inventory) {
+      inventory.isEquipped = false;
+    }
+  }
+
+  public makeReactivityInventories() {
+    const inventories = $state([] as Array<components['schemas']['InventoryDto']>);
+    
+    return {
+      get all() {
+        return inventories;
+      },
+
+      get unequipped() {
+        return inventories.filter(inventory => !inventory.isEquipped);
+      },
+
+      add(inventory: components['schemas']['InventoryDto']) {
+        inventories.push(inventory);
+      },
+
+      remove(inventoryId: number) {
+        const index = inventories.findIndex(inventory => inventory.id === inventoryId);
+        if (index !== -1) {
+          inventories.splice(index, 1);
+        }
+      },
+
+      findEquippedByItemPartsId(itemPartsId: number) {
+        return inventories.find(inventory => 
+          inventory.item.itemPartsId === itemPartsId && inventory.isEquipped
+        );
+      }
+
+    };
   }
 
   // 인증
@@ -214,6 +269,9 @@ class Rq {
     this.member.cellphoneNo = '';
     this.member.authorities = [];	
     this.member.player = { id: 0, createDate: '', modifyDate: '', nickname: ''};
+    while (this.inventories.all.length > 0) {
+      this.inventories.all.pop();
+    }
   }
 
   public isLogin() {
@@ -237,6 +295,16 @@ class Rq {
 
     this.setLogout();
     this.replace(url);
+  }
+
+  public async fetchAndInitializeInventories() {
+    const { data } = await this.apiEndPoints().GET('/api/v1/inventory/myInventory'); 
+    if (data) {
+      while (this.inventories.all.length > 0) {
+        this.inventories.all.pop();
+      }
+      data.data.inventoryDto.forEach(inventory => this.inventories.add(inventory));
+    }
   }
 
 

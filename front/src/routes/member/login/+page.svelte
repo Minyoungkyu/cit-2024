@@ -57,7 +57,7 @@
         console.log(data.data.item.player.nickname)
         rq.msgAndRedirect(data, undefined, '/member/setName', () => rq.setLogined(data.data.item))
       } else {
-        rq.msgAndRedirect(data, undefined, '/main/stage', () => rq.setLogined(data.data.item))
+        rq.msgAndRedirect(data, undefined, '/game/1', () => rq.setLogined(data.data.item))
       }
     }
   }

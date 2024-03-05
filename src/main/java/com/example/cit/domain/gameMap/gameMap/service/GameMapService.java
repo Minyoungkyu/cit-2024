@@ -1,11 +1,14 @@
 package com.example.cit.domain.gameMap.gameMap.service;
 
+import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.repository.GameMapRepository;
+import com.example.cit.domain.gameMap.requireParts.entity.RequireParts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
