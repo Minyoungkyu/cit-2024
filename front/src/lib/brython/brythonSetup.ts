@@ -1,107 +1,206 @@
-export async function runPythonCode(editor: any) {
+export async function runPythonCode(editor: any, stage: string, capturedPrints: string[]) {
     // @ts-ignore
     const runner = new BrythonRunner({
-        stdout: {
-            write(content: string) {
-                console.log('StdOut: ' + content);
-            },
-            flush() {},
-        },
         stderr: {
             write(content: string) {
                 console.error('StdErr: ' + content);
             },
             flush() {},
         },
-        stdin: {
-            async readline() {
-                var userInput = prompt();
-                console.log('Received StdIn: ' + userInput);
-                return userInput;
+        stdout: {
+            write(content: string) {
+                capturedPrints.push(content);  
             },
-        }
+            flush() {},
+        },
     });
-    console.log('Run Code:');
-    //await runner.runCode('print("hello world")\nprint("from Brython Runner")');
+    const stageCode = stage.split('\n').map((line: String) => `    ${line}`).join('\n');
     const userCodeIndented = editor.getValue().split('\n').map((line: String) => `    ${line}`).join('\n');
-    const finalCode = `${gamePre}\n${userCodeIndented}\n${gamePost}`; // TODO REMOVE THIS
-
-    console.log(finalCode);
-
+    const finalCode = `${gamePre}\n${stageCode}\n${initialCode}\n${userCodeIndented}\n${gamePost}`; // TODO REMOVE THIS
     await runner.runCode(finalCode);
-    console.log('Done.');
     }
 
     var gamePre = 
     `
+    import copy
+    import inspect
+    import json
+
     class Character:
-        def __init__(self, tile_map):
-            self.tile_map = tile_map
-            self.position = [0.0, 0.0]  # Character's initial position as floats
+        def __init__(self, data):
+            # 세팅값
+            self.fps = 30
+            self.go_time = 2.0
+            self.go_cannot_time = 0.5
+            self.turn_time = 0.3
+            self.player_input_line = 199
+            
+            
+            # 초기값
+            self.data = data
+            
+            # 결과값
             self.frames = []
-    
-        def can_move(self, x, y):
-            # Check if within map bounds
-            if x < 0 or y < 0 or y >= len(self.tile_map) or x >= len(self.tile_map[0]):
+
+        def can_move(self):
+            now_x = int(round(self.data["player"]["pos"][0]))
+            now_y = int(round(self.data["player"]["pos"][1]))
+            new_x = now_x
+            new_y = now_y
+            new_x_middle = now_x
+            new_y_middle = now_y
+            
+            # 이동할 좌표 계산
+            # 기본 이동 2칸씩 [new_x, new_y]
+            # 중간지점 [new_x_middle, new_y_middle]
+            if self.data["player"]["dir"] == "right":
+                new_x = now_x + 2
+                new_x_middle = now_x + 1
+            elif self.data["player"]["dir"] == "left":
+                new_x = now_x - 2
+                new_x_middle = now_x - 1
+            elif self.data["player"]["dir"] == "up":
+                new_y = now_y + 2
+                new_y_middle = now_y + 1
+            elif self.data["player"]["dir"] == "down":
+                new_y = now_y - 2
+                new_y_middle = now_y - 1
+            
+            # 맵 밖으로 나가는지 체크
+            if new_x < 0 or new_y < 0 or new_y >= len(self.data["stage"]["tile"]) or new_x >= len(self.data["stage"]["tile"][0]):
                 return False
-            # Check if tile is passable
-            return self.tile_map[y][x] == 0
-    
-        def move(self, dx, dy):
-            new_x = self.position[0] + dx
-            new_y = self.position[1] + dy
-            # Round to first decimal
-            new_x_rounded = round(new_x, 1)
-            new_y_rounded = round(new_y, 1)
-    
-            # Check if can move to new position
-            if self.can_move(int(new_x_rounded), int(new_y_rounded)):
-                self.position = [new_x, new_y]
-            else:  # Cannot move, stay in current position
-                new_x = self.position[0]
-                new_y = self.position[1]
-    
-            self.frames.append((round(new_x, 1), round(new_y, 1)))
-    
-        def moveLeft(self):
-            for _ in range(10):  # Generate 10 frames
-                self.move(-0.1, 0)
-    
-        def moveRight(self):
-            for _ in range(10):
-                self.move(0.1, 0)
-    
-        def moveUp(self):
-            for _ in range(10):
-                self.move(0, 0.1)
-    
-        def moveDown(self):
-            for _ in range(10):
-                self.move(0, -0.1)
-    
+            
+            # 이동가능지역 체크  0:이동불가 1:이동가능 2:벽
+            if self.data["stage"]["tile"][new_y_middle][new_x_middle] == 2:
+                return False
+            
+            return self.data["stage"]["tile"][new_y][new_x] == 1
+        
+        def decision_dir(self, directions): # 회전 후 방향 결정
+            dir_index = directions.index(self.data["player"]["dir"]) 
+            new_dir_index = (dir_index + 1) % len(directions)
+
+            return directions[new_dir_index]
+
+        def move(self, dx, dy, line_num):
+            new_x = self.data["player"]["pos"][0] + dx
+            new_y = self.data["player"]["pos"][1] + dy
+            
+            # 플레이어 이동
+            self.data["player"]["pos"] = [new_x, new_y]
+            # 결과값 저장
+            self.frames.append({"id": len(self.frames), "status":0, "line_num":line_num - self.player_input_line, "player": copy.deepcopy(self.data["player"]), "item_list": []})
+
+        def turn_half(self, line_num): 
+            total_frames = int(self.turn_time * self.fps)
+
+            for _ in range(int(total_frames/2)):
+                self.frames.append({
+                    "id": len(self.frames), 
+                    "status":0, 
+                    "line_num":line_num - self.player_input_line,
+                    "player": copy.deepcopy(self.data["player"]), 
+                    "item_list": []
+                    })
+                
+        def go(self, line_num):
+            if self.can_move():
+                # 총프레임수 = 이동시간(초) * 초당프레임수
+                total_frames = int(self.go_time * self.fps)
+                if self.data["player"]["dir"] == "right":
+                    for _ in range(total_frames):
+                        self.move(2/total_frames, 0, line_num)
+                elif self.data["player"]["dir"] == "left":
+                    for _ in range(total_frames):
+                        self.move(-2/total_frames, 0, line_num)
+                elif self.data["player"]["dir"] == "up":
+                    for _ in range(total_frames):
+                        self.move(0, 2/total_frames, line_num)
+                elif self.data["player"]["dir"] == "down":
+                    for _ in range(total_frames):
+                        self.move(0, -2/total_frames, line_num)
+            else:
+                total_frames = int(self.go_cannot_time * self.fps)
+                # 결과값 저장  10:이동불가 말풍선
+                for _ in range(total_frames):
+                    self.frames.append({
+                        "id": len(self.frames), 
+                        "status":0, "line_num":line_num - self.player_input_line, 
+                        "player": {**copy.deepcopy(self.data["player"]), 
+                        "status": 10}, "item_list": []
+                        })
+        
+
+        def turnRight(self, line_num): 
+            self.turn_half(line_num)
+
+            directions = ["right", "down", "left", "up"] 
+            self.data["player"]["dir"] = self.decision_dir(directions)
+
+            self.turn_half(line_num)
+
+        def turnLeft(self, line_num):
+            self.turn_half(line_num)
+
+            directions = ["right", "up", "left", "down"] 
+            self.data["player"]["dir"] = self.decision_dir(directions)
+
+            self.turn_half(line_num)
+
+        def check_goal(self): 
+            if self.frames:
+                last_player_pos = [round(pos) for pos in self.frames[-1]["player"]["pos"]]
+            else:
+                last_player_pos = [round(pos) for pos in self.data["player"]["pos"]]
+            
+            for goal in self.data["stage"]["goal_list"]:
+                if goal["type"] == "target" and goal["pos"] == last_player_pos:
+                    self.frames.append({
+                        "id": len(self.frames), 
+                        "status": 1, 
+                        "line_num": 0,
+                        "player": copy.deepcopy(self.data["player"]), 
+                        "item_list": []
+                        })
+                    return True
+                    
+            return False
+
         def get_frames(self):
             return self.frames
-    
-    
-    # Example Tile Map: 0 = passable, 1 = impassable
-    tile_map = [
-        [0, 0, 1, 0],
-        [0, 1, 0, 0],
-        [0, 0, 0, 1],
-        [0, 0, 0, 0]
-    ]
-    
-    # Create a character and move it around the map
-    hero = Character(tile_map)
-    # hero.moveRight()
-    # hero.moveUp()
-    # hero.moveUp()
-    # hero.moveUp()
+
+    def go():
+        print("go")
+        if(hero.check_goal()):
+            return
+        hero.go(inspect.currentframe().f_back.f_lineno)
+
+    def turnRight():
+        print("turnRight")
+        if(hero.check_goal()):
+            return
+        hero.turnRight(inspect.currentframe().f_back.f_lineno)
+        
+    def turnLeft():
+        print("turnLeft")
+        if(hero.check_goal()):
+            return
+        hero.turnLeft(inspect.currentframe().f_back.f_lineno)
+
+    def check_goal():
+        hero.check_goal()
+
+    `;
+
+    var initialCode =
+    `
+    hero = Character(stage)
     `;
         
-        var gamePost = 
+    var gamePost = 
     `
-    # Print the list of frames with character's positions
-    for frame in hero.get_frames():
-        print(frame)
+    check_goal()
+
+    frames_json = json.dumps(hero.get_frames())
+    print(frames_json)
     `;

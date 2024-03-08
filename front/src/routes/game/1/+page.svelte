@@ -24,7 +24,7 @@
 
     function findHighestStageStartId(highestClearedId: number): number { // 클리어한 최고 gameMapId 로 해금 스테이지 구하기 함수
         for (let i = stageStartIds.length - 1; i >= 0; i--) {
-            if (highestClearedId >= stageStartIds[i]) {
+            if (highestClearedId + 1 >= stageStartIds[i]) {
                 return stageStartIds[i]; 
             }
         }
@@ -37,8 +37,8 @@
 
     let isDropdownOpen = [false, false, false, false]; // 드롭다운 메뉴 상태 추적
 
-    function toggleDropdown(index: number) { // 드롭다운 상태 확인, 스테이지하이라이터 상태 조절 함수
-        isDropdownOpen[index] = !isDropdownOpen[index];
+    function toggleDropdown(index: number) { // 드롭다운 열기 (재클릭으로 못닫음), 스테이지하이라이터 상태 조절 함수
+        isDropdownOpen[index] = true;
         const allClosed = isDropdownOpen.every(open => !open);
         const highlighter = document.getElementById('stageHighlighter');
         if (highlighter) {
@@ -188,6 +188,7 @@
         <div class="dropdown dropdown-top dropdown-start absolute bottom-[16%] left-[14%]" data-gameMapId="2">
             {#if isOpen(2)}
                 <div tabindex="0" role="button" class="btn m-1 w-[6vw]" on:click={() => toggleDropdown(1)}>1-1(열림)</div>
+                <!-- gameMapId : step 의 easy, 1레벨 맵아이디, stepsLevelCount : step 의 level 갯수, -->
                 <DifficultySelector gameMapId={2} stepsLevelCount={3} playerLogList={playerLogList}/>
             {:else}
                 <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-1(잠금)</div>

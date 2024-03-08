@@ -69,22 +69,18 @@
 
                 const playerLog = data!.data.playerLogDto;
                 
-                let routeGameMapId;
+                let routeGameMapId; // 가야할 게임맵 아이디
 
                 if (playerLog == undefined) {
-                    console.log("가야할곳 : " + difficultiesGameMapId[currentIndex]);
                     routeGameMapId = difficultiesGameMapId[currentIndex];
                 } else {
                     if (playerLog.detailInt === 1) {
                         if (playerLog.gameMapId + 1 > difficultiesGameMapId[currentIndex] - 1 + stepsLevelCount) {
-                            console.log("가야할곳 : " + difficultiesGameMapId[currentIndex]);
                             routeGameMapId = difficultiesGameMapId[currentIndex];
                         } else {
-                            console.log("가야할곳 : " + (playerLog.gameMapId + 1));
                             routeGameMapId = playerLog.gameMapId + 1;
                         }
                     } else if (playerLog.detailInt === 0) {
-                        console.log("가야할곳 : " + playerLog.gameMapId);
                         routeGameMapId = playerLog.gameMapId;
                     }
                 }   
@@ -97,11 +93,11 @@
                     }
                 });
 
-                routeGameMapDto = response.data!.data.gameMapDto;
-                routeGameRequiredPartsList = response.data!.data.requirePartsDto;
+                routeGameMapDto = response.data!.data.gameMapDto; // 가야할 게임맵 dto
+                routeGameRequiredPartsList = response.data!.data.requirePartsDto; // 갸아할 게임 요구 장비부위 리스트
             }
 
-    function onClickToStart() {
+    function onClickToStart() { // 시작 버튼 
         routePlayerToLastGame();
         showCharactorStatusModal();
     }

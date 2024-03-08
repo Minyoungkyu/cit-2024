@@ -16,6 +16,7 @@ public class PlayerLog extends BaseTime {
 
     private String logType;
     private String username;
+    private Long userId;
     private Long gameMapId;
     private String gameMapStage;
     private String gameMapStep;

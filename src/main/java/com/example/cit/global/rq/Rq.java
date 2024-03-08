@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -28,6 +29,7 @@ public class Rq {
     private Member member;
     private Boolean isLogin;
     private Boolean isAdmin;
+
 
 
     public void setHeader(String name, String value) {
@@ -159,7 +161,7 @@ public class Rq {
         if (member == null) {
             // entityManager 객체로 프록시 객체 얻기
             member = entityManager.getReference(Member.class, getUser().getId());
-            member.setAdmin(isAdmin());
+//            member.setAdmin(isAdmin());
         }
 
         return member;

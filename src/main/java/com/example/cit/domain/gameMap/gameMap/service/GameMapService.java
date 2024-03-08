@@ -4,6 +4,10 @@ import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.repository.GameMapRepository;
 import com.example.cit.domain.gameMap.requireParts.entity.RequireParts;
+import com.example.cit.domain.log.log.entity.PlayerLog;
+import com.example.cit.domain.log.log.service.PlayerLogService;
+import com.example.cit.global.exceptions.GlobalException;
+import com.example.cit.global.rq.Rq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +21,8 @@ import java.util.Optional;
 public class GameMapService {
 
     private final GameMapRepository gameMapRepository;
+    private final PlayerLogService playerLogService;
+    private final Rq rq;
 
     @Transactional
     public GameMap createGameMap(String stage, String step, String difficulty, int level, String editorAutoComplete, String editorMessage,
@@ -45,8 +51,14 @@ public class GameMapService {
         return gameMap;
     }
 
-    public Optional<GameMap> findGameMapById(Long id) {
-        return gameMapRepository.findById(id);
+    public Optional<GameMap> findGameMapById(Long gameMapId) {
+        return gameMapRepository.findById(gameMapId);
     }
 
+    public GameMap checkAccessAndGetGameMap(Long gameMapId) {
+        playerLogService.findByUserIdAndGameMapId(rq.getMember().getId(), gameMapId)
+                .orElseThrow(() -> new GlobalException("403-1", "잘못 된 접근입니다."));
+
+        return findGameMapById(gameMapId).orElseThrow(() -> new GlobalException("404-1", "게임 맵을 찾을 수 없습니다."));
+    }
 }

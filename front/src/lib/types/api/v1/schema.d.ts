@@ -29,6 +29,10 @@ export interface paths {
     /** 관리자 로그인, accessToken, refreshToken 쿠키 생성됨 */
     post: operations["adminLogin"];
   };
+  "/api/v1/test/test": {
+    /** 플레이어 인벤토리 조회 */
+    get: operations["test"];
+  };
   "/api/v1/playerLogs/gamesLastLog/{gameMapId}": {
     /** 해당 게임의 마지막 로그 */
     get: operations["getGamesLastLog"];
@@ -45,9 +49,13 @@ export interface paths {
     /** 플레이어 인벤토리 조회 */
     get: operations["getMyInventory"];
   };
-  "/api/v1/gameMaps/gameMap/{id}": {
-    /** 특정 게임 맵 조회 */
+  "/api/v1/gameMaps/gameMap/{stage}/{id}": {
+    /** 특정 게임 맵 조회와 자격검증 */
     get: operations["getGameMap"];
+  };
+  "/api/v1/gameMaps/gameMap/{id}": {
+    /** 특정 게임 맵 과 필요장비 조회 */
+    get: operations["getGameMapWithItem"];
   };
 }
 
@@ -155,6 +163,17 @@ export interface components {
     AdminLoginRequestBody: {
       username: string;
       password: string;
+    };
+    RsDataTestResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["TestResponseBody"];
+    };
+    TestResponseBody: {
+      /** Format: int64 */
+      id: number;
     };
     GamesLastLogResponseBody: {
       playerLogDto?: components["schemas"]["PlayerLogDto"];
@@ -266,6 +285,16 @@ export interface components {
       rewardItem?: components["schemas"]["ItemDto"];
     };
     GameMapResponseBody: {
+      gameMapDto?: components["schemas"]["GameMapDto"];
+    };
+    RsDataGameMapResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GameMapResponseBody"];
+    };
+    GameMapResponseBodyWithRequireItem: {
       gameMapDto: components["schemas"]["GameMapDto"];
       requirePartsDto: components["schemas"]["RequirePartsDto"][];
     };
@@ -275,12 +304,12 @@ export interface components {
       /** Format: int64 */
       itemPartsId: number;
     };
-    RsDataGameMapResponseBody: {
+    RsDataGameMapResponseBodyWithRequireItem: {
       resultCode: string;
       /** Format: int32 */
       statusCode: number;
       msg: string;
-      data: components["schemas"]["GameMapResponseBody"];
+      data: components["schemas"]["GameMapResponseBodyWithRequireItem"];
     };
   };
   responses: never;
@@ -433,6 +462,23 @@ export interface operations {
       };
     };
   };
+  /** 플레이어 인벤토리 조회 */
+  test: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataTestResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 해당 게임의 마지막 로그 */
   getGamesLastLog: {
     parameters: {
@@ -511,8 +557,31 @@ export interface operations {
       };
     };
   };
-  /** 특정 게임 맵 조회 */
+  /** 특정 게임 맵 조회와 자격검증 */
   getGameMap: {
+    parameters: {
+      path: {
+        stage: string;
+        id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGameMapResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 특정 게임 맵 과 필요장비 조회 */
+  getGameMapWithItem: {
     parameters: {
       path: {
         id: number;
@@ -522,7 +591,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataGameMapResponseBody"];
+          "application/json": components["schemas"]["RsDataGameMapResponseBodyWithRequireItem"];
         };
       };
       /** @description Bad Request */

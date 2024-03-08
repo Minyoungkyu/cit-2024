@@ -9,45 +9,43 @@
 
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
-    import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
+    import type { components } from '$lib/types/api/v1/schema';
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
     import { runPythonCode } from '$lib/brython/brythonSetup';
-    import TWEEN from '@tweenjs/tween.js';
+    import TWEEN, { update } from '@tweenjs/tween.js';
     import Cocos from '$lib/cocos/cocos.svelte';
-    import { getContext } from 'svelte';
-    import type { Writable } from 'svelte/store';
-    const isInitialized = getContext<Writable<boolean>>('isInitialized');
+    import './page.css';
 
-    let readyToShow = false;
-    
-    $: $isInitialized ? readyToShow = true : null;
-  
-    // style="opacity:{opacity};transform:scaleY({scaleY});transform-origin:center;"
+    const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
+    const { gameMapDto } = data;
 
     let editor: any;
-    let modal: HTMLDialogElement;
-    let scan: HTMLDivElement;
+    let hintModal: HTMLDialogElement 
+    let scan: HTMLDivElement 
 
-    const explanation: String = `#로켓의 재료를 향해 가세요.\n#폭탄을 피하세요!\n#아래에 코드를 입력하고 완료되면 실행을 클릭합니다.\n\n`;// TODO : 문제에 맞게 코드넣기(fetch)
-    const customCompletions = [ // TODO : 문제에 맞게 코드넣기(fetch)
-            {value: "hero.moveUp();", score: 1000},
-            {value: "hero.moveDown();", score: 1000},
-            {value: "hero.moveLeft();", score: 1000},
-            {value: "hero.moveRight();", score: 1000, meta: "custom"}
-    ];
+    const explanation: String = gameMapDto.editorMessage;
 
-    let opacity = 0; 
-    let otherOpacity = 0;
-    let otherOpacity2 = 0;
-    let otherOpacity3 = 0;
-    let otherOpacity4 = 0;
-    let otherOpacity5 = 0;
-    let mainOpacity = 0;
-    let scale = 0;
-    let scaleY = 0;
+    const customCompletions = gameMapDto.editorAutoComplete.split(',')
+    .filter(command => command.trim() !== '') 
+    .map(command => ({
+        value: `${command}`, 
+        score: 1000, 
+        meta: "custom" 
+    }));
 
-    let scanning = false;
-    let reverseScanning = false;
+    let opacity = $state(0); 
+    let otherOpacity = $state(0);
+    let otherOpacity2 = $state(0);
+    let otherOpacity3 = $state(0);
+    let otherOpacity4 = $state(0);
+    let otherOpacity5 = $state(0);
+    let mainOpacity = $state(0);
+    let scale = $state(0);
+    let scaleY = $state(0);
+
+    let scanning = $state(false);
+    let reverseScanning = $state(false);
 
     function startScanning() {
         scanning = true;
@@ -80,11 +78,22 @@
             .start();
         }
 
+    let markerId:any;
+    function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
+        const Range = ace.require('ace/range').Range;
+        const session = editor.getSession();
+        if (markerId !== undefined) {
+          session.removeMarker(markerId);
+        }
+        const range = new Range(HilightRow - 1, 0, HilightRow - 1, 1);
+        markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
+      }
+
     onMount(() => {
         editor = setupAceEditor('editor', customCompletions);
         editor.setValue(explanation, 1); 
         editor.focus();
-
+        
         startScanning();
 
         new TWEEN.Tween({ opacity: 0, scaleY: 0})
@@ -151,34 +160,48 @@
     });
 
     async function handleRunCode() {
-        await runPythonCode(editor);
+        const capturedPrints: any[] = [];
+        let currentFrameIndex = 0; 
 
+        await runPythonCode(editor, gameMapDto.cocosInfo, capturedPrints);
+
+        const framesData = JSON.parse(capturedPrints.pop()); // framesData cocos에게 전달
+        console.log(framesData); // Todo: delete
+        
+        // 프레임 업데이트
+        const frameRate = 30; // 초당 30프레임 가정
+        const frameUpdateInterval = setInterval(() => {
+            if (currentFrameIndex < framesData.length) {
+                const frame = framesData[currentFrameIndex];
+                updateHighlight(frame.line_num);
+                currentFrameIndex++;
+            } else {
+                clearInterval(frameUpdateInterval); // 모든 프레임 처리 후 인터벌 종료
+            }
+        }, 1000 / frameRate);
     }
 
     function showModal() {
-      modal.showModal(); // 모달을 보여주는 함수
+        hintModal.showModal(); // 모달을 보여주는 함수
     }
   
     function closeModal() {
-      modal.close(); // 모달을 닫는 함수
+        hintModal.close(); // 모달을 닫는 함수
     }
 
 </script>
-  
- 
-	
-    
 
 <div class="flex flex-col items-center justify-center">
     <div class="w-screen h-screen flex flex-row">
         <div class="border-2 border-black w-2/3 relative">
-            <div id="game-player-container">
-                <Cocos />
+            <div id="game-player-container" class="flex justify-center items-center h-full">
+                <!-- <Cocos /> -->
+                <div id="pythonOutput">안녕</div>
             </div>
-            <a href="/main/stage" class="absolute border-2 border-black w-fit top-[2%] left-[1%]">뒤로가기</a>
-            <div class="avatar top-[10%] left-[1%]" style="opacity:{otherOpacity2};">
+            <a href="/main/stage" class="absolute border-2 border-black w-fit top-[2%] left-[1%] z-[10]">뒤로가기</a>
+            <div class="avatar top-[10%] left-[1%] absolute" style="opacity:{otherOpacity2};">
                 <div class="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                </div>
+            </div>
             </div>
             <div class="flex flex-row absolute top-[20%] left-[1%] gap-2">
                 <div class="border-2 h-fit" style="opacity:{otherOpacity3};">8</div>
@@ -187,9 +210,9 @@
                     <div style="opacity:{otherOpacity5};">체력바</div>
                 </div>
             </div>
-            <div class="w-[10vw] h-[8vw] border-2 border-black flex justify-center items-center absolute right-0 top-4" 
+            <div class="w-[10vw] h-[8vw] absolute border-2 border-black flex justify-center items-center absolute right-0 top-4" 
                   style="transform:scale({scale})">
-                미션정보
+                    {gameMapDto.clearGoal}
             </div>
             <div class="flex flex-row items-center absolute bottom-[4%] left-[auto] w-[95%] ml-[2.5%] gap-6" style="background-color:#181818;">
               <div id="volumeController" class="dropdown dropdown-top rounded-b-lg" style="background-color:#181818;width:2em;">
@@ -209,7 +232,7 @@
             </div>
         </div>
         <div class="border-2 border-black w-1/3 relative">
-            <div bind:this={scan} class={`absolute top-0 left-0 w-full h-full z-[5] flex flex-col gap-8 items-center justify-center bg-gray-700 ${reverseScanning ? 'reverse-scanning-effect' : (scanning ? 'scanning-effect' : '')}`}>
+            <div bind:this={scan} class={`absolute top-0 left-0 w-full h-full z-[5] flex flex-col gap-8 items-center justify-center bg-gray-700 ${reverseScanning ? 'reverse-scanning-effect' : (scanning ? 'scanning-effect' : '')} hidden`}>
                 <div class="w-[95%] h-1/4 border-2">
                     미션 설명
                 </div>
@@ -221,7 +244,8 @@
                 </div>
                 <button class="btn btn-wide" on:click={reverseScan}>시작하기</button>               
             </div>
-            <div class="w-full h-full" style="opacity:{mainOpacity};">
+            <!-- style="opacity:{mainOpacity};" -->
+            <div class="w-full h-full"> 
                 <div class="flex flex-row justify-between mx-4">
                     <div>
                         \\\\
@@ -229,16 +253,16 @@
                     <div class="flex flex-row gap-2">
                         <div>X</div>
                         <div class="cursor-pointer" on:click={showModal}>?</div>
-                        <dialog bind:this={modal} id="my_modal_1" class="modal">
+                        <dialog bind:this={hintModal} id="my_modal_1" class="modal">
                           <div class="w-[600px] h-[90%] rounded-lg flex flex-col gap-8 items-center justify-center bg-gray-700">
                             <div class="w-[95%] h-1/4 border-2">
-                              미션 설명
+                                {gameMapDto.guideImage}
                             </div>
                             <div class="w-[95%] h-1/4 border-2">
-                                미션 설명
+                                {gameMapDto.guideText}
                             </div>
                             <div class="w-[95%] h-1/4 border-2">
-                                미션 설명
+                                {gameMapDto.commandGuide}
                             </div>
                             <div class="modal-action">
                             <button class="btn" on:click={closeModal}>Close</button>
@@ -255,159 +279,10 @@
                 </div>
                 <div class="flex justify-start items-center mt-8 ml-8">
                     <div class="border-2 border-black w-[16vw] h-[8vw] flex justify-center items-center">
-                        코드힌트
+                        {gameMapDto.commandGuide}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    @keyframes scan {
-        0% {
-            clip-path: inset(0 0 100% 0);
-        }
-        100% {
-            clip-path: inset(0 0 0 0);
-        }
-    }
-
-    .scanning-effect {
-        animation: scan 3s linear forwards;
-    }
-
-    @keyframes reverseScan {
-        0% {
-            clip-path: inset(0 0 0 0);
-        }
-        100% {
-            clip-path: inset(0 0 100% 0);
-        }
-    }
-
-    .reverse-scanning-effect {
-        animation: reverseScan 3s linear forwards;
-    }
-
-.rotated-input {
-        transform: rotate(270deg);
-    }
-
-:root {
-  --base-color: #71c8f1;
-  --background-color: #181818;
-  --border-color: #242424;
-}
-
-legend {
-  font-size: 1.8em;
-  font-family: "Lobster", sans-serif;
-  padding-left: .3em;
-  padding-right: .2em;
-  color: #ACE;
-  text-shadow: 
-    -.125em .05em 0 #214893,
-    -.25em .1em 0 #313131;
-}
-
-#myRange::-webkit-slider-thumb,
-#myRange::-moz-range-thumb,
-#myRange::-ms-thumb {
-    cursor: ns-resize;
-    margin: 4.5em -4.5em;
-    display: inline-block;
-}
-
-/* Slider */
-#myRange {
-  display: block;
-  margin: 0; padding: 0;
-  font-size: inherit;
-  width: 6em; height: 2em;
-  border-radius: .25em;
-  border: .2em solid var(--border-color);
-  background-color: var(--border-color);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  overflow: hidden;
-  cursor: pointer;
-  transition: box-shadow .2s linear;
-  box-shadow: 0 0 0 0 transparent;
-}
-
-/* input[type='range']:focus { 
-  box-shadow: 0 0 0 .1em  #AAAAAA; 
-}
-
-input[type='range']:hover { 
-  box-shadow: 0 0 0 .15em #6FC5F0; 
-} */
-
-/* Slider::-track */
-#myRange::-webkit-slider-runnable-track,
-#myRange::-moz-range-track,
-#myRange::-ms-track {
-  border: none;
-  background: none;
-  height: 100%;
-  width: 100%;
-}
-
-/* Slider::-thumb */
-#myRange::-webkit-slider-thumb,
-#myRange::-moz-range-thumb,
-#myRange::-ms-thumb {
-  margin: .05em; padding: 0;
-  height: .9em; width: .9em;
-  border-radius: .1em;
-  box-sizing: border-box;
-  border: none;
-  background-color: #6FC5F0;
-  cursor: ew-resize;
-}
-
-/* Browser tweaks */
-/* webkit */
-#myRange,
-#myRange::-webkit-slider-runnable-track, 
-#myRange::-webkit-slider-thumb {
-  -webkit-appearance: none;
-}
-
-/* IE */
-#myRange::-ms-track {
-  color: transparent;
-}
-#myRange::-ms-fill-lower, 
-#myRange::-ms-fill-upper, 
-#myRange::-ms-tooltip {
-  display: none;
-}
-
-#myRange::-webkit-slider-thumb {
-  margin: .05em; 
-  padding: 0;
-  height: 2.9em; 
-  width: .9em;
-  border-radius: .1em;
-  box-sizing: border-box;
-  border: none;
-  background-color: #6FC5F0;
-  box-shadow:
-    -10em 0 0 0 #313131, -9em 0 0 0 #313131,
-    -8em 0 0 0 #2F343F, -7em 0 0 0 #283F6B,
-    -6em 0 0 0 #214893, -5em 0 0 0 #1A52BC,
-    -4em 0 0 0 #2769D3, -3em 0 0 0 #3E87DC,
-    -2em 0 0 0 #55A5E6, -1em 0 0 0 #6FC5F0,
-
-    1em 0 0 0 var(--background-color), 2em 0 0 0 var(--background-color),
-    3em 0 0 0 var(--background-color), 4em 0 0 0 var(--background-color),
-    5em 0 0 0 var(--background-color), 6em 0 0 0 var(--background-color),
-    7em 0 0 0 var(--background-color), 8em 0 0 0 var(--background-color),
-    9em 0 0 0 var(--background-color);
-  cursor: pointer;
-}
-</style>
-
-

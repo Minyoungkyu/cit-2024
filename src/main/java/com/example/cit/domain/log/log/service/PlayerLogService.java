@@ -6,11 +6,14 @@ import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.member.member.service.AuthTokenService;
+import com.example.cit.global.rq.Rq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -19,16 +22,16 @@ import java.util.Optional;
 public class PlayerLogService {
 
     private final PlayerLogRepository playerLogRepository;
-    private final GameMapService gameMapService;
 
     @Transactional
-    public void createPlayerLog(String logType, String username,
+    public void createPlayerLog(String logType, String username, Long userId,
                                  Long gameMapId, String stage, String step, String difficulty, Integer level,
                                  String detailText, Integer detailInt) {
 
         PlayerLog playerLog = PlayerLog.builder()
                 .logType(logType)
                 .username(username)
+                .userId(userId)
                 .gameMapId(gameMapId)
                 .gameMapStage(stage)
                 .gameMapStep(step)
@@ -41,21 +44,20 @@ public class PlayerLogService {
         playerLogRepository.save(playerLog);
     }
 
-    public Optional<PlayerLog> getGamesLastLog(Member member, Long gameMapId) {
+    public Optional<PlayerLog> getGamesLastLog(Long memberId, GameMap gameMap) {
+        return playerLogRepository.findTop1ByLogTypeAndUserIdAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByCreateDateDesc(
+                "STAGECLEAR", memberId, gameMap.getStage(), gameMap.getStep(), gameMap.getDifficulty());
 
-        GameMap gameMap = gameMapService.findGameMapById(gameMapId).get();
-
-        return playerLogRepository.findTop1ByLogTypeAndUsernameAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByCreateDateDesc(
-                "STAGECLEAR", member.getUsername(), gameMap.getStage(), gameMap.getStep(), gameMap.getDifficulty());
 
     }
 
-    public Optional<PlayerLog> findPlayerLogById(Long id) {
-        return playerLogRepository.findById(id);
+    public Optional<PlayerLog> findByUserIdAndGameMapId(Long memberId, Long gameMapId) {
+        return playerLogRepository.findByUserIdAndGameMapIdAndLogType(memberId, gameMapId, "STAGECLEAR");
     }
 
-    public List<PlayerLog> getStageClearLog(Member member, String stage) {
-        return playerLogRepository.findByUsernameAndGameMapStageAndLogTypeAndDetailInt(member.getUsername(), stage, "STAGECLEAR", 1);
+    public List<PlayerLog> getStageClearLog(Long id, String stage) {
+
+        return playerLogRepository.findByUserIdAndGameMapStageAndLogTypeAndDetailInt(id, stage, "STAGECLEAR", 1);
     }
 
 

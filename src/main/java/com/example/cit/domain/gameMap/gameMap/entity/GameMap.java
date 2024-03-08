@@ -30,6 +30,7 @@ public class GameMap extends BaseTime {
     private String editorAutoComplete;
     private String editorMessage;
     private String clearGoal;
+    @Column(columnDefinition = "TEXT")
     private String cocosInfo;
     @Column(columnDefinition = "TEXT")
     private String guideText;

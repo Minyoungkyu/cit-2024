@@ -33,28 +33,46 @@ import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 public class ApiV1GameMapController {
 
     private final GameMapService gameMapService;
-    private final RequirePartsService requirePartsService;
 
 
-    public record GameMapResponseBody(@NonNull GameMapDto gameMapDto, @NonNull List<RequirePartsDto> requirePartsDto) {}
+    public record GameMapResponseBodyWithRequireItem(@NonNull GameMapDto gameMapDto, @NonNull List<RequirePartsDto> requirePartsDto) {}
 
     @GetMapping(value = "/gameMap/{id}", consumes = ALL_VALUE)
-    @Operation(summary = "특정 게임 맵 조회")
+    @Operation(summary = "특정 게임 맵 과 필요장비 조회")
     @PreAuthorize("hasRole('MEMBER')")
     @SecurityRequirement(name = "bearerAuth")
-    @Transactional
-    public RsData<GameMapResponseBody> getGameMap(
+    public RsData<GameMapResponseBodyWithRequireItem> getGameMapWithItem(
             @PathVariable("id") Long id
     ) {
 
         GameMap gameMap = gameMapService.findGameMapById(id).get();
 
         return RsData.of(
-                new GameMapResponseBody(
+                new GameMapResponseBodyWithRequireItem(
                          new GameMapDto(gameMap),
                          gameMap.getRequireParts().stream().map(RequirePartsDto::new).toList()
 
                 )
         );
+    }
+
+    public record GameMapResponseBody(GameMapDto gameMapDto) {}
+
+    @GetMapping(value = "/gameMap/{stage}/{id}", consumes = ALL_VALUE)
+    @Operation(summary = "특정 게임 맵 조회와 자격검증")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GameMapResponseBody> getGameMap(
+            @PathVariable("stage") String stage,
+            @PathVariable("id") Long id
+    ) {
+        return RsData.of(
+                new GameMapResponseBody(
+                       new GameMapDto(
+                               gameMapService.checkAccessAndGetGameMap(id)
+                       )
+                )
+        );
+
     }
 }

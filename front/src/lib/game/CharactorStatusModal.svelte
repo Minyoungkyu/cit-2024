@@ -1,13 +1,20 @@
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
 	import type { components } from '$lib/types/api/v1/schema';
-    import { derived } from 'svelte/store';
-
-
+    
     let { charactorStatusModal, closeCharacterModal, gameMapDto, requiredPartsList } 
-        = $props<{ charactorStatusModal: HTMLDialogElement, closeCharacterModal: () => void, 
-            gameMapDto: components['schemas']['GameMapDto'] | undefined, requiredPartsList: components['schemas']['RequirePartsDto'][] | undefined }>();
+    = $props<{ charactorStatusModal: HTMLDialogElement, closeCharacterModal: () => void, 
+        gameMapDto: components['schemas']['GameMapDto'] | undefined, requiredPartsList: components['schemas']['RequirePartsDto'][] | undefined }>();
 
+    // 라우팅
+    let stage = $state<string | undefined>(undefined);
+    let id = $state<number | undefined>(undefined);
+
+    $effect(() => {
+            stage = gameMapDto?.stage;
+            id = gameMapDto?.id;
+        });
+        
     let currentItem: components['schemas']['InventoryDto'] | undefined = $state(); // 우측 아이템 정보창에 띄울 아이탬
 
     let shoes = $state<components['schemas']['InventoryDto'] | undefined>(undefined);
@@ -30,6 +37,7 @@
         checkPartsAndHighlighting();
     });
 
+    let startHighlighterHidden = $state(false); // 시작 하이라이터
     let highlighterHidden = $state(true); // 하이라이터 
     let highlighterLeftValue = $state(0); // 하이라이터
     let highlighterTopValue = $state(0); // 하이라이터
@@ -37,6 +45,7 @@
     function checkPartsAndHighlighting() { // 필수 장비부위 체크, 하이라이터 조절 
         if (!requiredPartsList) return;
         const highlighter = document.getElementById('itemHighlighter');
+        const startHighlighter = document.getElementById('startHighlighter');
         let divElement: HTMLDivElement | undefined;
 
         for (let part of requiredPartsList) {
@@ -45,16 +54,17 @@
 
             if (equippedItems.length === 0 && unequippedItems.length > 0) {
                 const divs = document.querySelectorAll(`div[data-partsid='${part.itemPartsId}']`);
-                console.log(divs)
                 if (divs.length > 0) {
-                    divElement = divs[divs.length-1] as HTMLDivElement;
+                    divElement = divs[divs.length-1] as HTMLDivElement; // divs[] -> 화살표로 몇번째 아이탬을 지정해줄지
 
+                    startHighlighterHidden = true;
                     highlighterHidden = false;
                     highlighterTopValue = divElement.offsetTop;
                     highlighterLeftValue = divElement.offsetLeft;
                     break; 
                 }
-            } else {
+            } else { // 요구장비 다 장착했을때.
+                startHighlighterHidden = false;
                 highlighterHidden = true;
             }
         }
@@ -65,6 +75,9 @@
         currentItem = inventory;
     }
 
+    function onClickStart() {
+        rq.goTo('/game/' + stage + '/' + id);
+    }
 </script>
 
 <style>
@@ -99,7 +112,7 @@
         }
     }
 
-    @keyframes shrinkAndMove {
+    @keyframes shrinkAndMoveFromRight {
         from {
             transform: scale(5) translate(50%, 100%);
             opacity: 0;
@@ -110,8 +123,23 @@
         }
     }
 
+    @keyframes shrinkAndMoveFromTop {
+        from {
+            transform: scale(5) translate(50%, -100%);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1) translate(0, 0);
+            opacity: 1;
+        }
+    }
+
     .animatedItemHighlighter {
-        animation: shrinkAndMove 1s forwards, Xbounce 2s infinite 1s;
+        animation: shrinkAndMoveFromRight 1s forwards, Xbounce 2s infinite 1s;
+    }
+
+    .animatedHighlighter {
+        animation: shrinkAndMoveFromTop 1s forwards, Ybounce 2s infinite 1s;
     }
 </style>
 
@@ -215,10 +243,11 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-row gap-8">
+            <div class="flex flex-row gap-8 relative">
                 <div class="w-[330px]"></div>
+                <div id="startHighlighter" class="start-highlighter border-2 w-[50px] h-[50px] absolute z-[10] left-[46.5%] top-[-120%] animatedHighlighter {startHighlighterHidden ? 'hidden' : ''}"></div>
                 <div class="flex justify-center w-[236px]">
-                    <a class="btn btn-accent w-full" on:click={() => console.log('gg')}>시작</a>
+                    <button id="startButton" class="btn btn-accent w-full {startHighlighterHidden ? 'btn-disabled' : ''}" on:click={() => onClickStart()}>시작</button>
                 </div>
                 <div class="flex justify-center w-[350px]">
                     {#if currentItem}

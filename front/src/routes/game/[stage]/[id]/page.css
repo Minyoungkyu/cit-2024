@@ -1,0 +1,150 @@
+
+@keyframes scan {
+    0% {
+        clip-path: inset(0 0 100% 0);
+    }
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.scanning-effect {
+    animation: scan 3s linear forwards;
+}
+
+@keyframes reverseScan {
+    0% {
+        clip-path: inset(0 0 0 0);
+    }
+    100% {
+        clip-path: inset(0 0 100% 0);
+    }
+}
+
+.reverse-scanning-effect {
+    animation: reverseScan 3s linear forwards;
+}
+
+.editorHighlighter {
+  position: absolute;
+  background-color: rgba(255, 255, 0, 0.5);
+}
+
+.rotated-input {
+      transform: rotate(270deg);
+  }
+
+:root {
+--base-color: #71c8f1;
+--background-color: #181818;
+--border-color: #242424;
+}
+
+legend {
+font-size: 1.8em;
+font-family: "Lobster", sans-serif;
+padding-left: .3em;
+padding-right: .2em;
+color: #ACE;
+text-shadow: 
+  -.125em .05em 0 #214893,
+  -.25em .1em 0 #313131;
+}
+
+#myRange::-webkit-slider-thumb,
+#myRange::-moz-range-thumb,
+#myRange::-ms-thumb {
+  cursor: ns-resize;
+  margin: 4.5em -4.5em;
+  display: inline-block;
+}
+
+/* Slider */
+#myRange {
+display: block;
+margin: 0; padding: 0;
+font-size: inherit;
+width: 6em; height: 2em;
+border-radius: .25em;
+border: .2em solid var(--border-color);
+background-color: var(--border-color);
+background-size: 100% 100%;
+background-repeat: no-repeat;
+overflow: hidden;
+cursor: pointer;
+transition: box-shadow .2s linear;
+box-shadow: 0 0 0 0 transparent;
+}
+
+/* input[type='range']:focus { 
+box-shadow: 0 0 0 .1em  #AAAAAA; 
+}
+
+input[type='range']:hover { 
+box-shadow: 0 0 0 .15em #6FC5F0; 
+} */
+
+/* Slider::-track */
+#myRange::-webkit-slider-runnable-track,
+#myRange::-moz-range-track,
+#myRange::-ms-track {
+border: none;
+background: none;
+height: 100%;
+width: 100%;
+}
+
+/* Slider::-thumb */
+#myRange::-webkit-slider-thumb,
+#myRange::-moz-range-thumb,
+#myRange::-ms-thumb {
+margin: .05em; padding: 0;
+height: .9em; width: .9em;
+border-radius: .1em;
+box-sizing: border-box;
+border: none;
+background-color: #6FC5F0;
+cursor: ew-resize;
+}
+
+/* Browser tweaks */
+/* webkit */
+#myRange,
+#myRange::-webkit-slider-runnable-track, 
+#myRange::-webkit-slider-thumb {
+-webkit-appearance: none;
+}
+
+/* IE */
+#myRange::-ms-track {
+color: transparent;
+}
+#myRange::-ms-fill-lower, 
+#myRange::-ms-fill-upper, 
+#myRange::-ms-tooltip {
+display: none;
+}
+
+#myRange::-webkit-slider-thumb {
+margin: .05em; 
+padding: 0;
+height: 2.9em; 
+width: .9em;
+border-radius: .1em;
+box-sizing: border-box;
+border: none;
+background-color: #6FC5F0;
+box-shadow:
+  -10em 0 0 0 #313131, -9em 0 0 0 #313131,
+  -8em 0 0 0 #2F343F, -7em 0 0 0 #283F6B,
+  -6em 0 0 0 #214893, -5em 0 0 0 #1A52BC,
+  -4em 0 0 0 #2769D3, -3em 0 0 0 #3E87DC,
+  -2em 0 0 0 #55A5E6, -1em 0 0 0 #6FC5F0,
+
+  1em 0 0 0 var(--background-color), 2em 0 0 0 var(--background-color),
+  3em 0 0 0 var(--background-color), 4em 0 0 0 var(--background-color),
+  5em 0 0 0 var(--background-color), 6em 0 0 0 var(--background-color),
+  7em 0 0 0 var(--background-color), 8em 0 0 0 var(--background-color),
+  9em 0 0 0 var(--background-color);
+cursor: pointer;
+}

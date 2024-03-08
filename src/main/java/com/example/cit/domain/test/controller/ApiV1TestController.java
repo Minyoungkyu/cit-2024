@@ -1,9 +1,6 @@
-package com.example.cit.domain.player.inventroy.controller;
+package com.example.cit.domain.test.controller;
 
-import com.example.cit.domain.log.log.dto.PlayerLogDto;
-import com.example.cit.domain.log.log.service.PlayerLogService;
 import com.example.cit.domain.player.inventroy.dto.InventoryDto;
-import com.example.cit.domain.player.inventroy.entity.Inventory;
 import com.example.cit.domain.player.inventroy.service.InventoryService;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
@@ -15,7 +12,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,29 +21,27 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
 @RestController
-@RequestMapping(value = "/api/v1/inventory", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-@Tag(name = "ApiV1PlayerInventoryController", description = "플레이어 인벤토리 컨트롤러")
+@RequestMapping(value = "/api/v1/test", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@Tag(name = "ApiV1TestController", description = "test")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ApiV1PlayerInventoryController {
+public class ApiV1TestController {
 
     private final InventoryService inventoryService;
     private final Rq rq;
 
-    public record MyInventoryResponseBody(@NonNull List<InventoryDto> inventoryDto) {}
+    public record TestResponseBody(@NonNull Long id) {}
 
-    @GetMapping(value = "/myInventory", consumes = ALL_VALUE)
+    @GetMapping(value = "/test", consumes = ALL_VALUE)
     @Operation(summary = "플레이어 인벤토리 조회")
-    @PreAuthorize("hasRole('MEMBER')")
-    @SecurityRequirement(name = "bearerAuth")
+//    @PreAuthorize("hasRole('MEMBER')")
+//    @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public RsData<MyInventoryResponseBody> getMyInventory(
+    public RsData<TestResponseBody> test(
     ) {
         return RsData.of(
-                new MyInventoryResponseBody(
-                        inventoryService.getMyInventoryList(rq.getMember()).stream()
-                                .map(InventoryDto::new)
-                                .toList()
+                new TestResponseBody(
+                        rq.getMember().getId()
                 )
         );
     }

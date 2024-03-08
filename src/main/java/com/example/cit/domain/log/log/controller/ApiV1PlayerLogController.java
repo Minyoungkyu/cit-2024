@@ -1,5 +1,7 @@
 package com.example.cit.domain.log.log.controller;
 
+import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
+import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.service.PlayerLogService;
@@ -28,6 +30,7 @@ import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 public class ApiV1PlayerLogController {
 
     private final PlayerLogService playerLogService;
+    private final GameMapService gameMapService;
     private final Rq rq;
 
     public record ClearLogResponseBody(@NonNull List<PlayerLogDto> playerLogDtoList) {}
@@ -43,7 +46,7 @@ public class ApiV1PlayerLogController {
 
         return RsData.of(
                 new ClearLogResponseBody(
-                        playerLogService.getStageClearLog(rq.getMember(), stage)
+                        playerLogService.getStageClearLog(rq.getMember().getId(), stage)
                                 .stream().map(PlayerLogDto::new).toList()
                 )
         );
@@ -59,9 +62,11 @@ public class ApiV1PlayerLogController {
     public RsData<GamesLastLogResponseBody> getGamesLastLog(
             @PathVariable("gameMapId") Long gameMapId
     ) {
+        GameMap gameMap = gameMapService.findGameMapById(gameMapId).get();
+
         return RsData.of(
                 new GamesLastLogResponseBody(
-                        playerLogService.getGamesLastLog(rq.getMember(), gameMapId)
+                        playerLogService.getGamesLastLog(rq.getMember().getId(), gameMap)
                                 .map(PlayerLogDto::new)
                                 .orElse(null)
                 )

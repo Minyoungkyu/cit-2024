@@ -10,8 +10,10 @@ import java.util.Optional;
 
 public interface PlayerLogRepository extends JpaRepository<PlayerLog, Long> {
 
-    List<PlayerLog> findByUsernameAndGameMapStageAndLogTypeAndDetailInt(String username, String stage, String logType, Integer detailINT);
+    Optional<PlayerLog> findByUserIdAndGameMapIdAndLogType(Long userId, Long gameMapId, String logType);
 
-    Optional<PlayerLog> findTop1ByLogTypeAndUsernameAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByCreateDateDesc(String logType, String username, String stage, String step, String difficulty);
+    List<PlayerLog> findByUserIdAndGameMapStageAndLogTypeAndDetailInt(Long userId, String stage, String logType, Integer detailINT);
+
+    Optional<PlayerLog> findTop1ByLogTypeAndUserIdAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByCreateDateDesc(String logType, Long userId, String stage, String step, String difficulty);
 
 }

@@ -3,6 +3,8 @@ import 'ace-builds/src-noconflict/mode-python'; // 사용할 언어 모드
 import 'ace-builds/src-noconflict/theme-monokai'; // 사용할 테마
 import 'ace-builds/src-noconflict/ext-language_tools';
 
+var Range = ace.require('ace/range').Range;
+
 export function setupAceEditor(editorId: string, customCompletions: any[]) {
     const editor = ace.edit(editorId);
     editor.setTheme('ace/theme/monokai');
