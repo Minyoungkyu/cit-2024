@@ -16,6 +16,10 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
+	import type { components } from '$lib/types/api/v1/schema';
+
+  let { gameMapDto } 
+    = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined }>();
 
   function loadScript(src: string, id: string): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -42,6 +46,24 @@
       await loadScript(debug ? '/web-desktop/cocos2d-js.js' : '/web-desktop/cocos2d-js-min.js', 'cocos-script');
 
       await loadScript('/web-desktop/main.js', 'main-script');
+
+      let attempts = 0;
+
+      const interval = setInterval(() => {
+        if (typeof (window as any).TestFunc === 'function') {
+          clearInterval(interval);
+
+          const stageString = gameMapDto?.cocosInfo;
+          const jsonObjectString = stageString!.trim().substring("stage = ".length);
+          const stageObject = JSON.parse(jsonObjectString);
+
+          (window as any).SendInitData?.(stageObject);
+          (window as any).TestFunc?.();
+        } else if (attempts++ > 50) { 
+          clearInterval(interval);
+          console.error('TestFunc is not defined after multiple attempts.');
+        }
+      }, 100); 
 
       if (typeof (window as any).boot === 'function') {
         (window as any).boot();

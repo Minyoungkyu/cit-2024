@@ -14,7 +14,6 @@
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
     import { runPythonCode } from '$lib/brython/brythonSetup';
     import TWEEN, { update } from '@tweenjs/tween.js';
-    import Cocos from '$lib/cocos/cocos.svelte';
     import './page.css';
 
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
@@ -89,11 +88,19 @@
         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
       }
 
+    let Cocos: any = $state(null); // Cocos Load 타임아웃
+
     onMount(() => {
+        setTimeout(() => { // Cocos Load 타임아웃
+        import('$lib/cocos/cocos.svelte').then((module) => {
+            Cocos = module.default;
+        });
+        }, 3000); 
+
         editor = setupAceEditor('editor', customCompletions);
         editor.setValue(explanation, 1); 
         editor.focus();
-        
+
         startScanning();
 
         new TWEEN.Tween({ opacity: 0, scaleY: 0})
@@ -157,6 +164,7 @@
         }
 
         requestAnimationFrame(animate);
+
     });
 
     async function handleRunCode() {
@@ -164,9 +172,12 @@
         let currentFrameIndex = 0; 
 
         await runPythonCode(editor, gameMapDto.cocosInfo, capturedPrints);
-
+        
         const framesData = JSON.parse(capturedPrints.pop()); // framesData cocos에게 전달
-        console.log(framesData); // Todo: delete
+        const wrappedData = {
+            data: framesData
+        };
+        (window as any).SendStreamData?.(wrappedData);
         
         // 프레임 업데이트
         const frameRate = 30; // 초당 30프레임 가정
@@ -195,7 +206,9 @@
     <div class="w-screen h-screen flex flex-row">
         <div class="border-2 border-black w-2/3 relative">
             <div id="game-player-container" class="flex justify-center items-center h-full">
-                <!-- <Cocos /> -->
+                {#if Cocos}
+                    <Cocos {gameMapDto} />
+                {/if}
                 <div id="pythonOutput">안녕</div>
             </div>
             <a href="/main/stage" class="absolute border-2 border-black w-fit top-[2%] left-[1%] z-[10]">뒤로가기</a>

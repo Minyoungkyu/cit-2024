@@ -94,8 +94,8 @@ public class Dev {
                                 "        \"bg_extra_list\" : [\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"target\", \"pos\": [5,1]},\n" +
-                                "        ],\n" +
+                                "            {\"goal\": \"target\", \"pos\": [5,1]}\n" +
+                                "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
                                 "        \"pos\" : [1,1],\n" +
@@ -103,7 +103,7 @@ public class Dev {
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
                                 "        \"food_count\" : 0,\n" +
-                                "        \"rocket_parts_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
