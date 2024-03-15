@@ -85,7 +85,7 @@
         if (markerId !== undefined) {
           session.removeMarker(markerId);
         }
-        const range = new Range(HilightRow - 1, 0, HilightRow - 1, 1);
+        const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
       }
 
