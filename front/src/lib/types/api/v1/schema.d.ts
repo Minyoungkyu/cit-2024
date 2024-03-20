@@ -57,6 +57,10 @@ export interface paths {
     /** 특정 게임 맵 과 필요장비 조회 */
     get: operations["getGameMapWithItem"];
   };
+  "/api/v1/gameMaps/gameMap/test/{gameInfo}": {
+    /** 특정 게임 테스트용 */
+    get: operations["getGameMapTest"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -310,6 +314,16 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["GameMapResponseBodyWithRequireItem"];
+    };
+    GameMapTestResponseBody: {
+      gameMapDto?: components["schemas"]["GameMapDto"];
+    };
+    RsDataGameMapTestResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GameMapTestResponseBody"];
     };
   };
   responses: never;
@@ -592,6 +606,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGameMapResponseBodyWithRequireItem"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 특정 게임 테스트용 */
+  getGameMapTest: {
+    parameters: {
+      path: {
+        gameInfo: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGameMapTestResponseBody"];
         };
       };
       /** @description Bad Request */

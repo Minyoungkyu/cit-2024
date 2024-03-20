@@ -61,4 +61,23 @@ public class GameMapService {
 
         return findGameMapById(gameMapId).orElseThrow(() -> new GlobalException("404-1", "게임 맵을 찾을 수 없습니다."));
     }
+
+    public GameMap getGameMapForTest(String gameInfo) {
+        if( gameInfo.equals("tutorial1")) return gameMapRepository.findByStepAndLevel("tutorial", 1).get();
+        else if (gameInfo.equals("tutorial2")) return gameMapRepository.findByStepAndLevel("tutorial", 2).get();
+
+        String[] parts = gameInfo.split("");
+
+        String numberPart = parts[0] + "-" + parts[1];
+        String letterPart = parts[2];
+        letterPart = switch (letterPart) {
+            case "e" -> "Easy";
+            case "n" -> "Normal";
+            case "h" -> "Hard";
+            default -> "";
+        };
+        int lastNumber = Integer.parseInt(parts[3]);
+
+        return gameMapRepository.findByStepAndDifficultyAndLevel(numberPart, letterPart, lastNumber).get();
+    }
 }

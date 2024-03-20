@@ -148,3 +148,8 @@ box-shadow:
   9em 0 0 0 var(--background-color);
 cursor: pointer;
 }
+
+.ace_editor .ace_bracket {
+  border: none !important;
+  background: none !important;
+}

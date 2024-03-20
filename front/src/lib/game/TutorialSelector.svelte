@@ -30,6 +30,6 @@
         </div>
         <div class="flex flex-row gap-4">
         </div>
-        <button class="btn btn-accent btn-wide" on:click={() => rq.goTo('/game/tutorial/1')}>시작</button>
+        <button class="btn btn-accent btn-wide" on:click={() => window.location.href = '/game/tutorial/1'}>시작</button>
     </div>
 </ul>

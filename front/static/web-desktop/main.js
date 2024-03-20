@@ -184,7 +184,7 @@ if (window.jsb) {
         if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
             require('/web-desktop/src/physics.js');
         }
-        require('/web-desktop/jsb-adapter/engine/index.js');
+        require('jsb-adapter/engine/index.js');
     }
     else {
         require('/web-desktop/src/settings.js');
@@ -192,7 +192,7 @@ if (window.jsb) {
         if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
             require('/web-desktop/src/physics.js');
         }
-        require('/web-desktop/jsb-adapter/jsb-engine.js');
+        require('jsb-adapter/jsb-engine.js');
     }
 
     cc.macro.CLEANUP_IMAGE_CACHE = true;

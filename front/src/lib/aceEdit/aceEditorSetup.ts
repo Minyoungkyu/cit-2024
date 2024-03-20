@@ -10,6 +10,7 @@ export function setupAceEditor(editorId: string, customCompletions: any[]) {
     editor.setTheme('ace/theme/monokai');
     editor.session.setMode('ace/mode/python');
     editor.setFontSize("15px");
+    editor.setHighlightActiveLine(false);
     editor.setOptions({
         enableBasicAutocompletion: false,
         enableLiveAutocompletion: true,
@@ -28,3 +29,4 @@ export function setupAceEditor(editorId: string, customCompletions: any[]) {
 
     return editor;
 }
+

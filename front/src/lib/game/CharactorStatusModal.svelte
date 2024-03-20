@@ -76,7 +76,7 @@
     }
 
     function onClickStart() {
-        rq.goTo('/game/' + stage + '/' + id);
+        window.location.href = '/game/' + stage + '/' + id;
     }
 </script>
 

@@ -75,4 +75,22 @@ public class ApiV1GameMapController {
         );
 
     }
+
+    public record GameMapTestResponseBody(GameMapDto gameMapDto) {}
+
+    // Todo : 테스트용 추 후 삭제
+    @GetMapping(value = "/gameMap/test/{gameInfo}", consumes = ALL_VALUE)
+    @Operation(summary = "특정 게임 테스트용")
+    public RsData<GameMapTestResponseBody> getGameMapTest(
+            @PathVariable("gameInfo") String gameInfo
+    ) {
+        return RsData.of(
+                new GameMapTestResponseBody(
+                        new GameMapDto(
+                                gameMapService.getGameMapForTest(gameInfo)
+                        )
+                )
+        );
+
+    }
 }

@@ -5,6 +5,10 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </svelte:head>
 
 <script lang="ts">
@@ -14,6 +18,7 @@
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
     import { runPythonCode } from '$lib/brython/brythonSetup';
     import TWEEN, { update } from '@tweenjs/tween.js';
+    import Cocos from '$lib/cocos/cocos.svelte';
     import './page.css';
 
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
@@ -22,6 +27,9 @@
     let editor: any;
     let hintModal: HTMLDialogElement 
     let scan: HTMLDivElement 
+    let progressController: HTMLInputElement; 
+    let framesData: [] = $state([]);
+    let isCoReady: boolean = $state(false); // cocos 초기화 추적... 의미가 있는지 모르겠음
 
     const explanation: String = gameMapDto.editorMessage;
 
@@ -29,8 +37,8 @@
     .filter(command => command.trim() !== '') 
     .map(command => ({
         value: `${command}`, 
-        score: 1000, 
-        meta: "custom" 
+        score: 1000
+        // meta: "custom" 
     }));
 
     let opacity = $state(0); 
@@ -88,17 +96,21 @@
         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
       }
 
-    let Cocos: any = $state(null); // Cocos Load 타임아웃
-
     onMount(() => {
-        setTimeout(() => { // Cocos Load 타임아웃
-        import('$lib/cocos/cocos.svelte').then((module) => {
-            Cocos = module.default;
-        });
-        }, 3000); 
-
         editor = setupAceEditor('editor', customCompletions);
         editor.setValue(explanation, 1); 
+
+        editor.getSession().on('change', function(e:any) {
+            if (e.action === 'insert') {
+                const totalLines = editor.getSession().getLength();
+                const cursorPosition = editor.getCursorPosition();
+
+                if (cursorPosition.row === totalLines - 1) {
+                    editor.getSession().insert({row: totalLines, column: 0}, "\n");
+                }
+            }
+        });
+
         editor.focus();
 
         startScanning();
@@ -167,23 +179,41 @@
 
     });
 
+    function handlePlay() {
+        (window as any).OnClickPlay();
+        updateFrame(framesData, parseInt(progressController.value));
+    }
+
+    function handleProgressChange() { 
+        const currentValue = parseInt(progressController.value);
+
+        (window as any).SetProgressId?.(currentValue);
+    }
+
     async function handleRunCode() {
         const capturedPrints: any[] = [];
         let currentFrameIndex = 0; 
 
         await runPythonCode(editor, gameMapDto.cocosInfo, capturedPrints);
         
-        const framesData = JSON.parse(capturedPrints.pop()); // framesData cocos에게 전달
+        framesData = JSON.parse(capturedPrints.pop()); // framesData cocos에게 전달
+        console.log(framesData);
+        progressController.max = (framesData.length - 1).toString();
         const wrappedData = {
             data: framesData
         };
         (window as any).SendStreamData?.(wrappedData);
         
         // 프레임 업데이트
+        updateFrame(framesData, currentFrameIndex);
+    }
+
+    function updateFrame(framesData: any, currentFrameIndex: number) {
         const frameRate = 30; // 초당 30프레임 가정
         const frameUpdateInterval = setInterval(() => {
             if (currentFrameIndex < framesData.length) {
                 const frame = framesData[currentFrameIndex];
+                progressController.value = currentFrameIndex.toString();
                 updateHighlight(frame.line_num);
                 currentFrameIndex++;
             } else {
@@ -206,12 +236,10 @@
     <div class="w-screen h-screen flex flex-row">
         <div class="border-2 border-black w-2/3 relative">
             <div id="game-player-container" class="flex justify-center items-center h-full">
-                {#if Cocos}
-                    <Cocos {gameMapDto} />
-                {/if}
+                <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
                 <div id="pythonOutput">안녕</div>
             </div>
-            <a href="/main/stage" class="absolute border-2 border-black w-fit top-[2%] left-[1%] z-[10]">뒤로가기</a>
+            <a href="/game/1" class="absolute border-2 border-black w-fit top-[2%] left-[1%] z-[10]">뒤로가기</a>
             <div class="avatar top-[10%] left-[1%] absolute" style="opacity:{otherOpacity2};">
                 <div class="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
             </div>
@@ -220,7 +248,10 @@
                 <div class="border-2 h-fit" style="opacity:{otherOpacity3};">8</div>
                 <div>
                     <div style="opacity:{otherOpacity4};">홍길동</div>
-                    <div style="opacity:{otherOpacity5};">체력바</div>
+                    <div style="opacity:{otherOpacity5};">
+                        <div>체력바</div>
+                        <div>100/100</div>
+                    </div>
                 </div>
             </div>
             <div class="w-[10vw] h-[8vw] absolute border-2 border-black flex justify-center items-center absolute right-0 top-4" 
@@ -236,10 +267,10 @@
               </div>
               <div class="flex flex-row gap-6 w-full">
                   <div class="flex items-center">
-                      <i class="fa-solid fa-play" style="color:#6FC5F0"></i>
+                      <i class="fa-solid fa-play cursor-pointer" style="color:#6FC5F0" on:click={handlePlay}></i>
                   </div>
                   <div class="flex items-center w-full">
-                     <input type="range" min="0" max="100" value="0" class="w-[98%]"/>
+                     <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%]" bind:this={progressController} on:change={handleProgressChange}/>
                   </div>
               </div>
             </div>

@@ -41,11 +41,11 @@
     <div class="w-screen h-screen flex justify-center relative">
         <span>타이틀 이미지</span>
         <img src="" alt="" class="absolute w-full h-full object-fill z-[-1]">
-        <div class="flex flex-col items-center gap-6 border-2 p-4 w-[450px] absolute bottom-[4vh]">
+        <div class="flex flex-col items-center gap-6 border-2 pt-44 h-full w-[450px] absolute right-[0]">
             <div class="border-2 border-black w-full h-[15vh] flex justify-center items-center">
                 <div>코드이썬 설명</div>
             </div>
-            <form class="flex flex-col gap-6 w-2/3" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
+            <form class="flex flex-col justify-center gap-6 w-[80%]" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">닉네임</span>

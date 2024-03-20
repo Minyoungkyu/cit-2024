@@ -34,53 +34,158 @@ public class Dev {
     private final InventoryService inventoryService;
     private final RequirePartsService requirePartsService;
 
+//    @Bean
+//    @Order(4)
+//    ApplicationRunner initDev() {
+//        return args -> {
+//            String backUrl = AppConfig.getSiteBackUrl();
+//            String cmd = "npx openapi-typescript " + backUrl + "/v3/api-docs/apiV1 -o ./front/src/lib/types/api/v1/schema.d.ts";
+//            Ut.cmd.runAsync(cmd);
+//
+//            Member memberUser1;
+//
+//            if (memberService.findByUsername("system").isEmpty()) {
+//
+//                String memberSystemPassword = "1234";
+//                String memberAdminPassword = "1234";
+//
+//                Member memberSystem = memberService.join("system", memberSystemPassword, "슈퍼관리자", "010-1234-1234", 4).getData();
+//                memberSystem.setRefreshToken("system");
+//
+//                Member memberAdmin = memberService.join("admin", memberAdminPassword, "홍길동", "010-1234-1234", 2).getData();
+//                memberAdmin.setRefreshToken("admin");
+//
+//                memberUser1 = memberService.join("testUser1", memberSystemPassword, "", "", 1).getData();
+//                memberUser1.setRefreshToken("testUser1");
+//
+//
+//                Member memberUser2 = memberService.join("testUser2", memberAdminPassword, "", "", 1).getData();
+//                memberUser2.setRefreshToken("testUser2");
+//
+//                ItemParts itemParts1 = itemPartsService.createItemParts("신발");
+//
+//                Item item1 = itemService.createItem(itemParts1, "똥신발", "정말 별로인 신발입니다.", "hero.move(), hero.turnRight(), hero.turnLeft()", "sourcePath", 0);
+//                Item item2 = itemService.createItem(itemParts1, "그냥신발", "그냥 별로인 신발입니다.", "hero.move(), hero.turnRight(), hero.turnLeft()", "sourcePath", 12);
+//
+//                inventoryService.createInventory(memberUser1.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser1.getPlayer(), item2, false);
+//
+//                GameMap gameMap1 = gameMapService.createGameMap(
+//                        "1", "tutorial", "0", 0,
+//                        "go(),turnLeft(),turnRight()",
+//                        "# 목표지점에 도달하세요.\n# 목표지점에 잘 도달하세요.\n",
+//                        "목표지점에 도달하기",
+//                        "stage = {\n" +
+//                                "    \"stage\" : {\n" +
+//                                "        \"map\" : 1,\n" +
+//                                "        \"step\" : 0,\n" +
+//                                "        \"diff\" : 0,\n" +
+//                                "        \"level\" : 0,\n" +
+//                                "        \"tile\" : [\n" +
+//                                "            [0,0,0,0,0,0,0],\n" +
+//                                "            [0,1,0,1,0,1,0],\n" +
+//                                "            [0,0,0,0,0,0,0]\n" +
+//                                "        ],\n" +
+//                                "        \"bg\" : [\n" +
+//                                "            [0,0,0,0,0,0,0],\n" +
+//                                "            [0,0,0,0,0,0,0],\n" +
+//                                "            [0,0,0,0,0,0,0]\n" +
+//                                "        ],\n" +
+//                                "        \"bg_extra_list\" : [\n" +
+//                                "        ],\n" +
+//                                "        \"goal_list\" : [\n" +
+//                                "            {\"goal\": \"target\", \"pos\": [5,1]}\n" +
+//                                "        ]\n" +
+//                                "    },\n" +
+//                                "    \"player\" : {\n" +
+//                                "        \"pos\" : [1,1],\n" +
+//                                "        \"dir\" : \"right\", \n" +
+//                                "        \"hp\" : 100,\n" +
+//                                "        \"status\" : 0,\n" +
+//                                "        \"food_count\" : 0,\n" +
+//                                "        \"rocket_parts_count\" : 0\n" +
+//                                "    },\n" +
+//                                "    \"item_list\" : [\n" +
+//                                "    ]\n" +
+//                                "}",
+//                        "테스트용 텍스트입니다.0",
+//                        "guideImage0",
+//                        "테스트용 커멘드입니다.0",
+//                        1,
+//                        1);
+//
+//                GameMap gameMap11 = gameMapService.createGameMap("1", "1-1", "Easy", 1,
+//                        "hero.test1();", "테스트용 메시지입니다.1", "테스트용 목표입니다.1", "cocosInfo", "테스트용 텍스트입니다.1", "guideImage1", "테스트용 커멘드입니다.1",
+//                        1, 1);
+//
+//                GameMap gameMap12 = gameMapService.createGameMap("1", "1-1", "Easy", 2,
+//                        "hero.test2();", "테스트용 메시지입니다.2", "테스트용 목표입니다.2", "cocosInfo", "테스트용 텍스트입니다.2", "guideImage2", "테스트용 커멘드입니다.2",
+//                        1, 1);
+//
+//                GameMap gameMap13 = gameMapService.createGameMap("1", "1-1", "Easy", 3,
+//                        "hero.test3();", "테스트용 메시지입니다.3", "테스트용 목표입니다.3", "cocosInfo", "테스트용 텍스트입니다.3", "guideImage3", "테스트용 커멘드입니다.3",
+//                        1, 1);
+//
+//                GameMap gameMap2 = gameMapService.createGameMap("1", "1-2", "Easy", 1,
+//                        "hero.test4();", "테스트용 메시지입니다.4", "테스트용 목표입니다.4", "cocosInfo", "테스트용 텍스트입니다.4", "guideImage4", "테스트용 커멘드입니다.4",
+//                        1, 1);
+//
+//                GameMap gameMap21 = gameMapService.createGameMap("1", "1-2", "Easy", 2,
+//                        "hero.test5();", "테스트용 메시지입니다.5", "테스트용 목표입니다.5", "cocosInfo", "테스트용 텍스트입니다.5", "guideImage5", "테스트용 커멘드입니다.5",
+//                        1, 1);
+//
+//                requirePartsService.addRequireParts(gameMap2, itemParts1);
+//                requirePartsService.addRequireParts(gameMap21, itemParts1);
+//
+//
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
+//                        gameMap1.getId(), gameMap1.getStage(), gameMap1.getStep(), gameMap1.getDifficulty(), gameMap1.getLevel(),
+//                        "", 1);
+//
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
+//                        gameMap11.getId(), gameMap11.getStage(), gameMap11.getStep(), gameMap11.getDifficulty(), gameMap11.getLevel(),
+//                        "", 1);
+//
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
+//                        gameMap12.getId(), gameMap12.getStage(), gameMap12.getStep(), gameMap12.getDifficulty(), gameMap12.getLevel(),
+//                        "", 1);
+//
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
+//                        gameMap13.getId(), gameMap13.getStage(), gameMap13.getStep(), gameMap13.getDifficulty(), gameMap13.getLevel(),
+//                        "", 1);
+//
+//            }
+//
+//        };
+//
+//    }
+
     @Bean
-    @Order(4)
-    ApplicationRunner initDev() {
+    @Order(5)
+    ApplicationRunner initStage() {
         return args -> {
-            String backUrl = AppConfig.getSiteBackUrl();
-            String cmd = "npx openapi-typescript " + backUrl + "/v3/api-docs/apiV1 -o ./front/src/lib/types/api/v1/schema.d.ts";
-            Ut.cmd.runAsync(cmd);
-
-            Member memberUser1;
-
-            if (memberService.findByUsername("system").isEmpty()) {
-
-                String memberSystemPassword = "1234";
-                String memberAdminPassword = "1234";
-
-                Member memberSystem = memberService.join("system", memberSystemPassword, "슈퍼관리자", "010-1234-1234", 4).getData();
-                memberSystem.setRefreshToken("system");
-
-                Member memberAdmin = memberService.join("admin", memberAdminPassword, "홍길동", "010-1234-1234", 2).getData();
-                memberAdmin.setRefreshToken("admin");
-
-                memberUser1 = memberService.join("testUser1", memberSystemPassword, "", "", 1).getData();
-                memberUser1.setRefreshToken("testUser1");
-
-
-                Member memberUser2 = memberService.join("testUser2", memberAdminPassword, "", "", 1).getData();
+            if (memberService.findByUsername("testUser2").isEmpty()) {
+                Member memberUser2 = memberService.join("testUser2", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("testUser2");
 
                 ItemParts itemParts1 = itemPartsService.createItemParts("신발");
+                ItemParts itemParts2 = itemPartsService.createItemParts("모듈");
+                ItemParts itemParts3 = itemPartsService.createItemParts("장갑");
+                ItemParts itemParts4 = itemPartsService.createItemParts("우주복");
+                ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
+                ItemParts itemParts6 = itemPartsService.createItemParts("총");
 
-                Item item1 = itemService.createItem(itemParts1, "똥신발", "정말 별로인 신발입니다.", "hero.move(), hero.turnRight(), hero.turnLeft()", "sourcePath", 0);
-                Item item2 = itemService.createItem(itemParts1, "그냥신발", "그냥 별로인 신발입니다.", "hero.move(), hero.turnRight(), hero.turnLeft()", "sourcePath", 12);
-
-                inventoryService.createInventory(memberUser1.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser1.getPlayer(), item2, false);
-
-                GameMap gameMap1 = gameMapService.createGameMap(
-                        "1", "tutorial", "0", 0,
+                GameMap gameMapTutorial1 = gameMapService.createGameMap(
+                        "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
-                        "# 목표지점에 도달하세요.\n# 목표지점에 잘 도달하세요.\n",
+                        "# 목표지점에 도달하세요.",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
-                                "        \"step\" : 0,\n" +
+                                "        \"step\" : \"tutorial\",\n" +
                                 "        \"diff\" : 0,\n" +
-                                "        \"level\" : 0,\n" +
+                                "        \"level\" : 1,\n" +
                                 "        \"tile\" : [\n" +
                                 "            [0,0,0,0,0,0,0],\n" +
                                 "            [0,1,0,1,0,1,0],\n" +
@@ -109,82 +214,2116 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "테스트용 텍스트입니다.0",
-                        "guideImage0", 
-                        "테스트용 커멘드입니다.0",
-                        1, 
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
                         1);
 
-                GameMap gameMap11 = gameMapService.createGameMap("1", "1-1", "Easy", 1,
-                        "hero.test1();", "테스트용 메시지입니다.1", "테스트용 목표입니다.1", "cocosInfo", "테스트용 텍스트입니다.1", "guideImage1", "테스트용 커멘드입니다.1",
-                        1, 1);
+                GameMap gameMapTutorial2 = gameMapService.createGameMap(
+                        "1", "tutorial", "0", 2,
+                        "go(),turnLeft(),turnRight()",
+                        "go()\n" +
+                                "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표지점에 도달하세요.\n",
+                        "목표지점에 도달하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"tutorial\",\n" +
+                                "        \"diff\" : 0,\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [3,3]}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,1],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                GameMap gameMap12 = gameMapService.createGameMap("1", "1-1", "Easy", 2,
-                        "hero.test2();", "테스트용 메시지입니다.2", "테스트용 목표입니다.2", "cocosInfo", "테스트용 텍스트입니다.2", "guideImage2", "테스트용 커멘드입니다.2",
-                        1, 1);
+                GameMap gameMap11e1 = gameMapService.createGameMap(
+                        "1", "1-1", "Easy", 1,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [7,5]}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,1],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                GameMap gameMap13 = gameMapService.createGameMap("1", "1-1", "Easy", 3,
-                        "hero.test3();", "테스트용 메시지입니다.3", "테스트용 목표입니다.3", "cocosInfo", "테스트용 텍스트입니다.3", "guideImage3", "테스트용 커멘드입니다.3",
-                        1, 1);
+                GameMap gameMap11e2 = gameMapService.createGameMap(
+                        "1", "1-1", "Easy", 2,
+                        "go(),turnLeft(),turnRight()",
+                        "go(2)\n" +
+                                "# 더 멀리 이동하기 위해 이동 명령문의 괄호 안에 숫자를 넣어보세요.\n",
+                        "목표지점에 도달하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [9,1]}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,5],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                GameMap gameMap2 = gameMapService.createGameMap("1", "1-2", "Easy", 1,
-                        "hero.test4();", "테스트용 메시지입니다.4", "테스트용 목표입니다.4", "cocosInfo", "테스트용 텍스트입니다.4", "guideImage4", "테스트용 커멘드입니다.4",
-                        1, 1);
+                GameMap gameMap11e3 = gameMapService.createGameMap(
+                        "1", "1-1", "Easy", 3,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기\n" +
+                                "식량 3개 획득하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [9,7]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 3}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,1],\n" +
+                                "        \"dir\" : \"down\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"food\", \"pos\": [3,1]},\n" +
+                                "        {\"id\":1, \"type\": \"food\", \"pos\": [7,1]},\n" +
+                                "        {\"id\":2, \"type\": \"food\", \"pos\": [9,3]},\n" +
+                                "        {\"id\":3, \"type\": \"food\", \"pos\": [3,7]},\n" +
+                                "        {\"id\":4, \"type\": \"bomb\", \"pos\": [3,2], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"bomb\", \"pos\": [8,3], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"bomb\", \"pos\": [6,5], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                GameMap gameMap21 = gameMapService.createGameMap("1", "1-2", "Easy", 2,
-                        "hero.test5();", "테스트용 메시지입니다.5", "테스트용 목표입니다.5", "cocosInfo", "테스트용 텍스트입니다.5", "guideImage5", "테스트용 커멘드입니다.5",
-                        1, 1);
+                GameMap gameMap11n1 = gameMapService.createGameMap(
+                        "1", "1-1", "Normal", 1,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기\n" +
+                                "식량 2개 획득하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,0,1,0,1,0],\n" +
+                                "            [0,0,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [7,5]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 2}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,1],\n" +
+                                "        \"dir\" : \"down\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"food\", \"pos\": [3,1]},\n" +
+                                "        {\"id\":1, \"type\": \"food\", \"pos\": [5,3]}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                requirePartsService.addRequireParts(gameMap2, itemParts1);
-                requirePartsService.addRequireParts(gameMap21, itemParts1);
+                GameMap gameMap11n2 = gameMapService.createGameMap(
+                        "1", "1-1", "Normal", 2,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기\n" +
+                                "식량 2개 획득하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [9,1]}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,5],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,       \n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"food\", \"pos\": [1,1]},\n" +
+                                "        {\"id\":1, \"type\": \"food\", \"pos\": [5,3]},\n" +
+                                "        {\"id\":2, \"type\": \"food\", \"pos\": [7,3]},\n" +
+                                "        {\"id\":3, \"type\": \"food\", \"pos\": [3,7]},\n" +
+                                "        {\"id\":5, \"type\": \"bomb\", \"pos\": [4,3], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"bomb\", \"pos\": [6,3], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
+                GameMap gameMap11n3 = gameMapService.createGameMap(
+                        "1", "1-1", "Normal", 3,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기\n" +
+                                "식량 3개 획득하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,0,1,0,1,0,1,2],\n" +
+                                "            [0,0,2,0,0,0,0,0,0,0,2],\n" +
+                                "            [0,1,2,1,0,1,0,1,0,1,2],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [9,7]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 3}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,1],\n" +
+                                "        \"dir\" : \"down\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"food\", \"pos\": [1,7]},\n" +
+                                "        {\"id\":1, \"type\": \"food\", \"pos\": [3,1]},\n" +
+                                "        {\"id\":2, \"type\": \"food\", \"pos\": [5,1]},\n" +
+                                "        {\"id\":3, \"type\": \"food\", \"pos\": [9,3]},\n" +
+                                "        {\"id\":4, \"type\": \"bomb\", \"pos\": [1,6], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"bomb\", \"pos\": [6,1], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"bomb\", \"pos\": [6,5], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"bomb\", \"pos\": [9,4], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [1,5], \"laser_id\": [10]},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [2,3], \"pos_end\": [10,3], \"status\": 0}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
-                        gameMap1.getId(), gameMap1.getStage(), gameMap1.getStep(), gameMap1.getDifficulty(), gameMap1.getLevel(),
-                        "", 1);
+                GameMap gameMap11h1 = gameMapService.createGameMap(
+                        "1", "1-1", "Hard", 1,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기\n" +
+                                "식량 2개 획득하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,0,1,0,1,0],\n" +
+                                "            [0,0,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [7,5]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 2}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,1],\n" +
+                                "        \"dir\" : \"down\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"food\", \"pos\": [3,1]},\n" +
+                                "        {\"id\":1, \"type\": \"food\", \"pos\": [1,5]},\n" +
+                                "        {\"id\":2, \"type\": \"bomb\", \"pos\": [3,2], \"status\": 1},\n" +
+                                "        {\"id\":3, \"type\": \"bomb\", \"pos\": [5,2], \"status\": 1},\n" +
+                                "        {\"id\":4, \"type\": \"bomb\", \"pos\": [5,4], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"bomb\", \"pos\": [7,4], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
-                        gameMap11.getId(), gameMap11.getStage(), gameMap11.getStep(), gameMap11.getDifficulty(), gameMap11.getLevel(),
-                        "", 1);
+                GameMap gameMap11h2 = gameMapService.createGameMap(
+                        "1", "1-1", "Hard", 2,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기\n" +
+                                "식량 3개 획득하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [9,1]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 3}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,5],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"food\", \"pos\": [7,1]},\n" +
+                                "        {\"id\":1, \"type\": \"food\", \"pos\": [5,3]},\n" +
+                                "        {\"id\":2, \"type\": \"food\", \"pos\": [9,3]},\n" +
+                                "        {\"id\":3, \"type\": \"food\", \"pos\": [9,5]},\n" +
+                                "        {\"id\":4, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [5]},\n" +
+                                "        {\"id\":5, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [3,0], \"pos_end\": [3,4], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
-                        gameMap12.getId(), gameMap12.getStage(), gameMap12.getStep(), gameMap12.getDifficulty(), gameMap12.getLevel(),
-                        "", 1);
+                GameMap gameMap11h3 = gameMapService.createGameMap(
+                        "1", "1-1", "Normal", 2,
+                        "go(),turnLeft(),turnRight()",
+                        "",
+                        "목표지점에 도달하기\n" +
+                                "식량 4개 획득하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-1\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [2,0,0,0,0,0,0,0,0,0,2],\n" +
+                                "            [2,1,0,1,0,1,0,1,0,1,2],\n" +
+                                "            [2,0,0,0,2,0,2,0,0,0,2],\n" +
+                                "            [2,1,0,1,2,1,2,1,0,1,2],\n" +
+                                "            [2,0,0,0,2,0,2,0,0,0,2],\n" +
+                                "            [2,1,0,1,2,1,2,1,0,1,2],\n" +
+                                "            [2,0,0,0,2,0,2,0,0,0,2],\n" +
+                                "            [2,1,0,1,2,1,2,1,0,1,2],\n" +
+                                "            [2,0,0,0,2,0,2,0,0,0,2]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [5,7]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 4}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,1],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"food\", \"pos\": [1,7]},\n" +
+                                "        {\"id\":1, \"type\": \"food\", \"pos\": [3,7]},\n" +
+                                "        {\"id\":2, \"type\": \"food\", \"pos\": [9,1]},\n" +
+                                "        {\"id\":3, \"type\": \"food\", \"pos\": [9,7]},\n" +
+                                "        {\"id\":4, \"type\": \"laser_switch\", \"pos\": [5,3], \"laser_id\": [5,6]},\n" +
+                                "        {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [0,5], \"pos_end\": [4,5], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,3], \"pos_end\": [10,3], \"status\": 0},\n" +
+                                "        {\"id\":7, \"type\": \"bomb\", \"pos\": [8,1], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight()",
+                        1,
+                        1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
-                        gameMap13.getId(), gameMap13.getStage(), gameMap13.getStep(), gameMap13.getDifficulty(), gameMap13.getLevel(),
-                        "", 1);
-//
-//                playerLogService.createPlayerLog("STAGECLEAR", memberUser1.getUsername(), memberUser1.getId(),
-//                        gameMap2.getId(), gameMap2.getStage(), gameMap2.getStep(), gameMap2.getDifficulty(), gameMap2.getLevel(),
-//                        "", 1);
-//
-//                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(), memberUser1.getId(),
-//                        gameMap1.getId(), gameMap1.getStage(), gameMap1.getStep(), gameMap1.getDifficulty(), gameMap1.getLevel(),
-//                        "hero.turnRight();\nhero.move();", 1);
-//
-//                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(), memberUser1.getId(),
-//                        gameMap11.getId(), gameMap11.getStage(), gameMap11.getStep(), gameMap11.getDifficulty(), gameMap11.getLevel(),
-//                        "hero.turnLeft();\nhero.move();", 1);
-//
-//                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(), memberUser1.getId(),
-//                        gameMap12.getId(), gameMap12.getStage(), gameMap12.getStep(), gameMap12.getDifficulty(), gameMap12.getLevel(),
-//                        "hero.turnLeft();\nhero.turnLeft();\nhero.move();", 1);
-//
-//                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(), memberUser1.getId(),
-//                        gameMap13.getId(), gameMap13.getStage(), gameMap13.getStep(), gameMap13.getDifficulty(), gameMap13.getLevel(),
-//                        "hero.turnRight();\nhero.turnRight();\nhero.move();", 1);
-//
-//                playerLogService.createPlayerLog("STAGECODE", memberUser1.getUsername(), memberUser1.getId(),
-//                        gameMap2.getId(), gameMap2.getStage(), gameMap2.getStep(), gameMap2.getDifficulty(), gameMap2.getLevel(),
-//                        "hero.turnRight();\nhero.move();", 1);
+                GameMap gameMap12e1 = gameMapService.createGameMap(
+                        "1", "1-2", "Easy", 1,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "목표지점에 도달하기\n" +
+                                "로켓부품 2개 획득하기\n" +
+                                "코드 5줄 이하로 작성하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
+                                "            {\"goal\": \"line\", \"count\": 5}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,9],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [5,7]},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [9,5]}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
 
+                GameMap gameMap12e2 = gameMapService.createGameMap(
+                        "1", "1-2", "Easy", 2,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "로켓부품 6개 획득하기\n" +
+                                "코드 40줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
+                                "            {\"goal\": \"line\", \"count\": 40}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,7],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,3]},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,3]},\n" +
+                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [19,3]},\n" +
+                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [9,11]},\n" +
+                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,11]},\n" +
+                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,11]},\n" +
+                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [10,11,12]},\n" +
+                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [13,14,15]},\n" +
+                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [10,11,12]},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [13,14,15]},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
+                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
+                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1}\n" +
+                                "\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12e3 = gameMapService.createGameMap(
+                        "1", "1-2", "Easy", 3,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.",
+                        "로켓부품 5개 획득하기\n" +
+                                "코드 8줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
+                                "            {\"goal\": \"line\", \"count\": 60}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,7],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,3]},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,3]},\n" +
+                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [21,3]},\n" +
+                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [27,3]},\n" +
+                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [7,11]},\n" +
+                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [13,11]},\n" +
+                                "        {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [17,11]},\n" +
+                                "        {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [23,11]},\n" +
+                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [12,13,16,17]},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [12,13,16,17]},\n" +
+                                "        {\"id\":10, \"type\": \"laser_switch\", \"pos\": [29,5], \"laser_id\": [14,15,18,19]},\n" +
+                                "        {\"id\":11, \"type\": \"laser_switch\", \"pos\": [29,9], \"laser_id\": [14,15,18,19]},\n" +
+                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "        {\"id\":16, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
+                                "        {\"id\":17, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
+                                "        {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
+                                "        {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,8], \"pos_end\": [26,8], \"status\": 1}\n" +
+                                "\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12n1 = gameMapService.createGameMap(
+                        "1", "1-2", "Normal", 1,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.",
+                        "목표지점에 도달하기\n" +
+                                "로켓부품 5개 획득하기\n" +
+                                "코드 8줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 5},\n" +
+                                "            {\"goal\": \"line\", \"count\": 8}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,9],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [1,5]},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [5,3]},\n" +
+                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [5,7]},\n" +
+                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [5,11]},\n" +
+                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [9,1]},\n" +
+                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [9,5]},\n" +
+                                "        {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [9,9]},\n" +
+                                "        {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [13,7]}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12n2 = gameMapService.createGameMap(
+                        "1", "1-2", "Normal", 2,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "로켓부품 6개 획득하기\n" +
+                                "코드 60줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
+                                "            {\"goal\": \"line\", \"count\": 60}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,7],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,6]},\n" +
+                                "        {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [7,8,9]},\n" +
+                                "        {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [4,5,6]},\n" +
+                                "        {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [7,8,9]},\n" +
+                                "        {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
+                                "        {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,5], \"pos_drop\": [7,3], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,5], \"pos_drop\": [15,3], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,5], \"pos_drop\": [17,3], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,11], \"pos_drop\": [9,9], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,11], \"pos_drop\": [13,11], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,11], \"pos_drop\": [21,11], \"count\": 1, \"drop_type\": \"rocket_parts\"}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12n3 = gameMapService.createGameMap(
+                        "1", "1-2", "Normal", 3,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "로켓부품 8개 획득하기\n" +
+                                "코드 100줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
+                                "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,7],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,8,9]},\n" +
+                                "        {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [4,5,8,9]},\n" +
+                                "        {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,5], \"laser_id\": [6,7,10,11]},\n" +
+                                "        {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,9], \"laser_id\": [6,7,10,11]},\n" +
+                                "        {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
+                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,8], \"pos_end\": [26,8], \"status\": 1},\n" +
+                                "        {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [13,3]},\n" +
+                                "        {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [21,3]},\n" +
+                                "        {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [13,11]},\n" +
+                                "        {\"id\":16, \"type\": \"rocket_parts\", \"pos\": [17,11]},\n" +
+                                "        {\"id\":17, \"type\": \"drop_switch\", \"pos\": [9,5], \"pos_drop\": [5,3], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":18, \"type\": \"drop_switch\", \"pos\": [25,5], \"pos_drop\": [27,3], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":19, \"type\": \"drop_switch\", \"pos\": [9,11], \"pos_drop\": [5,11], \"count\": 1, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":20, \"type\": \"drop_switch\", \"pos\": [23,9], \"pos_drop\": [25,9], \"count\": 1, \"drop_type\": \"rocket_parts\"}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12h1 = gameMapService.createGameMap(
+                        "1", "1-2", "Hard", 1,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.",
+                        "목표지점에 도달하기\n" +
+                                "로켓부품 모두 획득하기\n" +
+                                "코드 40줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"target\", \"pos\": [13,9]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 12},\n" +
+                                "            {\"goal\": \"line\", \"count\": 40}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,9],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [1,7]},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [1,11]},\n" +
+                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [3,5]},\n" +
+                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [3,7]},\n" +
+                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [3,9]},\n" +
+                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [3,11]},\n" +
+                                "        {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [5,3]},\n" +
+                                "        {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [5,5]},\n" +
+                                "        {\"id\":8, \"type\": \"rocket_parts\", \"pos\": [5,7]},\n" +
+                                "        {\"id\":9, \"type\": \"rocket_parts\", \"pos\": [5,9]},\n" +
+                                "        {\"id\":10, \"type\": \"rocket_parts\", \"pos\": [7,1]},\n" +
+                                "        {\"id\":11, \"type\": \"rocket_parts\", \"pos\": [7,3]},\n" +
+                                "        {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [7,5]},\n" +
+                                "        {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [7,7]},\n" +
+                                "        {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [9,1]},\n" +
+                                "        {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [9,3]},\n" +
+                                "        {\"id\":16, \"type\": \"rocket_parts\", \"pos\": [9,5]},\n" +
+                                "        {\"id\":17, \"type\": \"rocket_parts\", \"pos\": [11,3]},\n" +
+                                "        {\"id\":18, \"type\": \"rocket_parts\", \"pos\": [11,5]},\n" +
+                                "        {\"id\":19, \"type\": \"rocket_parts\", \"pos\": [11,7]},\n" +
+                                "        {\"id\":20, \"type\": \"rocket_parts\", \"pos\": [13,5]},\n" +
+                                "        {\"id\":21, \"type\": \"rocket_parts\", \"pos\": [13,7]},\n" +
+                                "        {\"id\":22, \"type\": \"bomb\", \"pos\": [1,5], \"status\": 1},\n" +
+                                "        {\"id\":23, \"type\": \"bomb\", \"pos\": [3,3], \"status\": 1},\n" +
+                                "        {\"id\":24, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 1},\n" +
+                                "        {\"id\":25, \"type\": \"bomb\", \"pos\": [5,11], \"status\": 1},\n" +
+                                "        {\"id\":26, \"type\": \"bomb\", \"pos\": [7,9], \"status\": 1},\n" +
+                                "        {\"id\":27, \"type\": \"bomb\", \"pos\": [7,11], \"status\": 1},\n" +
+                                "        {\"id\":28, \"type\": \"bomb\", \"pos\": [8,3], \"status\": 1},\n" +
+                                "        {\"id\":29, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 1},\n" +
+                                "        {\"id\":30, \"type\": \"bomb\", \"pos\": [9,7], \"status\": 1},\n" +
+                                "        {\"id\":31, \"type\": \"bomb\", \"pos\": [11,1], \"status\": 1},\n" +
+                                "        {\"id\":32, \"type\": \"bomb\", \"pos\": [11,9], \"status\": 1},\n" +
+                                "        {\"id\":33, \"type\": \"bomb\", \"pos\": [11,11], \"status\": 1},\n" +
+                                "        {\"id\":34, \"type\": \"bomb\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "        {\"id\":35, \"type\": \"bomb\", \"pos\": [13,3], \"status\": 1},\n" +
+                                "        {\"id\":36, \"type\": \"bomb\", \"pos\": [13,11], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12h2 = gameMapService.createGameMap(
+                        "1", "1-2", "Hard", 2,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "로켓부품 18개 획득하기\n" +
+                                "코드 100줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
+                                "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,7],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,6]},\n" +
+                                "        {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [7,8,9]},\n" +
+                                "        {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [4,5,6]},\n" +
+                                "        {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [7,8,9]},\n" +
+                                "        {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
+                                "        {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,5], \"pos_drop\": [7,3], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,5], \"pos_drop\": [15,3], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,5], \"pos_drop\": [17,3], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,11], \"pos_drop\": [9,9], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,11], \"pos_drop\": [13,11], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,11], \"pos_drop\": [21,11], \"count\": 3, \"drop_type\": \"rocket_parts\"}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12h3 = gameMapService.createGameMap(
+                        "1", "1-2", "Hard", 3,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "로켓부품 24개 획득하기\n" +
+                                "코드 200줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 24},\n" +
+                                "            {\"goal\": \"line\", \"count\": 200}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,7],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,8,9]},\n" +
+                                "        {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [4,5,8,9]},\n" +
+                                "        {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,5], \"laser_id\": [6,7,10,11]},\n" +
+                                "        {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,9], \"laser_id\": [6,7,10,11]},\n" +
+                                "        {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
+                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,8], \"pos_end\": [26,8], \"status\": 1},\n" +
+                                "        {\"id\":12, \"type\": \"drop_switch\", \"pos\": [7,5], \"pos_drop\": [9,3], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":13, \"type\": \"drop_switch\", \"pos\": [15,5], \"pos_drop\": [13,3], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":14, \"type\": \"drop_switch\", \"pos\": [21,5], \"pos_drop\": [21,3], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":15, \"type\": \"drop_switch\", \"pos\": [23,5], \"pos_drop\": [23,3], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":16, \"type\": \"drop_switch\", \"pos\": [7,11], \"pos_drop\": [7,9], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":17, \"type\": \"drop_switch\", \"pos\": [11,11], \"pos_drop\": [13,11], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":18, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [19,11], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,9], \"pos_drop\": [23,11], \"count\": 3, \"drop_type\": \"rocket_parts\"},\n" +
+                                "        {\"id\":20, \"type\": \"bomb\", \"pos\": [27,4], \"status\": 1},\n" +
+                                "        {\"id\":21, \"type\": \"bomb\", \"pos\": [17,10], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap13e1 = gameMapService.createGameMap(
+                        "1", "1-3", "Easy", 1,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
+                        "고체추진제 3개 장착하기\n" +
+                                "코드 10줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"solid_propellant\", \"count\": 3},\n" +
+                                "            {\"goal\": \"line\", \"count\": 10}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [9,7],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"solid_propellant\", \"pos\": [3,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":1, \"type\": \"solid_propellant\", \"pos\": [7,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":2, \"type\": \"solid_propellant\", \"pos\": [11,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"solid_propellant\", \"pos\": [15,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13e2 = gameMapService.createGameMap(
+                        "1", "1-3", "Easy", 2,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "",
+                        "액체연료 5개 장착하기\n" +
+                                "코드 30줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,2,2,2,0,0,0,2,2,2,0,0,0,2,2,2,0,2,2,2,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,2,1,0,1,2,1,2,1,0,1,2,1,2,1,2,1,2,1,2,1,2,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,2,2,2],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"liquid_fuel\", \"count\": 5},\n" +
+                                "            {\"goal\": \"line\", \"count\": 30}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [9,7],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"liquid_fuel\", \"pos\": [3,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":1, \"type\": \"liquid_fuel\", \"pos\": [9,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":2, \"type\": \"liquid_fuel\", \"pos\": [15,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"liquid_fuel\", \"pos\": [19,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"liquid_fuel\", \"pos\": [23,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13e3 = gameMapService.createGameMap(
+                        "1", "1-3", "Easy", 3,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "",
+                        "추가엔진 6개 장착하기\n" +
+                                "코드 30줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Easy\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,2,1,2,1,0,1,0,1,2,1,2,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,2,2,0,2,2,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,2,2,0,2,2,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,2,1,2,1,0,1,0,1,2,1,2,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"engines\", \"count\": 6},\n" +
+                                "            {\"goal\": \"line\", \"count\": 30}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [15,7],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":1, \"type\": \"engines\", \"pos\": [5,7], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":2, \"type\": \"engines\", \"pos\": [11,1], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"engines\", \"pos\": [17,3], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"engines\", \"pos\": [23,5], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":5, \"type\": \"engines\", \"pos\": [11,13], \"require_dir\": \"down\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":6, \"type\": \"engines\", \"pos\": [21,11], \"require_dir\": \"right\", \"name\": \"추가엔진\", \"status\": 0}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13n1 = gameMapService.createGameMap(
+                        "1", "1-3", "Normal", 1,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
+                        "고체추진제 5개 장착하기\n" +
+                                "코드 25줄 이하로 작성하기\n",
+                        "\n" +
+                                "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"solid_propellant\", \"count\": 5},\n" +
+                                "            {\"goal\": \"line\", \"count\": 25}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [11,9],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"solid_propellant\", \"pos\": [3,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":1, \"type\": \"solid_propellant\", \"pos\": [7,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"solid_propellant\", \"pos\": [11,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"solid_propellant\", \"pos\": [17,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":5, \"type\": \"solid_propellant\", \"pos\": [19,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":6, \"type\": \"bomb\", \"pos\": [9,5], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"bomb\", \"pos\": [13,5], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13n2 = gameMapService.createGameMap(
+                        "1", "1-3", "Normal", 2,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "",
+                        "액체연료 5개 장착하기\n" +
+                                "코드 35줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,2,2,2,0,0,0,2,2,2,0,0,0,2,2,2,0,2,2,2,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,2,1,0,1,2,1,2,1,0,1,2,1,2,1,2,1,2,1,2,1,2,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,2,2,2],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"liquid_fuel\", \"count\": 5},\n" +
+                                "            {\"goal\": \"line\", \"count\": 35}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [13,7],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"liquid_fuel\", \"pos\": [3,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":1, \"type\": \"liquid_fuel\", \"pos\": [9,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":2, \"type\": \"liquid_fuel\", \"pos\": [15,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"liquid_fuel\", \"pos\": [19,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"liquid_fuel\", \"pos\": [23,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":5, \"type\": \"laser_switch\", \"pos\": [5,9], \"laser_id\": [10]},\n" +
+                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [11,9], \"laser_id\": [11]},\n" +
+                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [15,9], \"laser_id\": [12]},\n" +
+                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [19,9], \"laser_id\": [13]},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [14]},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [2,4], \"pos_end\": [4,4], \"status\": 1},\n" +
+                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [8,4], \"pos_end\": [10,4], \"status\": 1},\n" +
+                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [14,4], \"pos_end\": [16,4], \"status\": 1},\n" +
+                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [22,4], \"pos_end\": [24,4], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13n3 = gameMapService.createGameMap(
+                        "1", "1-3", "Normal", 3,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "",
+                        "추가엔진 6개 장착하기\n" +
+                                "코드 45줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Normal\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,2,1,2,1,0,1,0,1,2,1,2,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,2,2,0,2,2,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,2,2,0,2,2,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,2,1,2,1,0,1,0,1,2,1,2,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"engines\", \"count\": 6},\n" +
+                                "            {\"goal\": \"line\", \"count\": 45}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [15,7],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":1, \"type\": \"engines\", \"pos\": [5,7], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":2, \"type\": \"engines\", \"pos\": [11,1], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"engines\", \"pos\": [17,3], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"engines\", \"pos\": [23,5], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":5, \"type\": \"engines\", \"pos\": [11,13], \"require_dir\": \"down\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":6, \"type\": \"engines\", \"pos\": [21,11], \"require_dir\": \"right\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":7, \"type\": \"bomb\", \"pos\": [11,7], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"bomb\", \"pos\": [19,7], \"status\": 1}\n" +
+                                "\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13h1 = gameMapService.createGameMap(
+                        "1", "1-3", "Hard", 1,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
+                        "고체추진제 6개 장착하기\n" +
+                                "코드 30줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 1,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"solid_propellant\", \"count\": 6},\n" +
+                                "            {\"goal\": \"line\", \"count\": 30}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [11,9],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"solid_propellant\", \"pos\": [3,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":1, \"type\": \"solid_propellant\", \"pos\": [7,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"solid_propellant\", \"pos\": [11,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"solid_propellant\", \"pos\": [15,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":5, \"type\": \"solid_propellant\", \"pos\": [17,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":6, \"type\": \"solid_propellant\", \"pos\": [19,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
+                                "        {\"id\":7, \"type\": \"bomb\", \"pos\": [5,5], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"bomb\", \"pos\": [9,5], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"bomb\", \"pos\": [13,7], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13h2 = gameMapService.createGameMap(
+                        "1", "1-3", "Hard", 2,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "",
+                        "액체연료 13개 장착하기\n" +
+                                "코드 50줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 2,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,2,2,2,0,0,0,2,2,2,0,0,0,2,2,2,0,2,2,2,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,2,1,2,1,0,1,2,1,2,1,0,1,2,1,2,1,2,1,2,1,2,1,2,1,0,1,0,1,0],\n" +
+                                "            [2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,2,2,2],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"liquid_fuel\", \"count\": 13},\n" +
+                                "            {\"goal\": \"line\", \"count\": 50}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [13,7],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":0, \"type\": \"liquid_fuel\", \"pos\": [1,3], \"require_dir\": \"left\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":1, \"type\": \"liquid_fuel\", \"pos\": [3,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":2, \"type\": \"liquid_fuel\", \"pos\": [5,3], \"require_dir\": \"right\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"liquid_fuel\", \"pos\": [7,3], \"require_dir\": \"left\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"liquid_fuel\", \"pos\": [9,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":5, \"type\": \"liquid_fuel\", \"pos\": [11,3], \"require_dir\": \"right\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":6, \"type\": \"liquid_fuel\", \"pos\": [13,3], \"require_dir\": \"left\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":7, \"type\": \"liquid_fuel\", \"pos\": [15,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":8, \"type\": \"liquid_fuel\", \"pos\": [17,3], \"require_dir\": \"right\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":9, \"type\": \"liquid_fuel\", \"pos\": [19,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":10, \"type\": \"liquid_fuel\", \"pos\": [21,3], \"require_dir\": \"right\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":11, \"type\": \"liquid_fuel\", \"pos\": [23,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":12, \"type\": \"liquid_fuel\", \"pos\": [25,3], \"require_dir\": \"right\", \"name\": \"액체연료\", \"status\": 0},\n" +
+                                "        {\"id\":13, \"type\": \"laser_switch\", \"pos\": [5,9], \"laser_id\": [18]},\n" +
+                                "        {\"id\":14, \"type\": \"laser_switch\", \"pos\": [11,9], \"laser_id\": [19]},\n" +
+                                "        {\"id\":15, \"type\": \"laser_switch\", \"pos\": [17,9], \"laser_id\": [20]},\n" +
+                                "        {\"id\":16, \"type\": \"laser_switch\", \"pos\": [19,9], \"laser_id\": [21]},\n" +
+                                "        {\"id\":17, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [22]},\n" +
+                                "        {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [2,4], \"pos_end\": [4,4], \"status\": 1},\n" +
+                                "        {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [8,4], \"pos_end\": [10,4], \"status\": 1},\n" +
+                                "        {\"id\":20, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [14,4], \"pos_end\": [16,4], \"status\": 1},\n" +
+                                "        {\"id\":21, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "        {\"id\":22, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [22,4], \"pos_end\": [24,4], \"status\": 1}\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                GameMap gameMap13h3 = gameMapService.createGameMap(
+                        "1", "1-3", "Hard", 3,
+                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "",
+                        "추가엔진 18개 장착하기\n" +
+                                "코드 50줄 이하로 작성하기\n",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-3\", \n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,2,1,2,1,0,1,0,1,2,1,2,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,2,2,0,2,2,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,2,2,2,0,2,2,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,2,1,2,1,0,1,0,1,2,1,2,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg\" : [\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"bg_extra_list\" : [\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"set\", \"type\": \"engines\", \"count\": 18},\n" +
+                                "            {\"goal\": \"line\", \"count\": 50}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [15,7],\n" +
+                                "        \"dir\" : \"up\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "        {\"id\":1, \"type\": \"engines\", \"pos\": [5,7], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":2, \"type\": \"engines\", \"pos\": [7,5], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":3, \"type\": \"engines\", \"pos\": [9,3], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":4, \"type\": \"engines\", \"pos\": [11,1], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":5, \"type\": \"engines\", \"pos\": [13,3], \"require_dir\": \"right\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":6, \"type\": \"engines\", \"pos\": [17,3], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":7, \"type\": \"engines\", \"pos\": [19,1], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":8, \"type\": \"engines\", \"pos\": [21,3], \"require_dir\": \"right\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":9, \"type\": \"engines\", \"pos\": [23,5], \"require_dir\": \"up\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":10, \"type\": \"engines\", \"pos\": [25,7], \"require_dir\": \"right\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":11, \"type\": \"engines\", \"pos\": [23,9], \"require_dir\": \"down\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":12, \"type\": \"engines\", \"pos\": [21,11], \"require_dir\": \"right\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":13, \"type\": \"engines\", \"pos\": [19,13], \"require_dir\": \"down\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":14, \"type\": \"engines\", \"pos\": [17,11], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":15, \"type\": \"engines\", \"pos\": [13,11], \"require_dir\": \"right\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":16, \"type\": \"engines\", \"pos\": [11,13], \"require_dir\": \"down\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":17, \"type\": \"engines\", \"pos\": [9,11], \"require_dir\": \"left\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":18, \"type\": \"engines\", \"pos\": [7,9], \"require_dir\": \"down\", \"name\": \"추가엔진\", \"status\": 0},\n" +
+                                "        {\"id\":19, \"type\": \"bomb\", \"pos\": [11,7], \"status\": 1},\n" +
+                                "        {\"id\":20, \"type\": \"bomb\", \"pos\": [19,7], \"status\": 1}\n" +
+                                "\n" +
+                                "    ]\n" +
+                                "}",
+                        "테스트용 텍스트입니다.0",
+                        "guideImage0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        1,
+                        1);
+
+                requirePartsService.addRequireParts(gameMap11e1, itemParts1);
+                requirePartsService.addRequireParts(gameMap11e2, itemParts1);
+                requirePartsService.addRequireParts(gameMap11e3, itemParts1);
+                requirePartsService.addRequireParts(gameMap11n1, itemParts1);
+                requirePartsService.addRequireParts(gameMap11n2, itemParts1);
+                requirePartsService.addRequireParts(gameMap11n3, itemParts1);
+                requirePartsService.addRequireParts(gameMap11h1, itemParts1);
+                requirePartsService.addRequireParts(gameMap11h2, itemParts1);
+                requirePartsService.addRequireParts(gameMap11h3, itemParts1);
+
+                requirePartsService.addRequireParts(gameMap12e1, itemParts2);
+                requirePartsService.addRequireParts(gameMap12e2, itemParts2);
+                requirePartsService.addRequireParts(gameMap12e3, itemParts2);
+                requirePartsService.addRequireParts(gameMap12n1, itemParts2);
+                requirePartsService.addRequireParts(gameMap12n2, itemParts2);
+                requirePartsService.addRequireParts(gameMap12n3, itemParts2);
+                requirePartsService.addRequireParts(gameMap12h1, itemParts2);
+                requirePartsService.addRequireParts(gameMap12h2, itemParts2);
+                requirePartsService.addRequireParts(gameMap12h3, itemParts2);
+
+                requirePartsService.addRequireParts(gameMap13e1, itemParts3);
+                requirePartsService.addRequireParts(gameMap13e2, itemParts3);
+                requirePartsService.addRequireParts(gameMap13e3, itemParts3);
+                requirePartsService.addRequireParts(gameMap13n1, itemParts3);
+                requirePartsService.addRequireParts(gameMap13n2, itemParts3);
+                requirePartsService.addRequireParts(gameMap13n3, itemParts3);
+                requirePartsService.addRequireParts(gameMap13h1, itemParts3);
+                requirePartsService.addRequireParts(gameMap13h2, itemParts3);
+                requirePartsService.addRequireParts(gameMap13h3, itemParts3);
 
 
             }
-
-
-
-
         };
     }
 }
