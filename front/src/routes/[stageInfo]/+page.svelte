@@ -24,7 +24,7 @@
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
 
-    console.log(gameMapDto);
+    console.log(gameMapDto.cocosInfo);
 
     let editor: any;
     let hintModal: HTMLDialogElement 
@@ -195,6 +195,7 @@
     async function handleRunCode() {
         const capturedPrints: any[] = [];
         let currentFrameIndex = 0; 
+        console.log(editor.getValue());
 
         console.log('시작');
         await runPythonCode(editor, gameMapDto.cocosInfo, capturedPrints);

@@ -9,9 +9,13 @@ import com.example.cit.domain.log.log.service.PlayerLogService;
 import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rq.Rq;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +66,7 @@ public class GameMapService {
         return findGameMapById(gameMapId).orElseThrow(() -> new GlobalException("404-1", "게임 맵을 찾을 수 없습니다."));
     }
 
+    // Todo: 나중에 삭제 테스트용
     public GameMap getGameMapForTest(String gameInfo) {
         if( gameInfo.equals("tutorial1")) return gameMapRepository.findByStepAndLevel("tutorial", 1).get();
         else if (gameInfo.equals("tutorial2")) return gameMapRepository.findByStepAndLevel("tutorial", 2).get();
@@ -79,5 +84,37 @@ public class GameMapService {
         int lastNumber = Integer.parseInt(parts[3]);
 
         return gameMapRepository.findByStepAndDifficultyAndLevel(numberPart, letterPart, lastNumber).get();
+    }
+
+    // Todo: 나중에 삭제 테스트용
+    public String getGameMapForTest2(String gameInfo, String editorValue) throws IOException, InterruptedException {
+        GameMap gameMap = getGameMapForTest(gameInfo);
+
+        Resource resource = new ClassPathResource("python/script/logic.py");
+        File tempScript = File.createTempFile("logic", ".py");
+        try (InputStream is = resource.getInputStream(); OutputStream os = new FileOutputStream(tempScript)) {
+            IOUtils.copy(is, os);
+        }
+
+        tempScript.deleteOnExit(); // 프로그램 종료 시 임시 파일 삭제
+
+        ProcessBuilder processBuilder = new ProcessBuilder(
+                "C:\\Users\\android-hy\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+                tempScript.getAbsolutePath(), gameMap.getCocosInfo(), editorValue);
+        processBuilder.redirectErrorStream(true);
+        Process process = processBuilder.start();  // 프로세스 시작
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+        StringBuilder jsonOutput = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            jsonOutput.append(line);
+        }
+
+//        System.out.println("jsonOutput : " + jsonOutput);
+
+        return jsonOutput.toString();
     }
 }

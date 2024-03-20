@@ -29,6 +29,10 @@ export interface paths {
     /** 관리자 로그인, accessToken, refreshToken 쿠키 생성됨 */
     post: operations["adminLogin"];
   };
+  "/api/v1/gameMaps/gameMap/test2": {
+    /** 특정 게임 테스트용2 */
+    post: operations["getGameMapTest2"];
+  };
   "/api/v1/test/test": {
     /** 플레이어 인벤토리 조회 */
     get: operations["test"];
@@ -167,6 +171,17 @@ export interface components {
     AdminLoginRequestBody: {
       username: string;
       password: string;
+    };
+    GameMapTest2RequestBody: {
+      gameInfo: string;
+      editorValue: string;
+    };
+    RsDataObject: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: Record<string, never>;
     };
     RsDataTestResponseBody: {
       resultCode: string;
@@ -466,6 +481,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataLoginResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 특정 게임 테스트용2 */
+  getGameMapTest2: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["GameMapTest2RequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataObject"];
         };
       };
       /** @description Bad Request */

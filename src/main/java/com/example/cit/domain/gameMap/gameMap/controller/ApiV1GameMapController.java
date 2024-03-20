@@ -11,15 +11,15 @@ import com.example.cit.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -76,9 +76,9 @@ public class ApiV1GameMapController {
 
     }
 
-    public record GameMapTestResponseBody(GameMapDto gameMapDto) {}
 
     // Todo : 테스트용 추 후 삭제
+    public record GameMapTestResponseBody(GameMapDto gameMapDto) {}
     @GetMapping(value = "/gameMap/test/{gameInfo}", consumes = ALL_VALUE)
     @Operation(summary = "특정 게임 테스트용")
     public RsData<GameMapTestResponseBody> getGameMapTest(
@@ -89,6 +89,22 @@ public class ApiV1GameMapController {
                         new GameMapDto(
                                 gameMapService.getGameMapForTest(gameInfo)
                         )
+                )
+        );
+
+    }
+
+
+    // Todo : 테스트용 추 후 삭제
+
+    public record GameMapTest2RequestBody(@NotBlank String gameInfo, @NotBlank String editorValue) {}
+    public record GameMapTest2ResponseBody(String result) {}
+    @PostMapping(value = "/gameMap/test2", consumes = ALL_VALUE)
+    @Operation(summary = "특정 게임 테스트용2")
+    public RsData<?> getGameMapTest2(@Valid @RequestBody GameMapTest2RequestBody body) throws IOException, InterruptedException {
+        return RsData.of(
+                new GameMapTest2ResponseBody(
+                    gameMapService.getGameMapForTest2(body.gameInfo, body.editorValue)
                 )
         );
 

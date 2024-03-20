@@ -741,7 +741,7 @@ public class Dev {
                         1);
 
                 GameMap gameMap11h3 = gameMapService.createGameMap(
-                        "1", "1-1", "Normal", 2,
+                        "1", "1-1", "Hard", 3,
                         "go(),turnLeft(),turnRight()",
                         "",
                         "목표지점에 도달하기\n" +
