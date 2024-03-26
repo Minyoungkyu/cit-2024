@@ -60,8 +60,8 @@ public class GameMapService {
     }
 
     public GameMap checkAccessAndGetGameMap(Long gameMapId) {
-        playerLogService.findByUserIdAndGameMapId(rq.getMember().getId(), gameMapId)
-                .orElseThrow(() -> new GlobalException("403-1", "잘못 된 접근입니다."));
+//        playerLogService.findByUserIdAndGameMapId(rq.getMember().getId(), gameMapId)
+//                .orElseThrow(() -> new GlobalException("403-1", "잘못 된 접근입니다."));
 
         return findGameMapById(gameMapId).orElseThrow(() -> new GlobalException("404-1", "게임 맵을 찾을 수 없습니다."));
     }

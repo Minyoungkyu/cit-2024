@@ -26,7 +26,7 @@
     = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined, isCoReady:boolean }>();
 
   const dispatch = createEventDispatcher();
-
+  
   async function initializeGame() {
     try {
       await loadScript('/web-desktop/src/settings.js', '/web-desktop/settings-script');
@@ -37,26 +37,32 @@
       await loadScript('/web-desktop/main.js', '/web-desktop/main-script');
 
       let attempts = 0;
-
-      const interval = setInterval(() => {
-        
-        if (gameMapDto !== undefined) {
+      const interval = setInterval(async () => {
+      if (gameMapDto !== undefined) {
           clearInterval(interval);
-          
-          const stageString = gameMapDto?.cocosInfo;
-          const jsonObjectString = stageString!.trim().substring("stage = ".length);
+
+          const stageString = gameMapDto.cocosInfo;
+          const jsonObjectString = stageString.trim().substring("stage = ".length);
           const stageObject = JSON.parse(jsonObjectString);
-          
-          (window as any).SendInitData?.(stageObject);
-        } else if (attempts++ > 100) { 
+
+          const trySendInitData = () => {
+            const result = (window as any).SendInitData?.(stageObject);
+            if (!result) {
+              setTimeout(trySendInitData, 100);
+            } else {
+              isCoReady = true;
+              dispatch('ready', { isCoReady });
+            }
+          };
+
+          trySendInitData();
+        } else if (attempts++ > 100) {
           clearInterval(interval);
         }
-      }, 40); 
+      }, 40);
 
       if (typeof (window as any).boot === 'function') {
         (window as any).boot();
-        isCoReady = true;  // cocos 초기화 추적... 의미가 있는지 모르겠음
-        dispatch('ready', { isCoReady }); 
       }
 
     } catch (error) {
@@ -68,7 +74,7 @@
     return new Promise((resolve, reject) => {
       if (document.getElementById(id)) {
         resolve();
-        return;
+        return 
       }
 
       const script: HTMLScriptElement = document.createElement('script');
@@ -83,7 +89,13 @@
 
 
   onMount(async () => {
-    initializeGame();
+    const checkInterval = setInterval(() => {
+      console.log(gameMapDto) // ToDo: remove
+      if (gameMapDto !== undefined) { 
+        initializeGame(); 
+        clearInterval(checkInterval); 
+      } 
+    }, 10); 
   });
 
 </script>
@@ -96,5 +108,3 @@
     <span style="width: 0%"></span>
   </div>
 </div>
-
-<p class="footer">Made with <a href="https://www.cocos.com/products#CocosCreator" title="cocos creator">Cocos Creator</a></p>

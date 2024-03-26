@@ -16,14 +16,13 @@
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
-    import { runPythonCode } from '$lib/brython/brythonSetup';
     import TWEEN, { update } from '@tweenjs/tween.js';
     import Cocos from '$lib/cocos/cocos.svelte';
     import { loadPyodide, runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
 
-    // const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
-    // const { gameMapDto } = data;
+    const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
+    const { gameMapDto } = data;
 
     let editor: any;
     let hintModal: HTMLDialogElement 
@@ -32,15 +31,21 @@
     let framesData: [] = $state([]);
     let isCoReady: boolean = $state(false); // cocos 초기화 추적... 의미가 있는지 모르겠음
 
-    // const explanation: String = gameMapDto.editorMessage;
+    $effect(() => { // ToDo: cocos 초기화 추적하여 화면 로드할때 활용
+        if (isCoReady) {
+            console.log('Cocos is ready');
+        }
+    });
 
-    // const customCompletions = gameMapDto.editorAutoComplete.split(',')
-    // .filter(command => command.trim() !== '') 
-    // .map(command => ({
-    //     value: `${command}`, 
-    //     score: 1000
-    //     // meta: "custom" 
-    // }));
+    const explanation: String = gameMapDto.editorMessage;
+
+    const customCompletions = gameMapDto.editorAutoComplete.split(',')
+    .filter(command => command.trim() !== '') 
+    .map(command => ({
+        value: `${command}`, 
+        score: 1000
+        // meta: "custom" 
+    }));
 
     let opacity = $state(0); 
     let otherOpacity = $state(0);
@@ -93,16 +98,24 @@
         if (markerId !== undefined) {
           session.removeMarker(markerId);
         }
-        const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
+        const range = new Range(HilightRow - 3, 0, HilightRow - 3, 1);
         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
-    }
+      }
 
     async function executePython(): Promise<void> {
         console.time("executePythonTimer"); // 실행 시간 측정 시작
 
         if (pyodideInstance) {
-            let result: any = await runPythonCode2(pyodideInstance);
-            console.log(result); // 비동기 작업 결과 출력
+            let result: any = await runPythonCode2(pyodideInstance, gameMapDto.cocosInfo, editor.getValue());
+            framesData = JSON.parse(result);
+            const wrappedData = {
+                data: framesData
+            };
+
+            console.log(wrappedData);
+            (window as any).SendStreamData?.(wrappedData);
+            progressController.max = (framesData.length - 1).toString();
+            updateFrame(framesData, 0);
             console.timeEnd("executePythonTimer"); // 여기에 실행 시간 측정 종료를 배치하여 전체 시간을 측정
         }
     }
@@ -114,8 +127,8 @@
     });
 
     onMount(() => {
-        // editor = setupAceEditor('editor', customCompletions);
-        // editor.setValue(explanation, 1); 
+        editor = setupAceEditor('editor', customCompletions);
+        editor.setValue(explanation, 1); 
 
         editor.getSession().on('change', function(e:any) {
             if (e.action === 'insert') {
@@ -202,29 +215,7 @@
     }
 
     function handleProgressChange() { 
-        const currentValue = parseInt(progressController.value);
-
-        (window as any).SetProgressId?.(currentValue);
-    }
-
-    async function handleRunCode() {
-        const capturedPrints: any[] = [];
-        let currentFrameIndex = 0; 
-        console.log(editor.getValue());
-
-        console.log('시작');
-        // await runPythonCode(editor, gameMapDto.cocosInfo, capturedPrints);
-        console.log('끝');
-        framesData = JSON.parse(capturedPrints.pop()); // framesData cocos에게 전달
-        console.log(framesData);
-        progressController.max = (framesData.length - 1).toString();
-        const wrappedData = {
-            data: framesData
-        };
-        (window as any).SendStreamData?.(wrappedData);
-        
-        // 프레임 업데이트
-        updateFrame(framesData, currentFrameIndex);
+        (window as any).SetProgressId?.(parseInt(progressController.value));
     }
 
     function updateFrame(framesData: any, currentFrameIndex: number) {
@@ -255,7 +246,7 @@
     <div class="w-screen h-screen flex flex-row">
         <div class="border-2 border-black w-2/3 relative">
             <div id="game-player-container" class="flex justify-center items-center h-full">
-                <!-- <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/> -->
+                <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
                 <div id="pythonOutput">안녕</div>
             </div>
             <a href="/game/1" class="absolute border-2 border-black w-fit top-[2%] left-[1%] z-[10]">뒤로가기</a>
@@ -275,7 +266,7 @@
             </div>
             <div class="w-[10vw] h-[8vw] absolute border-2 border-black flex justify-center items-center absolute right-0 top-4" 
                   style="transform:scale({scale})">
-                    <!-- {gameMapDto.clearGoal} -->
+                    {gameMapDto.clearGoal}
             </div>
             <div class="flex flex-row items-center absolute bottom-[4%] left-[auto] w-[95%] ml-[2.5%] gap-6" style="background-color:#181818;">
               <div id="volumeController" class="dropdown dropdown-top rounded-b-lg" style="background-color:#181818;width:2em;">
@@ -319,13 +310,13 @@
                         <dialog bind:this={hintModal} id="my_modal_1" class="modal">
                           <div class="w-[600px] h-[90%] rounded-lg flex flex-col gap-8 items-center justify-center bg-gray-700">
                             <div class="w-[95%] h-1/4 border-2">
-                                <!-- {gameMapDto.guideImage} -->
+                                {gameMapDto.guideImage}
                             </div>
                             <div class="w-[95%] h-1/4 border-2">
-                                <!-- {gameMapDto.guideText} -->
+                                {gameMapDto.guideText}
                             </div>
                             <div class="w-[95%] h-1/4 border-2">
-                                <!-- {gameMapDto.commandGuide} -->
+                                {gameMapDto.commandGuide}
                             </div>
                             <div class="modal-action">
                             <button class="btn" on:click={closeModal}>Close</button>
@@ -337,12 +328,12 @@
                 </div>
                 <div id="editor" class="w-full h-2/3"></div>
                 <div class="flex flex-row justify-around mt-4">
-                    <button class="btn btn-outline" on:click={executePython}>Run Python Code</button> <!-- handleRunCode -->
+                    <button class="btn btn-outline" on:click={executePython}>Run Python Code</button>
                     <button class="btn btn-outline">완료</button>
                 </div>
                 <div class="flex justify-start items-center mt-8 ml-8">
                     <div class="border-2 border-black w-[16vw] h-[8vw] flex justify-center items-center">
-                        <!-- {gameMapDto.commandGuide} -->
+                        {gameMapDto.commandGuide}
                     </div>
                 </div>
             </div>

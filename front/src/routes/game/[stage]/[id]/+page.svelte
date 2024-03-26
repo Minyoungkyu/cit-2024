@@ -16,9 +16,9 @@
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
-    import { runPythonCode } from '$lib/brython/brythonSetup';
     import TWEEN, { update } from '@tweenjs/tween.js';
     import Cocos from '$lib/cocos/cocos.svelte';
+    import { loadPyodide, runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
 
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
@@ -30,6 +30,12 @@
     let progressController: HTMLInputElement; 
     let framesData: [] = $state([]);
     let isCoReady: boolean = $state(false); // cocos 초기화 추적... 의미가 있는지 모르겠음
+
+    $effect(() => { // ToDo: cocos 초기화 추적하여 화면 로드할때 활용
+        if (isCoReady) {
+            console.log('Cocos is ready');
+        }
+    });
 
     const explanation: String = gameMapDto.editorMessage;
 
@@ -92,9 +98,33 @@
         if (markerId !== undefined) {
           session.removeMarker(markerId);
         }
-        const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
+        const range = new Range(HilightRow - 3, 0, HilightRow - 3, 1);
         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
       }
+
+    async function executePython(): Promise<void> {
+        console.time("executePythonTimer"); // 실행 시간 측정 시작
+
+        if (pyodideInstance) {
+            let result: any = await runPythonCode2(pyodideInstance, gameMapDto.cocosInfo, editor.getValue());
+            framesData = JSON.parse(result);
+            const wrappedData = {
+                data: framesData
+            };
+
+            console.log(wrappedData);
+            (window as any).SendStreamData?.(wrappedData);
+            progressController.max = (framesData.length - 1).toString();
+            updateFrame(framesData, 0);
+            console.timeEnd("executePythonTimer"); // 여기에 실행 시간 측정 종료를 배치하여 전체 시간을 측정
+        }
+    }
+
+    let pyodideInstance: any;
+
+    onMount(async () => {
+        pyodideInstance = await loadPyodide();
+    });
 
     onMount(() => {
         editor = setupAceEditor('editor', customCompletions);
@@ -185,27 +215,7 @@
     }
 
     function handleProgressChange() { 
-        const currentValue = parseInt(progressController.value);
-
-        (window as any).SetProgressId?.(currentValue);
-    }
-
-    async function handleRunCode() {
-        const capturedPrints: any[] = [];
-        let currentFrameIndex = 0; 
-
-        await runPythonCode(editor, gameMapDto.cocosInfo, capturedPrints);
-        
-        framesData = JSON.parse(capturedPrints.pop()); // framesData cocos에게 전달
-        console.log(framesData);
-        progressController.max = (framesData.length - 1).toString();
-        const wrappedData = {
-            data: framesData
-        };
-        (window as any).SendStreamData?.(wrappedData);
-        
-        // 프레임 업데이트
-        updateFrame(framesData, currentFrameIndex);
+        (window as any).SetProgressId?.(parseInt(progressController.value));
     }
 
     function updateFrame(framesData: any, currentFrameIndex: number) {
@@ -318,7 +328,7 @@
                 </div>
                 <div id="editor" class="w-full h-2/3"></div>
                 <div class="flex flex-row justify-around mt-4">
-                    <button class="btn btn-outline" on:click={handleRunCode}>Run Python Code</button>
+                    <button class="btn btn-outline" on:click={executePython}>Run Python Code</button>
                     <button class="btn btn-outline">완료</button>
                 </div>
                 <div class="flex justify-start items-center mt-8 ml-8">
