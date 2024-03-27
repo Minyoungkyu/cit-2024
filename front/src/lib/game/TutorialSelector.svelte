@@ -23,7 +23,7 @@
 }
 </style>
 
-<ul tabindex="0" class="dropdown-content z-[1] menu bg-white">
+<ul tabindex="0" class="dropdown-content z-[1] menu bg-white absolute left-[0]">
     <div class="flex flex-col gap-2 items-center p-2">
         <div class="border-2 border-black w-full h-20 flex justify-center items-center">
             <span>스테이지 정보</span>

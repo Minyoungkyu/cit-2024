@@ -100,9 +100,7 @@
 
 </script>
 
-<h1 class="header">Code</h1>
-
-<canvas id="GameCanvas" width="1280" height="720"></canvas>
+<canvas id="GameCanvas" width="1280" height="720" style="opacity:0;"></canvas>
 <div id="splash">
   <div class="progress-bar stripes">
     <span style="width: 0%"></span>

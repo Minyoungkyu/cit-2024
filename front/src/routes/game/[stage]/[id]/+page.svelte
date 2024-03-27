@@ -28,6 +28,7 @@
     let hintModal: HTMLDialogElement 
     let scan: HTMLDivElement 
     let progressController: HTMLInputElement; 
+    let commandGuide: string[] = gameMapDto.commandGuide.split(',');
     let framesData: [] = $state([]);
     let isCoReady: boolean = $state(false); // cocos 초기화 추적... 의미가 있는지 모르겠음
 
@@ -80,31 +81,20 @@
     }
 
     function startHideAnimation() {
-          new TWEEN.Tween({ opacity: 1, scaleY: 1, mainOpacity: 0 })
+        new TWEEN.Tween({ opacity: 1, scaleY: 1, mainOpacity: 0 })
             .to({ opacity: 0, scaleY: 0, mainOpacity: 1 }, 1000) 
             .easing(TWEEN.Easing.Linear.None) 
             .onUpdate(({ opacity: updatedOpacity, scaleY: updatedHeight, mainOpacity: updatedMainOpacity }) => {
-              opacity = updatedOpacity;
-              scaleY = updatedHeight;
-              mainOpacity = updatedMainOpacity;
+                opacity = updatedOpacity;
+                scaleY = updatedHeight;
+                mainOpacity = updatedMainOpacity;
             })
             .start();
-        }
-
-    let markerId:any;
-    function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
-        const Range = ace.require('ace/range').Range;
-        const session = editor.getSession();
-        if (markerId !== undefined) {
-          session.removeMarker(markerId);
-        }
-        const range = new Range(HilightRow - 3, 0, HilightRow - 3, 1);
-        markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
-      }
+    }
 
     async function executePython(): Promise<void> {
         console.time("executePythonTimer"); // 실행 시간 측정 시작
-
+        
         if (pyodideInstance) {
             let result: any = await runPythonCode2(pyodideInstance, gameMapDto.cocosInfo, editor.getValue());
             framesData = JSON.parse(result);
@@ -113,9 +103,9 @@
             };
 
             console.log(wrappedData);
-            (window as any).SendStreamData?.(wrappedData);
-            progressController.max = (framesData.length - 1).toString();
-            updateFrame(framesData, 0);
+            // (window as any).SendStreamData?.(wrappedData);
+            // progressController.max = (framesData.length - 1).toString();
+            // updateFrame(framesData, 0);
             console.timeEnd("executePythonTimer"); // 여기에 실행 시간 측정 종료를 배치하여 전체 시간을 측정
         }
     }
@@ -209,6 +199,17 @@
 
     });
 
+    let markerId:any;
+    function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
+        const Range = ace.require('ace/range').Range;
+        const session = editor.getSession();
+        if (markerId !== undefined) {
+          session.removeMarker(markerId);
+        }
+        const range = new Range(HilightRow - 3, 0, HilightRow - 3, 1);
+        markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
+    }
+
     function handlePlay() {
         (window as any).OnClickPlay();
         updateFrame(framesData, parseInt(progressController.value));
@@ -240,6 +241,25 @@
         hintModal.close(); // 모달을 닫는 함수
     }
 
+    function test(value: string) {
+    let oldValue = editor.getValue();
+    let newValue = oldValue + value;
+    editor.setValue(newValue, 1);
+
+    let newValueSplit = newValue.split('\n');
+    let lastLineIndex = newValueSplit.length - 2; 
+    let lastLine = newValueSplit[lastLineIndex];
+
+    let tabCount = (lastLine.match(/\t/g) || []).length;
+
+    let tabsToAdd = '\t'.repeat(tabCount);
+    if (tabCount > 0) {
+        editor.setValue(newValue + tabsToAdd, 1);
+    }
+
+    editor.focus();
+}
+
 </script>
 
 <div class="flex flex-col items-center justify-center">
@@ -247,7 +267,6 @@
         <div class="border-2 border-black w-2/3 relative">
             <div id="game-player-container" class="flex justify-center items-center h-full">
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
-                <div id="pythonOutput">안녕</div>
             </div>
             <a href="/game/1" class="absolute border-2 border-black w-fit top-[2%] left-[1%] z-[10]">뒤로가기</a>
             <div class="avatar top-[10%] left-[1%] absolute" style="opacity:{otherOpacity2};">
@@ -264,8 +283,8 @@
                     </div>
                 </div>
             </div>
-            <div class="w-[10vw] h-[8vw] absolute border-2 border-black flex justify-center items-center absolute right-0 top-4" 
-                  style="transform:scale({scale})">
+            <div class="w-[10vw] h-[8vw] absolute border-2 border-black flex justify-center items-center absolute right-0 top-4 text-start" 
+                  style="transform:scale({scale});white-space:pre-wrap;">
                     {gameMapDto.clearGoal}
             </div>
             <div class="flex flex-row items-center absolute bottom-[4%] left-[auto] w-[95%] ml-[2.5%] gap-6" style="background-color:#181818;">
@@ -327,13 +346,19 @@
                     </div>
                 </div>
                 <div id="editor" class="w-full h-2/3"></div>
-                <div class="flex flex-row justify-around mt-4">
+                <div class="flex flex-row justify-around mt-2">
                     <button class="btn btn-outline" on:click={executePython}>Run Python Code</button>
                     <button class="btn btn-outline">완료</button>
                 </div>
-                <div class="flex justify-start items-center mt-8 ml-8">
-                    <div class="border-2 border-black w-[16vw] h-[8vw] flex justify-center items-center">
-                        {gameMapDto.commandGuide}
+                <div class="flex justify-start items-center mt-2 ml-8">
+                    <div class="border-2 border-black w-[400px] h-[200px] flex flex-col items-start pl-4 gap-2 pt-2">
+                        {#each commandGuide as command}
+                            {#if command === 'for i in range(3):'}
+                                <div class="font-bold text-black border-2 border-black cursor-pointer" on:click={() => test(command + "\n\t")}>{command}</div>
+                            {:else}
+                                <div class="font-bold text-black border-2 border-black cursor-pointer" on:click={() => test(command + "\n")}>{command}</div>
+                            {/if}
+                        {/each}
                     </div>
                 </div>
             </div>

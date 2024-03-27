@@ -1,28 +1,4 @@
-import { get } from "svelte/store";
-
-declare global {
-    interface Window {
-      pyodide: any;
-      loadPyodide: any;
-    }
-  }
-  
-  export async function loadPyodide() {
-    if (!window.pyodide) {
-      await new Promise<void>((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = '/pyodide.js'; 
-        script.onload = () => resolve();
-        script.onerror = reject;
-        document.body.appendChild(script);
-      });
-  
-      window.pyodide = await window.loadPyodide({
-        indexURL: "/pyodide/" 
-      });
-    }
-    return window.pyodide;
-  }
+declare var loadPyodide: any;
 
 const logic1 = 
 `
@@ -513,78 +489,28 @@ json.dumps(frames)
 
 `
 
-let pyodideWorker:any = null;
-
-function getPyodideWorker() {
-    if (pyodideWorker === null) {
-        pyodideWorker = new Worker('../../src/lib/pyodide/pyodideWorker.ts');
-
-        pyodideWorker.onmessage = (event:any) => {
-            if (pyodideWorker.callback) {
-                if (event.data.error) {
-                    pyodideWorker.callback.reject(event.data.error);
-                } else {
-                    pyodideWorker.callback.resolve(event.data.result);
-                }
-            }
-        };
-
-        pyodideWorker.onerror = (error:any) => {
-            if (pyodideWorker.callback) {
-                pyodideWorker.callback.reject(error);
-            }
-        };
+addEventListener('message', async (event) => {
+    if (!(self as any).pyodide) {
+        // Pyodide 스크립트를 동기적으로 로드
+        importScripts('/pyodide.js');
+        (self as any).pyodide = await loadPyodide({
+            indexURL: "/pyodide/"
+        });
     }
 
-    return pyodideWorker;
-}
+    try {
+        const { stageData, userInput } = event.data;
 
-export async function runPythonCode2(pyodide: any, stageData:any, userInput: any) {
-    // try {
-    //     runPythonCodeWithTimeout(stageData, userInput, 3000)
-    //         .then(result => {
-    //             console.log('결과:', result);
-    //             return result;
-    //         })
-    //         .catch(error => {
-    //             console.error('오류:', error);
-    //         });
-    // } catch (error) {
-    //     console.error('Python 코드 실행 중 오류 발생:', error);
-    // }
-    return new Promise(async (resolve, reject) => {
-        try {
-            const result = await runPythonCodeWithTimeout(stageData, userInput, 3000);
-            resolve(result); // 비동기 작업의 결과를 반환
-        } catch (error) {
-            console.error('오류:', error);
-            reject(error); // 오류를 반환
+        const result = await (self as any).pyodide.runPythonAsync(`${logic1}${stageData}${logic2}${userInput}${logic3}`);
+
+        postMessage({ result });
+    } catch (error) {
+        if (error instanceof Error) {
+            postMessage({ error: error.message }); 
+        } else {
+            postMessage({error: "알 수 없는 오류 발생"});
         }
-    });
-}
+    }
+});
 
-function runPythonCodeWithTimeout(stageData:any, userInput:any, timeout:any) {
-    return new Promise((resolve, reject) => {
-        let worker = getPyodideWorker();
-        worker.callback = { resolve, reject }; 
 
-        worker.postMessage({ stageData, userInput });
-
-        setTimeout(() => {
-            // 워커 종료 대신 콜백 초기화
-            // 워커는 계속 재사용됩니다. 필요에 따라 종료 로직을 추가할 수 있습니다.
-            worker.terminate();
-            worker = getPyodideWorker();
-            reject(new Error('파이썬 코드 실행 시간 초과'));
-        }, timeout);
-    });
-}
-
-// export async function runPythonCode2(pyodide: any, stageData:any, userInput: any) {
-//     try {
-//         let result = await pyodide.runPythonAsync(logic1 + stageData + logic2 + "\n" + userInput + logic3);
-//         return result;
-//     } catch (error) {
-//         console.error('Python 코드 실행 중 오류 발생:', error);
-//     }
-// }

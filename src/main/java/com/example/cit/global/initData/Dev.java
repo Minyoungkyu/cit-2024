@@ -1946,6 +1946,125 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap13h2, itemParts3);
                 requirePartsService.addRequireParts(gameMap13h3, itemParts3);
 
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                    gameMapTutorial1.getId(), gameMapTutorial1.getStage(), gameMapTutorial1.getStep(), gameMapTutorial1.getDifficulty(), gameMapTutorial1.getLevel(),
+                    "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                    gameMapTutorial2.getId(), gameMapTutorial2.getStage(), gameMapTutorial2.getStep(), gameMapTutorial2.getDifficulty(), gameMapTutorial2.getLevel(),
+                    "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                    gameMap11e1.getId(), gameMap11e1.getStage(), gameMap11e1.getStep(), gameMap11e1.getDifficulty(), gameMap11e1.getLevel(),
+                    "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11e2.getId(), gameMap11e2.getStage(), gameMap11e2.getStep(), gameMap11e2.getDifficulty(), gameMap11e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11e3.getId(), gameMap11e3.getStage(), gameMap11e3.getStep(), gameMap11e3.getDifficulty(), gameMap11e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11n1.getId(), gameMap11n1.getStage(), gameMap11n1.getStep(), gameMap11n1.getDifficulty(), gameMap11n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11n2.getId(), gameMap11n2.getStage(), gameMap11n2.getStep(), gameMap11n2.getDifficulty(), gameMap11n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11n3.getId(), gameMap11n3.getStage(), gameMap11n3.getStep(), gameMap11n3.getDifficulty(), gameMap11n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11h1.getId(), gameMap11h1.getStage(), gameMap11h1.getStep(), gameMap11h1.getDifficulty(), gameMap11h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11h2.getId(), gameMap11h2.getStage(), gameMap11h2.getStep(), gameMap11h2.getDifficulty(), gameMap11h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap11h3.getId(), gameMap11h3.getStage(), gameMap11h3.getStep(), gameMap11h3.getDifficulty(), gameMap11h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12e1.getId(), gameMap12e1.getStage(), gameMap12e1.getStep(), gameMap12e1.getDifficulty(), gameMap12e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12e2.getId(), gameMap12e2.getStage(), gameMap12e2.getStep(), gameMap12e2.getDifficulty(), gameMap12e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12e3.getId(), gameMap12e3.getStage(), gameMap12e3.getStep(), gameMap12e3.getDifficulty(), gameMap12e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12n1.getId(), gameMap12n1.getStage(), gameMap12n1.getStep(), gameMap12n1.getDifficulty(), gameMap12n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12n2.getId(), gameMap12n2.getStage(), gameMap12n2.getStep(), gameMap12n2.getDifficulty(), gameMap12n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12n3.getId(), gameMap12n3.getStage(), gameMap12n3.getStep(), gameMap12n3.getDifficulty(), gameMap12n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12h1.getId(), gameMap12h1.getStage(), gameMap12h1.getStep(), gameMap12h1.getDifficulty(), gameMap12h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12h2.getId(), gameMap12h2.getStage(), gameMap12h2.getStep(), gameMap12h2.getDifficulty(), gameMap12h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap12h3.getId(), gameMap12h3.getStage(), gameMap12h3.getStep(), gameMap12h3.getDifficulty(), gameMap12h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13e1.getId(), gameMap13e1.getStage(), gameMap13e1.getStep(), gameMap13e1.getDifficulty(), gameMap13e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13e2.getId(), gameMap13e2.getStage(), gameMap13e2.getStep(), gameMap13e2.getDifficulty(), gameMap13e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13e3.getId(), gameMap13e3.getStage(), gameMap13e3.getStep(), gameMap13e3.getDifficulty(), gameMap13e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13n1.getId(), gameMap13n1.getStage(), gameMap13n1.getStep(), gameMap13n1.getDifficulty(), gameMap13n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13n2.getId(), gameMap13n2.getStage(), gameMap13n2.getStep(), gameMap13n2.getDifficulty(), gameMap13n2.getLevel(),
+                        "", 1);
+
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+//                        gameMap13n3.getId(), gameMap13n3.getStage(), gameMap13n3.getStep(), gameMap13n3.getDifficulty(), gameMap13n3.getLevel(),
+//                        "", 1);
+//
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+//                        gameMap13h1.getId(), gameMap13h1.getStage(), gameMap13h1.getStep(), gameMap13h1.getDifficulty(), gameMap13h1.getLevel(),
+//                        "", 1);
+//
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+//                        gameMap13h2.getId(), gameMap13h2.getStage(), gameMap13h2.getStep(), gameMap13h2.getDifficulty(), gameMap13h2.getLevel(),
+//                        "", 1);
+//
+//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+//                        gameMap13h3.getId(), gameMap13h3.getStage(), gameMap13h3.getStep(), gameMap13h3.getDifficulty(), gameMap13h3.getLevel(),
+//                        "", 1);
+
+
+
+
 
             }
         };
