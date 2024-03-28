@@ -226,16 +226,16 @@
             <DifficultySelector2 gameMapId={3} stepsLevelCount={3} playerLogList={playerLogList} difficultySelectorMsg={difficultySelectorMsgs[0]} difficultySelectorName={difficultySelectorNames[0]}/>
             {/if}
         {:else}
-        <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-1(잠금)</div>
+        <div tabindex="0" role="button" class="btn absolute bottom-[16%] left-[14%] w-[6vw]">1-1(잠금)</div>
         {/if}
 
         {#if isOpen(12)}
-        <div class="btn absolute bottom-[8%] left-[24%]  w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div>
+        <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div>
             {#if isDropdownOpen[2]}
             <DifficultySelector2 gameMapId={12} stepsLevelCount={3} playerLogList={playerLogList} difficultySelectorMsg={difficultySelectorMsgs[1]} difficultySelectorName={difficultySelectorNames[1]}/>
             {/if}
         {:else}
-        <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-2(잠금)</div>
+        <div tabindex="0" role="button" class="btn absolute bottom-[8%] left-[24%] w-[6vw]">1-2(잠금)</div>
         {/if}
 
         {#if isOpen(21)}
@@ -244,7 +244,7 @@
             <DifficultySelector2 gameMapId={21} stepsLevelCount={3} playerLogList={playerLogList} difficultySelectorMsg={difficultySelectorMsgs[2]} difficultySelectorName={difficultySelectorNames[2]}/>
             {/if}
         {:else}
-        <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-3(잠금)</div>
+        <div tabindex="0" role="button" class="btn absolute bottom-[16%] left-[34%] w-[6vw]">1-3(잠금)</div>
         {/if}
     </div>
 </div>

@@ -20,6 +20,7 @@
     import Cocos from '$lib/cocos/cocos.svelte';
     import { loadPyodide, runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
+	import { runPythonCode } from '$lib/brython/brythonSetup';
 
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
@@ -29,7 +30,8 @@
     let scan: HTMLDivElement 
     let progressController: HTMLInputElement; 
     let commandGuide: string[] = gameMapDto.commandGuide.split(',');
-    let framesData: [] = $state([]);
+    let framesData: [] = $state([]); // 파이썬 실행 결과 프레임 데이터
+    let frameUpdateIntervalId: any = $state(null); // 에디터 하이라이터, 프로그레스바 업데이트 인터벌 아이디
     let isCoReady: boolean = $state(false); // cocos 초기화 추적... 의미가 있는지 모르겠음
 
     $effect(() => { // ToDo: cocos 초기화 추적하여 화면 로드할때 활용
@@ -93,27 +95,28 @@
     }
 
     async function executePython(): Promise<void> {
-        console.time("executePythonTimer"); // 실행 시간 측정 시작
-        
-        if (pyodideInstance) {
-            let result: any = await runPythonCode2(pyodideInstance, gameMapDto.cocosInfo, editor.getValue());
-            framesData = JSON.parse(result);
-            const wrappedData = {
-                data: framesData
-            };
+        console.time("executePythonTimer"); // ToDo: remove
 
-            console.log(wrappedData);
-            // (window as any).SendStreamData?.(wrappedData);
-            // progressController.max = (framesData.length - 1).toString();
-            // updateFrame(framesData, 0);
-            console.timeEnd("executePythonTimer"); // 여기에 실행 시간 측정 종료를 배치하여 전체 시간을 측정
+        if (frameUpdateIntervalId !== null) { // 인터벌 초기화
+            clearInterval(frameUpdateIntervalId);
+            frameUpdateIntervalId = null;
         }
+        
+        let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
+        framesData = JSON.parse(result.result);
+        const wrappedData = {
+            data: framesData
+        };
+
+        console.log(wrappedData);
+        (window as any).SendStreamData?.(wrappedData);
+        progressController.max = (framesData.length - 1).toString();
+        updateFrame(framesData, 0);
+        console.timeEnd("executePythonTimer"); // ToDo: remove
     }
 
-    let pyodideInstance: any;
-
     onMount(async () => {
-        pyodideInstance = await loadPyodide();
+        runPythonCode2( "", "");
     });
 
     onMount(() => {
@@ -200,6 +203,7 @@
     });
 
     let markerId:any;
+
     function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
         const Range = ace.require('ace/range').Range;
         const session = editor.getSession();
@@ -220,15 +224,16 @@
     }
 
     function updateFrame(framesData: any, currentFrameIndex: number) {
-        const frameRate = 30; // 초당 30프레임 가정
-        const frameUpdateInterval = setInterval(() => {
+        const frameRate = 30; // ToDo: 실제 초당 프레임수로
+        frameUpdateIntervalId = setInterval(() => {
             if (currentFrameIndex < framesData.length) {
                 const frame = framesData[currentFrameIndex];
                 progressController.value = currentFrameIndex.toString();
                 updateHighlight(frame.line_num);
                 currentFrameIndex++;
             } else {
-                clearInterval(frameUpdateInterval); // 모든 프레임 처리 후 인터벌 종료
+                clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
+                frameUpdateIntervalId = null; 
             }
         }, 1000 / frameRate);
     }

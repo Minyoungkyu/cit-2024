@@ -168,6 +168,15 @@ public class Dev {
                 Member memberUser2 = memberService.join("testUser2", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("testUser2");
 
+                Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
+                memberClassAdmin.setRefreshToken("class");
+
+                Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
+                memberProgramAdmin.setRefreshToken("program");
+
+                Member memberSystemAdmin = memberService.join("system", "1234", "시스템관리자", "010-1234-1234", 4).getData();
+                memberSystemAdmin.setRefreshToken("system");
+
                 ItemParts itemParts1 = itemPartsService.createItemParts("신발");
                 ItemParts itemParts2 = itemPartsService.createItemParts("모듈");
                 ItemParts itemParts3 = itemPartsService.createItemParts("장갑");
@@ -178,7 +187,7 @@ public class Dev {
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
-                        "# 목표지점에 도달하세요.",
+                        "# 목표지점에 도달하세요.\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -845,7 +854,7 @@ public class Dev {
                         "1", "1-2", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():",
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.",
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "로켓부품 5개 획득하기\n" +
                                 "코드 8줄 이하로 작성하기\n",
                         "stage = {\n" +
@@ -919,7 +928,7 @@ public class Dev {
                         "1", "1-2", "Normal", 1,
                         "go(),turnLeft(),turnRight(),for i in range():",
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.",
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "목표지점에 도달하기\n" +
                                 "로켓부품 5개 획득하기\n" +
                                 "코드 8줄 이하로 작성하기\n",
@@ -1125,7 +1134,7 @@ public class Dev {
                         "1", "1-2", "Hard", 1,
                         "go(),turnLeft(),turnRight(),for i in range():",
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.",
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "목표지점에 도달하기\n" +
                                 "로켓부품 모두 획득하기\n" +
                                 "코드 40줄 이하로 작성하기\n",
@@ -1916,6 +1925,7 @@ public class Dev {
                         1,
                         1);
 
+                // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);
                 requirePartsService.addRequireParts(gameMap11e2, itemParts1);
                 requirePartsService.addRequireParts(gameMap11e3, itemParts1);
@@ -1926,6 +1936,18 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap11h2, itemParts1);
                 requirePartsService.addRequireParts(gameMap11h3, itemParts1);
 
+                // 1-2 itemParts1
+                requirePartsService.addRequireParts(gameMap12e1, itemParts1);
+                requirePartsService.addRequireParts(gameMap12e2, itemParts1);
+                requirePartsService.addRequireParts(gameMap12e3, itemParts1);
+                requirePartsService.addRequireParts(gameMap12n1, itemParts1);
+                requirePartsService.addRequireParts(gameMap12n2, itemParts1);
+                requirePartsService.addRequireParts(gameMap12n3, itemParts1);
+                requirePartsService.addRequireParts(gameMap12h1, itemParts1);
+                requirePartsService.addRequireParts(gameMap12h2, itemParts1);
+                requirePartsService.addRequireParts(gameMap12h3, itemParts1);
+
+                // 1-2 itemParts2
                 requirePartsService.addRequireParts(gameMap12e1, itemParts2);
                 requirePartsService.addRequireParts(gameMap12e2, itemParts2);
                 requirePartsService.addRequireParts(gameMap12e3, itemParts2);
@@ -1936,6 +1958,29 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap12h2, itemParts2);
                 requirePartsService.addRequireParts(gameMap12h3, itemParts2);
 
+                // 1-3 itemParts1
+                requirePartsService.addRequireParts(gameMap13e1, itemParts1);
+                requirePartsService.addRequireParts(gameMap13e2, itemParts1);
+                requirePartsService.addRequireParts(gameMap13e3, itemParts1);
+                requirePartsService.addRequireParts(gameMap13n1, itemParts1);
+                requirePartsService.addRequireParts(gameMap13n2, itemParts1);
+                requirePartsService.addRequireParts(gameMap13n3, itemParts1);
+                requirePartsService.addRequireParts(gameMap13h1, itemParts1);
+                requirePartsService.addRequireParts(gameMap13h2, itemParts1);
+                requirePartsService.addRequireParts(gameMap13h3, itemParts1);
+
+                // 1-1 itemParts2
+                requirePartsService.addRequireParts(gameMap13e1, itemParts2);
+                requirePartsService.addRequireParts(gameMap13e2, itemParts2);
+                requirePartsService.addRequireParts(gameMap13e3, itemParts2);
+                requirePartsService.addRequireParts(gameMap13n1, itemParts2);
+                requirePartsService.addRequireParts(gameMap13n2, itemParts2);
+                requirePartsService.addRequireParts(gameMap13n3, itemParts2);
+                requirePartsService.addRequireParts(gameMap13h1, itemParts2);
+                requirePartsService.addRequireParts(gameMap13h2, itemParts2);
+                requirePartsService.addRequireParts(gameMap13h3, itemParts2);
+
+                // 1-1 itemParts3
                 requirePartsService.addRequireParts(gameMap13e1, itemParts3);
                 requirePartsService.addRequireParts(gameMap13e2, itemParts3);
                 requirePartsService.addRequireParts(gameMap13e3, itemParts3);

@@ -17,8 +17,12 @@ class Character:
         self.set_time= 0.5
         self.set_cannot_time= 0.5
         self.wait_time = 0.5
+        self.die_time = 0.5
 
         # 상태값
+        self.hero_idle_status = 0
+        self.hero_run_status = 1
+        self.hero_turn_status = 2
         self.hero_die_status = 9
         self.hero_cannot_move_status = 10
         self.hero_hit_bomb_status = 11
@@ -82,8 +86,8 @@ class Character:
         #         item["status"] = 1 if item["status"] == 0 else 0
 
     def handle_switch_status(self): # 스위치 상태 변경 (밟혀있던거 다 올라오도록)
-        target_drop_switch_id = []
-        target_laser_switch_id = []
+        # target_drop_switch_id = []
+        # target_laser_switch_id = []
 
         for item in self.data['stage']['init_item_list']:
             if item['type'] == 'drop_switch':
@@ -102,6 +106,20 @@ class Character:
         #     elif index in target_drop_switch_id:
         #         self.data['item_list'][index] = 2 if self.data['item_list'][index] == 0 else 3
         
+    def hit_frame_append(self, line_num):
+        action_frames = int(self.hit_bomb_time * self.fps)
+
+        self.data["player"]["status"] = self.hero_hit_bomb_status
+        for i in range(action_frames):
+            self.frame_append(line_num)
+        self.data["player"]["status"] = self.hero_idle_status
+
+    def die_frame_append(self):
+        action_frames = int(self.die_time * self.fps)
+
+        self.data["player"]["status"] = self.hero_die_status
+        for i in range(action_frames):
+            self.frame_append(0)
 
     def set_fail(self, status, line_num):
         total_frames = int(self.set_cannot_time * self.fps)
@@ -185,26 +203,33 @@ class Character:
         return directions[new_dir_index]
     
     def do_move(self, total_frames, line_num):
+        self.data["player"]["status"] = self.hero_run_status
+
         if self.data["player"]["dir"] == "right":
             for i in range(int(total_frames)):
                 if i == int(total_frames)//2:
                     self.handle_switch_status()
                 self.move(2/int(self.go_time * self.fps), 0, line_num)
+
         elif self.data["player"]["dir"] == "left":
             for i in range(int(total_frames)):
                 if i == int(total_frames)//2:
                     self.handle_switch_status()
                 self.move(-2/int(self.go_time * self.fps), 0, line_num)
+
         elif self.data["player"]["dir"] == "up":
             for i in range(int(total_frames)):
                 if i == int(total_frames)//2:
                     self.handle_switch_status()
                 self.move(0, -2/int(self.go_time * self.fps), line_num)
+
         elif self.data["player"]["dir"] == "down":
             for i in range(int(total_frames)):
                 if i == int(total_frames)//2:
                     self.handle_switch_status()
-                self.move(0, 2/int(self.go_time * self.fps), line_num)        
+                self.move(0, 2/int(self.go_time * self.fps), line_num)   
+
+        self.data["player"]["status"] = self.hero_idle_status
 
     def move(self, dx, dy, line_num):
         new_x = self.data["player"]["pos"][0] + dx
@@ -220,6 +245,14 @@ class Character:
 
         for _ in range(int(total_frames/2)):
             self.frame_append(line_num - start_line)
+
+    def do_turn(self, line_num, directions):
+        self.data["player"]["status"] = self.hero_turn_status
+        self.turn_half(line_num)
+        self.data["player"]["dir"] = self.decision_dir(directions)
+        self.turn_half(line_num)
+        self.data["player"]["status"] = self.hero_idle_status
+
             
     def go(self, line_num):
         move_ability = self.can_move()
@@ -239,48 +272,40 @@ class Character:
 
         elif move_ability == 2: # 중간에 폭탄밟음
             move_frames = int(self.go_time * self.fps)
-            action_frames = int(self.hit_bomb_time * self.fps)
             self.do_move(move_frames/2, line_num)
 
             # self.handle_item_status('bomb', self.item_off_status)
             for item in self.data['stage']['init_item_list']:
                 if item['type'] == 'bomb' and [round(pos) for pos in self.data["player"]["pos"]] == item['pos']:
                     self.handle_item_status(item['id'], self.item_off_status)
-                    
-            self.data["player"]["hp"] -= 50
+            
+            self.data["player"]["hp"] = 0 if self.data["player"]["hp"] <= 50 else self.data["player"]["hp"] - 50
+
+            self.hit_frame_append(line_num - start_line)
+
             if self.data["player"]["hp"] <= 0: # 플레이어 사망
                 return
-
-            self.data["player"]["status"] = self.hero_hit_bomb_status
-            for _ in range(action_frames):
-                self.frame_append(line_num - start_line)
-            self.data["player"]["status"] = 0
-
+            
             self.do_move(move_frames/2, line_num)
 
         elif move_ability == 3: # 중간에 레이져 밟음 ToDo: 나중에 디버깅 및 수정 필요
             move_frames = int(self.go_time * self.fps)
+
             self.do_move(move_frames/2, line_num)
+
             self.data["player"]["hp"] = 0
+            self.hit_frame_append(line_num - start_line)
             return
 
 
 
     def turnRight(self, line_num): 
-        self.turn_half(line_num)
-
         directions = ["right", "down", "left", "up"] 
-        self.data["player"]["dir"] = self.decision_dir(directions)
-
-        self.turn_half(line_num)
+        self.do_turn(line_num, directions)
 
     def turnLeft(self, line_num):
-        self.turn_half(line_num)
-
         directions = ["right", "up", "left", "down"] 
-        self.data["player"]["dir"] = self.decision_dir(directions)
-
-        self.turn_half(line_num)
+        self.do_turn(line_num, directions)
 
     def set(self, item, line_num):
         dir_offsets = {
@@ -320,8 +345,9 @@ class Character:
 
     def check_goal(self, line_num): # 목적지 상태 (상호작용) 체크
         if self.data["player"]["hp"] <= 0: # 플레이어 사망
-            self.data["player"]["status"] = self.hero_die_status
-            self.frame_append(0)
+            self.data["player"]["status"] = self.hero_die_status 
+            self.die_frame_append()
+            return
         
         player_pos = [round(pos) for pos in self.data["player"]["pos"]]
             
@@ -337,21 +363,14 @@ class Character:
                 self.frame_append(line_num - start_line)
 
             elif item['type'] == 'bomb' and player_pos == item['pos'] and item['status'] == self.item_on_status: # 폭탄 밟음
-                action_frames = int(self.hit_bomb_time * self.fps)
                 self.handle_item_status(item['id'], self.item_off_status)
                 
-                self.data["player"]["status"] = self.hero_hit_bomb_status
-                for _ in range(action_frames):
-                    self.frame_append(line_num - start_line)
-                self.data["player"]["status"] = 0
+                self.data["player"]["hp"] = 0 if self.data["player"]["hp"] <= 50 else self.data["player"]["hp"] - 50
+                self.hit_frame_append(line_num - start_line)
 
-                if self.data["player"]["hp"] <= 50:
-                    self.data['player']['hp'] = 0
-                    self.data["player"]["status"] = self.hero_die_status
-                    self.frame_append(0)
+                if self.data["player"]["hp"] <= 0: # 플레이어 사망
+                    self.die_frame_append()
                     return
-                else:
-                    self.data["player"]["hp"] -= 50
 
 
             elif item['type'] == 'laser_switch' and player_pos == item['pos'] and self.frames[-2]["player"]["pos"] != self.data["player"]["pos"]:
@@ -364,19 +383,21 @@ class Character:
                             
             elif item['type'] == 'laser' and item['status'] == 1: # 레이저 닿음
                 player_pos_rounded = round(self.data["player"]["pos"][0]), round(self.data["player"]["pos"][1])
-                
+
                 if (item['dir'] == 'h' and player_pos_rounded[1] == item["pos_start"][1] and # 가로레이저
                     item["pos_start"][0] <= player_pos_rounded[0] <= item["pos_end"][0]):
                         self.data["player"]["hp"] = 0
-                        self.data["player"]["status"] = self.hero_die_status
-                        self.frame_append(0)
+                        self.hit_frame_append(line_num - start_line)
+                        self.die_frame_append()
+                        return
 
                 elif (item['dir'] == 'v' and player_pos_rounded[0] == item["pos_start"][0] and # 세로 레이저
                     item["pos_start"][1] <= player_pos_rounded[1] <= item["pos_end"][1]):
                         self.data["player"]["hp"] = 0
-                        self.data["player"]["status"] = self.hero_die_status
-                        self.frame_append(0)    
-                        
+                        self.hit_frame_append(line_num - start_line)
+                        self.die_frame_append()
+                        return
+                
             elif item['type'] == 'drop_switch': # 드롭 스위치 작동
                 if player_pos == item['pos'] and self.frames[-2]["player"]["pos"] != self.data["player"]["pos"]:
                     if item['status'] != 2:
@@ -401,7 +422,7 @@ class Character:
         for _ in range(wating_frame):
             self.frame_append(line_num - start_line)
         # 아이템리스트 상호작용 끝
-                                
+                               
         # 게임 클리어 체크
         all_achieved = True
         for goal in self.data["stage"]["goal_list"]:
@@ -443,6 +464,7 @@ class Character:
 
 def go(num = 1):
     for _ in range(num):
+        # print("go")
         if(hero.check_game_status()):
             return
         hero.go(inspect.currentframe().f_back.f_lineno)
@@ -450,6 +472,7 @@ def go(num = 1):
 
 def turnRight(num = 1):
     for _ in range(num):
+        # print("turnRight")
         if(hero.check_game_status()):
             return
         hero.turnRight(inspect.currentframe().f_back.f_lineno)
@@ -457,12 +480,14 @@ def turnRight(num = 1):
     
 def turnLeft(num = 1):
     for _ in range(num):
+        # print("turnLeft")
         if(hero.check_game_status()):
             return
         hero.turnLeft(inspect.currentframe().f_back.f_lineno)
         hero.check_goal(inspect.currentframe().f_back.f_lineno)
 
 def set(item):
+    # print("set("+item+")")
     if(hero.check_game_status()):
         return
     hero.set(item, inspect.currentframe().f_back.f_lineno)
@@ -491,7 +516,6 @@ json.dumps(frames)
 
 addEventListener('message', async (event) => {
     if (!(self as any).pyodide) {
-        // Pyodide 스크립트를 동기적으로 로드
         importScripts('/pyodide.js');
         (self as any).pyodide = await loadPyodide({
             indexURL: "/pyodide/"

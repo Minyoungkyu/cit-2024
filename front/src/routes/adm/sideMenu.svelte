@@ -39,9 +39,9 @@
         color: white;
     }
 
-    @media (max-width: 1466px) {
+    /* @media (max-width: 1466px) {
         .sideMenuContainer {
             display: none;
         }
-    }
+    } */
 </style>

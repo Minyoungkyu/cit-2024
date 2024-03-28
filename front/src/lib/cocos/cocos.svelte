@@ -100,7 +100,7 @@
 
 </script>
 
-<canvas id="GameCanvas" width="1280" height="720" style="opacity:0;"></canvas>
+<canvas id="GameCanvas" width="1280" height="720" style=""></canvas>
 <div id="splash">
   <div class="progress-bar stripes">
     <span style="width: 0%"></span>

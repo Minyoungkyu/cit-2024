@@ -163,9 +163,6 @@ class Rq {
     };
   }
 
-  // 인증
-  // 이렇게 member 를 만들면 좋은 점이 있다.
-  // member 의 값이 바뀌면, member 를 사용하는 모든 곳에서 자동으로 즉각 반영된다.
   public makeReactivityMember() {
     let id = $state(0);
     let name = $state('');
