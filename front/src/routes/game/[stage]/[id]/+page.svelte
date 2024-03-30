@@ -18,9 +18,9 @@
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
     import TWEEN, { update } from '@tweenjs/tween.js';
     import Cocos from '$lib/cocos/cocos.svelte';
-    import { loadPyodide, runPythonCode2 } from '$lib/pyodide/pyodide';
+    import { runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
-	import { runPythonCode } from '$lib/brython/brythonSetup';
+    import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
 
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
@@ -82,18 +82,6 @@
         }, 3000); // 역방향 애니메이션 시간 설정
     }
 
-    function startHideAnimation() {
-        new TWEEN.Tween({ opacity: 1, scaleY: 1, mainOpacity: 0 })
-            .to({ opacity: 0, scaleY: 0, mainOpacity: 1 }, 1000) 
-            .easing(TWEEN.Easing.Linear.None) 
-            .onUpdate(({ opacity: updatedOpacity, scaleY: updatedHeight, mainOpacity: updatedMainOpacity }) => {
-                opacity = updatedOpacity;
-                scaleY = updatedHeight;
-                mainOpacity = updatedMainOpacity;
-            })
-            .start();
-    }
-
     async function executePython(): Promise<void> {
         console.time("executePythonTimer"); // ToDo: remove
 
@@ -119,7 +107,22 @@
         runPythonCode2( "", "");
     });
 
+    const originalHeight = 1080;
+    let currentHeight = $state(1080);
+    let scaleMultiplier = $state(0);
+    let widthMultiplier = $state(1920);
+
     onMount(() => {
+        const updateScale = () => {
+            const currentHeight = window.innerHeight;
+            scaleMultiplier = (currentHeight / originalHeight);
+            widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
+        };
+
+        window.addEventListener('resize', updateScale);
+        
+        updateScale();
+        
         editor = setupAceEditor('editor', customCompletions);
         editor.setValue(explanation, 1); 
 
@@ -137,68 +140,6 @@
         editor.focus();
 
         startScanning();
-
-        new TWEEN.Tween({ opacity: 0, scaleY: 0})
-          .to({ opacity: 1, scaleY: 1}, 1000) 
-          .easing(TWEEN.Easing.Linear.None) 
-          .onUpdate(({ opacity: updatedOpacity, scaleY: updatedScaleY }) => {
-            opacity = updatedOpacity;
-            scaleY = updatedScaleY;
-          })
-          .onComplete(() => { // 메인 애니메이션 완료 후
-            new TWEEN.Tween({ otherOpacity: 0, scale: 1.2 })
-              .to({ otherOpacity: 1, scale: 1 }, 500) 
-              .easing(TWEEN.Easing.Back.Out)
-              .onUpdate(({ otherOpacity: updatedOpacity, scale: updatedScale }) => {
-                otherOpacity = updatedOpacity;
-                scale = updatedScale;
-              })
-              .onComplete(() => {
-                new TWEEN.Tween({ otherOpacity2: 0 })
-                  .to({ otherOpacity2: 1 }, 500) 
-                  .easing(TWEEN.Easing.Back.Out)
-                  .onUpdate(({ otherOpacity2: updatedOpacity }) => {
-                    otherOpacity2 = updatedOpacity;
-                  })
-                  .onComplete(() => {
-                    new TWEEN.Tween({ otherOpacity3: 0 })
-                      .to({ otherOpacity3: 1 }, 500) 
-                      .easing(TWEEN.Easing.Back.Out)
-                      .onUpdate(({ otherOpacity3: updatedOpacity }) => {
-                        otherOpacity3 = updatedOpacity;
-                      })
-                      .onComplete(() => {
-                        new TWEEN.Tween({ otherOpacity4: 0 })
-                          .to({ otherOpacity4: 1 }, 500) 
-                          .easing(TWEEN.Easing.Back.Out)
-                          .onUpdate(({ otherOpacity4: updatedOpacity }) => {
-                            otherOpacity4 = updatedOpacity;
-                          })
-                          .onComplete(() => {
-                            new TWEEN.Tween({ otherOpacity5: 0 })
-                              .to({ otherOpacity5: 1 }, 500) 
-                              .easing(TWEEN.Easing.Back.Out)
-                              .onUpdate(({ otherOpacity5: updatedOpacity }) => {
-                                otherOpacity5 = updatedOpacity;
-                              })
-                              .start();
-                          })
-                          .start();
-                      })
-                      .start();                     
-                  })
-                  .start();
-              })
-              .start();
-          })
-          .start();
-
-        function animate(time: number) {
-          requestAnimationFrame(animate);
-          TWEEN.update(time);
-        }
-
-        requestAnimationFrame(animate);
 
     });
 
@@ -267,29 +208,29 @@
 
 </script>
 
-<div class="flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen flex flex-row">
-        <div class="border-2 border-black w-2/3 relative">
-            <div id="game-player-container" class="flex justify-center items-center h-full">
+        <div class="relative" style="width:{widthMultiplier}px;">
+            <div id="game-player-container" class="flex justify-center items-center h-full " style="width:{widthMultiplier}px;">
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
             <a href="/game/1" class="absolute border-2 border-black w-fit top-[2%] left-[1%] z-[10]">뒤로가기</a>
-            <div class="avatar top-[10%] left-[1%] absolute" style="opacity:{otherOpacity2};">
+            <div class="avatar top-[10%] left-[1%] absolute">
                 <div class="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
             </div>
             </div>
             <div class="flex flex-row absolute top-[20%] left-[1%] gap-2">
-                <div class="border-2 h-fit" style="opacity:{otherOpacity3};">8</div>
+                <div class="border-2 h-fit">8</div>
                 <div>
-                    <div style="opacity:{otherOpacity4};">홍길동</div>
-                    <div style="opacity:{otherOpacity5};">
+                    <div >홍길동</div>
+                    <div >
                         <div>체력바</div>
                         <div>100/100</div>
                     </div>
                 </div>
             </div>
             <div class="w-[10vw] h-[8vw] absolute border-2 border-black flex justify-center items-center absolute right-0 top-4 text-start" 
-                  style="transform:scale({scale});white-space:pre-wrap;">
+                  style="white-space:pre-wrap;">
                     {gameMapDto.clearGoal}
             </div>
             <div class="flex flex-row items-center absolute bottom-[4%] left-[auto] w-[95%] ml-[2.5%] gap-6" style="background-color:#181818;">
@@ -309,7 +250,7 @@
               </div>
             </div>
         </div>
-        <div class="border-2 border-black w-1/3 relative">
+        <div id="editor-container" class="relative" style="transform-origin:top right;transform:scale({scaleMultiplier})">
             <div bind:this={scan} class={`absolute top-0 left-0 w-full h-full z-[5] flex flex-col gap-8 items-center justify-center bg-gray-700 ${reverseScanning ? 'reverse-scanning-effect' : (scanning ? 'scanning-effect' : '')} hidden`}>
                 <div class="w-[95%] h-1/4 border-2">
                     미션 설명
@@ -323,14 +264,13 @@
                 <button class="btn btn-wide" on:click={reverseScan}>시작하기</button>               
             </div>
             <!-- style="opacity:{mainOpacity};" -->
-            <div class="w-full h-full"> 
-                <div class="flex flex-row justify-between mx-4">
+            <div class="w-[633px] h-[1080px] flex flex-col items-center" style="background-image:url('/img/inGame/ui_editor_frame.png'), url('/img/inGame/ui_editor_background.jpg');"> 
+                <div class="flex flex-row justify-between h-[70px] w-full items-center">
                     <div>
-                        \\\\
                     </div>
-                    <div class="flex flex-row gap-2">
-                        <div>X</div>
-                        <div class="cursor-pointer" on:click={showModal}>?</div>
+                    <div class="flex flex-row gap-12 mr-10">
+                        <div class="w-[34px] h-[34px] z-[50]" style="background-image:url('/img/inGame/btn_expand.png')"></div>
+                        <div class="cursor-pointer w-[39px] h-[40px]" style="background-image:url('/img/inGame/btn_help.png')" on:click={showModal}></div>
                         <dialog bind:this={hintModal} id="my_modal_1" class="modal">
                           <div class="w-[600px] h-[90%] rounded-lg flex flex-col gap-8 items-center justify-center bg-gray-700">
                             <div class="w-[95%] h-1/4 border-2">
@@ -347,15 +287,19 @@
                             </div>
                           </div>
                         </dialog>
-                        <div>O</div>
+                        <div class="w-[38px] h-[38px]" style="background-image:url('/img/inGame/btn_reset.png')"></div>
                     </div>
                 </div>
-                <div id="editor" class="w-full h-2/3"></div>
-                <div class="flex flex-row justify-around mt-2">
-                    <button class="btn btn-outline" on:click={executePython}>Run Python Code</button>
-                    <button class="btn btn-outline">완료</button>
+
+                <div class="flex justify-center">
+                    <div id="editor" class="w-[551px] h-[609px]"></div>
                 </div>
-                <div class="flex justify-start items-center mt-2 ml-8">
+
+                <div class="flex flex-row justify-around items-center w-[551px] h-[110px] mt-4" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
+                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225)" on:click={executePython}>실행</button>
+                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic" style="background-image:url('/img/inGame/btn_complete.png');color:rgb(255 210 87)">완료</button>
+                </div>
+                <div class="flex justify-start items-center w-[602px] h-[250px]" style="background-image:url('/img/inGame/ui_editor_background4.png')">
                     <div class="border-2 border-black w-[400px] h-[200px] flex flex-col items-start pl-4 gap-2 pt-2">
                         {#each commandGuide as command}
                             {#if command === 'for i in range(3):'}
@@ -370,3 +314,5 @@
         </div>
     </div>
 </div>
+
+<!-- <TransitioningOpenLayer isCoReady={isCoReady}/> -->

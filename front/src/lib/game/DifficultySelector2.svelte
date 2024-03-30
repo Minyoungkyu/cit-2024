@@ -4,9 +4,10 @@
     import type { components } from '$lib/types/api/v1/schema';
 	import rq from "$lib/rq/rq.svelte";
 
-    const { gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName } = 
-        $props<{ gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][], difficultySelectorMsg: string, difficultySelectorName: string }>();
-    
+    const { gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName, activeTransitionAnimation } = 
+        $props<{ gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][],
+         difficultySelectorMsg: string, difficultySelectorName: string, activeTransitionAnimation: () => void }>();
+
     let dropdown: any;
     let dropdownVisible = $state(true);
 
@@ -102,36 +103,43 @@
         routePlayerToLastGame();
         showCharactorStatusModal();
     }
+
 </script>
 
-<div class="flex flex-col dropdown-content items-center pt-12 gap-12 border-2 h-full w-[450px] absolute right-[0] bg-gray-700 slide-in">
-    <div class="flex justify-end w-full mr-16">
-        <div class="text-[70px] font-extrabold text-white" style="text-shadow:5px 10px black">{difficultySelectorName}</div>
-    </div>
-    <div class="flex flex-col w-full">
-        <div class="w-full h-8 border-2"></div>
-        <div class="border-2 border-black w-full h-[400px] flex justify-center">
-            <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">{difficultySelectorMsg}</div>
+<div class="flex dropdown-content justify-end pt-12 gap-12 h-screen w-[628px] absolute right-[0] slide-in"
+    style="background-image:url('/img/map/ui_stage_Gradation.png')">
+    <div class="flex flex-col w-[501px]">
+        <div class="flex justify-end w-full mr-16">
+            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:6px 6px #666">{difficultySelectorName}</div>
+        </div>
+        <div class="flex flex-col items-end w-full">
+            <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png')"></div>
+            <div class="w-[450px] h-[400px] flex justify-start">
+                <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">{difficultySelectorMsg}</div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2 items-center p-2">
+            <div class="flex flex-row items-center gap-4">
+                <button id="decrease" on:click={decreaseDifficulty} class="w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next3.png')" ></button>
+                <div id="difficulty" class="leading-[40px] px-8 w-[314px] h-[76px] text-center font-bold text-white text-[50px] leading-[70px]"
+                    style="background-image:url('/img/map/ui_stage_Level.png')">{difficulties[currentIndex]}</div>
+                <button id="increase" on:click={increaseDifficulty} class="w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next4.png')" ></button>
+            </div>
+        </div>
+        {#if difficulties[currentIndex].includes('잠김')}
+            <div class="w-full h-20 flex justify-center items-center">
+                <span class="text-white font-bold ">해당 난이도는 클리어 후 해제됩니다.</span>
+            </div>
+        {:else}    
+            <div class="flex gap-2 justify-center w-[501px] p-2">
+                <button class="w-[333px] h-[116px]" style="background-image:url('/img/map/btn_action.png')" on:click={onClickToStart}></button> 
+            </div>
+        {/if}
         </div>
     </div>
-    <div class="flex flex-col gap-2 items-center p-2">
-        <div class="flex flex-row gap-4">
-            <button id="decrease" on:click={decreaseDifficulty} class="w-0 h-0" style="border-bottom:20px solid transparent;border-top: 20px solid transparent;border-left: 20px solid transparent;border-right: 30px solid skyblue;"></button>
-            <div id="difficulty" class="border-2 border-black leading-[40px] px-8 w-[170px] text-center font-bold text-white">{difficulties[currentIndex]} {difficultiesGameMapId[currentIndex]}</div>
-            <button id="increase" on:click={increaseDifficulty} class="w-0 h-0" style="border-bottom:20px solid transparent;border-top: 20px solid transparent;border-left: 30px solid skyblue;border-right: 20px solid transparent;"></button>
-        </div>
-    </div>
-    {#if difficulties[currentIndex].includes('잠김')}
-        <div class="border-2 border-black w-full h-20 flex justify-center items-center">
-            <span class="text-white font-bold ">해당 난이도는 클리어 후 해제됩니다.</span>
-        </div>
-    {:else}    
-        <button class="btn btn-accent btn-wide" on:click={onClickToStart}>시작</button> 
-    {/if}
-</div>
 
 <CharactorStatusModal bind:charactorStatusModal={characterStatusModal} closeCharacterModal={closeCharactorStatusModal} 
-                        gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList}  />
+                        gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
 
 <style>
     @keyframes slideIn {

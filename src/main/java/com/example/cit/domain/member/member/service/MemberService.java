@@ -108,6 +108,14 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
+    public Member checkPassword(long memberId, String password) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new GlobalException("400-1", "해당 유저가 존재하지 않습니다."));
+        if (!passwordMatches(member, password)) {
+            throw new GlobalException("400-2", "비밀번호가 일치하지 않습니다.");
+        }
+        return member;
+    }
+
     public record AuthAndMakeTokensResponseBody(
             @NonNull Member member,
             @NonNull String accessToken,

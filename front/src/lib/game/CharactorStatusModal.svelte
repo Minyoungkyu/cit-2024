@@ -1,10 +1,11 @@
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
 	import type { components } from '$lib/types/api/v1/schema';
+	import { onMount } from 'svelte';
     
-    let { charactorStatusModal, closeCharacterModal, gameMapDto, requiredPartsList } 
+    let { charactorStatusModal, closeCharacterModal, gameMapDto, requiredPartsList, activeTransitionAnimation } 
     = $props<{ charactorStatusModal: HTMLDialogElement, closeCharacterModal: () => void, 
-        gameMapDto: components['schemas']['GameMapDto'] | undefined, requiredPartsList: components['schemas']['RequirePartsDto'][] | undefined }>();
+        gameMapDto: components['schemas']['GameMapDto'] | undefined, requiredPartsList: components['schemas']['RequirePartsDto'][] | undefined, activeTransitionAnimation:() => void }>();
 
     // 라우팅
     let stage = $state<string | undefined>(undefined);
@@ -75,8 +76,15 @@
         currentItem = inventory;
     }
 
+    let hideItemsModal = $state(false);
+
     function onClickStart() {
-        window.location.href = '/game/' + stage + '/' + id;
+        activeTransitionAnimation();
+        hideItemsModal = true;
+
+        setTimeout(() => {
+            window.location.href = '/game/' + stage + '/' + id;
+        }, 500);
     }
 </script>
 
@@ -141,10 +149,27 @@
     .animatedHighlighter {
         animation: shrinkAndMoveFromTop 1s forwards, Ybounce 2s infinite 1s;
     }
+
+    @keyframes slideOutTop {
+        0% {
+            opacity: 1; /* 시작할 때는 완전 불투명 */
+            transform: translateY(0); /* 원래 위치에서 시작 */
+        }
+        100% {
+            opacity: 0; /* 끝날 때는 완전 투명 */
+            transform: translateY(-100%); /* Y축 방향으로 자신의 높이만큼 위로 이동 */
+        }
+    }
+
+    /* 애니메이션을 적용할 요소에 대한 스타일 */
+    .slide-out-top {
+    animation: slideOutTop 0.5s ease-in-out forwards;
+    }
+
 </style>
 
-<dialog bind:this={charactorStatusModal} class="modal">
-    <div class="border-2 w-[60%] h-[60%] absolute top-0">
+<dialog bind:this={charactorStatusModal} class="modal charactorStatus">
+    <div class="border-2 w-[60%] h-[60%] absolute top-0 {hideItemsModal ? 'slide-out-top' : ''}">
         <div class="flex flex-col justify-end items-center h-full bg-white">
             <div>
                 <button class="btn btn-sm" on:click={closeCharacterModal}>닫기</button>
@@ -261,4 +286,4 @@
             </div>
         </div>
     </div>
-    </dialog>
+</dialog>

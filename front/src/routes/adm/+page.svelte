@@ -50,7 +50,7 @@
         });
 
         if(data) {
-            rq.msgAndRedirect(data, undefined, '/adm/main', () => rq.setLogined(data.data.item))
+            rq.msgAndRedirect(data, undefined, '/adm/menu', () => rq.setLogined(data.data.item))
         }
     }
 </script>

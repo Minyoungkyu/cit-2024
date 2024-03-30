@@ -18,6 +18,8 @@ class Rq {
   public member: components['schemas']['MemberDto'];
   public inventories: ReturnType<typeof this.makeReactivityInventories>;
 
+  public verifiedPassword: boolean = false;
+
   public SITE_NAME: String = "코드이썬";
 
   constructor() {

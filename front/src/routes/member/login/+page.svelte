@@ -5,6 +5,23 @@
 <script lang="ts">
 
     import rq from '$lib/rq/rq.svelte';
+    import { onMount } from 'svelte';
+
+    const originalHeight = 1080;
+    let currentHeight = $state(1080);
+    let scaleMultiplier = $state(1);
+
+    onMount(() => {
+    const updateScale = () => {
+      const currentHeight = window.innerHeight;
+      scaleMultiplier = (Math.max(1, currentHeight / originalHeight));
+    };
+
+    window.addEventListener('resize', updateScale);
+    
+    updateScale();
+
+  });
 
     let setNameCondition = $state(false);
     let setLoginCondition = $state(false);
@@ -100,65 +117,77 @@
         }, 600); 
     }
   }
+
+  
 </script>
 
-
-
-
+<video autoplay muted loop id="backgroundVideo">
+  <source src="/img/login/background_login.mp4" type="video/mp4">
+</video>
 <div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen flex justify-center relative">
-        <span class="absolute">타이틀 이미지</span>
-        <img src="" alt="" class="absolute w-full h-full object-fill z-[-1]">
-        <div class="flex justify-center items-start border-2 pt-44 right-[0] h-screen w-[450px] absolute {setNameCondition ? 'slide-out-right' : ''} {setLoginCondition ? 'slide-out-right' : ''}">
-            <form class="flex flex-col gap-12 w-[80%]" method="POST" on:submit|preventDefault={submitLoginForm}>
+      <div id="logoContainer" class="absolute w-[903px] h-[300px] left-[40px] top-[40px]" 
+          style="background-image:url('/img/login/title.png');background-repeat:no-repeat;background-size:contain;"></div> <!-- Todo: 에니메이션 작업-->
+        <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-screen w-[459px] absolute {setNameCondition ? 'slide-out-right' : ''} {setLoginCondition ? 'slide-out-right' : ''}"
+            style="background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');transform-origin:top right;transform:scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier}">
+            <form class="flex flex-col gap-12" method="POST" on:submit|preventDefault={submitLoginForm}>
                 <div class="flex items-center gap-4">
-                    <input type="radio" name="roleLevel" value="1" class="radio-sm radio-primary" checked=""/>학생
-                    <input type="radio" name="roleLevel" value="2" class="radio-sm radio-primary"/>선생님
+                  <div class="flex flex-row items-center justify-center gap-4">
+                    <input id="radio1" type="radio" name="roleLevel" value="1" hidden checked=""/>
+                    <label for="radio1" class="radio-custom" style=""></label>
+                    <div class="w-[58px] h-[58px] text-[30px] text-white font-bold leading-[59px]">학생</div>
+                  </div>
+                  <div class="flex flex-row items-center gap-4">
+                    <input id="radio2" type="radio" name="roleLevel" value="2" hidden />
+                    <label for="radio2" class="radio-custom" style=""></label>
+                    <div class="w-[58px] h-[58px] text-[30px] text-white font-bold leading-[59px]">선생님</div>
+                  </div>
                 </div>
                 <div>
                   <div class="form-control">
                       <label class="label">
-                          <span class="label-text">아이디</span>
+                          <span class="label-text text-white text-lg">아이디</span>
                       </label>
-                      <input class="input input-bordered" maxlength="30"
-                             name="username" placeholder="아이디" type="text">
+                      <input class="input w-[412px] h-[79px] text-white text-[25px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
+                             name="username" type="text" autocomplete="off">
                   </div>
       
                   <div class="form-control">
                       <label class="label">
-                          <span class="label-text">비밀번호</span>
+                          <span class="label-text text-white text-lg">비밀번호</span>
                       </label>
-                      <input class="input input-bordered" type="password" maxlength="30" name="password" placeholder="비밀번호">
+                      <input class="input w-[412px] h-[79px] text-white text-lg" style="background-image:url('/img/login/login.png');background-color:unset" 
+                            type="password" maxlength="30" name="password" >
                   </div>
                 </div>
     
-                <div class="flex flex-col gap-2">
-                    <button class="btn btn-block btn-primary gap-1">
-                        <span>시작</span>
+                <div class="flex justify-center gap-2">
+                    <button class="w-[333px] h-[116px]" style="background-image:url('/img/login/btn_action.png')">
                     </button>
                 </div>
             </form>      
         </div>
-        <div class="flex flex-col items-center gap-6 border-2 pt-44 h-full w-[450px] absolute right-[0] {setNameCondition ? 'slide-in-right' : 'hidden'} {setLoginCondition ? 'slide-out-right' : ''}" style="transform:translateX(100%);">
-          <div class="border-2 border-black w-full h-[15vh] flex justify-center items-center">
-              <div>코드이썬 설명</div>
+        {#if setNameCondition}
+        <div id="side_bar_2" class="flex flex-col items-center justify-start pt-60 gap-10 h-full w-[459px] absolute right-[0] slide-in-right {setLoginCondition ? 'slide-out-right' : ''}" 
+            style=" background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');transform-origin:top right;transform:translateX(200%) scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier}">
+          <div class="w-[420px] h-[22px] flex justify-center items-center" style="background-image:url('/img/login/window_1.png')">
           </div>
-          <form class="flex flex-col justify-center gap-6 w-[80%]" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
-              <div class="form-control">
-                  <label class="label">
-                      <span class="label-text">닉네임</span>
-                  </label>
-                  <input class="input input-bordered" maxlength="30"
-                         name="nickname" placeholder="닉네임" type="text">
-              </div>
+          <form class="flex flex-col items-center gap-[6.5rem] w-[80%]" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
+            <div class="form-control">
+              <label class="label">
+                  <span class="label-text text-white text-lg">닉네임</span>
+              </label>
+              <input class="input w-[412px] h-[79px] text-white text-[25px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
+                     name="nickname" type="text" autocomplete="off">
+            </div>
   
-              <div class="flex flex-col gap-2">
-                  <button class="btn btn-block btn-primary gap-1">
-                      <span>시작</span>
-                  </button>
-              </div>
+            <div class="flex justify-center">
+              <button class="w-[333px] h-[116px]" style="background-image:url('/img/login/btn_action.png')">
+              </button>
+            </div>
           </form>      
-      </div>
+        </div>
+        {/if}
     </div>
 </div>
 
@@ -166,13 +195,12 @@
 <style>
   @keyframes slideOutRight {
     from {
-      transform: translateX(0);
+      transform: translateX(0) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
       opacity: 1;
     }
     to {
-      transform: translateX(100%);
+      transform: translateX(100%) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
       opacity: 0;
-      display:none;
     }
   }
 
@@ -181,19 +209,69 @@
   }
   
   @keyframes slideInRight {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  from {
+    transform: translateX(200%) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
+    opacity: 0;
   }
+  to {
+    transform: translateX(0) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
+    opacity: 1;
+  }
+}
 
   .slide-in-right {
     display: flex;
     animation: slideInRight 0.5s ease-in-out forwards;
     animation-delay: 0.5s;
   }
+
+  .radio-custom {
+    display: inline-block;
+    width: 48px; 
+    height: 48px; 
+    background-image: url('/img/login/slect_off.png'); 
+    cursor: pointer;
+  }
+
+  input[type="radio"]:checked + .radio-custom {
+    background-image: url('/img/login/slect_on.png'); 
+  }
+
+  /* #backgroundVideo {
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    min-width: 100%; 
+    min-height: 100%; 
+    width: auto; 
+    height: auto;
+    z-index: -100; 
+    object-fit: cover; 
+  } */
+
+  #backgroundVideo {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100%; 
+    z-index: -100;
+    object-fit: fill; 
+    background-color: black; 
+  }
+
+
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+
+
 </style>

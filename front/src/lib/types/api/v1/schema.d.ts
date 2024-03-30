@@ -29,6 +29,10 @@ export interface paths {
     /** 관리자 로그인, accessToken, refreshToken 쿠키 생성됨 */
     post: operations["adminLogin"];
   };
+  "/api/v1/members/admin/checkPassword": {
+    /** 관리자 비밀번호 확인 */
+    post: operations["adminCheckPassword"];
+  };
   "/api/v1/gameMaps/gameMap/test2": {
     /** 특정 게임 테스트용2 */
     post: operations["getGameMapTest2"];
@@ -170,6 +174,9 @@ export interface components {
     };
     AdminLoginRequestBody: {
       username: string;
+      password: string;
+    };
+    AdminCheckPasswordRequestBody: {
       password: string;
     };
     GameMapTest2RequestBody: {
@@ -474,6 +481,28 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["AdminLoginRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataLoginResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 관리자 비밀번호 확인 */
+  adminCheckPassword: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AdminCheckPasswordRequestBody"];
       };
     };
     responses: {

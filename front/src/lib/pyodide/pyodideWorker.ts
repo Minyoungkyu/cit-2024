@@ -23,6 +23,7 @@ class Character:
         self.hero_idle_status = 0
         self.hero_run_status = 1
         self.hero_turn_status = 2
+        self.hero_get_item_status = 3
         self.hero_die_status = 9
         self.hero_cannot_move_status = 10
         self.hero_hit_bomb_status = 11
@@ -75,12 +76,16 @@ class Character:
         #     if item['id'] == target_id:
         #         item['status'] = status
 
-    def handle_laser_status(self, target_id): # 레이저 상태 변경
+    def handle_laser_status(self, target_ids): # 레이저 상태 변경 # new version
         for item in self.data['stage']['init_item_list']:
-            if item['id'] == target_id:
-                item["status"] = 1 if item["status"] == 0 else 0
-                # self.data['item_list'][target_id] = 1 if self.data['item_list'][target_id] == 0 else 0      
-        
+            if item['type'] == 'laser': # new version
+                if item['id'] in target_ids: # new version
+                    item["status"] = 1 if item["status"] == 0 else 0 # new version
+                else:
+                    item["status"] = 1 # new version
+
+                # self.data['item_list'][target_id] = 1 if self.data['item_list'][target_id] == 0 else 0     
+                
         # for item in self.data['item_list']:
         #     if item['id'] == target_id:
         #         item["status"] = 1 if item["status"] == 0 else 0
@@ -355,12 +360,16 @@ class Character:
             if item['type'] == 'food' and player_pos == item['pos'] and item['status'] == self.item_on_status: # food 획득
                 self.data["player"]["food_count"] += 1
                 self.handle_item_status(item['id'], self.item_off_status)
+                self.data["player"]["status"] = self.hero_get_item_status
                 self.frame_append(line_num - start_line)
+                self.data["player"]["status"] = self.hero_idle_status
 
             elif item['type'] == 'rocket_parts' and player_pos == item['pos'] and item['status'] == self.item_on_status: # 로켓부품 획득
                 self.data["player"]["rocket_parts_count"] += 1
                 self.handle_item_status(item['id'], self.item_off_status)
+                self.data["player"]["status"] = self.hero_get_item_status
                 self.frame_append(line_num - start_line)
+                self.data["player"]["status"] = self.hero_idle_status
 
             elif item['type'] == 'bomb' and player_pos == item['pos'] and item['status'] == self.item_on_status: # 폭탄 밟음
                 self.handle_item_status(item['id'], self.item_off_status)
@@ -375,11 +384,12 @@ class Character:
 
             elif item['type'] == 'laser_switch' and player_pos == item['pos'] and self.frames[-2]["player"]["pos"] != self.data["player"]["pos"]:
                 self.handle_item_status(item['id'], 0)
+                active_laser_ids = []  # new version
                 for laser_id in item["laser_id"]:  # 스위치 작동
-                    for laser in self.data['stage']['init_item_list']:
-                        if laser['id'] == laser_id:
-                            self.handle_laser_status(laser_id)
-                            self.frame_append(line_num - start_line)
+                    active_laser_ids.append(laser_id) # new version
+
+                self.handle_laser_status(active_laser_ids) # new version
+                self.frame_append(line_num - start_line) # new version
                             
             elif item['type'] == 'laser' and item['status'] == 1: # 레이저 닿음
                 player_pos_rounded = round(self.data["player"]["pos"][0]), round(self.data["player"]["pos"][1])
@@ -416,7 +426,9 @@ class Character:
                 elif player_pos == item['pos_drop'] and item['status'] == 2:
                     self.data["player"][item['drop_type']+'_count'] += 1
                     self.handle_item_status(item['id'], 3) # 아이템 획득 
+                    self.data["player"]["status"] = self.hero_get_item_status
                     self.frame_append(line_num - start_line)
+                    self.data["player"]["status"] = self.hero_idle_status
 
         wating_frame = int(self.wait_time * self.fps)
         for _ in range(wating_frame):

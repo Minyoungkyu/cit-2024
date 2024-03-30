@@ -1,15 +1,32 @@
-<div class="flex flex-col dropdown-content items-center pt-12 gap-12 border-2 h-full w-[450px] absolute right-[0] bg-gray-700 slide-in">
-    <div class="flex justify-end w-full mr-16">
-        <div class="text-[70px] font-extrabold text-white" style="text-shadow:5px 10px black">Tutorial</div>
-    </div>
-    <div class="flex flex-col w-full">
-        <div class="w-full h-8 border-2"></div>
-        <div class="border-2 border-black w-full h-[400px] flex justify-center">
-            <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">튜토리얼</div>
+<script lang="ts">
+    
+    const { activeTransitionAnimation } = $props<{ activeTransitionAnimation: () => void }>();
+
+    let test = $state(false);
+
+    function onClickToStart() {
+        activeTransitionAnimation();
+        setTimeout(() => {
+            window.location.href = '/game/tutorial/1';
+        }, 500);
+    }
+</script>
+
+<div class="flex flex-col dropdown-content items-end pt-12 gap-12 h-screen w-[628px] absolute top-[0] right-[0] slide-in" 
+    style="background-image:url('/img/map/ui_stage_Gradation.png');">
+    <div class="flex flex-col w-[501px]">
+        <div class="w-full mr-16">
+            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:5px 10px black">Tutorial</div>
         </div>
-    </div>
-    <div class="flex flex-col gap-2 items-center p-2">
-        <button class="btn btn-accent btn-wide" on:click={() => window.location.href = '/game/tutorial/1'}>시작</button>
+        <div class="flex flex-col items-end w-full">
+            <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
+            <div class="w-[450px] h-[400px] flex justify-start">
+                <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">튜토리얼</div>
+            </div>
+        </div>
+        <div class="flex gap-2 justify-center w-[501px] p-2" >
+            <button class="w-[333px] h-[116px]" on:click={() => onClickToStart()} style="background-image:url('/img/map/btn_action.png')"></button>
+        </div>
     </div>
 </div>
 
@@ -79,3 +96,4 @@
         animation: superFancySlideIn 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 </style>
+

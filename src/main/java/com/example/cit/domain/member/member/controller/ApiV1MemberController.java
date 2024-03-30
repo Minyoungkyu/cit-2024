@@ -87,10 +87,8 @@ public class ApiV1MemberController {
         );
     }
 
-
     public record MeResponseBody(@NonNull MemberDto item) {
     }
-
 
     @GetMapping(value = "/me", consumes = ALL_VALUE)
     @Operation(summary = "내 정보")
@@ -103,6 +101,17 @@ public class ApiV1MemberController {
         );
     }
 
+    public record AdminCheckPasswordRequestBody(@NotBlank String password) {}
+
+    @PostMapping(value = "/admin/checkPassword")
+    @Operation(summary = "관리자 비밀번호 확인")
+    public RsData<LoginResponseBody> adminCheckPassword(@Valid @RequestBody AdminCheckPasswordRequestBody body) {
+        return RsData.of(
+                new LoginResponseBody(
+                        new MemberDto(memberService.checkPassword(rq.getMember().getId(), body.password))
+                )
+        );
+    }
 
     @PostMapping(value = "/logout", consumes = ALL_VALUE)
     @Operation(summary = "로그아웃")

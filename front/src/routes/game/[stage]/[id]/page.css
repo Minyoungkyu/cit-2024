@@ -144,6 +144,14 @@ box-shadow:
 cursor: pointer;
 }
 
+.ace_gutter {
+  top:40px;
+}
+
+.ace_scroller  {
+  top:40px;
+}
+
 .editorHighlighter { /* 에디터 하이라이터 */
   position: absolute;
   background-color: rgba(255, 255, 0, 0.5);
@@ -155,7 +163,7 @@ cursor: pointer;
 }
 
 .ace_editor { /* 에디터 백그라운드 */
-  background-image: url('/background_1.png');
+  background-image: url('/img/inGame/ui_editor_background2.png');
   background-color: unset;
 
   .ace_support.ace_function { /* 에디터 "range", "set" 글자 */
@@ -214,6 +222,9 @@ cursor: pointer;
       transform: rotate(90deg); 
       position: relative; 
     }
+  }
+
+  .ace_scrollbar .ace_scrollbar-v {
   }
 
   /* 에디터 스크롤 바 시작 */
