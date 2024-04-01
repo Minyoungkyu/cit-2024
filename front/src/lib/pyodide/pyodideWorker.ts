@@ -27,9 +27,13 @@ class Character:
         self.hero_die_status = 9
         self.hero_cannot_move_status = 10
         self.hero_hit_bomb_status = 11
-        self.hero_do_set_status = 12
+
         self.hero_miss_dir_status = 13
         self.hero_miss_item_status = 14
+
+        self.hero_set_solid_propellant_status = 15
+        self.hero_set_liquid_fuel_status = 16
+        self.hero_set_engines_status = 17
 
         # 아이템 상태값
         self.item_off_status = 0
@@ -139,9 +143,10 @@ class Character:
                 })
         self.data["player"]["status"] = 0
             
-    def set_success(self, line_num):
+    def set_success(self, line_num, item):
+        items = {"고체추진제": self.hero_set_solid_propellant_status, "액체연료": self.hero_set_liquid_fuel_status, "추가엔진": self.hero_set_engines_status}
         total_frames = int(self.set_time * self.fps)
-        self.data["player"]["status"] = self.hero_do_set_status
+        self.data["player"]["status"] = items[item]
         for _ in range(total_frames):
             self.frames.append({
                 "id": len(self.frames), 
@@ -336,7 +341,7 @@ class Character:
 
                     if item_data["name"] == item:
                         self.handle_item_status(item_data["id"], self.item_on_status)
-                        self.set_success(line_num)
+                        self.set_success(line_num, item)
                         return
                     else: 
                         self.set_fail(self.hero_miss_item_status, line_num)

@@ -46,6 +46,8 @@ public class MemberService {
                         .builder()
                         .member(member)
                         .nickname("")
+                        .exp(0)
+                        .gems(0)
                         .build()
         );
 

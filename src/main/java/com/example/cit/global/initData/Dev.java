@@ -184,6 +184,15 @@ public class Dev {
                 ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
                 ItemParts itemParts6 = itemPartsService.createItemParts("총");
 
+                Item item1 = itemService.createItem(itemParts1, "그냥신발", "그냥 신발입니다.", "", "/img/inventory/icon_space_boots.png", 0);
+                Item item2 = itemService.createItem(itemParts2, "그냥모듈", "그냥 모듈입니다.", "", "/img/inventory/icon_module.png", 0);
+                Item item3 = itemService.createItem(itemParts3, "그냥장갑", "그냥 장갑입니다.", "", "/img/inventory/icon_space_gloves.png", 0);
+
+                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
+
+
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",

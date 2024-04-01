@@ -94,6 +94,10 @@ export interface components {
       /** Format: date-time */
       modifyDate: string;
       nickname: string;
+      /** Format: int32 */
+      exp: number;
+      /** Format: int32 */
+      gems: number;
     };
     RsDataSetNickNameResponseBody: {
       resultCode: string;

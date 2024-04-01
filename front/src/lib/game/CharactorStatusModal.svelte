@@ -27,11 +27,11 @@
 
     $effect(() => {
         shoes = rq.inventories.findEquippedByItemPartsId(1);
-        gloves = rq.inventories.findEquippedByItemPartsId(2);
-        suit = rq.inventories.findEquippedByItemPartsId(3);
-        helmet = rq.inventories.findEquippedByItemPartsId(4);
-        weapon = rq.inventories.findEquippedByItemPartsId(5);
-        module = rq.inventories.findEquippedByItemPartsId(6);
+        gloves = rq.inventories.findEquippedByItemPartsId(3);
+        suit = rq.inventories.findEquippedByItemPartsId(4);
+        helmet = rq.inventories.findEquippedByItemPartsId(5);
+        weapon = rq.inventories.findEquippedByItemPartsId(6);
+        module = rq.inventories.findEquippedByItemPartsId(2);
     });
 
     $effect(() => {
@@ -57,6 +57,7 @@
                 const divs = document.querySelectorAll(`div[data-partsid='${part.itemPartsId}']`);
                 if (divs.length > 0) {
                     divElement = divs[divs.length-1] as HTMLDivElement; // divs[] -> 화살표로 몇번째 아이탬을 지정해줄지
+                    console.log(divElement);
 
                     startHighlighterHidden = true;
                     highlighterHidden = false;
@@ -86,6 +87,12 @@
             window.location.href = '/game/' + stage + '/' + id;
         }, 500);
     }
+
+    onMount(() => {
+        if(rq.inventories) {
+            currentItem = rq.inventories.all[0];
+        }
+    });
 </script>
 
 <style>
@@ -122,7 +129,7 @@
 
     @keyframes shrinkAndMoveFromRight {
         from {
-            transform: scale(5) translate(50%, 100%);
+            transform: scale(20) translate(0, 0);
             opacity: 0;
         }
         to {
@@ -142,12 +149,25 @@
         }
     }
 
+    @keyframes zoomInAndOut {
+        0%, 100% {
+        transform: scale(1); 
+        opacity: 1; 
+        }
+        50% {
+        transform: scale(1.2); 
+        opacity: 0.8; 
+        }
+    }
+
+    /* , Xbounce 2s infinite 1s */
+
     .animatedItemHighlighter {
-        animation: shrinkAndMoveFromRight 1s forwards, Xbounce 2s infinite 1s;
+        animation: shrinkAndMoveFromRight 1s forwards, zoomInAndOut 2s infinite 1s;
     }
 
     .animatedHighlighter {
-        animation: shrinkAndMoveFromTop 1s forwards, Ybounce 2s infinite 1s;
+        animation: shrinkAndMoveFromRight 1s forwards, zoomInAndOut 2s infinite 1s;
     }
 
     @keyframes slideOutTop {
@@ -168,9 +188,118 @@
 
 </style>
 
-<dialog bind:this={charactorStatusModal} class="modal charactorStatus">
-    <div class="border-2 w-[60%] h-[60%] absolute top-0 {hideItemsModal ? 'slide-out-top' : ''}">
-        <div class="flex flex-col justify-end items-center h-full bg-white">
+<dialog bind:this={charactorStatusModal} class="modal charactorStatus overflow-hidden">
+    <div class="w-full h-full absolute flex flex-row justify-center items-end gap-4 left-[auto] top-[auto] {hideItemsModal ? 'slide-out-top' : ''}"
+        style="transform:scale(0.87)">
+
+        <div class="w-[200px] h-[200px] text-[50px] font-[900] absolute top-[10px] left-[300px]" style="color:rgb(64 226 255)">인벤토리</div>
+
+        <div class="w-[46px] h-[46px] absolute top-[65px] left-[63%] cursor-pointer" style="background-image:url('/img/inventory/btn_popup_close.png')" on:click={closeCharacterModal}></div>
+
+        <!-- 장착 장비 -->
+        <div class="w-[1146px] h-[949px]" style="background-image:url('/img/inventory/ui_popup_item.png')">
+            <div class="w-[636px] h-[609px] absolute top-[156px] left-[223px]" style="background-image:url('/img/inventory/ui_itme_background.png');">
+                <div class="w-[240px] h-[470px] absolute top-[60px] left-[220px]" style="background-image:url('/img/inventory/icon_chariter.png')"></div>
+                <div class="w-[203px] h-[203px] absolute cursor-pointer" 
+                style="background-image:{helmet && currentItem!.id == helmet?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
+                on:dblclick={() => rq.unEquipItem(helmet?.id)}
+                on:click={() => currentItem = helmet}>
+                    {#if helmet}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('{helmet.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                    {/if} 
+                </div>
+                <div class="w-[203px] h-[203px] absolute top-[140px] cursor-pointer" 
+                style="background-image:{suit && currentItem!.id == suit?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
+                on:dblclick={() => rq.unEquipItem(suit?.id)}
+                on:click={() => currentItem = suit}>
+                    {#if suit}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('{suit.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                    {/if} 
+                </div>
+                <div class="w-[203px] h-[203px] absolute top-[280px] cursor-pointer" 
+                style="background-image:{gloves && currentItem!.id == gloves?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
+                on:dblclick={() => rq.unEquipItem(gloves?.id)}
+                on:click={() => currentItem = gloves}>
+                    {#if gloves}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('{gloves.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                    {/if} 
+                </div>
+                <div class="w-[203px] h-[203px] absolute top-[420px] cursor-pointer" 
+                style="background-image:{shoes && currentItem!.id == shoes?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
+                on:dblclick={() => rq.unEquipItem(shoes?.id)}
+                on:click={() => currentItem = shoes}>
+                    {#if shoes}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('{shoes.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                    {/if} 
+                </div>
+                <div class="w-[203px] h-[203px] absolute top-[0] right-[0] cursor-pointer" 
+                style="background-image:{weapon && currentItem!.id == weapon?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
+                on:dblclick={() => rq.unEquipItem(weapon?.id)}
+                on:click={() => currentItem = weapon}>
+                    {#if weapon}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('{weapon.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                    {/if} 
+                </div>
+                <div class="w-[203px] h-[203px] absolute top-[420px] right-[0] cursor-pointer" 
+                style="background-image:{module && currentItem!.id == module?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
+                on:dblclick={() => rq.unEquipItem(module?.id)}
+                on:click={() => currentItem = module}>
+                    {#if module}
+                    <div class="w-[129px] h-[127px] absolute top-[55px] left-[40px]" 
+                        style="background-image:url('{module.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                    {/if} 
+                </div>
+            </div>
+            <div class="w-[361px] h-[609px] absolute top-[156px] right-[675px]" style="background-image:url('/img/inventory/ui_itme_background2.png')">
+                <div class="grid grid-cols-3 gap-2 mt-4">
+                    <div id="itemHighlighter" class="item-highlighter w-[100px] h-[100px] absolute z-[10] ml-2 animatedItemHighlighter {highlighterHidden ? 'hidden' : ''}"
+                    style="top: {highlighterTopValue}px; left: {highlighterLeftValue}px; background-image:url('/img/inventory/ui_aim.png');background-size:contain;background-repeat:no-repeat;pointer-events: none;"></div>
+                    {#each rq.inventories.unequipped as inventory (inventory.id)}
+                    <div class="flex flex-col items-center" data-partsId={inventory.item.itemPartsId} >
+                        <div class="w-[100px] h-[100px] cursor-pointer relative" 
+                            style="background-image:{currentItem?.id == inventory.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");' }background-size:contain"
+                            on:dblclick={() => rq.equipItem(inventory.id)}
+                            on:click={() => currentItem = inventory}>
+                            <div class="w-[90px] h-[90px] absolute top-[15px] left-[8px]" style="background-image:url({inventory.item.sourcePath});background-size:contain;background-repeat:no-repeat"></div>
+                        </div>
+                        <div class="equipbtn w-[100px] h-[30px] text-[20px] text-center cursor-pointer leading-[1.1]"
+                            style="background-image:{currentItem?.id == inventory.id ? 'url("/img/inventory/btn_item_etc2.jpg");color:rgb(255 210 87);' : 'url("/img/inventory/btn_item_etc.jpg");color:rgb(64 226 255);' }background-size:contain;background-repeat:no-repeat;"
+                            on:click={() => equipBtnClick(inventory)}>장착&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    {/each}
+                </div>
+            </div>
+        </div>
+
+        <!-- item status -->
+        <div class="w-[508px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_item_info.png')">
+            <div class="w-[330px] h-[74px] absolute top-[70px] right-[270px] text-[50px] font-[900] pl-[75px]" style="background-image:url('/img/inventory/ui_itemname.png');color:rgb(64 226 255);">
+                {currentItem?.item.name}</div>
+            <div class="w-[445px] h-[699px] absolute top-[190px] right-[156px] flex flex-col items-center" style="background-image:url('/img/inventory/ui_itme_background3.png')">
+                <div class="w-[203px] h-[203px] absolute top-[45px]" style="background-image:url('/img/inventory/ui_itemframe2.png')">
+                    <div class="w-[160px] h-[160px] absolute top-[40px] left-[25px]" style="background-image:url('{currentItem?.item.sourcePath}');background-repeat:no-repeat;background-size:contain;"></div>
+                </div>
+                <div class="w-[420px] h-[22px] absolute top-[270px]" style="background-image:url('/img/inventory/window_1.png');"></div>
+                <div class="w-[350px] h-[240px] absolute top-[314px] text-[40px] font-[900] italic" style="color:rgb(64 226 255)">{currentItem?.item.description}</div>
+                <div class="w-[310px] h-[76px] absolute bottom-[50px]" style="background-image:url('/img/inventory/btn_item_etc2.jpg')">
+                    {#if currentItem?.isEquipped}
+                    <div class="equipbtn text-center mr-[60px] text-[40px] font-[900] cursor-pointer" style="color:rgb(255 210 87)" on:click={() => rq.unEquipItem(currentItem!.id)}>해제</div>
+                    {:else}
+                    <div class="equipbtn text-center mr-[60px] text-[40px] font-[900] cursor-pointer" style="color:rgb(255 210 87)" on:click={() => rq.equipItem(currentItem!.id)}>장착</div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+
+        <div id="startHighlighter" class="start-highlighter w-[333px] h-[134px] absolute bottom-[0] left-[47%] z-[10] animatedHighlighter {startHighlighterHidden ? 'hidden' : ''}"
+            style="pointer-events: none;background-image:url('/img/inventory/ui_aim2.png');background-size:contain;background-repeat:no-repeat;"></div>
+        <div class="w-[333px] h-[116px] absolute bottom-[14px] left-[46%] cursor-pointer" style="background-image:url('/img/inventory/btn_action.png');{startHighlighterHidden ? 'pointer-events: none;' : ''}"  on:click={() => onClickStart()}></div>
+        <!-- <div class="flex flex-col justify-end items-center h-full">
             <div>
                 <button class="btn btn-sm" on:click={closeCharacterModal}>닫기</button>
             </div>
@@ -285,5 +414,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </dialog>

@@ -8,9 +8,12 @@ public record PlayerDto(
         @NonNull long id,
         @NonNull LocalDateTime createDate,
         @NonNull LocalDateTime modifyDate,
-        @NonNull String nickname
+        @NonNull String nickname,
+        @NonNull int exp,
+        @NonNull int gems
+
 ) {
     public PlayerDto(Player player) {
-        this(player.getId(), player.getCreateDate(), player.getModifyDate(), player.getNickname());
+        this(player.getId(), player.getCreateDate(), player.getModifyDate(), player.getNickname(), player.getExp(), player.getGems());
     }
 }

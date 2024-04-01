@@ -16,6 +16,10 @@
 
 <style>
 
+.hide-layer {
+    pointer-events: none;
+}
+
 .hide-layer .loading-container {
     animation: hidding 0.5s ease-in-out forwards;
 }
@@ -34,6 +38,7 @@
     }
     100% {
         opacity: 0;
+        display:none;
     }
 }
 

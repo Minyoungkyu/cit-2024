@@ -1,5 +1,93 @@
+@keyframes slideInTop {
+  0% {
+      max-height: 0;
+      opacity: 0;
+      padding: 0; 
+      clip-path: inset(0 0 100% 0);
+  }
+  100% {
+      max-height: 400px;
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+  }
+}
 
-@keyframes scan {
+.scanning-effect {
+  animation: slideInTop 0.8s linear forwards;
+}
+
+@keyframes slideOutBottom {
+  0% {
+      max-height: 400px;
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+  }
+  100% {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden; 
+      clip-path: inset(0 0 100% 0);
+  }
+}
+
+.reverse-scanning-effect {
+  animation: slideOutBottom 0.8s linear forwards;
+}
+
+
+.scale-up-on-hover {
+  transition: transform 0.2s ease-in-out; 
+  display: inline-block; 
+}
+
+.scale-up-on-hover:hover {
+  transform: scale(1.2); 
+}
+
+/* 체력바 css */
+
+#health-bar {
+  box-sizing: border-box;
+  padding: 5px;
+  background: #ddd;
+  border-radius: 5px;
+  position: relative;
+}
+
+.bar {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width .5s linear, background-color .5s ease;
+}
+
+.foreground-bar {
+  background: rgb(221, 38, 10); 
+  z-index: 2; 
+}
+
+.background-bar {
+  background: rgba(197, 84, 84, 0.6);
+  z-index: 1; 
+  transition-delay: .5s; 
+}
+
+.green-bar {
+  background: #46b446; /* 초록색 */
+}
+
+.yellow-bar {
+  background: #bebe5a; /* 노란색 */
+}
+
+dialog::backdrop { /* modal back layer */
+  /* background-color: unset !important; */
+}
+
+
+
+/* @keyframes scan {
     0% {
         clip-path: inset(0 0 100% 0);
     }
@@ -9,7 +97,7 @@
 }
 
 .scanning-effect {
-    animation: scan 3s linear forwards;
+    animation: scan 0.4s linear forwards;
 }
 
 @keyframes reverseScan {
@@ -18,12 +106,13 @@
     }
     100% {
         clip-path: inset(0 0 100% 0);
+        display: none;
     }
 }
 
 .reverse-scanning-effect {
-    animation: reverseScan 3s linear forwards;
-}
+    animation: reverseScan 0.4s linear forwards;
+} */
 
 .rotated-input {
       transform: rotate(270deg);
@@ -165,6 +254,8 @@ cursor: pointer;
 .ace_editor { /* 에디터 백그라운드 */
   background-image: url('/img/inGame/ui_editor_background2.png');
   background-color: unset;
+  font-size:20px !important;
+  font-weight: 900;
 
   .ace_support.ace_function { /* 에디터 "range", "set" 글자 */
     color: black;
@@ -187,7 +278,7 @@ cursor: pointer;
   }
 
   .ace_comment { /* 에디터 주석 글자 */
-    color: blue
+    color: white
   }
 
   .ace_cursor { /* 에디터 커서 */
@@ -200,7 +291,9 @@ cursor: pointer;
 
   .ace_gutter { /* 에디터 좌측 거터 */
     background-color: unset;
-    color: blue;
+    color: rgb(64 226 255);
+    font-size: 20px;
+    font-weight: 900;
 
     .ace_gutter-active-line { /* 거터 > 포커스 중인 라인 */
       display:flex;
@@ -209,8 +302,17 @@ cursor: pointer;
       background-color: unset;
     }
 
+    .ace_gutter-cell {
+      display:flex;
+      align-items: center;
+    }
+
+    .ace_gutter-active-line {
+      background-color:white;
+    }
+
     
-    .ace_gutter-active-line::before { /* 거터 > 포커스 중인 라인의 화살표 */
+    /* .ace_gutter-active-line::before {
       content: ''; 
       display: inline-block; 
       margin-right: 8px;
@@ -218,10 +320,10 @@ cursor: pointer;
       height: 0; 
       border-left: 6px solid transparent; 
       border-right: 6px solid transparent; 
-      border-bottom: 10px solid blue; 
+      border-bottom: 10px solid rgb(64 226 255); 
       transform: rotate(90deg); 
       position: relative; 
-    }
+    } */
   }
 
   .ace_scrollbar .ace_scrollbar-v {
@@ -241,12 +343,15 @@ cursor: pointer;
 
   .ace_scrollbar::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-image: -webkit-gradient(linear,
+    /* background-image: -webkit-gradient(linear,
                       left bottom,
                       left top,
                       color-stop(0.44, rgb(122,153,217)),
                       color-stop(0.72, rgb(73,125,189)),
-                      color-stop(0.86, rgb(28,58,148)));
+                      color-stop(0.86, rgb(28,58,148))); */
+    background-color: rgb(64 226 255);
+    
   }
   /* 에디터 스크롤 바 끝 */
+
 }

@@ -9,7 +9,7 @@
 }
 
 .scanning-effect {
-    animation: scan 3s linear forwards;
+    animation: scan 0.2s forwards;
 }
 
 @keyframes reverseScan {

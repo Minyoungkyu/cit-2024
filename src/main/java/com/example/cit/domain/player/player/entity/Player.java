@@ -25,6 +25,10 @@ import static lombok.AccessLevel.PROTECTED;
 public class Player extends BaseTime {
     @NotNull
     private String nickname;
+    @NotNull
+    private int exp;
+    @NotNull
+    private int gems;
 
     @OneToOne(fetch = LAZY, cascade = ALL)
     @ToString.Exclude

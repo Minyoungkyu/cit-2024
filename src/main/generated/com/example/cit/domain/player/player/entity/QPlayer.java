@@ -27,6 +27,10 @@ public class QPlayer extends EntityPathBase<Player> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
+    public final NumberPath<Integer> exp = createNumber("exp", Integer.class);
+
+    public final NumberPath<Integer> gems = createNumber("gems", Integer.class);
+
     //inherited
     public final NumberPath<Long> id = _super.id;
 

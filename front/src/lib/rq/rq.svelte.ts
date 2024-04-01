@@ -178,7 +178,9 @@ class Rq {
       id: 0,
       createDate: '',
       modifyDate: '',
-      nickname: ''
+      nickname: '',
+      exp: 0,
+      gems: 0
     });
 
     return {
@@ -232,7 +234,8 @@ class Rq {
         player.createDate = value.createDate;
         player.modifyDate = value.modifyDate;
         player.nickname = value.nickname;
-        
+        player.exp = value.exp;
+        player.gems = value.gems;
       }
     };
   }
@@ -252,7 +255,9 @@ class Rq {
     }).filter(Boolean);
   }
 
-
+  public getPlayerLeve() { // ToDo: 레벨 계산식 필요
+    return this.member.player.exp;
+  }
   
 
   public setLogined(member: components['schemas']['MemberDto']) {
@@ -267,7 +272,7 @@ class Rq {
     this.member.username = '';
     this.member.cellphoneNo = '';
     this.member.authorities = [];	
-    this.member.player = { id: 0, createDate: '', modifyDate: '', nickname: ''};
+    this.member.player = { id: 0, createDate: '', modifyDate: '', nickname: '', exp: 0, gems: 0};
     while (this.inventories.all.length > 0) {
       this.inventories.all.pop();
     }

@@ -74,6 +74,7 @@
     const originalHeight = 1080;
     let currentHeight = $state(1080);
     let scaleMultiplier = $state(1);
+    let animationStart = $state(false);
 
     onMount(() => {
         rq.fetchAndInitializeInventories();
@@ -123,7 +124,8 @@
 
             highlighter.style.bottom = `${bottomValues + 0.2}%`; // Todo: 실제 디자인에 따라 위치 조절
             highlighter.style.left = `${leftValues + 0.9}%`;  // Todo: 실제 디자인에 따라 위치 조절
-
+            
+            animationStart = true;
         }
 
         const highestStageElement = document.querySelector(`div[data-gameMapId="${findHighestStageStartId(highestClearedgameMapId)}"]`);
@@ -170,6 +172,7 @@
     function activeTransitionAnimation() {
         isTransitioning = true;
     }
+
 </script>
 
 <style>
@@ -262,7 +265,7 @@
             <div class="flex flex-row gap-1 mr-8" style="transform-origin:right;transform:scale(0.67);">
                 <div class="w-[506px] h-[134px]" style="background-image:url('/img/map/ui_user_inf.png');">
                     <div class="text-white text-[50px] font-bold h-full flex flex-row items-center justify-between mr-4">
-                        <div class="ml-10 stage-text">ㅎㅇㅎㅇ</div>
+                        <div class="ml-10 stage-text">Lv {rq.getPlayerLeve()}</div>
                         <div class="mr-4 stage-text">{rq.member.player.nickname}</div>
                     </div>
                 </div>
@@ -271,11 +274,11 @@
             <div class="font-bold relative text-white text-[25px] text-center w-[510px] h-[216px]" 
                 style="text-shadow:0px 5px black;background-image:url('/img/map/ui_gembox.png');transform-origin:right top;transform:scale(0.67)">
                 <div class="absolute left-[60%] top-[15%] text-[50px]" style="text-shadow:2px 8px black;">
-                    1,234
+                    {rq.member.player.gems.toLocaleString()}
                 </div>
             </div>
         </div> 
-        <div id="stageHighlighter" class="stage-highlighter w-[185.4px] h-[161.8px] absolute z-[10] animatedHighlighter" 
+        <div id="stageHighlighter" class="stage-highlighter w-[185.4px] h-[161.8px] absolute z-[10] {animationStart ? 'animatedHighlighter' : 'invisible'}" 
             style="background-image:url('/img/map/ui_aim.png');background-size:contain;pointer-events:none;background-repeat:no-repeat;transform:scale(0.6)"></div>
 
 
