@@ -95,6 +95,7 @@
             data: framesData
         };
 
+        console.log(wrappedData);
         (window as any).SendStreamData?.(wrappedData);
         progressController.max = (framesData.length - 1).toString();
         updateFrame(framesData, 0);
