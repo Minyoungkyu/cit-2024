@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="5" height="7" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="5" height="7" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="Ditharts_SciFi_Tileset_v0.6/Tiled/example.tsx"/>
  <tileset firstgid="193" source="Ditharts_ScifiDungeon_Tileset_v0.1/Tiled/scifi_dungeon.tsx"/>
  <tileset firstgid="385" source="Dithart_Scifi_Items_0.3.0/Scifi_Items_v0.3.0/tiled/scifi_items01.tsx"/>
@@ -8,13 +8,35 @@
  <tileset firstgid="817" source="scifi_tileset_02.tsx"/>
  <layer id="1" name="f" width="5" height="7">
   <data encoding="csv">
-113,114,113,114,113,
-114,114,115,113,115,
-114,113,114,114,114,
-114,114,113,115,115,
-114,113,114,115,113,
-113,115,115,115,115,
-114,114,113,115,113
+957,957,957,957,957,
+957,957,957,957,957,
+957,957,957,957,957,
+957,957,957,957,957,
+957,957,957,957,957,
+957,957,957,957,957,
+957,957,957,957,957
+</data>
+ </layer>
+ <layer id="6" name="Tile Layer 6" width="5" height="7">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,3221226447,2684355555,3221226448,0,
+0,3221226467,0,995,0,
+0,976,2684355555,1610613711,0,
+0,0,0,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+ <layer id="5" name="Tile Layer 5" width="5" height="7">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,984,0,984,0,
+0,0,0,0,0,
+0,984,0,984,0,
+0,0,0,0,0,
+0,0,0,0,0
 </data>
  </layer>
  <layer id="2" name="w" width="5" height="7">
@@ -33,8 +55,8 @@
 151,152,0,0,0,
 0,0,0,0,0,
 145,0,0,0,0,
+0,0,1610612889,0,0,
 0,0,0,0,0,
-0,1610612889,0,0,0,
 0,0,0,146,0,
 0,0,0,146,0
 </data>
