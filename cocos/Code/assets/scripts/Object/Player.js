@@ -82,7 +82,6 @@ cc.Class({
 
 
         if(this.playerStatusInfo !== 9){
-            console.log("fuckShit");
             this.PlayerInitAnimation();
         }
 
