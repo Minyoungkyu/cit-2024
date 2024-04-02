@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="7" height="7" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="7" height="7" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="Ditharts_SciFi_Tileset_v0.6/Tiled/example.tsx"/>
  <tileset firstgid="193" source="scifi_tileset_02.tsx"/>
  <tileset firstgid="433" source="//192.168.0.10/Public/_코드이썬/4.타일맵/Ditharts_SciFi_Tileset_v0.6/Tiled/example.tsx"/>
  <layer id="2" name="f" width="7" height="7">
   <data encoding="csv">
-114,113,113,114,114,114,113,
-114,114,113,113,114,114,113,
-114,113,114,113,114,114,113,
-113,114,113,114,114,114,113,
-114,113,113,114,113,114,114,
-113,114,113,114,114,114,113,
-113,113,114,114,113,114,113
+333,333,333,333,333,333,333,
+333,333,333,333,333,333,333,
+333,333,333,333,333,333,333,
+333,333,333,333,333,333,333,
+333,333,333,333,333,333,333,
+333,333,333,333,333,333,333,
+333,333,333,333,333,333,333
 </data>
  </layer>
  <layer id="1" name="w" width="7" height="7">
@@ -43,6 +43,28 @@
 0,205,214,214,214,214,0,
 214,215,0,0,0,0,216,
 0,225,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="6" name="Tile Layer 6" width="7" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,2684354931,2684354931,2684354931,2684354931,2684354931,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="5" name="Tile Layer 5" width="7" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,
+0,0,0,419,0,0,0,
+0,0,0,429,0,0,0,
+0,360,0,360,0,360,0,
+0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0
 </data>
