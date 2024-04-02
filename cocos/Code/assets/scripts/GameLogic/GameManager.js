@@ -778,8 +778,6 @@ cc.Class({
                 var targets = object[j];
                 var goalPos = cc.v2(targets.pos[0], targets.pos[1]);
                 this.AddPrefabs(Env.GOAL, -1, goalPos);
-
-                console.log("HI goal");
                 break;
             }
         }
@@ -959,9 +957,7 @@ cc.Class({
             n1.addComponent("Gobject");
             n1.getComponent('Gobject').Init(tag,id);
 
-
             if(tag === Env.GOAL){
-                console.log("fck");
                 self.goalObject = n1;
                 self.node.addChild(n1);
             }
