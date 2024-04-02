@@ -37,11 +37,21 @@ var SoundManager = cc.Class({
     },
 
 
-
+    /**
+     * 정상적으로 사운드가 로드되었는지 체크하는 함수입니다.
+     *
+     * @return {*}
+     * @constructor
+     */
     IsLoadCheck: function(){
         return this.sound[7];
     },
 
+    /**
+     * SFX를 출력해주는 함수입니다.
+     * @param TAG Env 내부 SFX_로 시작하는 태그들중 하나
+     * @constructor
+     */
     PlaySfx: function(TAG){
 
         if(TAG > this.sound.length ) {
@@ -65,6 +75,10 @@ var SoundManager = cc.Class({
         }.bind(this));
     },
 
+    /**
+     * 내부 함수로 SFX를 모두 loadRes로 로드 합니다.
+     * @private
+     */
     _LoadSFX: function(){
         if(this.isLoadedSFX) return;
 

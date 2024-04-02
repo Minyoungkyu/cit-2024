@@ -235,6 +235,10 @@ var Gobject = cc.Class({
         }
     },
 
+    /**
+     * 드롭 아이템 을 보여주는 함수입니다.
+     * @constructor
+     */
     DropItemShow: function(){
         if(this.node.active === true) return;
         SoundManager.getInstance().PlaySfx(Env.SFX_DROP_ITEM);
@@ -242,16 +246,25 @@ var Gobject = cc.Class({
         this.node.active = true;
     },
 
-    DropItemHide: function(){
+    /**
+     * 드롭아이템을 감추는 함수입니다.
+     * @constructor
+     */
+    DropItemHide: function(isInit = false){
         if(this.node.active === false) return;
 
-        SoundManager.getInstance().PlaySfx(Env.SFX_EARN_ITEM);
+        if(!isInit){
+            SoundManager.getInstance().PlaySfx(Env.SFX_EARN_ITEM);
+        }
 
         this.node.active = false;
     },
 
 
-
+    /**
+     * 로켓 파츠 장착시 이펙트를 보여줍니다.
+     * @constructor
+     */
     ShowProofEffect: function(){
         var proofEffect = this.node.getChildByName("proof");
         proofEffect.active = true
@@ -262,10 +275,7 @@ var Gobject = cc.Class({
             proofEffect.active = false;
         }, this);
         animation.play("proof");
-
     },
-
-
 
     /**
      * tag 값을 받아 sprite를 변경합니다.

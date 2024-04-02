@@ -33,6 +33,7 @@ var Controller = cc.Class({
         streamJson : null,
         loadIndex : 0,
         gameStatus: false,
+        isGamePause: false,
     },
 
 
@@ -54,7 +55,7 @@ var Controller = cc.Class({
 
 
     /**
-     *
+     * 최초 아이템 포지션 및 설정할때 넘기는 함수.
      * @returns {*}
      */
     getInitOjbectDatas: function(){
@@ -174,6 +175,22 @@ var Controller = cc.Class({
 
     },
 
+    /**
+     * 게임 멈추는 함수 (외부에서 불리는 함수)
+     * @constructor
+     */
+    PauseGame: function(){
+        this.isGamePause = true;
+    },
+
+    /**
+     * 게임 이어서 하도록 하는 함수 (외부에서 불리는 함수)
+     * @constructor
+     */
+    ResumeGame : function(){
+        this.isGamePause = false;
+    },
+
 
 
 });
@@ -235,5 +252,22 @@ window.SetOptions = function(json){
 window.InitOption= function(json){
     Controller.getInstance().InitOption(json);
 }
+
+/**
+ * 외부에서 접근하여 Pasue 상태인경우 게임을 멈추는 함수
+ * @constructor
+ */
+window.ExternalPauseGame = function(){
+    Controller.getInstance().PauseGame();
+}
+
+/**
+ * 외부에서 접근하여 Resume 상태 처리해주는 함수
+ * @constructor
+ */
+window.ExternalResumeGame = function(){
+    Controller.getInstance().ResumeGame();
+}
+
 
 
