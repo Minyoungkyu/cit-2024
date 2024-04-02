@@ -371,6 +371,7 @@
     ],
     "audioStep": 0,
     "isPlaySound": false,
+    "isBombAnimation": false,
     "_id": ""
   },
   {

@@ -33,6 +33,8 @@ cc.Class({
 
         audioStep: 0,
         isPlaySound : false,
+
+        isBombAnimation : false,
     },
 
 
@@ -78,9 +80,7 @@ cc.Class({
         // RUN 상태
 
         var isPlaying = false;
-
-
-        if(this.playerStatusInfo !== 9){
+        if(this.playerStatusInfo  < 2){
             this.PlayerInitAnimation();
         }
 
@@ -120,6 +120,31 @@ cc.Class({
             // 효과음 추가.
             this.PlayFootStep();
         }
+        else if(this.playerStatusInfo === 11){
+            if(this.isBombAnimation) return;
+
+            console.log("Fc");
+
+            this.isBombAnimation = true;
+// 폭탄에 맞음
+            var animationClip = this.getComponent(cc.Animation);
+
+            var upState = this.direction === Env.ANIMATION_LEFT ? animationClip.getAnimationState(Env.ANIMATION_LEFT_HIT) : animationClip.getAnimationState(Env.ANIMATION_RIGHT_HIT);
+            var isPlaying = upState.isPlaying;
+            if (!isPlaying) {
+                if (this.direction === Env.ANIMATION_LEFT) {
+                    animationClip.play(Env.ANIMATION_LEFT_HIT);
+                } else {
+                    animationClip.play(Env.ANIMATION_RIGHT_HIT);
+                }
+            }
+
+            var self = this;
+            setTimeout(function(){
+                self.isBombAnimation = false;
+            }, 1000);
+
+        }
         else{
             if(this.playerStatusInfo !== 9){
                 // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
@@ -139,7 +164,6 @@ cc.Class({
                     this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
                 }
             }
-
         }
     },
 
@@ -219,28 +243,33 @@ cc.Class({
                 // 해당방향으로 이동하지못함.
                 this.ShowMessage("이 방향으로 이동할수 없어!");
                 break;
-            case 11:
-                // 폭탄에 맞음
-                var animationClip = this.getComponent(cc.Animation)
-
-                var upState = '';
-                var isPlaying= '';
-                // Hit Animation 처리.
-                if (this.direction === Env.ANIMATION_LEFT) {
-                    upState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_LEFT_HIT);
-                    isPlaying = upState.isPlaying;
-                    if (!isPlaying) {
-                        animationClip.play(Env.ANIMATION_LEFT_HIT);
-                    }
-                } else {
-                    upState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_RIGHT_HIT);
-                    isPlaying = upState.isPlaying;
-                    if (!isPlaying) {
-                        animationClip.play(Env.ANIMATION_RIGHT_HIT);
-                    }
-                }
-
-                break;
+//             case 11:
+//
+//                 if(this.isBombAnimation) return;
+//
+//                 console.log("Fc");
+//
+//                 this.isBombAnimation = true;
+// // 폭탄에 맞음
+//                 var animationClip = this.getComponent(cc.Animation);
+//
+//                 var upState = this.direction === Env.ANIMATION_LEFT ? animationClip.getAnimationState(Env.ANIMATION_LEFT_HIT) : animationClip.getAnimationState(Env.ANIMATION_RIGHT_HIT);
+//                 var isPlaying = upState.isPlaying;
+//                 if (!isPlaying) {
+//                     if (this.direction === Env.ANIMATION_LEFT) {
+//                         animationClip.play(Env.ANIMATION_LEFT_HIT);
+//                     } else {
+//                         animationClip.play(Env.ANIMATION_RIGHT_HIT);
+//                     }
+//                 }
+//
+//                 var self = this;
+//                 setTimeout(function(){
+//                     self.isBombAnimation = false;
+//                 }, 1000);
+//
+//
+//                 break;
 
             case 13:
                 // Set 명령어 시도중 방향이 다를경우
@@ -315,12 +344,11 @@ cc.Class({
 
         var self = this;
         var animationClip = this.getComponent(cc.Animation);
-
-        if (this.direction === Env.ANIMATION_LEFT) {
-            animationClip.play(Env.ANIMATION_LEFT_HIT);
-        } else {
-            animationClip.play(Env.ANIMATION_RIGHT_HIT);
-        }
+        // if (this.direction === Env.ANIMATION_LEFT) {
+        //     animationClip.play(Env.ANIMATION_LEFT_HIT);
+        // } else {
+        //     animationClip.play(Env.ANIMATION_RIGHT_HIT);
+        // }
         var pInterval = setInterval(function(e){
             if(self.node.opacity < 1){
                 clearInterval(pInterval);
