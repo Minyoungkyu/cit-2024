@@ -140,6 +140,8 @@ window.Env = {
     ANIMATION_DOWN: "downRun",
     ANIMATION_IDLE_LEFT: "left_idle",
     ANIMATION_IDLE_RIGHT: "right_idle",
+    ANIMATION_IDLE_UP: "idle_back",
+    ANIMATION_IDLE_DOWN: "idle_front",
 
     ANIMATION_LEFT_HIT : "hit_left",
     ANIMATION_RIGHT_HIT : "hit_right",

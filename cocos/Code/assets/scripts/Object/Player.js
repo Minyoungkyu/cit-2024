@@ -68,7 +68,6 @@ cc.Class({
         }.bind(this));
     },
 
-
     /**
      * 현재 방향에 따른 Scale 변경
      * 로테이션 처리
@@ -85,21 +84,15 @@ cc.Class({
             this.PlayerInitAnimation();
         }
 
-
         if(this.playerStatusInfo === 1){
             switch (this.direction){
 
                 case Env.DIRECTION_UP:
-
                     var upState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_UP);
                     isPlaying = upState.isPlaying;
                     if (!isPlaying) {
                         animationClip.play(Env.ANIMATION_UP);
                     }
-
-
-                    // this.node.scale =cc.v2(1, -1);
-                    // this.bubble.scale = cc.v2(1,-1);
                     break;
                 case Env.DIRECTION_DOWN:
                     var downState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_DOWN);
@@ -108,9 +101,6 @@ cc.Class({
                         animationClip.play(Env.ANIMATION_DOWN);
                     }
 
-                    // this.node.scale =cc.v2(-1, 1);
-                    // this.bubble.scale = cc.v2(-1,1);
-
                     break;
                 case Env.DIRECTION_RIGHT:
                     var rightState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_RIGHT);
@@ -118,10 +108,6 @@ cc.Class({
                     if (!isPlaying) {
                         animationClip.play(Env.ANIMATION_RIGHT);
                     }
-
-                    // this.node.scale =cc.v2(-1, 1);
-                    // this.bubble.scale = cc.v2(-1,1);
-
                     break;
                 case Env.DIRECTION_LEFT:
                     var leftState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_LEFT);
@@ -133,10 +119,8 @@ cc.Class({
             }
             // 효과음 추가.
             this.PlayFootStep();
-
         }
         else{
-
             if(this.playerStatusInfo !== 9){
                 // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
                 if(this.direction === Env.DIRECTION_LEFT){
@@ -147,6 +131,13 @@ cc.Class({
                     // idle_right 애니메이션 적용 예정
                     this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
                 }
+                else if(this.direction === Env.DIRECTION_UP){
+                    this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+
+                }
+                else if(this.direction === Env.DIRECTION_DOWN){
+                    this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
+                }
             }
 
         }
@@ -154,6 +145,7 @@ cc.Class({
 
 
     /**
+     * 플레이어 객체가 생성되면 최초로 해당 함수를 불러 초기화 해야합니다.
      * @param v2  최초 포지션 인덱스를 가지고 옵니다.
      * @param DIR  최초 플레이어가 바라보고 있는 방향
      */
@@ -173,14 +165,17 @@ cc.Class({
             case Env.DIRECTION_DOWN: defaultDIR = Env.PLAYER_DEFAULT_DOWN; break;
         }
 
+
         if(defaultDIR === Env.PLAYER_DEFAULT_LEFT){
             this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
         }
         else if(defaultDIR === Env.PLAYER_DEFAULT_UP){
             // 위로 보고있을때
+            this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
         }
         else if(defaultDIR === Env.PLAYER_DEFAULT_DOWN){
             // 아래보고있을때.
+            this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
         }
         else if(defaultDIR === Env.PLAYER_DEFAULT_RIGHT){
             this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
