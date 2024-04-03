@@ -225,17 +225,17 @@ cc.Class({
 
 
             // 1-3-E
-            { x: 2, y: -2 },
+            { x: 1, y: -2 },
             { x: 0, y: -1 },
             { x: -4, y: 1 },
 
             // 1-3-N
-            { x: 0, y: -2 },
+            { x: -1, y: -2 },
             { x: 0, y: -1 },
             { x: -4, y: 1 },
 
             //1-3-H
-            { x: 0, y: -2 },
+            { x: -1, y: -2 },
             { x: 0, y: -1 },
             { x: -4, y: 1 },
         ];
@@ -538,15 +538,15 @@ cc.Class({
 
         switch (gameLevel){
             case 0 : case 1:
-                this.SetCamera(-600,-860,1);
+                this.SetCamera(-650,-900,1.75);
                 break;
             case 2: case 3:
             case 5: case 6:
             case 8: case 9:
-                this.SetCamera(-500,-950,1);
+                this.SetCamera(-600,-970,1.2);
                 break;
             case 4: case 7: case 10:
-                this.SetCamera(-500,-1060,1);
+                this.SetCamera(-400,-1060,1);
                 break;
 
             case 11: case 14: case 17:
@@ -561,18 +561,18 @@ cc.Class({
 
             case 20: case 23: case 26:
                 this.SetCamera(140,-900,0.8);
-                this.spaceShip.setPosition(cc.v2(-2600,-250));
+                this.spaceShip.setPosition(cc.v2(-2600,-500));
                 this.spaceShip.active = true;
                 break;
             case 21: case 24: case 27:
                 this.SetCamera(350,-900,0.7);
-                this.spaceShip.setPosition(cc.v2(-200,-250));
+                this.spaceShip.setPosition(cc.v2(-200,-500));
                 this.spaceShip.active = true;
                 break;
 
             case 22: case 25: case 28:
                 this.SetCamera(350,-1300,0.7);
-                this.spaceShip.setPosition(cc.v2(4000,-250));
+                this.spaceShip.setPosition(cc.v2(4000,-500));
                 this.spaceShip.active = true;
                 break;
         }
@@ -938,7 +938,7 @@ cc.Class({
             var v1 = self.GVector(pos.x,pos.y);
             n1.setPosition(v1);
 
-            n1.opacity = 100;
+            // n1.opacity = 100;
 
             switch (object.require_dir){
                 case "up": n1.rotation = 0; break;

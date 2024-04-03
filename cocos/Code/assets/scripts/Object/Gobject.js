@@ -218,7 +218,7 @@ var Gobject = cc.Class({
         }
         else if(this.itemTAG === Env.ROCKET_EMPTY){
             // 로켓 파츠 처리
-            this.node.opacity = 255;
+            // this.node.opacity = 255;
             this.ChangeSprite(Env.ROCKET_FILLED);
             SoundManager.getInstance().PlaySfx(Env.SFX_PARTS_DOCKING);
 
