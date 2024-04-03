@@ -1,5 +1,6 @@
 package com.example.cit.domain.log.log.controller;
 
+import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;
@@ -73,4 +74,17 @@ public class ApiV1PlayerLogController {
         );
     }
 
+    public record BatchPlayLogRequestBody(@NonNull GameMapDto gameMapDto, @NonNull String result) {}
+//    public record BatchPlayLogResponseBody(PlayerLogDto playerLogDto) {}
+
+    @PostMapping(value = "/batchPlayLog", consumes = ALL_VALUE)
+    @Operation(summary = "게임결과 로그 일괄처리")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public void batchPlayLog(
+            @RequestBody BatchPlayLogRequestBody body
+    ) {
+        playerLogService.batchPlayLog(rq.getMember(), body.gameMapDto, body.result);
+    }
 }

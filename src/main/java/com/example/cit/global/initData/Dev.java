@@ -33,6 +33,7 @@ public class Dev {
     private final ItemService itemService;
     private final InventoryService inventoryService;
     private final RequirePartsService requirePartsService;
+    private final GameMapRepository gameMapRepository;
 
 //    @Bean
 //    @Order(4)
@@ -165,34 +166,6 @@ public class Dev {
     ApplicationRunner initStage() {
         return args -> {
             if (memberService.findByUsername("testUser2").isEmpty()) {
-                Member memberUser2 = memberService.join("testUser2", "1234", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser2");
-
-                Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
-                memberClassAdmin.setRefreshToken("class");
-
-                Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
-                memberProgramAdmin.setRefreshToken("program");
-
-                Member memberSystemAdmin = memberService.join("system", "1234", "시스템관리자", "010-1234-1234", 4).getData();
-                memberSystemAdmin.setRefreshToken("system");
-
-                ItemParts itemParts1 = itemPartsService.createItemParts("신발");
-                ItemParts itemParts2 = itemPartsService.createItemParts("모듈");
-                ItemParts itemParts3 = itemPartsService.createItemParts("장갑");
-                ItemParts itemParts4 = itemPartsService.createItemParts("우주복");
-                ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
-                ItemParts itemParts6 = itemPartsService.createItemParts("총");
-
-                Item item1 = itemService.createItem(itemParts1, "그냥신발", "그냥 신발입니다.", "", "/img/inventory/icon_space_boots.png", 0);
-                Item item2 = itemService.createItem(itemParts2, "그냥모듈", "그냥 모듈입니다.", "", "/img/inventory/icon_module.png", 0);
-                Item item3 = itemService.createItem(itemParts3, "그냥장갑", "그냥 장갑입니다.", "", "/img/inventory/icon_space_gloves.png", 0);
-
-                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
-
-
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
@@ -254,7 +227,7 @@ public class Dev {
                                 "        \"init_item_list\" : [\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"target\", \"pos\": [3,3]}\n" +
+                                "            {\"goal\": \"target\", \"pos\": [5,3]}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -769,7 +742,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
-                                "            {\"goal\": \"line\", \"count\": 5}\n" +
+                                "            {\"goal\": \"line\", \"count\": 8}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -975,7 +948,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 5},\n" +
-                                "            {\"goal\": \"line\", \"count\": 8}\n" +
+                                "            {\"goal\": \"line\", \"count\": 11}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1210,7 +1183,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,9]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 12},\n" +
-                                "            {\"goal\": \"line\", \"count\": 40}\n" +
+                                "            {\"goal\": \"line\", \"count\": 43}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1933,6 +1906,40 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
+
+                Member memberUser2 = memberService.join("testUser2", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser2");
+
+                Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
+                memberClassAdmin.setRefreshToken("class");
+
+                Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
+                memberProgramAdmin.setRefreshToken("program");
+
+                Member memberSystemAdmin = memberService.join("system", "1234", "시스템관리자", "010-1234-1234", 4).getData();
+                memberSystemAdmin.setRefreshToken("system");
+
+                ItemParts itemParts1 = itemPartsService.createItemParts("신발");
+                ItemParts itemParts2 = itemPartsService.createItemParts("모듈");
+                ItemParts itemParts3 = itemPartsService.createItemParts("장갑");
+                ItemParts itemParts4 = itemPartsService.createItemParts("우주복");
+                ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
+                ItemParts itemParts6 = itemPartsService.createItemParts("총");
+
+                Item item1 = itemService.createItem(itemParts1, "그냥신발", "그냥 신발입니다.", "", "/img/inventory/icon_space_boots.png", 0);
+                Item item2 = itemService.createItem(itemParts2, "그냥모듈", "그냥 모듈입니다.", "", "/img/inventory/icon_module.png", 0);
+                Item item3 = itemService.createItem(itemParts3, "그냥장갑", "그냥 장갑입니다.", "", "/img/inventory/icon_space_gloves.png", 0);
+
+                gameMapTutorial2.setRewardItem(item1);
+                gameMap11e3.setRewardItem(item2);
+                gameMap12e3.setRewardItem(item3);
+                gameMapRepository.save(gameMapTutorial2);
+                gameMapRepository.save(gameMap11e3);
+                gameMapRepository.save(gameMap12e3);
+
+                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
 
                 // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);

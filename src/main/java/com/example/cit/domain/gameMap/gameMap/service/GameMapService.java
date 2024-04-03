@@ -25,7 +25,6 @@ import java.util.Optional;
 public class GameMapService {
 
     private final GameMapRepository gameMapRepository;
-    private final PlayerLogService playerLogService;
     private final Rq rq;
 
     @Transactional

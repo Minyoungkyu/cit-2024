@@ -14,7 +14,8 @@ export function setupAceEditor(editorId: string, customCompletions: any[]) {
     editor.setOptions({
         enableBasicAutocompletion: false,
         enableLiveAutocompletion: true,
-        wrap:true
+        wrap:true,
+        hasCssTransforms: true
     });
 
     const langTools = ace.require("ace/ext/language_tools");

@@ -16,7 +16,6 @@
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
     import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
-    import TWEEN, { update } from '@tweenjs/tween.js';
     import Cocos from '$lib/cocos/cocos.svelte';
     import { runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
@@ -26,8 +25,7 @@
     const { gameMapDto } = data;
 
     let editor: any;
-    let hintModal: HTMLDialogElement 
-    let scan: HTMLDivElement 
+    let hintModal: HTMLDivElement 
     let progressController: HTMLInputElement; 
     let commandGuide: string[] = gameMapDto.commandGuide.split(',');
     let framesData: [] = $state([]); // 파이썬 실행 결과 프레임 데이터
@@ -35,6 +33,8 @@
     let isCoReady: boolean = $state(false); 
     let showStart: boolean = $state(false);
     let showGuide: boolean = $state(false);
+    let showClearPopup: boolean = $state(false);
+    let openLayer: boolean = $state(false);
 
     $effect(() => {
         if (isCoReady) {
@@ -42,7 +42,7 @@
                 showStart = true;
                 setTimeout(() => {
                     showGuide = true;
-                }, 1000);
+                }, 0);
             }, 1000);
         }
     });
@@ -95,11 +95,19 @@
             data: framesData
         };
 
-        console.log(wrappedData);
         (window as any).SendStreamData?.(wrappedData);
         progressController.max = (framesData.length - 1).toString();
         updateFrame(framesData, 0);
         console.timeEnd("executePythonTimer"); // ToDo: remove
+    }
+
+    async function batchPlayLog() {
+        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
+            body: {
+                gameMapDto: gameMapDto,
+                result: "clear"
+            }
+        });
     }
 
     onMount(async () => {
@@ -157,7 +165,6 @@
         setTimeout(() => {
             hpTest2 = hpTest;
         }, 150);
-        console.log(hpTest);
     }
 
     function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
@@ -180,7 +187,8 @@
     }
 
     function updateFrame(framesData: any, currentFrameIndex: number) {
-        const frameRate = 30; // ToDo: 실제 초당 프레임수로
+        const frameRate = 60; // ToDo: 실제 초당 프레임수로
+        const success = framesData[framesData.length - 1].status === 1;
         frameUpdateIntervalId = setInterval(() => {
             playCanPause = true;
             if (currentFrameIndex < framesData.length) {
@@ -192,16 +200,46 @@
             } else {
                 clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
                 frameUpdateIntervalId = null; 
+                batchPlayLog();
+                if((gameMapDto.level === 3 && success || (gameMapDto.difficulty === "0" && gameMapDto.level === 2 && success))) {
+                    showClearPopup = true;
+                }
+                if(success) {
+                    setTimeout(() => {
+                        routeToNext();
+                    }, 1000);
+                }
             }
         }, 1000 / frameRate);
     }
 
+    function routeToNext() {
+        const nextLevel = gameMapDto.id + 1;
+        if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+            return;
+        } else if (gameMapDto.difficulty === "0") {
+            openLayer = true;
+            setTimeout(() => {
+                window.location.href = `/game/tutorial/${nextLevel}`;
+            }, 500);
+        } else {
+            openLayer = true;
+            setTimeout(() => {
+                window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
+            }, 500);
+        }
+    }
+
+    function routeToSage() {
+        window.location.href = `/game/${gameMapDto.stage}`;
+    }
+
     function showModal() {
-        hintModal.showModal(); // 모달을 보여주는 함수
+        hintModal.classList.remove('hidden') // 모달을 보여주는 함수
     }
   
     function closeModal() {
-        hintModal.close(); // 모달을 닫는 함수
+        hintModal.classList.add('hidden') // 모달을 닫는 함수
     }
 
     function test(value: string) {
@@ -225,7 +263,51 @@
 </script>
 
 <div class="flex flex-col items-center justify-center overflow-hidden">
-    <div class="w-screen h-screen flex flex-row">
+    <div class="w-screen h-screen relative flex flex-row">
+
+        <!-- clear Popup -->
+        {#if showClearPopup}
+        <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - 0.2});">
+            <div class="text-[50px] font-[900] italic absolute top-[10px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
+            <div class="w-[46px] h-[46px] absolute right-[20px] top-[65px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_popup_close.png');" on:click={() => showClearPopup = false}></div>
+            <div class="w-[1030px] h-[446px] absolute top-[165px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_clear_background2.png');">
+                <!-- version 1 -->
+                <!-- <div class="w-[203px] h-[203px] absolute top-[30px] left-[30px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
+                <div class="w-[203px] h-[203px] absolute top-[30px] left-[200px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
+                <div class="w-[203px] h-[203px] absolute top-[30px] left-[370px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
+                <div class="w-[203px] h-[203px] absolute top-[235px] left-[30px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
+                <div class="w-[203px] h-[203px] absolute top-[235px] left-[200px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div> -->
+
+                <!-- version 2 -->
+                <div class="absolute w-full top-[55px] left-[-145px]" style="transform:scale(0.7)">
+                    <div class="text-[50px] font-[900] italic absolute top-[50px] left-[50px]" style="color:rgb(64 226 255)">획득 보상</div>
+                    <div class="w-[203px] h-[203px] absolute top-[175px] left-[50px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                        <div class="w-[124px] h-[58px] absolute top-[50px] left-[40px]" style="background-image:url('/img/inGame/clearPop/icon_exp.png');transform:scale(1.7);"></div>
+                        <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:1px 0 black, -1px 0 black, 0 1px black, 0 -1px black;">{gameMapDto.rewardExp}</div>
+                    </div>
+                    <div class="w-[203px] h-[203px] absolute top-[175px] left-[300px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                        <div class="w-[102px] h-[110px] absolute top-[30px] left-[55px]" style="background-image:url('/img/inGame/clearPop/icon_gem.png');transform:scale(1.6)"></div>
+                        <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:">{gameMapDto.rewardJewel}</div>
+                    </div>
+                    <div class="w-[203px] h-[203px] absolute top-[175px] left-[550px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                        <div class="w-[203px] h-[203px] absolute top-[10px] left-[10px]" style="background-image:url('{gameMapDto.rewardItem?.sourcePath}');background-size:contain;background-repeat:no-repeat;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[202px] h-[67px] absolute bottom-[60px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_lv_background.png');">
+                <div class="font-[900] text-[50px] text-white flex justify-center ml-[85px] leading-[1.2] h-full">{rq.getPlayerLeve()}</div>
+            </div>
+            <div class="w-[252px] h-[51px] absolute bottom-[75px] left-[400px]" style="background-image:url('/img/inGame/clearPop/ui_gembox2.png');transform:scale(1.3);">
+                <div class="font-[700] text-[40px] text-white flex justify-center ml-[75px] leading-[1.4] h-full">{rq.member.player.gems.toLocaleString()}</div>
+            </div>
+            <div class="w-[371px] h-[110px] absolute bottom-[50px] right-[40px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/ui_clear_background3.png');">
+                <div class="w-[208px] h-[74px] absolute top-[19px] left-[85px]" style="background-image:url('/img/inGame/btn_start.png');">
+                    <div class="font-[900] text-[50px] leading-[1.7] italic" style="color:rgb(64 226 255);" on:click={() => routeToSage()}>계속</div>
+                </div>
+            </div>
+        </div>
+        {/if}
+
         <div class="relative w-full bg-gray-500" style="width:{widthMultiplier}px;">
             <div id="game-player-container" class="flex justify-center items-center h-full"> <!-- ToDo: remove hidden-->
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
@@ -238,9 +320,9 @@
             <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
                 style="background-image:url('/img/inGame/ui_player_status.png');transform-origin:left top;transform:scale(0.6)">
                 <div class="w-full h-[54px]"></div> <!-- top margin -->
-                <div class="flex flex-row">
-                    <div class="w-[76px] h-[36px]" style="background-image:url('/img/inGame/icon_hp.png')"></div>
-                    <div id="health-bar" class="flex items-center border-4 w-[280px] ml-4" data-total="100" data-value="100">
+                <div class="flex flex-row absolute top-[72px]">
+                    <div class="w-[76px] h-[36px] ml-2" style="background-image:url('/img/inGame/icon_hp.png');transform:scale(0.8)"></div>
+                    <div id="health-bar" class="flex items-center border-4 w-[260px] ml-4" data-total="100" data-value="100">
                         <div class="bar background-bar absolute w-[{hpTest2}%]" style="width:{hpTest2}%"></div> 
                         <div class="bar foreground-bar absolute w-[{hpTest}%] {hpTest <= 50 ? hpTest <= 30 ? 'yellow-bar' : 'green-bar' : ''}" style="width:{hpTest}%"></div> 
                     </div>
@@ -290,11 +372,10 @@
                 <div class="flex flex-row justify-between h-[70px] w-full items-center">
                     <div></div> <!-- 빈 div (for flex)-->
                     <div class="flex flex-row gap-12 mr-10">
-                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8] hidden" style="background-image:url('/img/inGame/btn_expand.png')"></div> <!-- Todo: remove hidden -->
+                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8] " style="background-image:url('/img/inGame/btn_expand.png')"></div> <!-- Todo: remove hidden -->
                         <div class="cursor-pointer w-[39px] h-[40px] scale-[0.8]" style="background-image:url('/img/inGame/btn_help.png')" on:click={showModal}></div>
-                        <dialog bind:this={hintModal} id="" class="modal">
-                            <div class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute top-0 right-0 origin-top-right {showGuide ? '' : 'hidden'}" 
-                                style="background-image:url('/img/inGame/ui_help_background.png');transform:scale({scaleMultiplier + 0.01})">
+                            <div bind:this={hintModal} class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute z-[99] top-0 right-0 origin-top-right {showGuide ? '' : ''}" 
+                                style="background-image:url('/img/inGame/ui_help_background.png');">
                                 <!-- <div class="w-[95%] h-1/4 border-2">
                                     {gameMapDto.guideImage}
                                 </div>
@@ -321,20 +402,20 @@
                                     </div>
                                 </div>
                             </div>
-                        </dialog>
-                        <div class="w-[38px] h-[38px] hidden" style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> <!-- Todo: remove hidden -->
+                        <div class="w-[38px] h-[38px] " style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> <!-- Todo: remove hidden -->
                     </div>
                 </div>
 
-                <div class="flex justify-center">
-                    <div id="editor" class="w-[590px] h-[609px]"></div>
+                <div id="editorWrapper" class="flex justify-center w-[601px] h-[609px] pt-[40px] mt-[4px]" style="background-image:url('/img/inGame/ui_editor_background2.png');">
+                    <div id="editor" class="w-[590px] h-[529px]"></div>
+                    <!-- <div id="editor" class="mt-[40px]" style="transform:scale({1/scaleMultiplier});width:590px;height:{609 * scaleMultiplier - 60}px;transform-origin:top left;"></div> -->
                 </div>
 
-                <div class="flex flex-row justify-around items-center w-[601px] h-[94px] mt-4" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225)" on:click={executePython}>실행</button>
-                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic" style="background-image:url('/img/inGame/btn_complete.png');color:rgb(255 210 87)">완료</button>
+                <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
+                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225)" on:click={executePython}>실행</button>
+                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8] text-gray-500" style="background-image:url('/img/inGame/btn_complete_off.png');">완료</button>
                 </div>
-                <div class="flex justify-start items-center w-[602px] h-[250px] mt-4" style="background-image:url('/img/inGame/ui_editor_background4.png')">
+                <div class="flex justify-start items-center w-[602px] h-[250px] mt-[20px]" style="background-image:url('/img/inGame/ui_editor_background4.png')">
                     <div class="w-[400px] h-[200px] flex flex-col items-start pl-10 gap-2 pt-2">
                         {#each commandGuide as command}
                             {#if command === 'for i in range(3):'}
@@ -350,4 +431,5 @@
     </div>
 </div>
 
-<TransitioningOpenLayer isCoReady={showStart}/>
+
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>

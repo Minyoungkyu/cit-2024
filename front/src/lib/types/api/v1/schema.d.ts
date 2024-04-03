@@ -13,9 +13,17 @@ export interface paths {
     /** 관리자정보 수정 */
     put: operations["modify"];
   };
+  "/api/v1/inventory/update/inventory": {
+    /** 플레이어 인벤토리 업데이트 */
+    put: operations["updateInventory"];
+  };
   "/api/v1/schools/createSchool": {
     /** 관리자 - 학교생성 */
     post: operations["createSchool"];
+  };
+  "/api/v1/playerLogs/batchPlayLog": {
+    /** 게임결과 로그 일괄처리 */
+    post: operations["batchPlayLog"];
   };
   "/api/v1/members/logout": {
     /** 로그아웃 */
@@ -138,6 +146,43 @@ export interface components {
       msg: string;
       data: components["schemas"]["ModifyResponseBody"];
     };
+    InventoryDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      item: components["schemas"]["ItemDto"];
+      isEquipped: boolean;
+    };
+    ItemDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      /** Format: int64 */
+      itemPartsId: number;
+      name: string;
+      description: string;
+      availableCommands: string;
+      sourcePath: string;
+    };
+    UpdateInventoryRequestBody: {
+      inventoryList: components["schemas"]["InventoryDto"][];
+    };
+    RsDataUpdateInventoryResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["UpdateInventoryResponseBody"];
+    };
+    UpdateInventoryResponseBody: {
+      memberDto: components["schemas"]["MemberDto"];
+    };
     CreateSchoolRequestBody: {
       name?: string;
       location?: string;
@@ -159,6 +204,35 @@ export interface components {
       name: string;
       location: string;
       phoneNo: string;
+    };
+    BatchPlayLogRequestBody: {
+      gameMapDto: components["schemas"]["GameMapDto"];
+      result: string;
+    };
+    GameMapDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      stage: string;
+      step: string;
+      difficulty: string;
+      /** Format: int32 */
+      level: number;
+      editorAutoComplete: string;
+      editorMessage: string;
+      clearGoal: string;
+      cocosInfo: string;
+      guideText: string;
+      guideImage: string;
+      commandGuide: string;
+      /** Format: int32 */
+      rewardExp: number;
+      /** Format: int32 */
+      rewardJewel: number;
+      rewardItem?: components["schemas"]["ItemDto"];
     };
     LoginRequestBody: {
       /** Format: int32 */
@@ -255,30 +329,6 @@ export interface components {
       msg: string;
       data: components["schemas"]["MeResponseBody"];
     };
-    InventoryDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      item: components["schemas"]["ItemDto"];
-      isEquipped: boolean;
-    };
-    ItemDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      /** Format: int64 */
-      itemPartsId: number;
-      name: string;
-      description: string;
-      availableCommands: string;
-      sourcePath: string;
-    };
     MyInventoryResponseBody: {
       inventoryDto: components["schemas"]["InventoryDto"][];
     };
@@ -288,31 +338,6 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["MyInventoryResponseBody"];
-    };
-    GameMapDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      modifyDate: string;
-      stage: string;
-      step: string;
-      difficulty: string;
-      /** Format: int32 */
-      level: number;
-      editorAutoComplete: string;
-      editorMessage: string;
-      clearGoal: string;
-      cocosInfo: string;
-      guideText: string;
-      guideImage: string;
-      commandGuide: string;
-      /** Format: int32 */
-      rewardExp: number;
-      /** Format: int32 */
-      rewardJewel: number;
-      rewardItem?: components["schemas"]["ItemDto"];
     };
     GameMapResponseBody: {
       gameMapDto?: components["schemas"]["GameMapDto"];
@@ -419,6 +444,28 @@ export interface operations {
       };
     };
   };
+  /** 플레이어 인벤토리 업데이트 */
+  updateInventory: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["UpdateInventoryRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataUpdateInventoryResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 관리자 - 학교생성 */
   createSchool: {
     requestBody: {
@@ -432,6 +479,26 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["RsDataCreateSchoolResponseBody"];
         };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 게임결과 로그 일괄처리 */
+  batchPlayLog: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["BatchPlayLogRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
       };
       /** @description Bad Request */
       400: {

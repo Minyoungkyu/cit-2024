@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-    import CharactorStatusModal from "./CharactorStatusModal.svelte";
     import type { components } from '$lib/types/api/v1/schema';
 	import rq from "$lib/rq/rq.svelte";
+    import CharactorStatusModal from "./CharactorStatusModal.svelte";
 
     const { gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName, activeTransitionAnimation } = 
         $props<{ gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][],
@@ -138,8 +138,9 @@
         </div>
     </div>
 
-<CharactorStatusModal bind:charactorStatusModal={characterStatusModal} closeCharacterModal={closeCharactorStatusModal} 
-                        gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
+    <CharactorStatusModal bind:charactorStatusModal={characterStatusModal} closeCharacterModal={closeCharactorStatusModal} 
+                            gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
+
 
 <style>
     @keyframes slideIn {

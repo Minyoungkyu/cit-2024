@@ -1,15 +1,51 @@
 <script lang="ts">
+    import rq from "$lib/rq/rq.svelte";
+	import { onMount } from "svelte";
     
     const { activeTransitionAnimation } = $props<{ activeTransitionAnimation: () => void }>();
-
-    let test = $state(false);
+    let rountGameId = $state(1);
 
     function onClickToStart() {
         activeTransitionAnimation();
         setTimeout(() => {
-            window.location.href = '/game/tutorial/1';
+            window.location.href = '/game/tutorial/' + rountGameId;
         }, 500);
     }
+
+    async function routePlayerToLastGame() {
+        const { data } = await rq.apiEndPointsWithFetch(fetch).GET(`/api/v1/playerLogs/gamesLastLog/{gameMapId}`, {
+            params: {
+                path: {
+                    gameMapId: 1
+                }
+            }
+        });
+
+        if(data!.data.playerLogDto == undefined) {
+            rountGameId = 1;
+        } else {
+            if(data!.data.playerLogDto.gameMapLevel === 2) {
+                if(data!.data.playerLogDto.detailInt === 0) {
+                    rountGameId = 2;
+                } else {
+                    rountGameId = 1;
+                }
+            } else {
+                if(data!.data.playerLogDto.detailInt === 0) {
+                    rountGameId = 1;
+                } else {
+                    rountGameId = 2;
+                }
+            }
+        }
+
+        console.log(rountGameId)
+    }
+
+    onMount(() => {
+        routePlayerToLastGame();
+    });
+        
 </script>
 
 <div class="flex flex-col dropdown-content items-end pt-12 gap-12 h-screen w-[628px] absolute top-[0] right-[0] slide-in" 

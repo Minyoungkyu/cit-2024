@@ -63,7 +63,7 @@
 }
 
 .foreground-bar {
-  background: rgb(221, 38, 10); 
+  background: #46b446;
   z-index: 2; 
 }
 
@@ -74,15 +74,16 @@
 }
 
 .green-bar {
-  background: #46b446; /* 초록색 */
+  background: #f89421; /* 초록색 */
 }
 
 .yellow-bar {
-  background: #bebe5a; /* 노란색 */
+  background: rgb(221, 38, 10); /* 노란색 */
 }
 
 dialog::backdrop { /* modal back layer */
-  /* background-color: unset !important; */
+  background-color: unset !important;
+  pointer-events: none;
 }
 
 
@@ -233,14 +234,6 @@ box-shadow:
 cursor: pointer;
 }
 
-.ace_gutter {
-  top:40px;
-}
-
-.ace_scroller  {
-  top:40px;
-}
-
 .editorHighlighter { /* 에디터 하이라이터 */
   position: absolute;
   background-color: rgba(255, 255, 0, 0.5);
@@ -251,8 +244,11 @@ cursor: pointer;
   background: none !important;
 }
 
+.ace_mobile-button {
+  display: none;
+}
+
 .ace_editor { /* 에디터 백그라운드 */
-  background-image: url('/img/inGame/ui_editor_background2.png');
   background-color: unset;
   font-size:20px !important;
   font-weight: 900;
