@@ -105,19 +105,16 @@
     async function executePython(): Promise<void> {
         console.time("executePythonTimer"); // 실행 시간 측정 시작
 
-        if (pyodideInstance) {
-            let result: any = await runPythonCode2(pyodideInstance, gameMapDto.cocosInfo, editor.getValue());
-            framesData = JSON.parse(result);
-            const wrappedData = {
-                data: framesData
-            };
+        let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
+        framesData = JSON.parse(result.result);
+        const wrappedData = {
+            data: framesData
+        };
 
-            console.log(wrappedData);
-            (window as any).SendStreamData?.(wrappedData);
-            progressController.max = (framesData.length - 1).toString();
-            updateFrame(framesData, 0);
-            console.timeEnd("executePythonTimer"); // 여기에 실행 시간 측정 종료를 배치하여 전체 시간을 측정
-        }
+        console.log(wrappedData);
+        (window as any).SendStreamData?.(wrappedData);
+        progressController.max = (framesData.length - 1).toString();
+        updateFrame(framesData, 0);
     }
 
     let pyodideInstance: any;
