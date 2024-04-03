@@ -105,6 +105,7 @@
             currentItem = rq.inventories.all[0];
         }
     });
+
 </script>
 
 <style>
@@ -204,7 +205,7 @@
     <div class="w-[1920px] h-[953px] absolute flex flex-row justify-center items-end gap-4 left-[auto] top-[auto] {hideItemsModal ? 'slide-out-top' : ''}"
         style="transform:scale(0.87)">
 
-        <div class="w-[200px] h-[200px] text-[50px] font-[900] absolute top-[10px] left-[300px]" style="color:rgb(64 226 255)">인벤토리</div>
+        <div class="w-[200px] h-[200px] text-[50px] font-[900] absolute top-[15px] left-[300px]" style="color:rgb(64 226 255)">인벤토리</div>
 
         <div class="w-[46px] h-[46px] absolute top-[65px] left-[63%] cursor-pointer" style="background-image:url('/img/inventory/btn_popup_close.png')" on:click={closeCharacterModal}></div>
 
@@ -290,14 +291,20 @@
 
         <!-- item status -->
         <div class="w-[508px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_item_info.png')">
-            <div class="w-[330px] h-[74px] absolute top-[70px] right-[270px] text-[50px] font-[900] pl-[75px]" style="background-image:url('/img/inventory/ui_itemname.png');color:rgb(64 226 255);">
+            <div class="w-[330px] h-[74px] absolute top-[70px] right-[270px] text-[40px] font-[900] pl-[40px] leading-[2] " style="background-image:url('/img/inventory/ui_itemname.png');color:rgb(64 226 255);">
                 {currentItem?.item.name}</div>
             <div class="w-[445px] h-[699px] absolute top-[190px] right-[156px] flex flex-col items-center" style="background-image:url('/img/inventory/ui_itme_background3.png')">
                 <div class="w-[203px] h-[203px] absolute top-[45px]" style="background-image:url('/img/inventory/ui_itemframe2.png')">
                     <div class="w-[160px] h-[160px] absolute top-[40px] left-[25px]" style="background-image:url('{currentItem?.item.sourcePath}');background-repeat:no-repeat;background-size:contain;"></div>
                 </div>
                 <div class="w-[420px] h-[22px] absolute top-[270px]" style="background-image:url('/img/inventory/window_1.png');"></div>
-                <div class="w-[350px] h-[240px] absolute top-[314px] text-[40px] font-[900] italic" style="color:rgb(64 226 255)">{currentItem?.item.description}</div>
+                <div class="w-[410px] h-[240px] absolute top-[314px] text-[20px] font-[900] italic" style="color:rgb(64 226 255)">
+                    {#each (currentItem?.item.description?.split('\n') || []) as desc}
+                    <div class="pl-[20px]">
+                        {desc}
+                    </div>
+                    {/each}
+                </div>
                 <div class="w-[310px] h-[76px] absolute bottom-[50px]" style="background-image:url('/img/inventory/btn_item_etc2.jpg')">
                     {#if currentItem?.isEquipped}
                     <div class="equipbtn text-center mr-[60px] text-[40px] font-[900] cursor-pointer" style="color:rgb(255 210 87)" on:click={() => rq.unEquipItem(currentItem!.id)}>해제</div>

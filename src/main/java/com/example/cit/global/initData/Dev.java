@@ -525,7 +525,7 @@ public class Dev {
                                 "            {\"id\":7, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 1},\n" +
                                 "            {\"id\":8, \"type\": \"bomb\", \"pos\": [9,4], \"status\": 1},\n" +
                                 "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [1,5], \"laser_id\": [10], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [2,3], \"pos_end\": [10,3], \"status\": 0}\n" +
+                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [3,3], \"pos_end\": [9,3], \"status\": 0}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [9,7]},\n" +
@@ -627,7 +627,7 @@ public class Dev {
                                 "            {\"id\":2, \"type\": \"food\", \"pos\": [9,3], \"status\": 1},\n" +
                                 "            {\"id\":3, \"type\": \"food\", \"pos\": [9,5], \"status\": 1},\n" +
                                 "            {\"id\":4, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [5], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [3,0], \"pos_end\": [3,4], \"status\": 1}\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [3,0], \"pos_end\": [3,3], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [9,1]},\n" +
@@ -680,8 +680,8 @@ public class Dev {
                                 "            {\"id\":2, \"type\": \"food\", \"pos\": [9,1], \"status\": 1},\n" +
                                 "            {\"id\":3, \"type\": \"food\", \"pos\": [9,7], \"status\": 1},\n" +
                                 "            {\"id\":4, \"type\": \"laser_switch\", \"pos\": [5,3], \"laser_id\": [5,6], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [0,5], \"pos_end\": [4,5], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,3], \"pos_end\": [10,3], \"status\": 0},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [1,5], \"pos_end\": [3,5], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [7,3], \"pos_end\": [9,3], \"status\": 0},\n" +
                                 "            {\"id\":7, \"type\": \"bomb\", \"pos\": [8,1], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
@@ -1926,9 +1926,22 @@ public class Dev {
                 ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
                 ItemParts itemParts6 = itemPartsService.createItemParts("총");
 
-                Item item1 = itemService.createItem(itemParts1, "그냥신발", "그냥 신발입니다.", "", "/img/inventory/icon_space_boots.png", 0);
-                Item item2 = itemService.createItem(itemParts2, "그냥모듈", "그냥 모듈입니다.", "", "/img/inventory/icon_module.png", 0);
-                Item item3 = itemService.createItem(itemParts3, "그냥장갑", "그냥 장갑입니다.", "", "/img/inventory/icon_space_gloves.png", 0);
+                Item item1 = itemService.createItem(itemParts1, "우주용 신발",
+                        "이동과 회전 명령어를 사용할 수 있게 하는 장비.\n" +
+                                "go() : 플레이어를 바라보고 있는 방향으로 이동시킨다.\n" +
+                                "turnLeft() : 플레이어를 왼쪽으로 회전시킨다.\n" +
+                                "turnRight() : 플레이어를 오른쪽으로 회전시킨다.",
+                        "", "/img/inventory/icon_space_boots.png", 0);
+
+                Item item2 = itemService.createItem(itemParts2, "Lv1 모듈",
+                        "반복 명령어 for를 사용할 수 있게 하는 장비.",
+                        "", "/img/inventory/icon_module.png", 0);
+
+                Item item3 = itemService.createItem(itemParts3, "우주용 장갑",
+                        "장착 명령어를 사용할 수 있게 하는 장비.\n" +
+                                "set() : 입력된 아이템을 플레이어가 바라보고 있는 곳에 장착시킨다.",
+                        "",
+                        "/img/inventory/icon_space_gloves.png", 0);
 
                 gameMapTutorial2.setRewardItem(item1);
                 gameMap11e3.setRewardItem(item2);

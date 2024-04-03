@@ -135,12 +135,12 @@
                   <div class="flex flex-row items-center justify-center gap-4">
                     <input id="radio1" type="radio" name="roleLevel" value="1" hidden checked=""/>
                     <label for="radio1" class="radio-custom" style=""></label>
-                    <div class="w-[58px] h-[58px] text-[30px] text-white font-bold leading-[59px]">학생</div>
+                    <div class="w-[58px] h-[58px] text-[25px] text-white font-bold leading-[59px]">학생</div>
                   </div>
                   <div class="flex flex-row items-center gap-4">
                     <input id="radio2" type="radio" name="roleLevel" value="2" hidden />
                     <label for="radio2" class="radio-custom" style=""></label>
-                    <div class="w-[58px] h-[58px] text-[30px] text-white font-bold leading-[59px]">선생님</div>
+                    <div class="w-[58px] h-[58px] text-[25px] text-white font-bold leading-[59px]">선생님</div>
                   </div>
                 </div>
                 <div>
@@ -148,7 +148,7 @@
                       <label class="label">
                           <span class="label-text text-white text-lg">아이디</span>
                       </label>
-                      <input class="input w-[412px] h-[79px] text-white text-[25px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
+                      <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
                              name="username" type="text" autocomplete="off">
                   </div>
       
@@ -156,7 +156,7 @@
                       <label class="label">
                           <span class="label-text text-white text-lg">비밀번호</span>
                       </label>
-                      <input class="input w-[412px] h-[79px] text-white text-lg" style="background-image:url('/img/login/login.png');background-color:unset" 
+                      <input class="input inP w-[412px] h-[79px] text-white text-lg pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" 
                             type="password" maxlength="30" name="password" >
                   </div>
                 </div>
@@ -177,7 +177,7 @@
               <label class="label">
                   <span class="label-text text-white text-lg">닉네임</span>
               </label>
-              <input class="input w-[412px] h-[79px] text-white text-[25px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
+              <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
                      name="nickname" type="text" autocomplete="off">
             </div>
   
@@ -272,6 +272,8 @@
   50% { transform: translateY(-20px); }
 }
 
-
+.inP {
+  font-family: 'Raleway', sans-serif; 
+}
 
 </style>
