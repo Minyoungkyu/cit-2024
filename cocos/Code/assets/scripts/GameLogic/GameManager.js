@@ -15,6 +15,7 @@ cc.Class({
         loadingBG: cc.Node,
 
         isLoaded : false,
+        isCameraShaked : false,
 
         // 코드가 현재 플레이중인 상태를 저장하는 변수
         isPlay: false,
@@ -268,6 +269,27 @@ cc.Class({
     },
 
 
+    //TODO EFFECT
+    ShakeEffect: function() {
+        if(this.isCameraShaked) return;
+        this.isCameraShaked = true;
+
+        var intensity = cc.v2(5, 0);
+
+        // 초기 위치 저장
+        const initialPos = this.camera.node.position.clone();
+        // 일정 시간 동안 흔들림 애니메이션
+        this.camera.node.runAction(
+            cc.sequence(
+                cc.moveBy(0.02, intensity),
+                cc.moveBy(0.04, intensity.neg()),
+                cc.moveBy(0.02, intensity.neg()),
+                cc.moveBy(0.04, intensity.neg()),
+                cc.moveTo(0, initialPos),
+            )
+        );
+    },
+
     /**
      *  게임 Update 코드 상태값을 확인하여 코드를 동작시키는 함수
      *  0 값이면 동작하지않고,
@@ -496,8 +518,8 @@ cc.Class({
 
 
     /**
-     * 맵의 갯수가 많지 않으니 강제로
-     * 카메라 포지셔닝
+     * 맵의 갯수가 많지 않으니 하드 코딩처리되어있습니다.
+     * 카메라 포지셔닝, 맵의 오프셋값 이 정의 되어있습니다.
      * @constructor
      */
     InitialCamera: function() {
@@ -560,6 +582,7 @@ cc.Class({
 
     /**
      * 이펙트 초기화 해주는 함수
+     * 게임의 진행에 따라 Call 될수 있습니다.
      * @constructor
      */
     EffectInit: function(){
@@ -636,7 +659,7 @@ cc.Class({
     },
 
     /**
-     * 폭발 이펙트 보여줌.
+     * 폭발 이펙트 보여주는 함수입니다.
      * @param pos  포지션값 GVector() 사용 변환 포지션
      * @constructor
      */
@@ -656,8 +679,9 @@ cc.Class({
                 self.expList[self.expIdx].active = false;
                 self.expIdx++;
             }
-
         },this);
+        self.isCameraShaked = false;
+
 
         animation.play("explosion");
     },
@@ -778,8 +802,6 @@ cc.Class({
                 var targets = object[j];
                 var goalPos = cc.v2(targets.pos[0], targets.pos[1]);
                 this.AddPrefabs(Env.GOAL, -1, goalPos);
-
-                console.log("HI goal");
                 break;
             }
         }
@@ -787,8 +809,10 @@ cc.Class({
     },
 
     /**
-     * 객체를 만드는 것.
-      * @param type
+     * 게임의 전반적인 모든 객체를 만드는 함수
+     * 해당 함수는 총괄 함수는 컨트롤하는 함수입니다.
+     *
+      * @param type 객체의 타입을 받습니다.
      * @constructor
      */
     MakeUpObject: function(object){
@@ -886,6 +910,14 @@ cc.Class({
         }
     },
 
+    /**
+     * 로켓파츠 프리팹 만들어주는 함수
+     * @param tag  로켓파츠의 태그
+     * @param id  객체 아이디
+     * @param pos  GVector 의 포지션
+     * @param object  json Stream  (방향정보를 가져오기위함)
+     * @constructor
+     */
     AddRocketParts: function(tag, id, pos, object){
         var prefabName = "rocketParts";
         var self = this;
@@ -959,9 +991,7 @@ cc.Class({
             n1.addComponent("Gobject");
             n1.getComponent('Gobject').Init(tag,id);
 
-
             if(tag === Env.GOAL){
-                console.log("fck");
                 self.goalObject = n1;
                 self.node.addChild(n1);
             }
@@ -973,6 +1003,15 @@ cc.Class({
         });
     },
 
+    /**
+     * 드롭 스위치 프리팹 만들어주는 함수
+     * @param tag  태그값 (드롭 스위치 태그) Env 참고
+     * @param id  객체의 아이디값
+     * @param pos  GVector 를 활용한 함수
+     * @param drop_item_tag  드롭 아이템의 태그
+     * @param drop_item_pos  드롭 아이템 포지션
+     * @constructor
+     */
     AddDropSwitchPrefabs : function(tag, id, pos , drop_item_tag, drop_item_pos){
         var self = this;
         var dropSwitchPrefabs = "nSwitch";
@@ -1003,7 +1042,7 @@ cc.Class({
             var n1 = cc.instantiate(prefabs);
             n1.addComponent("Gobject");
             n1.getComponent('Gobject').Init(drop_item_tag, id);
-            n1.getComponent("Gobject").DropItemHide();
+            n1.getComponent("Gobject").DropItemHide(true);
 
 
             var v1 = self.GVector(drop_item_pos.x,drop_item_pos.y);
@@ -1088,11 +1127,19 @@ cc.Class({
         return true;
     },
 
+    /**
+     * 폭탄, 픽업 아이템 보여주는 함수
+     * @param status 현재 상태값
+     * @param pos 포지션 GVector로 적용해야함
+     * @constructor
+     */
     EffectControl: function(status , pos){
         var self = this;
 
         if(status === 11){
+            this.ShakeEffect();
             this.ShowExplosion(pos);
+
         }
         else if( status === 3){
             this.ShowPickup(pos);
@@ -1177,6 +1224,12 @@ cc.Class({
         }
     },
 
+    /**
+     * 드랍아이템 찾는 함수
+     * @param id  드롭아이템이랑 매칭되는 스위치 아이디
+     * @return {*}  찾은 객체 리턴
+     * @constructor
+     */
     FindDropItem: function(id){
       for( var i = 0; i <  this.dropItemList.length; i++){
           if(this.dropItemList[i].getComponent("Gobject").GetItemID() === id) return this.dropItemList[i];
@@ -1219,10 +1272,15 @@ cc.Class({
         var self = this;
         this.isPlay = true;
 
+
         this.idx = Controller.getInstance().GetProgressId();
 
 
         var inter = setInterval(function(){
+
+            if(Controller.getInstance().isGamePause) return;
+
+
             if(self.executeCommand(self.idx) === false){
                 clearInterval(inter);
                 self.isPlay = false;

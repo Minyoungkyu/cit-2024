@@ -181,7 +181,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 138,
+      "width": 0,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -371,6 +371,7 @@
     ],
     "audioStep": 0,
     "isPlaySound": false,
+    "isBombAnimation": false,
     "_id": ""
   },
   {
@@ -408,6 +409,12 @@
       },
       {
         "__uuid__": "ecc978dc-48b0-4416-80ae-6fb52bda4425"
+      },
+      {
+        "__uuid__": "6ff5fad0-e2ee-4144-9490-ffb1b6446e06"
+      },
+      {
+        "__uuid__": "8d05a1f9-a6ab-46b0-ba39-eefb2d0b43bb"
       }
     ],
     "playOnLoad": false,
