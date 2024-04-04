@@ -24,320 +24,321 @@
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
 
-    let audio: HTMLAudioElement;
-    let editor: any;
-    let hintModal: HTMLDivElement 
-    let progressController: HTMLInputElement; 
-    let commandGuide: string[] = gameMapDto.commandGuide.split(',');
-    let framesData: [] = $state([]); // 파이썬 실행 결과 프레임 데이터
-    let frameUpdateIntervalId: any = $state(null); // 에디터 하이라이터, 프로그레스바 업데이트 인터벌 아이디
-    let isCoReady: boolean = $state(false); 
-    let showStart: boolean = $state(false);
-    let showGuide: boolean = $state(false);
-    let showClearPopup: boolean = $state(false);
-    let openLayer: boolean = $state(false);
-    let showCompleteBtn: boolean = $state(false);
-    let canExecute: boolean = $state(true);
-    let isPause: boolean = $state(false);
+//     let audio: HTMLAudioElement;
+//     let editor: any;
+//     let hintModal: HTMLDivElement 
+//     let progressController: HTMLInputElement; 
+//     let commandGuide: string[] = gameMapDto.commandGuide.split(',');
+//     let framesData: [] = $state([]); // 파이썬 실행 결과 프레임 데이터
+//     let frameUpdateIntervalId: any = $state(null); // 에디터 하이라이터, 프로그레스바 업데이트 인터벌 아이디
+//     let isCoReady: boolean = $state(false); 
+//     let showStart: boolean = $state(false);
+//     let showGuide: boolean = $state(false);
+//     let showClearPopup: boolean = $state(false);
+//     let openLayer: boolean = $state(false);
+//     let showCompleteBtn: boolean = $state(false);
+//     let canExecute: boolean = $state(true);
+//     let isPause: boolean = $state(false);
 
-    const stageString = gameMapDto.cocosInfo;
-    const jsonObjectString = stageString.trim().substring("stage = ".length);
-    const stageObject = JSON.parse(jsonObjectString);
+//     const stageString = gameMapDto.cocosInfo;
+//     const jsonObjectString = stageString.trim().substring("stage = ".length);
+//     const stageObject = JSON.parse(jsonObjectString);
 
-    let clearGoalList = gameMapDto.clearGoal.split('\n');
-    let clearGoalColorArray = $state(Array.from({length: clearGoalList.length}, () => 'rgb(64 226 255)'));
+//     let clearGoalList = gameMapDto.clearGoal.split('\n');
+//     let clearGoalColorArray = $state(Array.from({length: clearGoalList.length}, () => 'rgb(64 226 255)'));
 
     
 
-    $effect(() => {
-        if (isCoReady) {
-            setTimeout(() => {
-                showStart = true;
-                setTimeout(() => {
-                    showGuide = true;
-                }, 0);
-            }, 1000);
-        }
-    });
+//     $effect(() => {
+//         if (isCoReady) {
+//             setTimeout(() => {
+//                 showStart = true;
+//                 setTimeout(() => {
+//                     showGuide = true;
+//                 }, 0);
+//             }, 1000);
+//         }
+//     });
 
-    const explanation: String = gameMapDto.editorMessage;
+//     const explanation: String = gameMapDto.editorMessage;
 
-    const customCompletions = gameMapDto.editorAutoComplete.split(',')
-    .filter(command => command.trim() !== '') 
-    .map(command => ({
-        value: `${command}`, 
-        score: 1000
-        // meta: "custom" 
-    }));
+//     const customCompletions = gameMapDto.editorAutoComplete.split(',')
+//     .filter(command => command.trim() !== '') 
+//     .map(command => ({
+//         value: `${command}`, 
+//         score: 1000
+//         // meta: "custom" 
+//     }));
 
-    let mainOpacity = $state(0);
+//     let mainOpacity = $state(0);
     
-    let scanning = $state(false);
-    let reverseScanning = $state(false);
+//     let scanning = $state(false);
+//     let reverseScanning = $state(false);
 
-    async function executePython(): Promise<void> {
-        console.time("executePythonTimer"); // ToDo: remove
+//     async function executePython(): Promise<void> {
+//         console.time("executePythonTimer"); // ToDo: remove
 
-        if (frameUpdateIntervalId !== null) { // 인터벌 초기화
-            clearInterval(frameUpdateIntervalId);
-            frameUpdateIntervalId = null;
-        }
+//         if (frameUpdateIntervalId !== null) { // 인터벌 초기화
+//             clearInterval(frameUpdateIntervalId);
+//             frameUpdateIntervalId = null;
+//         }
         
-        let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
-        framesData = JSON.parse(result.result);
-        const wrappedData = {
-            data: framesData
-        };
+//         let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
+//         framesData = JSON.parse(result.result);
+//         const wrappedData = {
+//             data: framesData
+//         };
 
-        (window as any).SendStreamData?.(wrappedData);
-        progressController.max = (framesData.length - 1).toString();
-        updateFrame(framesData, 0);
-        console.timeEnd("executePythonTimer"); // ToDo: remove
-    }
+//         (window as any).SendStreamData?.(wrappedData);
+//         progressController.max = (framesData.length - 1).toString();
+//         updateFrame(framesData, 0);
+//         console.timeEnd("executePythonTimer"); // ToDo: remove
+//     }
 
-    async function batchPlayLog() {
-        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
-            body: {
-                gameMapDto: gameMapDto,
-                result: "clear"
-            }
-        });
-    }
+//     async function batchPlayLog() {
+//         await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
+//             body: {
+//                 gameMapDto: gameMapDto,
+//                 result: "clear"
+//             }
+//         });
+//     }
 
-    onMount(async () => {
-        // runPythonCode2( "", "");
-    });
+//     onMount(async () => {
+//         runPythonCode2( "", "");
+//     });
 
-    const originalHeight = 1080;
-    let scaleMultiplier = $state(0);
-    let widthMultiplier = $state(1920);
+//     const originalHeight = 1080;
+//     let scaleMultiplier = $state(0);
+//     let widthMultiplier = $state(1920);
 
-    onMount(() => {
-        // audio = document.getElementById("myAudio") as HTMLAudioElement;
-        // audio.volume = 0.4;
+//     onMount(() => {
+//         audio = document.getElementById("myAudio") as HTMLAudioElement;
+//         audio.volume = 0.4;
 
-        // const updateScale = () => {
-        //     const currentHeight = window.innerHeight;
-        //     scaleMultiplier = (currentHeight / originalHeight);
-        //     widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
-        // };
+//         const updateScale = () => {
+//             const currentHeight = window.innerHeight;
+//             scaleMultiplier = (currentHeight / originalHeight);
+//             widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
+//         };
 
-        // window.addEventListener('resize', updateScale);
+//         window.addEventListener('resize', updateScale);
         
-        // updateScale();
+//         updateScale();
         
-        // editor = setupAceEditor('editor', customCompletions);
-        // editor.setValue(explanation, 1); 
+//         editor = setupAceEditor('editor', customCompletions);
+//         editor.setValue(explanation, 1); 
 
-        // editor.getSession().on('change', function(e:any) {
-        //     if (e.action === 'insert') {
-        //         const totalLines = editor.getSession().getLength();
-        //         const cursorPosition = editor.getCursorPosition();
+//         editor.getSession().on('change', function(e:any) {
+//             if (e.action === 'insert') {
+//                 const totalLines = editor.getSession().getLength();
+//                 const cursorPosition = editor.getCursorPosition();
 
-        //         if (cursorPosition.row === totalLines - 1) {
-        //             editor.getSession().insert({row: totalLines, column: 0}, "\n");
-        //         }
-        //     }
-        // });
+//                 if (cursorPosition.row === totalLines - 1) {
+//                     editor.getSession().insert({row: totalLines, column: 0}, "\n");
+//                 }
+//             }
+//         });
 
-        // editor.focus();
+//         editor.focus();
 
-        // showModal();
-    });
+//         showModal();
+//     });
 
-    let markerId:any;
+//     let markerId:any;
 
-    let test2 = $state(true);
-    let playCanPause = $state(false);
-    let volumeCanMute = $state(true);
+//     let test2 = $state(true);
+//     let playCanPause = $state(false);
+//     let volumeCanMute = $state(true);
 
-    let hpTest = $state(100);
-    let hpTest2 = $state(100);
+//     let hpTest = $state(100);
+//     let hpTest2 = $state(100);
 
-    function hpTest3(hp: number) {
-        hpTest = hp;
-        setTimeout(() => {
-            hpTest2 = hpTest;
-        }, 150);
-    }
+//     function hpTest3(hp: number) {
+//         hpTest = hp;
+//         setTimeout(() => {
+//             hpTest2 = hpTest;
+//         }, 150);
+//     }
 
-    function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
-        const Range = ace.require('ace/range').Range;
-        const session = editor.getSession();
-        if (markerId !== undefined) {
-          session.removeMarker(markerId);
-        }
-        const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
-        markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
-    }
+//     function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
+//         const Range = ace.require('ace/range').Range;
+//         const session = editor.getSession();
+//         if (markerId !== undefined) {
+//           session.removeMarker(markerId);
+//         }
+//         const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
+//         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
+//     }
 
-    function updateClearGoal(frame:any) {
-        for (let i = 0; i < clearGoalList.length; i++) {
-            if(clearGoalList[i].includes('목표지점')) {
-                const array1 = stageObject.stage.goal_list[0].pos;
-                const array2 = frame.player.pos.map((value: number) => Math.round(value))
-                if(array1.every((element:number, index:any) => element === array2[index])) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-                // stageObject.stage.goal_list[0].pos === frame.player.pos
-            }else if(clearGoalList[i].includes('식량')) {
-                let foodGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'food');
-                if (frame.player.food_count >= foodGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-            }else if(clearGoalList[i].includes('로켓부품')) {
-                let rocketGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'rocket_parts');
-                if (rocketGoals[0].count <= frame.player.rocket_parts_count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-            }else if(clearGoalList[i].includes('줄 이하')) {
-                let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
-                console.log(frame.line_num, codeLineGoals[0].count);
-                if (frame.line_num <= codeLineGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                } else if(frame.line_num > codeLineGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(64 226 255)';
-                }
-            } else if(clearGoalList[i].includes('장착하기')) {
-                let setCountGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'set');
-                let items = stageObject.stage.init_item_list.filter((goal: any) => goal.type === 'liquid_fuel' || goal.type === 'solid_propellant' || goal.type === 'engines');
-                let count = 0; 
+//     function updateClearGoal(frame:any) {
+//         for (let i = 0; i < clearGoalList.length; i++) {
+//             if(clearGoalList[i].includes('목표지점')) {
+//                 const array1 = stageObject.stage.goal_list[0].pos;
+//                 const array2 = frame.player.pos.map((value: number) => Math.round(value))
+//                 if(array1.every((element:number, index:any) => element === array2[index])) {
+//                     clearGoalColorArray[i] = 'rgb(255 210 87)';
+//                 }
+//                 // stageObject.stage.goal_list[0].pos === frame.player.pos
+//             }else if(clearGoalList[i].includes('식량')) {
+//                 let foodGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'food');
+//                 if (frame.player.food_count >= foodGoals[0].count) {
+//                     clearGoalColorArray[i] = 'rgb(255 210 87)';
+//                 }
+//             }else if(clearGoalList[i].includes('로켓부품')) {
+//                 let rocketGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'rocket_parts');
+//                 if (rocketGoals[0].count <= frame.player.rocket_parts_count) {
+//                     clearGoalColorArray[i] = 'rgb(255 210 87)';
+//                 }
+//             }else if(clearGoalList[i].includes('줄 이하')) {
+//                 let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
+//                 console.log(frame.line_num, codeLineGoals[0].count);
+//                 if (frame.line_num <= codeLineGoals[0].count) {
+//                     clearGoalColorArray[i] = 'rgb(255 210 87)';
+//                 } else if(frame.line_num > codeLineGoals[0].count) {
+//                     clearGoalColorArray[i] = 'rgb(64 226 255)';
+//                 }
+//             } else if(clearGoalList[i].includes('장착하기')) {
+//                 let setCountGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'set');
+//                 let items = stageObject.stage.init_item_list.filter((goal: any) => goal.type === 'liquid_fuel' || goal.type === 'solid_propellant' || goal.type === 'engines');
+//                 let count = 0; 
 
-                for (let i = 0; i < items.length; i++) {
-                    for (let j = 0; j < frame.item_list.length; j++) {
-                        if (items[i].id == j && frame.item_list[j] == 1) {
-                            count++; 
-                        }
-                    }
-                }
+//                 for (let i = 0; i < items.length; i++) {
+//                     for (let j = 0; j < frame.item_list.length; j++) {
+//                         if (items[i].id == j && frame.item_list[j] == 1) {
+//                             count++; 
+//                         }
+//                     }
+//                 }
 
-                if(count >= setCountGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                } 
-            }
-        }
+//                 if(count >= setCountGoals[0].count) {
+//                     clearGoalColorArray[i] = 'rgb(255 210 87)';
+//                 } 
+//             }
+//         }
 
-    }
+//     }
 
-    function handlePlay() {
-        playCanPause = true;
-        if(isPause) {
-            console.log('resume');
-            (window as any).ExternalResumeGame ();
-            isPause = false;
-            updateFrame(framesData, parseInt(progressController.value));
-        } else if(canExecute) {
-            console.log('execute');
-            executePython();
-        } else {
-            (window as any).OnClickPlay();
-            if(progressController.value === progressController.max) {
-                progressController.value = "0";
-            }
-            updateFrame(framesData, parseInt(progressController.value));
-        }
-    }
+//     function handlePlay() {
+//         playCanPause = true;
+//         if(isPause) {
+//             console.log('resume');
+//             (window as any).ExternalResumeGame ();
+//             isPause = false;
+//             updateFrame(framesData, parseInt(progressController.value));
+//         } else if(canExecute) {
+//             console.log('execute');
+//             executePython();
+//         } else {
+//             (window as any).OnClickPlay();
+//             if(progressController.value === progressController.max) {
+//                 progressController.value = "0";
+//             }
+//             updateFrame(framesData, parseInt(progressController.value));
+//         }
+//     }
 
-    function handlePause() {
-        (window as any).SetProgressId?.(parseInt(progressController.value));
-        (window as any).ExternalPauseGame();
-        playCanPause = false;
-        isPause = true;
-        clearInterval(frameUpdateIntervalId);
-        frameUpdateIntervalId = null;
-    }
+//     function handlePause() {
+//         (window as any).SetProgressId?.(parseInt(progressController.value));
+//         (window as any).ExternalPauseGame();
+//         playCanPause = false;
+//         isPause = true;
+//         clearInterval(frameUpdateIntervalId);
+//         frameUpdateIntervalId = null;
+//     }
 
-    function handleProgressChange() { 
-        canExecute = false;
-        (window as any).SetProgressId?.(parseInt(progressController.value));
-    }
+//     function handleProgressChange() { 
+//         canExecute = false;
+//         (window as any).SetProgressId?.(parseInt(progressController.value));
+//     }
 
-    function updateFrame(framesData: any, currentFrameIndex: number) {
-        const frameRate = 60; // ToDo: 실제 초당 프레임수로
-        const success = framesData[framesData.length - 1].status === 1;
-        frameUpdateIntervalId = setInterval(() => {
-            playCanPause = true;
-            canExecute = false;
-            if (currentFrameIndex < framesData.length) {
-                const frame = framesData[currentFrameIndex];
-                progressController.value = currentFrameIndex.toString();
-                updateHighlight(frame.line_num);
-                updateClearGoal(frame);
-                hpTest3(frame.player.hp);
-                currentFrameIndex++;
-            } else {
-                playCanPause = false;
-                canExecute = true;
-                clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
-                frameUpdateIntervalId = null; 
-                if (success) {
-                    showCompleteBtn = true;
-                }
-            }
-        }, 1000 / frameRate);
-    }
+//     function updateFrame(framesData: any, currentFrameIndex: number) {
+//         const frameRate = 60; // ToDo: 실제 초당 프레임수로
+//         const success = framesData[framesData.length - 1].status === 1;
+//         frameUpdateIntervalId = setInterval(() => {
+//             playCanPause = true;
+//             canExecute = false;
+//             if (currentFrameIndex < framesData.length) {
+//                 const frame = framesData[currentFrameIndex];
+//                 progressController.value = currentFrameIndex.toString();
+//                 updateHighlight(frame.line_num);
+//                 updateClearGoal(frame);
+//                 hpTest3(frame.player.hp);
+//                 currentFrameIndex++;
+//             } else {
+//                 playCanPause = false;
+//                 canExecute = true;
+//                 clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
+//                 frameUpdateIntervalId = null; 
+//                 if (success) {
+//                     showCompleteBtn = true;
+//                 }
+//             }
+//         }, 1000 / frameRate);
+//     }
 
-    function doComplete() {
-        batchPlayLog();
-        if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            showClearPopup = true;
-        }
-        routeToNext();
-    }
+//     function doComplete() {
+//         batchPlayLog();
+//         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+//             showClearPopup = true;
+//         }
+//         routeToNext();
+//     }
 
-    function routeToNext() {
-        const nextLevel = gameMapDto.id + 1;
-        if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            return;
-        } else if (gameMapDto.difficulty === "0") {
-            openLayer = true;
-            setTimeout(() => {
-                window.location.href = `/game/tutorial/${nextLevel}`;
-            }, 500);
-        } else {
-            openLayer = true;
-            setTimeout(() => {
-                window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
-            }, 500);
-        }
-    }
+//     function routeToNext() {
+//         const nextLevel = gameMapDto.id + 1;
+//         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+//             return;
+//         } else if (gameMapDto.difficulty === "0") {
+//             openLayer = true;
+//             setTimeout(() => {
+//                 window.location.href = `/game/tutorial/${nextLevel}`;
+//             }, 500);
+//         } else {
+//             openLayer = true;
+//             setTimeout(() => {
+//                 window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
+//             }, 500);
+//         }
+//     }
 
-    function routeToSage() {
-        window.location.href = `/game/${gameMapDto.stage}`;
-    }
+//     function routeToSage() {
+//         window.location.href = `/game/${gameMapDto.stage}`;
+//     }
 
-    function showModal() {
-        hintModal.classList.remove('hidden') // 모달을 보여주는 함수
-    }
+//     function showModal() {
+//         hintModal.classList.remove('hidden') // 모달을 보여주는 함수
+//     }
   
-    function closeModal() {
-        hintModal.classList.add('hidden') // 모달을 닫는 함수
-    }
+//     function closeModal() {
+//         hintModal.classList.add('hidden') // 모달을 닫는 함수
+//     }
 
-    function test(value: string) {
-    let oldValue = editor.getValue();
-    let newValue = oldValue + value;
-    editor.setValue(newValue, 1);
+//     function test(value: string) {
+//     let oldValue = editor.getValue();
+//     let newValue = oldValue + value;
+//     editor.setValue(newValue, 1);
 
-    let newValueSplit = newValue.split('\n');
-    let lastLineIndex = newValueSplit.length - 2; 
-    let lastLine = newValueSplit[lastLineIndex];
+//     let newValueSplit = newValue.split('\n');
+//     let lastLineIndex = newValueSplit.length - 2; 
+//     let lastLine = newValueSplit[lastLineIndex];
 
-    let tabCount = (lastLine.match(/\t/g) || []).length;
+//     let tabCount = (lastLine.match(/\t/g) || []).length;
 
-    let tabsToAdd = '\t'.repeat(tabCount);
-    if (tabCount > 0) {
-        editor.setValue(newValue + tabsToAdd, 1);
-    }
+//     let tabsToAdd = '\t'.repeat(tabCount);
+//     if (tabCount > 0) {
+//         editor.setValue(newValue + tabsToAdd, 1);
+//     }
 
-    editor.focus();
-}
+//     editor.focus();
+// }
 </script>
 
 <audio id="myAudio" autoplay>
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
-<div class="flex flex-col items-center justify-center overflow-hidden">
+<div>ㅎㅇ</div>
+<!--<div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen relative flex flex-row">
 
         {#if showClearPopup}
@@ -504,4 +505,4 @@
 </div>
 
 
-<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
