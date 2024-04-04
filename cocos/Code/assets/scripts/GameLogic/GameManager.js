@@ -221,7 +221,7 @@ cc.Class({
             // 1-2-H
             { x: 0, y: 1 },
             { x: 0, y: 1 },
-            { x: 0, y: 1 },
+            { x: 0, y: -1 },
 
 
             // 1-3-E
@@ -1272,14 +1272,10 @@ cc.Class({
         var self = this;
         this.isPlay = true;
 
-
-        this.idx = Controller.getInstance().GetProgressId();
-
-
         var inter = setInterval(function(){
 
             if(Controller.getInstance().isGamePause) return;
-
+            this.idx = Controller.getInstance().GetProgressId();
 
             if(self.executeCommand(self.idx) === false){
                 clearInterval(inter);
