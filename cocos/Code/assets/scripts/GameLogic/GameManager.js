@@ -1299,8 +1299,10 @@ cc.Class({
 
         var inter = setInterval(function(){
 
-            if(Controller.getInstance().isGamePause) return;
-
+            if(Controller.getInstance().isGamePause) {
+                self.idx = Controller.getInstance().GetProgressId();
+                return;
+            }
 
             if(self.executeCommand(self.idx) === false){
                 clearInterval(inter);
