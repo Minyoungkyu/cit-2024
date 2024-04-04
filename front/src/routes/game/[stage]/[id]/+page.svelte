@@ -1,7 +1,7 @@
 <svelte:head>
     <script type="text/javascript" src="/brython-runner.bundle.js"></script>
 
-    <title>{rq.SITE_NAME} | 맵 이름</title>
+    <title>{rq.SITE_NAME}</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,7 +98,7 @@
             while ((match = regex.exec(longText)) !== null) {
                 lastNumber = match[1];
             }
-    
+
             if (lastNumber) {
                 updateErrorHighlight(Number(lastNumber - 515 - cocosInfoLength));
             } 
