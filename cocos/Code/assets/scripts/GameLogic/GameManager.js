@@ -107,6 +107,7 @@ cc.Class({
                 clearInterval(inter);
 
                 self.InitGame();
+                //self.LoadingFadeOut();
             }
         },90);
 
@@ -137,13 +138,9 @@ cc.Class({
         },1000);
 
         setTimeout(function(){
-            s.CameraMoveX(-1);
-            s.LoadingFadeOut();
-        },2000);
 
-        /*
-        로딩 페이드아웃.
-         */
+           s.CameraMoveX(-1);
+        },2000);
     },
 
     /**
@@ -168,16 +165,13 @@ cc.Class({
      */
     LoadingFadeOut: function(){
         var self = this;
-        var offset = 5;
-
+        var offset = 3;
         setTimeout(()=>{
             var loadingInterval = setInterval(function(){
 
                 if(self.loadingBG.opacity <= 0){
-                    offset++;
                     self.loadingBG.active = false;
                     self.isLoaded = true;
-                    Controller.getInstance().FinalLoadDone();
                     clearInterval(loadingInterval);
                 }
                 self.loadingBG.opacity -= offset;
@@ -267,6 +261,7 @@ cc.Class({
                 // 카메라 초기화
                 self.InitialCamera();
 
+                self.LoadingFadeOut();
                 clearInterval(inter);
             }
 
@@ -302,10 +297,7 @@ cc.Class({
      * @param dt
      */
     update(dt){
-        // var Clog = Controller.getInstance().finalGameLoaded;
-        // console.log(Clog);
         if(!this.isLoaded) return;
-
 
         var status = Controller.getInstance().GetStatus();
         if(status){
@@ -476,13 +468,6 @@ cc.Class({
 
             self.gameMap.node.setPosition(0,-mapHeight * 3);
             self._TileMapShake();
-
-            /**
-             * 여기서 추가 적으로페이드 아웃을 걸자..
-             */
-
-
-
         });
     },
 
@@ -551,13 +536,9 @@ cc.Class({
 
         this.spaceShip.active = false;
 
-
-        console.log(gameLevel);
-
-
         switch (gameLevel){
             case 0 : case 1:
-                this.SetCamera(-650,-870,1.4);
+                this.SetCamera(-650,-900,1.75);
                 break;
             case 2: case 3:
             case 5: case 6:
@@ -572,28 +553,26 @@ cc.Class({
                 this.SetCamera(-300,-1200,0.75);
                 break;
             case 12: case 15: case 18:
-                this.SetCamera(350,-1150,0.7);
+                this.SetCamera(250,-1350,0.65);
                 break;
             case 13: case 16: case 19:
-                this.SetCamera(620,-1150,0.58);
+                this.SetCamera(550,-1350,0.6);
                 break;
 
             case 20: case 23: case 26:
                 this.SetCamera(140,-900,0.8);
-                this.spaceShip.setPosition(cc.v2(-4830,600));
+                this.spaceShip.setPosition(cc.v2(-2600,-500));
                 this.spaceShip.active = true;
                 break;
-
-
             case 21: case 24: case 27:
                 this.SetCamera(350,-900,0.7);
-                this.spaceShip.setPosition(cc.v2(-550, 600));
+                this.spaceShip.setPosition(cc.v2(-200,-500));
                 this.spaceShip.active = true;
                 break;
 
             case 22: case 25: case 28:
                 this.SetCamera(350,-1300,0.7);
-                this.spaceShip.setPosition(cc.v2(5260,-780));
+                this.spaceShip.setPosition(cc.v2(4000,-500));
                 this.spaceShip.active = true;
                 break;
         }
@@ -1293,17 +1272,14 @@ cc.Class({
         var self = this;
         this.isPlay = true;
 
+
         this.idx = Controller.getInstance().GetProgressId();
 
 
         var inter = setInterval(function(){
 
-            console.log("Cur idx ==> "+ self.idx );
+            if(Controller.getInstance().isGamePause) return;
 
-            if(Controller.getInstance().isGamePause) {
-                self.idx = Controller.getInstance().GetProgressId();
-                return;
-            }
 
             if(self.executeCommand(self.idx) === false){
                 clearInterval(inter);

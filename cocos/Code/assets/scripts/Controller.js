@@ -9,7 +9,6 @@
  */
 var Controller = cc.Class({
     statics: {
-
         // Singleton
         _instance: null,
         getInstance: function () {
@@ -35,8 +34,6 @@ var Controller = cc.Class({
         loadIndex : 0,
         gameStatus: false,
         isGamePause: false,
-
-        finalGameLoaded : false,
     },
 
 
@@ -83,6 +80,8 @@ var Controller = cc.Class({
             console.log("Out of Range");
             return -1;
         }
+
+
         return data.data[id];
     },
 
@@ -95,6 +94,7 @@ var Controller = cc.Class({
 
         return data.data.length -1;
     },
+
 
     /**
      * 외부에서 불려지고, Json 데이터가 저장되는 함수
@@ -191,18 +191,8 @@ var Controller = cc.Class({
         this.isGamePause = false;
     },
 
-    FinalLoadDone: function(){
-        console.log("Loaded!");
-        this.finalGameLoaded = true;
-    },
 
-    /**
-     * 최종으로 Cocos 게임 로드 정보 리턴함.
-     * @constructor
-     */
-    GetFinalLoad: function(){
-        this.finalGameLoaded;
-    },
+
 });
 
 module.exports = Controller;
@@ -279,13 +269,5 @@ window.ExternalResumeGame = function(){
     Controller.getInstance().ResumeGame();
 }
 
-/**
- * 외부에서 접근,  최종으로 게임이 로드된 상태임.
- * 해당 함수 불렀을때 ture 값이 나오면 로드가 완료되었음.
- * @constructor
- */
-window.IsCocosGameLoad = function(){
-    if(Controller.getInstance().finalGameLoaded) return true;
-    return false;
-}
+
 
