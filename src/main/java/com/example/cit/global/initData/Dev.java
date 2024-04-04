@@ -515,7 +515,8 @@ public class Dev {
                                 "            {\"id\":4, \"type\": \"bomb\", \"pos\": [6,3], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"target\", \"pos\": [9,1]}\n" +
+                                "            {\"goal\": \"target\", \"pos\": [9,1]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 2}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -523,7 +524,7 @@ public class Dev {
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
-                                "        \"food_count\" : 0,       \n" +
+                                "        \"food_count\" : 0,\n" +
                                 "        \"rocket_parts_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
@@ -826,7 +827,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
-                                "            {\"goal\": \"line\", \"count\": 5}\n" +
+                                "            {\"goal\": \"line\", \"count\": 8}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1056,7 +1057,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 5},\n" +
-                                "            {\"goal\": \"line\", \"count\": 8}\n" +
+                                "            {\"goal\": \"line\", \"count\": 11}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1259,45 +1260,69 @@ public class Dev {
                                 "        \"map\" : 1,\n" +
                                 "        \"step\" : \"1-2\",\n" +
                                 "        \"diff\" : \"Hard\",\n" +
-                                "        \"level\" : 2,\n" +
+                                "        \"level\" : 1,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [1,7], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [1,11], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [3,5], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [3,7], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [3,9], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [3,11], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [5,3], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [5,5], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"rocket_parts\", \"pos\": [5,7], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"rocket_parts\", \"pos\": [5,9], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"rocket_parts\", \"pos\": [7,3], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [7,5], \"status\": 1},\n" +
+                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [7,7], \"status\": 1},\n" +
+                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [9,1], \"status\": 1},\n" +
+                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [9,3], \"status\": 1},\n" +
+                                "            {\"id\":16, \"type\": \"rocket_parts\", \"pos\": [9,5], \"status\": 1},\n" +
+                                "            {\"id\":17, \"type\": \"rocket_parts\", \"pos\": [11,3], \"status\": 1},\n" +
+                                "            {\"id\":18, \"type\": \"rocket_parts\", \"pos\": [11,5], \"status\": 1},\n" +
+                                "            {\"id\":19, \"type\": \"rocket_parts\", \"pos\": [11,7], \"status\": 1},\n" +
+                                "            {\"id\":20, \"type\": \"rocket_parts\", \"pos\": [13,5], \"status\": 1},\n" +
+                                "            {\"id\":21, \"type\": \"rocket_parts\", \"pos\": [13,7], \"status\": 1},\n" +
+                                "            {\"id\":22, \"type\": \"bomb\", \"pos\": [1,5], \"status\": 1},\n" +
+                                "            {\"id\":23, \"type\": \"bomb\", \"pos\": [3,3], \"status\": 1},\n" +
+                                "            {\"id\":24, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 1},\n" +
+                                "            {\"id\":25, \"type\": \"bomb\", \"pos\": [5,11], \"status\": 1},\n" +
+                                "            {\"id\":26, \"type\": \"bomb\", \"pos\": [7,9], \"status\": 1},\n" +
+                                "            {\"id\":27, \"type\": \"bomb\", \"pos\": [7,11], \"status\": 1},\n" +
+                                "            {\"id\":28, \"type\": \"bomb\", \"pos\": [8,3], \"status\": 1},\n" +
+                                "            {\"id\":29, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 1},\n" +
+                                "            {\"id\":30, \"type\": \"bomb\", \"pos\": [9,7], \"status\": 1},\n" +
+                                "            {\"id\":31, \"type\": \"bomb\", \"pos\": [11,1], \"status\": 1},\n" +
+                                "            {\"id\":32, \"type\": \"bomb\", \"pos\": [11,9], \"status\": 1},\n" +
+                                "            {\"id\":33, \"type\": \"bomb\", \"pos\": [11,11], \"status\": 1},\n" +
+                                "            {\"id\":34, \"type\": \"bomb\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":35, \"type\": \"bomb\", \"pos\": [13,3], \"status\": 1},\n" +
+                                "            {\"id\":36, \"type\": \"bomb\", \"pos\": [13,11], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
-                                "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "            {\"goal\": \"target\", \"pos\": [13,9]},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 12},\n" +
+                                "            {\"goal\": \"line\", \"count\": 43}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,5],\n" +
+                                "        \"pos\" : [1,9],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -1333,47 +1358,41 @@ public class Dev {
                                 "        \"map\" : 1,\n" +
                                 "        \"step\" : \"1-2\",\n" +
                                 "        \"diff\" : \"Hard\",\n" +
-                                "        \"level\" : 3,\n" +
+                                "        \"level\" : 2,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
                                 "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
                                 "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
                                 "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [7,3], \"pos_drop\": [9,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [13,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [21,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [23,3], \"pos_drop\": [23,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [7,9], \"pos_drop\": [7,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [17,7], \"pos_drop\": [19,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [23,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":20, \"type\": \"bomb\", \"pos\": [27,2], \"status\": 1},\n" +
-                                "            {\"id\":21, \"type\": \"bomb\", \"pos\": [17,8], \"status\": 1}\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 24},\n" +
-                                "            {\"goal\": \"line\", \"count\": 200}\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
+                                "            {\"goal\": \"line\", \"count\": 100}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1500,7 +1519,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n",
-                        "고체추진제 3개 장착하기\n" +
+                        "고체추진제 4개 장착하기\n" +
                                 "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -1528,7 +1547,7 @@ public class Dev {
                                 "            {\"id\":3, \"type\": \"solid_propellant\", \"pos\": [15,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"set\", \"type\": \"solid_propellant\", \"count\": 3},\n" +
+                                "            {\"goal\": \"set\", \"type\": \"solid_propellant\", \"count\": 4},\n" +
                                 "            {\"goal\": \"line\", \"count\": 10}\n" +
                                 "        ]\n" +
                                 "    },\n" +
