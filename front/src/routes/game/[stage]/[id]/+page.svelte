@@ -75,25 +75,6 @@
     let scanning = $state(false);
     let reverseScanning = $state(false);
 
-    function startScanning() {
-        scanning = true;
-        reverseScanning = false;
-
-        setTimeout(() => {
-            scanning = false;
-        }, 3000); // 애니메이션 시간과 동일하게 설정
-    }
-
-    function reverseScan() {
-        reverseScanning = true; // 역방향 스캐닝 활성화
-        scanning = false;
-        mainOpacity = 1;
-
-        setTimeout(() => {
-            // reverseScanning = false; // 애니메이션이 끝나면 상태를 다시 false로 설정
-        }, 3000); // 역방향 애니메이션 시간 설정
-    }
-
     async function executePython(): Promise<void> {
         console.time("executePythonTimer"); // ToDo: remove
 
@@ -124,17 +105,16 @@
     }
 
     onMount(async () => {
-        runPythonCode2( "", "");
+        // runPythonCode2( "", "");
     });
 
     const originalHeight = 1080;
-    let currentHeight = $state(1080);
     let scaleMultiplier = $state(0);
     let widthMultiplier = $state(1920);
 
     onMount(() => {
-        audio = document.getElementById("myAudio") as HTMLAudioElement;
-        audio.volume = 0.4;
+        // audio = document.getElementById("myAudio") as HTMLAudioElement;
+        // audio.volume = 0.4;
 
         const updateScale = () => {
             const currentHeight = window.innerHeight;
@@ -146,26 +126,23 @@
         
         updateScale();
         
-        editor = setupAceEditor('editor', customCompletions);
-        editor.setValue(explanation, 1); 
+        // editor = setupAceEditor('editor', customCompletions);
+        // editor.setValue(explanation, 1); 
 
-        editor.getSession().on('change', function(e:any) {
-            if (e.action === 'insert') {
-                const totalLines = editor.getSession().getLength();
-                const cursorPosition = editor.getCursorPosition();
+        // editor.getSession().on('change', function(e:any) {
+        //     if (e.action === 'insert') {
+        //         const totalLines = editor.getSession().getLength();
+        //         const cursorPosition = editor.getCursorPosition();
 
-                if (cursorPosition.row === totalLines - 1) {
-                    editor.getSession().insert({row: totalLines, column: 0}, "\n");
-                }
-            }
-        });
+        //         if (cursorPosition.row === totalLines - 1) {
+        //             editor.getSession().insert({row: totalLines, column: 0}, "\n");
+        //         }
+        //     }
+        // });
 
-        editor.focus();
+        // editor.focus();
 
-        startScanning();
         showModal();
-
-        console.log(stageObject); // ToDo: remove
     });
 
     let markerId:any;
@@ -357,7 +334,7 @@
 }
 </script>
 
-<!-- <audio id="myAudio" autoplay>
+<audio id="myAudio" autoplay>
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
@@ -527,4 +504,4 @@
 </div>
 
 
-<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>
