@@ -232,6 +232,34 @@
     .inE {
         font-family: 'Raleway', sans-serif; 
     }
+
+    .btn_stage:hover {
+        background-image: url('/img/map/btn_stage_off.png') !important;
+    }
+
+    .btn_shop:hover {
+        background-image: url('/img/map/btn_shop_off.png') !important;
+        transform: scale(1.05) !important;
+        transform-origin: bottom;
+    }
+
+    .btn_codebook:hover {
+        background-image: url('/img/map/btn_coodbook_off.png') !important;
+        transform: scale(1.05) !important;
+        transform-origin: bottom;
+    }
+
+    .btn_challenge:hover {
+        background-image: url('/img/map/btn_challenge_off.png') !important;
+        transform: scale(1.05) !important;
+        transform-origin: bottom;
+    }
+
+    .btn_rank:hover {
+        background-image: url('/img/map/btn_ranking_off.png') !important;
+        transform: scale(1.05) !important;
+        transform-origin: bottom;
+    }
 </style>
 
 <audio autoplay>
@@ -263,11 +291,11 @@
         <div class="absolute top-[50%] right-[1%] w-[83px] h-[124px] cursor-pointer" style="background-image:url('/img/map/btn_next.png');transform-origin:right;transform:scale(0.67)"></div> <!-- 다음 맵 버튼 -->
         <div class="flex flex-col absolute top-[2%] left-[2%]"> <!-- 좌상단 -->
             <div class="flex flex-row items-end gap-5" style="transform:scale(0.67) rotateZ(3deg) rotateY(5deg);transform-origin:left;">
-                <div class="w-[160px] h-[160px]" style="background-image:url('/img/map/btn_stage_on.png');transform:scale(1);background-repeat:no-repeat;background-size:contain;"></div>
-                <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_shop_off.png');transform:scale(1)"></div>
-                <div class="w-[133px] h-[134px]" style="background-image:url('/img/map/btn_coodbook_off.png');transform:scale(1)"></div>
-                <div class="w-[133px] h-[134px]" style="background-image:url('/img/map/btn_challenge_off.png');transform:scale(1)"></div>
-                <div class="w-[133px] h-[134px]" style="background-image:url('/img/map/btn_ranking_off.png');transform:scale(1)"></div>
+                <div class="w-[160px] h-[160px] btn_stage" style="background-image:url('/img/map/btn_stage_off.png');transform:scale(1);background-repeat:no-repeat;background-size:contain;"></div>
+                <div class="w-[134px] h-[134px] btn_shop" style="background-image:url('/img/map/btn_shop_on.png');transform:scale(1)"></div>
+                <div class="w-[133px] h-[134px] btn_codebook" style="background-image:url('/img/map/btn_coodbook_on.png');transform:scale(1)"></div>
+                <div class="w-[133px] h-[134px] btn_challenge" style="background-image:url('/img/map/btn_challenge_on.png');transform:scale(1)"></div>
+                <div class="w-[133px] h-[134px] btn_rank" style="background-image:url('/img/map/btn_ranking_on.png');transform:scale(1)"></div>
             </div>
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black">스테이지</div>
         </div>
@@ -295,7 +323,7 @@
 
         <!-- <div class="btn absolute bottom-[8%] left-[4%]" data-gameMapId="1" on:click={() => toggleDropdown(0)}>튜토리얼(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[8%] left-[4%] cursor-pointer" data-gameMapId="1" on:click={() => toggleDropdown(0)} 
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(2) ? (isDropdownOpen[0] ? '2' : '3') : (isDropdownOpen[0] ? '2' : '1')}.png); transform:scale(0.67);">
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(2) ? (isDropdownOpen[0] ? '3' : '2') : (isDropdownOpen[0] ? '3' : '1')}.png); transform:scale(0.67);">
             <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">튜토리얼</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TUTORIAL</div>
         </div>
@@ -306,7 +334,7 @@
         {/if}
         {#if isOpen(3)} <!--step 의 easy, 1레벨 맵 아이디-->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[20%] cursor-pointer" on:click={() => toggleDropdown(1)} data-gameMapId="3"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(5) ? (isDropdownOpen[1] ? '2' : '3') : (isDropdownOpen[1] ? '2' : '1')}.png); transform:scale(0.67);">
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(5) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67);">
             <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 1</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - ONE</div>
         </div>
@@ -329,7 +357,7 @@
         {#if isOpen(12)}
         <!-- <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[10%] left-[35%] cursor-pointer" on:click={() => toggleDropdown(2)} data-gameMapId="12"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(14) ? (isDropdownOpen[2] ? '2' : '3') : (isDropdownOpen[2] ? '2' : '1')}.png); transform:scale(0.67);">            
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(14) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67);">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 2</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - TWO</div>
         </div>
@@ -349,7 +377,7 @@
 
         {#if isOpen(21)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[48%] cursor-pointer" on:click={() => toggleDropdown(3)} data-gameMapId="21"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(23) ? (isDropdownOpen[3] ? '2' : '3') : (isDropdownOpen[3] ? '2' : '1')}.png); transform:scale(0.67);">            
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(23) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67);">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 3</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - THREE</div>
         </div>

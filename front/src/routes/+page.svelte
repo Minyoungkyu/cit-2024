@@ -128,13 +128,13 @@
   
 </script>
 
+<audio class="myAudio" autoplay>
+  <source src="/sound/login_sound.mp3" type="audio/mpeg">
+</audio>
 <video autoplay muted loop id="backgroundVideo">
   <source src="/img/login/background_login.mp4" type="video/mp4">
 </video>
 <div class="w-full h-full absolute {showBgThumb ? '' : 'hidden'}" style="background-image:url('/img/login/bg_thumnail.jpg');background-size:100% 100%;background-repeat:no-repeat;background-position:bottom;"></div>
-<audio autoplay>
-  <source src="/sound/login_sound.mp3" type="audio/mpeg">
-</audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen flex justify-center relative">
       <div id="logoContainer" class="absolute w-[903px] h-[300px] left-[40px] top-[40px]" 
