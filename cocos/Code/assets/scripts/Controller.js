@@ -34,6 +34,8 @@ var Controller = cc.Class({
         loadIndex : 0,
         gameStatus: false,
         isGamePause: false,
+
+        finalGameLoaded : false,
     },
 
 
@@ -192,7 +194,19 @@ var Controller = cc.Class({
     },
 
 
+    FinalLoadDone: function(){
+        console.log("로딩완료!");
+        this.finalGameLoaded = true;
+    },
 
+
+    /**
+     * 최종으로 Cocos 게임 로드 정보 리턴함.
+     * @constructor
+     */
+    GetFinalLoad: function(){
+        this.finalGameLoaded;
+    },
 });
 
 module.exports = Controller;
@@ -271,3 +285,11 @@ window.ExternalResumeGame = function(){
 
 
 
+/**
+ * 외부에서 접근,  최종으로 게임이 로드된 상태임.
+ * 해당 함수 불렀을때 ture 값이 나오면 로드가 완료되었음.
+ * @constructor
+ */
+window.IsGameLoaded = function(){
+    Controller.getInstance().GetFinalLoad();
+}

@@ -541,7 +541,7 @@
                 </div>
 
                 <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225);" on:click={executePython}>실행</button>
+                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
                     <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
                             style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_complete.png");' : 'url("/img/inGame/btn_complete_off.png");'}color:{showCompleteBtn ? 'rgb(255 210 87)' : 'gray'}"
                             on:click={() => {showCompleteBtn ? doComplete() : ''}}>완료</button>
