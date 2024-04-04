@@ -2129,6 +2129,18 @@ public class Dev {
                 Member memberUser2 = memberService.join("hadle", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("hadle");
 
+                Member memberUser3 = memberService.join("test1", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test1");
+
+                Member memberUser4 = memberService.join("test2", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test2");
+
+                Member memberUser5 = memberService.join("test3", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test3");
+
+                Member memberUser6 = memberService.join("test4", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test4");
+
                 Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
                 memberClassAdmin.setRefreshToken("class");
 
