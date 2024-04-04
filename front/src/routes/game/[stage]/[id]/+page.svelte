@@ -12,6 +12,7 @@
 </svelte:head>
 
 <script lang="ts">
+    export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
@@ -24,6 +25,7 @@
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
 
+    let audio: HTMLAudioElement;
     let editor: any;
     let hintModal: HTMLDivElement 
     let progressController: HTMLInputElement; 
@@ -46,8 +48,6 @@
     let clearGoalList = gameMapDto.clearGoal.split('\n');
     let clearGoalColorArray = $state(Array.from({length: clearGoalList.length}, () => 'rgb(64 226 255)'));
 
-    
-
     $effect(() => {
         if (isCoReady) {
             setTimeout(() => {
@@ -62,36 +62,12 @@
     const explanation: String = gameMapDto.editorMessage;
 
     const customCompletions = gameMapDto.editorAutoComplete.split(',')
-    .filter(command => command.trim() !== '') 
-    .map(command => ({
-        value: `${command}`, 
-        score: 1000
+        .filter(command => command.trim() !== '') 
+        .map(command => ({
+            value: `${command}`, 
+            score: 1000
         // meta: "custom" 
     }));
-
-    let mainOpacity = $state(0);
-    
-    let scanning = $state(false);
-    let reverseScanning = $state(false);
-
-    function startScanning() {
-        scanning = true;
-        reverseScanning = false;
-
-        setTimeout(() => {
-            scanning = false;
-        }, 3000); // 애니메이션 시간과 동일하게 설정
-    }
-
-    function reverseScan() {
-        reverseScanning = true; // 역방향 스캐닝 활성화
-        scanning = false;
-        mainOpacity = 1;
-
-        setTimeout(() => {
-            // reverseScanning = false; // 애니메이션이 끝나면 상태를 다시 false로 설정
-        }, 3000); // 역방향 애니메이션 시간 설정
-    }
 
     async function executePython(): Promise<void> {
         console.time("executePythonTimer"); // ToDo: remove
@@ -127,11 +103,13 @@
     });
 
     const originalHeight = 1080;
-    let currentHeight = $state(1080);
     let scaleMultiplier = $state(0);
     let widthMultiplier = $state(1920);
 
     onMount(() => {
+        audio = document.getElementById("myAudio") as HTMLAudioElement;
+        audio.volume = 0.4;
+
         const updateScale = () => {
             const currentHeight = window.innerHeight;
             scaleMultiplier = (currentHeight / originalHeight);
@@ -158,10 +136,7 @@
 
         editor.focus();
 
-        startScanning();
         showModal();
-
-        console.log(stageObject); // ToDo: remove
     });
 
     let markerId:any;
@@ -198,7 +173,7 @@
                 if(array1.every((element:number, index:any) => element === array2[index])) {
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 }
-                // stageObject.stage.goal_list[0].pos === frame.player.pos
+                stageObject.stage.goal_list[0].pos === frame.player.pos
             }else if(clearGoalList[i].includes('식량')) {
                 let foodGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'food');
                 if (frame.player.food_count >= foodGoals[0].count) {
@@ -258,6 +233,7 @@
     }
 
     function handlePause() {
+        (window as any).SetProgressId?.(parseInt(progressController.value));
         (window as any).ExternalPauseGame();
         playCanPause = false;
         isPause = true;
@@ -352,23 +328,17 @@
 }
 </script>
 
+<audio id="myAudio" autoplay>
+    <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
+</audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen relative flex flex-row">
 
-        <!-- clear Popup -->
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - 0.2});">
             <div class="text-[50px] font-[900] italic absolute top-[10px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
             <div class="w-[46px] h-[46px] absolute right-[20px] top-[65px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_popup_close.png');" on:click={() => showClearPopup = false}></div>
             <div class="w-[1030px] h-[446px] absolute top-[165px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_clear_background2.png');">
-                <!-- version 1 -->
-                <!-- <div class="w-[203px] h-[203px] absolute top-[30px] left-[30px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[30px] left-[200px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[30px] left-[370px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[235px] left-[30px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[235px] left-[200px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div> -->
-
-                <!-- version 2 -->
                 <div class="absolute w-full top-[55px] left-[-145px]" style="transform:scale(0.7)">
                     <div class="text-[50px] font-[900] italic absolute top-[50px] left-[50px]" style="color:rgb(64 226 255)">획득 보상</div>
                     <div class="w-[203px] h-[203px] absolute top-[175px] left-[50px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
@@ -399,18 +369,16 @@
         {/if}
 
         <div class="relative w-full bg-gray-500" style="width:{widthMultiplier}px;">
-            <div id="game-player-container" class="flex justify-center items-center h-full"> <!-- ToDo: remove hidden-->
+            <div id="game-player-container" class="flex justify-center items-center h-full"> 
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
 
-            <!-- 뒤로가기 -->
             <a href="/game/{gameMapDto.stage}" class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10]" 
                 style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4); transform-origin:left top"></a>
 
-            <!-- charator status -->
             <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
                 style="background-image:url('/img/inGame/ui_player_status.png');transform-origin:left top;transform:scale(0.6)">
-                <div class="w-full h-[54px]"></div> <!-- top margin -->
+                <div class="w-full h-[54px]"></div> 
                 <div class="flex flex-row absolute top-[72px]">
                     <div class="w-[76px] h-[36px] ml-2" style="background-image:url('/img/inGame/icon_hp.png');transform:scale(0.8)"></div>
                     <div id="health-bar" class="flex items-center border-4 w-[260px] ml-4" data-total="100" data-value="100">
@@ -420,7 +388,6 @@
                 </div> 
             </div>
 
-            <!-- stage status -->
             <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" style="background-image:url('/img/inGame/ui_background_R.png');transform-origin:top right;transform:scale(0.45)"></div>
             <div class="absolute flex flex-col items-end justify-start absolute right-[10px] top-[2%] text-start" 
                   style="white-space:pre-wrap;transform-origin:top right;transform:scale(0.6);">
@@ -453,34 +420,17 @@
                         {/each}
                     </div>
                     <div class="w-[547px] h-[71px]" style="background-image:url('/img/inGame/ui_goal_end.png');"></div>
-                    <!-- <div class="w-[547px] h-[23px]" style="background-image:url('/img/inGame/ui_goal_start.png');"></div>
-                    <div class="flex flex-col {test2 ? 'scanning-effect' : 'reverse-scanning-effect'}" >
-                        <div class="w-[547px]" style="background-image:url('/img/inGame/ui_goal_middle.png');">
-                            <div>{gameMapDto.clearGoal}</div>
-                        </div>
-                    </div>
-                    <div class="w-[547px] h-[58px] flex justify-end items-center" style="background-image:url('/img/inGame/ui_goal_end.png')">
-                        <div class="w-[35px] h-[24px] mr-4 cursor-pointer" 
-                        style="background-image:{test2 ? 'url("/img/inGame/ui_up.png");' : 'url("/img/inGame/ui_down.png"'}" on:click={() => test2 = !test2}></div>
-                    </div> -->
                   </div>
             </div>
             
-            <!-- w-[150%] transform:scale(0.6);transform-origin:left-->
             <div class="flex flex-row items-center absolute bottom-[4%] left-[0] gap-6 w-[95%] ml-[2.5%]" style="background-color:#181818;">
-              <!-- <div id="volumeController" class="dropdown dropdown-top rounded-b-lg" style="background-color:#181818;width:2em;">
-                  <div tabindex="0" role="button" class="m-1"><i class="fa-solid fa-volume-high" style="color:#6FC5F0"></div>
-                  <input id="myRange" class="rotated-input dropdown-content absolute bottom-[0]" 
-                        type='range' min='0' value='10' max='10' step='1'
-                        style="transform:rotate(270deg);transform-origin: left top;bottom:-2px;"/>
-              </div> -->
                 <div class="flex flex-row w-full gap-2">
                     <div class="w-[38px] h-[38px] cursor-pointer" 
                         style="background-image:{volumeCanMute ? 'url("/img/inGame/btn_Volume_on.png");' : 'url("/img/inGame/btn_Volume_mute.png");' }background-size:contain;background-repeat:no-repeat;"
                         on:click={() => volumeCanMute = !volumeCanMute}></div>
                     <div class="w-[38px] h-[38px] cursor-pointer" 
                         style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 'url("/img/inGame/btn_Control_Play.png");' }background-size:contain;background-repeat:no-repeat;" 
-                        on:click={() => {playCanPause ? handlePause() : handlePlay()}}></div> <!-- Todo: 일시정지 함수 -->
+                        on:click={() => {playCanPause ? handlePause() : handlePlay()}}></div> 
                     <div class="flex items-center w-full">
                         <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%]" bind:this={progressController} on:change={handleProgressChange}/>
                     </div>
@@ -488,28 +438,14 @@
             </div>
         </div>
         <div id="editor-container" class="relative" style="transform-origin:top right;transform:scale({scaleMultiplier})">
-            <!-- style="opacity:{mainOpacity};" -->
             <div class="w-[633px] h-[1080px] flex flex-col items-center absolute" style="background-image:url('/img/inGame/ui_editor_frame.png'), url('/img/inGame/ui_editor_background.jpg');"> 
                 <div class="flex flex-row justify-between h-[70px] w-full items-center">
-                    <div></div> <!-- 빈 div (for flex)-->
+                    <div></div> 
                     <div class="flex flex-row gap-[2rem] mr-10 mt-[-10px]">
-                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8] hidden" style="background-image:url('/img/inGame/btn_expand.png')"></div> <!-- Todo: remove hidden -->
+                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8] hidden" style="background-image:url('/img/inGame/btn_expand.png')"></div>
                         <div class="cursor-pointer w-[34px] h-[34px] scale-[0.8]" style="background-image:url('/img/inGame/btn_help.png')" on:click={showModal}></div>
                             <div bind:this={hintModal} class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute z-[99] top-0 right-0 origin-top-right {showGuide ? '' : ''}" 
                                 style="background-image:url('/img/inGame/ui_help_background.png');">
-                                <!-- <div class="w-[95%] h-1/4 border-2">
-                                    {gameMapDto.guideImage}
-                                </div>
-                                <div class="w-[95%] h-1/4 border-2">
-                                    {gameMapDto.guideText}
-                                </div>
-                                <div class="w-[95%] h-1/4 border-2">
-                                    {gameMapDto.commandGuide}
-                                </div>
-                                <div class="modal-action">
-                                <button class="btn" on:click={closeModal}>Close</button>
-                                </div> -->
-                                <!-- hint modal -->
                                 <div class="absolute text-[35px] top-[630px] left-[90px] text-white">핵심내용</div>
                                 <div class="flex flex-col items-center justify-center ml-[73px]">
                                     <div class="font-[900] text-[50px] absolute top-[12px] left-[200px]" style="color:rgb(64 226 255)">가이드</div>
@@ -531,17 +467,16 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="w-[34px] h-[34px] hidden" style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> <!-- Todo: remove hidden -->
+                        <div class="w-[34px] h-[34px] hidden" style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> 
                     </div>
                 </div>
 
                 <div id="editorWrapper" class="flex justify-center w-[601px] h-[609px] pt-[40px] mt-[4px]" style="background-image:url('/img/inGame/ui_editor_background2.png');">
                     <div id="editor" class="w-[590px] h-[529px]"></div>
-                    <!-- <div id="editor" class="mt-[40px]" style="transform:scale({1/scaleMultiplier});width:590px;height:{609 * scaleMultiplier - 60}px;transform-origin:top left;"></div> -->
                 </div>
 
                 <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225);" on:click={executePython}>실행</button>
+                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
                     <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
                             style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_complete.png");' : 'url("/img/inGame/btn_complete_off.png");'}color:{showCompleteBtn ? 'rgb(255 210 87)' : 'gray'}"
                             on:click={() => {showCompleteBtn ? doComplete() : ''}}>완료</button>

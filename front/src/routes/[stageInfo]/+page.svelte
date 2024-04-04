@@ -12,6 +12,7 @@
 </svelte:head>
 
 <script lang="ts">
+    export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
@@ -20,7 +21,7 @@
     import Cocos from '$lib/cocos/cocos.svelte';
     import { loadPyodide, runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
-
+    
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
 

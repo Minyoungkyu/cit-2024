@@ -26,7 +26,7 @@ let pyodideWorker:any = null;
 
 function getPyodideWorker() {
     if (pyodideWorker === null) {
-        pyodideWorker = new Worker('../../src/lib/pyodide/pyodideWorker.ts');
+        pyodideWorker = new Worker('/pyodideWorker.js');
 
         pyodideWorker.onmessage = (event:any) => {
             if (pyodideWorker.callback) {
@@ -49,7 +49,7 @@ function getPyodideWorker() {
 
 export async function runPythonCode2(stageData:any, userInput: any) {
     try {
-        const result = await runPythonCodeWithTimeout(stageData, userInput, 3000);
+        const result = await runPythonCodeWithTimeout(stageData, userInput, 10000);
         return result; 
     } catch (error) {
         console.error('오류:', error);
