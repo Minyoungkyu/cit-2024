@@ -33,7 +33,7 @@ var Gobject = cc.Class({
             this.node.getChildByName("gliter").getComponent(cc.Animation).play("gliter");
         }
         else if(TAG === Env.GOAL){
-            console.log("GOAL HI");
+            // console.log("GOAL HI");
             this.node.getComponent(cc.Animation).play("goal");
         }
 

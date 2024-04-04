@@ -123,7 +123,7 @@ cc.Class({
         else if(this.playerStatusInfo === 11){
             if(this.isBombAnimation) return;
 
-            console.log("Fc");
+            // console.log("Fc");
 
             this.isBombAnimation = true;
 // 폭탄에 맞음

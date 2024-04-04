@@ -32,7 +32,7 @@ var Loader = cc.Class({
     },
 
     init: function () {
-        console.log("Loaded Sprite");
+        // console.log("Loaded Sprite");
         this._LoadImage();
     },
 

@@ -783,7 +783,7 @@ cc.Class({
         var objects = Controller.getInstance().getInitOjbectDatas();
 
         if (objects.length < 1) {
-            console.log("item list is Null");
+            // console.log("item list is Null");
             return;
         } else {
             for (var i = 0; i < objects.length; i++) {
@@ -1274,7 +1274,7 @@ cc.Class({
         if(this.isPlay) return;
         var self = this;
         this.isPlay = true;
-        // this.idx = Controller.getInstance().GetProgressId();
+        this.idx = Controller.getInstance().GetProgressId();
 
         var inter = setInterval(function(){
             if(Controller.getInstance().isGamePause){
@@ -1284,12 +1284,13 @@ cc.Class({
                 return;
             }
 
-            console.log(self.idx);
+            // console.log(self.idx);
 
             if(self.executeCommand(self.idx) === false){
                 clearInterval(inter);
                 self.isPlay = false;
                 Controller.getInstance().SetStatus(false);
+
             }
             self.idx++;
         }, 1000/60);

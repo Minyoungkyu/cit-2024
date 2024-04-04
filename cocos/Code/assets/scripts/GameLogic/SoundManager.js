@@ -55,23 +55,23 @@ var SoundManager = cc.Class({
     PlaySfx: function(TAG){
 
         if(TAG > this.sound.length ) {
-            console.log("SFX Load ERROR");
+            // console.log("SFX Load ERROR");
             return;
         }
 
         if(this.sound[TAG] === null) {
-            console.log("SFX NULL ERROR ");
+            // console.log("SFX NULL ERROR ");
             return;
         }
 
 
-        console.log("playSFX ==> " ,TAG);
+        // console.log("playSFX ==> " ,TAG);
 
         var self = this;
 
         var clip = this.sound[TAG];
         cc.audioEngine.play(clip,false, 1, function(){
-            console.log("Done");
+            // console.log("Done");
         }.bind(this));
     },
 
