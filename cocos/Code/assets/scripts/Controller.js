@@ -9,6 +9,7 @@
  */
 var Controller = cc.Class({
     statics: {
+
         // Singleton
         _instance: null,
         getInstance: function () {
@@ -190,12 +191,10 @@ var Controller = cc.Class({
         this.isGamePause = false;
     },
 
-
     FinalLoadDone: function(){
-        console.log("로딩완료!");
+        console.log("Loaded!");
         this.finalGameLoaded = true;
     },
-
 
     /**
      * 최종으로 Cocos 게임 로드 정보 리턴함.
@@ -285,6 +284,8 @@ window.ExternalResumeGame = function(){
  * 해당 함수 불렀을때 ture 값이 나오면 로드가 완료되었음.
  * @constructor
  */
-window.IsGameLoaded = function(){
-    Controller.getInstance().GetFinalLoad();
+window.IsCocosGameLoad = function(){
+    if(Controller.getInstance().finalGameLoaded) return true;
+    return false;
 }
+

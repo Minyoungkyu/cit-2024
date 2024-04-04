@@ -170,8 +170,6 @@ cc.Class({
         var self = this;
         var offset = 5;
 
-
-
         setTimeout(()=>{
             var loadingInterval = setInterval(function(){
 
@@ -179,9 +177,8 @@ cc.Class({
                     offset++;
                     self.loadingBG.active = false;
                     self.isLoaded = true;
-                    clearInterval(loadingInterval);
                     Controller.getInstance().FinalLoadDone();
-
+                    clearInterval(loadingInterval);
                 }
                 self.loadingBG.opacity -= offset;
             },30);
@@ -305,7 +302,10 @@ cc.Class({
      * @param dt
      */
     update(dt){
+        // var Clog = Controller.getInstance().finalGameLoaded;
+        // console.log(Clog);
         if(!this.isLoaded) return;
+
 
         var status = Controller.getInstance().GetStatus();
         if(status){
