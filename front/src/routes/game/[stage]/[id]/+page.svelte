@@ -58,15 +58,15 @@
     //     }
     // });
 
-    const explanation: String = gameMapDto.editorMessage;
+    // const explanation: String = gameMapDto.editorMessage;
 
-    const customCompletions = gameMapDto.editorAutoComplete.split(',')
-        .filter(command => command.trim() !== '') 
-        .map(command => ({
-            value: `${command}`, 
-            score: 1000
-        // meta: "custom" 
-    }));
+    // const customCompletions = gameMapDto.editorAutoComplete.split(',')
+    //     .filter(command => command.trim() !== '') 
+    //     .map(command => ({
+    //         value: `${command}`, 
+    //         score: 1000
+    //     // meta: "custom" 
+    // }));
 
     async function executePython(): Promise<void> {
         console.time("executePythonTimer"); // ToDo: remove
@@ -82,10 +82,10 @@
             data: framesData
         };
 
-        (window as any).SendStreamData?.(wrappedData);
-        progressController.max = (framesData.length - 1).toString();
-        updateFrame(framesData, 0);
-        console.timeEnd("executePythonTimer"); // ToDo: remove
+        // (window as any).SendStreamData?.(wrappedData);
+        // progressController.max = (framesData.length - 1).toString();
+        // updateFrame(framesData, 0);
+        // console.timeEnd("executePythonTimer"); // ToDo: remove
     }
 
     async function batchPlayLog() {
@@ -103,7 +103,7 @@
 
     const originalHeight = 1080;
     let scaleMultiplier = $state(0);
-    let widthMultiplier = $state(1920);
+    // let widthMultiplier = $state(1920);
 
     onMount(() => {
         audio = document.getElementById("myAudio") as HTMLAudioElement;
@@ -112,15 +112,15 @@
         const updateScale = () => {
             const currentHeight = window.innerHeight;
             scaleMultiplier = (currentHeight / originalHeight);
-            widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
+            // widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
         };
 
         window.addEventListener('resize', updateScale);
         
         updateScale();
         
-        editor = setupAceEditor('editor', customCompletions);
-        editor.setValue(explanation, 1); 
+        // editor = setupAceEditor('editor', customCompletions);
+        // editor.setValue(explanation, 1); 
 
         editor.getSession().on('change', function(e:any) {
             if (e.action === 'insert') {
@@ -164,66 +164,66 @@
         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
     }
 
-    function updateClearGoal(frame:any) {
-        for (let i = 0; i < clearGoalList.length; i++) {
-            if(clearGoalList[i].includes('목표지점')) {
-                const array1 = stageObject.stage.goal_list[0].pos;
-                const array2 = frame.player.pos.map((value: number) => Math.round(value))
-                if(array1.every((element:number, index:any) => element === array2[index])) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-                // stageObject.stage.goal_list[0].pos === frame.player.pos
-            }else if(clearGoalList[i].includes('식량')) {
-                let foodGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'food');
-                if (frame.player.food_count >= foodGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-            }else if(clearGoalList[i].includes('로켓부품')) {
-                let rocketGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'rocket_parts');
-                if (rocketGoals[0].count <= frame.player.rocket_parts_count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-            }else if(clearGoalList[i].includes('줄 이하')) {
-                let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
-                console.log(frame.line_num, codeLineGoals[0].count);
-                if (frame.line_num <= codeLineGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                } else if(frame.line_num > codeLineGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(64 226 255)';
-                }
-            } else if(clearGoalList[i].includes('장착하기')) {
-                let setCountGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'set');
-                let items = stageObject.stage.init_item_list.filter((goal: any) => goal.type === 'liquid_fuel' || goal.type === 'solid_propellant' || goal.type === 'engines');
-                let count = 0; 
+    // function updateClearGoal(frame:any) {
+    //     for (let i = 0; i < clearGoalList.length; i++) {
+    //         if(clearGoalList[i].includes('목표지점')) {
+    //             const array1 = stageObject.stage.goal_list[0].pos;
+    //             const array2 = frame.player.pos.map((value: number) => Math.round(value))
+    //             if(array1.every((element:number, index:any) => element === array2[index])) {
+    //                 clearGoalColorArray[i] = 'rgb(255 210 87)';
+    //             }
+    //             // stageObject.stage.goal_list[0].pos === frame.player.pos
+    //         }else if(clearGoalList[i].includes('식량')) {
+    //             let foodGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'food');
+    //             if (frame.player.food_count >= foodGoals[0].count) {
+    //                 clearGoalColorArray[i] = 'rgb(255 210 87)';
+    //             }
+    //         }else if(clearGoalList[i].includes('로켓부품')) {
+    //             let rocketGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'rocket_parts');
+    //             if (rocketGoals[0].count <= frame.player.rocket_parts_count) {
+    //                 clearGoalColorArray[i] = 'rgb(255 210 87)';
+    //             }
+    //         }else if(clearGoalList[i].includes('줄 이하')) {
+    //             let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
+    //             console.log(frame.line_num, codeLineGoals[0].count);
+    //             if (frame.line_num <= codeLineGoals[0].count) {
+    //                 clearGoalColorArray[i] = 'rgb(255 210 87)';
+    //             } else if(frame.line_num > codeLineGoals[0].count) {
+    //                 clearGoalColorArray[i] = 'rgb(64 226 255)';
+    //             }
+    //         } else if(clearGoalList[i].includes('장착하기')) {
+    //             let setCountGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'set');
+    //             let items = stageObject.stage.init_item_list.filter((goal: any) => goal.type === 'liquid_fuel' || goal.type === 'solid_propellant' || goal.type === 'engines');
+    //             let count = 0; 
 
-                for (let i = 0; i < items.length; i++) {
-                    for (let j = 0; j < frame.item_list.length; j++) {
-                        if (items[i].id == j && frame.item_list[j] == 1) {
-                            count++; 
-                        }
-                    }
-                }
+    //             for (let i = 0; i < items.length; i++) {
+    //                 for (let j = 0; j < frame.item_list.length; j++) {
+    //                     if (items[i].id == j && frame.item_list[j] == 1) {
+    //                         count++; 
+    //                     }
+    //                 }
+    //             }
 
-                if(count >= setCountGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                } 
-            }
-        }
+    //             if(count >= setCountGoals[0].count) {
+    //                 clearGoalColorArray[i] = 'rgb(255 210 87)';
+    //             } 
+    //         }
+    //     }
 
-    }
+    // }
 
     function handlePlay() {
         playCanPause = true;
         if(isPause) {
             console.log('resume');
-            (window as any).ExternalResumeGame ();
+            // (window as any).ExternalResumeGame ();
             isPause = false;
             updateFrame(framesData, parseInt(progressController.value));
         } else if(canExecute) {
             console.log('execute');
             executePython();
         } else {
-            (window as any).OnClickPlay();
+            // (window as any).OnClickPlay();
             if(progressController.value === progressController.max) {
                 progressController.value = "0";
             }
@@ -232,8 +232,8 @@
     }
 
     function handlePause() {
-        (window as any).SetProgressId?.(parseInt(progressController.value));
-        (window as any).ExternalPauseGame();
+        // (window as any).SetProgressId?.(parseInt(progressController.value));
+        // (window as any).ExternalPauseGame();
         playCanPause = false;
         isPause = true;
         clearInterval(frameUpdateIntervalId);
@@ -242,7 +242,7 @@
 
     function handleProgressChange() { 
         canExecute = false;
-        (window as any).SetProgressId?.(parseInt(progressController.value));
+        // (window as any).SetProgressId?.(parseInt(progressController.value));
     }
 
     function updateFrame(framesData: any, currentFrameIndex: number) {
@@ -255,7 +255,7 @@
                 const frame = framesData[currentFrameIndex];
                 progressController.value = currentFrameIndex.toString();
                 updateHighlight(frame.line_num);
-                updateClearGoal(frame);
+                // updateClearGoal(frame);
                 hpTest3(frame.player.hp);
                 currentFrameIndex++;
             } else {
@@ -285,18 +285,18 @@
         } else if (gameMapDto.difficulty === "0") {
             openLayer = true;
             setTimeout(() => {
-                window.location.href = `/game/tutorial/${nextLevel}`;
+                // window.location.href = `/game/tutorial/${nextLevel}`;
             }, 500);
         } else {
             openLayer = true;
             setTimeout(() => {
-                window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
+                // window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
             }, 500);
         }
     }
 
     function routeToSage() {
-        window.location.href = `/game/${gameMapDto.stage}`;
+        // window.location.href = `/game/${gameMapDto.stage}`;
     }
 
     function showModal() {
