@@ -239,7 +239,14 @@
 
     function handlePlay() {
         (window as any).OnClickPlay();
+        if(progressController.value === progressController.max) {
+            progressController.value = "0";
+        }
         updateFrame(framesData, parseInt(progressController.value));
+    }
+
+    function handlePause() {
+        (window as any).ExternalPauseGame();
     }
 
     function handleProgressChange() { 
@@ -402,7 +409,7 @@
                   style="white-space:pre-wrap;transform-origin:top right;transform:scale(0.6);">
                   <div class="flex flex-row gap-2 w-full scale-[0.87] origin-top-right">
                     <div class="w-[506px] h-[134px] flex justify-center items-center italic" style="background-image:url('/img/inGame/ui_stage_title.png')">
-                        <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} {gameMapDto.difficulty}</div>
+                        <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} {#if gameMapDto.difficulty !== "0"} {gameMapDto.difficulty} {/if}</div>
                     </div>
                     <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_2.png')"></div>
                   </div>
@@ -456,7 +463,7 @@
                         on:click={() => volumeCanMute = !volumeCanMute}></div>
                     <div class="w-[38px] h-[38px] cursor-pointer" 
                         style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 'url("/img/inGame/btn_Control_Play.png");' }background-size:contain;background-repeat:no-repeat;" 
-                        on:click={() => {playCanPause ? '' : handlePlay()}}></div> <!-- Todo: 일시정지 함수 -->
+                        on:click={() => {playCanPause ? handlePause() : handlePlay()}}></div> <!-- Todo: 일시정지 함수 -->
                     <div class="flex items-center w-full">
                         <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%]" bind:this={progressController} on:change={handleProgressChange}/>
                     </div>
@@ -486,19 +493,17 @@
                                 <button class="btn" on:click={closeModal}>Close</button>
                                 </div> -->
                                 <!-- hint modal -->
-                                <div class="absolute text-[35px] top-[630px] left-[105px] text-white">코드목록</div>
+                                <div class="absolute text-[35px] top-[630px] left-[90px] text-white">핵심내용</div>
                                 <div class="flex flex-col items-center justify-center ml-[73px]">
                                     <div class="font-[900] text-[50px] absolute top-[12px] left-[200px]" style="color:rgb(64 226 255)">가이드</div>
                                     <div class="w-[46px] h-[46px] absolute top-[70px] right-[10px] cursor-pointer" style="background-image:url('/img/inGame/btn_popup_close.png')" on:click={() => closeModal()}></div>
-                                    <div class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] font-bold text-white text-left">
-                                        이동방법을 배웁니다.
-
-                                        go() 함수를 사용하면 플레이어가 바라보고 있는 방향으로 이동합니다.
+                                    <div class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left" style="white-space:pre-wrap;">
+                                        {gameMapDto.guideText}
                                     </div>
-                                    <div class="w-[602px] h-[250px] text-[30px] font-bold text-white text-left" 
+                                    <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left" 
                                         style="background-image:url('/img/inGame/ui_editor_background4.png');transform:scale(0.8)">
-                                        <div class="w-full h-full flex items-start justify-start ml-10 mt-[30px]">
-                                            {gameMapDto.guideText}
+                                        <div class="w-full h-full flex items-start justify-start ml-10 mt-[30px]" style="white-space:pre-wrap;">
+                                            {gameMapDto.guideImage}
                                         </div>
                                     </div>
                                     <div class="w-[300px] h-[94px] flex items-center justify-center cursor-pointer"
@@ -541,4 +546,4 @@
 </div>
 
 
-<!-- <TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>

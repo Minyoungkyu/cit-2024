@@ -300,12 +300,19 @@ cursor: pointer;
     color: white;
     font-size: 30px;
     font-weight: 900;
+    text-align: right;
+
+    .ace_gutter-cell {
+      align-items: start !important;
+      justify-content: end !important;
+    }
 
     .ace_gutter-active-line { /* 거터 > 포커스 중인 라인 */
       display:flex;
       align-items: center;
       justify-content: center;
       background-color: unset;
+      text-align: right;
     }
 
     .ace_gutter-cell {
