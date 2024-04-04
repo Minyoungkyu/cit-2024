@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>{rq.SITE_NAME} | 시작하기</title>
+    <title>{rq.SITE_NAME}</title>
 </svelte:head>
 
 <script lang="ts">

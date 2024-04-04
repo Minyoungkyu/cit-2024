@@ -80,19 +80,21 @@ public class PlayerLogService {
                     currentGameLog.setDetailInt(1);
 
                     if (gameMapDto.difficulty().equals("Easy")) {
-                        GameMap nextStepGame = gameMapService.findGameMapById(gameMapDto.id() + 7).get();
-                        GameMap nextDifficultyGame = gameMapService.findGameMapById(gameMapDto.id() + 1).get();
+                        if(!gameMapDto.step().equals("1-3")) {
+                            GameMap nextStepGame = gameMapService.findGameMapById(gameMapDto.id() + 7).get();
+                            GameMap nextDifficultyGame = gameMapService.findGameMapById(gameMapDto.id() + 1).get();
 
-                        if(findByUserIdAndGameMapId(member.getId(), nextStepGame.getId()).isEmpty()) {
-                            createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
-                                    nextStepGame.getId(), nextStepGame.getStage(), nextStepGame.getStep(), nextStepGame.getDifficulty(), nextStepGame.getLevel(),
-                                    "", 0);
-                        }
+                            if(findByUserIdAndGameMapId(member.getId(), nextStepGame.getId()).isEmpty()) {
+                                createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                                        nextStepGame.getId(), nextStepGame.getStage(), nextStepGame.getStep(), nextStepGame.getDifficulty(), nextStepGame.getLevel(),
+                                        "", 0);
+                            }
 
-                        if(findByUserIdAndGameMapId(member.getId(), nextDifficultyGame.getId()).isEmpty()) {
-                            createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
-                                    nextDifficultyGame.getId(), nextDifficultyGame.getStage(), nextDifficultyGame.getStep(), nextDifficultyGame.getDifficulty(), nextDifficultyGame.getLevel(),
-                                    "", 0);
+                            if(findByUserIdAndGameMapId(member.getId(), nextDifficultyGame.getId()).isEmpty()) {
+                                createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                                        nextDifficultyGame.getId(), nextDifficultyGame.getStage(), nextDifficultyGame.getStep(), nextDifficultyGame.getDifficulty(), nextDifficultyGame.getLevel(),
+                                        "", 0);
+                            }
                         }
 
                     } else if (gameMapDto.difficulty().equals("Normal")) {
