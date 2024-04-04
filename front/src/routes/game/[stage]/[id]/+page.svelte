@@ -357,26 +357,17 @@
 }
 </script>
 
-<audio id="myAudio" autoplay>
+<!-- <audio id="myAudio" autoplay>
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen relative flex flex-row">
 
-        <!-- clear Popup -->
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - 0.2});">
             <div class="text-[50px] font-[900] italic absolute top-[10px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
             <div class="w-[46px] h-[46px] absolute right-[20px] top-[65px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_popup_close.png');" on:click={() => showClearPopup = false}></div>
             <div class="w-[1030px] h-[446px] absolute top-[165px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_clear_background2.png');">
-                <!-- version 1 -->
-                <!-- <div class="w-[203px] h-[203px] absolute top-[30px] left-[30px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[30px] left-[200px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[30px] left-[370px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[235px] left-[30px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div>
-                <div class="w-[203px] h-[203px] absolute top-[235px] left-[200px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(0.6);"></div> -->
-
-                <!-- version 2 -->
                 <div class="absolute w-full top-[55px] left-[-145px]" style="transform:scale(0.7)">
                     <div class="text-[50px] font-[900] italic absolute top-[50px] left-[50px]" style="color:rgb(64 226 255)">획득 보상</div>
                     <div class="w-[203px] h-[203px] absolute top-[175px] left-[50px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
@@ -407,16 +398,14 @@
         {/if}
 
         <div class="relative w-full bg-gray-500" style="width:{widthMultiplier}px;">
-            <!-- <div id="game-player-container" class="flex justify-center items-center h-full"> 
+            <div id="game-player-container" class="flex justify-center items-center h-full"> 
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
-            </div> -->
+            </div>
 
-            <!-- 뒤로가기 -->
             <a href="/game/{gameMapDto.stage}" class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10]" 
                 style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4); transform-origin:left top"></a>
 
-            <!-- charator status -->
-            <!-- <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
+            <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
                 style="background-image:url('/img/inGame/ui_player_status.png');transform-origin:left top;transform:scale(0.6)">
                 <div class="w-full h-[54px]"></div> 
                 <div class="flex flex-row absolute top-[72px]">
@@ -426,10 +415,9 @@
                         <div class="bar foreground-bar absolute w-[{hpTest}%] {hpTest <= 50 ? hpTest <= 30 ? 'yellow-bar' : 'green-bar' : ''}" style="width:{hpTest}%"></div> 
                     </div>
                 </div> 
-            </div> -->
+            </div>
 
-            <!-- stage status -->
-            <!-- <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" style="background-image:url('/img/inGame/ui_background_R.png');transform-origin:top right;transform:scale(0.45)"></div>
+            <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" style="background-image:url('/img/inGame/ui_background_R.png');transform-origin:top right;transform:scale(0.45)"></div>
             <div class="absolute flex flex-col items-end justify-start absolute right-[10px] top-[2%] text-start" 
                   style="white-space:pre-wrap;transform-origin:top right;transform:scale(0.6);">
                   <div class="flex flex-row gap-2 w-full scale-[0.87] origin-top-right">
@@ -462,7 +450,7 @@
                     </div>
                     <div class="w-[547px] h-[71px]" style="background-image:url('/img/inGame/ui_goal_end.png');"></div>
                   </div>
-            </div> -->
+            </div>
             
             <div class="flex flex-row items-center absolute bottom-[4%] left-[0] gap-6 w-[95%] ml-[2.5%]" style="background-color:#181818;">
                 <div class="flex flex-row w-full gap-2">
@@ -471,14 +459,14 @@
                         on:click={() => volumeCanMute = !volumeCanMute}></div>
                     <div class="w-[38px] h-[38px] cursor-pointer" 
                         style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 'url("/img/inGame/btn_Control_Play.png");' }background-size:contain;background-repeat:no-repeat;" 
-                        on:click={() => {playCanPause ? handlePause() : handlePlay()}}></div> <!-- Todo: 일시정지 함수 -->
+                        on:click={() => {playCanPause ? handlePause() : handlePlay()}}></div> 
                     <div class="flex items-center w-full">
                         <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%]" bind:this={progressController} on:change={handleProgressChange}/>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div id="editor-container" class="relative" style="transform-origin:top right;transform:scale({scaleMultiplier})">
+        <div id="editor-container" class="relative" style="transform-origin:top right;transform:scale({scaleMultiplier})">
             <div class="w-[633px] h-[1080px] flex flex-col items-center absolute" style="background-image:url('/img/inGame/ui_editor_frame.png'), url('/img/inGame/ui_editor_background.jpg');"> 
                 <div class="flex flex-row justify-between h-[70px] w-full items-center">
                     <div></div> 
@@ -534,9 +522,9 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 
 
-<!-- <TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
