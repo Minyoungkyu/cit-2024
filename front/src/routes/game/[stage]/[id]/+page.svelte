@@ -68,101 +68,101 @@
     //     // meta: "custom" 
     // }));
 
-    async function executePython(): Promise<void> {
-        console.time("executePythonTimer"); // ToDo: remove
+    // async function executePython(): Promise<void> {
+    //     console.time("executePythonTimer"); // ToDo: remove
 
-        if (frameUpdateIntervalId !== null) { // 인터벌 초기화
-            clearInterval(frameUpdateIntervalId);
-            frameUpdateIntervalId = null;
-        }
+    //     if (frameUpdateIntervalId !== null) { // 인터벌 초기화
+    //         clearInterval(frameUpdateIntervalId);
+    //         frameUpdateIntervalId = null;
+    //     }
         
-        let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
-        framesData = JSON.parse(result.result);
-        const wrappedData = {
-            data: framesData
-        };
+    //     let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
+    //     framesData = JSON.parse(result.result);
+    //     const wrappedData = {
+    //         data: framesData
+    //     };
 
-        // (window as any).SendStreamData?.(wrappedData);
-        // progressController.max = (framesData.length - 1).toString();
-        // updateFrame(framesData, 0);
-        // console.timeEnd("executePythonTimer"); // ToDo: remove
-    }
+    //     // (window as any).SendStreamData?.(wrappedData);
+    //     // progressController.max = (framesData.length - 1).toString();
+    //     // updateFrame(framesData, 0);
+    //     // console.timeEnd("executePythonTimer"); // ToDo: remove
+    // }
 
-    async function batchPlayLog() {
-        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
-            body: {
-                gameMapDto: gameMapDto,
-                result: "clear"
-            }
-        });
-    }
+    // async function batchPlayLog() {
+    //     await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
+    //         body: {
+    //             gameMapDto: gameMapDto,
+    //             result: "clear"
+    //         }
+    //     });
+    // }
 
-    onMount(async () => {
-        runPythonCode2( "", "");
-    });
+    // onMount(async () => {
+    //     runPythonCode2( "", "");
+    // });
 
-    const originalHeight = 1080;
-    let scaleMultiplier = $state(0);
-    // let widthMultiplier = $state(1920);
+    // const originalHeight = 1080;
+    // let scaleMultiplier = $state(0);
+    // // let widthMultiplier = $state(1920);
 
-    onMount(() => {
-        audio = document.getElementById("myAudio") as HTMLAudioElement;
-        audio.volume = 0.4;
+    // onMount(() => {
+    //     audio = document.getElementById("myAudio") as HTMLAudioElement;
+    //     audio.volume = 0.4;
 
-        const updateScale = () => {
-            const currentHeight = window.innerHeight;
-            scaleMultiplier = (currentHeight / originalHeight);
-            // widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
-        };
+    //     const updateScale = () => {
+    //         const currentHeight = window.innerHeight;
+    //         scaleMultiplier = (currentHeight / originalHeight);
+    //         // widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
+    //     };
 
-        window.addEventListener('resize', updateScale);
+    //     window.addEventListener('resize', updateScale);
         
-        updateScale();
+    //     updateScale();
         
-        // editor = setupAceEditor('editor', customCompletions);
-        // editor.setValue(explanation, 1); 
+    //     // editor = setupAceEditor('editor', customCompletions);
+    //     // editor.setValue(explanation, 1); 
 
-        editor.getSession().on('change', function(e:any) {
-            if (e.action === 'insert') {
-                const totalLines = editor.getSession().getLength();
-                const cursorPosition = editor.getCursorPosition();
+    //     editor.getSession().on('change', function(e:any) {
+    //         if (e.action === 'insert') {
+    //             const totalLines = editor.getSession().getLength();
+    //             const cursorPosition = editor.getCursorPosition();
 
-                if (cursorPosition.row === totalLines - 1) {
-                    editor.getSession().insert({row: totalLines, column: 0}, "\n");
-                }
-            }
-        });
+    //             if (cursorPosition.row === totalLines - 1) {
+    //                 editor.getSession().insert({row: totalLines, column: 0}, "\n");
+    //             }
+    //         }
+    //     });
 
-        editor.focus();
+    //     editor.focus();
 
-        // showModal();
-    });
+    //     // showModal();
+    // });
 
-    let markerId:any;
+    // let markerId:any;
 
-    let test2 = $state(true);
-    let playCanPause = $state(false);
-    let volumeCanMute = $state(true);
+    // let test2 = $state(true);
+    // let playCanPause = $state(false);
+    // let volumeCanMute = $state(true);
 
-    let hpTest = $state(100);
-    let hpTest2 = $state(100);
+    // let hpTest = $state(100);
+    // let hpTest2 = $state(100);
 
-    function hpTest3(hp: number) {
-        hpTest = hp;
-        setTimeout(() => {
-            hpTest2 = hpTest;
-        }, 150);
-    }
+    // function hpTest3(hp: number) {
+    //     hpTest = hp;
+    //     setTimeout(() => {
+    //         hpTest2 = hpTest;
+    //     }, 150);
+    // }
 
-    function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
-        const Range = ace.require('ace/range').Range;
-        const session = editor.getSession();
-        if (markerId !== undefined) {
-          session.removeMarker(markerId);
-        }
-        const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
-        markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
-    }
+    // function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
+    //     const Range = ace.require('ace/range').Range;
+    //     const session = editor.getSession();
+    //     if (markerId !== undefined) {
+    //       session.removeMarker(markerId);
+    //     }
+    //     const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
+    //     markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
+    // }
 
     // function updateClearGoal(frame:any) {
     //     for (let i = 0; i < clearGoalList.length; i++) {
