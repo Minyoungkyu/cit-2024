@@ -169,6 +169,9 @@ cc.Class({
     LoadingFadeOut: function(){
         var self = this;
         var offset = 5;
+
+
+
         setTimeout(()=>{
             var loadingInterval = setInterval(function(){
 
@@ -177,6 +180,8 @@ cc.Class({
                     self.loadingBG.active = false;
                     self.isLoaded = true;
                     clearInterval(loadingInterval);
+                    Controller.getInstance().FinalLoadDone();
+
                 }
                 self.loadingBG.opacity -= offset;
             },30);
