@@ -283,8 +283,6 @@ window.ExternalResumeGame = function(){
     Controller.getInstance().ResumeGame();
 }
 
-
-
 /**
  * 외부에서 접근,  최종으로 게임이 로드된 상태임.
  * 해당 함수 불렀을때 ture 값이 나오면 로드가 완료되었음.
