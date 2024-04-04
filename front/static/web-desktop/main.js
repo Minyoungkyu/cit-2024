@@ -141,10 +141,10 @@ window.boot = function () {
     // jsList
     var jsList = settings.jsList;
 
-    var bundledScript = settings.debug ? 'src/project.dev.js' : 'src/project.26f47.js';
+    var bundledScript = settings.debug ? '/web-desktop/src/project.dev.js' : '/web-desktop/src/project.js';
     if (jsList) {
         jsList = jsList.map(function (x) {
-            return 'src/' + x;
+            return '/web-desktop/src/' + x;
         });
         jsList.push(bundledScript);
     }
@@ -165,8 +165,8 @@ window.boot = function () {
 
     // init assets
     cc.AssetLibrary.init({
-        libraryPath: 'res/import',
-        rawAssetsBase: 'res/raw-',
+        libraryPath: '/web-desktop/res/import',
+        rawAssetsBase: '/web-desktop/res/raw-',
         rawAssets: settings.rawAssets,
         packedAssets: settings.packedAssets,
         md5AssetsMap: settings.md5AssetsMap,
@@ -179,18 +179,18 @@ window.boot = function () {
 if (window.jsb) {
     var isRuntime = (typeof loadRuntime === 'function');
     if (isRuntime) {
-        require('src/settings.b4ddf.js');
-        require('src/cocos2d-runtime.js');
+        require('/web-desktop/src/settings.js');
+        require('/web-desktop/src/cocos2d-runtime.js');
         if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
-            require('src/physics.js');
+            require('/web-desktop/src/physics.js');
         }
         require('jsb-adapter/engine/index.js');
     }
     else {
-        require('src/settings.b4ddf.js');
-        require('src/cocos2d-jsb.js');
+        require('/web-desktop/src/settings.js');
+        require('/web-desktop/src/cocos2d-jsb.js');
         if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
-            require('src/physics.js');
+            require('/web-desktop/src/physics.js');
         }
         require('jsb-adapter/jsb-engine.js');
     }
