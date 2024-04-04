@@ -166,7 +166,6 @@ public class Dev {
     ApplicationRunner initStage() {
         return args -> {
             if (memberService.findByUsername("hadle").isEmpty()) {
-
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
@@ -516,8 +515,7 @@ public class Dev {
                                 "            {\"id\":4, \"type\": \"bomb\", \"pos\": [6,3], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"target\", \"pos\": [9,1]},\n" +
-                                "            {\"goal\": \"item\", \"type\": \"food\", \"count\": 2}\n" +
+                                "            {\"goal\": \"target\", \"pos\": [9,1]}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -525,7 +523,7 @@ public class Dev {
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
-                                "        \"food_count\" : 0,\n" +
+                                "        \"food_count\" : 0,       \n" +
                                 "        \"rocket_parts_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
@@ -828,7 +826,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
-                                "            {\"goal\": \"line\", \"count\": 8}\n" +
+                                "            {\"goal\": \"line\", \"count\": 5}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -940,8 +938,8 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
                                 "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n",
-                        "로켓부품 8개 획득하기\n" +
-                                "코드 60줄 이하로 작성하기",
+                        "로켓부품 5개 획득하기\n" +
+                                "코드 8줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1058,7 +1056,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 5},\n" +
-                                "            {\"goal\": \"line\", \"count\": 11}\n" +
+                                "            {\"goal\": \"line\", \"count\": 8}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1171,7 +1169,7 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
                                 "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
-                                "# 스위치가 있는 방은 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
+                                "# 스위치가 있는 방은 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.",
                         "로켓부품 8개 획득하기\n" +
                                 "코드 100줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1261,104 +1259,6 @@ public class Dev {
                                 "        \"map\" : 1,\n" +
                                 "        \"step\" : \"1-2\",\n" +
                                 "        \"diff\" : \"Hard\",\n" +
-                                "        \"level\" : 1,\n" +
-                                "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
-                                "        ],\n" +
-                                "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [1,7], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [1,11], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [3,5], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [3,7], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [3,9], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [3,11], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [5,3], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [5,5], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"rocket_parts\", \"pos\": [5,7], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"rocket_parts\", \"pos\": [5,9], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"rocket_parts\", \"pos\": [7,3], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [7,5], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [7,7], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [9,1], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [9,3], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"rocket_parts\", \"pos\": [9,5], \"status\": 1},\n" +
-                                "            {\"id\":17, \"type\": \"rocket_parts\", \"pos\": [11,3], \"status\": 1},\n" +
-                                "            {\"id\":18, \"type\": \"rocket_parts\", \"pos\": [11,5], \"status\": 1},\n" +
-                                "            {\"id\":19, \"type\": \"rocket_parts\", \"pos\": [11,7], \"status\": 1},\n" +
-                                "            {\"id\":20, \"type\": \"rocket_parts\", \"pos\": [13,5], \"status\": 1},\n" +
-                                "            {\"id\":21, \"type\": \"rocket_parts\", \"pos\": [13,7], \"status\": 1},\n" +
-                                "            {\"id\":22, \"type\": \"bomb\", \"pos\": [1,5], \"status\": 1},\n" +
-                                "            {\"id\":23, \"type\": \"bomb\", \"pos\": [3,3], \"status\": 1},\n" +
-                                "            {\"id\":24, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 1},\n" +
-                                "            {\"id\":25, \"type\": \"bomb\", \"pos\": [5,11], \"status\": 1},\n" +
-                                "            {\"id\":26, \"type\": \"bomb\", \"pos\": [7,9], \"status\": 1},\n" +
-                                "            {\"id\":27, \"type\": \"bomb\", \"pos\": [7,11], \"status\": 1},\n" +
-                                "            {\"id\":28, \"type\": \"bomb\", \"pos\": [8,3], \"status\": 1},\n" +
-                                "            {\"id\":29, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 1},\n" +
-                                "            {\"id\":30, \"type\": \"bomb\", \"pos\": [9,7], \"status\": 1},\n" +
-                                "            {\"id\":31, \"type\": \"bomb\", \"pos\": [11,1], \"status\": 1},\n" +
-                                "            {\"id\":32, \"type\": \"bomb\", \"pos\": [11,9], \"status\": 1},\n" +
-                                "            {\"id\":33, \"type\": \"bomb\", \"pos\": [11,11], \"status\": 1},\n" +
-                                "            {\"id\":34, \"type\": \"bomb\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "            {\"id\":35, \"type\": \"bomb\", \"pos\": [13,3], \"status\": 1},\n" +
-                                "            {\"id\":36, \"type\": \"bomb\", \"pos\": [13,11], \"status\": 1}\n" +
-                                "        ],\n" +
-                                "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"target\", \"pos\": [13,9]},\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 12},\n" +
-                                "            {\"goal\": \"line\", \"count\": 43}\n" +
-                                "        ]\n" +
-                                "    },\n" +
-                                "    \"player\" : {\n" +
-                                "        \"pos\" : [1,9],\n" +
-                                "        \"dir\" : \"right\", \n" +
-                                "        \"hp\" : 100,\n" +
-                                "        \"status\" : 0,\n" +
-                                "        \"food_count\" : 0,\n" +
-                                "        \"rocket_parts_count\" : 0\n" +
-                                "    },\n" +
-                                "    \"item_list\" : [\n" +
-                                "    ]\n" +
-                                "}",
-                        "부품회수\n" +
-                                "\n" +
-                                "로켓을 만들어야합니다.\n" +
-                                "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
-
-                GameMap gameMap12h2 = gameMapService.createGameMap(
-                        "1", "1-2", "Hard", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
-                                "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
-                                "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
-                        "로켓부품 18개 획득하기\n" +
-                                "코드 100줄 이하로 작성하기",
-                        "stage = {\n" +
-                                "    \"stage\" : {\n" +
-                                "        \"map\" : 1,\n" +
-                                "        \"step\" : \"1-2\",\n" +
-                                "        \"diff\" : \"Hard\",\n" +
                                 "        \"level\" : 2,\n" +
                                 "        \"tile\" : [\n" +
                                 "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
@@ -1394,6 +1294,86 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
                                 "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,5],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "    ]\n" +
+                                "}",
+                        "부품회수\n" +
+                                "\n" +
+                                "로켓을 만들어야합니다.\n" +
+                                "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
+                        "for 문 사용\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        1,
+                        1);
+
+                GameMap gameMap12h2 = gameMapService.createGameMap(
+                        "1", "1-2", "Hard", 2,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
+                                "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
+                        "로켓부품 18개 획득하기\n" +
+                                "코드 100줄 이하로 작성하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"init_item_list\" : [\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [7,3], \"pos_drop\": [9,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [13,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [21,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [23,3], \"pos_drop\": [23,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [7,9], \"pos_drop\": [7,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [17,7], \"pos_drop\": [19,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [23,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":20, \"type\": \"bomb\", \"pos\": [27,2], \"status\": 1},\n" +
+                                "            {\"id\":21, \"type\": \"bomb\", \"pos\": [17,8], \"status\": 1}\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 24},\n" +
+                                "            {\"goal\": \"line\", \"count\": 200}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1520,7 +1500,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n",
-                        "고체추진제 4개 장착하기\n" +
+                        "고체추진제 3개 장착하기\n" +
                                 "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -1534,12 +1514,12 @@ public class Dev {
                                 "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
                                 "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"solid_propellant\", \"pos\": [3,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
@@ -1548,7 +1528,7 @@ public class Dev {
                                 "            {\"id\":3, \"type\": \"solid_propellant\", \"pos\": [15,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"set\", \"type\": \"solid_propellant\", \"count\": 4},\n" +
+                                "            {\"goal\": \"set\", \"type\": \"solid_propellant\", \"count\": 3},\n" +
                                 "            {\"goal\": \"line\", \"count\": 10}\n" +
                                 "        ]\n" +
                                 "    },\n" +
@@ -1595,12 +1575,12 @@ public class Dev {
                                 "            [0,0,2,2,2,0,0,0,2,2,2,0,0,0,2,2,2,0,2,2,2,0,2,2,2,0,0,0,0,0,0],\n" +
                                 "            [0,1,2,1,2,1,0,1,2,1,2,1,0,1,2,1,2,1,2,1,2,1,2,1,2,1,0,1,0,1,0],\n" +
                                 "            [2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,2,2,2],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0]\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"liquid_fuel\", \"pos\": [3,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
@@ -1734,12 +1714,12 @@ public class Dev {
                                 "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
                                 "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0]\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"solid_propellant\", \"pos\": [3,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
@@ -1799,12 +1779,12 @@ public class Dev {
                                 "            [0,0,2,2,2,0,0,0,2,2,2,0,0,0,2,2,2,0,2,2,2,0,2,2,2,0,0,0,0,0,0],\n" +
                                 "            [0,1,2,1,2,1,0,1,2,1,2,1,0,1,2,1,2,1,2,1,2,1,2,1,2,1,0,1,0,1,0],\n" +
                                 "            [2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,2,2,2],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0]\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"liquid_fuel\", \"pos\": [3,1], \"require_dir\": \"up\", \"name\": \"액체연료\", \"status\": 0},\n" +
@@ -1949,12 +1929,12 @@ public class Dev {
                                 "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
                                 "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0]\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"solid_propellant\", \"pos\": [3,3], \"require_dir\": \"up\", \"name\": \"고체추진제\", \"status\": 0},\n" +
@@ -2017,12 +1997,12 @@ public class Dev {
                                 "            [0,0,2,2,2,0,0,0,2,2,2,0,0,0,2,2,2,0,2,2,2,0,2,2,2,0,0,0,0,0,0],\n" +
                                 "            [0,1,2,1,2,1,0,1,2,1,2,1,0,1,2,1,2,1,2,1,2,1,2,1,2,1,0,1,0,1,0],\n" +
                                 "            [2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,2,2,2],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0]\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"liquid_fuel\", \"pos\": [1,3], \"require_dir\": \"left\", \"name\": \"액체연료\", \"status\": 0},\n" +
@@ -2171,58 +2151,20 @@ public class Dev {
                 Member memberUser2 = memberService.join("hadle", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("hadle");
 
-                Member memberUser3 = memberService.join("testUser1", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser1");
+                Member memberUser3 = memberService.join("test1", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test1");
 
-                Member memberUser4 = memberService.join("testUser2", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser2");
+                Member memberUser4 = memberService.join("test2", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test2");
 
-                Member memberUser5 = memberService.join("testUser3", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser3");
-
-                Member memberUser11 = memberService.join("testUser4", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser4");
-                Member memberUser12 = memberService.join("testUser5", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser5");
-                Member memberUser13 = memberService.join("testUser6", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser6");
-                Member memberUser14 = memberService.join("testUser7", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser7");
-                Member memberUser15 = memberService.join("testUser8", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser8");
-                Member memberUser16 = memberService.join("testUser9", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser9");
-                Member memberUser17 = memberService.join("testUser10", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser10");
-                Member memberUser18 = memberService.join("testUser11", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser11");
-                Member memberUser19 = memberService.join("testUser12", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser12");
-                Member memberUser20 = memberService.join("testUser13", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser13");
-                Member memberUser21 = memberService.join("testUser14", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser14");
-                Member memberUser22 = memberService.join("testUser15", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser15");
-                Member memberUser23 = memberService.join("testUser16", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser16");
-                Member memberUser24 = memberService.join("testUser17", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser17");
-                Member memberUser25 = memberService.join("testUser18", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser18");
-                Member memberUser26 = memberService.join("testUser19", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser19");
-                Member memberUser27 = memberService.join("testUser20", "tmd0405", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser20");
+                Member memberUser5 = memberService.join("test3", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test3");
 
                 Member memberUser6 = memberService.join("test4", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("test4");
 
                 Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
                 memberClassAdmin.setRefreshToken("class");
-
-                Member memberUser7 = memberService.join("testAdmin", "tmd0405", "테스트어드민", "010-1234-1234", 2).getData();
-                memberUser7.setRefreshToken("testAdmin");
 
                 Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
                 memberProgramAdmin.setRefreshToken("program");
@@ -2264,94 +2206,6 @@ public class Dev {
                 inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
                 inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
                 inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser3.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser3.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser3.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser4.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser4.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser4.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser5.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser5.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser5.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser6.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser6.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser6.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser7.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser7.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser7.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser11.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser11.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser11.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser12.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser12.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser12.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser13.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser13.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser13.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser14.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser14.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser14.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser15.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser15.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser15.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser16.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser16.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser16.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser17.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser17.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser17.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser18.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser18.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser18.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser19.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser19.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser19.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser20.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser20.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser20.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser21.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser21.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser21.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser22.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser22.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser22.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser23.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser23.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser23.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser24.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser24.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser24.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser25.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser25.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser25.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser26.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser26.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser26.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser27.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser27.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser27.getPlayer(), item3, false);
 
                 // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);
@@ -2419,119 +2273,119 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap13h2, itemParts3);
                 requirePartsService.addRequireParts(gameMap13h3, itemParts3);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                     gameMapTutorial1.getId(), gameMapTutorial1.getStage(), gameMapTutorial1.getStep(), gameMapTutorial1.getDifficulty(), gameMapTutorial1.getLevel(),
                     "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                     gameMapTutorial2.getId(), gameMapTutorial2.getStage(), gameMapTutorial2.getStep(), gameMapTutorial2.getDifficulty(), gameMapTutorial2.getLevel(),
                     "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                     gameMap11e1.getId(), gameMap11e1.getStage(), gameMap11e1.getStep(), gameMap11e1.getDifficulty(), gameMap11e1.getLevel(),
                     "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11e2.getId(), gameMap11e2.getStage(), gameMap11e2.getStep(), gameMap11e2.getDifficulty(), gameMap11e2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11e3.getId(), gameMap11e3.getStage(), gameMap11e3.getStep(), gameMap11e3.getDifficulty(), gameMap11e3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11n1.getId(), gameMap11n1.getStage(), gameMap11n1.getStep(), gameMap11n1.getDifficulty(), gameMap11n1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11n2.getId(), gameMap11n2.getStage(), gameMap11n2.getStep(), gameMap11n2.getDifficulty(), gameMap11n2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11n3.getId(), gameMap11n3.getStage(), gameMap11n3.getStep(), gameMap11n3.getDifficulty(), gameMap11n3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11h1.getId(), gameMap11h1.getStage(), gameMap11h1.getStep(), gameMap11h1.getDifficulty(), gameMap11h1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11h2.getId(), gameMap11h2.getStage(), gameMap11h2.getStep(), gameMap11h2.getDifficulty(), gameMap11h2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap11h3.getId(), gameMap11h3.getStage(), gameMap11h3.getStep(), gameMap11h3.getDifficulty(), gameMap11h3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12e1.getId(), gameMap12e1.getStage(), gameMap12e1.getStep(), gameMap12e1.getDifficulty(), gameMap12e1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12e2.getId(), gameMap12e2.getStage(), gameMap12e2.getStep(), gameMap12e2.getDifficulty(), gameMap12e2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12e3.getId(), gameMap12e3.getStage(), gameMap12e3.getStep(), gameMap12e3.getDifficulty(), gameMap12e3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12n1.getId(), gameMap12n1.getStage(), gameMap12n1.getStep(), gameMap12n1.getDifficulty(), gameMap12n1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12n2.getId(), gameMap12n2.getStage(), gameMap12n2.getStep(), gameMap12n2.getDifficulty(), gameMap12n2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12n3.getId(), gameMap12n3.getStage(), gameMap12n3.getStep(), gameMap12n3.getDifficulty(), gameMap12n3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12h1.getId(), gameMap12h1.getStage(), gameMap12h1.getStep(), gameMap12h1.getDifficulty(), gameMap12h1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12h2.getId(), gameMap12h2.getStage(), gameMap12h2.getStep(), gameMap12h2.getDifficulty(), gameMap12h2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap12h3.getId(), gameMap12h3.getStage(), gameMap12h3.getStep(), gameMap12h3.getDifficulty(), gameMap12h3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13e1.getId(), gameMap13e1.getStage(), gameMap13e1.getStep(), gameMap13e1.getDifficulty(), gameMap13e1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13e2.getId(), gameMap13e2.getStage(), gameMap13e2.getStep(), gameMap13e2.getDifficulty(), gameMap13e2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13e3.getId(), gameMap13e3.getStage(), gameMap13e3.getStep(), gameMap13e3.getDifficulty(), gameMap13e3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13n1.getId(), gameMap13n1.getStage(), gameMap13n1.getStep(), gameMap13n1.getDifficulty(), gameMap13n1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13n2.getId(), gameMap13n2.getStage(), gameMap13n2.getStep(), gameMap13n2.getDifficulty(), gameMap13n2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13n3.getId(), gameMap13n3.getStage(), gameMap13n3.getStep(), gameMap13n3.getDifficulty(), gameMap13n3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13h1.getId(), gameMap13h1.getStage(), gameMap13h1.getStep(), gameMap13h1.getDifficulty(), gameMap13h1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13h2.getId(), gameMap13h2.getStage(), gameMap13h2.getStep(), gameMap13h2.getDifficulty(), gameMap13h2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
                         gameMap13h3.getId(), gameMap13h3.getStage(), gameMap13h3.getStep(), gameMap13h3.getDifficulty(), gameMap13h3.getLevel(),
                         "", 1);
 

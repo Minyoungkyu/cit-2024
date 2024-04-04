@@ -1,7 +1,7 @@
 <svelte:head>
     <script type="text/javascript" src="/brython-runner.bundle.js"></script>
 
-    <title>{rq.SITE_NAME}</title>
+    <title>{rq.SITE_NAME} | 맵 이름</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -93,12 +93,12 @@
             const regex = /File "<exec>", line (\d+)/g;
 
             let match;
-            let lastNumber: any;
+            let lastNumber;
 
             while ((match = regex.exec(longText)) !== null) {
                 lastNumber = match[1];
             }
-
+    
             if (lastNumber) {
                 updateErrorHighlight(Number(lastNumber - 515 - cocosInfoLength));
             } 
@@ -180,7 +180,7 @@
 
         editor.focus();
 
-        element = document.getElementById('typing')!;
+        element = document.getElementById('typing');
         text = element.innerText;
         element.innerText = ''; 
 
@@ -387,7 +387,7 @@
 }
 </script>
 
-<audio id="myAudio">
+<audio id="myAudio" autoplay>
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
@@ -536,7 +536,7 @@
                 </div>
 
                 <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5]" style="background-image:{canExecute ? 'url("/img/inGame/btn_action4.png");' : 'url("/img/inGame/btn_action3.png");'}color:rgb(9 13 24);transform:scale(0.8);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
+                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5]" style="background-image:url('/img/inGame/btn_action4.png');color:rgb(9 13 24);transform:scale(0.8);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
                     <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
                             style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_action2.png");' : 'url("/img/inGame/btn_action3.png");'}color:{showCompleteBtn ? 'rgb(9 13 24)' : 'rgb(9 13 24)'};transform:scale(0.8);"
                             on:click={() => {showCompleteBtn ? doComplete() : ''}}>완료</button>
