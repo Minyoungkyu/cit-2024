@@ -135,7 +135,7 @@
 
         editor.focus();
 
-        showModal();
+        // showModal();
     });
 
     let markerId:any;
@@ -212,119 +212,119 @@
 
     // }
 
-    function handlePlay() {
-        playCanPause = true;
-        if(isPause) {
-            console.log('resume');
-            // (window as any).ExternalResumeGame ();
-            isPause = false;
-            updateFrame(framesData, parseInt(progressController.value));
-        } else if(canExecute) {
-            console.log('execute');
-            executePython();
-        } else {
-            // (window as any).OnClickPlay();
-            if(progressController.value === progressController.max) {
-                progressController.value = "0";
-            }
-            updateFrame(framesData, parseInt(progressController.value));
-        }
-    }
+    // function handlePlay() {
+    //     playCanPause = true;
+    //     if(isPause) {
+    //         console.log('resume');
+    //         // (window as any).ExternalResumeGame ();
+    //         isPause = false;
+    //         updateFrame(framesData, parseInt(progressController.value));
+    //     } else if(canExecute) {
+    //         console.log('execute');
+    //         executePython();
+    //     } else {
+    //         // (window as any).OnClickPlay();
+    //         if(progressController.value === progressController.max) {
+    //             progressController.value = "0";
+    //         }
+    //         updateFrame(framesData, parseInt(progressController.value));
+    //     }
+    // }
 
-    function handlePause() {
-        // (window as any).SetProgressId?.(parseInt(progressController.value));
-        // (window as any).ExternalPauseGame();
-        playCanPause = false;
-        isPause = true;
-        clearInterval(frameUpdateIntervalId);
-        frameUpdateIntervalId = null;
-    }
+    // function handlePause() {
+    //     // (window as any).SetProgressId?.(parseInt(progressController.value));
+    //     // (window as any).ExternalPauseGame();
+    //     playCanPause = false;
+    //     isPause = true;
+    //     clearInterval(frameUpdateIntervalId);
+    //     frameUpdateIntervalId = null;
+    // }
 
-    function handleProgressChange() { 
-        canExecute = false;
-        // (window as any).SetProgressId?.(parseInt(progressController.value));
-    }
+    // function handleProgressChange() { 
+    //     canExecute = false;
+    //     // (window as any).SetProgressId?.(parseInt(progressController.value));
+    // }
 
-    function updateFrame(framesData: any, currentFrameIndex: number) {
-        const frameRate = 60; // ToDo: 실제 초당 프레임수로
-        const success = framesData[framesData.length - 1].status === 1;
-        frameUpdateIntervalId = setInterval(() => {
-            playCanPause = true;
-            canExecute = false;
-            if (currentFrameIndex < framesData.length) {
-                const frame = framesData[currentFrameIndex];
-                progressController.value = currentFrameIndex.toString();
-                updateHighlight(frame.line_num);
-                // updateClearGoal(frame);
-                hpTest3(frame.player.hp);
-                currentFrameIndex++;
-            } else {
-                playCanPause = false;
-                canExecute = true;
-                clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
-                frameUpdateIntervalId = null; 
-                if (success) {
-                    showCompleteBtn = true;
-                }
-            }
-        }, 1000 / frameRate);
-    }
+    // function updateFrame(framesData: any, currentFrameIndex: number) {
+    //     const frameRate = 60; // ToDo: 실제 초당 프레임수로
+    //     const success = framesData[framesData.length - 1].status === 1;
+    //     frameUpdateIntervalId = setInterval(() => {
+    //         playCanPause = true;
+    //         canExecute = false;
+    //         if (currentFrameIndex < framesData.length) {
+    //             const frame = framesData[currentFrameIndex];
+    //             progressController.value = currentFrameIndex.toString();
+    //             updateHighlight(frame.line_num);
+    //             // updateClearGoal(frame);
+    //             hpTest3(frame.player.hp);
+    //             currentFrameIndex++;
+    //         } else {
+    //             playCanPause = false;
+    //             canExecute = true;
+    //             clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
+    //             frameUpdateIntervalId = null; 
+    //             if (success) {
+    //                 showCompleteBtn = true;
+    //             }
+    //         }
+    //     }, 1000 / frameRate);
+    // }
 
-    function doComplete() {
-        batchPlayLog();
-        if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            showClearPopup = true;
-        }
-        routeToNext();
-    }
+    // function doComplete() {
+    //     batchPlayLog();
+    //     if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+    //         showClearPopup = true;
+    //     }
+    //     routeToNext();
+    // }
 
-    function routeToNext() {
-        const nextLevel = gameMapDto.id + 1;
-        if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            return;
-        } else if (gameMapDto.difficulty === "0") {
-            openLayer = true;
-            setTimeout(() => {
-                // window.location.href = `/game/tutorial/${nextLevel}`;
-            }, 500);
-        } else {
-            openLayer = true;
-            setTimeout(() => {
-                // window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
-            }, 500);
-        }
-    }
+    // function routeToNext() {
+    //     const nextLevel = gameMapDto.id + 1;
+    //     if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+    //         return;
+    //     } else if (gameMapDto.difficulty === "0") {
+    //         openLayer = true;
+    //         setTimeout(() => {
+    //             // window.location.href = `/game/tutorial/${nextLevel}`;
+    //         }, 500);
+    //     } else {
+    //         openLayer = true;
+    //         setTimeout(() => {
+    //             // window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
+    //         }, 500);
+    //     }
+    // }
 
-    function routeToSage() {
-        // window.location.href = `/game/${gameMapDto.stage}`;
-    }
+    // function routeToSage() {
+    //     // window.location.href = `/game/${gameMapDto.stage}`;
+    // }
 
-    function showModal() {
-        hintModal.classList.remove('hidden') // 모달을 보여주는 함수
-    }
+    // function showModal() {
+    //     hintModal.classList.remove('hidden') // 모달을 보여주는 함수
+    // }
   
-    function closeModal() {
-        hintModal.classList.add('hidden') // 모달을 닫는 함수
-    }
+    // function closeModal() {
+    //     hintModal.classList.add('hidden') // 모달을 닫는 함수
+    // }
 
-    function test(value: string) {
-    let oldValue = editor.getValue();
-    let newValue = oldValue + value;
-    editor.setValue(newValue, 1);
+    // function test(value: string) {
+    // let oldValue = editor.getValue();
+    // let newValue = oldValue + value;
+    // editor.setValue(newValue, 1);
 
-    let newValueSplit = newValue.split('\n');
-    let lastLineIndex = newValueSplit.length - 2; 
-    let lastLine = newValueSplit[lastLineIndex];
+    // let newValueSplit = newValue.split('\n');
+    // let lastLineIndex = newValueSplit.length - 2; 
+    // let lastLine = newValueSplit[lastLineIndex];
 
-    let tabCount = (lastLine.match(/\t/g) || []).length;
+    // let tabCount = (lastLine.match(/\t/g) || []).length;
 
-    let tabsToAdd = '\t'.repeat(tabCount);
-    if (tabCount > 0) {
-        editor.setValue(newValue + tabsToAdd, 1);
-    }
+    // let tabsToAdd = '\t'.repeat(tabCount);
+    // if (tabCount > 0) {
+    //     editor.setValue(newValue + tabsToAdd, 1);
+    // }
 
-    editor.focus();
-}
+    // editor.focus();
+// }
 </script>
 
 <audio id="myAudio" autoplay>
