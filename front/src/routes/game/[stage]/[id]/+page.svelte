@@ -116,15 +116,15 @@
         // audio = document.getElementById("myAudio") as HTMLAudioElement;
         // audio.volume = 0.4;
 
-        const updateScale = () => {
-            const currentHeight = window.innerHeight;
-            scaleMultiplier = (currentHeight / originalHeight);
-            widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
-        };
+        // const updateScale = () => {
+        //     const currentHeight = window.innerHeight;
+        //     scaleMultiplier = (currentHeight / originalHeight);
+        //     widthMultiplier = window.innerWidth - (633 * scaleMultiplier)
+        // };
 
-        window.addEventListener('resize', updateScale);
+        // window.addEventListener('resize', updateScale);
         
-        updateScale();
+        // updateScale();
         
         // editor = setupAceEditor('editor', customCompletions);
         // editor.setValue(explanation, 1); 
@@ -142,7 +142,7 @@
 
         // editor.focus();
 
-        showModal();
+        // showModal();
     });
 
     let markerId:any;
