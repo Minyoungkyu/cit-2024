@@ -1,4 +1,5 @@
 <script  lang="ts">
+	export const ssr = false; 
 	import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';
 	import '../app.pcss';
