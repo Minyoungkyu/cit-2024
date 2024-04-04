@@ -49,7 +49,7 @@ function getPyodideWorker() {
 
 export async function runPythonCode2(stageData:any, userInput: any) {
     try {
-        const result = await runPythonCodeWithTimeout(stageData, userInput, 3000);
+        const result = await runPythonCodeWithTimeout(stageData, userInput, 10000);
         return result; 
     } catch (error) {
         console.error('오류:', error);
