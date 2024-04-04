@@ -1293,11 +1293,12 @@ cc.Class({
         var self = this;
         this.isPlay = true;
 
-
         this.idx = Controller.getInstance().GetProgressId();
 
 
         var inter = setInterval(function(){
+
+            console.log("Cur idx ==> "+ self.idx );
 
             if(Controller.getInstance().isGamePause) {
                 self.idx = Controller.getInstance().GetProgressId();

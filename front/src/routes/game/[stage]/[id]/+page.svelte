@@ -24,6 +24,7 @@
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
 
+    let audio: HTMLAudioElement;
     let editor: any;
     let hintModal: HTMLDivElement 
     let progressController: HTMLInputElement; 
@@ -132,6 +133,9 @@
     let widthMultiplier = $state(1920);
 
     onMount(() => {
+        audio = document.getElementById("myAudio") as HTMLAudioElement;
+        audio.volume = 0.4;
+
         const updateScale = () => {
             const currentHeight = window.innerHeight;
             scaleMultiplier = (currentHeight / originalHeight);
@@ -258,6 +262,7 @@
     }
 
     function handlePause() {
+        (window as any).SetProgressId?.(parseInt(progressController.value));
         (window as any).ExternalPauseGame();
         playCanPause = false;
         isPause = true;
@@ -352,6 +357,9 @@
 }
 </script>
 
+<audio id="myAudio" autoplay>
+    <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
+</audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen relative flex flex-row">
 

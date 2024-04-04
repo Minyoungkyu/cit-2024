@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 
-@Profile("dev")
+//@Profile("dev")
 @Configuration
 @RequiredArgsConstructor
 public class Dev {
@@ -2126,8 +2126,8 @@ public class Dev {
                         1,
                         1);
 
-                Member memberUser2 = memberService.join("testUser2", "1234", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser2");
+                Member memberUser2 = memberService.join("hadle", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("hadle");
 
                 Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
                 memberClassAdmin.setRefreshToken("class");
