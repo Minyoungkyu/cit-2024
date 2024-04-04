@@ -34,6 +34,7 @@ var Controller = cc.Class({
         loadIndex : 0,
         gameStatus: false,
         isGamePause: false,
+        finalIndex: false,
     },
 
 
@@ -269,5 +270,9 @@ window.ExternalResumeGame = function(){
     Controller.getInstance().ResumeGame();
 }
 
+window.IsCocosGameLoad = function(){
+    if(Controller.getInstance().finalIndex) return true;
+    return false;
+}
 
 

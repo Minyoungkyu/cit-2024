@@ -186,7 +186,7 @@
                 }
             }else if(clearGoalList[i].includes('줄 이하')) {
                 let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
-                console.log(frame.line_num, codeLineGoals[0].count);
+                // console.log(frame.line_num, codeLineGoals[0].count);
                 if (frame.line_num <= codeLineGoals[0].count) {
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 } else if(frame.line_num > codeLineGoals[0].count) {
