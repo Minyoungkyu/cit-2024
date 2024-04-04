@@ -1,3 +1,16 @@
+/* 커서 깜빡임 효과 */
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+#typing {
+  white-space: nowrap;
+  overflow: hidden; /* 글자가 div를 넘어가지 않도록 */
+  animation: blink 0.75s step-end infinite; /* 커서 깜빡임 애니메이션 */
+}
+
 @keyframes slideInTop {
   0% {
       max-height: 0;
@@ -32,6 +45,41 @@
 
 .reverse-scanning-effect {
   animation: slideOutBottom 0.8s linear forwards;
+}
+
+@keyframes starAnimation {
+  0% {
+    transform: translateX(-100px) scale(6); /* 시작 위치와 크기 */
+    opacity: 0;
+  }
+  50% {
+    opacity: 1; /* 중간에 별이 완전히 보이도록 함 */
+  }
+  100% {
+    transform: translateX(0) scale(1); /* 최종 위치와 크기 */
+    opacity: 1;
+  }
+}
+
+/* 각 별에 애니메이션 적용 */
+#star1 {
+  opacity: 0;
+  animation: starAnimation .4s ease forwards 0.5s;
+}
+
+#star2 {
+  opacity: 0;
+  animation: starAnimation .4s ease forwards 1s;
+}
+
+#star3 {
+  opacity: 0;
+  animation: starAnimation .4s ease forwards 1.5s;
+}
+
+#star4 {
+  opacity: 0;
+  animation: starAnimation .4s ease forwards 2s;
 }
 
 
@@ -234,6 +282,13 @@ box-shadow:
 cursor: pointer;
 }
 
+.editorErrorHighlighter { /* 에디터 에러 하이라이터 */
+  position: absolute;
+  background-color: unset;
+  border: solid 3px red;
+  border-radius: 2px;
+}
+
 .editorHighlighter { /* 에디터 하이라이터 */
   position: absolute;
   background-color: unset;
@@ -280,7 +335,7 @@ cursor: pointer;
   }
 
   .ace_comment { /* 에디터 주석 글자 */
-    color: white
+    color: rgb(177, 177, 177);
   }
 
   .ace_cursor { /* 에디터 커서 */
@@ -298,7 +353,7 @@ cursor: pointer;
   .ace_gutter { /* 에디터 좌측 거터 */
     background-color: unset;
     color: white;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 900;
     text-align: right;
 

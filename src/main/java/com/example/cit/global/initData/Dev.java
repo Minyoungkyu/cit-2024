@@ -169,7 +169,9 @@ public class Dev {
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
-                        "# 목표지점에 도달하세요.\n",
+                        "# 이동 명령문 go()를 순차적으로 작성하여 목표지점에 도달하세요.\n" +
+                                "\n" +
+                                "go()\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -210,8 +212,7 @@ public class Dev {
                 GameMap gameMapTutorial2 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 2,
                         "go(),turnLeft(),turnRight()",
-                        "go()\n" +
-                                "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표지점에 도달하세요.\n",
+                        "# 이동 명령문 go()와 회전 명령문 turnRight()를 순차적으로 작성하여 목표 지점에 도달하세요.\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -259,7 +260,7 @@ public class Dev {
                 GameMap gameMap11e1 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 1,
                         "go(),turnLeft(),turnRight()",
-                        "",
+                        "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표 지점에 도달하세요.\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -310,8 +311,8 @@ public class Dev {
                 GameMap gameMap11e2 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 2,
                         "go(),turnLeft(),turnRight()",
-                        "go(2)\n" +
-                                "# 더 멀리 이동하기 위해 이동 명령문의 괄호 안에 숫자를 넣어보세요.\n",
+                        "# 더 멀리 이동하기 위해  다음과 같이 이동 명령문의 괄호 안에 숫자를 넣어보세요.\n" +
+                                "# go(2)\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -362,9 +363,9 @@ public class Dev {
                 GameMap gameMap11e3 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 3,
                         "go(),turnLeft(),turnRight()",
-                        "",
+                        "# 바닥에 있는 폭탄을 피해서 보급품을 획득하세요.\n",
                         "목표지점에 도달하기\n" +
-                                "식량 3개 획득하기",
+                                "보급품 3개 획득하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -418,9 +419,9 @@ public class Dev {
                                 "발사장앞\n" +
                                 "\n" +
                                 "로켓 발사장까지 거의 다왔습니다.\n" +
-                                "발사장으로 이동하기전 식량을 충분히 적재해야합니다.\n" +
+                                "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
-                                "폭탄을 피하고 목표에서 요구하는 필요한 식량을 획득하세요.",
+                                "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
                         "for 문 사용\n" +
                                 "go()\n" +
                                 "turnLeft()\n" +
@@ -434,7 +435,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight()",
                         "",
                         "목표지점에 도달하기\n" +
-                                "식량 2개 획득하기",
+                                "보급품 2개 획득하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -490,7 +491,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight()",
                         "",
                         "목표지점에 도달하기\n" +
-                                "식량 2개 획득하기",
+                                "보급품 2개 획득하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -545,9 +546,9 @@ public class Dev {
                 GameMap gameMap11n3 = gameMapService.createGameMap(
                         "1", "1-1", "Normal", 3,
                         "go(),turnLeft(),turnRight()",
-                        "",
+                        "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
                         "목표지점에 도달하기\n" +
-                                "식량 3개 획득하기",
+                                "보급품 3개 획득하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -597,9 +598,9 @@ public class Dev {
                         "발사장앞\n" +
                                 "\n" +
                                 "로켓 발사장까지 거의 다왔습니다.\n" +
-                                "발사장으로 이동하기전 식량을 충분히 적재해야합니다.\n" +
+                                "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
-                                "폭탄을 피하고 목표에서 요구하는 필요한 식량을 획득하세요.",
+                                "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
                         "for 문 사용\n" +
                                 "go()\n" +
                                 "turnLeft()\n" +
@@ -613,7 +614,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight()",
                         "",
                         "목표지점에 도달하기\n" +
-                                "식량 2개 획득하기",
+                                "보급품 2개 획득하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -672,7 +673,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight()",
                         "",
                         "목표지점에 도달하기\n" +
-                                "식량 3개 획득하기",
+                                "보급품 3개 획득하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -731,7 +732,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight()",
                         "",
                         "목표지점에 도달하기\n" +
-                                "식량 4개 획득하기",
+                                "보급품 4개 획득하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -778,9 +779,9 @@ public class Dev {
                         "발사장앞\n" +
                                 "\n" +
                                 "로켓 발사장까지 거의 다왔습니다.\n" +
-                                "발사장으로 이동하기전 식량을 충분히 적재해야합니다.\n" +
+                                "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
-                                "폭탄을 피하고 목표에서 요구하는 필요한 식량을 획득하세요.",
+                                "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
                         "for 문 사용\n" +
                                 "go()\n" +
                                 "turnLeft()\n" +
@@ -825,7 +826,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
-                                "            {\"goal\": \"line\", \"count\": 8}\n" +
+                                "            {\"goal\": \"line\", \"count\": 5}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -854,8 +855,9 @@ public class Dev {
                 GameMap gameMap12e2 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n",
                         "로켓부품 6개 획득하기\n" +
                                 "코드 40줄 이하로 작성하기",
                         "stage = {\n" +
@@ -885,9 +887,9 @@ public class Dev {
                                 "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,9], \"status\": 1},\n" +
                                 "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,9], \"status\": 1},\n" +
                                 "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
                                 "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
                                 "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
                                 "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
                                 "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
@@ -933,8 +935,9 @@ public class Dev {
                 GameMap gameMap12e3 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n",
                         "로켓부품 5개 획득하기\n" +
                                 "코드 8줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1053,7 +1056,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 5},\n" +
-                                "            {\"goal\": \"line\", \"count\": 11}\n" +
+                                "            {\"goal\": \"line\", \"count\": 8}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1082,8 +1085,10 @@ public class Dev {
                 GameMap gameMap12n2 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 2,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
+                                "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
                         "로켓부품 6개 획득하기\n" +
                                 "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1161,8 +1166,10 @@ public class Dev {
                 GameMap gameMap12n3 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 3,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
+                                "# 스위치가 있는 방은 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.",
                         "로켓부품 8개 획득하기\n" +
                                 "코드 100줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1315,8 +1322,10 @@ public class Dev {
                 GameMap gameMap12h2 = gameMapService.createGameMap(
                         "1", "1-2", "Hard", 2,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
+                                "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
                         "로켓부품 18개 획득하기\n" +
                                 "코드 100줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1400,8 +1409,10 @@ public class Dev {
                 GameMap gameMap12h3 = gameMapService.createGameMap(
                         "1", "1-2", "Hard", 3,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
+                                "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어지고 각 스위치는 세번씩 작동합니다.\n",
                         "로켓부품 24개 획득하기\n" +
                                 "코드 200줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1487,7 +1498,8 @@ public class Dev {
                 GameMap gameMap13e1 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
+                        "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n",
                         "고체추진제 3개 장착하기\n" +
                                 "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1547,7 +1559,8 @@ public class Dev {
                 GameMap gameMap13e2 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "",
+                        "# set(‘액체연료’)를 작성하여로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n",
                         "액체연료 5개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1613,7 +1626,8 @@ public class Dev {
                 GameMap gameMap13e3 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "",
+                        "# set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n",
                         "추가엔진 6개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1684,7 +1698,8 @@ public class Dev {
                 GameMap gameMap13n1 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
+                        "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n",
                         "고체추진제 5개 장착하기\n" +
                                 "코드 25줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1747,7 +1762,9 @@ public class Dev {
                 GameMap gameMap13n2 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "",
+                        "# set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n" +
+                                "# 각 스위치는 위쪽의 레이저와 연결되어 있습니다.\n",
                         "액체연료 5개 장착하기\n" +
                                 "코드 35줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1822,7 +1839,8 @@ public class Dev {
                 GameMap gameMap13n3 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "",
+                        "# set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n",
                         "추가엔진 6개 장착하기\n" +
                                 "코드 45줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1895,7 +1913,8 @@ public class Dev {
                 GameMap gameMap13h1 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
+                        "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n",
                         "고체추진제 6개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1961,7 +1980,9 @@ public class Dev {
                 GameMap gameMap13h2 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "",
+                        "# set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n" +
+                                "# 각 스위치는 위쪽의 레이저와 연결되어 있습니다.\n",
                         "액체연료 13개 장착하기\n" +
                                 "코드 50줄 이하로 작성하기",
                         "stage = {\n" +
@@ -2044,7 +2065,8 @@ public class Dev {
                 GameMap gameMap13h3 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "",
+                        "# set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                                "# 노란색 마커에서 장착이 가능합니다.\n",
                         "추가엔진 18개 장착하기\n" +
                                 "코드 50줄 이하로 작성하기",
                         "stage = {\n" +
