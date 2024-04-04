@@ -37,6 +37,7 @@
     let openLayer: boolean = $state(false);
     let showCompleteBtn: boolean = $state(false);
     let canExecute: boolean = $state(true);
+    let isPause: boolean = $state(false);
 
     const stageString = gameMapDto.cocosInfo;
     const jsonObjectString = stageString.trim().substring("stage = ".length);
@@ -238,18 +239,34 @@
     }
 
     function handlePlay() {
-        (window as any).OnClickPlay();
-        if(progressController.value === progressController.max) {
-            progressController.value = "0";
+        playCanPause = true;
+        if(isPause) {
+            console.log('resume');
+            (window as any).ExternalResumeGame ();
+            isPause = false;
+            updateFrame(framesData, parseInt(progressController.value));
+        } else if(canExecute) {
+            console.log('execute');
+            executePython();
+        } else {
+            (window as any).OnClickPlay();
+            if(progressController.value === progressController.max) {
+                progressController.value = "0";
+            }
+            updateFrame(framesData, parseInt(progressController.value));
         }
-        updateFrame(framesData, parseInt(progressController.value));
     }
 
     function handlePause() {
         (window as any).ExternalPauseGame();
+        playCanPause = false;
+        isPause = true;
+        clearInterval(frameUpdateIntervalId);
+        frameUpdateIntervalId = null;
     }
 
     function handleProgressChange() { 
+        canExecute = false;
         (window as any).SetProgressId?.(parseInt(progressController.value));
     }
 
@@ -524,7 +541,7 @@
                 </div>
 
                 <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225)" on:click={executePython}>실행</button>
+                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225);" on:click={executePython}>실행</button>
                     <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
                             style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_complete.png");' : 'url("/img/inGame/btn_complete_off.png");'}color:{showCompleteBtn ? 'rgb(255 210 87)' : 'gray'}"
                             on:click={() => {showCompleteBtn ? doComplete() : ''}}>완료</button>
