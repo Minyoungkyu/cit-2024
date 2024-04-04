@@ -8,7 +8,7 @@
     function onClickToStart() {
         activeTransitionAnimation();
         setTimeout(() => {
-            rq.goTo('/game/tutorial/' + rountGameId);
+            window.location.href = '/game/tutorial/' + rountGameId;
         }, 500);
     }
 

@@ -26,7 +26,7 @@ let pyodideWorker:any = null;
 
 function getPyodideWorker() {
     if (pyodideWorker === null) {
-        pyodideWorker = new Worker('../../src/lib/pyodide/pyodideWorker.ts');
+        pyodideWorker = new Worker('https://front.myk.co.kr/src/lib/pyodide/pyodideWorker.ts');
 
         pyodideWorker.onmessage = (event:any) => {
             if (pyodideWorker.callback) {

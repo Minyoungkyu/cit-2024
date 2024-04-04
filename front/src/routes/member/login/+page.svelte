@@ -3,7 +3,7 @@
 </svelte:head>
 
 <script lang="ts">
-
+    export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
     import { onMount } from 'svelte';
 
@@ -129,7 +129,7 @@
   
 </script>
 
-<video autoplay muted loop id="backgroundVideo">
+<video autoplay loop id="backgroundVideo">
   <source src="/img/login/background_login.mp4" type="video/mp4">
 </video>
 <div class="w-full h-full absolute {showBgThumb ? '' : 'hidden'}" style="background-image:url('/img/login/bg_thumnail.jpg');background-size:100% 100%;background-repeat:no-repeat;background-position:bottom;"></div>

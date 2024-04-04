@@ -3,17 +3,13 @@
 </svelte:head>
 
 <script lang="ts">
+    export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
 
     import DifficultySelector2 from '$lib/game/DifficultySelector2.svelte';
-    import DifficultySelector from '$lib/game/DifficultySelector.svelte';
     import TutorialSelector2 from '$lib/game//TutorialSelector2.svelte';
-    import TopMenuShop from '$lib/game//TopMenuShop.svelte';
-    import TopMenuCharacter from '$lib/game//TopMenuCharacter.svelte';
-    import TopMenuItem from '$lib/game//TopMenuItem.svelte';
-    import TopMenuSetting from '$lib/game//TopMenuSetting.svelte';
     import TransitioningCloseLayer from '$lib/game/TransitioningCloseLayer.svelte';
 
 
@@ -237,6 +233,7 @@
         font-family: 'Raleway', sans-serif; 
     }
 </style>
+
 <audio autoplay>
     <source src="/sound/map_sound.mp3" type="audio/mpeg">
 </audio>
