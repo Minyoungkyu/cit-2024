@@ -82,8 +82,6 @@ var Controller = cc.Class({
             console.log("Out of Range");
             return -1;
         }
-
-
         return data.data[id];
     },
 
@@ -96,7 +94,6 @@ var Controller = cc.Class({
 
         return data.data.length -1;
     },
-
 
     /**
      * 외부에서 불려지고, Json 데이터가 저장되는 함수
