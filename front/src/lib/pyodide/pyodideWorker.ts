@@ -16,7 +16,7 @@ class Character:
         self.hit_bomb_time = 0.5
         self.set_time= 0.5
         self.set_cannot_time= 0.5
-        self.wait_time = 0.5
+        self.wait_time = 0.2
         self.die_time = 0.5
 
         # 상태값

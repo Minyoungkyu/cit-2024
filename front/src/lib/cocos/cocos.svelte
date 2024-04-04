@@ -54,7 +54,7 @@
               dispatch('ready', { isCoReady });
             }
           };
-
+          
           trySendInitData();
         } else if (attempts++ > 100) {
           clearInterval(interval);

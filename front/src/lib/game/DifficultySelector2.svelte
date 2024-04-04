@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-    import CharactorStatusModal from "./CharactorStatusModal.svelte";
     import type { components } from '$lib/types/api/v1/schema';
 	import rq from "$lib/rq/rq.svelte";
+    import CharactorStatusModal from "./CharactorStatusModal.svelte";
 
     const { gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName, activeTransitionAnimation } = 
         $props<{ gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][],
@@ -106,7 +106,7 @@
 
 </script>
 
-<div class="flex dropdown-content justify-end pt-12 gap-12 h-screen w-[628px] absolute right-[0] slide-in"
+<div class="flex dropdown-content justify-end pt-12 gap-12 h-screen w-[575px] absolute right-[0] slide-in"
     style="background-image:url('/img/map/ui_stage_Gradation.png')">
     <div class="flex flex-col w-[501px]">
         <div class="flex justify-end w-full mr-16">
@@ -121,7 +121,7 @@
         <div class="flex flex-col gap-2 items-center p-2">
             <div class="flex flex-row items-center gap-4">
                 <button id="decrease" on:click={decreaseDifficulty} class="w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next3.png')" ></button>
-                <div id="difficulty" class="leading-[40px] px-8 w-[314px] h-[76px] text-center font-bold text-white text-[50px] leading-[70px]"
+                <div id="difficulty" class="leading-[40px] px-8 w-[314px] h-[76px] text-center font-bold text-white text-[40px] leading-[70px]"
                     style="background-image:url('/img/map/ui_stage_Level.png')">{difficulties[currentIndex]}</div>
                 <button id="increase" on:click={increaseDifficulty} class="w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next4.png')" ></button>
             </div>
@@ -138,8 +138,9 @@
         </div>
     </div>
 
-<CharactorStatusModal bind:charactorStatusModal={characterStatusModal} closeCharacterModal={closeCharactorStatusModal} 
-                        gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
+    <CharactorStatusModal bind:charactorStatusModal={characterStatusModal} closeCharacterModal={closeCharactorStatusModal} 
+                            gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
+
 
 <style>
     @keyframes slideIn {

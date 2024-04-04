@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
     
     let { charactorStatusModal, closeCharacterModal, gameMapDto, requiredPartsList, activeTransitionAnimation } 
-    = $props<{ charactorStatusModal: HTMLDialogElement, closeCharacterModal: () => void, 
+    = $props<{ charactorStatusModal: HTMLDialogElement, closeCharacterModal: () => void,
         gameMapDto: components['schemas']['GameMapDto'] | undefined, requiredPartsList: components['schemas']['RequirePartsDto'][] | undefined, activeTransitionAnimation:() => void }>();
 
     // 라우팅
@@ -57,7 +57,6 @@
                 const divs = document.querySelectorAll(`div[data-partsid='${part.itemPartsId}']`);
                 if (divs.length > 0) {
                     divElement = divs[divs.length-1] as HTMLDivElement; // divs[] -> 화살표로 몇번째 아이탬을 지정해줄지
-                    console.log(divElement);
 
                     startHighlighterHidden = true;
                     highlighterHidden = false;
@@ -80,6 +79,7 @@
     let hideItemsModal = $state(false);
 
     function onClickStart() {
+        updateInventory();
         activeTransitionAnimation();
         hideItemsModal = true;
 
@@ -88,11 +88,24 @@
         }, 500);
     }
 
+    async function updateInventory() {
+        const { data } = await rq.apiEndPointsWithFetch(fetch).PUT('/api/v1/inventory/update/inventory', {
+            body: {
+                inventoryList: rq.inventories.all
+            }
+        });
+
+        if (data) {
+            rq.setLogined(data.data.memberDto);
+        }
+    }
+
     onMount(() => {
         if(rq.inventories) {
             currentItem = rq.inventories.all[0];
         }
     });
+
 </script>
 
 <style>
@@ -189,69 +202,93 @@
 </style>
 
 <dialog bind:this={charactorStatusModal} class="modal charactorStatus overflow-hidden">
-    <div class="w-full h-full absolute flex flex-row justify-center items-end gap-4 left-[auto] top-[auto] {hideItemsModal ? 'slide-out-top' : ''}"
+    <div class="w-[1920px] h-[953px] absolute flex flex-row justify-center items-end gap-4 left-[auto] top-[auto] {hideItemsModal ? 'slide-out-top' : ''}"
         style="transform:scale(0.87)">
 
-        <div class="w-[200px] h-[200px] text-[50px] font-[900] absolute top-[10px] left-[300px]" style="color:rgb(64 226 255)">인벤토리</div>
+        <div class="w-[200px] h-[200px] text-[50px] font-[900] absolute top-[15px] left-[300px]" style="color:rgb(64 226 255)">인벤토리</div>
 
         <div class="w-[46px] h-[46px] absolute top-[65px] left-[63%] cursor-pointer" style="background-image:url('/img/inventory/btn_popup_close.png')" on:click={closeCharacterModal}></div>
 
         <!-- 장착 장비 -->
         <div class="w-[1146px] h-[949px]" style="background-image:url('/img/inventory/ui_popup_item.png')">
             <div class="w-[636px] h-[609px] absolute top-[156px] left-[223px]" style="background-image:url('/img/inventory/ui_itme_background.png');">
-                <div class="w-[240px] h-[470px] absolute top-[60px] left-[220px]" style="background-image:url('/img/inventory/icon_chariter.png')"></div>
+                <div class="w-[283px] h-[504px] absolute top-[60px] left-[185px]" 
+                    style="background-image:{shoes ? 'url("/img/inventory/icon_chariter_space_boots.png"),' : 'url("/img/inventory/icon_chariter_boots.png"),'}
+                    {gloves ? 'url("/img/inventory/icon_chariter_space_gloves.png"),' : ''}
+                    url('/img/inventory/icon_chariter_suit.png'), 
+                    url('/img/inventory/icon_chariter.png'), 
+                    url('/img/inventory/icon_chariter_head.png');">
+                </div>
                 <div class="w-[203px] h-[203px] absolute cursor-pointer" 
-                style="background-image:{helmet && currentItem!.id == helmet?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
-                on:dblclick={() => rq.unEquipItem(helmet?.id)}
-                on:click={() => currentItem = helmet}>
+                style="background-image:{helmet && currentItem!.id == helmet?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6);"
+                on:dblclick={() => {if(helmet) rq.unEquipItem(helmet?.id)}}
+                on:click={() => {if(helmet) currentItem = helmet}}>
                     {#if helmet}
                     <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
-                        style="background-image:url('{helmet.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                        style="background-image:url('{helmet.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
+                    {:else}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('/img/inventory/icon_helmet_off.png');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
                     {/if} 
                 </div>
                 <div class="w-[203px] h-[203px] absolute top-[140px] cursor-pointer" 
                 style="background-image:{suit && currentItem!.id == suit?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
-                on:dblclick={() => rq.unEquipItem(suit?.id)}
-                on:click={() => currentItem = suit}>
+                on:dblclick={() => {if(suit) rq.unEquipItem(suit?.id)}}
+                on:click={() => {if(suit) currentItem = suit}}>
                     {#if suit}
                     <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
-                        style="background-image:url('{suit.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                        style="background-image:url('{suit.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
+                    {:else} 
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('/img/inventory/icon_space_suit_off.png');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
                     {/if} 
                 </div>
                 <div class="w-[203px] h-[203px] absolute top-[280px] cursor-pointer" 
                 style="background-image:{gloves && currentItem!.id == gloves?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
-                on:dblclick={() => rq.unEquipItem(gloves?.id)}
-                on:click={() => currentItem = gloves}>
+                on:dblclick={() => {if(gloves) rq.unEquipItem(gloves?.id)}}
+                on:click={() => {if(gloves) currentItem = gloves}}>
                     {#if gloves}
                     <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
-                        style="background-image:url('{gloves.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                        style="background-image:url('{gloves.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
+                    {:else} 
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('/img/inventory/icon_space_gloves_off.png');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
                     {/if} 
                 </div>
                 <div class="w-[203px] h-[203px] absolute top-[420px] cursor-pointer" 
                 style="background-image:{shoes && currentItem!.id == shoes?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
-                on:dblclick={() => rq.unEquipItem(shoes?.id)}
-                on:click={() => currentItem = shoes}>
+                on:dblclick={() => {if(shoes) rq.unEquipItem(shoes?.id)}}
+                on:click={() => {if(shoes) currentItem = shoes}}>
                     {#if shoes}
                     <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
-                        style="background-image:url('{shoes.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                        style="background-image:url('{shoes.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
+                    {:else}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('/img/inventory/icon_space_boots_off.png');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
                     {/if} 
                 </div>
                 <div class="w-[203px] h-[203px] absolute top-[0] right-[0] cursor-pointer" 
                 style="background-image:{weapon && currentItem!.id == weapon?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
-                on:dblclick={() => rq.unEquipItem(weapon?.id)}
-                on:click={() => currentItem = weapon}>
+                on:dblclick={() => {if(weapon) rq.unEquipItem(weapon?.id)}}
+                on:click={() => {if(weapon) currentItem = weapon}}>
                     {#if weapon}
                     <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
-                        style="background-image:url('{weapon.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                        style="background-image:url('{weapon.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
+                    {:else}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('/img/inventory/icon_gun_off.png');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
                     {/if} 
                 </div>
                 <div class="w-[203px] h-[203px] absolute top-[420px] right-[0] cursor-pointer" 
                 style="background-image:{module && currentItem!.id == module?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6)"
-                on:dblclick={() => rq.unEquipItem(module?.id)}
-                on:click={() => currentItem = module}>
+                on:dblclick={() => {if(module) rq.unEquipItem(module?.id)}}
+                on:click={() => {if(module) currentItem = module}}>
                     {#if module}
-                    <div class="w-[129px] h-[127px] absolute top-[55px] left-[40px]" 
-                        style="background-image:url('{module.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;"></div>
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('{module.item.sourcePath}');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
+                    {:else}
+                    <div class="w-[129px] h-[127px] absolute top-[35px] left-[40px]" 
+                        style="background-image:url('/img/inventory/icon_module_off.png');transform:scale(1.4);background-repeat:no-repeat;background-size:contain;"></div>
                     {/if} 
                 </div>
             </div>
@@ -278,14 +315,20 @@
 
         <!-- item status -->
         <div class="w-[508px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_item_info.png')">
-            <div class="w-[330px] h-[74px] absolute top-[70px] right-[270px] text-[50px] font-[900] pl-[75px]" style="background-image:url('/img/inventory/ui_itemname.png');color:rgb(64 226 255);">
+            <div class="w-[330px] h-[74px] absolute top-[70px] right-[270px] text-[40px] font-[900] pl-[40px] leading-[2] " style="background-image:url('/img/inventory/ui_itemname.png');color:rgb(64 226 255);">
                 {currentItem?.item.name}</div>
             <div class="w-[445px] h-[699px] absolute top-[190px] right-[156px] flex flex-col items-center" style="background-image:url('/img/inventory/ui_itme_background3.png')">
                 <div class="w-[203px] h-[203px] absolute top-[45px]" style="background-image:url('/img/inventory/ui_itemframe2.png')">
-                    <div class="w-[160px] h-[160px] absolute top-[40px] left-[25px]" style="background-image:url('{currentItem?.item.sourcePath}');background-repeat:no-repeat;background-size:contain;"></div>
+                    <div class="w-[160px] h-[160px] absolute top-[20px] left-[25px]" style="background-image:url('{currentItem?.item.sourcePath}');background-repeat:no-repeat;background-size:contain;"></div>
                 </div>
                 <div class="w-[420px] h-[22px] absolute top-[270px]" style="background-image:url('/img/inventory/window_1.png');"></div>
-                <div class="w-[350px] h-[240px] absolute top-[314px] text-[40px] font-[900] italic" style="color:rgb(64 226 255)">{currentItem?.item.description}</div>
+                <div class="w-[410px] h-[240px] absolute top-[314px] text-[20px] font-[900] italic" style="color:rgb(64 226 255)">
+                    {#each (currentItem?.item.description?.split('\n') || []) as desc}
+                    <div class="pl-[20px]">
+                        {desc}
+                    </div>
+                    {/each}
+                </div>
                 <div class="w-[310px] h-[76px] absolute bottom-[50px]" style="background-image:url('/img/inventory/btn_item_etc2.jpg')">
                     {#if currentItem?.isEquipped}
                     <div class="equipbtn text-center mr-[60px] text-[40px] font-[900] cursor-pointer" style="color:rgb(255 210 87)" on:click={() => rq.unEquipItem(currentItem!.id)}>해제</div>

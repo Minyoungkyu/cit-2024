@@ -63,7 +63,7 @@
 }
 
 .foreground-bar {
-  background: rgb(221, 38, 10); 
+  background: #46b446;
   z-index: 2; 
 }
 
@@ -74,15 +74,16 @@
 }
 
 .green-bar {
-  background: #46b446; /* 초록색 */
+  background: #f89421; /* 초록색 */
 }
 
 .yellow-bar {
-  background: #bebe5a; /* 노란색 */
+  background: rgb(221, 38, 10); /* 노란색 */
 }
 
 dialog::backdrop { /* modal back layer */
-  /* background-color: unset !important; */
+  background-color: unset !important;
+  pointer-events: none;
 }
 
 
@@ -233,17 +234,11 @@ box-shadow:
 cursor: pointer;
 }
 
-.ace_gutter {
-  top:40px;
-}
-
-.ace_scroller  {
-  top:40px;
-}
-
 .editorHighlighter { /* 에디터 하이라이터 */
   position: absolute;
-  background-color: rgba(255, 255, 0, 0.5);
+  background-color: unset;
+  border: solid 3px white;
+  border-radius: 2px;
 }
 
 .ace_editor .ace_bracket {
@@ -251,30 +246,37 @@ cursor: pointer;
   background: none !important;
 }
 
+.ace_mobile-button {
+  display: none;
+}
+
 .ace_editor { /* 에디터 백그라운드 */
-  background-image: url('/img/inGame/ui_editor_background2.png');
   background-color: unset;
-  font-size:20px !important;
+  /* font-size:20px !important; */
   font-weight: 900;
 
   .ace_support.ace_function { /* 에디터 "range", "set" 글자 */
-    color: black;
+    color: rgb(255 210 87);
   }
 
   .ace_paren { /* 에디터 괄호 글자 */
-    color: red;
+    color: rgb(255 210 87);
   }
 
   .ace_identifier { /* 에디터 "go", "turnLeft", "turnRight", "i" */
-    color: violet;
+    color: rgb(28 211 216);
   }
 
   .ace_punctuation { /* 에디터 ":" */
-    color: orange;
+    color: rgb(255 210 87);
+  }
+
+  .ace_constant.ace_numeric { /* 에디터 숫자 */
+    color: rgb(28 211 216);
   }
 
   .ace_string { /* 에디터 문자열 글자 */
-    color: green;
+    color: white;
   }
 
   .ace_comment { /* 에디터 주석 글자 */
@@ -282,7 +284,11 @@ cursor: pointer;
   }
 
   .ace_cursor { /* 에디터 커서 */
-    border-color: red;
+    border-color: white
+  }
+  
+  .ace_keyword {
+    color: rgb(255 210 87);
   }
 
   .ace_cjk { /* 에디터 한글 글자 그치만 주석에 한글도 같이 바뀜 */
@@ -291,15 +297,22 @@ cursor: pointer;
 
   .ace_gutter { /* 에디터 좌측 거터 */
     background-color: unset;
-    color: rgb(64 226 255);
-    font-size: 20px;
+    color: white;
+    font-size: 30px;
     font-weight: 900;
+    text-align: right;
+
+    .ace_gutter-cell {
+      align-items: start !important;
+      justify-content: end !important;
+    }
 
     .ace_gutter-active-line { /* 거터 > 포커스 중인 라인 */
       display:flex;
       align-items: center;
       justify-content: center;
       background-color: unset;
+      text-align: right;
     }
 
     .ace_gutter-cell {
@@ -308,7 +321,8 @@ cursor: pointer;
     }
 
     .ace_gutter-active-line {
-      background-color:white;
+      background-color: unset; /* 거터 포커스 배경 */
+      color:rgb(28 211 216);
     }
 
     

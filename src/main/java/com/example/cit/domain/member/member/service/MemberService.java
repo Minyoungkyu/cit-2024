@@ -1,5 +1,9 @@
 package com.example.cit.domain.member.member.service;
 
+import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
+import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
+import com.example.cit.domain.log.log.entity.PlayerLog;
+import com.example.cit.domain.log.log.service.PlayerLogService;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.repository.MemberRepository;
 import com.example.cit.domain.player.player.entity.Player;
@@ -24,6 +28,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthTokenService authTokenService;
+    private final PlayerLogService playerLogService;
 
     @Transactional
     public RsData<Member> join(String username, String password, String name, String cellphoneNo, int roleLevel) {
@@ -50,6 +55,8 @@ public class MemberService {
                         .gems(0)
                         .build()
         );
+
+        playerLogService.setFirstGame(member);
 
         return RsData.of("회원가입이 완료되었습니다.".formatted(member.getUsername()), member);
     }

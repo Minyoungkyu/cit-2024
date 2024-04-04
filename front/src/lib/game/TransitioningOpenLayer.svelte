@@ -1,9 +1,9 @@
 <script lang="ts">
 
-    let { isCoReady } = $props<{ isCoReady: boolean }>();
+    let { isCoReady, openLayer } = $props<{ isCoReady: boolean, openLayer: boolean }>();
 </script>
 
-<div class="absolute w-screen h-screen z-[10] overflow-hidden { isCoReady ? 'hide-layer' : '' }">
+<div class="absolute w-screen h-screen z-[10] overflow-hidden { isCoReady ? 'hide-layer' : '' } { openLayer ? 'open-layer' : ''}">
     <div class="absolute top-slide bg-black h-[50%]"></div>
     <div class="absolute bottom-slide bg-black h-[50%]"></div>
     <div class="loading-container z-[99]">
@@ -32,6 +32,18 @@
     animation: slideOut2 0.5s ease-in-out forwards;
 }
 
+.open-layer .loading-container {
+    animation: showing 0.5s ease-in-out forwards;
+}
+
+.open-layer .top-slide {
+    animation: slideIn1 0.5s ease-in-out forwards;
+}
+
+.open-layer .bottom-slide {
+    animation: slideIn2 0.5s ease-in-out forwards;
+}
+
 @keyframes hidding {
     0% {
         opacity: 1;
@@ -42,8 +54,16 @@
     }
 }
 
+@keyframes showing {
+    0% {
+        opacity: 0;
+        display:block;
+    }
+    100% {
+        opacity: 1;
+    }
 
-
+}
 
 .top-slide, .bottom-slide {
     position: absolute;
@@ -63,6 +83,18 @@
     transform: translateY(0%); /* 아래쪽에서 시작 */
 }
 
+.open-layer .top-slide {
+    top: 0;
+    height: 50vh; /* 뷰포트 높이의 50% */
+    transform: translateY(-100%); /* 위쪽에서 시작 */
+}
+
+.open-layer .bottom-slide {
+    bottom: 0;
+    height: 50vh; /* 뷰포트 높이의 50% */
+    transform: translateY(100%); /* 아래쪽에서 시작 */
+}
+
 @keyframes slideOut1 {
     to {
     transform: translateY(-100%); /* 원래 위치로 이동 */
@@ -74,6 +106,24 @@
     transform: translateY(100%); /* 원래 위치로 이동 */
     }
 }
+
+@keyframes slideIn1 {
+    to {
+    transform: translateY(0%); /* 원래 위치로 이동 */
+    }
+}
+
+@keyframes slideIn2 {
+    to {
+    transform: translateY(0%); /* 원래 위치로 이동 */
+    }
+}
+
+
+
+
+
+
 
     .loading-container {
         display: flex;

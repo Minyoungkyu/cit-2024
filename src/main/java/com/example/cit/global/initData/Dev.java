@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 
-@Profile("dev")
+//@Profile("dev")
 @Configuration
 @RequiredArgsConstructor
 public class Dev {
@@ -33,6 +33,7 @@ public class Dev {
     private final ItemService itemService;
     private final InventoryService inventoryService;
     private final RequirePartsService requirePartsService;
+    private final GameMapRepository gameMapRepository;
 
 //    @Bean
 //    @Order(4)
@@ -164,35 +165,7 @@ public class Dev {
     @Order(5)
     ApplicationRunner initStage() {
         return args -> {
-            if (memberService.findByUsername("testUser2").isEmpty()) {
-                Member memberUser2 = memberService.join("testUser2", "1234", "", "", 1).getData();
-                memberUser2.setRefreshToken("testUser2");
-
-                Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
-                memberClassAdmin.setRefreshToken("class");
-
-                Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
-                memberProgramAdmin.setRefreshToken("program");
-
-                Member memberSystemAdmin = memberService.join("system", "1234", "시스템관리자", "010-1234-1234", 4).getData();
-                memberSystemAdmin.setRefreshToken("system");
-
-                ItemParts itemParts1 = itemPartsService.createItemParts("신발");
-                ItemParts itemParts2 = itemPartsService.createItemParts("모듈");
-                ItemParts itemParts3 = itemPartsService.createItemParts("장갑");
-                ItemParts itemParts4 = itemPartsService.createItemParts("우주복");
-                ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
-                ItemParts itemParts6 = itemPartsService.createItemParts("총");
-
-                Item item1 = itemService.createItem(itemParts1, "그냥신발", "그냥 신발입니다.", "", "/img/inventory/icon_space_boots.png", 0);
-                Item item2 = itemService.createItem(itemParts2, "그냥모듈", "그냥 모듈입니다.", "", "/img/inventory/icon_module.png", 0);
-                Item item3 = itemService.createItem(itemParts3, "그냥장갑", "그냥 장갑입니다.", "", "/img/inventory/icon_space_gloves.png", 0);
-
-                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
-
-
+            if (memberService.findByUsername("hadle").isEmpty()) {
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
@@ -226,8 +199,10 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}\n",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "이동방법을 배웁니다.\n" +
+                                "\n" +
+                                "go() 함수를 사용하면 플레이어가 바라보고 있는 방향으로 이동합니다.",
+                        "go()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -245,11 +220,11 @@ public class Dev {
                                 "        \"diff\" : 0,\n" +
                                 "        \"level\" : 2,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0],\n" +
+                                "            [0,1,0,1,0],\n" +
+                                "            [0,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "        ],\n" +
@@ -268,8 +243,15 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "플레이어 방향 설정을 배웁니다.\n" +
+                                "\n" +
+                                "\n" +
+                                "turnLeft() 함수를 사용하면 플레이어가 왼쪽방향으로 틀게됩니다.\n" +
+                                "\n" +
+                                "turnRight() 함수를 사용하게 되면 플레이어가 오른쪽 방향으로 돌게됩니다.",
+                        "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -311,8 +293,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "로켓발사장으로 이동 -1\n" +
+                                "\n" +
+                                "튜토리얼에서 배운내용을 활용하여\n" +
+                                "\n" +
+                                "목표 지점에 도달해보세요.\n" +
+                                "\n" +
+                                "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
+                        "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -355,8 +345,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "로켓 발사장으로 이동 -2\n" +
+                                "\n" +
+                                "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
+                                "\n" +
+                                "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
+                        "go에 인수 사용\n" +
+                                "\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -416,8 +414,17 @@ public class Dev {
                                 "        {\"status\": 1}\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "\t\n" +
+                                "발사장앞\n" +
+                                "\n" +
+                                "로켓 발사장까지 거의 다왔습니다.\n" +
+                                "발사장으로 이동하기전 식량을 충분히 적재해야합니다.\n" +
+                                "\n" +
+                                "폭탄을 피하고 목표에서 요구하는 필요한 식량을 획득하세요.",
+                        "for 문 사용\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -463,8 +470,17 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "\t\n" +
+                                "로켓발사장으로 이동 -1\n" +
+                                "\n" +
+                                "튜토리얼에서 배운내용을 활용하여\n" +
+                                "\n" +
+                                "목표 지점에 도달해보세요.\n" +
+                                "\n" +
+                                "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
+                        "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -512,8 +528,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "로켓 발사장으로 이동 -2\n" +
+                                "\n" +
+                                "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
+                                "\n" +
+                                "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
+                        "go에 인수 사용\n" +
+                                "\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -552,7 +576,7 @@ public class Dev {
                                 "            {\"id\":7, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 1},\n" +
                                 "            {\"id\":8, \"type\": \"bomb\", \"pos\": [9,4], \"status\": 1},\n" +
                                 "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [1,5], \"laser_id\": [10], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [2,3], \"pos_end\": [10,3], \"status\": 0}\n" +
+                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [3,3], \"pos_end\": [9,3], \"status\": 0}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [9,7]},\n" +
@@ -570,8 +594,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장앞\n" +
+                                "\n" +
+                                "로켓 발사장까지 거의 다왔습니다.\n" +
+                                "발사장으로 이동하기전 식량을 충분히 적재해야합니다.\n" +
+                                "\n" +
+                                "폭탄을 피하고 목표에서 요구하는 필요한 식량을 획득하세요.",
+                        "for 문 사용\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -621,8 +653,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "로켓발사장으로 이동 -1\n" +
+                                "\n" +
+                                "튜토리얼에서 배운내용을 활용하여\n" +
+                                "\n" +
+                                "목표 지점에 도달해보세요.\n" +
+                                "\n" +
+                                "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
+                        "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -654,7 +694,7 @@ public class Dev {
                                 "            {\"id\":2, \"type\": \"food\", \"pos\": [9,3], \"status\": 1},\n" +
                                 "            {\"id\":3, \"type\": \"food\", \"pos\": [9,5], \"status\": 1},\n" +
                                 "            {\"id\":4, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [5], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [3,0], \"pos_end\": [3,4], \"status\": 1}\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [3,0], \"pos_end\": [3,3], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [9,1]},\n" +
@@ -672,8 +712,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "로켓 발사장으로 이동 -2\n" +
+                                "\n" +
+                                "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
+                                "\n" +
+                                "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
+                        "go에 인수 사용\n" +
+                                "\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -707,8 +755,8 @@ public class Dev {
                                 "            {\"id\":2, \"type\": \"food\", \"pos\": [9,1], \"status\": 1},\n" +
                                 "            {\"id\":3, \"type\": \"food\", \"pos\": [9,7], \"status\": 1},\n" +
                                 "            {\"id\":4, \"type\": \"laser_switch\", \"pos\": [5,3], \"laser_id\": [5,6], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [0,5], \"pos_end\": [4,5], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,3], \"pos_end\": [10,3], \"status\": 0},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [1,5], \"pos_end\": [3,5], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [7,3], \"pos_end\": [9,3], \"status\": 0},\n" +
                                 "            {\"id\":7, \"type\": \"bomb\", \"pos\": [8,1], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
@@ -727,8 +775,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장앞\n" +
+                                "\n" +
+                                "로켓 발사장까지 거의 다왔습니다.\n" +
+                                "발사장으로 이동하기전 식량을 충분히 적재해야합니다.\n" +
+                                "\n" +
+                                "폭탄을 피하고 목표에서 요구하는 필요한 식량을 획득하세요.",
+                        "for 문 사용\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
                         1);
@@ -769,7 +825,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
-                                "            {\"goal\": \"line\", \"count\": 5}\n" +
+                                "            {\"goal\": \"line\", \"count\": 8}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -783,8 +839,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "부품회수\n" +
+                                "\n" +
+                                "로켓을 만들어야합니다.\n" +
+                                "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
+                        "for 문 사용\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -795,7 +857,7 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "로켓부품 6개 획득하기\n" +
-                                "코드 40줄 이하로 작성하기\n",
+                                "코드 40줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -803,39 +865,35 @@ public class Dev {
                                 "        \"diff\" : \"Easy\",\n" +
                                 "        \"level\" : 2,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,3], \"status\": 1},\n" +
-                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,3], \"status\": 1},\n" +
-                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [19,3], \"status\": 1},\n" +
-                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [9,11], \"status\": 1},\n" +
-                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,11], \"status\": 1},\n" +
-                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,11], \"status\": 1},\n" +
-                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [13,14,15], \"status\": 1},\n" +
-                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [13,14,15], \"status\": 1},\n" +
-                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
-                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
-                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1}\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [19,1], \"status\": 1},\n" +
+                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [9,9], \"status\": 1},\n" +
+                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,9], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,9], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
@@ -843,7 +901,7 @@ public class Dev {
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,7],\n" +
+                                "        \"pos\" : [1,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -853,8 +911,21 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "레이저 주의-1\n" +
+                                "\n" +
+                                "앞에 보이는 레이저를 조심하세요!!\n" +
+                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
+                                "\n" +
+                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
+                                "\n" +
+                                "\n" +
+                                "레이저스위치를 작동시켜\n" +
+                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
+                        "이중 for\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()\n" +
+                                "최소 코드작성",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -865,7 +936,7 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "로켓부품 5개 획득하기\n" +
-                                "코드 8줄 이하로 작성하기\n",
+                                "코드 8줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -873,43 +944,39 @@ public class Dev {
                                 "        \"diff\" : \"Easy\",\n" +
                                 "        \"level\" : 3,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,3], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,3], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [21,3], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [27,3], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [7,11], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [13,11], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [17,11], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [23,11], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser_switch\", \"pos\": [29,5], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser_switch\", \"pos\": [29,9], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
-                                "            {\"id\":17, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
-                                "            {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
-                                "            {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,8], \"pos_end\": [26,8], \"status\": 1}\n" +
+                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [27,1], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [23,9], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":16, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":17, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
@@ -917,7 +984,7 @@ public class Dev {
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,7],\n" +
+                                "        \"pos\" : [1,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -927,8 +994,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "레이저 주의-2\n" +
+                                "\n" +
+                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
+                                "\n" +
+                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
+                                "\n" +
+                                "\n" +
+                                "레이저스위치를 작동시켜\n" +
+                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
+                        "이중 for\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -940,7 +1018,7 @@ public class Dev {
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "목표지점에 도달하기\n" +
                                 "로켓부품 5개 획득하기\n" +
-                                "코드 8줄 이하로 작성하기\n",
+                                "코드 8줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -975,7 +1053,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 5},\n" +
-                                "            {\"goal\": \"line\", \"count\": 8}\n" +
+                                "            {\"goal\": \"line\", \"count\": 11}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -989,8 +1067,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "부품회수\n" +
+                                "\n" +
+                                "로켓을 만들어야합니다.\n" +
+                                "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
+                        "for 문 사용\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()\n",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -1001,7 +1085,7 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "로켓부품 6개 획득하기\n" +
-                                "코드 60줄 이하로 작성하기\n",
+                                "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1009,39 +1093,35 @@ public class Dev {
                                 "        \"diff\" : \"Normal\",\n" +
                                 "        \"level\" : 2,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,5], \"pos_drop\": [7,3], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,5], \"pos_drop\": [15,3], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,5], \"pos_drop\": [17,3], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,11], \"pos_drop\": [9,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,11], \"pos_drop\": [13,11], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,11], \"pos_drop\": [21,11], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
@@ -1049,7 +1129,7 @@ public class Dev {
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,7],\n" +
+                                "        \"pos\" : [1,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -1059,8 +1139,21 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "레이저 주의-1\n" +
+                                "\n" +
+                                "앞에 보이는 레이저를 조심하세요!!\n" +
+                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
+                                "\n" +
+                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
+                                "\n" +
+                                "\n" +
+                                "레이저스위치를 작동시켜\n" +
+                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
+                        "이중 for\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()\n" +
+                                "최소 코드작성",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -1071,7 +1164,7 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "로켓부품 8개 획득하기\n" +
-                                "코드 100줄 이하로 작성하기\n",
+                                "코드 100줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1079,43 +1172,39 @@ public class Dev {
                                 "        \"diff\" : \"Normal\",\n" +
                                 "        \"level\" : 3,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,5], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,9], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,8], \"pos_end\": [26,8], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [13,3], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [21,3], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [13,11], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [17,11], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [9,5], \"pos_drop\": [5,3], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [25,5], \"pos_drop\": [27,3], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [9,11], \"pos_drop\": [5,11], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,9], \"pos_drop\": [25,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
+                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
+                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
+                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [5,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [25,3], \"pos_drop\": [27,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [9,9], \"pos_drop\": [5,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [25,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
@@ -1123,7 +1212,7 @@ public class Dev {
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,7],\n" +
+                                "        \"pos\" : [1,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -1133,8 +1222,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "레이저 주의-2\n" +
+                                "\n" +
+                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
+                                "\n" +
+                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
+                                "\n" +
+                                "\n" +
+                                "레이저스위치를 작동시켜\n" +
+                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
+                        "이중 for\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -1146,75 +1246,51 @@ public class Dev {
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "목표지점에 도달하기\n" +
                                 "로켓부품 모두 획득하기\n" +
-                                "코드 40줄 이하로 작성하기\n",
+                                "코드 40줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
                                 "        \"step\" : \"1-2\",\n" +
                                 "        \"diff\" : \"Hard\",\n" +
-                                "        \"level\" : 1,\n" +
+                                "        \"level\" : 2,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [1,7], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [1,11], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [3,5], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [3,7], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [3,9], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [3,11], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [5,3], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [5,5], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"rocket_parts\", \"pos\": [5,7], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"rocket_parts\", \"pos\": [5,9], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"rocket_parts\", \"pos\": [7,3], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [7,5], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [7,7], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [9,1], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [9,3], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"rocket_parts\", \"pos\": [9,5], \"status\": 1},\n" +
-                                "            {\"id\":17, \"type\": \"rocket_parts\", \"pos\": [11,3], \"status\": 1},\n" +
-                                "            {\"id\":18, \"type\": \"rocket_parts\", \"pos\": [11,5], \"status\": 1},\n" +
-                                "            {\"id\":19, \"type\": \"rocket_parts\", \"pos\": [11,7], \"status\": 1},\n" +
-                                "            {\"id\":20, \"type\": \"rocket_parts\", \"pos\": [13,5], \"status\": 1},\n" +
-                                "            {\"id\":21, \"type\": \"rocket_parts\", \"pos\": [13,7], \"status\": 1},\n" +
-                                "            {\"id\":22, \"type\": \"bomb\", \"pos\": [1,5], \"status\": 1},\n" +
-                                "            {\"id\":23, \"type\": \"bomb\", \"pos\": [3,3], \"status\": 1},\n" +
-                                "            {\"id\":24, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 1},\n" +
-                                "            {\"id\":25, \"type\": \"bomb\", \"pos\": [5,11], \"status\": 1},\n" +
-                                "            {\"id\":26, \"type\": \"bomb\", \"pos\": [7,9], \"status\": 1},\n" +
-                                "            {\"id\":27, \"type\": \"bomb\", \"pos\": [7,11], \"status\": 1},\n" +
-                                "            {\"id\":28, \"type\": \"bomb\", \"pos\": [8,3], \"status\": 1},\n" +
-                                "            {\"id\":29, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 1},\n" +
-                                "            {\"id\":30, \"type\": \"bomb\", \"pos\": [9,7], \"status\": 1},\n" +
-                                "            {\"id\":31, \"type\": \"bomb\", \"pos\": [11,1], \"status\": 1},\n" +
-                                "            {\"id\":32, \"type\": \"bomb\", \"pos\": [11,9], \"status\": 1},\n" +
-                                "            {\"id\":33, \"type\": \"bomb\", \"pos\": [11,11], \"status\": 1},\n" +
-                                "            {\"id\":34, \"type\": \"bomb\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "            {\"id\":35, \"type\": \"bomb\", \"pos\": [13,3], \"status\": 1},\n" +
-                                "            {\"id\":36, \"type\": \"bomb\", \"pos\": [13,11], \"status\": 1}\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"target\", \"pos\": [13,9]},\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 12},\n" +
-                                "            {\"goal\": \"line\", \"count\": 40}\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
+                                "            {\"goal\": \"line\", \"count\": 100}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,9],\n" +
+                                "        \"pos\" : [1,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -1224,8 +1300,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "부품회수\n" +
+                                "\n" +
+                                "로켓을 만들어야합니다.\n" +
+                                "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
+                        "for 문 사용\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -1236,55 +1318,57 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "로켓부품 18개 획득하기\n" +
-                                "코드 100줄 이하로 작성하기\n",
+                                "코드 100줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
                                 "        \"step\" : \"1-2\",\n" +
                                 "        \"diff\" : \"Hard\",\n" +
-                                "        \"level\" : 2,\n" +
+                                "        \"level\" : 3,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,5], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,9], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,5], \"pos_drop\": [7,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,5], \"pos_drop\": [15,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,5], \"pos_drop\": [17,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,11], \"pos_drop\": [9,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,11], \"pos_drop\": [13,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,11], \"pos_drop\": [21,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [7,3], \"pos_drop\": [9,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [13,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [21,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [23,3], \"pos_drop\": [23,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [7,9], \"pos_drop\": [7,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [17,7], \"pos_drop\": [19,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [23,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":20, \"type\": \"bomb\", \"pos\": [27,2], \"status\": 1},\n" +
+                                "            {\"id\":21, \"type\": \"bomb\", \"pos\": [17,8], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
-                                "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 24},\n" +
+                                "            {\"goal\": \"line\", \"count\": 200}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,7],\n" +
+                                "        \"pos\" : [1,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -1294,8 +1378,21 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "레이저 주의-1\n" +
+                                "\n" +
+                                "앞에 보이는 레이저를 조심하세요!!\n" +
+                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
+                                "\n" +
+                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
+                                "\n" +
+                                "\n" +
+                                "레이저스위치를 작동시켜\n" +
+                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
+                        "이중 for\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()\n" +
+                                "최소 코드작성",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -1306,7 +1403,7 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
                         "로켓부품 24개 획득하기\n" +
-                                "코드 200줄 이하로 작성하기\n",
+                                "코드 200줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1370,8 +1467,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "레이저 주의-2\n" +
+                                "\n" +
+                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
+                                "\n" +
+                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
+                                "\n" +
+                                "\n" +
+                                "레이저스위치를 작동시켜\n" +
+                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
+                        "이중 for\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
                         1);
@@ -1381,7 +1489,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
                         "고체추진제 3개 장착하기\n" +
-                                "코드 10줄 이하로 작성하기\n",
+                                "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1423,8 +1531,15 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장에서-1\n" +
+                                "\n" +
+                                "발사장에서 로켓을 조립해야합니다.\n" +
+                                "\n" +
+                                "set 명령어를 사용하여 부품을 장착해야합니다!",
+                        "set(”고체추진제”)\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1434,7 +1549,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "",
                         "액체연료 5개 장착하기\n" +
-                                "코드 30줄 이하로 작성하기\n",
+                                "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1478,8 +1593,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장에서 -2\n" +
+                                "\n" +
+                                "이제 연료를 주입해야합니다.\n" +
+                                "\n" +
+                                "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
+                                "\n" +
+                                " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
+                        "최소코드작성\n" +
+                                "set(”액체연료”)\n" +
+                                "for\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "turnLeft()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1489,7 +1615,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "",
                         "추가엔진 6개 장착하기\n" +
-                                "코드 30줄 이하로 작성하기\n",
+                                "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1539,8 +1665,18 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사 임박\n" +
+                                "\n" +
+                                "마지막입니다! \n" +
+                                "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
+                                "\n" +
+                                "역시나 for문을 사용해 작업 능률을 올려야합니다!",
+                        "for\n" +
+                                "최소코드작성\n" +
+                                "set(”추가엔진”)\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1550,7 +1686,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
                         "고체추진제 5개 장착하기\n" +
-                                "코드 25줄 이하로 작성하기\n",
+                                "코드 25줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1595,8 +1731,15 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장에서-1\n" +
+                                "\n" +
+                                "발사장에서 로켓을 조립해야합니다.\n" +
+                                "\n" +
+                                "set 명령어를 사용하여 부품을 장착해야합니다!",
+                        "set(”고체추진제”)\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1606,7 +1749,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "",
                         "액체연료 5개 장착하기\n" +
-                                "코드 35줄 이하로 작성하기\n",
+                                "코드 35줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1659,8 +1802,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장에서 -2\n" +
+                                "\n" +
+                                "이제 연료를 주입해야합니다.\n" +
+                                "\n" +
+                                "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
+                                "\n" +
+                                " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
+                        "최소코드작성\n" +
+                                "set(”액체연료”)\n" +
+                                "for\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "turnLeft()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1670,7 +1824,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "",
                         "추가엔진 6개 장착하기\n" +
-                                "코드 45줄 이하로 작성하기\n",
+                                "코드 45줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1722,8 +1876,18 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사 임박\n" +
+                                "\n" +
+                                "마지막입니다! \n" +
+                                "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
+                                "\n" +
+                                "역시나 for문을 사용해 작업 능률을 올려야합니다!",
+                        "for\n" +
+                                "최소코드작성\n" +
+                                "set(”추가엔진”)\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1733,7 +1897,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "# set(‘고체추진제’)를 작성하여 로켓부품을 장착합니다.\n",
                         "고체추진제 6개 장착하기\n" +
-                                "코드 30줄 이하로 작성하기\n",
+                                "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1781,8 +1945,15 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장에서-1\n" +
+                                "\n" +
+                                "발사장에서 로켓을 조립해야합니다.\n" +
+                                "\n" +
+                                "set 명령어를 사용하여 부품을 장착해야합니다!",
+                        "set(”고체추진제”)\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1792,7 +1963,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "",
                         "액체연료 13개 장착하기\n" +
-                                "코드 50줄 이하로 작성하기\n",
+                                "코드 50줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1853,8 +2024,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사장에서 -2\n" +
+                                "\n" +
+                                "이제 연료를 주입해야합니다.\n" +
+                                "\n" +
+                                "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
+                                "\n" +
+                                " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
+                        "최소코드작성\n" +
+                                "set(”액체연료”)\n" +
+                                "for\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "turnLeft()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
@@ -1864,7 +2046,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
                         "",
                         "추가엔진 18개 장착하기\n" +
-                                "코드 50줄 이하로 작성하기\n",
+                                "코드 50줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1928,11 +2110,80 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "테스트용 텍스트입니다.0",
-                        "guideImage0",
+                        "발사 임박\n" +
+                                "\n" +
+                                "마지막입니다! \n" +
+                                "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
+                                "\n" +
+                                "역시나 for문을 사용해 작업 능률을 올려야합니다!",
+                        "for\n" +
+                                "최소코드작성\n" +
+                                "set(”추가엔진”)\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
                         1,
                         1);
+
+                Member memberUser2 = memberService.join("hadle", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("hadle");
+
+                Member memberUser3 = memberService.join("test1", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test1");
+
+                Member memberUser4 = memberService.join("test2", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test2");
+
+                Member memberUser5 = memberService.join("test3", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test3");
+
+                Member memberUser6 = memberService.join("test4", "1234", "", "", 1).getData();
+                memberUser2.setRefreshToken("test4");
+
+                Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
+                memberClassAdmin.setRefreshToken("class");
+
+                Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
+                memberProgramAdmin.setRefreshToken("program");
+
+                Member memberSystemAdmin = memberService.join("system", "1234", "시스템관리자", "010-1234-1234", 4).getData();
+                memberSystemAdmin.setRefreshToken("system");
+
+                ItemParts itemParts1 = itemPartsService.createItemParts("신발");
+                ItemParts itemParts2 = itemPartsService.createItemParts("모듈");
+                ItemParts itemParts3 = itemPartsService.createItemParts("장갑");
+                ItemParts itemParts4 = itemPartsService.createItemParts("우주복");
+                ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
+                ItemParts itemParts6 = itemPartsService.createItemParts("총");
+
+                Item item1 = itemService.createItem(itemParts1, "우주용 신발",
+                        "이동과 회전 명령어를 사용할 수 있게 하는 장비.\n" +
+                                "go() : 플레이어를 바라보고 있는 방향으로 이동시킨다.\n" +
+                                "turnLeft() : 플레이어를 왼쪽으로 회전시킨다.\n" +
+                                "turnRight() : 플레이어를 오른쪽으로 회전시킨다.",
+                        "", "/img/inventory/icon_space_boots.png", 0);
+
+                Item item2 = itemService.createItem(itemParts2, "Lv1 모듈",
+                        "반복 명령어 for를 사용할 수 있게 하는 장비.",
+                        "", "/img/inventory/icon_module.png", 0);
+
+                Item item3 = itemService.createItem(itemParts3, "우주용 장갑",
+                        "장착 명령어를 사용할 수 있게 하는 장비.\n" +
+                                "set() : 입력된 아이템을 플레이어가 바라보고 있는 곳에 장착시킨다.",
+                        "",
+                        "/img/inventory/icon_space_gloves.png", 0);
+
+                gameMapTutorial2.setRewardItem(item1);
+                gameMap11e3.setRewardItem(item2);
+                gameMap12e3.setRewardItem(item3);
+                gameMapRepository.save(gameMapTutorial2);
+                gameMapRepository.save(gameMap11e3);
+                gameMapRepository.save(gameMap12e3);
+
+                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
 
                 // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);
@@ -2100,21 +2351,21 @@ public class Dev {
                         gameMap13n2.getId(), gameMap13n2.getStage(), gameMap13n2.getStep(), gameMap13n2.getDifficulty(), gameMap13n2.getLevel(),
                         "", 1);
 
-//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
-//                        gameMap13n3.getId(), gameMap13n3.getStage(), gameMap13n3.getStep(), gameMap13n3.getDifficulty(), gameMap13n3.getLevel(),
-//                        "", 1);
-//
-//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
-//                        gameMap13h1.getId(), gameMap13h1.getStage(), gameMap13h1.getStep(), gameMap13h1.getDifficulty(), gameMap13h1.getLevel(),
-//                        "", 1);
-//
-//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
-//                        gameMap13h2.getId(), gameMap13h2.getStage(), gameMap13h2.getStep(), gameMap13h2.getDifficulty(), gameMap13h2.getLevel(),
-//                        "", 1);
-//
-//                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
-//                        gameMap13h3.getId(), gameMap13h3.getStage(), gameMap13h3.getStep(), gameMap13h3.getDifficulty(), gameMap13h3.getLevel(),
-//                        "", 1);
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13n3.getId(), gameMap13n3.getStage(), gameMap13n3.getStep(), gameMap13n3.getDifficulty(), gameMap13n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13h1.getId(), gameMap13h1.getStage(), gameMap13h1.getStep(), gameMap13h1.getDifficulty(), gameMap13h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13h2.getId(), gameMap13h2.getStage(), gameMap13h2.getStep(), gameMap13h2.getDifficulty(), gameMap13h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                        gameMap13h3.getId(), gameMap13h3.getStage(), gameMap13h3.getStep(), gameMap13h3.getDifficulty(), gameMap13h3.getLevel(),
+                        "", 1);
 
 
 

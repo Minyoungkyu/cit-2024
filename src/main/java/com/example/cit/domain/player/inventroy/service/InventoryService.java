@@ -3,6 +3,7 @@ package com.example.cit.domain.player.inventroy.service;
 import com.example.cit.domain.item.item.entity.Item;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.AuthTokenService;
+import com.example.cit.domain.player.inventroy.dto.InventoryDto;
 import com.example.cit.domain.player.inventroy.entity.Inventory;
 import com.example.cit.domain.player.inventroy.repository.InventoryRepository;
 import com.example.cit.domain.player.player.entity.Player;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,4 +42,16 @@ public class InventoryService {
     }
 
 
+    @Transactional
+    public void updateInventory(List<InventoryDto> inventoryDtoList, Member member) {
+        List<Inventory> myCurrentInventoryList = member.getPlayer().getInventories();
+
+        Map<Long, InventoryDto> dtoMap = inventoryDtoList.stream()
+                .collect(Collectors.toMap(dto -> dto.item().id(), dto -> dto));
+
+        myCurrentInventoryList.stream()
+                .filter(inv -> dtoMap.containsKey(inv.getItem().getId()) &&
+                        dtoMap.get(inv.getItem().getId()).isEquipped() != inv.isEquipped())
+                .forEach(inv -> inv.setEquipped(dtoMap.get(inv.getItem().getId()).isEquipped()));
+    }
 }
