@@ -165,7 +165,7 @@ public class Dev {
     @Order(5)
     ApplicationRunner initStage() {
         return args -> {
-            if (memberService.findByUsername("testUser2").isEmpty()) {
+            if (memberService.findByUsername("hadle").isEmpty()) {
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
