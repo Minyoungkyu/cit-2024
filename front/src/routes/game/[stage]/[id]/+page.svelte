@@ -408,7 +408,7 @@
 
         <div class="relative w-full bg-gray-500" style="width:{widthMultiplier}px;">
             <div id="game-player-container" class="flex justify-center items-center h-full"> <!-- ToDo: remove hidden-->
-                <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
+                <!-- <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/> -->
             </div>
 
             <!-- 뒤로가기 -->
@@ -556,13 +556,13 @@
                 </div>
                 <div class="flex justify-start items-center w-[602px] h-[250px] mt-[20px]" style="background-image:url('/img/inGame/ui_editor_background4.png')">
                     <div class="w-[400px] h-[200px] flex flex-col items-start pl-10 gap-2 pt-2">
-                        {#each commandGuide as command}
+                        <!-- {#each commandGuide as command}
                             {#if command === 'for i in range(3):'}
                                 <div class="scale-up-on-hover font-bold text-white text-[22px] font-[900] cursor-pointer" on:click={() => test(command + "\n\t")}>{command}</div>
                             {:else}
                                 <div class="scale-up-on-hover font-bold text-white text-[22px] font-[900] cursor-pointer" on:click={() => test(command + "\n")}>{command}</div>
                             {/if}
-                        {/each}
+                        {/each} -->
                     </div>
                 </div>
             </div>
@@ -571,4 +571,4 @@
 </div>
 
 
-<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>
+<!-- <TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
