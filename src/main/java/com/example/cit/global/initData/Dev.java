@@ -2180,6 +2180,41 @@ public class Dev {
                 Member memberUser5 = memberService.join("testUser3", "tmd0405", "", "", 1).getData();
                 memberUser2.setRefreshToken("testUser3");
 
+                Member memberUser11 = memberService.join("testUser4", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser4");
+                Member memberUser12 = memberService.join("testUser5", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser5");
+                Member memberUser13 = memberService.join("testUser6", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser6");
+                Member memberUser14 = memberService.join("testUser7", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser7");
+                Member memberUser15 = memberService.join("testUser8", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser8");
+                Member memberUser16 = memberService.join("testUser9", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser9");
+                Member memberUser17 = memberService.join("testUser10", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser10");
+                Member memberUser18 = memberService.join("testUser11", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser11");
+                Member memberUser19 = memberService.join("testUser12", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser12");
+                Member memberUser20 = memberService.join("testUser13", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser13");
+                Member memberUser21 = memberService.join("testUser14", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser14");
+                Member memberUser22 = memberService.join("testUser15", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser15");
+                Member memberUser23 = memberService.join("testUser16", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser16");
+                Member memberUser24 = memberService.join("testUser17", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser17");
+                Member memberUser25 = memberService.join("testUser18", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser18");
+                Member memberUser26 = memberService.join("testUser19", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser19");
+                Member memberUser27 = memberService.join("testUser20", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser20");
+
                 Member memberUser6 = memberService.join("test4", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("test4");
 
@@ -2249,6 +2284,74 @@ public class Dev {
                 inventoryService.createInventory(memberUser7.getPlayer(), item1, false);
                 inventoryService.createInventory(memberUser7.getPlayer(), item2, false);
                 inventoryService.createInventory(memberUser7.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser11.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser11.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser11.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser12.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser12.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser12.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser13.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser13.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser13.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser14.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser14.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser14.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser15.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser15.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser15.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser16.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser16.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser16.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser17.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser17.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser17.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser18.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser18.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser18.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser19.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser19.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser19.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser20.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser20.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser20.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser21.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser21.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser21.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser22.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser22.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser22.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser23.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser23.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser23.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser24.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser24.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser24.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser25.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser25.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser25.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser26.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser26.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser26.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser27.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser27.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser27.getPlayer(), item3, false);
 
                 // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);
