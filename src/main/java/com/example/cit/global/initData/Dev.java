@@ -166,6 +166,7 @@ public class Dev {
     ApplicationRunner initStage() {
         return args -> {
             if (memberService.findByUsername("hadle").isEmpty()) {
+
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
@@ -939,8 +940,8 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
                                 "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n",
-                        "로켓부품 5개 획득하기\n" +
-                                "코드 8줄 이하로 작성하기",
+                        "로켓부품 8개 획득하기\n" +
+                                "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1170,7 +1171,7 @@ public class Dev {
                         "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
                                 "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
-                                "# 스위치가 있는 방은 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.",
+                                "# 스위치가 있는 방은 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
                         "로켓부품 8개 획득하기\n" +
                                 "코드 100줄 이하로 작성하기",
                         "stage = {\n" +
@@ -2170,20 +2171,23 @@ public class Dev {
                 Member memberUser2 = memberService.join("hadle", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("hadle");
 
-                Member memberUser3 = memberService.join("test1", "1234", "", "", 1).getData();
-                memberUser2.setRefreshToken("test1");
+                Member memberUser3 = memberService.join("testUser1", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser1");
 
-                Member memberUser4 = memberService.join("test2", "1234", "", "", 1).getData();
-                memberUser2.setRefreshToken("test2");
+                Member memberUser4 = memberService.join("testUser2", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser2");
 
-                Member memberUser5 = memberService.join("test3", "1234", "", "", 1).getData();
-                memberUser2.setRefreshToken("test3");
+                Member memberUser5 = memberService.join("testUser3", "tmd0405", "", "", 1).getData();
+                memberUser2.setRefreshToken("testUser3");
 
                 Member memberUser6 = memberService.join("test4", "1234", "", "", 1).getData();
                 memberUser2.setRefreshToken("test4");
 
                 Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
                 memberClassAdmin.setRefreshToken("class");
+
+                Member memberUser7 = memberService.join("testAdmin", "tmd0405", "테스트어드민", "010-1234-1234", 2).getData();
+                memberUser7.setRefreshToken("testAdmin");
 
                 Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
                 memberProgramAdmin.setRefreshToken("program");
@@ -2225,6 +2229,26 @@ public class Dev {
                 inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
                 inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
                 inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser3.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser3.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser3.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser4.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser4.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser4.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser5.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser5.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser5.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser6.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser6.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser6.getPlayer(), item3, false);
+
+                inventoryService.createInventory(memberUser7.getPlayer(), item1, false);
+                inventoryService.createInventory(memberUser7.getPlayer(), item2, false);
+                inventoryService.createInventory(memberUser7.getPlayer(), item3, false);
 
                 // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);
@@ -2292,119 +2316,119 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap13h2, itemParts3);
                 requirePartsService.addRequireParts(gameMap13h3, itemParts3);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                     gameMapTutorial1.getId(), gameMapTutorial1.getStage(), gameMapTutorial1.getStep(), gameMapTutorial1.getDifficulty(), gameMapTutorial1.getLevel(),
                     "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                     gameMapTutorial2.getId(), gameMapTutorial2.getStage(), gameMapTutorial2.getStep(), gameMapTutorial2.getDifficulty(), gameMapTutorial2.getLevel(),
                     "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                     gameMap11e1.getId(), gameMap11e1.getStage(), gameMap11e1.getStep(), gameMap11e1.getDifficulty(), gameMap11e1.getLevel(),
                     "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11e2.getId(), gameMap11e2.getStage(), gameMap11e2.getStep(), gameMap11e2.getDifficulty(), gameMap11e2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11e3.getId(), gameMap11e3.getStage(), gameMap11e3.getStep(), gameMap11e3.getDifficulty(), gameMap11e3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11n1.getId(), gameMap11n1.getStage(), gameMap11n1.getStep(), gameMap11n1.getDifficulty(), gameMap11n1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11n2.getId(), gameMap11n2.getStage(), gameMap11n2.getStep(), gameMap11n2.getDifficulty(), gameMap11n2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11n3.getId(), gameMap11n3.getStage(), gameMap11n3.getStep(), gameMap11n3.getDifficulty(), gameMap11n3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11h1.getId(), gameMap11h1.getStage(), gameMap11h1.getStep(), gameMap11h1.getDifficulty(), gameMap11h1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11h2.getId(), gameMap11h2.getStage(), gameMap11h2.getStep(), gameMap11h2.getDifficulty(), gameMap11h2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap11h3.getId(), gameMap11h3.getStage(), gameMap11h3.getStep(), gameMap11h3.getDifficulty(), gameMap11h3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12e1.getId(), gameMap12e1.getStage(), gameMap12e1.getStep(), gameMap12e1.getDifficulty(), gameMap12e1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12e2.getId(), gameMap12e2.getStage(), gameMap12e2.getStep(), gameMap12e2.getDifficulty(), gameMap12e2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12e3.getId(), gameMap12e3.getStage(), gameMap12e3.getStep(), gameMap12e3.getDifficulty(), gameMap12e3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12n1.getId(), gameMap12n1.getStage(), gameMap12n1.getStep(), gameMap12n1.getDifficulty(), gameMap12n1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12n2.getId(), gameMap12n2.getStage(), gameMap12n2.getStep(), gameMap12n2.getDifficulty(), gameMap12n2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12n3.getId(), gameMap12n3.getStage(), gameMap12n3.getStep(), gameMap12n3.getDifficulty(), gameMap12n3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12h1.getId(), gameMap12h1.getStage(), gameMap12h1.getStep(), gameMap12h1.getDifficulty(), gameMap12h1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12h2.getId(), gameMap12h2.getStage(), gameMap12h2.getStep(), gameMap12h2.getDifficulty(), gameMap12h2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap12h3.getId(), gameMap12h3.getStage(), gameMap12h3.getStep(), gameMap12h3.getDifficulty(), gameMap12h3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13e1.getId(), gameMap13e1.getStage(), gameMap13e1.getStep(), gameMap13e1.getDifficulty(), gameMap13e1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13e2.getId(), gameMap13e2.getStage(), gameMap13e2.getStep(), gameMap13e2.getDifficulty(), gameMap13e2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13e3.getId(), gameMap13e3.getStage(), gameMap13e3.getStep(), gameMap13e3.getDifficulty(), gameMap13e3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13n1.getId(), gameMap13n1.getStage(), gameMap13n1.getStep(), gameMap13n1.getDifficulty(), gameMap13n1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13n2.getId(), gameMap13n2.getStage(), gameMap13n2.getStep(), gameMap13n2.getDifficulty(), gameMap13n2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13n3.getId(), gameMap13n3.getStage(), gameMap13n3.getStep(), gameMap13n3.getDifficulty(), gameMap13n3.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13h1.getId(), gameMap13h1.getStage(), gameMap13h1.getStep(), gameMap13h1.getDifficulty(), gameMap13h1.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13h2.getId(), gameMap13h2.getStage(), gameMap13h2.getStep(), gameMap13h2.getDifficulty(), gameMap13h2.getLevel(),
                         "", 1);
 
-                playerLogService.createPlayerLog("STAGECLEAR", memberUser2.getUsername(), memberUser2.getId(),
+                playerLogService.createPlayerLog("STAGECLEAR", memberUser7.getUsername(), memberUser7.getId(),
                         gameMap13h3.getId(), gameMap13h3.getStage(), gameMap13h3.getStep(), gameMap13h3.getDifficulty(), gameMap13h3.getLevel(),
                         "", 1);
 

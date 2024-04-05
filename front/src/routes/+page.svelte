@@ -92,6 +92,12 @@
     }
   }
 
+  let username = $state('');
+
+  function filterInput() {
+    username = username.replace(/[^a-zA-Z0-9]/g, '');
+  }
+
   async function submitSetNickNameForm(this: HTMLFormElement) {
     const form: HTMLFormElement = this;
 
@@ -128,9 +134,9 @@
   
 </script>
 
-<!-- <audio class="myAudio" autoplay>
+<audio class="myAudio" autoplay>
   <source src="/sound/login_sound.mp3" type="audio/mpeg">
-</audio> -->
+</audio>
 <video autoplay muted loop id="backgroundVideo">
   <source src="/img/login/background_login.mp4" type="video/mp4">
 </video>
@@ -160,7 +166,7 @@
                           <span class="label-text text-white text-lg">아이디</span>
                       </label>
                       <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
-                             name="username" type="text" autocomplete="off">
+                             name="username" type="text" autocomplete="off" bind:value={username} on:input={filterInput}>
                   </div>
       
                   <div class="form-control">
