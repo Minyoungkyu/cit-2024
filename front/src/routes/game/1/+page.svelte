@@ -262,9 +262,9 @@
     }
 </style>
 
-<audio autoplay>
+<!-- <audio autoplay>
     <source src="/sound/map_sound.mp3" type="audio/mpeg">
-</audio>
+</audio> -->
 <div class="content-container relative w-screen h-screen flex flex-col items-center justify-center bg-gray-500 relative overflow-hidden">
     <!-- 탑바 였던 것-->
     <!-- <div class="flex flex-row justify-between w-full border-2 bg-white fixed top-0 z-[2]">
