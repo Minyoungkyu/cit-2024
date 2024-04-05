@@ -262,9 +262,9 @@
     }
 </style>
 
-<audio autoplay>
+<!-- <audio autoplay>
     <source src="/sound/map_sound.mp3" type="audio/mpeg">
-</audio>
+</audio> -->
 <div class="content-container relative w-screen h-screen flex flex-col items-center justify-center bg-gray-500 relative overflow-hidden">
     <div class="background-container w-screen h-screen" style="background-image:url('/background_1.png');background-position:center;background-size:cover;background-repeat:no-repeat;">
         <div class="absolute top-[0] left-[0] w-[1226px] h-[523px]"

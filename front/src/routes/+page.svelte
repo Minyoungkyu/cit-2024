@@ -147,9 +147,9 @@
   
 </script>
 
-<audio class="myAudio" autoplay>
+<!-- <audio class="myAudio" autoplay>
   <source src="/sound/login_sound.mp3" type="audio/mpeg">
-</audio>
+</audio> -->
 <video autoplay muted loop id="backgroundVideo">
   <source src="/img/login/background_login.mp4" type="video/mp4">
 </video>
