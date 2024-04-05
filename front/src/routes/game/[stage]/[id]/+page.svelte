@@ -25,7 +25,7 @@
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
 
-    // let audio: HTMLAudioElement;
+    let audio: HTMLAudioElement;
     let editor: any;
     let hintModal: HTMLDivElement 
     let progressController: HTMLInputElement; 
@@ -148,8 +148,8 @@
     let widthMultiplier = $state(1920);
 
     onMount(() => {
-        // audio = document.getElementById("myAudio") as HTMLAudioElement;
-        // audio.volume = 0.4;
+        audio = document.getElementById("myAudio") as HTMLAudioElement;
+        audio.volume = 0.4;
 
         const updateScale = () => {
             const currentHeight = window.innerHeight;
@@ -387,9 +387,9 @@
 }
 </script>
 
-<!-- <audio id="myAudio" autoplay>
+<audio id="myAudio" autoplay>
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
-</audio> -->
+</audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
     <div class="w-screen h-screen relative flex flex-row">
 

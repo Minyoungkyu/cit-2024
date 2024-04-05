@@ -262,26 +262,10 @@
     }
 </style>
 
-<!-- <audio autoplay>
+<audio autoplay>
     <source src="/sound/map_sound.mp3" type="audio/mpeg">
-</audio> -->
+</audio>
 <div class="content-container relative w-screen h-screen flex flex-col items-center justify-center bg-gray-500 relative overflow-hidden">
-    <!-- 탑바 였던 것-->
-    <!-- <div class="flex flex-row justify-between w-full border-2 bg-white fixed top-0 z-[2]">
-        <div class="navbar gap-2">
-            <a class="btn btn-primary text-xl">스테이지</a>
-            <a class="btn btn-outline text-xl">프로필</a>
-            <a class="btn btn-outline text-xl">도전과제</a>
-            <a class="btn btn-outline text-xl">랭킹</a>
-        </div>
-        <div class="navbar flex flex-row justify-end gap-2">
-            <TopMenuShop />
-            <TopMenuItem />
-            <TopMenuCharacter />
-            <TopMenuSetting />
-        </div>
-    </div> -->
-    <!--          -->
     <div class="background-container w-screen h-screen" style="background-image:url('/background_1.png');background-position:center;background-size:cover;background-repeat:no-repeat;">
         <div class="absolute top-[0] left-[0] w-[1226px] h-[523px]"
              style="background-image:url('/img/map/ui_background_L.png');opacity:1;transform:scale(0.67);transform-origin:left top"></div> <!--좌상단 백그라운드 레이어-->
