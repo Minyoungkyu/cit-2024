@@ -387,7 +387,7 @@
 }
 </script>
 
-<audio id="myAudio" autoplay>
+<audio id="myAudio">
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">

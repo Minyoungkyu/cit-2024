@@ -94,7 +94,20 @@
 
   let username = $state('');
 
+  let lastCalled = 0;
+
+  function throttledMsgError(message:string) {
+    const now = Date.now();
+    if (now - lastCalled > 1000) { 
+      lastCalled = now;
+      rq.msgError(message);
+    }
+  }
+
   function filterInput() {
+    if(username.match(/[^a-zA-Z0-9]/g)) {
+      throttledMsgError('아이디는 영문, 숫자만 입력 가능합니다.');
+    }
     username = username.replace(/[^a-zA-Z0-9]/g, '');
   }
 
