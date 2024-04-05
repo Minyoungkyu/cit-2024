@@ -536,7 +536,7 @@
                 </div>
 
                 <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5]" style="background-image:url('/img/inGame/btn_action4.png');color:rgb(9 13 24);transform:scale(0.8);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
+                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5]" style="background-image:{canExecute ? 'url("/img/inGame/btn_action4.png");' : 'url("/img/inGame/btn_action3.png");'}color:rgb(9 13 24);transform:scale(0.8);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
                     <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
                             style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_action2.png");' : 'url("/img/inGame/btn_action3.png");'}color:{showCompleteBtn ? 'rgb(9 13 24)' : 'rgb(9 13 24)'};transform:scale(0.8);"
                             on:click={() => {showCompleteBtn ? doComplete() : ''}}>완료</button>
