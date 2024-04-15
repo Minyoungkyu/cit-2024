@@ -1210,6 +1210,8 @@
     "dropEffectList": [],
     "dropEffectIdx": 0,
     "isPlayExplosion": false,
+    "timeCheck": 0,
+    "startTime": 0,
     "_id": "cfAwpmampJyqu2Lpn6r8Ms"
   },
   {

@@ -89,6 +89,8 @@ cc.Class({
         isPlayExplosion : false,
 
 
+        timeCheck : 0,
+        startTime :0,
     },
 
     /**
@@ -97,18 +99,18 @@ cc.Class({
      */
     onLoad(){
         this.loadingBG.active = true;
+        this.startTime = performance.now(); // 시작 시간 기록
 
-        /**
-         * + 이미지 및 맵까지 로드가 되면 로딩을 푸느게 좋지않을까 (추후 조정.)
-         */
+
         var self = this;
         var inter = setInterval(function(){
             if(Loader.getInstance().GetImage(0) != null){
                 clearInterval(inter);
-
+                var ts = performance.now();
+                var li =  ts - self.startTime;
                 self.InitGame();
             }
-        },90);
+        },30);
 
     },
 
@@ -117,8 +119,8 @@ cc.Class({
          * 오디오 로드 테스함.
          * @type {number}
          */
+        var self = this;
         var audioInter = setInterval(()=>{
-
             if(SoundManger.getInstance().IsLoadCheck() != null){
                 clearInterval(audioInter);
             }
@@ -165,8 +167,8 @@ cc.Class({
      */
     LoadingFadeOut: function(){
         var self = this;
-        var offset = 5;
-        setTimeout(()=>{
+        var offset = 8;
+        // setTimeout(()=>{
             var loadingInterval = setInterval(function(){
 
                 if(self.loadingBG.opacity <= 0){
@@ -175,10 +177,13 @@ cc.Class({
                     self.isLoaded = true;
                     Controller.getInstance().finalIndex = true;
                     clearInterval(loadingInterval);
+
+                    var ts = performance.now();
+                    var li =  ts - self.startTime;
                 }
                 self.loadingBG.opacity -= offset;
             },30);
-        },1000);
+        // },1000);
     },
 
 
@@ -221,8 +226,11 @@ cc.Class({
             { x: 0, y: 1 },
 
             // 1-2-H
-            { x: 0, y: 1 },
-            { x: 0, y: 1 },
+            // 17
+            { x: 0, y: 1},
+            // 18
+            { x: 0, y: 2 },
+            // 19
             { x: 0, y: -1 },
 
 
@@ -256,7 +264,6 @@ cc.Class({
             if(Controller.getInstance().initJson != null){
                 self.EffectInit();
                 self.InitMap();
-                // self.InitFloor();
                 self.InitPlayer();
                 self.InitObject();
 
@@ -338,6 +345,9 @@ cc.Class({
 
             // 현재 스크립트가 추가되어 있는 노드에 플레이어 노드를 추가합니다.
             self.node.addChild(self.player);
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
         });
     },
 
@@ -362,6 +372,9 @@ cc.Class({
         var level = stageObject.level;
 
         var gameLevel = this.ConvertGameLevel(step,diff,level);
+
+
+        console.log("LOAD GAme Level --> " + gameLevel);
 
 
         var v2 = cc.v2(
@@ -440,35 +453,35 @@ cc.Class({
      * 맵정보를 로드하고, 초기화 합니다.
      * @constructor
      */
-    InitMap: function(){
-        var mapurl = this.GetMapURL();
+    InitMap: function() {
         var self = this;
+        var mapUrl = "./map/" + this.GetMapURL();  // 맵 URL 동적 생성
 
-        var url = "./map/" + mapurl;
-
-        // // 2.3.x 버전
-        cc.loader.loadRes(url, cc.TiledMapAsset, function (err, tmx_file) {
-            // 리소스 로드가 완료된 후 실행할 코드
+        // Tiled Map 리소스 로드
+        cc.loader.loadRes(mapUrl, cc.TiledMapAsset, function (err, tmxFile) {
             if (err) {
-                cc.error("Error loading image: " + err);
+                cc.error("맵 로딩 에러: " + err);
                 return;
             }
-            self.gameMap.tmxAsset = tmx_file;
+            self.gameMap.tmxAsset = tmxFile;  // Tiled Map 설정
 
-            /**
-             * 아래 에서 맵사이즈를 계산하여 해당 포지션 만큼 카메라 포지션 셋팅해줍니다.
-             */
-            var mapSize = self.gameMap.getMapSize();
-            var tileSize = self.gameMap.getTileSize();
-
-            var mapWidth = mapSize.width * tileSize.width;
-            var mapHeight = mapSize.height * tileSize.height;
-
-            var v2 = cc.v2(-mapWidth*1.5, -mapHeight*3);
-
-            self.gameMap.node.setPosition(0,-mapHeight * 3);
-            self._TileMapShake();
+            self.MapSetupCamera();  // 카메라 설정 함수 분리
         });
+    },
+
+    /**
+     * 카메라를 맵 크기에 맞게 설정합니다.
+     */
+    MapSetupCamera: function() {
+        var mapSize = this.gameMap.getMapSize();
+        var tileSize = this.gameMap.getTileSize();
+        var mapHeight = mapSize.height * tileSize.height;
+
+        this.gameMap.node.setPosition(0, -mapHeight * 3);  // 맵 노드 위치 설정
+        this._TileMapShake();  // 맵 흔들림 효과 호출
+
+        var elapsedTime = performance.now() - this.startTime;
+        console.log("맵 로딩 및 설정 완료 시간: " + elapsedTime + "ms");
     },
 
 
@@ -488,7 +501,6 @@ cc.Class({
 
 
         if(step === "tutorial"){
-
             url = "map_T-"+level.toString();
         }
         else{
@@ -586,190 +598,98 @@ cc.Class({
     /**
      * 이펙트 초기화 해주는 함수
      * 게임의 진행에 따라 Call 될수 있습니다.
+     *
+     * 코드 개선 2024-04-15
      * @constructor
      */
     EffectInit: function(){
         var self = this;
-        var url = '/prefabs/explosion';
-        var healUrl = "/prefabs/heal";
-        var pickUrl = "/prefabs/pickup";
-        var dropEffectUrl = "/prefabs/dropEffect";
+        var urls = ['/prefabs/explosion', '/prefabs/heal', '/prefabs/pickup', '/prefabs/dropEffect'];
+        var lists = [this.expList, this.hList, this.pList, this.dropEffectList]; // 각 URL에 해당하는 리스트
 
+        urls.forEach((url, index) => {
+            for (var i = 0; i < 5; i++) {
+                cc.loader.loadRes(url, cc.Prefab, function (err, effect) {
+                    if (err) {
+                        cc.error("이미지 로딩 에러: " + err);
+                        return;
+                    }
 
-        for(var i = 0; i < 5; i++) {
-            cc.loader.loadRes(url, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
+                    var newInstance = cc.instantiate(effect);
+                    newInstance.active = false;
+                    self.effectParent.addChild(newInstance);
+                    lists[index].push(newInstance); // URL 인덱스에 따라 적절한 리스트에 추가
 
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-                self.effectParent.addChild(n1);
-
-                self.expList.push(n1);
-
-            });
-
-            cc.loader.loadRes(healUrl, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
-
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-
-                self.effectParent.addChild(n1);
-
-                self.hList.push(n1);
-
-            });
-
-            cc.loader.loadRes(pickUrl, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
-
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-
-                self.effectParent.addChild(n1);
-                self.pList.push(n1);
-
-            });
-
-
-            cc.loader.loadRes(dropEffectUrl, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
-
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-
-                self.effectParent.addChild(n1);
-                self.dropEffectList.push(n1);
-            });
-        }
+                    var ts = performance.now();
+                    var loadInterval = ts - self.startTime;
+                    console.log(url + " 로딩 시간: " + loadInterval + "ms");
+                });
+            }
+        });
 
     },
 
     /**
-     * 폭발 이펙트 보여주는 함수입니다.
-     * @param pos  포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 공통 이펙트 표시 함수
+     * @param {Array} list - 이펙트 객체를 포함하고 있는 리스트
+     * @param {Number} idx - 현재 인덱스
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
+     * @param {String} animationName - 재생할 애니메이션 이름
+     * @param {Function} extraAction - 추가적으로 실행할 함수
      */
-    ShowExplosion: function(pos){
+    showEffect: function(list, idx, pos, animationName, extraAction = null) {
+        if (idx >= list.length - 1) idx = 0;  // 인덱스 초기화
+        var node = list[idx];
+        node.active = true;
+        node.setPosition(pos);
 
-        if(this.expIdx >= this.expList.length-1  ) this.expIdx = 0;
-        this.expList[this.expIdx].active = true;
+        var animation = node.getComponent(cc.Animation);
+        animation.once('finished', () => {
+            node.active = false;
+            list[idx] = node;  // 다음 사용을 위해 업데이트
+            if (extraAction) extraAction();
+            idx++;
+        }, this);
+        animation.play(animationName);
 
-        this.expList[this.expIdx].setPosition(pos);
-
-        var animation = this.expList[this.expIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-
-            if(self.expList[self.expIdx].active){
-                self.expList[self.expIdx].active = false;
-                self.expIdx++;
-            }
-        },this);
-        self.isCameraShaked = false;
-
-
-        animation.play("explosion");
+        return idx;  // 업데이트된 인덱스 반환
     },
 
     /**
-     * 아이템이 회복 이펙트 효과  추가
-     * @param pos 포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 폭발 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
      */
-    ShowHeal: function(pos){
-
-        if(this.hIdx >= this.hList.length-1  ) this.hIdx = 0;
-
-        this.hList[this.hIdx].active = true;
-        this.hList[this.hIdx].setPosition(pos);
-
-        var animation = this.hList[this.hIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-            if(self.hList[self.expIdx].active) {
-                self.hList[self.hIdx].active = false;
-                self.hIdx++;
-            }
-        },this);
-
-        animation.play("heal");
-        this.hList[this.hIdx].getComponent(cc.Animation).play("heal");
+    ShowExplosion: function(pos) {
+        this.expIdx = this.showEffect(this.expList, this.expIdx, pos, "explosion", () => {
+            this.isCameraShaked = false;
+        });
     },
 
     /**
-     * 아이템이 획득 이펙트 효과  추가
-     * @param pos 포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 회복 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
      */
-    ShowPickup: function(pos){
-
-        if(this.pIdx >= this.pList.length-1  ) this.pIdx = 0;
-
-        this.pList[this.pIdx].active = true;
-        this.pList[this.pIdx].setPosition(pos);
-
-        var animation = this.pList[this.pIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-            if(self.pList[self.pIdx].active){
-                self.pList[self.pIdx].active = false;
-                self.pIdx++;
-            }
-
-        },this);
-        SoundManager.getInstance().PlaySfx(Env.SFX_EARN_ITEM);
-        animation.play("pickup");
+    ShowHeal: function(pos) {
+        this.hIdx = this.showEffect(this.hList, this.hIdx, pos, "heal");
     },
-
 
     /**
-     * 아이템이 드롭될때 이펙트 효과  추가
-     * @param pos 포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 픽업 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
      */
-    ShowDropEffect: function(pos){
-
-        if(this.dropEffectIdx >= this.dropEffectList.length-1 ) this.dropEffectIdx = 0;
-
-        this.dropEffectList[this.dropEffectIdx].active = true;
-
-        this.dropEffectList[this.dropEffectIdx].setPosition(pos);
-
-        var animation = this.dropEffectList[this.dropEffectIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-
-            if(self.dropEffectList[self.dropEffectIdx].active){
-                self.dropEffectList[self.dropEffectIdx].active = false;
-                self.dropEffectIdx++;
-            }
-
-        },this);
-
-        animation.play("dropeffect");
+    ShowPickup: function(pos) {
+        this.pIdx = this.showEffect(this.pList, this.pIdx, pos, "pickup", () => {
+            SoundManager.getInstance().PlaySfx(Env.SFX_EARN_ITEM);
+        });
     },
 
+    /**
+     * 드롭 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
+     */
+    ShowDropEffect: function(pos) {
+        this.dropEffectIdx = this.showEffect(this.dropEffectList, this.dropEffectIdx, pos, "dropeffect");
+    },
 
     /**
      * 맵위에 출력될 객체 초기화합니다.
@@ -783,14 +703,15 @@ cc.Class({
         var objects = Controller.getInstance().getInitOjbectDatas();
 
         if (objects.length < 1) {
-            // console.log("item list is Null");
             return;
         } else {
             for (var i = 0; i < objects.length; i++) {
                 this.MakeUpObject(objects[i]);
             }
         }
-//        console.log(this.item[0].getComponent("Gobject").GetItemID());
+
+        var ts = performance.now();
+        var li =  ts - self.startTime;
 
     },
 
@@ -805,6 +726,9 @@ cc.Class({
                 var targets = object[j];
                 var goalPos = cc.v2(targets.pos[0], targets.pos[1]);
                 this.AddPrefabs(Env.GOAL, -1, goalPos);
+
+                var ts = performance.now();
+                var li =  ts - self.startTime;
                 break;
             }
         }
@@ -954,6 +878,10 @@ cc.Class({
             // self.node.addChild(n1);
             self.objectParent.addChild(n1);
             self.objectParent.setLocalZOrder = 10;
+
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
         });
     },
 
@@ -1003,6 +931,9 @@ cc.Class({
                 self.node.addChild(n1);
 
             }
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
         });
     },
 
@@ -1035,6 +966,10 @@ cc.Class({
             self.node.addChild(n1);
 
             self.dropSwitchList.push(n1);
+
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
         });
 
         var dropUrl = './prefabs/' + dropItemPrefabs;
@@ -1054,6 +989,9 @@ cc.Class({
 
             self.dropItemList.push(n1);
 
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
         });
     },
 
@@ -1095,6 +1033,10 @@ cc.Class({
             n1.setPosition(v1);
             self.node.addChild(n1);
             self.item.push(n1);
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
+
         });
     },
 
@@ -1248,8 +1190,6 @@ cc.Class({
      * @constructor
      */
     ItemStatusUpdate: function(index, status){
-
-
         for(var i = 0; i < this.item.length; i++){
             var itemObject = this.item[i].getComponent("Gobject");
 
@@ -1280,11 +1220,9 @@ cc.Class({
             if(Controller.getInstance().isGamePause){
                 var a =  Controller.getInstance().GetProgressId();
                 self.idx = a;
-
                 return;
             }
 
-            // console.log(self.idx);
 
             if(self.executeCommand(self.idx) === false){
                 clearInterval(inter);
