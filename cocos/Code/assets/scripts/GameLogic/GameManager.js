@@ -106,12 +106,11 @@ cc.Class({
         var inter = setInterval(function(){
             if(Loader.getInstance().GetImage(0) != null){
                 clearInterval(inter);
-                var ts = performance.now();
-                var li =  ts - self.startTime;
+                // var ts = performance.now();
+                // var li =  ts - self.startTime;
                 self.InitGame();
             }
-        },30);
-
+        },5);
     },
 
     start(){
@@ -124,7 +123,7 @@ cc.Class({
             if(SoundManger.getInstance().IsLoadCheck() != null){
                 clearInterval(audioInter);
             }
-        },30);
+        },5);
 
     },
 
@@ -136,13 +135,14 @@ cc.Class({
         var s = this;
         setTimeout(function(){
             s.CameraMoveX(1);
-        },1000);
+        },100);
 
         setTimeout(function(){
 
             s.CameraMoveX(-1);
             s.LoadingFadeOut();
-        },2000);
+        },200);
+
     },
 
     /**
@@ -155,7 +155,6 @@ cc.Class({
         const newXPosition = currentPosition.x - idx;
 
         var v3 = cc.v3(newXPosition, currentPosition.y, currentPosition.z);
-
         this.camera.node.setPosition(v3);
     },
 
@@ -167,22 +166,28 @@ cc.Class({
      */
     LoadingFadeOut: function(){
         var self = this;
-        var offset = 8;
+        var offset = 128;
+
+        this.loadingBG.active = false;
+        this.isLoaded = true;
+        Controller.getInstance().finalIndex = true;
+
+        // clearInterval(loadingInterval);
         // setTimeout(()=>{
-            var loadingInterval = setInterval(function(){
-
-                if(self.loadingBG.opacity <= 0){
-                    offset++;
-                    self.loadingBG.active = false;
-                    self.isLoaded = true;
-                    Controller.getInstance().finalIndex = true;
-                    clearInterval(loadingInterval);
-
-                    var ts = performance.now();
-                    var li =  ts - self.startTime;
-                }
-                self.loadingBG.opacity -= offset;
-            },30);
+        //     var loadingInterval = setInterval(function(){
+        //
+        //         if(self.loadingBG.opacity <= 0){
+        //             offset++;
+        //             self.loadingBG.active = false;
+        //             self.isLoaded = true;
+        //             Controller.getInstance().finalIndex = true;
+        //             clearInterval(loadingInterval);
+        //
+        //             var ts = performance.now();
+        //             var li =  ts - self.startTime;
+        //         }
+        //         self.loadingBG.opacity -= offset;
+        //     },5);
         // },1000);
     },
 
@@ -229,7 +234,7 @@ cc.Class({
             // 17
             { x: 0, y: 1},
             // 18
-            { x: 0, y: 2 },
+            { x: 0, y: 1 },
             // 19
             { x: 0, y: -1 },
 
@@ -266,14 +271,12 @@ cc.Class({
                 self.InitMap();
                 self.InitPlayer();
                 self.InitObject();
-
                 // 카메라 초기화
                 self.InitialCamera();
-
                 clearInterval(inter);
             }
 
-        }, 100);
+        }, 30);
     },
 
     //TODO EFFECT
@@ -330,25 +333,8 @@ cc.Class({
         var self = this;
 
         var initvector = this.GVector(initPos[0],initPos[1]);
-        //var initvector = this.GVector(0,0);
 
-        // 2.3.x 버전
-        cc.loader.loadRes('./prefabs/Player', cc.Prefab, function (err, prefab) {
-            // 리소스 로드가 완료된 후 실행할 코드
-            if (err) {
-                cc.error("Error loading image: " + err);
-                return;
-            }
-            // 로드된 SpriteFrame 사용
-            self.player = cc.instantiate(prefab);
-            self.player.getComponent("Player").Init(initvector, playerDir);
-
-            // 현재 스크립트가 추가되어 있는 노드에 플레이어 노드를 추가합니다.
-            self.node.addChild(self.player);
-
-            var ts = performance.now();
-            var li =  ts - self.startTime;
-        });
+        this.player.getComponent("Player").Init(initvector, playerDir);
     },
 
     /**
@@ -372,10 +358,6 @@ cc.Class({
         var level = stageObject.level;
 
         var gameLevel = this.ConvertGameLevel(step,diff,level);
-
-
-        console.log("LOAD GAme Level --> " + gameLevel);
-
 
         var v2 = cc.v2(
             ((lX + this.mapOffset[gameLevel].x) * Env.OFFSET_X) + Env.PLAYER_RADIO,
@@ -479,9 +461,6 @@ cc.Class({
 
         this.gameMap.node.setPosition(0, -mapHeight * 3);  // 맵 노드 위치 설정
         this._TileMapShake();  // 맵 흔들림 효과 호출
-
-        var elapsedTime = performance.now() - this.startTime;
-        console.log("맵 로딩 및 설정 완료 시간: " + elapsedTime + "ms");
     },
 
 
@@ -619,10 +598,6 @@ cc.Class({
                     newInstance.active = false;
                     self.effectParent.addChild(newInstance);
                     lists[index].push(newInstance); // URL 인덱스에 따라 적절한 리스트에 추가
-
-                    var ts = performance.now();
-                    var loadInterval = ts - self.startTime;
-                    console.log(url + " 로딩 시간: " + loadInterval + "ms");
                 });
             }
         });
@@ -709,10 +684,8 @@ cc.Class({
                 this.MakeUpObject(objects[i]);
             }
         }
-
-        var ts = performance.now();
-        var li =  ts - self.startTime;
-
+        // var ts = performance.now();
+        // var li =  ts - self.startTime;
     },
 
     /**
@@ -726,13 +699,11 @@ cc.Class({
                 var targets = object[j];
                 var goalPos = cc.v2(targets.pos[0], targets.pos[1]);
                 this.AddPrefabs(Env.GOAL, -1, goalPos);
-
                 var ts = performance.now();
                 var li =  ts - self.startTime;
                 break;
             }
         }
-
     },
 
     /**
@@ -755,8 +726,6 @@ cc.Class({
 
             var startPos = cc.v2(startX, startY);
             this.AddLaserPrefab(Env.LASER_START_ON, id, startPos , status , dir );
-
-
 
             var endX = object.pos_end[0];
             var endY = object.pos_end[1];
@@ -938,62 +907,52 @@ cc.Class({
     },
 
     /**
-     * 드롭 스위치 프리팹 만들어주는 함수
-     * @param tag  태그값 (드롭 스위치 태그) Env 참고
-     * @param id  객체의 아이디값
-     * @param pos  GVector 를 활용한 함수
-     * @param drop_item_tag  드롭 아이템의 태그
-     * @param drop_item_pos  드롭 아이템 포지션
-     * @constructor
+     * 프리팹을 생성하고 초기화하는 공통 함수
+     * @param {String} prefabUrl - 프리팹의 리소스 URL
+     * @param {String} tag - 생성할 객체의 태그
+     * @param {Number} id - 객체의 ID
+     * @param {Object} pos - 객체의 위치 (x, y 포함하는 객체)
+     * @param {Array} list - 객체를 추가할 리스트
+     * @param {Boolean} hide - 드롭 아이템의 초기 숨김 상태 (선택적)
      */
-    AddDropSwitchPrefabs : function(tag, id, pos , drop_item_tag, drop_item_pos){
+    createAndInitPrefab: function(prefabUrl, tag, id, pos, list, hide=false) {
         var self = this;
-        var dropSwitchPrefabs = "nSwitch";
-        var dropItemPrefabs = "battery";
-
-        var switchUrl = "./prefabs/" + dropSwitchPrefabs;
-
-        cc.loader.loadRes(switchUrl, cc.Prefab, function (err, prefabs) {
-            // 리소스 로드가 완료된 후 실행할 코드
-            if (err) { cc.error("Error loading image: " + err); return; }
-
-            var n1 = cc.instantiate(prefabs);
-            n1.addComponent("Gobject");
-            n1.getComponent('Gobject').Init(tag, id);
-
-            var v1 = self.GVector(pos.x,pos.y);
-            n1.setPosition(v1);
-            self.node.addChild(n1);
-
-            self.dropSwitchList.push(n1);
-
-
-            var ts = performance.now();
-            var li =  ts - self.startTime;
-        });
-
-        var dropUrl = './prefabs/' + dropItemPrefabs;
-        cc.loader.loadRes(dropUrl, cc.Prefab, function (err, prefabs) {
-            // 리소스 로드가 완료된 후 실행할 코드
-            if (err) { cc.error("Error loading image: " + err); return; }
-
-            var n1 = cc.instantiate(prefabs);
-            n1.addComponent("Gobject");
-            n1.getComponent('Gobject').Init(drop_item_tag, id);
-            n1.getComponent("Gobject").DropItemHide(true);
-
-
-            var v1 = self.GVector(drop_item_pos.x,drop_item_pos.y);
-            n1.setPosition(v1);
-            self.node.addChild(n1);
-
-            self.dropItemList.push(n1);
-
-
-            var ts = performance.now();
-            var li =  ts - self.startTime;
+        cc.loader.loadRes(prefabUrl, cc.Prefab, function(err, prefab) {
+            if (err) {
+                cc.error("프리팹 로딩 에러: " + err);
+                return;
+            }
+            var instance = cc.instantiate(prefab);
+            instance.addComponent("Gobject");
+            instance.getComponent("Gobject").Init(tag, id);
+            if (hide) {
+                instance.getComponent("Gobject").DropItemHide(true);
+            }
+            instance.setPosition(self.GVector(pos.x, pos.y));
+            self.node.addChild(instance);
+            list.push(instance);
         });
     },
+
+    /**
+     * 드롭 스위치 프리팹과 관련 드롭 아이템 프리팹을 생성하는 함수
+     * @param {Number} tag - 드롭 스위치의 태그
+     * @param {Number} id - 객체의 아이디
+     * @param {Object} pos - 드롭 스위치의 위치
+     * @param {Number} drop_item_tag - 드롭 아이템의 태그
+     * @param {Object} drop_item_pos - 드롭 아이템의 위치
+     */
+    AddDropSwitchPrefabs: function(tag, id, pos, drop_item_tag, drop_item_pos) {
+        var switchUrl = "./prefabs/nSwitch"; // 드롭 스위치 프리팹 경로
+        var dropUrl = './prefabs/battery'; // 드롭 아이템 프리팹 경로
+
+        // 드롭 스위치 프리팹 생성 및 초기화
+        this.createAndInitPrefab(switchUrl, tag, id, pos, this.dropSwitchList);
+
+        // 드롭 아이템 프리팹 생성 및 초기화
+        this.createAndInitPrefab(dropUrl, drop_item_tag, id, drop_item_pos, this.dropItemList, true);
+    },
+
 
 
     /**
@@ -1084,14 +1043,11 @@ cc.Class({
         if(status === 11){
             this.ShakeEffect();
             this.ShowExplosion(pos);
-
         }
         else if( status === 3){
             this.ShowPickup(pos);
         }
     },
-
-
 
     /**
      * 스트림 데이터를 입력받아 맵위에 있는 객체의 상태를 변화 하거나
@@ -1110,7 +1066,6 @@ cc.Class({
             this.DropSwitchUpdate(i, id_list[i]);
         }
     },
-
 
     /**
      * 드롭 스위치 의 상태를 표현해주는 함수입니다.
@@ -1134,7 +1089,6 @@ cc.Class({
                     this.ShowDropEffect(dropItem.position);
                 }
                 itemComp.DropItemShow();
-                // this.audioManager.getComponent('SoundManager').Play(Env.SFX)
                 dropSwitch.Hide();
 
             }
@@ -1144,9 +1098,7 @@ cc.Class({
                 // itemComp.Hide();
 
                 itemComp.DropItemHide();
-
                 dropSwitch.Hide();
-
             }
             else if(dropSwitchId === index && status === 2){
                 var dropItem =  this.FindDropItem(dropSwitchId);

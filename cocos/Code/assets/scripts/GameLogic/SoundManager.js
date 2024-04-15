@@ -67,7 +67,6 @@
                     console.error("Error loading sound for " + filename + ": ", err);
                 } else {
                     this.sound[index] = clip;
-                    console.log("Loaded sound for " + filename);
                 }
             });
         };
