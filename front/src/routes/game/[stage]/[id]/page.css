@@ -19,6 +19,11 @@
   transform:scale(1.2);
 }
 
+#Cocos2dGameContainer, #GameCanvas {
+  max-width:100% !important;
+  max-height: 100% !important;
+}
+
 @keyframes shrinkAndMoveFromRight {
   from {
       transform: scale(20) translate(0, 0);
