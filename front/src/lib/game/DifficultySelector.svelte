@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-    import CharactorStatusModal from "./CharactorStatusModal.svelte";
+    import CharactorStatusModal from "./CharacterStatusModal.svelte";
     import type { components } from '$lib/types/api/v1/schema';
 	import rq from "$lib/rq/rq.svelte";
 

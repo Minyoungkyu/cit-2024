@@ -85,7 +85,7 @@ public class Rq {
                 .path("/")
                 .domain(getSiteCookieDomain())
                 .sameSite("Strict")
-                .secure(true)
+                .secure(true) // Todo: true로 변경
                 .httpOnly(true)
                 .build();
 
@@ -99,7 +99,7 @@ public class Rq {
                 .path("/")
                 .maxAge(0)
                 .domain(getSiteCookieDomain())
-                .secure(true)
+                .secure(true) // Todo: true로 변경
                 .httpOnly(true)
                 .build();
 

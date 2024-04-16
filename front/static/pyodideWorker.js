@@ -530,7 +530,6 @@ json.dumps(frames)
 `
 
 addEventListener('message', async (event) => {
-    // self를 any로 캐스팅하는 부분을 JavaScript에서는 직접적인 타입 캐스팅 없이 사용합니다.
     if (!self.pyodide) {
         importScripts('/pyodide.js');
         self.pyodide = await loadPyodide({
@@ -541,12 +540,10 @@ addEventListener('message', async (event) => {
     try {
         const { stageData, userInput } = event.data;
 
-        // self를 any로 캐스팅하는 부분을 제거합니다.
         const result = await self.pyodide.runPythonAsync(`${logic1}${stageData}${logic2}${userInput}${logic3}`);
 
         postMessage({ result });
     } catch (error) {
-        // error instanceof Error 검사는 그대로 유지됩니다.
         if (error instanceof Error) {
             postMessage({ error: error.message }); 
         } else {
