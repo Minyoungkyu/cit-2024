@@ -580,9 +580,9 @@
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container flex flex-col items-center justify-center overflow-hidden bg-gray-700">
-    <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden">
+    <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden bg-black bg-opacity-50">
 
-        <div class="absolute guide-container flex items-center justify-center z-[80] hidden">
+        <div class="absolute guide-container flex items-center justify-center z-[80] bg-black bg-opacity-50 hidden">
             <div class="flex justify-center items-center z-[90]" style="transform:scale(0.4) scale({scaleMultiplier});">
                 <div class="w-[80px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_start.jpg');"></div>
                 <div class="w-full h-[904px] text-white font-[900] text-[50px] flex flex-col items-center justify-around whitespace-nowrap" style="background-image:url('/img/inventory/ui_popup_middle.jpg');">
@@ -676,7 +676,7 @@
                     <div class="w-[506px] h-[134px] flex justify-center items-center italic" style="background-image:url('/img/inGame/ui_stage_title.png')">
                         <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} {#if gameMapDto.difficulty !== "0"} {gameMapDto.difficulty} {/if}</div>
                     </div>
-                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_2.png')"></div>
+                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_off.png')"></div>
                   </div>
                   <div class="flex flex-col" style="transform-origin:top right;transform:scale(1.03);">
                     <div class="w-[547px] h-[76px]" style="background-image:url('/img/inGame/ui_goal_start.png');">
