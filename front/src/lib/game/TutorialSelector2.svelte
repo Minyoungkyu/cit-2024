@@ -48,7 +48,7 @@
         
 </script>
 
-<div class="flex flex-col dropdown-content items-end pt-12 gap-12 h-screen w-[575px] absolute top-[0] right-[0] slide-in" 
+<div class="flex flex-col dropdown-content items-end pt-12 gap-12 h-[1080px] w-[575px] absolute top-[0] right-[0] slide-in z-[98]" 
     style="background-image:url('/img/map/ui_stage_Gradation.png');">
     <div class="flex flex-col w-[501px]">
         <div class="w-full mr-16">
@@ -56,7 +56,7 @@
         </div>
         <div class="flex flex-col items-end w-full">
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
-            <div class="w-[450px] h-[400px] flex justify-start">
+            <div class="w-[450px] h-[500px] flex justify-start">
                 <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">
                     {'지구의 환경이 심하게 오염되었다\n\n기본적인 이동방법을익히고\n우주로 떠나기위한 준비를하자'}
                 </div>

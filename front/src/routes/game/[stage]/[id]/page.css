@@ -1,3 +1,50 @@
+.command-guide::-webkit-scrollbar {
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+  background-color: unset;
+  border-radius: 0px;
+}
+
+.command-guide::-webkit-scrollbar-track {
+  width: 10px;
+  background-color: unset;
+}
+
+.command-guide::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(64 226 255);
+  
+}
+
+.guide-btn:hover {
+  transform:scale(1.2);
+}
+
+@keyframes shrinkAndMoveFromRight {
+  from {
+      transform: scale(20) translate(0, 0);
+      opacity: 0;
+  }
+  to {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+  }
+}
+
+@keyframes zoomInAndOut {
+  0%, 100% {
+  transform: scale(0.9); 
+  opacity: 1; 
+  }
+  50% {
+  transform: scale(1.0); 
+  opacity: 0.8; 
+  }
+}
+
+.animatedHighlighter {
+  animation: shrinkAndMoveFromRight 1s forwards, zoomInAndOut 2s infinite 1s;
+}
+
 /* 커서 깜빡임 효과 */
 @keyframes blink {
   50% {
@@ -307,8 +354,9 @@ cursor: pointer;
 
 .ace_editor { /* 에디터 백그라운드 */
   background-color: unset;
-  /* font-size:20px !important; */
   font-weight: 900;
+  /* font-family:'raleway', sans-serif !important; */
+  /* font-family: var(--global-font-family) !important; */
 
   .ace_support.ace_function { /* 에디터 "range", "set" 글자 */
     color: rgb(255 210 87);
@@ -422,5 +470,4 @@ cursor: pointer;
     
   }
   /* 에디터 스크롤 바 끝 */
-
 }

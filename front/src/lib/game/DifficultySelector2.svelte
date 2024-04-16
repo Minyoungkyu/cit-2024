@@ -2,14 +2,14 @@
 	import { onMount } from "svelte";
     import type { components } from '$lib/types/api/v1/schema';
 	import rq from "$lib/rq/rq.svelte";
-    import CharactorStatusModal from "./CharactorStatusModal.svelte";
+    import CharacterStatusModal from "./CharacterStatusModal.svelte";
 
-    const { gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName, activeTransitionAnimation } = 
-        $props<{ gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][],
+    const { widthValue, scaleMultiplier, gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName, activeTransitionAnimation } = 
+        $props<{ widthValue:Number, scaleMultiplier:Number, gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][],
          difficultySelectorMsg: string, difficultySelectorName: string, activeTransitionAnimation: () => void }>();
 
-    let dropdown: any;
     let dropdownVisible = $state(true);
+    let showCharacterStatusModal = $state(false);
 
     let routeGameMapDto: components['schemas']['GameMapDto'] | undefined = $state();
     let routeGameRequiredPartsList: components['schemas']['RequirePartsDto'][] | undefined = $state();
@@ -101,20 +101,21 @@
 
     function onClickToStart() { // 시작 버튼 
         routePlayerToLastGame();
-        showCharactorStatusModal();
+        // showCharactorStatusModal();
+        showCharacterStatusModal = true;
     }
 
 </script>
 
-<div class="flex dropdown-content justify-end pt-12 gap-12 h-screen w-[575px] absolute right-[0] slide-in"
-    style="background-image:url('/img/map/ui_stage_Gradation.png')">
+<div class="flex dropdown-content justify-end pt-12 gap-12 h-[1080px] w-[575px] absolute right-[0] slide-in"
+    style="background-image:url('/img/map/ui_stage_Gradation.png');transform-origin:top right; --scaleMultiplier:{scaleMultiplier}">
     <div class="flex flex-col w-[501px]">
         <div class="flex justify-end w-full mr-16">
             <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:6px 6px #666">{difficultySelectorName}</div>
         </div>
         <div class="flex flex-col items-end w-full">
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png')"></div>
-            <div class="w-[450px] h-[400px] flex justify-start">
+            <div class="w-[450px] h-[500px] flex justify-start">
                 <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">{difficultySelectorMsg}</div>
             </div>
         </div>
@@ -138,18 +139,19 @@
         </div>
     </div>
 
-    <CharactorStatusModal bind:charactorStatusModal={characterStatusModal} closeCharacterModal={closeCharactorStatusModal} 
-                            gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
-
+    {#if showCharacterStatusModal}
+    <CharacterStatusModal widthValue={widthValue} scaleMultiplier={scaleMultiplier} bind:showCharacterStatusModal={showCharacterStatusModal} 
+            gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
+    {/if}
 
 <style>
     @keyframes slideIn {
         from {
-            transform: translateX(100%); 
+            transform: translateX(100%) scale(var(--scaleMultiplier)); 
             opacity: 0;
         }
         to {
-            transform: translateX(0); 
+            transform: translateX(0) scale(var(--scaleMultiplier)); 
             opacity: 1;
         }
     }

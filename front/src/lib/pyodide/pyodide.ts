@@ -52,8 +52,9 @@ export async function runPythonCode2(stageData:any, userInput: any) {
         const result = await runPythonCodeWithTimeout(stageData, userInput, 10000);
         return result; 
     } catch (error) {
-        console.error('오류:', error);
-        throw error;
+        if(stageData !== "" && userInput !== "") {
+            return error;
+        }
     }
 }
 

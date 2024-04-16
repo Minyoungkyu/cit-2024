@@ -2,7 +2,7 @@
 
 </script>
 
-<div class="overLayout charactorStatus w-screen h-screen absolute overflow-hidden">
+<div class="overLayout charactorStatus w-screen h-screen absolute overflow-hidden z-[99]">
     <div class="absolute top-slide bg-black h-[50%]"></div>
     <div class="absolute bottom-slide bg-black h-[50%]"></div>
 </div>

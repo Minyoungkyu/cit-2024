@@ -828,7 +828,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
-                                "            {\"goal\": \"line\", \"count\": 8}\n" +
+                                "            {\"goal\": \"line\", \"count\": 5}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1058,7 +1058,7 @@ public class Dev {
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,3]},\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 5},\n" +
-                                "            {\"goal\": \"line\", \"count\": 11}\n" +
+                                "            {\"goal\": \"line\", \"count\": 8}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1572,7 +1572,7 @@ public class Dev {
                                 "go()\n" +
                                 "turnLeft()\n" +
                                 "turnRight()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set('고체추진제')",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,tab,set('고체추진제')",
                         1,
                         1);
 

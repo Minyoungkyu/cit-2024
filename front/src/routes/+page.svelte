@@ -5,10 +5,12 @@
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
     import { onMount } from 'svelte';
+    import { fly } from 'svelte/transition';
 
-    const originalHeight = 1080;
+    const originalHeight = 953;
     let currentHeight = $state(1080);
     let scaleMultiplier = $state(1);
+    let scaleMultiplier2 = $state(1);
     let video: HTMLVideoElement;
     let showBgThumb = $state(true);
 
@@ -20,14 +22,59 @@
       video.play();
     });
 
-    const updateScale = () => {
-      const currentHeight = window.innerHeight;
-      scaleMultiplier = (Math.max(1, currentHeight / originalHeight));
-    };
+    // const updateScale = () => {
+    //   const currentHeight = window.innerHeight;
+    //   // scaleMultiplier = (Math.max(1, currentHeight / originalHeight));
+    // };
 
-    window.addEventListener('resize', updateScale);
+    // window.addEventListener('resize', updateScale);
+
+    function adjustBackgroundContainer() { 
+        const contentContainer = document.querySelector('.content-container') as HTMLElement;
+        const backgroundContainer = document.querySelector('.background-container') as HTMLElement;
+
+        let resolution = $state(0);
+        if(window.innerWidth / window.innerHeight >= 1.6) {
+          if(window.innerWidth / window.innerHeight >= 2.1) resolution = 2.1;
+          else resolution = window.innerWidth / window.innerHeight;
+        } else {
+            resolution = 1.333;
+        }
+
+        if (!contentContainer || !backgroundContainer) return;
+
+        const contentWidth = contentContainer.offsetWidth;
+        const contentHeight = contentContainer.offsetHeight;
+
+        const targetHeight = contentWidth / resolution; 
+
+        if (targetHeight <= contentHeight) {
+        backgroundContainer.style.width = `${contentWidth}px`;
+        backgroundContainer.style.height = `${targetHeight}px`;
+        backgroundContainer.style.marginTop = `${(contentHeight - targetHeight) / 2}px`;
+        backgroundContainer.style.marginBottom = `${(contentHeight - targetHeight) / 2}px`;
+        backgroundContainer.style.marginLeft = `0`;
+        backgroundContainer.style.marginRight = `0`;
+        } else {
+        const targetWidth = contentHeight * resolution;
+        backgroundContainer.style.width = `${targetWidth}px`;
+        backgroundContainer.style.height = `${contentHeight}px`;
+        backgroundContainer.style.marginTop = `0`;
+        backgroundContainer.style.marginBottom = `0`;
+        backgroundContainer.style.marginLeft = `${(contentWidth - targetWidth) / 2}px`;
+        backgroundContainer.style.marginRight = `${(contentWidth - targetWidth) / 2}px`;
+        }
+        
+        scaleMultiplier2 = (backgroundContainer.offsetWidth/1920);
+        scaleMultiplier = (backgroundContainer.offsetHeight / originalHeight);
+    }
+
+    window.addEventListener('load', adjustBackgroundContainer);
+    window.addEventListener('resize', adjustBackgroundContainer);
+
+    adjustBackgroundContainer();
     
-    updateScale();
+    // updateScale();
   });
 
     let setNameCondition = $state(false);
@@ -146,20 +193,23 @@
 
   
 </script>
-
+<iframe src="/sound/silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
 <audio class="myAudio" autoplay>
   <source src="/sound/login_sound.mp3" type="audio/mpeg">
 </audio>
-<video autoplay muted loop id="backgroundVideo">
-  <source src="/img/login/background_login.mp4" type="video/mp4">
-</video>
-<div class="w-full h-full absolute {showBgThumb ? '' : 'hidden'}" style="background-image:url('/img/login/bg_thumnail.jpg');background-size:100% 100%;background-repeat:no-repeat;background-position:bottom;"></div>
-<div class="flex flex-col items-center justify-center overflow-hidden">
-    <div class="w-screen h-screen flex justify-center relative">
-      <div id="logoContainer" class="absolute w-[903px] h-[300px] left-[40px] top-[40px]" 
-          style="background-image:url('/img/login/title.png');background-repeat:no-repeat;background-size:contain;"></div> <!-- Todo: 에니메이션 작업-->
-        <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-screen w-[459px] absolute {setNameCondition ? 'slide-out-right' : ''} {setLoginCondition ? 'slide-out-right' : ''}"
-            style="background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');transform-origin:top right;transform:scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier}">
+<div class="content-container w-screen h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-500">
+  <div class="background-container w-screen h-screen flex justify-center relative">
+      <div class="w-full h-full absolute {showBgThumb ? '' : 'hidden'}" style="background-image:url('/img/login/bg_thumnail.jpg');background-size:cover;background-repeat:no-repeat;background-position:center;"></div>
+      <video autoplay muted loop id="backgroundVideo" class="w-[100%] h-[100%] {showBgThumb ? 'hidden' : ''}" style="object-fit:cover;position:absolute !important;z-index:0 !important;">
+        <source src="/img/login/background_login.mp4" type="video/mp4">
+      </video>
+      <div id="logoContainer" class="absolute w-[903px] h-[300px] left-[20px] top-[20px]" 
+        style="background-image:url('/img/login/title.png');background-repeat:no-repeat;background-size:contain;transform-origin:top left;transform:scale({scaleMultiplier});">
+      </div> <!-- Todo: 에니메이션 작업-->
+      <div class="absolute top-[0] right-[0] {setNameCondition ? 'slide-out-right' : ''} {setLoginCondition ? 'slide-out-right' : ''}" 
+          style="transform-origin:top right;transform:scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier};">
+        <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-[953px] w-[459px] z-[99]"
+            style="background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');transform-origin:top right;">
             <form class="flex flex-col gap-12" method="POST" on:submit|preventDefault={submitLoginForm}>
                 <div class="flex items-center gap-4">
                   <div class="flex flex-row items-center justify-center gap-4">
@@ -179,7 +229,7 @@
                           <span class="label-text text-white text-lg">아이디</span>
                       </label>
                       <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
-                             name="username" type="text" autocomplete="off" bind:value={username} on:input={filterInput}>
+                              name="username" type="text" autocomplete="off" bind:value={username} on:input={filterInput}>
                   </div>
       
                   <div class="form-control">
@@ -197,27 +247,30 @@
                 </div>
             </form>      
         </div>
-        {#if setNameCondition}
-        <div id="side_bar_2" class="flex flex-col items-center justify-start pt-60 gap-10 h-full w-[459px] absolute right-[0] slide-in-right {setLoginCondition ? 'slide-out-right' : ''}" 
-            style=" background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');transform-origin:top right;transform:translateX(200%) scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier}">
-          <div class="w-[420px] h-[22px] flex justify-center items-center" style="background-image:url('/img/login/window_1.png')">
-          </div>
+      </div>
+      {#if setNameCondition && !setLoginCondition}
+      <div transition:fly="{{ x: 200, duration: 500}}" class="absolute top-[0] right-[0] z-[99]"
+          style="transform-origin:top right; --scaleMultiplier: {scaleMultiplier};transform:scale({scaleMultiplier});">
+        <div id="side_bar_2" class="flex flex-col items-center justify-start pt-60 gap-10 h-[953px] w-[459px] absolute right-[0]" 
+            style=" background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');">
+          <div class="w-[420px] h-[22px] flex justify-center items-center" style="background-image:url('/img/login/window_1.png')"></div>
           <form class="flex flex-col items-center gap-[6.5rem] w-[80%]" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
             <div class="form-control">
               <label class="label">
                   <span class="label-text text-white text-lg">닉네임</span>
               </label>
               <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
-                     name="nickname" type="text" autocomplete="off">
+                      name="nickname" type="text" autocomplete="off">
+              <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 4자 이상 입력해주세요</span>
             </div>
-  
+
             <div class="flex justify-center">
-              <button class="w-[333px] h-[116px]" style="background-image:url('/img/login/btn_action.png')">
-              </button>
+              <button class="w-[333px] h-[116px]" style="background-image:url('/img/login/btn_action.png')"></button>
             </div>
           </form>      
         </div>
-        {/if}
+      </div>
+      {/if}
     </div>
 </div>
 
@@ -225,12 +278,13 @@
 <style>
   @keyframes slideOutRight {
     from {
-      transform: translateX(0) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
+      transform:translateX(0) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
       opacity: 1;
     }
     to {
-      transform: translateX(100%) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
+      transform:translateX(100%) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
       opacity: 0;
+      display: none;
     }
   }
 
@@ -239,20 +293,20 @@
   }
   
   @keyframes slideInRight {
-  from {
-    transform: translateX(200%) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
-    opacity: 0;
+    from {
+      transform:translateX(200%) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
+      opacity: 0;
+    }
+    to {
+      transform:translateX(0) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
+      opacity: 1;
+    }
   }
-  to {
-    transform: translateX(0) scale(var(--scaleMultiplier)); /* scale 값을 추가 */
-    opacity: 1;
-  }
-}
 
   .slide-in-right {
     display: flex;
     animation: slideInRight 0.5s ease-in-out forwards;
-    animation-delay: 0.5s;
+    /* animation-delay: 0.5s; */
   }
 
   .radio-custom {

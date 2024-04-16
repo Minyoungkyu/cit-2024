@@ -36,6 +36,17 @@
 
       await loadScript('/web-desktop/main.js', '/web-desktop/main-script');
 
+      // const observer = new MutationObserver(mutations => {
+      //     mutations.forEach(mutation => {
+      //         if (mutation.attributeName === 'style') {
+      //             document.body.style.width = '100vw';
+      //             document.body.style.height = '100vh';
+      //         }
+      //     });
+      // });
+
+      // observer.observe(document.body, { attributes: true });
+
       let attempts = 0;
       const interval = setInterval(async () => {
       if (gameMapDto !== undefined) {
@@ -99,7 +110,7 @@
 
 </script>
 
-<canvas id="GameCanvas" width="1280" height="720" style=""></canvas>
+<canvas id="GameCanvas"></canvas>
 <div id="splash">
   <div class="progress-bar stripes">
     <span style="width: 0%"></span>
