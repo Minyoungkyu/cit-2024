@@ -17,12 +17,6 @@
 
 .guide-btn:hover {
   transform:scale(1.2);
-  cursor: pointer;
-}
-
-#Cocos2dGameContainer, #GameCanvas {
-  max-width:100% !important;
-  max-height: 100% !important;
 }
 
 @keyframes shrinkAndMoveFromRight {
@@ -45,21 +39,6 @@
   transform: scale(1.0); 
   opacity: 0.8; 
   }
-}
-
-@keyframes zoomInAndOut2 {
-  0%, 100% {
-  transform: scale(1.5) scale(1.0); 
-  opacity: 1; 
-  }
-  50% {
-  transform: scale(1.5) scale(1.4); 
-  opacity: 0.8; 
-  }
-}
-
-.btnGUideNext {
-  animation: zoomInAndOut2 2s infinite 1s;
 }
 
 .animatedHighlighter {
