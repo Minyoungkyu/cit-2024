@@ -107,7 +107,7 @@
 
 </script>
 
-<div class="flex dropdown-content justify-end pt-12 gap-12 h-[1080px] w-[575px] absolute right-[0] slide-in"
+<div class="flex dropdown-content justify-end pt-12 gap-12 h-[1080px] w-[575px] absolute right-[0] slide-in z-[98]"
     style="background-image:url('/img/map/ui_stage_Gradation.png');transform-origin:top right; --scaleMultiplier:{scaleMultiplier}">
     <div class="flex flex-col w-[501px]">
         <div class="flex justify-end w-full mr-16">
