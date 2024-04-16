@@ -76,7 +76,6 @@
     let highlighterBottom = $state(0);
     let highlighterLeft = $state(0);
     let widthValue = $state(0);
-    let showLogoutModal = $state(false);
 
     onMount(() => {
         rq.fetchAndInitializeInventories();
@@ -279,23 +278,6 @@
         transform: scale(1.05) !important;
         transform-origin: bottom;
     }
-
-    .btn_setting:hover {
-        background-image: url('/img/map/btn_settomg_on.png') !important;
-        transform: scale(1.05) !important;
-        transform-origin: bottom;
-    }
-
-    .btn_logout:hover {
-        background-image: url('/img/map/btn_logout_on.png') !important;
-        transform: scale(1.05) !important;
-        transform-origin: bottom;
-    }
-
-    .hovering:hover {
-        cursor: pointer;
-        transform: scale(1.1);
-    }
 </style>
 
 <audio autoplay>
@@ -322,15 +304,15 @@
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black">스테이지</div>
         </div>
         <div class=" flex flex-col items-end absolute top-[4%] right-[0]" style="transform-origin:top right;transform:scale({scaleMultiplier2});"> <!-- 우상단 -->
-            <div class="flex flex-row gap-3 mr-4" style="transform-origin:right;transform:scale(0.67);">
+            <div class="flex flex-row gap-1 mr-8" style="transform-origin:right;transform:scale(0.67);">
                 <div class="w-[506px] h-[134px]" style="background-image:url('/img/map/ui_user_inf.png');">
                     <div class="text-white text-[40px] font-bold h-full flex flex-row items-center justify-between mr-4">
                         <div class="ml-16 stage-text">Lv {rq.getPlayerLeve()}</div>
                         <div class="mr-4 stage-text">{rq.member.player.nickname}</div>
                     </div>
                 </div>
-                <div class="w-[134px] h-[134px] btn_setting cursor-pointer" style="background-image:url('/img/map/btn_settomg_off.png');"></div>
-                <div class="w-[134px] h-[134px] btn_logout cursor-pointer" style="background-image:url('/img/map/btn_logout.png');" on:click={() => showLogoutModal=true}></div> <!-- 로그아웃 자리 -->
+                <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg.png');"></div>
+                <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg.png');"></div> <!-- 로그아웃 자리 -->
             </div>
             <div class=" font-bold relative text-white text-[25px] text-center w-[510px] h-[216px] top-[-25px]" 
                 style="text-shadow:0px 5px black;background-image:url('/img/map/ui_gembox.png');transform-origin:right top;transform:scale(0.8)">
@@ -339,37 +321,9 @@
                 </div>
             </div>
         </div> 
-
-        {#if showLogoutModal}
-        <div class="h-full absolute flex items-center justify-center bg-black bg-opacity-50 z-[99]" style="width:{widthValue}px;">
-            <div class="flex justify-center items-center z-[90]" style="transform:scale(0.4) scale({scaleMultiplier});">
-                <div class="w-[80px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_start.jpg');"></div>
-                <div class="w-[1200px] h-[904px] text-white font-[900] text-[50px] flex flex-col items-center justify-around whitespace-nowrap" style="background-image:url('/img/inventory/ui_popup_middle.jpg');">
-                    <div class=" ml-[100px] flex flex-col h-full items-center whitespace-nowrap">
-                        <div class="text-[150px] mt-[20px]">
-                            로그아웃
-                        </div>
-                        <div class="absolute w-full h-[19px] top-[260px] left-[62px]" style="background-image:url('/img/inventory/ui_itme_window3.png');background-repeat:no-repeat;transform:scale(2.8);transform-origin:left;"></div>
-                        <div class="flex w-full h-1/4 items-start justify-center text-[75px] mt-[220px]">
-                            정말 로그아웃 하시겠습니까?
-                        </div>
-                        <div class="flex flex-row w-full justify-around gap-12 text-[100px] mt-[30px]">
-                            <div class="hovering text-red-500" on:click={() => showLogoutModal=false}>취소</div>
-                            <div class="hovering" on:click={() => rq.logoutAndRedirect('/')}>로그아웃</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-[228px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_end.png');background-repeat:no-repeat;"></div>
-                <div class="absolute bg-gray-900 w-[90%] h-full z-[-1]" 
-                    style="clip-path:polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);"></div>
-            </div>
-        </div>
-        {/if}
-
-
-
         <div id="stageHighlighter" class=" stage-highlighter absolute z-[10] {animationStart ? 'animatedHighlighter' : 'invisible'}" 
             style="width:{185 * scaleMultiplier2}px;height:{161 * scaleMultiplier2}px;background-image:url('/img/map/ui_aim.png');background-size:contain;pointer-events:none;background-repeat:no-repeat;bottom:{highlighterBottom - 3}%;left:{highlighterLeft - 2.5}%;"></div>
+
 
 
         <!-- <div class="btn absolute bottom-[8%] left-[4%]" data-gameMapId="1" on:click={() => toggleDropdown(0)}>튜토리얼(열림)</div> -->
