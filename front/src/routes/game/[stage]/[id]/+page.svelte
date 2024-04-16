@@ -21,11 +21,9 @@
     import { runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
     import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
-	import { scale } from 'svelte/transition';
 
-    const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'], guideItems: string[] } }>();
+    const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'] } }>();
     const { gameMapDto } = data;
-    const { guideItems } = data;
 
     let audio: HTMLAudioElement;
     let editor: any;
@@ -49,9 +47,7 @@
     let isNarrowResolution: boolean = $state(false);
     let showEditor: boolean = $state(false);
 
-    let showBtnGuide: boolean = $state(false);
-    let currentGuideIndex: number = $state(0);
-    let btnGuideArray = $state(Array.from({length: 7}, () => false));
+    let btnGuideArray = $state(Array.from({length: 14}, () => false));
 
     function isFirstStep() {
         return gameMapDto.step === 'tutorial' && gameMapDto.level === 1;
@@ -113,6 +109,7 @@
         }
         
         let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
+        console.log(result);
 
         if(result.error) {
             let cocosInfoLength = gameMapDto.cocosInfo.split('\n').length;
@@ -190,7 +187,6 @@
     let scaleMultiplier = $state(0);
     let scaleMultiplier2 = $state(0);
     let widthMultiplier = $state(1920);
-    let userDevice = $state('');
 
     onMount(() => {
         audio = document.getElementById("myAudio") as HTMLAudioElement;
@@ -201,24 +197,11 @@
         const contentContainer = document.querySelector('.content-container') as HTMLElement;
         contentContainer.style.width = '100vw';
         contentContainer.style.height = '100vh';
-
-        function detectDeviceType() {
-            const ua = navigator.userAgent;
-            if (/mobile/i.test(ua)) {
-                return 'Mobile';
-            } else if (/tablet|ipad|galaxy\s*tab|kindle|nook/i.test(ua)) {
-                return 'Tablet';
-            } else {
-                return 'Desktop';
-            }
-        }
-
-        userDevice = detectDeviceType();
-
+        
         function adjustBackgroundContainer() { 
             const contentContainer = document.querySelector('.content-container') as HTMLElement;
             const backgroundContainer = document.querySelector('.background-container') as HTMLElement;
-            // const guideContainer = document.querySelector('.guide-container') as HTMLElement;
+            const guideContainer = document.querySelector('.guide-container') as HTMLElement;
 
             let resolution = $state(0);
             if(window.innerWidth / window.innerHeight >= 1.6) {
@@ -242,8 +225,8 @@
             backgroundContainer.style.marginBottom = `${(contentHeight - targetHeight) / 2}px`;
             backgroundContainer.style.marginLeft = `0`;
             backgroundContainer.style.marginRight = `0`;
-            // guideContainer.style.width = `${contentWidth}px`;
-            // guideContainer.style.height = `${targetHeight}px`;
+            guideContainer.style.width = `${contentWidth}px`;
+            guideContainer.style.height = `${targetHeight}px`;
             } else {
             const targetWidth = contentHeight * resolution;
             backgroundContainer.style.width = `${targetWidth}px`;
@@ -252,8 +235,8 @@
             backgroundContainer.style.marginBottom = `0`;
             backgroundContainer.style.marginLeft = `${(contentWidth - targetWidth) / 2}px`;
             backgroundContainer.style.marginRight = `${(contentWidth - targetWidth) / 2}px`;
-            // guideContainer.style.width = `${targetWidth}px`;
-            // guideContainer.style.height = `${contentHeight}px`;
+            guideContainer.style.width = `${targetWidth}px`;
+            guideContainer.style.height = `${contentHeight}px`;
             }
             
             scaleMultiplier2 = (backgroundContainer.offsetWidth/1920);
@@ -331,47 +314,6 @@
             }        
         });
 
-        const observer = new MutationObserver((mutations, obs) => {
-            for (const mutation of mutations) {
-                if (mutation.addedNodes.length) {
-                    const completer = document.querySelector('.ace_autocomplete') as HTMLElement;
-                    if (completer) {
-                        applyCompleterStyle(completer);
-                    }
-                }
-            }
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-
-        function applyCompleterStyle(completer: HTMLElement) {
-            const cursorPosition = editor.getCursorPosition();
-
-            let gutter = document.getElementsByClassName('ace_gutter')[0] as HTMLElement;
-            let gutterWidth = parseInt(gutter.style.width) - 12;
-            const pixelPosition = editor.renderer.$cursorLayer.getPixelPosition(cursorPosition, true);
-            const editorRect = editor.container.getBoundingClientRect();
-
-            const scaledTop = pixelPosition.top * scaleMultiplier;
-            const scaledLeft = pixelPosition.left * scaleMultiplier;
-
-            let absoluteTop = editorRect.top + window.scrollY + scaledTop;
-            let absoluteLeft = editorRect.left + window.scrollX + scaledLeft;
-
-            if(absoluteLeft + (298 * scaleMultiplier) + (window.innerWidth * 0.05) > window.innerWidth) {
-                absoluteLeft = window.innerWidth - (298 * scaleMultiplier) - (window.innerWidth * 0.05);
-            }
-
-            completer.style.position = 'absolute'; 
-            completer.style.top = `${absoluteTop + (32*scaleMultiplier)}px`;
-            completer.style.left = `${absoluteLeft + (gutterWidth * scaleMultiplier)}px`;
-            completer.style.transform = `scale(${scaleMultiplier})`; 
-            completer.style.transformOrigin = 'top left'; 
-        }
-
         editor.getSession().on('change', function(e:any) {
             const session = editor.getSession();
             session.removeMarker(errorMarkerId);
@@ -379,7 +321,6 @@
             if (e.action === 'insert') {
                 const totalLines = editor.getSession().getLength();
                 const cursorPosition = editor.getCursorPosition();
-                const completer = document.getElementsByClassName('ace_autocomplete')[0] as HTMLElement;
 
                 if (cursorPosition.row === totalLines - 1) {
                     editor.getSession().insert({row: totalLines, column: 0}, "\n");
@@ -597,14 +538,7 @@
     }
   
     function closeModal() {
-        if(isFirstStep()) {
-            showBtnGuide = true;
-            btnGuideArray[currentGuideIndex] = true;
-        }
         hintModal.classList.add('hidden') // 모달을 닫는 함수
-        if(userDevice == 'Desktop') {
-            editor.focus();
-        }
     }
 
     let lastInsertedPosition: any = $state(null);
@@ -640,32 +574,6 @@
         editor.moveCursorToPosition(newPosition);
         editor.scrollToLine(newPosition.row, true, true, function() {});
     }
-
-    function guideToNext() {
-        if(currentGuideIndex == btnGuideArray.length - 1) {
-            return;
-        }
-        console.log('ㅎㅇ');
-
-        currentGuideIndex++;
-
-        btnGuideArray.fill(false);
-
-        btnGuideArray[currentGuideIndex] = true;
-    }
-
-    function guideToPrev() {
-        if(currentGuideIndex == 0) {
-            return;
-        }  
-        console.log('ㅂㅇ');
-
-        currentGuideIndex--;
-
-        btnGuideArray.fill(false);
-
-        btnGuideArray[currentGuideIndex] = true;
-    }
 </script>
 
 <audio id="myAudio">
@@ -674,36 +582,27 @@
 <div class="content-container flex flex-col items-center justify-center overflow-hidden bg-gray-700">
     <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden">
 
-        {#if showBtnGuide}
-        <div class="absolute guide-container h-full flex items-center justify-center z-[100]" style="width:{widthMultiplier}px;">
-            <div class="flex justify-center items-center z-[90]" style="transform:scale(0.5) scale({scaleMultiplier});">
+        <div class="absolute guide-container flex items-center justify-center z-[80] hidden">
+            <div class="flex justify-center items-center z-[90]" style="transform:scale(0.4) scale({scaleMultiplier});">
                 <div class="w-[80px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_start.jpg');"></div>
                 <div class="w-full h-[904px] text-white font-[900] text-[50px] flex flex-col items-center justify-around whitespace-nowrap" style="background-image:url('/img/inventory/ui_popup_middle.jpg');">
-                    <div class="text-[90px] mt-[40px]">
-                        조작 매뉴얼 {currentGuideIndex + 1}/{btnGuideArray.length}
+                    <div class="text-[90px]">
+                        가이드 1/2
                     </div>
-                    <div class="flex w-[1300px] h-[90%] justify-center items-center" style="white-space:pre-wrap;font-size:3.3rem;">
-                        {guideItems[currentGuideIndex]}
+                    <div class="flex w-full h-1/4 items-start">
+                        텍스트는 잘 쓰고 계신가요 
                     </div>
-                    <div class="flex flex-row w-full justify-center gap-20 mb-[80px]">
-                        <div class="w-[46px] h-[46px] cursor-pointer {currentGuideIndex === 0 ? 'invisible' : ''}" 
-                            style="background-image:url('/img/inGame/btn_next5.png');transform:scale(1.5);" on:click={() => guideToPrev()}></div>
-                        <div class="btnGUideNext w-[46px] h-[46px] cursor-pointer {currentGuideIndex === btnGuideArray.length - 1 ? 'invisible' : ''}" 
-                            style="background-image:url('/img/inGame/btn_next6.png');transform:scale(1.5);" on:click={() => guideToNext()}></div>
-
+                    <div class="flex flex-row w-full justify-end gap-12">
+                        <div class="guide-btn w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next3.png');"></div>
+                        <div class="guide-btn w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next4.png');"></div>
                     </div>
                 </div>
                 <div class="w-[80px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_start.jpg');transform:scaleX(-1)"></div>
                 <div class="absolute bg-gray-900 w-full h-full z-[-1]" 
                     style="clip-path:polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);"></div>
-                {#if currentGuideIndex === btnGuideArray.length - 1}
-                <div class="absolute w-[46px] h-[46px] top-[60px] right-[60px] cursor-pointer btnGUideNext" 
-                    style="background-image:url('/img/inGame/btn_popup_close.png');transform-origin:top right;transform:scale(1.5);"
-                    on:click={() => showBtnGuide = false}></div>
-                {/if}
             </div>
         </div>
-        {/if}
+
 
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - scaleMultiplier*0.15});">
@@ -743,7 +642,6 @@
         {/if}
 
         <div class="relative bg-gray-500" style="width:{widthMultiplier}px;">
-            <div class="absolute w-full h-full {showBtnGuide ? 'bg-black bg-opacity-50 z-[99]' : 'hidden'}"></div>
             <div id="game-player-container" class="flex justify-center items-center h-full"> 
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
@@ -766,26 +664,21 @@
             <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" 
                 style="background-image:url('/img/inGame/ui_background_R.png');transform-origin:top right;transform:scale(0.45) scale({scaleMultiplier2});">
             </div>
-
-            <!-- mission goal -->
             <div class="absolute flex flex-col items-end justify-start absolute right-[1%] top-[2%] text-start" 
-                  style="white-space:pre-wrap;transform-origin:top right;transform:scale(0.6) scale({scaleMultiplier2});
-                  {showBtnGuide && btnGuideArray[0] ? 'z-index:999;' : ''}">
+                  style="white-space:pre-wrap;transform-origin:top right;transform:scale(0.6) scale({scaleMultiplier2});">
 
                   <!-- btn Guide 7 -->
                   <!-- <div class="highlighter w-[550px] h-[474px] absolute top-[29%] left-[5%] z-[10] animatedHighlighter"
                     style="pointer-events: none;background-image:url('/img/inventory/ui_aim2.png');background-size:contain;background-repeat:no-repeat;">
                   </div> -->
 
-                  <div class="flex flex-row gap-2 w-full scale-[0.87] origin-top-right"
-                        style="{showBtnGuide && btnGuideArray[0] ? 'box-shadow:0 -17px 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
+                  <div class="flex flex-row gap-2 w-full scale-[0.87] origin-top-right">
                     <div class="w-[506px] h-[134px] flex justify-center items-center italic" style="background-image:url('/img/inGame/ui_stage_title.png')">
                         <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} {#if gameMapDto.difficulty !== "0"} {gameMapDto.difficulty} {/if}</div>
                     </div>
-                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_off.png')"></div>
+                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_2.png')"></div>
                   </div>
-                  <div class="flex flex-col" style="transform-origin:top right;transform:scale(1.03);
-                        {showBtnGuide && btnGuideArray[0] ? 'box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
+                  <div class="flex flex-col" style="transform-origin:top right;transform:scale(1.03);">
                     <div class="w-[547px] h-[76px]" style="background-image:url('/img/inGame/ui_goal_start.png');">
                         {#if showCompleteBtn}
                         <div class="text-[35px] ml-8 font-[900] mt-[15px]" style="color:rgb(255 210 87);">목표 : 달성</div>
@@ -811,10 +704,8 @@
                   </div>
             </div>
             
-            <!-- control box -->
             <div class="flex flex-row items-center absolute bottom-[4%] left-[0] gap-6 ml-[2.5%]" 
-                style="background-color:#181818;transform-origin:left;transform:scale({Math.min(1, scaleMultiplier)});width:{calculateWidthPercentage(Math.min(1,scaleMultiplier))}%;
-                {showBtnGuide && btnGuideArray[3] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
+                style="background-color:#181818;transform-origin:left;transform:scale({Math.min(1, scaleMultiplier)});width:{calculateWidthPercentage(Math.min(1,scaleMultiplier))}%;">
 
                 <!-- btn Guide 5 -->
                 <!-- <div class="highlighter w-[250px] h-[110px] absolute top-[-54%] left-[-1%] z-[10] animatedHighlighter"
@@ -841,13 +732,10 @@
         
         <div id="editor-container" class="relative" style="transform-origin:top right;transform:scale({scaleMultiplier});">
             <div id="editor-container-ch1" class="w-[633px] h-[1080px] flex flex-col items-center absolute" style="background-image:url('/img/inGame/ui_editor_frame.png'), url('/img/inGame/ui_editor_background.jpg');"> 
-                <div class="absolute w-full h-full {showBtnGuide ? 'bg-black bg-opacity-50 z-[99]' : 'hidden'}"></div>
                 <div class="flex flex-row justify-between h-[70px] w-full items-center">
                     <div></div> 
-                    <!-- editor control -->
-                    <div class="flex flex-row gap-[2rem] mr-10 mt-[-10px]"
-                        style="{showBtnGuide && btnGuideArray[4] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
-                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8]" style="background-image:url('/img/inGame/btn_expand.png')"></div>
+                    <div class="flex flex-row gap-[2rem] mr-10 mt-[-10px]">
+                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8] hidden" style="background-image:url('/img/inGame/btn_expand.png')"></div>
                         <div class="cursor-pointer w-[34px] h-[34px] scale-[0.8]" style="background-image:url('/img/inGame/btn_help.png')" on:click={showModal}></div>
                             <div bind:this={hintModal} class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute z-[99] top-0 right-0 origin-top-right {showGuide ? '' : ''}" 
                                 style="background-image:url('/img/inGame/ui_help_background.png');">
@@ -872,7 +760,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="w-[34px] h-[34px]" style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> 
+                        <div class="w-[34px] h-[34px] hidden" style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> 
                     </div>
 
                     <!-- btn Guide 6 -->
@@ -886,9 +774,7 @@
                     </div> -->
                 </div>
 
-                <div id="editorWrapper" class="flex justify-center w-[601px] h-[609px] pt-[40px] mt-[4px]" 
-                    style="background-image:url('/img/inGame/ui_editor_background2.png');
-                    {showBtnGuide && btnGuideArray[1] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
+                <div id="editorWrapper" class="flex justify-center w-[601px] h-[609px] pt-[40px] mt-[4px]" style="background-image:url('/img/inGame/ui_editor_background2.png');">
                     <div id="editor" class="w-[590px] h-[529px]"></div>
                 </div>
 
@@ -905,19 +791,12 @@
                 </div> -->
 
                 <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5]" 
-                            style="background-image:url('/img/inGame/btn_action4.png');color:rgb(9 13 24);transform:scale(0.8);
-                            {showBtnGuide && btnGuideArray[5] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);background-color:gray;' : ''}" 
-                            on:click={() => {canExecute ? executePython() : reExecute()}}>실행</button>
+                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5]" style="background-image:url('/img/inGame/btn_action4.png');color:rgb(9 13 24);transform:scale(0.8);" on:click={() => {canExecute ? executePython() : reExecute()}}>실행</button>
                     <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
-                            style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_action2.png");' : 'url("/img/inGame/btn_action3.png");'}color:{showCompleteBtn ? 'rgb(9 13 24)' : 'rgb(9 13 24)'};transform:scale(0.8);
-                            {showBtnGuide && btnGuideArray[6] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);background-image:url("/img/inGame/btn_action2.png");background-color:gray;' : ''}"
+                            style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_action2.png");' : 'url("/img/inGame/btn_action3.png");'}color:{showCompleteBtn ? 'rgb(9 13 24)' : 'rgb(9 13 24)'};transform:scale(0.8);"
                             on:click={() => {showCompleteBtn ? doComplete() : ''}}>완료</button>
                 </div>
-
-                <div class="flex justify-start items-center w-[602px] h-[250px] mt-[20px]" 
-                    style="background-image:url('/img/inGame/ui_editor_background4.png');
-                    {showBtnGuide && btnGuideArray[2] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
+                <div class="flex justify-start items-center w-[602px] h-[250px] mt-[20px]" style="background-image:url('/img/inGame/ui_editor_background4.png')">
                     <div class="command-guide w-[590px] h-[210px] flex flex-col items-start pl-10 gap-2 pt-2 overflow-y-scroll">
                         {#each commandGuide as command}
                             {#if command}
