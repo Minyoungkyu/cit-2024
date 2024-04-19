@@ -7,6 +7,18 @@
         // 미니게임 UI 레이아웃
         miniGameLayout : cc.Node,
 
+        /**
+         * Phase 1 Objects
+         */
+
+        phaseLeftParent: cc.Node,
+
+        phase1Nodes: {
+            default: [],
+            type: [cc.Node]
+        },
+
+
 
         phase1Object: cc.Node,
         phase2Object: cc.Node,
@@ -42,8 +54,7 @@
 
     start () {
         this.dialog = [
-            "모든 준비가 끝났습니다. \n\n여러분이 직접 발사각도, \n\n 부스터게이지를 조정해주세요.",
-            "발사각도 90도에 근접하게 맞추기"
+            "모든 준비가 끝났습니다. 여러분이 직접 발사각도, 부스터게이지를 조정해주세요.",
         ];
 
         this.AddEvent();
@@ -81,7 +92,67 @@
     },
 
 
+    /**
+     * 미니게임 Phase1 초기화 하는 부분임.
+     * @constructor
+     */
+    InitPhase1LeftPannel: function(){
+
+    },
+
+    /**
+     * 미니게임 Phase1 시작시 객체 보여주는 효과임.
+     * @constructor
+     */
+    ShowPhase1LeftPannel: function(){
+
+        var initialDelay = 0.8;
+        var totalNodes = this.phase1Nodes.length;
+
+        var self = this;
+
+        this.phase1Nodes.forEach((node, index) => {
+            node.opacity = 0;
+            // 각 노드의 딜레이 계산 (index * initialDelay)
+            var delayTime = cc.delayTime(index * initialDelay);
+            var fadeIn = cc.fadeIn(0.8);
+
+            // 모든 노드의 애니메이션이 끝난 후 실행할 작업 정의
+            var onAllAnimationsComplete = cc.callFunc(() => {
+                if (index === totalNodes - 1) {  // 마지막 노드의 애니메이션 완료시
+                    var lastNode = self.phase1Nodes[self.phase1Nodes.length - 1];
+
+                    var fadeOut = cc.fadeOut(0.2);
+                    var delay = cc.delayTime(0.1);
+                    var fadeIn = cc.fadeIn(0.2);
+
+                    // 페이드인, 딜레이, 페이드아웃 순서로 시퀀스 생성
+                    var sequence = cc.sequence(fadeOut, delay, fadeIn);
+
+                    // 위 시퀀스를 4번 반복
+                    var repeatAction = cc.repeat(sequence, 2);
+
+                    // 애니메이션 실행
+                    lastNode.runAction(repeatAction);
+                    // 여기에 추가적으로 실행할 코드 작성
+                }
+            });
+
+            var sequence = cc.sequence(delayTime, fadeIn, onAllAnimationsComplete);
+
+            // 시퀀스에 애니메이션 완료 콜백 추가
+            // 애니메이션 실행
+            node.runAction(sequence);
+        });
+    },
+
+
+
+
     LaunchDegree: function(){
+
+        this.ShowPhase1LeftPannel();
+
         this.phase2Object.active = false;
 
         this.phase1Object.active = true;
