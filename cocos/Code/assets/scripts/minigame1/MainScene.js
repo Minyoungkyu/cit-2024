@@ -7,10 +7,12 @@
         // 미니게임 UI 레이아웃
         miniGameLayout : cc.Node,
 
+
+        // Error Page
+        errorPange: cc.Node,
         /**
          * Phase 1 Objects
          */
-
         phaseLeftParent: cc.Node,
 
         phase1Nodes: {
@@ -21,15 +23,41 @@
 
 
         phase1Object: cc.Node,
+
+
+        // 에너지 filled
+        energy_img: {
+          default:[],
+          type: [cc.SpriteFrame]
+        },
+
+        // 로켓 내부에 이미지
+        rocket_energy: {
+            default:[],
+            type: [cc.SpriteFrame]
+        },
+
+        phase2Nodes: {
+            default: [],
+            type: [cc.Node]
+        },
+        phase2EnergyFrame: cc.Node,
+
+
         phase2Object: cc.Node,
 
+
+
         //각도 조정하는 객체
-        sliderBar : cc.ProgressBar,
+        sliderBar : cc.Slider,
         targetObject : cc.Node,
 
 
         phase1StopBtn: cc.Button,
         phase2StopBtn: cc.Button,
+
+
+
 
 
         isDegreeReverse : false,
@@ -49,10 +77,30 @@
         popupLabel: cc.Label,
         popupBtn: cc.Button,
         status : 0,
+
+
+        phase2Level : 0,
+
+        levelVector: [],
+
+        leftLimit : 0.3,
+        rightLimit : 0.7,
+
+        limitLeftPosition: [],
+        limitrightPosition: [],
+
+
     },
 
 
     start () {
+
+        this.levelVector = [
+            cc.v2(0.3,0.7),
+            cc.v2(0.7,0.9),
+            cc.v2(0.2,0.3)
+        ];
+
         this.dialog = [
             "모든 준비가 끝났습니다. 여러분이 직접 발사각도, 부스터게이지를 조정해주세요.",
         ];
@@ -92,13 +140,6 @@
     },
 
 
-    /**
-     * 미니게임 Phase1 초기화 하는 부분임.
-     * @constructor
-     */
-    InitPhase1LeftPannel: function(){
-
-    },
 
     /**
      * 미니게임 Phase1 시작시 객체 보여주는 효과임.
@@ -135,6 +176,78 @@
                     // 애니메이션 실행
                     lastNode.runAction(repeatAction);
                     // 여기에 추가적으로 실행할 코드 작성
+
+                    this.Phase1RightPannel();
+                }
+            });
+
+            var sequence = cc.sequence(delayTime, fadeIn, onAllAnimationsComplete);
+
+            // 시퀀스에 애니메이션 완료 콜백 추가
+            // 애니메이션 실행
+            node.runAction(sequence);
+        });
+    },
+    Phase1RightPannel: function(){
+        this.phase1Object.active = true;
+        this.phase1StopBtn.node.active = false;
+        this.phase1Object.scale = cc.v2(0,0);
+
+        var scaleAction = cc.scaleTo(0.5, 1, 1);
+        var delay = cc.delayTime(0.8);
+
+        var callFuncAction = cc.callFunc(()=>{
+            this.status = 2;
+            this.ShowPopupMessage("각도를 90도에 비슷하게 맞춰주세요!");
+            this.DegreeGameStart();
+
+
+            // this.phase1StopBtn.active = true;
+        }, this, "Hello World");
+
+        var seq = cc.sequence(scaleAction, delay , callFuncAction );
+
+        this.phase1Object.runAction(seq);
+    },
+    LaunchDegree: function(){
+        this.phase2Object.active = false;
+        this.ShowPhase1LeftPannel();
+    },
+
+
+    ShowPhase2LeftPannel: function(){
+
+        var initialDelay = 0.8;
+        var totalNodes = this.phase2Nodes.length;
+
+        var self = this;
+
+        this.phase2Nodes.forEach((node, index) => {
+            node.opacity = 0;
+            // 각 노드의 딜레이 계산 (index * initialDelay)
+            var delayTime = cc.delayTime(index * initialDelay);
+            var fadeIn = cc.fadeIn(0.8);
+
+            // 모든 노드의 애니메이션이 끝난 후 실행할 작업 정의
+            var onAllAnimationsComplete = cc.callFunc(() => {
+                if (index === totalNodes - 1) {  // 마지막 노드의 애니메이션 완료시
+                    var lastNode = self.phase1Nodes[self.phase1Nodes.length - 1];
+
+                    var fadeOut = cc.fadeOut(0.2);
+                    var delay = cc.delayTime(0.1);
+                    var fadeIn = cc.fadeIn(0.2);
+
+                    // 페이드인, 딜레이, 페이드아웃 순서로 시퀀스 생성
+                    var sequence = cc.sequence(fadeOut, delay, fadeIn);
+
+                    // 위 시퀀스를 4번 반복
+                    var repeatAction = cc.repeat(sequence, 2);
+
+                    // 애니메이션 실행
+                    lastNode.runAction(repeatAction);
+                    // 여기에 추가적으로 실행할 코드 작성
+
+                    this.Phase2RightPannel();
                 }
             });
 
@@ -146,18 +259,10 @@
         });
     },
 
+    Phase2RightPannel: function(){
 
-
-
-    LaunchDegree: function(){
-
-        this.ShowPhase1LeftPannel();
-
-        this.phase2Object.active = false;
-
-        this.phase1Object.active = true;
-        this.DegreeGameStart();
     },
+
 
 
     LaunchBoost: function(){
@@ -190,19 +295,57 @@
         this.popupObject.active = true;
         this.popupBtn.node.active = false;
 
-        var str = this.dialog[idx];
-        this.typeText(this.popupLabel, str, this.CallTypingEnd.bind(this));
+        this.popupObject.scale = cc.v2(1,0);
+
+        var scaleAction = cc.scaleTo(0.5, 1, 1);
+// 애니메이션이 완료된 후 호출할 함수 정의
+        var onActionComplete = cc.callFunc(() => {
+            // 여기에 추가적으로 실행할 함수를 호출할 수 있습니다.
+            var str = this.dialog[idx];
+            this.typeText(this.popupLabel, str, this.CallTypingEnd.bind(this));
+        });
+
+// 스케일 액션과 완료 콜백을 시퀀스로 결합
+        var sequence = cc.sequence(scaleAction, onActionComplete);
+
+// 스케일 액션 실행
+        this.popupObject.runAction(sequence);
+
     },
 
     ShowPopupMessage: function(str) {
+        this.popupLabel.string = '';
         this.popupObject.active = true;
         this.popupBtn.node.active = false;
 
-        this.typeText(this.popupLabel, str, this.CallTypingEnd.bind(this));
+        this.popupObject.scale = cc.v2(1,0);
+        var scaleAction = cc.scaleTo(0.5, 1, 1);
+// 애니메이션이 완료된 후 호출할 함수 정의
+        var onActionComplete = cc.callFunc(() => {
+            // 여기에 추가적으로 실행할 함수를 호출할 수 있습니다.
+            this.typeText(this.popupLabel, str, this.CallTypingEnd.bind(this));
+        });
+
+// 스케일 액션과 완료 콜백을 시퀀스로 결합
+        var sequence = cc.sequence(scaleAction, onActionComplete);
+
+// 스케일 액션 실행
+        this.popupObject.runAction(sequence);
+
     },
 
     CallTypingEnd: function() {
         this.popupBtn.node.active = true;
+        var scaleUp = cc.scaleTo(0.3, 1.05, 1.05);
+        var scaleDown = cc.scaleTo(0.3, 0.95, 0.95);
+        var sequence = cc.sequence(scaleUp, scaleDown);
+
+        var repeatAction = cc.repeatForever(sequence);
+
+        var backgroundNode = this.popupBtn.node.getChildByName('Background');
+        // 'Label' 이라는 이름의 자식 노드를 찾기
+        var labels = backgroundNode.getChildByName('Label');
+        labels.runAction(repeatAction);
     },
 
     SpaceShipLaunchMovie: function(){
@@ -215,13 +358,14 @@
 
         if(this.dialongIndex >= this.dialog.length - 1){
 
-            if(this.status === 2){
+            if(this.status === 3){
                 // TODO 우주선 발쏴아
 
                 this.miniGameLayout.active = false;
-
                 this.SpaceShipLaunchMovie();
-
+            }
+            else if(this.status === 2){
+                this.phase1StopBtn.node.active = true;
             }
             else if(this.status === 1){
                 this.miniGameLayout.active = true;
@@ -243,13 +387,54 @@
         }
     },
 
+
+    /**
+     * 유저가 잘못된 클릭을 했을때 효과
+     * @constructor
+     */
+
+    ShakeObject : function(object) {
+        var magnitude = 15.2;
+        let shakes = [];
+
+        var originalPosition = object.position;
+
+
+        this.errorPange.active = true;
+        for (let i = 0; i < 4; i++) {
+            // 무작위 위치 변경
+            let shakeX = (Math.random() - 0.5) * 2 * magnitude;
+            let shakeY = (Math.random() - 0.5) * 2 * magnitude;
+            let delay = cc.delayTime(0.02);  // 쉐이크 간격
+            let move = cc.moveBy(0.02, cc.v2(shakeX, shakeY));
+            let restore = cc.moveBy(0.02, cc.v2(-shakeX, -shakeY));
+            shakes.push(delay, move, restore);
+        }
+
+        // 모든 쉐이크 후에 카메라 원래 위치로 복귀
+        let restoreOriginal = cc.callFunc(() => {
+            this.errorPange.active = false;
+            object.position = originalPosition;
+        });
+
+        // 시퀀스 생성 및 실행
+        let sequence = cc.sequence(shakes[0],shakes[1],shakes[2],shakes[3], restoreOriginal);
+        object.runAction(sequence);
+    },
+
+
     Phase1StopAction :function(){
 
-        if(this.degree <= 15){
+        if(this.degree <= 5){
             this.status = 1;
             this.StopDegreeLooper();
-
             this.ShowPopupMessage("부스터 게이지를 80% 이상 조정하기");
+            this.phase1StopBtn.node.active = false;
+            this.phaseLeftParent.active = false;
+            this.phase1Object.active = false;
+        }
+        else{
+            this.ShakeObject(this.phase1Object);
         }
     },
 
@@ -259,7 +444,9 @@
             this.StopProgressLooper();
 
             this.ShowPopupMessage("성공했습니다! \n 이제 우주에서 여정을 시작합니다");
-
+        }
+        else{
+            //this.ShakeObject()
         }
     },
 
