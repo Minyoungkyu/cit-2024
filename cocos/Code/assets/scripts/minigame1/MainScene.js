@@ -3,7 +3,19 @@
 
     properties: {
 
-        mainCamear : cc.Camera,
+        particle_1 : cc.Node,
+        partileFire: {
+            default: [],
+            type:[cc.Node]
+        },
+
+
+
+        movingTarget: cc.Node,
+        spaceShip: cc.Node,
+
+
+        objectCamera : cc.Camera,
         // 미니게임 UI 레이아웃
         miniGameLayout : cc.Node,
 
@@ -14,12 +26,12 @@
          * Phase 1 Objects
          */
         phaseLeftParent: cc.Node,
+        phaseLeftParent2 : cc.Node,
 
         phase1Nodes: {
             default: [],
             type: [cc.Node]
         },
-
 
 
         phase1Object: cc.Node,
@@ -43,9 +55,13 @@
         },
         phase2EnergyFrame: cc.Node,
 
+        phase2EnergyEmptyObject: cc.Node,
+        phase2EnergyFillObject : cc.Node,
 
         phase2Object: cc.Node,
 
+        limitLeftObject : cc.Node,
+        limitRightObject : cc.Node,
 
 
         //각도 조정하는 객체
@@ -79,6 +95,9 @@
         status : 0,
 
 
+
+
+
         phase2Level : 0,
 
         levelVector: [],
@@ -86,28 +105,126 @@
         leftLimit : 0.3,
         rightLimit : 0.7,
 
-        limitLeftPosition: [],
-        limitrightPosition: [],
-
+        levelStatus: [],
 
     },
 
 
     start () {
+        this.particle_1.active = false;
+
+        this.partileFire[0].active = false;
+        this.partileFire[1].active = false;
+
+        this.levelStatus = [
+            false,
+            false,
+            false
+        ]
 
         this.levelVector = [
-            cc.v2(0.3,0.7),
-            cc.v2(0.7,0.9),
-            cc.v2(0.2,0.3)
+            cc.v2(-150,150),
+            cc.v2(-100,100),
+            cc.v2(-60,60)
         ];
 
         this.dialog = [
-            "모든 준비가 끝났습니다. 여러분이 직접 발사각도, 부스터게이지를 조정해주세요.",
+            "모든 준비가 끝났습니다. 여러분이 직접 발사각도, 발사체에 연료를 주입해주세요.",
         ];
 
         this.AddEvent();
         this.GameUpdator();
     },
+
+
+    SpaceShipUpdator: function(){
+        if(this.status == 1){
+            this.spaceShip.active = false;
+            var rotate = 0;
+
+            var rotateAction = cc.rotateTo(0.8, 0);
+            var delayAction = cc.delayTime(0.5);
+
+            var fadeOutAction = cc.fadeOut(0.5);
+            var callbackDuringFade = cc.callFunc(()=>{
+                // 동시에 수행
+                this.spaceShip.active = true;
+
+                // 카메라 이동
+                var targetPosition = cc.v2(0,-80);
+                var moveAction = cc.moveTo(0.5, targetPosition);
+
+// 객체에 액션 실행
+                this.objectCamera.node.runAction(moveAction);
+            }, this);
+            var fadeAndCall = cc.spawn(fadeOutAction, callbackDuringFade);
+
+            var finalCallbackAction = cc.callFunc(()=>{
+                // 애니메이션 후 팝업 창 보임
+                this.ShowPopupMessage("연료 주입하기");
+            }, this);
+
+            var sequenceAction = cc.sequence(rotateAction, delayAction, fadeAndCall, finalCallbackAction);
+            this.movingTarget.runAction(sequenceAction);
+        }
+        else if(this.status == 3){
+            // 보여주자.
+            var targetPos = cc.v2(0,-250);
+
+            var moveUp = cc.moveTo(0.5,targetPos);
+
+            var callFunc = cc.callFunc(()=>{
+                this.objectCamera.zoomRatio = 2;
+                this.partileFire[0].active = true;
+                this.partileFire[1].active = true;
+            });
+
+            var spawn = cc.spawn(callFunc,moveUp );
+
+
+            var shaker = cc.callFunc(()=>{
+                this.ShakeObject(this.objectCamera.node ,false);
+            });
+
+
+
+            var delay = cc.delayTime(0.1);
+            var spawn2 = cc.spawn(shaker, delay);
+            var repeat = cc.repeat(spawn2, 100);
+            var seq = cc.sequence(spawn, repeat);
+
+            this.objectCamera.node.runAction(seq);
+
+        // TODO
+        }
+
+    },
+
+
+    GetPhase2LevelUpdate: function(){
+        if(this.phase2Level >= 3) return;
+
+        switch(this.phase2Level){
+            case 0:
+                this.leftLimit = 0.2;
+                this.rightLimit = 0.8;
+                break;
+            case 1:
+                this.leftLimit = 0.3;
+                this.rightLimit = 0.7;
+                break;
+            case 2: case 3:
+                this.leftLimit = 0.4;
+                this.rightLimit = 0.6;
+                break;
+        }
+
+        this.limitLeftObject.position = cc.v2(this.levelVector[this.phase2Level].x, 0);
+        this.limitRightObject.position = cc.v2(this.levelVector[this.phase2Level].y, 0);
+
+    },
+
+
 
     onLoad () {
         this.InitUI();
@@ -141,13 +258,22 @@
 
 
 
+    HidePhase1Pannel: function(){
+        this.phase1Object.active = false;
+        this.phaseLeftParent.active = false;
+
+    },
+
+
     /**
      * 미니게임 Phase1 시작시 객체 보여주는 효과임.
      * @constructor
      */
     ShowPhase1LeftPannel: function(){
+        this.phaseLeftParent2.active = false;
+        this.phaseLeftParent.active= true;
 
-        var initialDelay = 0.8;
+        var initialDelay = 0.2;
         var totalNodes = this.phase1Nodes.length;
 
         var self = this;
@@ -198,7 +324,7 @@
 
         var callFuncAction = cc.callFunc(()=>{
             this.status = 2;
-            this.ShowPopupMessage("각도를 90도에 비슷하게 맞춰주세요!");
+            this.ShowPopupMessage("각도를 90도에 근접하게 조정해주세요!");
             this.DegreeGameStart();
 
 
@@ -210,28 +336,103 @@
         this.phase1Object.runAction(seq);
     },
     LaunchDegree: function(){
+
+        // this.phase1Object.active = true;
+
         this.phase2Object.active = false;
         this.ShowPhase1LeftPannel();
+
+        this.HidePhase2Pannel();
+    },
+
+    HidePhase2Pannel: function(){
+        this.phase2Object.active =false;
     },
 
 
-    ShowPhase2LeftPannel: function(){
+    FilledOiled : function(index){
 
-        var initialDelay = 0.8;
+        var obj = null;
+        if(this.levelStatus[index] == false){
+            this.levelStatus[index] = true;
+
+            switch (index){
+                case 0: obj = this.phase2Nodes[5];
+                    break;
+                case 1: obj = this.phase2Nodes[6];
+                    break;
+                case 2: obj = this.phase2Nodes[7];
+                    break;
+            }
+            obj.getComponents(cc.Sprite).spriteFrame = this.rocket_energy[1];
+
+            this.EnergyVisualize(index);
+        }
+
+    },
+
+    EnergyVisualize: function(level) {
+        var targets = [0, 0]; // 이 배열은 [target, target2]를 저장합니다.
+        var obj = null;
+        switch (level) {
+            case 0:
+                targets = [0.5, 0.3];
+                 obj = this.phase2Nodes[5].getComponent(cc.Sprite);
+                break;
+            case 1:
+                targets = [1, 0.5];
+                obj = this.phase2Nodes[6].getComponent(cc.Sprite);
+                break;
+            case 2:
+                targets = [1, 1];
+                obj = this.phase2Nodes[7].getComponent(cc.Sprite);
+                break;
+        }
+
+        obj.spriteFrame = this.rocket_energy[1];
+
+        this.updateSpriteFillRange(this.phase2EnergyEmptyObject.getComponent(cc.Sprite), targets[0]);
+        this.updateSpriteFillRange(this.phase2EnergyFillObject.getComponent(cc.Sprite), targets[1]);
+    },
+
+    updateSpriteFillRange: function(sprite, targetFillRange) {
+        var interval = setInterval(function() {
+            if (sprite.fillRange >= targetFillRange) {
+                sprite.fillRange = targetFillRange;
+                clearInterval(interval);
+            } else {
+                sprite.fillRange += 0.01;
+            }
+        }, 5); // 여기서 30ms는 0.03ms보다 현실적인 타이머 간격입니다.
+    },
+
+
+
+
+    ShowPhase2LeftPannel: function(){
+        this.phaseLeftParent2.active = true;
+        this.phase2Object.active = false;
+        this.phase2Object.opacity = 0;
+
+        var initialDelay = 0.2;
         var totalNodes = this.phase2Nodes.length;
 
         var self = this;
+
+        this.limitLeftObject.active = false;
+        this.limitRightObject.active = false;
 
         this.phase2Nodes.forEach((node, index) => {
             node.opacity = 0;
             // 각 노드의 딜레이 계산 (index * initialDelay)
             var delayTime = cc.delayTime(index * initialDelay);
-            var fadeIn = cc.fadeIn(0.8);
+            var fadeIn = cc.fadeIn(0.5);
 
             // 모든 노드의 애니메이션이 끝난 후 실행할 작업 정의
             var onAllAnimationsComplete = cc.callFunc(() => {
                 if (index === totalNodes - 1) {  // 마지막 노드의 애니메이션 완료시
-                    var lastNode = self.phase1Nodes[self.phase1Nodes.length - 1];
+
+                    var lastNode = this.phase2Nodes[this.phase2Nodes.length - 1];
 
                     var fadeOut = cc.fadeOut(0.2);
                     var delay = cc.delayTime(0.1);
@@ -245,9 +446,22 @@
 
                     // 애니메이션 실행
                     lastNode.runAction(repeatAction);
-                    // 여기에 추가적으로 실행할 코드 작성
 
-                    this.Phase2RightPannel();
+
+                    // 여기에 추가적으로 실행할 코드 작성
+                    var spr = this.phase2EnergyFrame.getComponent(cc.Sprite);
+                    spr.fillRange = 0;  // 초기 fillRange 설정
+                     var inter = setInterval(()=>{
+
+                        if(spr.fillRange >= 1){
+                            clearInterval(inter);
+                            self.Phase2RightPannel();
+                        }
+                        else{
+                            spr.fillRange += 0.1;
+                        }
+                    },15);
+
                 }
             });
 
@@ -261,15 +475,35 @@
 
     Phase2RightPannel: function(){
 
+        this.phase2Object.active = true;
+        this.phase2StopBtn.node.active = false;
+
+        var fadeIn = cc.fadeIn(0.8);
+        var delayTime = cc.delayTime(0.5);
+
+
+        this.limitLeftObject.active = true;
+        this.limitRightObject.active = true;
+
+
+        var func = cc.callFunc(()=>{
+            this.status = 4;
+            this.ShowPopupMessage("게이지 타이밍에 맞추어 연료를 주입해주세요");
+        });
+
+        var seq = cc.sequence(delayTime, fadeIn, delayTime, func);
+        this.phase2Object.runAction(seq);
+        // this.ProgresGameStart();
     },
 
 
 
     LaunchBoost: function(){
-        this.phase1Object.active = false;
+        this.HidePhase1Pannel();
+
+        this.ShowPhase2LeftPannel();
 
         this.phase2Object.active = true;
-        this.ProgresGameStart();
     },
 
 
@@ -358,8 +592,13 @@
 
         if(this.dialongIndex >= this.dialog.length - 1){
 
-            if(this.status === 3){
-                // TODO 우주선 발쏴아
+            if(this.status === 4){
+                this.phase2StopBtn.node.active = true;
+                this.ProgresGameStart();
+            }
+            else if(this.status === 3){
+
+                this.SpaceShipUpdator();
 
                 this.miniGameLayout.active = false;
                 this.SpaceShipLaunchMovie();
@@ -388,19 +627,25 @@
     },
 
 
+
+
+
     /**
      * 유저가 잘못된 클릭을 했을때 효과
      * @constructor
      */
 
-    ShakeObject : function(object) {
+    ShakeObject : function(object , isError = true) {
         var magnitude = 15.2;
         let shakes = [];
 
         var originalPosition = object.position;
 
 
-        this.errorPange.active = true;
+        if(isError){
+            this.errorPange.active = true;
+        }
+
         for (let i = 0; i < 4; i++) {
             // 무작위 위치 변경
             let shakeX = (Math.random() - 0.5) * 2 * magnitude;
@@ -428,7 +673,7 @@
         if(this.degree <= 5){
             this.status = 1;
             this.StopDegreeLooper();
-            this.ShowPopupMessage("부스터 게이지를 80% 이상 조정하기");
+            this.SpaceShipUpdator();
             this.phase1StopBtn.node.active = false;
             this.phaseLeftParent.active = false;
             this.phase1Object.active = false;
@@ -439,15 +684,29 @@
     },
 
     Phase2StopAction : function(){
-        if(this.progressValue >= 0.85){
-            this.status = 2;
-            this.StopProgressLooper();
 
-            this.ShowPopupMessage("성공했습니다! \n 이제 우주에서 여정을 시작합니다");
+        if(this.progressValue >= this.leftLimit && this.progressValue <= this.rightLimit){
+
+            if(this.phase2Level == 2){
+                this.FilledOiled(this.phase2Level);
+
+                this.StopProgressLooper();
+                this.progressValue = 0.5;
+
+                this.ShowPopupMessage("게임성공입니당");
+                this.status = 3;
+                this.phase2StopBtn.node.active = false;
+            }
+            else{
+                this.FilledOiled(this.phase2Level);
+                this.phase2Level++;
+                this.progressValue = 0;
+            }
         }
         else{
-            //this.ShakeObject()
+            this.ShakeObject(this.phase2Object);
         }
+
     },
 
     StopDegreeLooper:function(){
@@ -463,6 +722,8 @@
         var self = this;
 
         var progressInter = setInterval(()=>{
+            self.GetPhase2LevelUpdate();
+
             if(self.isStopProgress) {
                 clearInterval(progressInter);
             }
@@ -473,9 +734,10 @@
             else{
                 self.IncreaseProgress();
             }
+
             self.sliderBar.progress = self.progressValue;
 
-        },0.03);
+        },15);
 
     },
 
@@ -484,7 +746,17 @@
             this.isProgressReverse = true;
             return;
         }
-        this.progressValue += 0.01;
+
+        if(this.phase2Level == 0){
+            this.progressValue += 0.005;
+        }
+        else if(this.phase2Level == 1){
+            this.progressValue += 0.01;
+        }
+        else{
+            this.progressValue += 0.02;
+        }
+
     },
 
     DecreaseProgress: function(){
@@ -492,7 +764,17 @@
             this.isProgressReverse = false;
             return;
         }
-        this.progressValue -= 0.01;
+
+        if(this.phase2Level === 0){
+            this.progressValue -= 0.005;
+        }
+        else if(this.phase2Level === 1){
+            this.progressValue -= 0.01;
+        }
+        else{
+            this.progressValue -= 0.02;
+        }
+
     },
 
     DegreeGameStart: function(){
@@ -510,7 +792,7 @@
             }
             self.targetObject.angle = self.degree;
 
-        },0.03);
+        },5);
     },
 
     IncreaseDegree: function(){
@@ -518,7 +800,7 @@
             this.isDegreeReverse = true;
             return;
         }
-        this.degree += 0.5;
+        this.degree += 0.7;
     },
 
     DecreaseDegree: function(){
