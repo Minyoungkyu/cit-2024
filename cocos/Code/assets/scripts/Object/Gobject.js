@@ -123,8 +123,6 @@ var Gobject = cc.Class({
             }
         }
 
-
-
     },
 
     /**

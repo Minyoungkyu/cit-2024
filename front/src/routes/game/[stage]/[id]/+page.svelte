@@ -1,7 +1,7 @@
 <svelte:head>
     <script type="text/javascript" src="/brython-runner.bundle.js"></script>
 
-    <title>{rq.SITE_NAME} | 맵 이름</title>
+    <title>{rq.SITE_NAME}</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +40,9 @@
     let showCompleteBtn: boolean = $state(false);
     let canExecute: boolean = $state(true);
     let isPause: boolean = $state(false);
+    let startTyping: boolean = $state(false);
+    let element: HTMLElement;
+    let text: string;
 
     const stageString = gameMapDto.cocosInfo;
     const jsonObjectString = stageString.trim().substring("stage = ".length);
@@ -50,12 +53,16 @@
 
     $effect(() => {
         if (isCoReady) {
-            setTimeout(() => {
-                showStart = true;
-                setTimeout(() => {
-                    showGuide = true;
-                }, 0);
-            }, 1000);
+            console.log('isCoReady');
+            setInterval(() => {
+                if((window as any).IsCocosGameLoad()) {
+                    setTimeout(() => {
+                        showStart = true;
+                        showGuide = true;
+                        startTyping = true;
+                    }, 1000);
+                }
+            }, 500);
         }
     });
 
@@ -78,6 +85,25 @@
         }
         
         let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
+
+        if(result.error) {
+            let cocosInfoLength = gameMapDto.cocosInfo.split('\n').length;
+            const longText = result.error;
+    
+            const regex = /File "<exec>", line (\d+)/g;
+
+            let match;
+            let lastNumber: any;
+
+            while ((match = regex.exec(longText)) !== null) {
+                lastNumber = match[1];
+            }
+
+            if (lastNumber) {
+                updateErrorHighlight(Number(lastNumber - 515 - cocosInfoLength));
+            } 
+        }
+
         framesData = JSON.parse(result.result);
         const wrappedData = {
             data: framesData
@@ -97,7 +123,22 @@
             }
         });
     }
+    
+    let i = 0;
+    function typeWriter() {
+        if (i < text.length) {
+            element.innerText += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 50); 
+        }
+    }
 
+    $effect(() => {
+        if(startTyping) {
+            typeWriter();
+        }
+    });
+    
     onMount(async () => {
         runPythonCode2( "", "");
     });
@@ -124,6 +165,9 @@
         editor.setValue(explanation, 1); 
 
         editor.getSession().on('change', function(e:any) {
+            const session = editor.getSession();
+            session.removeMarker(errorMarkerId);
+            
             if (e.action === 'insert') {
                 const totalLines = editor.getSession().getLength();
                 const cursorPosition = editor.getCursorPosition();
@@ -136,10 +180,15 @@
 
         editor.focus();
 
+        element = document.getElementById('typing')!;
+        text = element.innerText;
+        element.innerText = ''; 
+
         showModal();
     });
 
     let markerId:any;
+    let errorMarkerId:any;
 
     let test2 = $state(true);
     let playCanPause = $state(false);
@@ -158,11 +207,23 @@
     function updateHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
         const Range = ace.require('ace/range').Range;
         const session = editor.getSession();
+        session.removeMarker(errorMarkerId);
         if (markerId !== undefined) {
           session.removeMarker(markerId);
         }
         const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
         markerId = session.addMarker(range, "editorHighlighter", "fullLine", false);
+    }
+
+    function updateErrorHighlight(HilightRow:any) { // Todo: svelte 반응성으로 호출되도록 HighlightRow 변수하나 파서 반응성 걸기
+        const Range = ace.require('ace/range').Range;
+        const session = editor.getSession();
+        session.removeMarker(markerId);
+        if (errorMarkerId !== undefined) {
+          session.removeMarker(errorMarkerId);
+        }
+        const range = new Range(HilightRow - 2, 0, HilightRow - 2, 1);
+        errorMarkerId = session.addMarker(range, "editorErrorHighlighter", "fullLine", false);
     }
 
     function updateClearGoal(frame:any) {
@@ -174,7 +235,7 @@
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 }
                 stageObject.stage.goal_list[0].pos === frame.player.pos
-            }else if(clearGoalList[i].includes('식량')) {
+            }else if(clearGoalList[i].includes('보급품')) {
                 let foodGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'food');
                 if (frame.player.food_count >= foodGoals[0].count) {
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
@@ -186,8 +247,8 @@
                 }
             }else if(clearGoalList[i].includes('줄 이하')) {
                 let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
-                // console.log(frame.line_num, codeLineGoals[0].count);
-                if (frame.line_num <= codeLineGoals[0].count) {
+                let guideTest = gameMapDto.editorMessage.split('\n').length;
+                if (frame.line_num <= codeLineGoals[0].count + guideTest) {
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 } else if(frame.line_num > codeLineGoals[0].count) {
                     clearGoalColorArray[i] = 'rgb(64 226 255)';
@@ -216,12 +277,10 @@
     function handlePlay() {
         playCanPause = true;
         if(isPause) {
-            console.log('resume');
             (window as any).ExternalResumeGame ();
             isPause = false;
             updateFrame(framesData, parseInt(progressController.value));
         } else if(canExecute) {
-            console.log('execute');
             executePython();
         } else {
             (window as any).OnClickPlay();
@@ -328,7 +387,7 @@
 }
 </script>
 
-<audio id="myAudio" autoplay>
+<audio id="myAudio">
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="flex flex-col items-center justify-center overflow-hidden">
@@ -336,23 +395,24 @@
 
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - 0.2});">
-            <div class="text-[50px] font-[900] italic absolute top-[10px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
+            <div class="text-[43px] font-[900] italic absolute top-[14px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
             <div class="w-[46px] h-[46px] absolute right-[20px] top-[65px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_popup_close.png');" on:click={() => showClearPopup = false}></div>
             <div class="w-[1030px] h-[446px] absolute top-[165px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_clear_background2.png');">
                 <div class="absolute w-full top-[55px] left-[-145px]" style="transform:scale(0.7)">
                     <div class="text-[50px] font-[900] italic absolute top-[50px] left-[50px]" style="color:rgb(64 226 255)">획득 보상</div>
-                    <div class="w-[203px] h-[203px] absolute top-[175px] left-[50px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                    <div id="star1" class="w-[203px] h-[203px] absolute top-[175px] left-[50px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[124px] h-[58px] absolute top-[50px] left-[40px]" style="background-image:url('/img/inGame/clearPop/icon_exp.png');transform:scale(1.7);"></div>
                         <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:1px 0 black, -1px 0 black, 0 1px black, 0 -1px black;">{gameMapDto.rewardExp}</div>
                     </div>
-                    <div class="w-[203px] h-[203px] absolute top-[175px] left-[300px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                    <div id="star2" class="w-[203px] h-[203px] absolute top-[175px] left-[300px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[102px] h-[110px] absolute top-[30px] left-[55px]" style="background-image:url('/img/inGame/clearPop/icon_gem.png');transform:scale(1.6)"></div>
                         <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:">{gameMapDto.rewardJewel}</div>
                     </div>
-                    <div class="w-[203px] h-[203px] absolute top-[175px] left-[550px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                    <div id="star3" class="w-[203px] h-[203px] absolute top-[175px] left-[550px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[203px] h-[203px] absolute top-[10px] left-[10px]" style="background-image:url('{gameMapDto.rewardItem?.sourcePath}');background-size:contain;background-repeat:no-repeat;"></div>
                     </div>
                 </div>
+                <div id="star4" class="w-[346px] h-[289px] absolute right-[55px] top-[95px]" style="background-image:url('/img/inGame/clearPop/icon_complete.png');transform:scale(0.6);"></div>          
             </div>
             <div class="w-[202px] h-[67px] absolute bottom-[60px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_lv_background.png');">
                 <div class="font-[900] text-[50px] text-white flex justify-center ml-[85px] leading-[1.2] h-full">{rq.getPlayerLeve()}</div>
@@ -360,9 +420,9 @@
             <div class="w-[252px] h-[51px] absolute bottom-[75px] left-[400px]" style="background-image:url('/img/inGame/clearPop/ui_gembox2.png');transform:scale(1.3);">
                 <div class="font-[700] text-[40px] text-white flex justify-center ml-[75px] leading-[1.4] h-full">{rq.member.player.gems.toLocaleString()}</div>
             </div>
-            <div class="w-[371px] h-[110px] absolute bottom-[50px] right-[40px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/ui_clear_background3.png');">
-                <div class="w-[208px] h-[74px] absolute top-[19px] left-[85px]" style="background-image:url('/img/inGame/btn_start.png');">
-                    <div class="font-[900] text-[50px] leading-[1.7] italic" style="color:rgb(64 226 255);" on:click={() => routeToSage()}>계속</div>
+            <div class="w-[299px] h-[102px] absolute bottom-[50px] right-[85px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_action2.png');transform:scale(1.2)">
+                <div class="w-[299px] h-[102px] absolute top-[9px] left-[-10px]" style="">
+                    <div class="font-[900] text-[40px] leading-[2.1] italic" style="color:rgb(9 13 24);" on:click={() => routeToSage()}>계속</div>
                 </div>
             </div>
         </div>
@@ -450,7 +510,7 @@
                                 <div class="flex flex-col items-center justify-center ml-[73px]">
                                     <div class="font-[900] text-[50px] absolute top-[12px] left-[200px]" style="color:rgb(64 226 255)">가이드</div>
                                     <div class="w-[46px] h-[46px] absolute top-[70px] right-[10px] cursor-pointer" style="background-image:url('/img/inGame/btn_popup_close.png')" on:click={() => closeModal()}></div>
-                                    <div class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left" style="white-space:pre-wrap;">
+                                    <div id="typing" class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left" style="white-space:pre-wrap;">
                                         {gameMapDto.guideText}
                                     </div>
                                     <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left" 
@@ -459,10 +519,10 @@
                                             {gameMapDto.guideImage}
                                         </div>
                                     </div>
-                                    <div class="w-[300px] h-[94px] flex items-center justify-center cursor-pointer"
-                                        style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:100% 100%" on:click={() => closeModal()}>
-                                        <div class="w-[208px] h-[74px]" style="background-image:url('/img/inGame/btn_start.png')">
-                                            <div class="font-[900] text-[35px] flex justify-center leading-[85px]" style="color:rgb(64 226 255)">시작</div>
+                                    <div class="w-[299px] h-[102px] flex items-center justify-center cursor-pointer"
+                                        style="background-image:url('/img/inGame/btn_action4.png');background-size:100% 100%" on:click={() => closeModal()}>  <!--closeModal()-->
+                                        <div class="w-[208px] h-[74px]" style="">
+                                            <div class="font-[900] text-[35px] flex justify-center leading-[80px]" style="color:rgb(9 13 24)">시작</div>
                                         </div>
                                     </div>
                                 </div>
@@ -476,9 +536,9 @@
                 </div>
 
                 <div class="flex flex-row justify-around items-center w-[601px] h-[100px] mt-[14px]" style="background-image:url('/img/inGame/ui_editor_background3.png');background-size:cover;background-repeat:no-repeat">
-                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8]" style="background-image:url('/img/inGame/btn_start.png');color:rgb(64 226 225);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
-                    <button class="w-[208px] h-[74px] text-[30px] font-[900] italic leading-[2.8] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
-                            style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_complete.png");' : 'url("/img/inGame/btn_complete_off.png");'}color:{showCompleteBtn ? 'rgb(255 210 87)' : 'gray'}"
+                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5]" style="background-image:{canExecute ? 'url("/img/inGame/btn_action4.png");' : 'url("/img/inGame/btn_action3.png");'}color:rgb(9 13 24);transform:scale(0.8);{canExecute ? '' : 'pointer-events: none;'}" on:click={executePython}>실행</button>
+                    <button class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5] {showCompleteBtn ? 'cursor-pointer' : 'cursor-default'}" 
+                            style="background-image:{showCompleteBtn ? 'url("/img/inGame/btn_action2.png");' : 'url("/img/inGame/btn_action3.png");'}color:{showCompleteBtn ? 'rgb(9 13 24)' : 'rgb(9 13 24)'};transform:scale(0.8);"
                             on:click={() => {showCompleteBtn ? doComplete() : ''}}>완료</button>
                 </div>
                 <div class="flex justify-start items-center w-[602px] h-[250px] mt-[20px]" style="background-image:url('/img/inGame/ui_editor_background4.png')">

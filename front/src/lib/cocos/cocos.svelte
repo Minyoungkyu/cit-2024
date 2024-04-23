@@ -90,7 +90,6 @@
 
   onMount(async () => {
     const checkInterval = setInterval(() => {
-      console.log(gameMapDto) // ToDo: remove
       if (gameMapDto !== undefined) { 
         initializeGame(); 
         clearInterval(checkInterval); 

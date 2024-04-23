@@ -123,7 +123,6 @@ cc.Class({
         else if(this.playerStatusInfo === 11){
             if(this.isBombAnimation) return;
 
-            // console.log("Fc");
 
             this.isBombAnimation = true;
 // 폭탄에 맞음
@@ -243,33 +242,6 @@ cc.Class({
                 // 해당방향으로 이동하지못함.
                 this.ShowMessage("이 방향으로 이동할수 없어!");
                 break;
-//             case 11:
-//
-//                 if(this.isBombAnimation) return;
-//
-//                 console.log("Fc");
-//
-//                 this.isBombAnimation = true;
-// // 폭탄에 맞음
-//                 var animationClip = this.getComponent(cc.Animation);
-//
-//                 var upState = this.direction === Env.ANIMATION_LEFT ? animationClip.getAnimationState(Env.ANIMATION_LEFT_HIT) : animationClip.getAnimationState(Env.ANIMATION_RIGHT_HIT);
-//                 var isPlaying = upState.isPlaying;
-//                 if (!isPlaying) {
-//                     if (this.direction === Env.ANIMATION_LEFT) {
-//                         animationClip.play(Env.ANIMATION_LEFT_HIT);
-//                     } else {
-//                         animationClip.play(Env.ANIMATION_RIGHT_HIT);
-//                     }
-//                 }
-//
-//                 var self = this;
-//                 setTimeout(function(){
-//                     self.isBombAnimation = false;
-//                 }, 1000);
-//
-//
-//                 break;
 
             case 13:
                 // Set 명령어 시도중 방향이 다를경우

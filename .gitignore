@@ -49,7 +49,6 @@ local/
 settings/
 remote-downloads/
 build/
-db/
 *.log
 *.bak
 *.map
