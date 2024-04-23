@@ -9,17 +9,12 @@
             type:[cc.Node]
         },
 
-
-
         movingTarget: cc.Node,
         spaceShip: cc.Node,
-
 
         objectCamera : cc.Camera,
         // 미니게임 UI 레이아웃
         miniGameLayout : cc.Node,
-
-
         // Error Page
         errorPange: cc.Node,
         /**
@@ -93,9 +88,6 @@
         popupLabel: cc.Label,
         popupBtn: cc.Button,
         status : 0,
-
-
-
 
 
         phase2Level : 0,
@@ -206,9 +198,7 @@
                 cc.v2(-5,200),
                 cc.v2(-5,600),
                 cc.v2(-5,1000),
-                cc.v2(-5,2500),
-
-
+                cc.v2(-5,2500)
             ];
 
 
@@ -635,9 +625,7 @@
         labels.runAction(repeatAction);
     },
 
-    SpaceShipLaunchMovie: function(){
 
-    },
 
 
     AcceptButtonAction: function(){
@@ -652,9 +640,7 @@
             else if(this.status === 3){
 
                 this.SpaceShipUpdator();
-
                 this.miniGameLayout.active = false;
-                this.SpaceShipLaunchMovie();
             }
             else if(this.status === 2){
                 this.phase1StopBtn.node.active = true;
@@ -666,6 +652,10 @@
             else if(this.status === 0){
                 this.miniGameLayout.active = true;
                 this.LaunchDegree();
+            }
+            else if(this.status === 10){
+                /// TODO 게임 종료 처리.
+
             }
         }
         else{
@@ -744,7 +734,7 @@
                 this.FilledOiled(this.phase2Level);
 
                 this.StopProgressLooper();
-                this.progressValue = 0.5;
+                this.progressValue = 0.4;
 
                 this.ShowPopupMessage("성공하였습니다! 발사가 곧 시작됩니다.");
                 this.status = 3;
@@ -863,9 +853,5 @@
         }
         this.degree -= 0.5;
     },
-
-
-
-
 
 });
