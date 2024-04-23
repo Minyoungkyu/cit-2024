@@ -123,13 +123,13 @@
         ]
 
         this.levelVector = [
-            cc.v2(-150,150),
-            cc.v2(-100,100),
-            cc.v2(-60,60)
+            cc.v2(-90,90),
+            cc.v2(-45,90),
+            cc.v2(-90,0)
         ];
 
         this.dialog = [
-            "모든 준비가 끝났습니다. 여러분이 직접 발사각도, 발사체에 연료를 주입해주세요.",
+            "모든 준비가 끝났습니다. 발사각도를 조정하고, 연료를 주입해주세요.",
         ];
 
         this.AddEvent();
@@ -161,7 +161,7 @@
 
             var finalCallbackAction = cc.callFunc(()=>{
                 // 애니메이션 후 팝업 창 보임
-                this.ShowPopupMessage("연료 주입하기");
+                this.ShowPopupMessage("발사체에 연료 주입하기 (3회)");
             }, this);
 
             var sequenceAction = cc.sequence(rotateAction, delayAction, fadeAndCall, finalCallbackAction);
@@ -186,14 +186,67 @@
                 this.ShakeObject(this.objectCamera.node ,false);
             });
 
+            var camPos = cc.v2(0,1500);
 
+            var camM = cc.moveTo(0.5,camPos);
+
+            var camcall = cc.callFunc(()=>{
+                this.objectCamera.node.runAction(camM);
+            });
 
             var delay = cc.delayTime(0.1);
             var spawn2 = cc.spawn(shaker, delay);
-            var repeat = cc.repeat(spawn2, 100);
-            var seq = cc.sequence(spawn, repeat);
+            var repeat = cc.repeat(spawn2, 80);
+            var seq = cc.sequence(spawn, repeat, camcall);
 
             this.objectCamera.node.runAction(seq);
+
+            var vectors = [
+                cc.v2(-5, -400 ),
+                cc.v2(-5,200),
+                cc.v2(-5,600),
+                cc.v2(-5,1000),
+                cc.v2(-5,2500),
+
+
+            ];
+
+
+            var v1 = cc.moveTo(4, vectors[0]);
+            var v2 = cc.moveTo(3, vectors[1]);
+            var v3 = cc.moveTo(1,vectors[2])
+            var v4 = cc.moveTo(1,vectors[3]);
+            var v5 = cc.moveTo(5,vectors[4]);
+
+            var del = cc.delayTime(0.2);
+            var func = cc.callFunc(()=>{
+               this.particle_1.active = true;
+            });
+
+
+
+            var hide = cc.callFunc(()=>{
+               this.particle_1.active = false;
+            });
+
+
+
+            var sp1 = cc.spawn(del,func);
+            var sp2 = cc.spawn(hide,v3);
+
+
+            var final = cc.callFunc(()=>{
+                this.status = 10;
+                this.ShowPopupMessage("미션 성공! 우주에서 새로운 모험을 떠나세요!");
+            });
+
+            var seq = cc.sequence(sp1,v1,v2,sp2, v4, v5 ,final);
+
+            this.spaceShip.runAction(seq);
+
+
+
+
 
         // TODO
         }
@@ -206,16 +259,16 @@
 
         switch(this.phase2Level){
             case 0:
-                this.leftLimit = 0.2;
-                this.rightLimit = 0.8;
-                break;
-            case 1:
                 this.leftLimit = 0.3;
                 this.rightLimit = 0.7;
                 break;
-            case 2: case 3:
+            case 1:
                 this.leftLimit = 0.4;
-                this.rightLimit = 0.6;
+                this.rightLimit = 0.7;
+                break;
+            case 2: case 3:
+                this.leftLimit = 0.3;
+                this.rightLimit = 0.4;
                 break;
         }
 
@@ -324,7 +377,7 @@
 
         var callFuncAction = cc.callFunc(()=>{
             this.status = 2;
-            this.ShowPopupMessage("각도를 90도에 근접하게 조정해주세요!");
+            this.ShowPopupMessage("발사각도를 90도로 조정해주세요!");
             this.DegreeGameStart();
 
 
@@ -488,7 +541,7 @@
 
         var func = cc.callFunc(()=>{
             this.status = 4;
-            this.ShowPopupMessage("게이지 타이밍에 맞추어 연료를 주입해주세요");
+            this.ShowPopupMessage("중앙 게이지바에 타이밍에 맞춰 연료를 주입해주세요.");
         });
 
         var seq = cc.sequence(delayTime, fadeIn, delayTime, func);
@@ -693,7 +746,7 @@
                 this.StopProgressLooper();
                 this.progressValue = 0.5;
 
-                this.ShowPopupMessage("게임성공입니당");
+                this.ShowPopupMessage("성공하였습니다! 발사가 곧 시작됩니다.");
                 this.status = 3;
                 this.phase2StopBtn.node.active = false;
             }
