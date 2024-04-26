@@ -242,11 +242,11 @@ cc.Class({
                 // 해당방향으로 이동하지못함.
                 this.ShowMessage("이 방향으로 이동할수 없어!");
                 break;
-
             case 13:
                 // Set 명령어 시도중 방향이 다를경우
                 this.ShowMessage("이곳에서 할수 없는 명령어야!");
                 break;
+                
             case 14:
                 this.ShowMessage("문자열이 잘못 입력되었어.");
                 break;
@@ -303,6 +303,10 @@ cc.Class({
         this.bubble.active = true;
     },
 
+    /**
+     * 플레이어 애니메이션 초기화.
+     * @constructor
+     */
     PlayerInitAnimation: function(){
         if(this.playerIsDead === false) return;
         this.playerIsDead = false;
@@ -310,6 +314,10 @@ cc.Class({
 
     },
 
+    /**
+     * 플레이어 죽었을때 애니메이션 처리.
+     * @constructor
+     */
     PlayerDealAnimation: function(){
         if(this.playerIsDead) return;
         this.playerIsDead = true;

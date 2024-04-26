@@ -106,8 +106,6 @@ cc.Class({
         var inter = setInterval(function(){
             if(Loader.getInstance().GetImage(0) != null){
                 clearInterval(inter);
-                // var ts = performance.now();
-                // var li =  ts - self.startTime;
                 self.InitGame();
             }
         },5);
@@ -124,25 +122,28 @@ cc.Class({
                 clearInterval(audioInter);
             }
         },5);
-
     },
 
     /**
      * 큰 타일맵 로드시 맵이 짤려보여는 현상을 해결하기 위해 맵을 2초에 걸쳐 맵을 좌우로 이동시켜주는 효과
      * 해당 효과로 맵 랜더링 오류가 해결
+     *
+     * 2024-04-23 조금 딜레이 주며 수정
+     * 카메라 offset 1 -> 5 수정.
+     * 100-> 300
+     * 200 -> 600
      */
     _TileMapShake: function(){
         var s = this;
         setTimeout(function(){
-            s.CameraMoveX(1);
-        },100);
+            s.CameraMoveX(5);
+        },300);
 
         setTimeout(function(){
 
-            s.CameraMoveX(-1);
+            s.CameraMoveX(-5);
             s.LoadingFadeOut();
-        },200);
-
+        },600);
     },
 
     /**
@@ -171,24 +172,6 @@ cc.Class({
         this.loadingBG.active = false;
         this.isLoaded = true;
         Controller.getInstance().finalIndex = true;
-
-        // clearInterval(loadingInterval);
-        // setTimeout(()=>{
-        //     var loadingInterval = setInterval(function(){
-        //
-        //         if(self.loadingBG.opacity <= 0){
-        //             offset++;
-        //             self.loadingBG.active = false;
-        //             self.isLoaded = true;
-        //             Controller.getInstance().finalIndex = true;
-        //             clearInterval(loadingInterval);
-        //
-        //             var ts = performance.now();
-        //             var li =  ts - self.startTime;
-        //         }
-        //         self.loadingBG.opacity -= offset;
-        //     },5);
-        // },1000);
     },
 
 

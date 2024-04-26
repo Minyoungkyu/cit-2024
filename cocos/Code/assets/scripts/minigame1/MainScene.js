@@ -69,8 +69,6 @@
 
 
 
-
-
         isDegreeReverse : false,
         isProgressReverse :false,
 
