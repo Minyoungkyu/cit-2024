@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="11" height="11" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="alien_spaceship_tileset2.tsx"/>
- <tileset firstgid="241" source="alien_spaceship_tileset.tsx"/>
- <tileset firstgid="433" source="scifi_tileset_01.tsx"/>
+ <tileset firstgid="241" source="scifi_tileset_01.tsx"/>
  <layer id="2" name="floor" width="11" height="11">
   <data encoding="csv">
 151,151,151,151,151,151,151,151,151,151,151,
@@ -57,9 +56,9 @@
 0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,586,0,
+0,0,0,0,0,0,0,0,0,394,0,
 0,0,0,0,0,0,0,0,0,0,0,
-583,584,0,0,0,0,0,0,0,0,0,
+391,392,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
