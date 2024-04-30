@@ -146,4 +146,10 @@ window.Env = {
     ANIMATION_LEFT_HIT : "hit_left",
     ANIMATION_RIGHT_HIT : "hit_right",
 
+    
+    /* 플레이어 케릭터번호 정보 */
+    C_MAN : 0,
+    C_SUIT_MAN : 1,
+    C_WOMAN :  2,
+    C_SUIT_WOMAN : 3,
 };

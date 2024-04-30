@@ -85,7 +85,7 @@ public class Rq {
                 .path("/")
                 .domain(getSiteCookieDomain())
                 .sameSite("Strict")
-                .secure(false)
+                .secure(true)
                 .httpOnly(true)
                 .build();
 
@@ -99,7 +99,7 @@ public class Rq {
                 .path("/")
                 .maxAge(0)
                 .domain(getSiteCookieDomain())
-                .secure(false)
+                .secure(true)
                 .httpOnly(true)
                 .build();
 

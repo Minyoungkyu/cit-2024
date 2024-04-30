@@ -35,6 +35,17 @@ var Controller = cc.Class({
         gameStatus: false,
         isGamePause: false,
         finalIndex: false,
+
+        characterNumber : 0,
+    },
+
+
+    getCharNumber : function(){
+        return this.characterNumber;
+    },
+
+    setcharNumber : function(number){
+        this.characterNumber = number;
     },
 
 
@@ -197,6 +208,18 @@ var Controller = cc.Class({
 });
 
 module.exports = Controller;
+
+
+/**
+ * 플레이어 애니메이션 처리를 위한 정보
+    기본 남성 케릭터 : 0,
+    슈트 입은 남성케릭터 : 1,
+    기본 여성케릭터 :  2,
+    슈트 입은 여성케릭터 : 3,
+ */
+window.SetCharacterInfo = function(number){
+    Controller.getInstance().setcharNumber(number);
+},
 
 /**
  * 페이지가 최초 로드될때 Call 되는 Init Json 데이터

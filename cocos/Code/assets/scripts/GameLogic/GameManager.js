@@ -10,7 +10,12 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        btnTest: cc.Button,
+
+        btnMan: cc.Button,
+        btnManSuit : cc.Button,
+        btnWoman : cc.Button,
+        btnWomanSuit : cc.Button,
+
         // 로딩 화면
         loadingBG: cc.Node,
 
@@ -29,7 +34,10 @@ cc.Class({
         },
 
         // 현재 읽고 있는 id 값 뜻함.
-        idx: 0,
+        idx: {
+            default: 0,
+            visiable : false
+        },
 
         /**
          * 실제 사용하는 객체 모음
@@ -43,9 +51,6 @@ cc.Class({
         spaceShip : cc.Node,
         // 배경화면 뿌려지는곳.
         bgNode: cc.Node,
-
-        // Floor 객체 Parent
-        floorParent : cc.Node,
 
 
         //플레이어, 맵을 제외한 월드에 위치 하는 객체를 담는 배열
@@ -93,14 +98,38 @@ cc.Class({
         startTime :0,
     },
 
+    addBtn: function(){
+        this.btnMan.node.on('click',this.btnManShow, this);
+        this.btnManSuit.node.on('click',this.btnManSuitShow, this);
+        this.btnWoman.node.on('click',this.btnWomanShow, this);
+        this.btnWomanSuit.node.on('click',this.btnWomanSuitShow, this);
+    },
+
+    btnManShow: function(){
+        Controller.getInstance().setcharNumber(0);
+    },
+    btnManSuitShow: function(){
+        Controller.getInstance().setcharNumber(1);
+    },
+    btnWomanShow: function(){
+        Controller.getInstance().setcharNumber(2);
+    },
+    btnWomanSuitShow: function(){
+        Controller.getInstance().setcharNumber(3);
+    },
+
+
     /**
      * 게임에서 사용될 이미지로드 SingleTon 로드가 된걸 확인한 뒤
      * 로딩 화면을 감춰주는 Interval 생성
      */
     onLoad(){
-        this.loadingBG.active = true;
-        this.startTime = performance.now(); // 시작 시간 기록
+        this.addBtn();
 
+        this.loadingBG.active = true;
+        // this.startTime = performance.now(); // 시작 시간 기록
+        this.EffectInit();
+        // this.InitGame();
 
         var self = this;
         var inter = setInterval(function(){
@@ -136,12 +165,12 @@ cc.Class({
     _TileMapShake: function(){
         var s = this;
         setTimeout(function(){
-            s.CameraMoveX(5);
+            s.CameraMoveX(2);
         },300);
 
         setTimeout(function(){
 
-            s.CameraMoveX(-5);
+            s.CameraMoveX(-2);
             s.LoadingFadeOut();
         },600);
     },
@@ -172,6 +201,11 @@ cc.Class({
         this.loadingBG.active = false;
         this.isLoaded = true;
         Controller.getInstance().finalIndex = true;
+
+
+        // 카메라 초기화
+        // 최종 다되면 카메라 셋업.
+        this.InitialCamera();
     },
 
 
@@ -250,16 +284,14 @@ cc.Class({
         var inter = setInterval(function(){
 
             if(Controller.getInstance().initJson != null){
-                self.EffectInit();
+                //self.EffectInit();
                 self.InitMap();
                 self.InitPlayer();
                 self.InitObject();
-                // 카메라 초기화
-                self.InitialCamera();
                 clearInterval(inter);
             }
 
-        }, 30);
+        }, 5);
     },
 
     //TODO EFFECT

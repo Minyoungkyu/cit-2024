@@ -1,5 +1,27 @@
 ﻿
 
+/**
+ * 애니메이션에서 사용되는 전역 변수
+ */
+const IDLE_LEFT = 0;
+const IDLE_RIGHT = 1;
+const IDLE_UP = 2;
+const IDLE_DOWN = 3;
+const RUN_LEFT = 4;
+const RUN_RIGHT = 5;
+const RUN_UP = 6;
+const RUN_DOWN = 7;
+const HIT_LEFT = 8;
+const HIT_RIGHT = 9;
+const ATK_LEFT = 10;
+const ATK_RIGHT = 11;
+const JUMP_LEFT = 12;
+const JUMP_RIGHT = 13;
+const JUMP_UP = 14;
+const JUMP_DOWN = 15;
+
+
+
 const Controller = require("Controller");
 
 cc.Class({
@@ -35,8 +57,50 @@ cc.Class({
         isPlaySound : false,
 
         isBombAnimation : false,
+
+
+        /**
+         * 큰 번호
+         * 0번 남성 노말
+         * 1번 남성 슈트
+         * 2번 여성 노말
+         * 3번 여성 슈트
+         */
+            
+
+        /**
+         * 세부
+         * 0 idle_left
+         * 1 idle_right
+         * 2 idle_up
+         * 3 idle_down
+         * 4 run_left
+         * 5 run_right
+         * 6 run_up
+         * 7 run_down
+         * 8 hit_left
+         * 9 hit_right
+         * 10 atk_left
+         * 11 atk_right
+         * 12 jump_left
+         * 13 jump_right
+         * 14 jump_up
+         * 15 jump_down
+         */
+        aniArray : {
+            default: []
+        },
     },
 
+    ctor() {
+        // 생성자에서 배열 초기화
+        this.aniArray = [
+            ["idle_left_m", "idle_right_m", "idle_up_m", "idle_down_m", "run_left", "run_right", "run_up", "run_down", "hit_l_m", "hit_r_m", "", "", "", "", "", ""],
+            ["idle_left_mh", "idle_right_mh", "idle_up_mh", "idle_down_mh", "run_left_mh", "rum_right_mh", "rum_up_mh", "run_down_mh", "hit_left_mh", "hit_right_mh", "atk_left_mh", "atk_right_mh", "jump_left_mh", "jump_right_mh", "jump_up_mh", "jump_down_mh"],
+            ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w", "", "", "", "", "", ""],
+            ["left_idle", "right_idle", "idle_back", "idle_front", "leftRun", "rightRun", "upRun", "downRun", "hit_left", "hit_right", "attack_left", "attack_right", "jump_left", "jump_right", "jump_up", "jump_down"]
+        ];
+    },
 
     /**
      * 플레이어가 이동합니다.
@@ -71,6 +135,25 @@ cc.Class({
     },
 
     /**
+     * Player 애니메이션 로드
+     * @param {*} ANIMATION_NUMBER 
+     */
+
+    setPlayerAnimation: function(animation_number){
+        var number = Controller.getInstance().getCharNumber();
+        var clip = this.getComponent(cc.Animation);
+        var animationName = this.aniArray[number][animation_number];
+
+        var upState = clip.getAnimationState(animationName);
+        var isPlaying = upState.isPlaying;
+
+        if(!isPlaying){
+            clip.play(animationName);
+        }
+
+    },
+
+    /**
      * 현재 방향에 따른 Scale 변경
      * 로테이션 처리
      */
@@ -88,33 +171,18 @@ cc.Class({
             switch (this.direction){
 
                 case Env.DIRECTION_UP:
-                    var upState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_UP);
-                    isPlaying = upState.isPlaying;
-                    if (!isPlaying) {
-                        animationClip.play(Env.ANIMATION_UP);
-                    }
+
+                        this.setPlayerAnimation(RUN_UP);
+                        // animationClip.play(Env.ANIMATION_UP);
                     break;
                 case Env.DIRECTION_DOWN:
-                    var downState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_DOWN);
-                    isPlaying = downState.isPlaying;
-                    if (!isPlaying) {
-                        animationClip.play(Env.ANIMATION_DOWN);
-                    }
-
+                        this.setPlayerAnimation(RUN_DOWN);
                     break;
                 case Env.DIRECTION_RIGHT:
-                    var rightState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_RIGHT);
-                    isPlaying = rightState.isPlaying;
-                    if (!isPlaying) {
-                        animationClip.play(Env.ANIMATION_RIGHT);
-                    }
+                        this.setPlayerAnimation(RUN_RIGHT);
                     break;
                 case Env.DIRECTION_LEFT:
-                    var leftState = this.getComponent(cc.Animation).getAnimationState(Env.ANIMATION_LEFT);
-                    isPlaying = leftState.isPlaying;
-                    if (!isPlaying) {
-                        animationClip.play(Env.ANIMATION_LEFT);
-                    }
+                        this.setPlayerAnimation(RUN_LEFT);
                     break;
             }
             // 효과음 추가.
@@ -125,19 +193,13 @@ cc.Class({
 
 
             this.isBombAnimation = true;
-// 폭탄에 맞음
-            var animationClip = this.getComponent(cc.Animation);
-
-            var upState = this.direction === Env.ANIMATION_LEFT ? animationClip.getAnimationState(Env.ANIMATION_LEFT_HIT) : animationClip.getAnimationState(Env.ANIMATION_RIGHT_HIT);
-            var isPlaying = upState.isPlaying;
-            if (!isPlaying) {
-                if (this.direction === Env.ANIMATION_LEFT) {
-                    animationClip.play(Env.ANIMATION_LEFT_HIT);
-                } else {
-                    animationClip.play(Env.ANIMATION_RIGHT_HIT);
-                }
+            // 폭탄에 맞음
+            if (this.direction === Env.DIRECTION_LEFT) {
+                this.setPlayerAnimation(HIT_LEFT);
+            } else {
+                this.setPlayerAnimation(HIT_RIGHT);
             }
-
+            
             var self = this;
             setTimeout(function(){
                 self.isBombAnimation = false;
@@ -149,18 +211,24 @@ cc.Class({
                 // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
                 if(this.direction === Env.DIRECTION_LEFT){
                     // idle_left 애니메이션 적용 예정
-                    this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
+                    this.setPlayerAnimation(IDLE_LEFT);
+
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
                 }
                 else if(this.direction === Env.DIRECTION_RIGHT){
                     // idle_right 애니메이션 적용 예정
-                    this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
+                    this.setPlayerAnimation(IDLE_RIGHT);
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
                 }
                 else if(this.direction === Env.DIRECTION_UP){
-                    this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+                    this.setPlayerAnimation(IDLE_UP);
 
                 }
                 else if(this.direction === Env.DIRECTION_DOWN){
-                    this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
+
+                    this.setPlayerAnimation(IDLE_DOWN);
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
                 }
             }
         }
@@ -190,18 +258,24 @@ cc.Class({
 
 
         if(defaultDIR === Env.PLAYER_DEFAULT_LEFT){
-            this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
+
+            this.setPlayerAnimation(IDLE_LEFT);
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
         }
         else if(defaultDIR === Env.PLAYER_DEFAULT_UP){
             // 위로 보고있을때
-            this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+
+            this.setPlayerAnimation(IDLE_UP);
         }
         else if(defaultDIR === Env.PLAYER_DEFAULT_DOWN){
             // 아래보고있을때.
-            this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
+            this.setPlayerAnimation(IDLE_DOWN);
         }
         else if(defaultDIR === Env.PLAYER_DEFAULT_RIGHT){
-            this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
+            this.setPlayerAnimation(IDLE_RIGHT);
         }
     },
 
