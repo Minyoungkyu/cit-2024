@@ -96,6 +96,10 @@ cc.Class({
 
         timeCheck : 0,
         startTime :0,
+
+        isSceneLoaded : false,
+
+      
     },
 
     addBtn: function(){
@@ -124,6 +128,9 @@ cc.Class({
      * 로딩 화면을 감춰주는 Interval 생성
      */
     onLoad(){
+
+        
+
         this.addBtn();
 
         this.loadingBG.active = true;
@@ -272,6 +279,7 @@ cc.Class({
             { x: -4, y: 1 },
         ];
         this.loadInit();
+
     },
 
     /**
@@ -285,14 +293,54 @@ cc.Class({
 
             if(Controller.getInstance().initJson != null){
                 //self.EffectInit();
-                self.InitMap();
-                self.InitPlayer();
-                self.InitObject();
+
+                if(self.IsBonusStage()){
+                    var stageObject = Controller.getInstance().getInitStageData();
+                    var step = stageObject.step;
+
+                    self.bonusGameSceneLoaded(step);
+                }
+                else{
+                    self.InitMap();
+                    self.InitPlayer();
+                    self.InitObject();
+                }
                 clearInterval(inter);
             }
 
         }, 5);
     },
+
+
+    IsBonusStage: function(){
+        var stageObject = Controller.getInstance().getInitStageData();
+        var step = stageObject.step;
+
+        if(step == "1-4"){
+            return true;
+        }
+        else if(step == "2-4"){
+            return true;
+        }
+        
+        return false;
+    },
+
+
+    /**
+     * 
+     * 
+     */
+    bonusGameSceneLoaded: function(step){
+        if(step === "1-4" ) {
+            cc.director.loadScene("minigame1");
+        }
+        else if(step === "2-4"){
+
+        }
+    },
+  
+
 
     //TODO EFFECT
     ShakeEffect: function() {
@@ -463,6 +511,8 @@ cc.Class({
             self.gameMap.tmxAsset = tmxFile;  // Tiled Map 설정
 
             self.MapSetupCamera();  // 카메라 설정 함수 분리
+
+            // 맵 로드 시점에 ??
         });
     },
 

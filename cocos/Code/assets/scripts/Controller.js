@@ -36,6 +36,8 @@ var Controller = cc.Class({
         isGamePause: false,
         finalIndex: false,
 
+
+        minigameDone : false,
         characterNumber : 0,
     },
 
@@ -293,8 +295,25 @@ window.ExternalResumeGame = function(){
     Controller.getInstance().ResumeGame();
 }
 
+
+/**
+ * 로딩이 끝났음을 알려주는 함수
+ * @returns 로딩결과
+ */
 window.IsCocosGameLoad = function(){
     if(Controller.getInstance().finalIndex) return true;
+    return false;
+}
+
+
+/**
+ * 
+ * 미니게임이 끝나면 Return True 해줌.
+ * 
+ * @returns 미니게임결과
+ */
+window.IsMiniGameClear = function(){
+    if(Controller.getInstance().IsMiniGameClear) return true;
     return false;
 }
 

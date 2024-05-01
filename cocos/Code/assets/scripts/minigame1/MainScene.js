@@ -1,4 +1,7 @@
-﻿cc.Class({
+﻿
+const Controller = require("../Controller");
+
+cc.Class({
     extends: cc.Component,
 
     properties: {
@@ -101,6 +104,8 @@
 
 
     start () {
+
+        Controller.getInstance().finalIndex = true;
         this.particle_1.active = false;
 
         this.partileFire[0].active = false;
@@ -653,7 +658,7 @@
             }
             else if(this.status === 10){
                 /// TODO 게임 종료 처리.
-
+                Controller.getInstance().minigameDone = true;
             }
         }
         else{

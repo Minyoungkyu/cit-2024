@@ -53,6 +53,7 @@ cc.Class({
             type: cc.AudioClip,
         },
 
+        
         audioStep: 0,
         isPlaySound : false,
 
@@ -90,6 +91,11 @@ cc.Class({
         aniArray : {
             default: []
         },
+
+
+
+    
+
     },
 
     ctor() {
@@ -100,6 +106,10 @@ cc.Class({
             ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w", "", "", "", "", "", ""],
             ["left_idle", "right_idle", "idle_back", "idle_front", "leftRun", "rightRun", "upRun", "downRun", "hit_left", "hit_right", "attack_left", "attack_right", "jump_left", "jump_right", "jump_up", "jump_down"]
         ];
+
+
+
+
     },
 
     /**
@@ -199,7 +209,7 @@ cc.Class({
             } else {
                 this.setPlayerAnimation(HIT_RIGHT);
             }
-            
+
             var self = this;
             setTimeout(function(){
                 self.isBombAnimation = false;
