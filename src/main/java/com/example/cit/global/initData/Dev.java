@@ -2590,12 +2590,12 @@ public class Dev {
                         "1", "1-4", "Easy", 1,
                         "",
                         "",
-                        "",
+                        "로켓 발사하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
                                 "        \"step\" : \"1-4\",\n" +
-                                "        \"diff\" : Easy,\n" +
+                                "        \"diff\" : \"Easy\",\n" +
                                 "        \"level\" : 1\n" +
                                 "    }\n" +
                                 "}",
@@ -3808,8 +3808,7 @@ public class Dev {
                 GameMap gameMap22h2 = gameMapService.createGameMap(
                         "2", "2-2", "Hard", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
-                        "# if문에 or 연산자를 사용하여\n" +
-                                "앞에 벽이나 폭탄이 있을 경우를 처리하여 목표지점에 도달하세요.\n",
+                        "# if문에 or 연산자를 사용하여 앞에 벽이나 폭탄이 있을 경우를 처리하여 목표지점에 도달하세요.\n",
                         "목표지점에 도달하기\n" +
                                 "코드 15줄 이하로 작성하기",
                         "stage = {\n" +
@@ -4629,7 +4628,7 @@ public class Dev {
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
                                 "        \"step\" : \"2-4\",\n" +
-                                "        \"diff\" : Easy,\n" +
+                                "        \"diff\" : \"Easy\",\n" +
                                 "        \"level\" : 1\n" +
                                 "    }\n" +
                                 "}",
