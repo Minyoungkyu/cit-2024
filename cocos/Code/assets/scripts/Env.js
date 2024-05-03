@@ -74,14 +74,17 @@ window.Env = {
     LASER_START_OFF:12,
     LASER_END_OFF:13,
     GOAL: 14,
+    
 
     VLASER_START_ON : 15,
     VLASER_MIDDLE_ON : 16,
     VLASER_END_ON : 17,
     VLASER_START_OFF: 18,
     FLOOR : 19,
+    DOOR: 20,
+    
     // 최대 사이즈표현
-    MAX_LOAD_IMAGE_LENGTH : 20,
+    MAX_LOAD_IMAGE_LENGTH : 21,
 
 
     /**
@@ -111,6 +114,7 @@ window.Env = {
     VL_START_OFF_FILE_NAME:'vlStart_off',
     FLOOR_FILE_NAME : 'floor',
 
+    DOOR_IMG_NAME : 'test_none',
 
 
 

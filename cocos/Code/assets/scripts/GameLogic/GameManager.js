@@ -1256,6 +1256,7 @@ cc.Class({
             case "drop_switch" : return Env.NORMAL_SWITCH_ON;
             case "laser_switch": return Env.LASER_SWITCH_ON;
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
+            case "door":  return Env.DOOR;
 
 
             default : return -99;
@@ -1331,6 +1332,7 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
+            case Env.DOOR: prefabName = "door"; break;
         }
 
         if(prefabName == "" ){
@@ -1362,9 +1364,6 @@ cc.Class({
                 self.node.addChild(n1);
 
             }
-
-            var ts = performance.now();
-            var li =  ts - self.startTime;
         });
     },
 
@@ -1444,7 +1443,6 @@ cc.Class({
 
             var isStatus = false;
 
-
             if(status === 0)  isStatus = false;
             else  isStatus = true;
 
@@ -1469,7 +1467,6 @@ cc.Class({
      */
     executeCommand: function(id = 0){
         var command = Controller.getInstance().getCommandLine(id);
-
 
         /**
          * 명령어 종료를 뜻함
@@ -1630,16 +1627,7 @@ cc.Class({
         this.isPlay = true;
         this.idx = Controller.getInstance().GetProgressId();
 
-        /**
-         * TODO: function;
-         */
-
         var inter = setInterval(function(){
-
-            var st = Controller.getInstance().isGamePause;
-            var sy = Controller.getInstance().isGameReset;
-
-            console.log("paus = > " + st + " reset => " + sy);
 
             if(Controller.getInstance().isGamePause){
                 var a =  Controller.getInstance().GetProgressId();
@@ -1665,6 +1653,10 @@ cc.Class({
 
 
 
+    /**
+     * TMD 리셋 요청 코드로 인해 만든 함수 
+     * 코드 종료후 Reset 버튼 클릭시 최초 상태로 되돌리기위한 함수. 
+     */
     ResetDetector: function(){
         var self = this;
         var inter = setInterval(function(){

@@ -122,52 +122,52 @@
     "_defaultClip": null,
     "_clips": [
       {
-        "__uuid__": "1310ce5e-02d6-4845-8a08-1496a2339793"
+        "__uuid__": "2409c7c7-f382-426c-a413-461072779f51"
       },
       {
-        "__uuid__": "367cd11c-5418-44cb-be32-d93a77542af4"
+        "__uuid__": "c59d7bdd-694b-44bd-8adf-04704389e674"
       },
       {
-        "__uuid__": "ec9009d1-e28c-497f-8774-0821ebf4f8a2"
+        "__uuid__": "938413f1-a8c2-4a28-bbc4-cf66614263e4"
       },
       {
-        "__uuid__": "ea54212e-efc0-4cb1-99ea-3bb2426e5ae7"
+        "__uuid__": "7b19187b-7529-41d9-9a56-975c0fd1a53d"
       },
       {
-        "__uuid__": "3373020d-ebf1-40c8-a583-a3e66547a160"
+        "__uuid__": "9a7d52d7-8c2e-42b5-8c36-34cf395feb0c"
       },
       {
-        "__uuid__": "c005a493-e899-40b1-afa8-d5b185cb7763"
+        "__uuid__": "f92e60ac-bd7a-417c-a0dc-078b4c339155"
       },
       {
-        "__uuid__": "623c7fc5-e8a3-4fef-97af-ec1b51eff57d"
+        "__uuid__": "318c5f08-fd4b-4adc-b002-a7e22951b557"
       },
       {
-        "__uuid__": "8d1f7e1f-81fb-4e7c-b8b8-7739966dbb67"
+        "__uuid__": "5b0774ec-fec1-4780-b5f7-650287aa1466"
       },
       {
-        "__uuid__": "6bf3ba55-ecf8-4c0f-be43-6dbef6d36474"
+        "__uuid__": "c2f6cd22-3f6d-49ee-9b6e-22441bce76a6"
       },
       {
-        "__uuid__": "3162d38e-4894-44ab-980e-c531b8132e20"
+        "__uuid__": "d2f5e11b-9b5d-47fe-a168-2494c5b98229"
       },
       {
-        "__uuid__": "9637ed50-f4ae-4e09-a2e5-a3d9a2cca53f"
+        "__uuid__": "8e813487-cf2d-4b71-8edb-f2966698abdc"
       },
       {
-        "__uuid__": "1bcf77af-00a2-43fd-9446-f12367071c26"
+        "__uuid__": "40c7bc77-e40a-4fad-bdf8-35c2ac7412ed"
       },
       {
-        "__uuid__": "f15f8254-7778-4d4f-8431-e22a16c72a93"
+        "__uuid__": "4e180705-65ab-4d5c-a232-ee510bb95bdd"
       },
       {
-        "__uuid__": "1c81a8cd-499c-41c7-9d8f-fccd696acd1e"
+        "__uuid__": "088673d3-5048-4c61-803a-52d2c03bdbb2"
       },
       {
-        "__uuid__": "7ec405a8-353c-433f-871e-8b893b159b87"
+        "__uuid__": "5f19421f-b968-4b38-9a90-5e062915baa0"
       },
       {
-        "__uuid__": "b6182302-67a6-4563-b534-22bc3d133dae"
+        "__uuid__": "547fa9a4-a7a1-438f-afc9-8bb44fefcf61"
       }
     ],
     "playOnLoad": false,
@@ -211,7 +211,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "384003dc-76cf-4529-b06c-d466600c02f9"
     },
     "fileId": "50IEoQ3CFPcoDQKJVPq9HL",
     "sync": false
