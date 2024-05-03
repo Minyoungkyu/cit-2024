@@ -313,7 +313,7 @@ window.IsCocosGameLoad = function(){
  * @returns 미니게임결과
  */
 window.IsMiniGameClear = function(){
-    if(Controller.getInstance().IsMiniGameClear) return true;
+    if(Controller.getInstance().minigameDone) return true;
     return false;
 }
 
