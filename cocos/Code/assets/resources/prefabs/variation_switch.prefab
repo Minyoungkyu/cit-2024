@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Door",
+    "_name": "variation_switch",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -36,8 +36,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 48,
-      "height": 48
+      "width": 64,
+      "height": 32
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -48,8 +48,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        340.544,
-        -58.265,
+        143.305,
+        -247.077,
         0,
         0,
         0,
@@ -89,7 +89,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "9cd1aeaa-0ec3-494c-95ec-b1d051ff0882"
+      "__uuid__": "23b43cbd-fe8b-468f-8238-bc78984c515e"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -102,7 +102,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": false,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "78b86191-03c1-4910-a3b5-dbc49fa8bd47"
+    },
     "_id": ""
   },
   {
@@ -111,9 +113,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "0cd40ecd-9352-4b4c-980b-6aeb56f8ced7"
+      "__uuid__": "802946e2-0ae6-4d68-9a7f-83ce352f3094"
     },
-    "fileId": "d9IBRLnoFK35JpnKyPKmdE",
+    "fileId": "24LbKhIIdNIpZajFB61TYS",
     "sync": false
   }
 ]

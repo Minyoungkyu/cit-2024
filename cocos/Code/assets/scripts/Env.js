@@ -82,9 +82,12 @@ window.Env = {
     VLASER_START_OFF: 18,
     FLOOR : 19,
     DOOR: 20,
-    
+    VARIATION_SWITCH_ON : 21,
+    VARIATION_SWITCH_OFF : 22,
+
+
     // 최대 사이즈표현
-    MAX_LOAD_IMAGE_LENGTH : 21,
+    MAX_LOAD_IMAGE_LENGTH : 23,
 
 
     /**
@@ -114,7 +117,9 @@ window.Env = {
     VL_START_OFF_FILE_NAME:'vlStart_off',
     FLOOR_FILE_NAME : 'floor',
 
-    DOOR_IMG_NAME : 'test_none',
+    DOOR_IMG_NAME : 'lMiddle_on',
+    VARIATION_SWITCH_ON_FILE : 'lSwitch_on',
+    VARIATION_SWITCH_OFF_FILE : 'lSwitch_off',
 
 
 

@@ -60,6 +60,10 @@
                 Env.VL_MIDDLE_ON_FILE_NAME,
                 Env.VL_END_ON_FILE_NAME,
                 Env.VL_START_OFF_FILE_NAME,
+                Env.DOOR_IMG_NAME,
+                Env.VARIATION_SWITCH_ON_FILE,
+                Env.VARIATION_SWITCH_OFF_FILE,
+
             ];
 
             for (let i = 0; i < imgArray.length; i++) {

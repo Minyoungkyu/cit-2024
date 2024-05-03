@@ -110,9 +110,16 @@ cc.Class({
 
         isSceneLoaded : false,
 
+
+
+        /**스테이지 2 에서 사용되는 정보 */
+        print_array : [],
       
     },
 
+    /**
+     * MAP DEBUG Mode 
+     */
     addBtn: function(){
         this.btnMan.node.on('click',this.btnManShow, this);
         this.btnManSuit.node.on('click',this.btnManSuitShow, this);
@@ -192,9 +199,6 @@ cc.Class({
      * 로딩 화면을 감춰주는 Interval 생성
      */
     onLoad(){
-
-        
-
         this.addBtn();
 
         this.loadingBG.active = true;
@@ -278,6 +282,9 @@ cc.Class({
         // 최종 다되면 카메라 셋업.
         this.InitialCamera();
     },
+
+
+    
 
 
     /**
@@ -456,6 +463,33 @@ cc.Class({
         this.loadInit();
 
     },
+    
+
+    /**
+     * Point Array 정보 받는 곳.
+     */
+    GetPointArray: function(){
+        var initData =  Controller.getInstance().getInitOjbectDatas();
+
+        /** 
+         * 예외 처리
+         */
+        if(initData == null || initData == '') return;
+        if(initData.length < 1) return;
+
+
+        for( var i = 0 ; i < initData.length; i++ ){
+            if(initData[i].type === 'print_point') {
+                this.print_array = initData[i].require_print;
+                break;
+            }
+
+        }
+
+
+    },
+
+
 
     /**
      *  Json 데이터가 로드가 정상적으로 되었는지 Interval을 이용하여 확인한다.
@@ -479,6 +513,9 @@ cc.Class({
                     self.InitMap();
                     self.InitPlayer();
                     self.InitObject();
+
+                    // 2스테이지이상 부터 사용하는 Print
+                    self.GetPointArray();
                 }
                 clearInterval(inter);
             }
@@ -505,6 +542,7 @@ cc.Class({
         
         return false;
     },
+
 
 
     /**
@@ -1256,7 +1294,10 @@ cc.Class({
             case "drop_switch" : return Env.NORMAL_SWITCH_ON;
             case "laser_switch": return Env.LASER_SWITCH_ON;
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
-            case "door":  return Env.DOOR;
+            case "variation_switch" : return Env.VARIATION_SWITCH_OFF;
+            case "door":  
+                console.log("Name To Door");
+            return Env.DOOR;
 
 
             default : return -99;
@@ -1332,7 +1373,13 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
-            case Env.DOOR: prefabName = "door"; break;
+            case Env.DOOR: prefabName = "door"; 
+                console.log("Door 들어옴");
+                break;
+
+            case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch";
+             break;
+            
         }
 
         if(prefabName == "" ){

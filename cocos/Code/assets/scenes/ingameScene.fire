@@ -1878,6 +1878,7 @@
     "timeCheck": 0,
     "startTime": 0,
     "isSceneLoaded": false,
+    "print_array": [],
     "_id": "cfAwpmampJyqu2Lpn6r8Ms"
   },
   {
