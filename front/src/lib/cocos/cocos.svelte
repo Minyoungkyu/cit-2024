@@ -50,27 +50,27 @@
       let attempts = 0;
       const interval = setInterval(async () => {
       if (gameMapDto !== undefined) {
-          clearInterval(interval);
+            clearInterval(interval);
 
-          const stageString = gameMapDto.cocosInfo;
-          const jsonObjectString = stageString.trim().substring("stage = ".length);
-          const stageObject = JSON.parse(jsonObjectString);
+            const stageString = gameMapDto.cocosInfo;
+            const jsonObjectString = stageString.trim().substring("stage = ".length);
+            const stageObject = JSON.parse(jsonObjectString);
 
-          const trySendInitData = () => {
-            const result = (window as any).SendInitData?.(stageObject);
-            if (!result) {
-              setTimeout(trySendInitData, 100);
-            } else {
-              isCoReady = true;
-              dispatch('ready', { isCoReady });
-            }
-          };
-          
-          trySendInitData();
-        } else if (attempts++ > 100) {
-          clearInterval(interval);
-        }
-      }, 40);
+            const trySendInitData = () => {
+              const result = (window as any).SendInitData?.(stageObject);
+              if (!result) {
+                setTimeout(trySendInitData, 100);
+              } else {
+                isCoReady = true;
+                dispatch('ready', { isCoReady });
+              }
+            };
+            
+            trySendInitData();
+          } else if (attempts++ > 100) {
+            clearInterval(interval);
+          }
+        }, 40);
 
       if (typeof (window as any).boot === 'function') {
         (window as any).boot();

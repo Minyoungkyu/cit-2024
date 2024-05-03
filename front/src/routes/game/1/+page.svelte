@@ -11,6 +11,7 @@
 
     import DifficultySelector2 from '$lib/game/DifficultySelector2.svelte';
     import TutorialSelector2 from '$lib/game//TutorialSelector2.svelte';
+    import MiniGame1Selector from '$lib/game/MiniGame1Selector.svelte';
     import TransitioningCloseLayer from '$lib/game/TransitioningCloseLayer.svelte';
 
     import Shop from '$lib/game/topMenu/shop/Shop.svelte';
@@ -46,6 +47,9 @@
     const stageNeedIds = [2, 5, 14]; // Todo: 각 step, easy 난이도 마지막 레벨 맵의 id를 입력
 
     function findHighestStageStartId(highestClearedId: number): number { // 클리어한 최고 gameMapId 로 해금 스테이지 구하기 함수
+        if (highestClearedId >= 23) return 30 // 각 stage 의 마지막 step 의 easy 난이도 3레벨 맵의 id
+        else if (highestClearedId == 30) return 999 // 미니 게임의 맵 id
+
         for (let i = stageNeedIds.length - 1; i >= 0; i--) {
             if (highestClearedId >= stageNeedIds[i]) {
                 return stageStartIds[i]; 
@@ -55,10 +59,13 @@
     }
 
     function isOpen(stageId: number) { // 스테이지 해금 여부 확인 함수
+            if (stageId === 30) { // 미니게임 맵 id
+                return clearedgameMapIds.includes(23); // map-3 Easy Level 3 맵의 id
+            }
         return clearedgameMapIds.includes(stageId) || clearedgameMapIds.includes(stageNeedIds[stageStartIds.indexOf(stageId)]);
     }
 
-    let isDropdownOpen = $state([false, false, false, false]); // 드롭다운 메뉴 상태 추적
+    let isDropdownOpen = $state([false, false, false, false, false]); // 드롭다운 메뉴 상태 추적
 
     function toggleDropdown(index: number) { // 드롭다운 열기, 스테이지하이라이터 상태 조절 함수
         isDropdownOpen = isDropdownOpen.map((_, i) => i === index ? !isDropdownOpen[i] : false);
@@ -100,7 +107,7 @@
         rq.fetchAndInitializeInventories();
         rq.fetchAndInitializeProfileInventories();
 
-        function detectDeviceType() {
+        function detectDeviceType() { // Todo: 디바이스 타입에 따라 editor focus 조절 예정
             const ua = navigator.userAgent;
             if (/mobile/i.test(ua)) {
                 return 'Mobile';
@@ -431,7 +438,26 @@
                 difficultySelectorMsg={difficultySelectorMsgs[2]} difficultySelectorName={difficultySelectorNames[2]} activeTransitionAnimation={activeTransitionAnimation}/>
             {/if}
         {:else}
-        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[48%] cursor-pointer"
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[45%] left-[52%] cursor-pointer"
+            style="background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>1 - 3</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">ONE - THREE</div>
+        </div>
+        {/if}
+
+        {#if isOpen(30)}
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[65%] left-[52%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="21"
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(30) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 4</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - FOUR</div>
+        </div>
+            {#if isDropdownOpen[4]}
+                <div class="absolute right-[0] top-[0] z-[98]" style="transform-origin:top right;transform:scale({scaleMultiplier})">
+                    <MiniGame1Selector activeTransitionAnimation={activeTransitionAnimation}/>
+                </div>
+            {/if}
+        {:else}
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[65%] left-[52%] cursor-pointer"
             style="background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>1 - 3</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">ONE - THREE</div>
