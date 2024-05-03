@@ -36,6 +36,8 @@ var Controller = cc.Class({
         isGamePause: false,
         finalIndex: false,
 
+        isGameReset: false,
+
 
         minigameDone : false,
         characterNumber : 0,
@@ -203,9 +205,12 @@ var Controller = cc.Class({
      */
     ResumeGame : function(){
         this.isGamePause = false;
+        this.isGameReset = false;
     },
 
-
+    Resetgame: function(){
+        this.isGameReset = true;
+    },
 
 });
 
@@ -315,6 +320,11 @@ window.IsCocosGameLoad = function(){
 window.IsMiniGameClear = function(){
     if(Controller.getInstance().minigameDone) return true;
     return false;
+}
+
+
+window.SetupReset = function(){
+    Controller.getInstance().Resetgame();
 }
 
 

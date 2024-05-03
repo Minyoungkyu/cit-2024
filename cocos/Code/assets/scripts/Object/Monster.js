@@ -27,8 +27,7 @@ cc.Class({
         },
     },
 
-    ctor() {
-        // 생성자에서 배열 초기화
+    start(){
         this.aniArray = [
             ['idle_left_red', 'idle_right_red', 'hit_left_red', 'hit_right_red', 'atk_left_red', 'atk_right_red','r_atk_left_red', 'r_atk_right_red'],
             ['idle_left_yel', 'idle_right_yel', 'hit_left_yel', 'hit_right_yel', 'atk_left_yel', 'atk_right_yel','r_atk_left_yel', 'r_atk_right_yel']

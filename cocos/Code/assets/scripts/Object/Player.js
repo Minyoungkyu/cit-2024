@@ -59,6 +59,10 @@ cc.Class({
 
         isBombAnimation : false,
 
+        /**
+         * Reset용 스테이터스
+         */
+        isResetStatus: false,
 
         /**
          * 큰 번호
@@ -110,6 +114,39 @@ cc.Class({
 
 
 
+    },
+
+
+    ResetInint : function(){
+        this.isResetStatus = false;
+    },
+
+    ResetPlayer: function(){
+
+        if(this.isResetStatus) return;
+        this.isResetStatus = true;
+
+        if(this.direction === Env.DIRECTION_LEFT){
+            // idle_left 애니메이션 적용 예정
+            this.setPlayerAnimation(IDLE_LEFT);
+
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
+        }
+        else if(this.direction === Env.DIRECTION_RIGHT){
+            // idle_right 애니메이션 적용 예정
+            this.setPlayerAnimation(IDLE_RIGHT);
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
+        }
+        else if(this.direction === Env.DIRECTION_UP){
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+            this.setPlayerAnimation(IDLE_UP);
+
+        }
+        else if(this.direction === Env.DIRECTION_DOWN){
+
+            this.setPlayerAnimation(IDLE_DOWN);
+            // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
+        }
     },
 
     /**

@@ -388,23 +388,21 @@ cc.Class({
             { x: 0, y: 1 },
 
 
-            
 
              // 3-1-E
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 1, y: 1 },
+             { x: -1, y: 1 },
+             { x: -1, y: 0 },
  
              // 3-1-N
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 1, y: 1 },
+             { x: -1, y: 1 },
+             { x: -1, y: 0 },
  
              // 3-1-H
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
- 
+             { x: 1, y: 1 },
+             { x: -1, y: 1 },
+             { x: -1, y: 0 },
  
              // 3-2-E
              { x: 0, y: 0 },
@@ -971,10 +969,23 @@ cc.Class({
                 this.SetCamera(-400,-1050,0.9);
                     break;
 
-            case 56:
+            case 56: case 59: case 62:
                 this.SetCamera(-400,-1050,1);
                     break;
+            case 57: case 60: case 63:
+                this.SetCamera(-250,-950,0.8);
+                break;
+
+            case 58: case 61: case 64:
+                this.SetCamera(-50,-1000,0.9);
+                break;
+
+            case 65:
+                this.SetCamera(-400,-1100,1);
+                break;
+            
         }
+
 
         console.log("Camera pos = > " + this.camera.node.position);
         // TODO 
@@ -1589,7 +1600,13 @@ cc.Class({
         if(this.isPlay) return;
         var self = this;
         this.isPlay = true;
+
+
         this.idx = Controller.getInstance().GetProgressId();
+
+        /**
+         * TODO: function;
+         */
 
         var inter = setInterval(function(){
             if(Controller.getInstance().isGamePause){
@@ -1598,8 +1615,13 @@ cc.Class({
                 return;
             }
 
+            self.player.getComponent("Player").ResetInint();
 
             if(self.executeCommand(self.idx) === false){
+                /**
+                 * Reset 버튼 체크하는 Interval
+                 */
+                this.ResetDetector();
                 clearInterval(inter);
                 self.isPlay = false;
                 Controller.getInstance().SetStatus(false);
@@ -1608,4 +1630,12 @@ cc.Class({
             self.idx++;
         }, 1000/60);
     },
+
+
+
+    ResetDetector: function(){
+       
+    },
+
+
 });

@@ -7219,9 +7219,7 @@
     },
     "_enabled": true,
     "alignMode": 1,
-    "_target": {
-      "__id__": 46
-    },
+    "_target": null,
     "_alignFlags": 0,
     "_left": 0,
     "_right": 960,
