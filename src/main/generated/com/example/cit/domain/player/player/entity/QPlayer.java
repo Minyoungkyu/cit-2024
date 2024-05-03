@@ -43,6 +43,8 @@ public class QPlayer extends EntityPathBase<Player> {
 
     public final StringPath nickname = createString("nickname");
 
+    public final ListPath<com.example.cit.domain.player.inventroy.entity.ProfileInventory, com.example.cit.domain.player.inventroy.entity.QProfileInventory> profileInventories = this.<com.example.cit.domain.player.inventroy.entity.ProfileInventory, com.example.cit.domain.player.inventroy.entity.QProfileInventory>createList("profileInventories", com.example.cit.domain.player.inventroy.entity.ProfileInventory.class, com.example.cit.domain.player.inventroy.entity.QProfileInventory.class, PathInits.DIRECT2);
+
     public QPlayer(String variable) {
         this(Player.class, forVariable(variable), INITS);
     }

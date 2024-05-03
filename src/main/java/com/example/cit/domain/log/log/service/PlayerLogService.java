@@ -6,6 +6,7 @@ import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.member.member.entity.Member;
+import com.querydsl.core.group.GroupBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,8 +56,11 @@ public class PlayerLogService {
     }
 
     public List<PlayerLog> getStageClearLog(Long id, String stage) {
-
         return playerLogRepository.findByUserIdAndGameMapStageAndLogTypeAndDetailInt(id, stage, "STAGECLEAR", 1);
+    }
+
+    public Optional<PlayerLog> getHighestLog(Long id) {
+        return playerLogRepository.findFirstByUserIdAndDetailIntOrderByGameMapIdDesc(id, 1);
     }
 
     public void setFirstGame(Member member) {
@@ -134,4 +138,5 @@ public class PlayerLogService {
             }
         }
     }
+
 }

@@ -74,6 +74,24 @@ public class ApiV1PlayerLogController {
         );
     }
 
+    public record GamesHighestLogResponseBody(PlayerLogDto playerLogDto) {}
+
+    @GetMapping(value = "/highest", consumes = ALL_VALUE)
+    @Operation(summary = "플레이어의 최고기록 로그")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<GamesHighestLogResponseBody> getHighestLog(
+    ) {
+        return RsData.of(
+                new GamesHighestLogResponseBody(
+                        playerLogService.getHighestLog(rq.getMember().getId())
+                                .map(PlayerLogDto::new)
+                                .orElse(null)
+                )
+        );
+    }
+
     public record BatchPlayLogRequestBody(@NonNull GameMapDto gameMapDto, @NonNull String result) {}
 //    public record BatchPlayLogResponseBody(PlayerLogDto playerLogDto) {}
 

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,16 @@ public class RequirePartsService {
                 .build();
 
         requirePartsRepository.save(requireParts);
+    }
+    @Transactional
+    public void addRequireParts(GameMap gameMap, List<ItemParts> itemPartsList) {
+        for (ItemParts itemParts : itemPartsList) {
+            RequireParts requireParts = RequireParts.builder()
+                    .gameMap(gameMap)
+                    .itemParts(itemParts)
+                    .build();
+
+            requirePartsRepository.save(requireParts);
+        }
     }
 }

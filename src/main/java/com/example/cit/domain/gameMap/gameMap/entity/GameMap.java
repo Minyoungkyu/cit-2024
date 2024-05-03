@@ -27,13 +27,16 @@ public class GameMap extends BaseTime {
     private String step; // 1-1
     private String difficulty; // Easy
     private int level; // 1-1 : 1, 1-1 : 2, 1-1 : 3
+    @Column(columnDefinition = "TEXT")
     private String editorAutoComplete;
+    @Column(columnDefinition = "TEXT")
     private String editorMessage;
     private String clearGoal;
     @Column(columnDefinition = "TEXT")
     private String cocosInfo;
     @Column(columnDefinition = "TEXT")
     private String guideText;
+    @Column(columnDefinition = "TEXT")
     private String guideImage;
     @Column(columnDefinition = "TEXT")
     private String commandGuide;

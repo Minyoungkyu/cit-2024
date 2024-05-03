@@ -12,7 +12,8 @@ export function setupAceEditor(editorId: string, customCompletions: any[]) {
     editor.setFontSize("25px");
     editor.setHighlightActiveLine(false);
     editor.setOptions({
-        enableBasicAutocompletion: false,
+        enableBasicAutocompletion: true,
+        // behavioursEnabled: false,
         enableLiveAutocompletion: true,
         wrap:true,
         hasCssTransforms: true
