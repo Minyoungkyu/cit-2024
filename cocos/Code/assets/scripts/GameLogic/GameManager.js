@@ -255,13 +255,9 @@ cc.Class({
             { x: 0, y: 1 },
 
             // 1-2-H
-            // 17
             { x: 0, y: 1},
-            // 18
             { x: 0, y: 1 },
-            // 19
             { x: 0, y: -1 },
-
 
             // 1-3-E
             { x: 1, y: -2 },
@@ -277,6 +273,123 @@ cc.Class({
             { x: -1, y: -2 },
             { x: 0, y: -1 },
             { x: -4, y: 1 },
+
+
+
+            // 2-1-E
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+            // 2-1-N
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+            //2-1-H
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+
+            // 2-2-E
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+            // 2-2-N
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+            //2-2-H
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+  
+              
+            // 2-3-E
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+            // 2-3-N
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+            //2-3-H
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+
+
+            
+
+             // 3-1-E
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-1-N
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-1-H
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+ 
+             // 3-2-E
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-2-N
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-2-H
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+   
+               
+             // 3-3-E
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-3-N
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-3-H
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+
+
+                     
+             // 3-4-E
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-4-N
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+ 
+             // 3-4-H
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+             { x: 0, y: 0 },
+
         ];
         this.loadInit();
 
@@ -312,6 +425,11 @@ cc.Class({
     },
 
 
+    /**
+     * 현재 접근하는 스테이지가 보너스 스테이지에 해당하는지 체크.
+     * 1-4 , 2-4 화면 전환.
+     * @returns status_change true / none false
+     */
     IsBonusStage: function(){
         var stageObject = Controller.getInstance().getInitStageData();
         var step = stageObject.step;
@@ -328,8 +446,8 @@ cc.Class({
 
 
     /**
-     * 
-     * 
+     * 보너스게임 Scene Change 해주는것.
+     * @param {step} SendInitData_Stage_step_값 
      */
     bonusGameSceneLoaded: function(step){
         if(step === "1-4" ) {
@@ -341,8 +459,10 @@ cc.Class({
     },
   
 
-
-    //TODO EFFECT
+    /**
+     * 카메라 흔들림효과, 폭탄, 레이저 공격받았을시 사용.
+     * @returns 
+     */
     ShakeEffect: function() {
         if(this.isCameraShaked) return;
         this.isCameraShaked = true;
@@ -489,6 +609,120 @@ cc.Class({
             if(step === "1-3" && diff === "Hard" && level === 1){ gameLevel = 26; }
             if(step === "1-3" && diff === "Hard" && level === 2){ gameLevel = 27; }
             if(step === "1-3" && diff === "Hard" && level === 3){ gameLevel = 28; }
+
+            // 2-1-E
+            if(step === "2-1" && diff === "Easy" && level === 1){ gameLevel = 29; }
+            if(step === "2-1" && diff === "Easy" && level === 2){ gameLevel = 30; }
+            if(step === "2-1" && diff === "Easy" && level === 3){ gameLevel = 31; }
+
+            // 2-1-N
+            if(step === "2-1" && diff === "Normal" && level === 1){ gameLevel = 32; }
+            if(step === "2-1" && diff === "Normal" && level === 2){ gameLevel = 33; }
+            if(step === "2-1" && diff === "Normal" && level === 3){ gameLevel = 34; }
+
+            // 2-1-H
+            if(step === "2-1" && diff === "Hard" && level === 1){ gameLevel = 35; }
+            if(step === "2-1" && diff === "Hard" && level === 2){ gameLevel = 36; }
+            if(step === "2-1" && diff === "Hard" && level === 3){ gameLevel = 37; }
+
+
+            // 2-2-E
+            if(step === "2-2" && diff === "Easy" && level === 1){ gameLevel = 38; }
+            if(step === "2-2" && diff === "Easy" && level === 2){ gameLevel = 39; }
+            if(step === "2-2" && diff === "Easy" && level === 3){ gameLevel = 40; }
+
+            // 2-2-N
+            if(step === "2-2" && diff === "Normal" && level === 1){ gameLevel = 41; }
+            if(step === "2-2" && diff === "Normal" && level === 2){ gameLevel = 42; }
+            if(step === "2-2" && diff === "Normal" && level === 3){ gameLevel = 43; }
+
+            // 2-2-H
+            if(step === "2-2" && diff === "Hard" && level === 1){ gameLevel = 44; }
+            if(step === "2-2" && diff === "Hard" && level === 2){ gameLevel = 45; }
+            if(step === "2-2" && diff === "Hard" && level === 3){ gameLevel = 46; }
+
+            // 2-3-E
+            if(step === "2-3" && diff === "Easy" && level === 1){ gameLevel = 47; }
+            if(step === "2-3" && diff === "Easy" && level === 2){ gameLevel = 48; }
+            if(step === "2-3" && diff === "Easy" && level === 3){ gameLevel = 49; }
+
+            // 2-3-N
+            if(step === "2-3" && diff === "Normal" && level === 1){ gameLevel = 50; }
+            if(step === "2-3" && diff === "Normal" && level === 2){ gameLevel = 51; }
+            if(step === "2-3" && diff === "Normal" && level === 3){ gameLevel = 52; }
+
+            // 2-3-H
+            if(step === "2-3" && diff === "Hard" && level === 1){ gameLevel = 53; }
+            if(step === "2-3" && diff === "Hard" && level === 2){ gameLevel = 54; }
+            if(step === "2-3" && diff === "Hard" && level === 3){ gameLevel = 55; }
+
+
+         
+            
+            // 3-1-E
+            if(step === "3-1" && diff === "Easy" && level === 1){ gameLevel = 56; }
+            if(step === "3-1" && diff === "Easy" && level === 2){ gameLevel = 57; }
+            if(step === "3-1" && diff === "Easy" && level === 3){ gameLevel = 58; }
+
+            // 3-1-N
+            if(step === "3-1" && diff === "Normal" && level === 1){ gameLevel = 59; }
+            if(step === "3-1" && diff === "Normal" && level === 2){ gameLevel = 60; }
+            if(step === "3-1" && diff === "Normal" && level === 3){ gameLevel = 61; }
+
+            // 3-1-H
+            if(step === "3-1" && diff === "Hard" && level === 1){ gameLevel = 62; }
+            if(step === "3-1" && diff === "Hard" && level === 2){ gameLevel = 63; }
+            if(step === "3-1" && diff === "Hard" && level === 3){ gameLevel = 64; }
+
+
+            // 3-2-E
+            if(step === "3-2" && diff === "Easy" && level === 1){ gameLevel = 65; }
+            if(step === "3-2" && diff === "Easy" && level === 2){ gameLevel = 66; }
+            if(step === "3-2" && diff === "Easy" && level === 3){ gameLevel = 67; }
+
+            // 3-2-N
+            if(step === "3-2" && diff === "Normal" && level === 1){ gameLevel = 68; }
+            if(step === "3-2" && diff === "Normal" && level === 2){ gameLevel = 69; }
+            if(step === "3-2" && diff === "Normal" && level === 3){ gameLevel = 70; }
+
+            // 3-2-H
+            if(step === "3-2" && diff === "Hard" && level === 1){ gameLevel = 71; }
+            if(step === "3-2" && diff === "Hard" && level === 2){ gameLevel = 72; }
+            if(step === "3-2" && diff === "Hard" && level === 3){ gameLevel = 73; }
+
+            // 3-3-E
+            if(step === "3-3" && diff === "Easy" && level === 1){ gameLevel = 74; }
+            if(step === "3-3" && diff === "Easy" && level === 2){ gameLevel = 75; }
+            if(step === "3-3" && diff === "Easy" && level === 3){ gameLevel = 76; }
+
+            // 3-3-N
+            if(step === "3-3" && diff === "Normal" && level === 1){ gameLevel = 77; }
+            if(step === "3-3" && diff === "Normal" && level === 2){ gameLevel = 78; }
+            if(step === "3-3" && diff === "Normal" && level === 3){ gameLevel = 79; }
+
+            // 3-3-H
+            if(step === "3-3" && diff === "Hard" && level === 1){ gameLevel = 80; }
+            if(step === "3-3" && diff === "Hard" && level === 2){ gameLevel = 81; }
+            if(step === "3-3" && diff === "Hard" && level === 3){ gameLevel = 82; }
+
+
+             // 3-4-E
+             if(step === "3-4" && diff === "Easy" && level === 1){ gameLevel = 83; }
+             if(step === "3-4" && diff === "Easy" && level === 2){ gameLevel = 84; }
+             if(step === "3-4" && diff === "Easy" && level === 3){ gameLevel = 85; }
+ 
+             // 3-4-N
+             if(step === "3-4" && diff === "Normal" && level === 1){ gameLevel = 50; }
+             if(step === "3-4" && diff === "Normal" && level === 2){ gameLevel = 51; }
+             if(step === "3-4" && diff === "Normal" && level === 3){ gameLevel = 52; }
+ 
+             // 3-4-H
+             if(step === "3-4" && diff === "Hard" && level === 1){ gameLevel = 53; }
+             if(step === "3-4" && diff === "Hard" && level === 2){ gameLevel = 54; }
+             if(step === "3-4" && diff === "Hard" && level === 3){ gameLevel = 55; }
+ 
+
+
         }
         return gameLevel;
     },
@@ -622,7 +856,6 @@ cc.Class({
                 this.spaceShip.active = true;
                 break;
 
-
             case 21: case 24: case 27:
                 this.SetCamera(350,-900,0.7);
                 this.spaceShip.setPosition(cc.v2(-550, 600));
@@ -634,6 +867,41 @@ cc.Class({
                 this.spaceShip.setPosition(cc.v2(5260,-780));
                 this.spaceShip.active = true;
                 break;
+
+            // 2-1 E ~ 2-1-H 모두 동일
+            case 29: case 30: case 31:
+            case 32: case 33: case 34: 
+            case 35: case 36: case 37:
+                this.SetCamera(300,-800,0.8);
+                break;
+            
+            // 2-2-E-1 / 2-2-N-1 / 2-2-H-1
+            case 38: case 41: case 44:
+                this.SetCamera(450,-800,0.67);
+                break;
+            // 2-2-E-2 / 2-2-N-2 / 2-2-H-2
+            case 39: case 42: case 45:
+                this.SetCamera(-200,-750,0.8);
+                break;
+            // 2-2-E-3 / 2-2-N-3 / 2-2-H-3
+            case 40: case 43: case 46:
+                this.SetCamera(450,-600,0.6);
+                break;
+            
+            // 2-3-E-1 ~
+            case 47: case 50: case 53:
+            this.SetCamera(550,-600,0.63);
+                break;
+
+            // 2-3-E-2 ~
+            case 48: case 51: case 54:
+                this.SetCamera(580,-900,0.6);
+                    break;
+
+            // 2-3-E-3 ~
+            case 49: case 52: case 55:
+                this.SetCamera(-400,-850,0.9);
+                    break;
         }
         //this.camera.node.setPosition()
     },
