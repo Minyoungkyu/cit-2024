@@ -21,6 +21,10 @@ export interface paths {
     /** 관리자 - 학교생성 */
     post: operations["createSchool"];
   };
+  "/api/v1/profileInventory/addProfileInventory": {
+    /** 아이템 구매, 획득 */
+    post: operations["addProfileInventory"];
+  };
   "/api/v1/playerLogs/batchPlayLog": {
     /** 게임결과 로그 일괄처리 */
     post: operations["batchPlayLog"];
@@ -41,6 +45,10 @@ export interface paths {
     /** 관리자 비밀번호 확인 */
     post: operations["adminCheckPassword"];
   };
+  "/api/v1/inventory/addInventory": {
+    /** 아이템 구매, 획득 */
+    post: operations["addInventory"];
+  };
   "/api/v1/gameMaps/gameMap/test2": {
     /** 특정 게임 테스트용2 */
     post: operations["getGameMapTest2"];
@@ -48,6 +56,18 @@ export interface paths {
   "/api/v1/test/test": {
     /** 플레이어 인벤토리 조회 */
     get: operations["test"];
+  };
+  "/api/v1/profileInventory/myInventory": {
+    /** 플레이어 인벤토리 조회 */
+    get: operations["getMyInventory"];
+  };
+  "/api/v1/profile/profiles": {
+    /** 전체 프로필아이콘 목록 조회 */
+    get: operations["getProfiles"];
+  };
+  "/api/v1/playerLogs/highest": {
+    /** 플레이어의 최고기록 로그 */
+    get: operations["getHighestLog"];
   };
   "/api/v1/playerLogs/gamesLastLog/{gameMapId}": {
     /** 해당 게임의 마지막 로그 */
@@ -61,9 +81,13 @@ export interface paths {
     /** 내 정보 */
     get: operations["getMe"];
   };
+  "/api/v1/item/items": {
+    /** 전체 아이템 목록 조회 */
+    get: operations["getItems"];
+  };
   "/api/v1/inventory/myInventory": {
     /** 플레이어 인벤토리 조회 */
-    get: operations["getMyInventory"];
+    get: operations["getMyInventory_1"];
   };
   "/api/v1/gameMaps/gameMap/{stage}/{id}": {
     /** 특정 게임 맵 조회와 자격검증 */
@@ -166,6 +190,8 @@ export interface components {
       /** Format: int64 */
       itemPartsId: number;
       name: string;
+      /** Format: int32 */
+      price: number;
       description: string;
       availableCommands: string;
       sourcePath: string;
@@ -204,6 +230,58 @@ export interface components {
       name: string;
       location: string;
       phoneNo: string;
+    };
+    addProfileInventoryRequestBody: {
+      /** Format: int64 */
+      profileId: number;
+    };
+    AchievementDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      name: string;
+      description: string;
+      logType: string;
+      detail1: string;
+      /** Format: int32 */
+      detail2: number;
+    };
+    ProfileDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      name: string;
+      description: string;
+      sourcePath: string;
+      /** Format: int32 */
+      price: number;
+      achievement?: components["schemas"]["AchievementDto"];
+    };
+    ProfileInventoryDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      profileIcon: components["schemas"]["ProfileDto"];
+      isEquipped: boolean;
+    };
+    RsDataAddProfileInventoryResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["addProfileInventoryResponseBody"];
+    };
+    addProfileInventoryResponseBody: {
+      profileInventoryDto: components["schemas"]["ProfileInventoryDto"];
     };
     BatchPlayLogRequestBody: {
       gameMapDto: components["schemas"]["GameMapDto"];
@@ -257,6 +335,20 @@ export interface components {
     AdminCheckPasswordRequestBody: {
       password: string;
     };
+    addInventoryRequestBody: {
+      /** Format: int64 */
+      itemId: number;
+    };
+    RsDataAddInventoryResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["addInventoryResponseBody"];
+    };
+    addInventoryResponseBody: {
+      inventoryDto: components["schemas"]["InventoryDto"];
+    };
     GameMapTest2RequestBody: {
       gameInfo: string;
       editorValue: string;
@@ -279,7 +371,27 @@ export interface components {
       /** Format: int64 */
       id: number;
     };
-    GamesLastLogResponseBody: {
+    MyProfileInventoryResponseBody: {
+      profileInventoryDtoList: components["schemas"]["ProfileInventoryDto"][];
+    };
+    RsDataMyProfileInventoryResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["MyProfileInventoryResponseBody"];
+    };
+    ProfilesResponseBody: {
+      profileDtoList: components["schemas"]["ProfileDto"][];
+    };
+    RsDataProfilesResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ProfilesResponseBody"];
+    };
+    GamesHighestLogResponseBody: {
       playerLogDto?: components["schemas"]["PlayerLogDto"];
     };
     PlayerLogDto: {
@@ -301,6 +413,16 @@ export interface components {
       detailText?: string;
       /** Format: int32 */
       detailInt?: number;
+    };
+    RsDataGamesHighestLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GamesHighestLogResponseBody"];
+    };
+    GamesLastLogResponseBody: {
+      playerLogDto?: components["schemas"]["PlayerLogDto"];
     };
     RsDataGamesLastLogResponseBody: {
       resultCode: string;
@@ -328,6 +450,16 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["MeResponseBody"];
+    };
+    ItemsResponseBody: {
+      itemDtoList: components["schemas"]["ItemDto"][];
+    };
+    RsDataItemsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ItemsResponseBody"];
     };
     MyInventoryResponseBody: {
       inventoryDto: components["schemas"]["InventoryDto"][];
@@ -488,6 +620,28 @@ export interface operations {
       };
     };
   };
+  /** 아이템 구매, 획득 */
+  addProfileInventory: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["addProfileInventoryRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataAddProfileInventoryResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 게임결과 로그 일괄처리 */
   batchPlayLog: {
     requestBody: {
@@ -591,6 +745,28 @@ export interface operations {
       };
     };
   };
+  /** 아이템 구매, 획득 */
+  addInventory: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["addInventoryRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataAddInventoryResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 특정 게임 테스트용2 */
   getGameMapTest2: {
     requestBody: {
@@ -620,6 +796,57 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataTestResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 플레이어 인벤토리 조회 */
+  getMyInventory: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataMyProfileInventoryResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 전체 프로필아이콘 목록 조회 */
+  getProfiles: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataProfilesResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 플레이어의 최고기록 로그 */
+  getHighestLog: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGamesHighestLogResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -691,8 +918,25 @@ export interface operations {
       };
     };
   };
+  /** 전체 아이템 목록 조회 */
+  getItems: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataItemsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 플레이어 인벤토리 조회 */
-  getMyInventory: {
+  getMyInventory_1: {
     responses: {
       /** @description OK */
       200: {

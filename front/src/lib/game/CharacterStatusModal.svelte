@@ -211,7 +211,8 @@
                 <div class="w-[1146px] h-[949px]" style="background-image:url('/img/inventory/ui_popup_item.png')">
                     <div class="w-[636px] h-[609px] absolute top-[156px] left-[223px]" style="background-image:url('/img/inventory/ui_itme_background.png');">
                         <div class="w-[283px] h-[504px] absolute top-[60px] left-[185px]" 
-                            style="background-image:{shoes ? 'url("/img/inventory/icon_chariter_space_boots.png"),' : 'url("/img/inventory/icon_chariter_boots.png"),'}
+                            style="background-image:
+                            {shoes ? 'url("/img/inventory/icon_chariter_space_boots.png"),' : 'url("/img/inventory/icon_chariter_boots.png"),'}
                             {gloves ? 'url("/img/inventory/icon_chariter_space_gloves.png"),' : ''}
                             url('/img/inventory/icon_chariter_suit.png'), 
                             url('/img/inventory/icon_chariter.png'), 

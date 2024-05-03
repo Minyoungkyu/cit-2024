@@ -17,6 +17,7 @@ toastr.options = {
 class Rq {
   public member: components['schemas']['MemberDto'];
   public inventories: ReturnType<typeof this.makeReactivityInventories>;
+  public profileInventories: ReturnType<typeof this.makeReactivityProfileInventories>;
 
   public verifiedPassword: boolean = false;
 
@@ -25,6 +26,7 @@ class Rq {
   constructor() {
     this.member = this.makeReactivityMember();
     this.inventories = this.makeReactivityInventories();
+    this.profileInventories = this.makeReactivityProfileInventories();
   }
 
   public effect(fn: () => void) {
@@ -160,9 +162,32 @@ class Rq {
         return inventories.find(inventory => 
           inventory.item.itemPartsId === itemPartsId && inventory.isEquipped
         );
+      },
+
+      isItemOwned(itemId: number) {
+        return inventories.some(inventory => inventory.item.id === itemId);
       }
 
     };
+  }
+
+  public makeReactivityProfileInventories() {
+    const profileInventories = $state([] as Array<components['schemas']['ProfileInventoryDto']>);
+
+    return {
+      get all() {
+        return profileInventories;
+      },
+
+      add(profile: components['schemas']['ProfileInventoryDto']) {
+        profileInventories.push(profile);
+      },
+
+      isProfileOwned(profileId: number) {
+        return profileInventories.some(inventory => inventory.profileIcon.id === profileId);
+      }
+    };
+
   }
 
   public makeReactivityMember() {
@@ -276,6 +301,9 @@ class Rq {
     while (this.inventories.all.length > 0) {
       this.inventories.all.pop();
     }
+    while(this.profileInventories.all.length > 0) {
+      this.profileInventories.all.pop();
+    }
   }
 
   public isLogin() {
@@ -308,6 +336,16 @@ class Rq {
         this.inventories.all.pop();
       }
       data.data.inventoryDto.forEach(inventory => this.inventories.add(inventory));
+    }
+  }
+
+  public async fetchAndInitializeProfileInventories() {
+    const { data } = await this.apiEndPoints().GET('/api/v1/profileInventory/myInventory'); 
+    if (data) {
+      while (this.profileInventories.all.length > 0) {
+        this.profileInventories.all.pop();
+      }
+      data.data.profileInventoryDtoList.forEach(profile => this.profileInventories.add(profile));
     }
   }
 

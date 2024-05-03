@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -30,6 +33,14 @@ public class ItemService {
         itemRepository.save(item);
 
         return item;
+    }
+
+    public Item getItem(long itemId) {
+        return itemRepository.findById(itemId).get();
+    }
+
+    public List<Item> getItemList() {
+        return itemRepository.findByPriceGreaterThan(0);
     }
 
 }

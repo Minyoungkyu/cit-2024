@@ -29,4 +29,7 @@ public class ItemPartsService {
         return itemParts;
     }
 
+    public ItemParts getItemParts(long id) {
+        return itemPartsRepository.findById(id).get();
+    }
 }

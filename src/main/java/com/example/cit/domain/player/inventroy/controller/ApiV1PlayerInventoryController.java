@@ -1,11 +1,15 @@
 package com.example.cit.domain.player.inventroy.controller;
 
+import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
+import com.example.cit.domain.log.log.controller.ApiV1PlayerLogController;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.service.PlayerLogService;
 import com.example.cit.domain.member.member.dto.MemberDto;
+import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.player.inventroy.dto.InventoryDto;
 import com.example.cit.domain.player.inventroy.entity.Inventory;
 import com.example.cit.domain.player.inventroy.service.InventoryService;
+import com.example.cit.domain.player.player.dto.PlayerDto;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,6 +71,26 @@ public class ApiV1PlayerInventoryController {
                 new UpdateInventoryResponseBody(
                         new MemberDto(
                                 rq.getMember()
+                        )
+                )
+        );
+    }
+
+    public record addInventoryRequestBody(@NonNull long itemId) {}
+    public record addInventoryResponseBody(@NonNull InventoryDto inventoryDto) {}
+
+    @PostMapping(value = "/addInventory", consumes = ALL_VALUE)
+    @Operation(summary = "아이템 구매, 획득")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<addInventoryResponseBody> addInventory(
+            @RequestBody addInventoryRequestBody body
+    ) {
+        return RsData.of(
+                new addInventoryResponseBody(
+                        new InventoryDto(
+                                inventoryService.addInventory(body.itemId(), rq.getMember())
                         )
                 )
         );

@@ -12,6 +12,7 @@ public record ItemDto(
         @NonNull LocalDateTime updateDate,
         @NonNull Long itemPartsId,
         @NonNull String name,
+        @NonNull int price,
         @NonNull String description,
         @NonNull String availableCommands,
         @NonNull String sourcePath
@@ -23,6 +24,7 @@ public record ItemDto(
                 item.getModifyDate(),
                 item.getItemParts().getId(),
                 item.getName(),
+                item.getPrice(),
                 item.getDescription(),
                 item.getAvailableCommands(),
                 item.getSourcePath()
