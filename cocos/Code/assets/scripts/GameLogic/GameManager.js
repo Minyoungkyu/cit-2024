@@ -11,10 +11,21 @@ cc.Class({
 
     properties: {
 
+        // DEBUG
+        btn_x_plus : cc.Button,
+        btn_x_minus : cc.Button,
+        btn_y_plus : cc.Button,
+        btn_y_minus : cc.Button,
+
+        btn_zoom_in : cc.Button,
+        btn_zoom_out : cc.Button,
+
         btnMan: cc.Button,
         btnManSuit : cc.Button,
         btnWoman : cc.Button,
         btnWomanSuit : cc.Button,
+
+        // DEBUG_END
 
         // 로딩 화면
         loadingBG: cc.Node,
@@ -107,7 +118,60 @@ cc.Class({
         this.btnManSuit.node.on('click',this.btnManSuitShow, this);
         this.btnWoman.node.on('click',this.btnWomanShow, this);
         this.btnWomanSuit.node.on('click',this.btnWomanSuitShow, this);
+
+
+        this.btn_x_plus.node.on('click',this.PlusX, this);
+        this.btn_x_minus.node.on('click',this.MinusX, this);
+        this.btn_y_plus.node.on('click',this.PlusY, this);
+        this.btn_y_minus.node.on('click',this.MinusY, this);
+
+        this.btn_zoom_in.node.on("click",this.ZoomInDeubug, this);
+        this.btn_zoom_out.node.on("click",this.ZoomOutDebug, this);
     },
+
+    PlusX: function(){
+         var x = this.camera.node.position.x;
+         var y = this.camera.node.position.y;
+         x += 50;
+
+         this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+         console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+    PlusY: function(){
+        var x = this.camera.node.position.x;
+        var y = this.camera.node.position.y;
+        y += 50;
+
+        this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+        console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+    MinusX: function(){
+        var x = this.camera.node.position.x;
+        var y = this.camera.node.position.y;
+        x -= 50;
+
+        this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+        console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+    MinusY: function(){
+        var x = this.camera.node.position.x;
+        var y = this.camera.node.position.y;
+        y -= 50;
+        this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+        console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+
+    ZoomInDeubug: function(){
+        this.camera.zoomRatio += 0.1;
+
+        console.log("ratio => " + this.camera.zoomRatio);
+    },
+
+    ZoomOutDebug: function(){
+        this.camera.zoomRatio -= 0.1;
+        console.log("ratio => " + this.camera.zoomRatio);
+    },
+
 
     btnManShow: function(){
         Controller.getInstance().setcharNumber(0);
@@ -277,51 +341,51 @@ cc.Class({
 
 
             // 2-1-E
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
 
             // 2-1-N
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
 
             //2-1-H
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
 
 
             // 2-2-E
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
 
             // 2-2-N
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
 
             //2-2-H
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
   
               
             // 2-3-E
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
 
             // 2-3-N
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
 
             //2-3-H
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
 
 
             
@@ -727,7 +791,6 @@ cc.Class({
         return gameLevel;
     },
 
-
     /**
      * 맵정보를 로드하고, 초기화 합니다.
      * @constructor
@@ -762,7 +825,6 @@ cc.Class({
         this._TileMapShake();  // 맵 흔들림 효과 호출
     },
 
-
     /**
      * Json Stage 정보를 토대로 저장된 맵 프리팹 url 리턴합니다.
      * @returns {string}
@@ -793,7 +855,6 @@ cc.Class({
         return url;
     },
 
-
     /**
      * 카메라 포지션을 조정합니다.
      * @constructor
@@ -805,7 +866,6 @@ cc.Class({
         this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
         this.camera.zoomRatio = zoomLevel;
     },
-
 
     /**
      * 맵의 갯수가 많지 않으니 하드 코딩처리되어있습니다.
@@ -825,6 +885,14 @@ cc.Class({
         var gameLevel = this.ConvertGameLevel(step,diff,level);
 
         this.spaceShip.active = false;
+
+
+        
+
+        console.log("Before | Camera pos = > " + this.camera.node.position);
+
+        console.log(gameLevel);
+
 
         switch (gameLevel){
             case 0 : case 1:
@@ -872,38 +940,44 @@ cc.Class({
             case 29: case 30: case 31:
             case 32: case 33: case 34: 
             case 35: case 36: case 37:
-                this.SetCamera(300,-800,0.8);
+                this.SetCamera(-300,-850,0.8);
                 break;
             
             // 2-2-E-1 / 2-2-N-1 / 2-2-H-1
             case 38: case 41: case 44:
-                this.SetCamera(450,-800,0.67);
+                this.SetCamera(450,-800,0.66);
                 break;
             // 2-2-E-2 / 2-2-N-2 / 2-2-H-2
             case 39: case 42: case 45:
-                this.SetCamera(-200,-750,0.8);
+                this.SetCamera(-200,-1050,0.8);
                 break;
             // 2-2-E-3 / 2-2-N-3 / 2-2-H-3
             case 40: case 43: case 46:
-                this.SetCamera(450,-600,0.6);
+                this.SetCamera(450,-1000,0.6);
                 break;
             
             // 2-3-E-1 ~
             case 47: case 50: case 53:
-            this.SetCamera(550,-600,0.63);
+            this.SetCamera(550,-950,0.63);
                 break;
 
             // 2-3-E-2 ~
             case 48: case 51: case 54:
-                this.SetCamera(580,-900,0.6);
-                    break;
+                this.SetCamera(580,-650,0.6);
+                break;
 
             // 2-3-E-3 ~
             case 49: case 52: case 55:
-                this.SetCamera(-400,-850,0.9);
+                this.SetCamera(-400,-1050,0.9);
+                    break;
+
+            case 56:
+                this.SetCamera(-400,-1050,1);
                     break;
         }
-        //this.camera.node.setPosition()
+
+        console.log("Camera pos = > " + this.camera.node.position);
+        // TODO 
     },
 
 
@@ -1103,20 +1177,27 @@ cc.Class({
 
         }
         else{
-
             var tag = this.NameToTag(object.type);
 
-            var posX = object.pos[0];
-            var posY = object.pos[1];
-            var itemId = object.id;
-            var pos = cc.v2(posX, posY);
+            // 예외 처리
+            if(tag == -99){
+                console.log(object.type);
 
-
-            if(tag === Env.ROCKET_EMPTY){
-                this.AddRocketParts(tag,itemId,pos, object);
-            }
+                return;
+            } 
             else{
-                this.AddPrefabs(tag, itemId,  pos );
+                var posX = object.pos[0];
+                var posY = object.pos[1];
+                var itemId = object.id;
+                var pos = cc.v2(posX, posY);
+    
+    
+                if(tag === Env.ROCKET_EMPTY){
+                    this.AddRocketParts(tag,itemId,pos, object);
+                }
+                else{
+                    this.AddPrefabs(tag, itemId,  pos );
+                }
             }
         }
 
@@ -1136,6 +1217,9 @@ cc.Class({
             case "drop_switch" : return Env.NORMAL_SWITCH_ON;
             case "laser_switch": return Env.LASER_SWITCH_ON;
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
+
+
+            default : return -99;
         }
     },
 
@@ -1209,6 +1293,12 @@ cc.Class({
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
         }
+
+        if(prefabName == "" ){
+            console.log("Not found Prefabs => " + tag + " id => " + id);
+            return;
+        }
+
         var itemurl = "./prefabs/" + prefabName;
 
         cc.loader.loadRes(itemurl, cc.Prefab, function (err, prefabs) {
