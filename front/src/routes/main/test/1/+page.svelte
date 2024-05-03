@@ -10,10 +10,6 @@
     import DifficultySelector2 from '$lib/game/DifficultySelector2.svelte';
     import DifficultySelector from '$lib/game/DifficultySelector.svelte';
     import TutorialSelector2 from '$lib/game//TutorialSelector2.svelte';
-    import TopMenuShop from '$lib/game//TopMenuShop.svelte';
-    import TopMenuCharacter from '$lib/game//TopMenuCharacter.svelte';
-    import TopMenuItem from '$lib/game//TopMenuItem.svelte';
-    import TopMenuSetting from '$lib/game//TopMenuSetting.svelte';
 
     const { data } = $props<{ data: { playerLogList: components['schemas']['PlayerLogDto'][] } }>();
     const { playerLogList } = data;
@@ -216,13 +212,12 @@
         </div> 
         <div id="stageHighlighter" class="stage-highlighter border-2 w-[50px] h-[50px] absolute z-[10] animatedHighlighter"></div>
         <div class="btn absolute bottom-[8%] left-[4%]" data-gameMapId="1" on:click={() => toggleDropdown(0)}>튜토리얼(열림)</div>
-        {#if isDropdownOpen[0]}
+        <!-- {#if isDropdownOpen[0]}
             <TutorialSelector2 />
         {/if}
-        {#if isOpen(3)} <!--step 의 easy, 1레벨 맵 아이디-->
+        {#if isOpen(3)} 
         <div class="btn absolute bottom-[16%] left-[14%] w-[6vw]" data-gameMapId="3" on:click={() => toggleDropdown(1)}>1-1(열림)</div>
             {#if isDropdownOpen[1]}
-            <!-- gameMapId : step 의 easy, 1레벨 맵아이디, stepsLevelCount : step 의 level 갯수, -->
             <DifficultySelector2 gameMapId={3} stepsLevelCount={3} playerLogList={playerLogList} difficultySelectorMsg={difficultySelectorMsgs[0]} difficultySelectorName={difficultySelectorNames[0]}/>
             {/if}
         {:else}
@@ -245,7 +240,7 @@
             {/if}
         {:else}
         <div tabindex="0" role="button" class="btn m-1 w-[6vw]">1-3(잠금)</div>
-        {/if}
+        {/if} -->
     </div>
 </div>
 
