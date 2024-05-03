@@ -1,9 +1,5 @@
 <script lang="ts">
-    import rq from "$lib/rq/rq.svelte";
-	import { onMount } from "svelte";
-    
     const { activeTransitionAnimation } = $props<{ activeTransitionAnimation: () => void }>();
-    let rountGameId = $state(1);
 
     function onClickToStart() {
         activeTransitionAnimation();

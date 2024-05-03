@@ -189,69 +189,22 @@
 
 
         function checkMiniGameStatus() {
-        const intervalId = setInterval(() => {
-            if ((window as any).IsMiniGameClear()) {
-            console.log("미니게임 클리어!");
-            clearInterval(intervalId);
-            } else {
-            console.log("미니게임 진행 중...");
-            }
-        }, 500);
+            const intervalId = setInterval(() => {
+                if ((window as any).IsMiniGameClear()) {
+                    showCompleteBtn = true;
+                    showClearPopup = true;
+                    clearGoalColorArray[0] = 'rgb(255 210 87)';
+                    clearInterval(intervalId);
+                } 
+            }, 500);
         }
 
         // 함수를 호출하여 검사 시작
         checkMiniGameStatus();
     });
 
-    function updateClearGoal(frame:any) {
-        for (let i = 0; i < clearGoalList.length; i++) {
-            if(clearGoalList[i].includes('목표지점')) {
-                const array1 = stageObject.stage.goal_list[0].pos;
-                const array2 = frame.player.pos.map((value: number) => Math.round(value))
-                if(array1.every((element:number, index:any) => element === array2[index])) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-                stageObject.stage.goal_list[0].pos === frame.player.pos
-            }else if(clearGoalList[i].includes('보급품')) {
-                let foodGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'food');
-                if (frame.player.food_count >= foodGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-            }else if(clearGoalList[i].includes('로켓부품')) {
-                let rocketGoals = stageObject.stage.goal_list.filter((goal: any) => goal.type === 'rocket_parts');
-                if (rocketGoals[0].count <= frame.player.rocket_parts_count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                }
-            }else if(clearGoalList[i].includes('줄 이하')) {
-                let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
-                let guideTest = gameMapDto.editorMessage.split('\n').length;
-                if (frame.line_num - 1 <= codeLineGoals[0].count + guideTest - 1) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                } else if(frame.line_num - 1 > codeLineGoals[0].count + guideTest - 1) {
-                    clearGoalColorArray[i] = 'rgb(64 226 255)';
-                }
-            } else if(clearGoalList[i].includes('장착하기')) {
-                let setCountGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'set');
-                let items = stageObject.stage.init_item_list.filter((goal: any) => goal.type === 'liquid_fuel' || goal.type === 'solid_propellant' || goal.type === 'engines');
-                let count = 0; 
-
-                for (let i = 0; i < items.length; i++) {
-                    for (let j = 0; j < frame.item_list.length; j++) {
-                        if (items[i].id == j && frame.item_list[j] == 1) {
-                            count++; 
-                        }
-                    }
-                }
-
-                if(count >= setCountGoals[0].count) {
-                    clearGoalColorArray[i] = 'rgb(255 210 87)';
-                } 
-            }
-        }
-
-    }
-
     function routeToSage() {
+        //Todo: batchPlayLog
         window.location.href = `/game/${gameMapDto.stage}`;
     }
 </script>
@@ -361,4 +314,4 @@
 </div>
 
 
-<!-- <TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>

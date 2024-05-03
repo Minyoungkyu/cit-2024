@@ -48,6 +48,8 @@
     let activeEditorHighlight: boolean = $state(true);
     let isNarrowResolution: boolean = $state(false);
     let showEditor: boolean = $state(false);
+    let hasFrameData: boolean = $state(false);
+    let isReplay: boolean = $state(false);
 
     let showBtnGuide: boolean = $state(false);
     let currentGuideIndex: number = $state(0);
@@ -105,6 +107,11 @@
     }
 
     async function executePython(): Promise<void> {
+
+        //Todo: 실행에 대한 로그 수집
+
+        isReplay = false;
+        hasFrameData = true;
         console.time('executePython')
 
         if (frameUpdateIntervalId !== null) { // 인터벌 초기화
@@ -507,19 +514,24 @@
     }
 
     function handlePlay() {
-        playCanPause = true;
         if(isPause) {
+            isReplay = true;
+            playCanPause = true;
             (window as any).ExternalResumeGame ();
             isPause = false;
             updateFrame(framesData, parseInt(progressController.value));
-        } else if(canExecute) {
-            executePython();
         } else {
-            (window as any).OnClickPlay();
-            if(progressController.value === progressController.max) {
-                progressController.value = "0";
-            }
-            updateFrame(framesData, parseInt(progressController.value));
+            playCanPause = true;
+
+            // Todo: cocos 의 reset 함수 호출
+            (window as any).SetProgressId?.(0);
+            (window as any).ExternalPauseGame();
+            (window as any).SetupReset();
+            playCanPause = false;
+            isPause = true;
+            clearInterval(frameUpdateIntervalId);
+            frameUpdateIntervalId = null;
+            progressController.value = "0"
         }
     }
 
@@ -547,7 +559,7 @@
             if (currentFrameIndex < framesData.length) {
                 const frame = framesData[currentFrameIndex];
                 progressController.value = currentFrameIndex.toString();
-                updateHighlight(frame.line_num);
+                if (!isReplay) updateHighlight(frame.line_num);
                 updateClearGoal(frame);
                 hpTest3(frame.player.hp);
                 currentFrameIndex++;
@@ -645,8 +657,6 @@
         if(currentGuideIndex == btnGuideArray.length - 1) {
             return;
         }
-        console.log('ㅎㅇ');
-
         currentGuideIndex++;
 
         btnGuideArray.fill(false);
@@ -658,8 +668,6 @@
         if(currentGuideIndex == 0) {
             return;
         }  
-        console.log('ㅂㅇ');
-
         currentGuideIndex--;
 
         btnGuideArray.fill(false);
@@ -827,7 +835,8 @@
                             style="background-image:{volumeCanMute ? 'url("/img/inGame/btn_Volume_on.png");' : 'url("/img/inGame/btn_Volume_mute.png");' }"
                             on:click={() => volumeCanMute = !volumeCanMute}></div>
                         <div class="w-[52px] h-[52px] cursor-pointer" 
-                            style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 'url("/img/inGame/btn_Control_Play.png");' }" 
+                            style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 'url("/img/inGame/btn_Control_Play.png");' }
+                            {hasFrameData ? '' : 'pointer-events:none;'}" 
                             on:click={() => {playCanPause ? handlePause() : handlePlay()}}></div> 
                     </div>
                     <div class="flex justify-end w-full">
@@ -942,4 +951,4 @@
 </div>
 
 
-<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>
+<!-- <TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
