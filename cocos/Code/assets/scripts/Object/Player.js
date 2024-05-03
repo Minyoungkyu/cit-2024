@@ -124,27 +124,29 @@ cc.Class({
     ResetPlayer: function(){
 
         if(this.isResetStatus) return;
+        
         this.isResetStatus = true;
+
 
         if(this.direction === Env.DIRECTION_LEFT){
             // idle_left 애니메이션 적용 예정
-            this.setPlayerAnimation(IDLE_LEFT);
+            this.ForcePlayerAnimation(IDLE_LEFT);
 
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
         }
         else if(this.direction === Env.DIRECTION_RIGHT){
             // idle_right 애니메이션 적용 예정
-            this.setPlayerAnimation(IDLE_RIGHT);
+            this.ForcePlayerAnimation(IDLE_RIGHT);
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
         }
         else if(this.direction === Env.DIRECTION_UP){
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
-            this.setPlayerAnimation(IDLE_UP);
+            this.ForcePlayerAnimation(IDLE_UP);
 
         }
         else if(this.direction === Env.DIRECTION_DOWN){
 
-            this.setPlayerAnimation(IDLE_DOWN);
+            this.ForcePlayerAnimation(IDLE_DOWN);
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
         }
     },
@@ -200,6 +202,19 @@ cc.Class({
 
     },
 
+    ForcePlayerAnimation: function(animation_number){
+        var number = Controller.getInstance().getCharNumber();
+        var clip = this.getComponent(cc.Animation);
+        var animationName = this.aniArray[number][animation_number];
+
+        var upState = clip.getAnimationState(animationName);
+        clip.play(animationName);
+
+        console.log("HIHI FUCK");
+    },
+
+
+
     /**
      * 현재 방향에 따른 Scale 변경
      * 로테이션 처리
@@ -215,6 +230,10 @@ cc.Class({
         }
 
         if(this.playerStatusInfo === 1){
+
+
+            console.log("FCK");
+
             switch (this.direction){
 
                 case Env.DIRECTION_UP:

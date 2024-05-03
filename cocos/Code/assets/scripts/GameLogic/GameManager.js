@@ -405,51 +405,51 @@ cc.Class({
              { x: -1, y: 0 },
  
              // 3-2-E
+             { x: 0, y: 2 },
              { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-2-N
+             { x: 0, y: 2 },
              { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-2-H
+             { x: 0, y: 2 },
              { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
    
                
              // 3-3-E
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
  
              // 3-3-N
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
  
              // 3-3-H
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
 
 
                      
              // 3-4-E
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
              { x: 0, y: 0 },
  
              // 3-4-N
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
              { x: 0, y: 0 },
  
              // 3-4-H
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
              { x: 0, y: 0 },
 
         ];
@@ -774,14 +774,14 @@ cc.Class({
              if(step === "3-4" && diff === "Easy" && level === 3){ gameLevel = 85; }
  
              // 3-4-N
-             if(step === "3-4" && diff === "Normal" && level === 1){ gameLevel = 50; }
-             if(step === "3-4" && diff === "Normal" && level === 2){ gameLevel = 51; }
-             if(step === "3-4" && diff === "Normal" && level === 3){ gameLevel = 52; }
+             if(step === "3-4" && diff === "Normal" && level === 1){ gameLevel = 86; }
+             if(step === "3-4" && diff === "Normal" && level === 2){ gameLevel = 87; }
+             if(step === "3-4" && diff === "Normal" && level === 3){ gameLevel = 88; }
  
              // 3-4-H
-             if(step === "3-4" && diff === "Hard" && level === 1){ gameLevel = 53; }
-             if(step === "3-4" && diff === "Hard" && level === 2){ gameLevel = 54; }
-             if(step === "3-4" && diff === "Hard" && level === 3){ gameLevel = 55; }
+             if(step === "3-4" && diff === "Hard" && level === 1){ gameLevel = 89; }
+             if(step === "3-4" && diff === "Hard" && level === 2){ gameLevel = 90; }
+             if(step === "3-4" && diff === "Hard" && level === 3){ gameLevel = 91; }
  
 
 
@@ -885,10 +885,6 @@ cc.Class({
         this.spaceShip.active = false;
 
 
-        
-
-        console.log("Before | Camera pos = > " + this.camera.node.position);
-
         console.log(gameLevel);
 
 
@@ -968,26 +964,58 @@ cc.Class({
             case 49: case 52: case 55:
                 this.SetCamera(-400,-1050,0.9);
                     break;
-
+            // 3-1-E-1
             case 56: case 59: case 62:
                 this.SetCamera(-400,-1050,1);
                     break;
+
+            // 3-1-E-2
             case 57: case 60: case 63:
-                this.SetCamera(-250,-950,0.8);
+                this.SetCamera(250,-950,0.8);
                 break;
-
+            // 3-1-E-3
             case 58: case 61: case 64:
-                this.SetCamera(-50,-1000,0.9);
+                this.SetCamera(-50,-1000,1.1);
                 break;
 
-            case 65:
+            // 3-2-E-1
+            case 65: case 68: case 71:
                 this.SetCamera(-400,-1100,1);
                 break;
+            // 3-2-E-2
+            case 66: case 69: case 72:
+                this.SetCamera(450,-700,0.7);
+                break;
+
+            // 3-2-E-3
+            case 67: case 70: case 73:
+                this.SetCamera(-200,-1350,0.7);
+                break;
+
+            // 3-3-E-1            
             
+            case 74: case 75: case 76:
+            case 77: case 78: case 79:
+            case 80: case 81: case 82:
+                this.SetCamera(250,-1050,0.8);
+                break;
+            
+            case 83: case 86: case 89:
+                this.SetCamera(550,-850,0.6);
+                break;
+            
+            case 84: case 87: case 90:
+                this.SetCamera(550,-900,0.6);
+                break;
+
+            case 85: case 88: case 91:
+                this.SetCamera(50,-1550,0.6);
+                break;
+
         }
 
 
-        console.log("Camera pos = > " + this.camera.node.position);
+        
         // TODO 
     },
 
@@ -1600,8 +1628,6 @@ cc.Class({
         if(this.isPlay) return;
         var self = this;
         this.isPlay = true;
-
-
         this.idx = Controller.getInstance().GetProgressId();
 
         /**
@@ -1609,6 +1635,12 @@ cc.Class({
          */
 
         var inter = setInterval(function(){
+
+            var st = Controller.getInstance().isGamePause;
+            var sy = Controller.getInstance().isGameReset;
+
+            console.log("paus = > " + st + " reset => " + sy);
+
             if(Controller.getInstance().isGamePause){
                 var a =  Controller.getInstance().GetProgressId();
                 self.idx = a;
@@ -1621,7 +1653,7 @@ cc.Class({
                 /**
                  * Reset 버튼 체크하는 Interval
                  */
-                this.ResetDetector();
+                self.ResetDetector();
                 clearInterval(inter);
                 self.isPlay = false;
                 Controller.getInstance().SetStatus(false);
@@ -1634,7 +1666,20 @@ cc.Class({
 
 
     ResetDetector: function(){
-       
+        var self = this;
+        var inter = setInterval(function(){
+
+            var command = Controller.getInstance().getCommandLine(self.idx);
+
+            if( command === -1 && Controller.getInstance().isGameReset){
+
+                self.executeCommand(0)
+                self.player.getComponent("Player").ResetPlayer();
+                self.OnCodePlay();
+                clearInterval(inter);
+            }
+            
+        }, 1000/60);
     },
 
 
