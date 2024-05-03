@@ -7774,8 +7774,13 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap34h3, List.of(shoes, module, gloves, suit, helmet, gun));
 
 
+//                gameMap33e3.setRewardItem(rewardGun);
+//                gameMapRepository.save(gameMap33e3);
+//
+
                 gameMap33e3.setRewardItem(rewardGun);
                 gameMapRepository.save(gameMap33e3);
+
             }
         };
     }
