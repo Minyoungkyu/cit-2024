@@ -97,7 +97,10 @@ cc.Class({
         },
 
 
-
+        // Message Detect
+        isRunningDetector: false,
+        // Messagedetetor ID
+        mdID: null,
     
 
     },
@@ -394,6 +397,9 @@ cc.Class({
         if(this.playerStatusInfo < 2 ) return;
 
 
+        
+
+
         switch (status) {
             case 9:
                 // 플레이어 죽음.
@@ -464,7 +470,6 @@ cc.Class({
                 this.ShowMessage("중력이 너무강해서 점프가 어려워");
                         break;
         }
-
     },
 
     
@@ -473,15 +478,18 @@ cc.Class({
      */
     ShowPrintingBubble: function(){
 
-        var item_list = Controller.getInstance().getStreamItemList;
-        
+        /// TODO 3-1-{}-1 스테이지 몬스터 print는 따로 예외 처리가 필요함.
+
+        var currentID = Controller.getInstance().getCurrentCommandID();
+        var item_list = Controller.getInstance().getStreamItemList(currentID).item_list;
+        var print_array =  item_list[0].print_array;
+
         var print_data = '';
-
-        for(var i = 0; i < item_list.length; i++){
-            print_data += item_list[i];
+        for(var i = 0; i < print_array.length; i++){
+            print_data += ( print_array[i] + " ");
         }
-
-        console.log(print_data);
+        var convert = print_data.toString();
+        this.PrintMessage(convert);
     },
 
     /**
@@ -491,21 +499,46 @@ cc.Class({
      * @param {Print_array} str 
      */
     PrintMessage: function(str){
-
-        this.bubbleLabel = str;
+        this.bubbleLabel.string = str;
         this._ShowBubble();
 
-        if(this.playerStatusInfo != 19){
-            // Status 가 19가 아닌경우 감추는 효과.
-            var self = this;
-            setTimeout(function(){
-                self._HideBubble();
-            },1000);
-        }
-        
+        this.MessageDetector();
     },
 
 
+    
+    /**
+     * 메시지 표현 탐지 Interval 함수
+     * 기존 메시지를 띄우기 보단 
+     * print 중인 현재 팝업을 보여줘야하는데.
+     * 이걸 Interval로 체크하는 함수
+     */
+    MessageDetector: function(){
+        if(this.isRunningDetector) return;
+        this.isRunningDetector = true;
+
+        var self = this;
+        this.mdID = setInterval(function(){
+            if(self.playerStatusInfo != 19){
+
+                setTimeout(function(){
+                    self._HideBubble();
+                },500);
+                self.InitMessageDetector();
+            }
+
+        },30);
+    },
+
+    /**
+     * 초기기화 처리.
+     * 추후 다른곳에 필요할지도..
+     */
+    InitMessageDetector: function(){
+        this.isRunningDetector = false;
+        clearInterval(this.mdID);
+
+    },
 
 
     /**
@@ -516,7 +549,6 @@ cc.Class({
     ShowMessage: function(label){
         if(this.isShowMessage) return;
 
-
         this.bubbleLabel.string =  label;
         this._ShowBubble();
 
@@ -525,6 +557,7 @@ cc.Class({
             self._HideBubble();
         }, 600); // 2000 밀리초 = 2초
     },
+
 
     /**
      * 메시지를 감춥니다.
