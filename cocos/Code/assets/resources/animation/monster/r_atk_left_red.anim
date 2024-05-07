@@ -1,0 +1,61 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "r_atk_left_red",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.31666666666666665,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "d18cd576-94ab-42be-9a79-82194ebf6f78"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "fa0a6991-f143-4c36-adc1-b14152db1577"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "10ed9aee-2edd-4509-bce8-1083fb856162"
+            }
+          },
+          {
+            "frame": 0.15,
+            "value": {
+              "__uuid__": "45dd95d5-c3a8-49ac-be7e-cd1de00dd88a"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "b731909d-fe47-459b-811b-87375130a521"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "203e33ef-4493-40bf-8857-43ed0c7f880a"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "d18cd576-94ab-42be-9a79-82194ebf6f78"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

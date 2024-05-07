@@ -10,7 +10,23 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        btnTest: cc.Button,
+
+        // DEBUG
+        btn_x_plus : cc.Button,
+        btn_x_minus : cc.Button,
+        btn_y_plus : cc.Button,
+        btn_y_minus : cc.Button,
+
+        btn_zoom_in : cc.Button,
+        btn_zoom_out : cc.Button,
+
+        btnMan: cc.Button,
+        btnManSuit : cc.Button,
+        btnWoman : cc.Button,
+        btnWomanSuit : cc.Button,
+
+        // DEBUG_END
+
         // 로딩 화면
         loadingBG: cc.Node,
 
@@ -29,7 +45,10 @@ cc.Class({
         },
 
         // 현재 읽고 있는 id 값 뜻함.
-        idx: 0,
+        idx: {
+            default: 0,
+            visiable : false
+        },
 
         /**
          * 실제 사용하는 객체 모음
@@ -43,9 +62,6 @@ cc.Class({
         spaceShip : cc.Node,
         // 배경화면 뿌려지는곳.
         bgNode: cc.Node,
-
-        // Floor 객체 Parent
-        floorParent : cc.Node,
 
 
         //플레이어, 맵을 제외한 월드에 위치 하는 객체를 담는 배열
@@ -89,27 +105,127 @@ cc.Class({
         isPlayExplosion : false,
 
 
+        timeCheck : 0,
+        startTime :0,
+
+        isSceneLoaded : false,
+
+
+
+        /**스테이지 2 에서 사용되는 정보 */
+        print_array : [],
+
+
+        /** 2스테이지에서 보여질 객체 처리 */
+        bomb_sprites : {
+            default: [],
+        },
+
+        /** 2스테이지에서 2키 프레임 보다 작을경우 loop됨.  */
+        isShowVariation : false,
+        
+        bomb_sprite_max_range : 0,
+
+        bomb_sprite_id : null,
+      
     },
+
+    /**
+     * MAP DEBUG Mode 
+     */
+    addBtn: function(){
+        this.btnMan.node.on('click',this.btnManShow, this);
+        this.btnManSuit.node.on('click',this.btnManSuitShow, this);
+        this.btnWoman.node.on('click',this.btnWomanShow, this);
+        this.btnWomanSuit.node.on('click',this.btnWomanSuitShow, this);
+
+
+        this.btn_x_plus.node.on('click',this.PlusX, this);
+        this.btn_x_minus.node.on('click',this.MinusX, this);
+        this.btn_y_plus.node.on('click',this.PlusY, this);
+        this.btn_y_minus.node.on('click',this.MinusY, this);
+
+        this.btn_zoom_in.node.on("click",this.ZoomInDeubug, this);
+        this.btn_zoom_out.node.on("click",this.ZoomOutDebug, this);
+    },
+
+    PlusX: function(){
+         var x = this.camera.node.position.x;
+         var y = this.camera.node.position.y;
+         x += 50;
+
+         this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+         console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+    PlusY: function(){
+        var x = this.camera.node.position.x;
+        var y = this.camera.node.position.y;
+        y += 50;
+
+        this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+        console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+    MinusX: function(){
+        var x = this.camera.node.position.x;
+        var y = this.camera.node.position.y;
+        x -= 50;
+
+        this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+        console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+    MinusY: function(){
+        var x = this.camera.node.position.x;
+        var y = this.camera.node.position.y;
+        y -= 50;
+        this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
+        console.log(this.camera.node.position.x + " " +this.camera.node.position.y );
+    },
+
+    ZoomInDeubug: function(){
+        this.camera.zoomRatio += 0.1;
+
+        console.log("ratio => " + this.camera.zoomRatio);
+    },
+
+    ZoomOutDebug: function(){
+        this.camera.zoomRatio -= 0.1;
+        console.log("ratio => " + this.camera.zoomRatio);
+    },
+
+
+    btnManShow: function(){
+        Controller.getInstance().setcharNumber(0);
+    },
+    btnManSuitShow: function(){
+        Controller.getInstance().setcharNumber(1);
+    },
+    btnWomanShow: function(){
+        Controller.getInstance().setcharNumber(2);
+    },
+    btnWomanSuitShow: function(){
+        Controller.getInstance().setcharNumber(3);
+    },
+
 
     /**
      * 게임에서 사용될 이미지로드 SingleTon 로드가 된걸 확인한 뒤
      * 로딩 화면을 감춰주는 Interval 생성
      */
     onLoad(){
-        this.loadingBG.active = true;
+        this.addBtn();
 
-        /**
-         * + 이미지 및 맵까지 로드가 되면 로딩을 푸느게 좋지않을까 (추후 조정.)
-         */
+        this.loadingBG.active = true;
+        // this.startTime = performance.now(); // 시작 시간 기록
+        this.EffectInit();
+        // this.InitGame();
+
         var self = this;
         var inter = setInterval(function(){
             if(Loader.getInstance().GetImage(0) != null){
                 clearInterval(inter);
-
                 self.InitGame();
             }
-        },90);
-
+        },5);
     },
 
     start(){
@@ -117,33 +233,34 @@ cc.Class({
          * 오디오 로드 테스함.
          * @type {number}
          */
+        var self = this;
         var audioInter = setInterval(()=>{
-
             if(SoundManger.getInstance().IsLoadCheck() != null){
                 clearInterval(audioInter);
             }
-        },30);
-
+        },5);
     },
 
     /**
      * 큰 타일맵 로드시 맵이 짤려보여는 현상을 해결하기 위해 맵을 2초에 걸쳐 맵을 좌우로 이동시켜주는 효과
      * 해당 효과로 맵 랜더링 오류가 해결
+     *
+     * 2024-04-23 조금 딜레이 주며 수정
+     * 카메라 offset 1 -> 5 수정.
+     * 100-> 300
+     * 200 -> 600
      */
     _TileMapShake: function(){
         var s = this;
         setTimeout(function(){
-            s.CameraMoveX(1);
-        },1000);
+            s.CameraMoveX(2);
+        },300);
 
         setTimeout(function(){
-            s.CameraMoveX(-1);
-            s.LoadingFadeOut();
-        },2000);
 
-        /*
-        로딩 페이드아웃.
-         */
+            s.CameraMoveX(-2);
+            s.LoadingFadeOut();
+        },600);
     },
 
     /**
@@ -156,7 +273,6 @@ cc.Class({
         const newXPosition = currentPosition.x - idx;
 
         var v3 = cc.v3(newXPosition, currentPosition.y, currentPosition.z);
-
         this.camera.node.setPosition(v3);
     },
 
@@ -168,25 +284,21 @@ cc.Class({
      */
     LoadingFadeOut: function(){
         var self = this;
-        var offset = 5;
+        var offset = 128;
 
+        this.loadingBG.active = false;
+        this.isLoaded = true;
+        Controller.getInstance().finalIndex = true;
 
+       
 
-        setTimeout(()=>{
-            var loadingInterval = setInterval(function(){
-
-                if(self.loadingBG.opacity <= 0){
-                    offset++;
-                    self.loadingBG.active = false;
-                    self.isLoaded = true;
-                    clearInterval(loadingInterval);
-                    Controller.getInstance().FinalLoadDone();
-
-                }
-                self.loadingBG.opacity -= offset;
-            },30);
-        },1000);
+        // 카메라 초기화
+        // 최종 다되면 카메라 셋업.
+        this.InitialCamera();
     },
+
+
+    
 
 
     /**
@@ -195,6 +307,12 @@ cc.Class({
      */
     InitGame: function(){
         var self = this;
+
+        this.bomb_sprites = [
+            [],
+            [],
+            [],
+        ];
 
         this.mapOffset = [
             // T-1
@@ -219,19 +337,18 @@ cc.Class({
 
             // 1-2-E
             { x: 0, y: 1 },
-            { x: 0, y: -1 },
-            { x: 0, y: -1 },
+            { x: 0, y: 1 },
+            { x: 0, y: 1 },
 
             // 1-2-N
             { x: 0, y: 1 },
-            { x: 0, y: -1 },
-            { x: 0, y: -1 },
+            { x: 0, y: 1 },
+            { x: 0, y: 1 },
 
             // 1-2-H
+            { x: 0, y: 1},
             { x: 0, y: 1 },
             { x: 0, y: -1 },
-            { x: 0, y: -1 },
-
 
             // 1-3-E
             { x: 1, y: -2 },
@@ -247,9 +364,152 @@ cc.Class({
             { x: -1, y: -2 },
             { x: 0, y: -1 },
             { x: -4, y: 1 },
+
+
+
+            // 2-1-E
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+
+            // 2-1-N
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+
+            //2-1-H
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+            { x: 0, y: -1 },
+
+
+            // 2-2-E
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+
+            // 2-2-N
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+
+            //2-2-H
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+  
+              
+            // 2-3-E
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+
+            // 2-3-N
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+
+            //2-3-H
+            { x: 0, y: 1 },
+            { x: -1, y: 1 },
+            { x: 0, y: 1 },
+
+
+
+             // 3-1-E
+             { x: 1, y: 1 },
+             { x: -1, y: 1 },
+             { x: -1, y: 0 },
+ 
+             // 3-1-N
+             { x: 1, y: 1 },
+             { x: -1, y: 1 },
+             { x: -1, y: 0 },
+ 
+             // 3-1-H
+             { x: 1, y: 1 },
+             { x: -1, y: 1 },
+             { x: -1, y: 0 },
+ 
+             // 3-2-E
+             { x: 0, y: 2 },
+             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+ 
+             // 3-2-N
+             { x: 0, y: 2 },
+             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+ 
+             // 3-2-H
+             { x: 0, y: 2 },
+             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+   
+               
+             // 3-3-E
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+ 
+             // 3-3-N
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+ 
+             // 3-3-H
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+
+
+                     
+             // 3-4-E
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 0 },
+ 
+             // 3-4-N
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 0 },
+ 
+             // 3-4-H
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 0 },
+
         ];
         this.loadInit();
+
     },
+    
+
+    /**
+     * Point Array 정보 받는 곳.
+     */
+    GetPointArray: function(){
+        var initData =  Controller.getInstance().getInitOjbectDatas();
+
+        /** 
+         * 예외 처리
+         */
+        if(initData == null || initData == '') return;
+        if(initData.length < 1) return;
+
+
+        for( var i = 0 ; i < initData.length; i++ ){
+            if(initData[i].type === 'print_point') {
+                this.print_array = initData[i].require_print;
+                break;
+            }
+
+        }
+
+
+    },
+
+
 
     /**
      *  Json 데이터가 로드가 정상적으로 되었는지 Interval을 이용하여 확인한다.
@@ -261,23 +521,68 @@ cc.Class({
         var inter = setInterval(function(){
 
             if(Controller.getInstance().initJson != null){
-                self.EffectInit();
-                self.InitMap();
-                // self.InitFloor();
-                self.InitPlayer();
-                self.InitObject();
+                //self.EffectInit();
 
-                // 카메라 초기화
-                self.InitialCamera();
+                if(self.IsBonusStage()){
+                    var stageObject = Controller.getInstance().getInitStageData();
+                    var step = stageObject.step;
 
+                    self.bonusGameSceneLoaded(step);
+                }
+                else{
+                    self.InitMap();
+                    self.InitPlayer();
+                    self.InitObject();
+
+                    // 2스테이지이상 부터 사용하는 Print
+                    self.GetPointArray();
+                }
                 clearInterval(inter);
             }
 
-        }, 100);
+        }, 5);
     },
 
 
-    //TODO EFFECT
+    /**
+     * 현재 접근하는 스테이지가 보너스 스테이지에 해당하는지 체크.
+     * 1-4 , 2-4 화면 전환.
+     * @returns status_change true / none false
+     */
+    IsBonusStage: function(){
+        var stageObject = Controller.getInstance().getInitStageData();
+        var step = stageObject.step;
+
+        if(step == "1-4"){
+            return true;
+        }
+        else if(step == "2-4"){
+            return true;
+        }
+        
+        return false;
+    },
+
+
+
+    /**
+     * 보너스게임 Scene Change 해주는것.
+     * @param {step} SendInitData_Stage_step_값 
+     */
+    bonusGameSceneLoaded: function(step){
+        if(step === "1-4" ) {
+            cc.director.loadScene("minigame1");
+        }
+        else if(step === "2-4"){
+
+        }
+    },
+  
+
+    /**
+     * 카메라 흔들림효과, 폭탄, 레이저 공격받았을시 사용.
+     * @returns 
+     */
     ShakeEffect: function() {
         if(this.isCameraShaked) return;
         this.isCameraShaked = true;
@@ -331,22 +636,8 @@ cc.Class({
         var self = this;
 
         var initvector = this.GVector(initPos[0],initPos[1]);
-        //var initvector = this.GVector(0,0);
 
-        // 2.3.x 버전
-        cc.loader.loadRes('./prefabs/Player', cc.Prefab, function (err, prefab) {
-            // 리소스 로드가 완료된 후 실행할 코드
-            if (err) {
-                cc.error("Error loading image: " + err);
-                return;
-            }
-            // 로드된 SpriteFrame 사용
-            self.player = cc.instantiate(prefab);
-            self.player.getComponent("Player").Init(initvector, playerDir);
-
-            // 현재 스크립트가 추가되어 있는 노드에 플레이어 노드를 추가합니다.
-            self.node.addChild(self.player);
-        });
+        this.player.getComponent("Player").Init(initvector, playerDir);
     },
 
     /**
@@ -370,7 +661,6 @@ cc.Class({
         var level = stageObject.level;
 
         var gameLevel = this.ConvertGameLevel(step,diff,level);
-
 
         var v2 = cc.v2(
             ((lX + this.mapOffset[gameLevel].x) * Env.OFFSET_X) + Env.PLAYER_RADIO,
@@ -439,53 +729,157 @@ cc.Class({
             if(step === "1-3" && diff === "Hard" && level === 1){ gameLevel = 26; }
             if(step === "1-3" && diff === "Hard" && level === 2){ gameLevel = 27; }
             if(step === "1-3" && diff === "Hard" && level === 3){ gameLevel = 28; }
+
+            // 2-1-E
+            if(step === "2-1" && diff === "Easy" && level === 1){ gameLevel = 29; }
+            if(step === "2-1" && diff === "Easy" && level === 2){ gameLevel = 30; }
+            if(step === "2-1" && diff === "Easy" && level === 3){ gameLevel = 31; }
+
+            // 2-1-N
+            if(step === "2-1" && diff === "Normal" && level === 1){ gameLevel = 32; }
+            if(step === "2-1" && diff === "Normal" && level === 2){ gameLevel = 33; }
+            if(step === "2-1" && diff === "Normal" && level === 3){ gameLevel = 34; }
+
+            // 2-1-H
+            if(step === "2-1" && diff === "Hard" && level === 1){ gameLevel = 35; }
+            if(step === "2-1" && diff === "Hard" && level === 2){ gameLevel = 36; }
+            if(step === "2-1" && diff === "Hard" && level === 3){ gameLevel = 37; }
+
+
+            // 2-2-E
+            if(step === "2-2" && diff === "Easy" && level === 1){ gameLevel = 38; }
+            if(step === "2-2" && diff === "Easy" && level === 2){ gameLevel = 39; }
+            if(step === "2-2" && diff === "Easy" && level === 3){ gameLevel = 40; }
+
+            // 2-2-N
+            if(step === "2-2" && diff === "Normal" && level === 1){ gameLevel = 41; }
+            if(step === "2-2" && diff === "Normal" && level === 2){ gameLevel = 42; }
+            if(step === "2-2" && diff === "Normal" && level === 3){ gameLevel = 43; }
+
+            // 2-2-H
+            if(step === "2-2" && diff === "Hard" && level === 1){ gameLevel = 44; }
+            if(step === "2-2" && diff === "Hard" && level === 2){ gameLevel = 45; }
+            if(step === "2-2" && diff === "Hard" && level === 3){ gameLevel = 46; }
+
+            // 2-3-E
+            if(step === "2-3" && diff === "Easy" && level === 1){ gameLevel = 47; }
+            if(step === "2-3" && diff === "Easy" && level === 2){ gameLevel = 48; }
+            if(step === "2-3" && diff === "Easy" && level === 3){ gameLevel = 49; }
+
+            // 2-3-N
+            if(step === "2-3" && diff === "Normal" && level === 1){ gameLevel = 50; }
+            if(step === "2-3" && diff === "Normal" && level === 2){ gameLevel = 51; }
+            if(step === "2-3" && diff === "Normal" && level === 3){ gameLevel = 52; }
+
+            // 2-3-H
+            if(step === "2-3" && diff === "Hard" && level === 1){ gameLevel = 53; }
+            if(step === "2-3" && diff === "Hard" && level === 2){ gameLevel = 54; }
+            if(step === "2-3" && diff === "Hard" && level === 3){ gameLevel = 55; }
+
+
+         
+            
+            // 3-1-E
+            if(step === "3-1" && diff === "Easy" && level === 1){ gameLevel = 56; }
+            if(step === "3-1" && diff === "Easy" && level === 2){ gameLevel = 57; }
+            if(step === "3-1" && diff === "Easy" && level === 3){ gameLevel = 58; }
+
+            // 3-1-N
+            if(step === "3-1" && diff === "Normal" && level === 1){ gameLevel = 59; }
+            if(step === "3-1" && diff === "Normal" && level === 2){ gameLevel = 60; }
+            if(step === "3-1" && diff === "Normal" && level === 3){ gameLevel = 61; }
+
+            // 3-1-H
+            if(step === "3-1" && diff === "Hard" && level === 1){ gameLevel = 62; }
+            if(step === "3-1" && diff === "Hard" && level === 2){ gameLevel = 63; }
+            if(step === "3-1" && diff === "Hard" && level === 3){ gameLevel = 64; }
+
+
+            // 3-2-E
+            if(step === "3-2" && diff === "Easy" && level === 1){ gameLevel = 65; }
+            if(step === "3-2" && diff === "Easy" && level === 2){ gameLevel = 66; }
+            if(step === "3-2" && diff === "Easy" && level === 3){ gameLevel = 67; }
+
+            // 3-2-N
+            if(step === "3-2" && diff === "Normal" && level === 1){ gameLevel = 68; }
+            if(step === "3-2" && diff === "Normal" && level === 2){ gameLevel = 69; }
+            if(step === "3-2" && diff === "Normal" && level === 3){ gameLevel = 70; }
+
+            // 3-2-H
+            if(step === "3-2" && diff === "Hard" && level === 1){ gameLevel = 71; }
+            if(step === "3-2" && diff === "Hard" && level === 2){ gameLevel = 72; }
+            if(step === "3-2" && diff === "Hard" && level === 3){ gameLevel = 73; }
+
+            // 3-3-E
+            if(step === "3-3" && diff === "Easy" && level === 1){ gameLevel = 74; }
+            if(step === "3-3" && diff === "Easy" && level === 2){ gameLevel = 75; }
+            if(step === "3-3" && diff === "Easy" && level === 3){ gameLevel = 76; }
+
+            // 3-3-N
+            if(step === "3-3" && diff === "Normal" && level === 1){ gameLevel = 77; }
+            if(step === "3-3" && diff === "Normal" && level === 2){ gameLevel = 78; }
+            if(step === "3-3" && diff === "Normal" && level === 3){ gameLevel = 79; }
+
+            // 3-3-H
+            if(step === "3-3" && diff === "Hard" && level === 1){ gameLevel = 80; }
+            if(step === "3-3" && diff === "Hard" && level === 2){ gameLevel = 81; }
+            if(step === "3-3" && diff === "Hard" && level === 3){ gameLevel = 82; }
+
+
+             // 3-4-E
+             if(step === "3-4" && diff === "Easy" && level === 1){ gameLevel = 83; }
+             if(step === "3-4" && diff === "Easy" && level === 2){ gameLevel = 84; }
+             if(step === "3-4" && diff === "Easy" && level === 3){ gameLevel = 85; }
+ 
+             // 3-4-N
+             if(step === "3-4" && diff === "Normal" && level === 1){ gameLevel = 86; }
+             if(step === "3-4" && diff === "Normal" && level === 2){ gameLevel = 87; }
+             if(step === "3-4" && diff === "Normal" && level === 3){ gameLevel = 88; }
+ 
+             // 3-4-H
+             if(step === "3-4" && diff === "Hard" && level === 1){ gameLevel = 89; }
+             if(step === "3-4" && diff === "Hard" && level === 2){ gameLevel = 90; }
+             if(step === "3-4" && diff === "Hard" && level === 3){ gameLevel = 91; }
+ 
+
+
         }
         return gameLevel;
     },
-
 
     /**
      * 맵정보를 로드하고, 초기화 합니다.
      * @constructor
      */
-    InitMap: function(){
-        var mapurl = this.GetMapURL();
+    InitMap: function() {
         var self = this;
+        var mapUrl = "./map/" + this.GetMapURL();  // 맵 URL 동적 생성
 
-        var url = "./map/" + mapurl;
-
-        // // 2.3.x 버전
-        cc.loader.loadRes(url, cc.TiledMapAsset, function (err, tmx_file) {
-            // 리소스 로드가 완료된 후 실행할 코드
+        // Tiled Map 리소스 로드
+        cc.loader.loadRes(mapUrl, cc.TiledMapAsset, function (err, tmxFile) {
             if (err) {
-                cc.error("Error loading image: " + err);
+                cc.error("맵 로딩 에러: " + err);
                 return;
             }
-            self.gameMap.tmxAsset = tmx_file;
+            self.gameMap.tmxAsset = tmxFile;  // Tiled Map 설정
 
-            /**
-             * 아래 에서 맵사이즈를 계산하여 해당 포지션 만큼 카메라 포지션 셋팅해줍니다.
-             */
-            var mapSize = self.gameMap.getMapSize();
-            var tileSize = self.gameMap.getTileSize();
+            self.MapSetupCamera();  // 카메라 설정 함수 분리
 
-            var mapWidth = mapSize.width * tileSize.width;
-            var mapHeight = mapSize.height * tileSize.height;
-
-            var v2 = cc.v2(-mapWidth*1.5, -mapHeight*3);
-
-            self.gameMap.node.setPosition(0,-mapHeight * 3);
-            self._TileMapShake();
-
-            /**
-             * 여기서 추가 적으로페이드 아웃을 걸자..
-             */
-
-
-
+            // 맵 로드 시점에 ??
         });
     },
 
+    /**
+     * 카메라를 맵 크기에 맞게 설정합니다.
+     */
+    MapSetupCamera: function() {
+        var mapSize = this.gameMap.getMapSize();
+        var tileSize = this.gameMap.getTileSize();
+        var mapHeight = mapSize.height * tileSize.height;
+
+        this.gameMap.node.setPosition(0, -mapHeight * 3);  // 맵 노드 위치 설정
+        this._TileMapShake();  // 맵 흔들림 효과 호출
+    },
 
     /**
      * Json Stage 정보를 토대로 저장된 맵 프리팹 url 리턴합니다.
@@ -503,7 +897,6 @@ cc.Class({
 
 
         if(step === "tutorial"){
-
             url = "map_T-"+level.toString();
         }
         else{
@@ -518,7 +911,6 @@ cc.Class({
         return url;
     },
 
-
     /**
      * 카메라 포지션을 조정합니다.
      * @constructor
@@ -530,7 +922,6 @@ cc.Class({
         this.camera.node.setPosition(cc.v3(x, y, 0)); // 여기서 x, y, z는 포지션의 좌표값입니다.
         this.camera.zoomRatio = zoomLevel;
     },
-
 
     /**
      * 맵의 갯수가 많지 않으니 하드 코딩처리되어있습니다.
@@ -557,25 +948,26 @@ cc.Class({
 
         switch (gameLevel){
             case 0 : case 1:
-                this.SetCamera(-650,-870,1.4);
+                this.SetCamera(-700,-870,1.4);
                 break;
             case 2: case 3:
             case 5: case 6:
+                this.SetCamera(-550,-1000,1.0);
+                break;
             case 8: case 9:
                 this.SetCamera(-600,-970,1.2);
                 break;
             case 4: case 7: case 10:
                 this.SetCamera(-400,-1060,1);
                 break;
-
             case 11: case 14: case 17:
                 this.SetCamera(-300,-1200,0.75);
                 break;
             case 12: case 15: case 18:
-                this.SetCamera(350,-1150,0.7);
+                this.SetCamera(350,-1050,0.7);
                 break;
             case 13: case 16: case 19:
-                this.SetCamera(620,-1150,0.58);
+                this.SetCamera(650,-1000,0.58);
                 break;
 
             case 20: case 23: case 26:
@@ -584,7 +976,6 @@ cc.Class({
                 this.spaceShip.active = true;
                 break;
 
-
             case 21: case 24: case 27:
                 this.SetCamera(350,-900,0.7);
                 this.spaceShip.setPosition(cc.v2(-550, 600));
@@ -592,202 +983,193 @@ cc.Class({
                 break;
 
             case 22: case 25: case 28:
-                this.SetCamera(350,-1300,0.7);
+                this.SetCamera(250,-1300,0.7);
                 this.spaceShip.setPosition(cc.v2(5260,-780));
                 this.spaceShip.active = true;
                 break;
+
+            // 2-1 E ~ 2-1-H 모두 동일
+            case 29: case 30: case 31:
+            case 32: case 33: case 34: 
+            case 35: case 36: case 37:
+                this.SetCamera(-300,-850,0.8);
+                break;
+            
+            // 2-2-E-1 / 2-2-N-1 / 2-2-H-1
+            case 38: case 41: case 44:
+                this.SetCamera(450,-800,0.66);
+                break;
+            // 2-2-E-2 / 2-2-N-2 / 2-2-H-2
+            case 39: case 42: case 45:
+                this.SetCamera(-200,-1050,0.8);
+                break;
+            // 2-2-E-3 / 2-2-N-3 / 2-2-H-3
+            case 40: case 43: case 46:
+                this.SetCamera(450,-1000,0.6);
+                break;
+            
+            // 2-3-E-1 ~
+            case 47: case 50: case 53:
+            this.SetCamera(550,-950,0.63);
+                break;
+
+            // 2-3-E-2 ~
+            case 48: case 51: case 54:
+                this.SetCamera(580,-650,0.6);
+                break;
+
+            // 2-3-E-3 ~
+            case 49: case 52: case 55:
+                this.SetCamera(-400,-1050,0.9);
+                    break;
+            // 3-1-E-1
+            case 56: case 59: case 62:
+                this.SetCamera(-400,-1050,1);
+                    break;
+
+            // 3-1-E-2
+            case 57: case 60: case 63:
+                this.SetCamera(250,-950,0.8);
+                break;
+            // 3-1-E-3
+            case 58: case 61: case 64:
+                this.SetCamera(-50,-1000,1.1);
+                break;
+
+            // 3-2-E-1
+            case 65: case 68: case 71:
+                this.SetCamera(-400,-1100,1);
+                break;
+            // 3-2-E-2
+            case 66: case 69: case 72:
+                this.SetCamera(450,-700,0.7);
+                break;
+
+            // 3-2-E-3
+            case 67: case 70: case 73:
+                this.SetCamera(-200,-1350,0.7);
+                break;
+
+            // 3-3-E-1            
+            
+            case 74: case 75: case 76:
+            case 77: case 78: case 79:
+            case 80: case 81: case 82:
+                this.SetCamera(250,-1050,0.8);
+                break;
+            
+            case 83: case 86: case 89:
+                this.SetCamera(550,-850,0.6);
+                break;
+            
+            case 84: case 87: case 90:
+                this.SetCamera(550,-900,0.6);
+                break;
+
+            case 85: case 88: case 91:
+                this.SetCamera(50,-1550,0.6);
+                break;
+
         }
-        //this.camera.node.setPosition()
+
+
+        
+        // TODO 
     },
 
 
     /**
      * 이펙트 초기화 해주는 함수
      * 게임의 진행에 따라 Call 될수 있습니다.
+     *
+     * 코드 개선 2024-04-15
      * @constructor
      */
     EffectInit: function(){
         var self = this;
-        var url = '/prefabs/explosion';
-        var healUrl = "/prefabs/heal";
-        var pickUrl = "/prefabs/pickup";
-        var dropEffectUrl = "/prefabs/dropEffect";
+        var urls = ['/prefabs/explosion', '/prefabs/heal', '/prefabs/pickup', '/prefabs/dropEffect'];
+        var lists = [this.expList, this.hList, this.pList, this.dropEffectList]; // 각 URL에 해당하는 리스트
 
+        urls.forEach((url, index) => {
+            for (var i = 0; i < 5; i++) {
+                cc.loader.loadRes(url, cc.Prefab, function (err, effect) {
+                    if (err) {
+                        cc.error("이미지 로딩 에러: " + err);
+                        return;
+                    }
 
-        for(var i = 0; i < 5; i++) {
-            cc.loader.loadRes(url, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
-
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-                self.effectParent.addChild(n1);
-
-                self.expList.push(n1);
-
-            });
-
-            cc.loader.loadRes(healUrl, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
-
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-
-                self.effectParent.addChild(n1);
-
-                self.hList.push(n1);
-
-            });
-
-            cc.loader.loadRes(pickUrl, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
-
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-
-                self.effectParent.addChild(n1);
-                self.pList.push(n1);
-
-            });
-
-
-            cc.loader.loadRes(dropEffectUrl, cc.Prefab, function (err, effect) {
-                // 리소스 로드가 완료된 후 실행할 코드
-                if (err) {
-                    cc.error("Error loading image: " + err);
-                    return;
-                }
-
-                var n1 = cc.instantiate(effect);
-                n1.active = false;
-
-                self.effectParent.addChild(n1);
-                self.dropEffectList.push(n1);
-            });
-        }
+                    var newInstance = cc.instantiate(effect);
+                    newInstance.active = false;
+                    self.effectParent.addChild(newInstance);
+                    lists[index].push(newInstance); // URL 인덱스에 따라 적절한 리스트에 추가
+                });
+            }
+        });
 
     },
 
     /**
-     * 폭발 이펙트 보여주는 함수입니다.
-     * @param pos  포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 공통 이펙트 표시 함수
+     * @param {Array} list - 이펙트 객체를 포함하고 있는 리스트
+     * @param {Number} idx - 현재 인덱스
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
+     * @param {String} animationName - 재생할 애니메이션 이름
+     * @param {Function} extraAction - 추가적으로 실행할 함수
      */
-    ShowExplosion: function(pos){
+    showEffect: function(list, idx, pos, animationName, extraAction = null) {
+        if (idx >= list.length - 1) idx = 0;  // 인덱스 초기화
+        var node = list[idx];
+        node.active = true;
+        node.setPosition(pos);
 
-        if(this.expIdx >= this.expList.length-1  ) this.expIdx = 0;
-        this.expList[this.expIdx].active = true;
+        var animation = node.getComponent(cc.Animation);
+        animation.once('finished', () => {
+            node.active = false;
+            list[idx] = node;  // 다음 사용을 위해 업데이트
+            if (extraAction) extraAction();
+            idx++;
+        }, this);
+        animation.play(animationName);
 
-        this.expList[this.expIdx].setPosition(pos);
-
-        var animation = this.expList[this.expIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-
-            if(self.expList[self.expIdx].active){
-                self.expList[self.expIdx].active = false;
-                self.expIdx++;
-            }
-        },this);
-        self.isCameraShaked = false;
-
-
-        animation.play("explosion");
+        return idx;  // 업데이트된 인덱스 반환
     },
 
     /**
-     * 아이템이 회복 이펙트 효과  추가
-     * @param pos 포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 폭발 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
      */
-    ShowHeal: function(pos){
-
-        if(this.hIdx >= this.hList.length-1  ) this.hIdx = 0;
-
-        this.hList[this.hIdx].active = true;
-        this.hList[this.hIdx].setPosition(pos);
-
-        var animation = this.hList[this.hIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-            if(self.hList[self.expIdx].active) {
-                self.hList[self.hIdx].active = false;
-                self.hIdx++;
-            }
-        },this);
-
-        animation.play("heal");
-        this.hList[this.hIdx].getComponent(cc.Animation).play("heal");
+    ShowExplosion: function(pos) {
+        this.expIdx = this.showEffect(this.expList, this.expIdx, pos, "explosion", () => {
+            this.isCameraShaked = false;
+            SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
+        });
     },
 
     /**
-     * 아이템이 획득 이펙트 효과  추가
-     * @param pos 포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 회복 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
      */
-    ShowPickup: function(pos){
-
-        if(this.pIdx >= this.pList.length-1  ) this.pIdx = 0;
-
-        this.pList[this.pIdx].active = true;
-        this.pList[this.pIdx].setPosition(pos);
-
-        var animation = this.pList[this.pIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-            if(self.pList[self.pIdx].active){
-                self.pList[self.pIdx].active = false;
-                self.pIdx++;
-            }
-
-        },this);
-        SoundManager.getInstance().PlaySfx(Env.SFX_EARN_ITEM);
-        animation.play("pickup");
+    ShowHeal: function(pos) {
+        this.hIdx = this.showEffect(this.hList, this.hIdx, pos, "heal");
     },
-
 
     /**
-     * 아이템이 드롭될때 이펙트 효과  추가
-     * @param pos 포지션값 GVector() 사용 변환 포지션
-     * @constructor
+     * 픽업 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
      */
-    ShowDropEffect: function(pos){
-
-        if(this.dropEffectIdx >= this.dropEffectList.length-1 ) this.dropEffectIdx = 0;
-
-        this.dropEffectList[this.dropEffectIdx].active = true;
-
-        this.dropEffectList[this.dropEffectIdx].setPosition(pos);
-
-        var animation = this.dropEffectList[this.dropEffectIdx].getComponent(cc.Animation);
-
-        var self = this;
-        animation.on('finished',function(){
-
-            if(self.dropEffectList[self.dropEffectIdx].active){
-                self.dropEffectList[self.dropEffectIdx].active = false;
-                self.dropEffectIdx++;
-            }
-
-        },this);
-
-        animation.play("dropeffect");
+    ShowPickup: function(pos) {
+        this.pIdx = this.showEffect(this.pList, this.pIdx, pos, "pickup", () => {
+            SoundManager.getInstance().PlaySfx(Env.SFX_EARN_ITEM);
+        });
     },
 
+    /**
+     * 드롭 이펙트를 표시합니다.
+     * @param {cc.Vec2} pos - 이펙트를 표시할 위치
+     */
+    ShowDropEffect: function(pos) {
+        this.dropEffectIdx = this.showEffect(this.dropEffectList, this.dropEffectIdx, pos, "dropeffect");
+    },
 
     /**
      * 맵위에 출력될 객체 초기화합니다.
@@ -801,15 +1183,19 @@ cc.Class({
         var objects = Controller.getInstance().getInitOjbectDatas();
 
         if (objects.length < 1) {
-            console.log("item list is Null");
             return;
         } else {
             for (var i = 0; i < objects.length; i++) {
                 this.MakeUpObject(objects[i]);
+
+                this.AddBombSprites(objects[i]);
             }
         }
-//        console.log(this.item[0].getComponent("Gobject").GetItemID());
+        // var ts = performance.now();
+        // var li =  ts - self.startTime;
 
+        // 처리..
+        this.ShowVariableBombSprites();
     },
 
     /**
@@ -823,10 +1209,11 @@ cc.Class({
                 var targets = object[j];
                 var goalPos = cc.v2(targets.pos[0], targets.pos[1]);
                 this.AddPrefabs(Env.GOAL, -1, goalPos);
+                var ts = performance.now();
+                var li =  ts - self.startTime;
                 break;
             }
         }
-
     },
 
     /**
@@ -849,8 +1236,6 @@ cc.Class({
 
             var startPos = cc.v2(startX, startY);
             this.AddLaserPrefab(Env.LASER_START_ON, id, startPos , status , dir );
-
-
 
             var endX = object.pos_end[0];
             var endY = object.pos_end[1];
@@ -895,20 +1280,27 @@ cc.Class({
 
         }
         else{
-
             var tag = this.NameToTag(object.type);
 
-            var posX = object.pos[0];
-            var posY = object.pos[1];
-            var itemId = object.id;
-            var pos = cc.v2(posX, posY);
+            // 예외 처리
+            if(tag == -99){
+                console.log(object.type);
 
-
-            if(tag === Env.ROCKET_EMPTY){
-                this.AddRocketParts(tag,itemId,pos, object);
-            }
+                return;
+            } 
             else{
-                this.AddPrefabs(tag, itemId,  pos );
+                var posX = object.pos[0];
+                var posY = object.pos[1];
+                var itemId = object.id;
+                var pos = cc.v2(posX, posY);
+                var status = object.status;
+
+                if(tag === Env.ROCKET_EMPTY){
+                    this.AddRocketParts(tag,itemId,pos, object);
+                }
+                else{
+                    this.AddPrefabs(tag, itemId,  pos , status , object);
+                }
             }
         }
 
@@ -928,6 +1320,10 @@ cc.Class({
             case "drop_switch" : return Env.NORMAL_SWITCH_ON;
             case "laser_switch": return Env.LASER_SWITCH_ON;
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
+            case "variation_switch" : return Env.VARIATION_SWITCH_OFF;
+            case "door":  
+                return Env.DOOR_ON;
+            default : return -99;
         }
     },
 
@@ -972,6 +1368,10 @@ cc.Class({
             // self.node.addChild(n1);
             self.objectParent.addChild(n1);
             self.objectParent.setLocalZOrder = 10;
+
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
         });
     },
 
@@ -982,7 +1382,7 @@ cc.Class({
      * @param pos  cc.v2 포지션값
      * @constructor
      */
-    AddPrefabs: function(tag , id , pos ){
+    AddPrefabs: function(tag , id , pos, status = 1 , obj ){
         var prefabName = "";
         var self = this;
 
@@ -996,7 +1396,16 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
+            case Env.DOOR_ON: prefabName = "door";  break;
+            case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
+            
         }
+
+        if(prefabName == "" ){
+            console.log("Not found Prefabs => " + tag + " id => " + id);
+            return;
+        }
+
         var itemurl = "./prefabs/" + prefabName;
 
         cc.loader.loadRes(itemurl, cc.Prefab, function (err, prefabs) {
@@ -1012,8 +1421,27 @@ cc.Class({
             n1.addComponent("Gobject");
             n1.getComponent('Gobject').Init(tag,id);
 
+            if(status == 0){
+                n1.getComponent('Gobject').Show();
+                n1.getComponent('Gobject').Hide();
+            }
+
+
+
+
+
             if(tag === Env.GOAL){
                 self.goalObject = n1;
+                self.node.addChild(n1);
+            }
+            else if(tag === Env.DOOR_ON){
+                if(obj.dir === 'h'){
+                    n1.getComponent("Gobject").SetDir('h');
+                }
+                else if(obj.dir === 'v'){
+                    n1.getComponent("Gobject").SetDir('v');
+                }
+                self.item.push(n1);
                 self.node.addChild(n1);
             }
             else{
@@ -1021,59 +1449,59 @@ cc.Class({
                 self.node.addChild(n1);
 
             }
+
+
+
         });
     },
 
     /**
-     * 드롭 스위치 프리팹 만들어주는 함수
-     * @param tag  태그값 (드롭 스위치 태그) Env 참고
-     * @param id  객체의 아이디값
-     * @param pos  GVector 를 활용한 함수
-     * @param drop_item_tag  드롭 아이템의 태그
-     * @param drop_item_pos  드롭 아이템 포지션
-     * @constructor
+     * 프리팹을 생성하고 초기화하는 공통 함수
+     * @param {String} prefabUrl - 프리팹의 리소스 URL
+     * @param {String} tag - 생성할 객체의 태그
+     * @param {Number} id - 객체의 ID
+     * @param {Object} pos - 객체의 위치 (x, y 포함하는 객체)
+     * @param {Array} list - 객체를 추가할 리스트
+     * @param {Boolean} hide - 드롭 아이템의 초기 숨김 상태 (선택적)
      */
-    AddDropSwitchPrefabs : function(tag, id, pos , drop_item_tag, drop_item_pos){
+    createAndInitPrefab: function(prefabUrl, tag, id, pos, list, hide=false) {
         var self = this;
-        var dropSwitchPrefabs = "nSwitch";
-        var dropItemPrefabs = "battery";
-
-        var switchUrl = "./prefabs/" + dropSwitchPrefabs;
-
-        cc.loader.loadRes(switchUrl, cc.Prefab, function (err, prefabs) {
-            // 리소스 로드가 완료된 후 실행할 코드
-            if (err) { cc.error("Error loading image: " + err); return; }
-
-            var n1 = cc.instantiate(prefabs);
-            n1.addComponent("Gobject");
-            n1.getComponent('Gobject').Init(tag, id);
-
-            var v1 = self.GVector(pos.x,pos.y);
-            n1.setPosition(v1);
-            self.node.addChild(n1);
-
-            self.dropSwitchList.push(n1);
-        });
-
-        var dropUrl = './prefabs/' + dropItemPrefabs;
-        cc.loader.loadRes(dropUrl, cc.Prefab, function (err, prefabs) {
-            // 리소스 로드가 완료된 후 실행할 코드
-            if (err) { cc.error("Error loading image: " + err); return; }
-
-            var n1 = cc.instantiate(prefabs);
-            n1.addComponent("Gobject");
-            n1.getComponent('Gobject').Init(drop_item_tag, id);
-            n1.getComponent("Gobject").DropItemHide(true);
-
-
-            var v1 = self.GVector(drop_item_pos.x,drop_item_pos.y);
-            n1.setPosition(v1);
-            self.node.addChild(n1);
-
-            self.dropItemList.push(n1);
-
+        cc.loader.loadRes(prefabUrl, cc.Prefab, function(err, prefab) {
+            if (err) {
+                cc.error("프리팹 로딩 에러: " + err);
+                return;
+            }
+            var instance = cc.instantiate(prefab);
+            instance.addComponent("Gobject");
+            instance.getComponent("Gobject").Init(tag, id);
+            if (hide) {
+                instance.getComponent("Gobject").DropItemHide(true);
+            }
+            instance.setPosition(self.GVector(pos.x, pos.y));
+            self.node.addChild(instance);
+            list.push(instance);
         });
     },
+
+    /**
+     * 드롭 스위치 프리팹과 관련 드롭 아이템 프리팹을 생성하는 함수
+     * @param {Number} tag - 드롭 스위치의 태그
+     * @param {Number} id - 객체의 아이디
+     * @param {Object} pos - 드롭 스위치의 위치
+     * @param {Number} drop_item_tag - 드롭 아이템의 태그
+     * @param {Object} drop_item_pos - 드롭 아이템의 위치
+     */
+    AddDropSwitchPrefabs: function(tag, id, pos, drop_item_tag, drop_item_pos) {
+        var switchUrl = "./prefabs/nSwitch"; // 드롭 스위치 프리팹 경로
+        var dropUrl = './prefabs/battery'; // 드롭 아이템 프리팹 경로
+
+        // 드롭 스위치 프리팹 생성 및 초기화
+        this.createAndInitPrefab(switchUrl, tag, id, pos, this.dropSwitchList);
+
+        // 드롭 아이템 프리팹 생성 및 초기화
+        this.createAndInitPrefab(dropUrl, drop_item_tag, id, drop_item_pos, this.dropItemList, true);
+    },
+
 
 
     /**
@@ -1103,7 +1531,6 @@ cc.Class({
 
             var isStatus = false;
 
-
             if(status === 0)  isStatus = false;
             else  isStatus = true;
 
@@ -1113,6 +1540,10 @@ cc.Class({
             n1.setPosition(v1);
             self.node.addChild(n1);
             self.item.push(n1);
+
+            var ts = performance.now();
+            var li =  ts - self.startTime;
+
         });
     },
 
@@ -1124,7 +1555,6 @@ cc.Class({
      */
     executeCommand: function(id = 0){
         var command = Controller.getInstance().getCommandLine(id);
-
 
         /**
          * 명령어 종료를 뜻함
@@ -1160,14 +1590,11 @@ cc.Class({
         if(status === 11){
             this.ShakeEffect();
             this.ShowExplosion(pos);
-
         }
         else if( status === 3){
             this.ShowPickup(pos);
         }
     },
-
-
 
     /**
      * 스트림 데이터를 입력받아 맵위에 있는 객체의 상태를 변화 하거나
@@ -1186,7 +1613,6 @@ cc.Class({
             this.DropSwitchUpdate(i, id_list[i]);
         }
     },
-
 
     /**
      * 드롭 스위치 의 상태를 표현해주는 함수입니다.
@@ -1210,7 +1636,6 @@ cc.Class({
                     this.ShowDropEffect(dropItem.position);
                 }
                 itemComp.DropItemShow();
-                // this.audioManager.getComponent('SoundManager').Play(Env.SFX)
                 dropSwitch.Hide();
 
             }
@@ -1220,9 +1645,7 @@ cc.Class({
                 // itemComp.Hide();
 
                 itemComp.DropItemHide();
-
                 dropSwitch.Hide();
-
             }
             else if(dropSwitchId === index && status === 2){
                 var dropItem =  this.FindDropItem(dropSwitchId);
@@ -1259,6 +1682,163 @@ cc.Class({
 
 
     /**
+     * 폭탄 보였다 안보였다 처리 효과.
+     */
+    ShowVariableBombSprites: function(){
+
+        var self = this;
+        setInterval(function(){
+            if(Controller.getInstance().getCurrentCommandID() > 2) self._HideVariableSprites();
+            else self._ShowVariableSprites();
+        },30);
+
+        
+    },
+
+
+    AddBombSprites: function(object){
+        var tag = this.NameToTag(object.type);
+        
+
+        if(tag !== Env.BOMB) return;
+        var variation_no = object.variation_no;
+        if(variation_no == null) return;
+
+        console.log(variation_no);
+
+        var posX = object.pos[0];
+        var posY = object.pos[1];
+        var pos = cc.v2(posX, posY);
+
+        var itemurl = "./prefabs/var_bomb";
+
+        var self = this;
+
+        cc.loader.loadRes(itemurl, cc.Prefab, function (err, prefabs) {
+            // 리소스 로드가 완료된 후 실행할 코드
+            if (err) {
+                cc.error("Error loading image: " + err);
+                return;
+            }
+
+
+            var n1 = cc.instantiate(prefabs);
+            n1.opacity = 0;
+            var v1 = self.GVector(pos.x,pos.y);
+            n1.setPosition(v1);
+
+            // 최대치 계산
+            self.bomb_sprite_max_range = self.bomb_sprite_max_range > variation_no[0] ? self.bomb_sprite_max_range : variation_no[0];
+
+
+            if(variation_no.length == 1){
+                switch(variation_no[0]){
+                    case 1:
+                        self.bomb_sprites[0].push(n1);
+                        break;
+                    case 2:
+                        self.bomb_sprites[1].push(n1);
+                        break;
+                    case 3:
+                        self.bomb_sprites[2].push(n1);
+                        break;
+                    case 4:
+                        self.bomb_sprites[3].push(n1);
+                        break;
+                    case 5:
+                        self.bomb_sprites[4].push(n1);
+                        break;
+                }
+            }
+            else{
+                for(var i = 0; i < variation_no.length; i++){
+                    
+                    switch(variation_no[i]){
+                        case 1:
+                            self.bomb_sprites[0].push(n1);
+                            break;
+                        case 2:
+                            self.bomb_sprites[1].push(n1);
+                            break;
+                        case 3:
+                            self.bomb_sprites[2].push(n1);
+                            break;
+                        case 4:
+                            self.bomb_sprites[3].push(n1);
+                            break;
+                        case 5:
+                            self.bomb_sprites[4].push(n1);
+                            break;
+                    }
+                }
+            }
+            //Grouping
+            self.node.addChild(n1);
+        });
+
+    },
+
+    /**
+     * 안보이게 하는 Sprites 리스트들
+     */
+    _HideVariableSprites: function(){
+        if(this.isShowVariation === false)  return;
+        this.isShowVariation = false;
+
+
+
+        clearInterval(this.bomb_sprite_id);
+        for(var i = 0; i < this.bomb_sprites.length; i++){
+            for( var j = 0; j < this.bomb_sprites[i].length; j++){
+                this.bomb_sprites[i][j].opacity = 0;
+                this.bomb_sprites[i][j].active = false;
+            }
+        }
+    },
+
+    /**
+     * 보이게 하는 Sprites;
+     */
+    _ShowVariableSprites: function(){
+        if(this.isShowVariation) return;
+        this.isShowVariation = true;
+
+
+        var show_idx = 0;
+        var opt = [0, 0, 0 ,0, 0, 0, 0];
+
+        var self = this;
+
+        this.bomb_sprite_id = setInterval(function(){
+
+            if(opt[show_idx] > 250){
+                opt[show_idx] = 0;
+
+                for( var j = 0; j < self.bomb_sprites[show_idx].length; j++){
+                    self.bomb_sprites[show_idx][j].opacity = 0;
+                }
+                
+                if(show_idx >=  self.bomb_sprite_max_range-1 ){
+                    show_idx = 0;
+                }
+                else{
+                    show_idx++;
+                }
+            }
+            else{
+                for( var j = 0; j < self.bomb_sprites[show_idx].length; j++){
+                    self.bomb_sprites[show_idx][j].opacity = opt[show_idx];
+                    opt[show_idx] += 3;
+                }
+            }
+            
+        },90);
+
+    },
+
+
+
+    /**
      * 아이템 상태를 관리해주는 함수
      *
      * @param index 아이템 인덱스값을 받음
@@ -1266,8 +1846,6 @@ cc.Class({
      * @constructor
      */
     ItemStatusUpdate: function(index, status){
-
-
         for(var i = 0; i < this.item.length; i++){
             var itemObject = this.item[i].getComponent("Gobject");
 
@@ -1292,25 +1870,54 @@ cc.Class({
         if(this.isPlay) return;
         var self = this;
         this.isPlay = true;
-
         this.idx = Controller.getInstance().GetProgressId();
-
 
         var inter = setInterval(function(){
 
-            console.log("Cur idx ==> "+ self.idx );
-
-            if(Controller.getInstance().isGamePause) {
-                self.idx = Controller.getInstance().GetProgressId();
+            if(Controller.getInstance().isGamePause){
+                var a =  Controller.getInstance().GetProgressId();
+                self.idx = a;
                 return;
             }
 
+            self.player.getComponent("Player").ResetInint();
+
             if(self.executeCommand(self.idx) === false){
+                /**
+                 * Reset 버튼 체크하는 Interval
+                 */
+                self.ResetDetector();
                 clearInterval(inter);
                 self.isPlay = false;
                 Controller.getInstance().SetStatus(false);
+
             }
             self.idx++;
         }, 1000/60);
     },
+
+
+
+    /**
+     * TMD 리셋 요청 코드로 인해 만든 함수 
+     * 코드 종료후 Reset 버튼 클릭시 최초 상태로 되돌리기위한 함수. 
+     */
+    ResetDetector: function(){
+        var self = this;
+        var inter = setInterval(function(){
+
+            var command = Controller.getInstance().getCommandLine(self.idx);
+
+            if( command === -1 && Controller.getInstance().isGameReset){
+
+                self.executeCommand(0)
+                self.player.getComponent("Player").ResetPlayer();
+                self.OnCodePlay();
+                clearInterval(inter);
+            }
+            
+        }, 1000/60);
+    },
+
+
 });

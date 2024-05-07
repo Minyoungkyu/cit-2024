@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "773949dc-4570-454a-851c-7f78f98d8ef3",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 334,
+  "height": 768,
+  "platformSettings": {},
+  "subMetas": {
+    "alien_spaceship_tileset2": {
+      "ver": "1.0.4",
+      "uuid": "f053f461-6242-4106-8189-2fff6ebd474d",
+      "rawTextureUuid": "773949dc-4570-454a-851c-7f78f98d8ef3",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -7,
+      "offsetY": 3.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 320,
+      "height": 761,
+      "rawWidth": 334,
+      "rawHeight": 768,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

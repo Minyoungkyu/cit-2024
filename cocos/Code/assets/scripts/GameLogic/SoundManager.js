@@ -1,15 +1,5 @@
-﻿/**
- *
- * SoundManager 클래스는 SFX 최초로 모두 로드하고
- * 필요시 GetSound({Env.TAG}) 이용해 음악정보를 를 가져옵니다.
- * @type {Function}
- */
-
-
-
-var SoundManager = cc.Class({
+﻿var SoundManager = cc.Class({
     extends: cc.Component,
-
 
     statics: {
         _instance: null,
@@ -22,7 +12,6 @@ var SoundManager = cc.Class({
         },
     },
 
-
     properties: {
         sound: {
             default: [],
@@ -31,20 +20,17 @@ var SoundManager = cc.Class({
         isLoadedSFX: false,
     },
 
-
     init: function(){
         this._LoadSFX();
     },
 
-
     /**
      * 정상적으로 사운드가 로드되었는지 체크하는 함수입니다.
-     *
      * @return {*}
      * @constructor
      */
     IsLoadCheck: function(){
-        return this.sound[7];
+        return this.sound[7] !== null;
     },
 
     /**
@@ -53,26 +39,17 @@ var SoundManager = cc.Class({
      * @constructor
      */
     PlaySfx: function(TAG){
-
-        if(TAG > this.sound.length ) {
-            console.log("SFX Load ERROR");
+        if (TAG >= this.sound.length || TAG < 0) {
+            console.error("SFX Load ERROR: Index out of range");
             return;
         }
-
-        if(this.sound[TAG] === null) {
-            console.log("SFX NULL ERROR ");
-            return;
-        }
-
-
-        console.log("playSFX ==> " ,TAG);
-
-        var self = this;
 
         var clip = this.sound[TAG];
-        cc.audioEngine.play(clip,false, 1, function(){
-            console.log("Done");
-        }.bind(this));
+        if (!clip) {
+            console.error("SFX NULL ERROR: No sound loaded for TAG " + TAG);
+            return;
+        }
+        cc.audioEngine.playEffect(clip, false);
     },
 
     /**
@@ -80,75 +57,29 @@ var SoundManager = cc.Class({
      * @private
      */
     _LoadSFX: function(){
-        if(this.isLoadedSFX) return;
+        if (this.isLoadedSFX) return;
 
         this.sound = new Array(8).fill(null);
 
-        var self = this;
+        var loadClip = function (index, filename) {
+            cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + filename, cc.AudioClip, (err, clip) => {
+                if (err) {
+                    console.error("Error loading sound for " + filename + ": ", err);
+                } else {
+                    this.sound[index] = clip;
+                }
+            });
+        };
 
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_DROP_SWITCH, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[0] = clip;
-            }
-        });
+        loadClip.call(this, 0, Env.SFX_FILENAME_DROP_SWITCH);
+        loadClip.call(this, 1, Env.SFX_FILENAME_LASER_SWITCH);
+        loadClip.call(this, 2, Env.SFX_FILENAME_EXPLOSION);
+        loadClip.call(this, 3, Env.SFX_FILENAME_EARN);
+        loadClip.call(this, 4, Env.SFX_FILENAME_DROP_ITEM);
+        loadClip.call(this, 5, Env.SFX_FILENAME_LASER_ON);
+        loadClip.call(this, 6, Env.SFX_FILENAME_LASER_OFF);
+        loadClip.call(this, 7, Env.SFX_FILENAME_PARTS_DOCKING);
 
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_LASER_SWITCH, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[1] = clip;
-            }
-        });
-
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_EXPLOSION, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[2] = clip;
-            }
-        });
-
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_EARN, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[3] = clip;
-            }
-        });
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_DROP_ITEM, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[4] = clip;
-            }
-        });
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_LASER_ON, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[5] = clip;
-            }
-        });
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_LASER_OFF, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[6] = clip;
-            }
-        });
-
-        cc.loader.loadRes(Env.SFX_DIRECTORY_PATH + Env.SFX_FILENAME_PARTS_DOCKING, cc.AudioClip, function (err, clip) {
-            if (err) {
-                cc.error("Error loading image: " + err);
-            } else {
-                self.sound[7] = clip;
-            }
-        });
-
-
+        this.isLoadedSFX = true;
     },
-
 });
-

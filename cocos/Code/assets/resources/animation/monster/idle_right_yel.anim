@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "idle_right_yel",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6833333333333333,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "5ed4a7fc-9afa-47f9-9a94-d56647892402"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "62a9fc5d-655a-476a-b237-03c1d87579e3"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "9a0a3bd3-2c81-42d8-9b9a-dd77d2539194"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "21041a60-2dc6-4d74-a178-d1a413264a37"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "5ed4a7fc-9afa-47f9-9a94-d56647892402"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

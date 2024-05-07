@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "b076d09d-b2a2-4c44-b05f-9fdd6dc33bce",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1920,
+  "height": 1080,
+  "platformSettings": {},
+  "subMetas": {
+    "미니게임-발사": {
+      "ver": "1.0.4",
+      "uuid": "2d5e27f1-ef3b-4a8d-ab2b-f5f9154d9a36",
+      "rawTextureUuid": "b076d09d-b2a2-4c44-b05f-9fdd6dc33bce",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 1920,
+      "height": 1080,
+      "rawWidth": 1920,
+      "rawHeight": 1080,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

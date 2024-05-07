@@ -34,8 +34,44 @@ var Controller = cc.Class({
         loadIndex : 0,
         gameStatus: false,
         isGamePause: false,
+        finalIndex: false,
 
-        finalGameLoaded : false,
+        isGameReset: false,
+
+
+        minigameDone : false,
+        characterNumber : 0,
+
+        /**
+         * 현재 읽은 stream ID 값
+         */
+        _currentCommandID: 0,
+    },
+
+
+    /**
+     * 현재 CommandID 값 
+     * @param {number} id 
+     */
+    _setCurrentComandID: function(id){
+        this._currentCommandID = id;
+    },
+
+    /**
+     * 현재 수행중인 Command number, 즉 ID 값 리턴.
+     * @returns currentCommandID
+     */
+    getCurrentCommandID: function(){
+        return this._currentCommandID;
+    },
+
+
+    getCharNumber : function(){
+        return this.characterNumber;
+    },
+
+    setcharNumber : function(number){
+        this.characterNumber = number;
     },
 
 
@@ -55,6 +91,14 @@ var Controller = cc.Class({
         return this.initJson.player;
     },
 
+    /**
+     * 
+     * @param {*} id 
+     * @returns initArray
+     */
+    getInitPrintPointArray: function(id){
+        return this.initJson.item_list[id];
+    },
 
     /**
      * 최초 아이템 포지션 및 설정할때 넘기는 함수.
@@ -65,9 +109,22 @@ var Controller = cc.Class({
     },
 
     /**
+     * 스트리밍 데이터중
+     * 아이템 리스트를 리턴
+     * @returns stream_item_list
+     */
+    getStreamItemList : function(id){
+        return this.streamJson.data[id];
+    },
+
+
+
+    /**
      * 로드된 json정보를 id파라미터를 통해 로드
      * 메인으로 사용되는 함수
-     * 최대 명령어 줄이 瑛뺐嚥?-1 값을 리턴 사용처에선 -1이면 명령어 끝을 의미
+     * 최대 명령어 줄이 도달시, -1 값을 리턴
+     * 사용처에선 -1이면 명령어 끝을 의미
+     * 
      * @param id id 값
      * @returns {number|*} id에 해당하는 json 정보모두
      */
@@ -79,10 +136,10 @@ var Controller = cc.Class({
         if(data == null) return -1;
 
         if( id >= data.data.length ){
-            console.log("Out of Range");
             return -1;
         }
 
+        this._setCurrentComandID(id);
 
         return data.data[id];
     },
@@ -155,6 +212,8 @@ var Controller = cc.Class({
     SetStatus: function(status){
         // 이미 돌고 있으면 막음. 예비.
         this.gameStatus = status;
+
+
     },
 
 
@@ -191,25 +250,28 @@ var Controller = cc.Class({
      */
     ResumeGame : function(){
         this.isGamePause = false;
+        this.isGameReset = false;
     },
 
-
-    FinalLoadDone: function(){
-        console.log("로딩완료!");
-        this.finalGameLoaded = true;
+    Resetgame: function(){
+        this.isGameReset = true;
     },
 
-
-    /**
-     * 최종으로 Cocos 게임 로드 정보 리턴함.
-     * @constructor
-     */
-    GetFinalLoad: function(){
-        this.finalGameLoaded;
-    },
 });
 
 module.exports = Controller;
+
+
+/**
+ * 플레이어 애니메이션 처리를 위한 정보
+    기본 남성 케릭터 : 0,
+    슈트 입은 남성케릭터 : 1,
+    기본 여성케릭터 :  2,
+    슈트 입은 여성케릭터 : 3,
+ */
+window.SetCharacterInfo = function(number){
+    Controller.getInstance().setcharNumber(number);
+},
 
 /**
  * 페이지가 최초 로드될때 Call 되는 Init Json 데이터
@@ -226,6 +288,9 @@ window.SendInitData = function(json){
  * 외부에서 Call 하는 Stream Function
  */
 window.SendStreamData = function(json){
+    Controller.getInstance().isGameReset = false;
+    Controller.getInstance().isGamePause = false;
+
     Controller.getInstance().ReceiveJson(json);
     Controller.getInstance().SetProgressId(0);
     Controller.getInstance().SetStatus(true);
@@ -246,7 +311,10 @@ window.SetProgressId = function(id){
  * @constructor
  */
 window.OnClickPlay = function(){
+    Controller.getInstance().isGameReset = false;
+    Controller.getInstance().isGamePause = false;
     Controller.getInstance().SetStatus(true);
+   
 };
 
 /**
@@ -284,12 +352,30 @@ window.ExternalResumeGame = function(){
 }
 
 
+/**
+ * 로딩이 끝났음을 알려주는 함수
+ * @returns 로딩결과
+ */
+window.IsCocosGameLoad = function(){
+    if(Controller.getInstance().finalIndex) return true;
+    return false;
+}
+
 
 /**
- * 외부에서 접근,  최종으로 게임이 로드된 상태임.
- * 해당 함수 불렀을때 ture 값이 나오면 로드가 완료되었음.
- * @constructor
+ * 
+ * 미니게임이 끝나면 Return True 해줌.
+ * 
+ * @returns 미니게임결과
  */
-window.IsGameLoaded = function(){
-    Controller.getInstance().GetFinalLoad();
+window.IsMiniGameClear = function(){
+    if(Controller.getInstance().minigameDone) return true;
+    return false;
 }
+
+
+window.SetupReset = function(){
+    Controller.getInstance().Resetgame();
+}
+
+
