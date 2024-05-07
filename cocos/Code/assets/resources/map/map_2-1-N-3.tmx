@@ -21,7 +21,7 @@
 151,151,151,151,151,151,151,151,151,151,151,151,151,151,151
 </data>
  </layer>
- <layer id="6" name="shadow" width="15" height="11" opacity="0.4">
+ <layer id="6" name="sh" width="15" height="11" opacity="0.4">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,36,43,0,
 0,0,36,36,0,36,0,0,0,0,0,36,36,43,0,
