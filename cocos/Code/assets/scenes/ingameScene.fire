@@ -1887,6 +1887,7 @@
     "bomb_sprites": [],
     "isShowVariation": false,
     "bomb_sprite_max_range": 0,
+    "bomb_sprite_id": null,
     "_id": "cfAwpmampJyqu2Lpn6r8Ms"
   },
   {

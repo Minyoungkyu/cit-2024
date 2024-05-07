@@ -56,14 +56,13 @@ var Gobject = cc.Class({
         return this.itemId;
     },
 
-
-
     /**
      * 레이저 객체에서 최초 초기화 하는방식.
      * @param TAG Raser Tag
      * @param isOn 켜져있는지 꺼져있는지 체크.
-     * @constructor
+     * @constructor LaserInitial
      */
+
     LaserInitial : function(TAG, isOn = false , direction){
         this.laser_direction = direction;
 
@@ -168,9 +167,6 @@ var Gobject = cc.Class({
         else if(this.itemTAG === Env.NORMAL_SWITCH_ON){
             this.ChangeSprite(Env.NORMAL_SWITCH_OFF);
         }
-        else if(this.itemTAG === Env.DOOR_ON){
-            this.ChangeSprite(Env.DOOR_OFF);
-        }
         else if(this.itemTAG === Env.VARIATION_SWITCH_ON){
             this.ChangeSprite(Env.VARIATION_SWITCH_OFF);
         }
@@ -179,6 +175,21 @@ var Gobject = cc.Class({
             this.node.active = false;
         }
 
+    },
+
+    /**
+     * // Door 객체 전용임.
+     * @param {direction} dir 
+     */
+    SetDir: function(dir){
+        // is Door
+        if(dir === 'h'){
+            this.ChangeSprite(Env.DOOR_ON);
+
+        }
+        else if(dir === 'v'){
+            this.ChangeSprite(Env.DOOR_OFF);
+        }
     },
 
     /**
@@ -232,9 +243,6 @@ var Gobject = cc.Class({
 
             SoundManager.getInstance().PlaySfx(Env.SFX_DROP_SWITCH);
             this.ChangeSprite(Env.NORMAL_SWITCH_ON);
-        }
-        else if(this.itemTAG === Env.DOOR_ON){
-            this.ChangeSprite(Env.DOOR_ON);
         }
         else{
             if(this.node.active === true) return;

@@ -1299,7 +1299,7 @@ cc.Class({
                     this.AddRocketParts(tag,itemId,pos, object);
                 }
                 else{
-                    this.AddPrefabs(tag, itemId,  pos , status);
+                    this.AddPrefabs(tag, itemId,  pos , status , object);
                 }
             }
         }
@@ -1382,7 +1382,7 @@ cc.Class({
      * @param pos  cc.v2 포지션값
      * @constructor
      */
-    AddPrefabs: function(tag , id , pos, status = 1 ){
+    AddPrefabs: function(tag , id , pos, status = 1 , obj ){
         var prefabName = "";
         var self = this;
 
@@ -1396,12 +1396,8 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
-            case Env.DOOR_ON: prefabName = "door"; 
-                console.log("Door 들어옴");
-                break;
-
-            case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch";
-             break;
+            case Env.DOOR_ON: prefabName = "door";  break;
+            case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
             
         }
 
@@ -1432,8 +1428,20 @@ cc.Class({
 
 
 
+
+
             if(tag === Env.GOAL){
                 self.goalObject = n1;
+                self.node.addChild(n1);
+            }
+            else if(tag === Env.DOOR_ON){
+                if(obj.dir === 'h'){
+                    n1.getComponent("Gobject").SetDir('h');
+                }
+                else if(obj.dir === 'v'){
+                    n1.getComponent("Gobject").SetDir('v');
+                }
+                self.item.push(n1);
                 self.node.addChild(n1);
             }
             else{
@@ -1722,7 +1730,6 @@ cc.Class({
             // 최대치 계산
             self.bomb_sprite_max_range = self.bomb_sprite_max_range > variation_no[0] ? self.bomb_sprite_max_range : variation_no[0];
 
-            console.log("max upload --> "+ self.bomb_sprite_max_range);
 
             if(variation_no.length == 1){
                 switch(variation_no[0]){
