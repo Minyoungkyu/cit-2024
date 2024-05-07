@@ -110,9 +110,16 @@ cc.Class({
 
         isSceneLoaded : false,
 
+
+
+        /**스테이지 2 에서 사용되는 정보 */
+        print_array : [],
       
     },
 
+    /**
+     * MAP DEBUG Mode 
+     */
     addBtn: function(){
         this.btnMan.node.on('click',this.btnManShow, this);
         this.btnManSuit.node.on('click',this.btnManSuitShow, this);
@@ -192,9 +199,6 @@ cc.Class({
      * 로딩 화면을 감춰주는 Interval 생성
      */
     onLoad(){
-
-        
-
         this.addBtn();
 
         this.loadingBG.active = true;
@@ -278,6 +282,9 @@ cc.Class({
         // 최종 다되면 카메라 셋업.
         this.InitialCamera();
     },
+
+
+    
 
 
     /**
@@ -405,57 +412,84 @@ cc.Class({
              { x: -1, y: 0 },
  
              // 3-2-E
+             { x: 0, y: 2 },
              { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-2-N
+             { x: 0, y: 2 },
              { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-2-H
+             { x: 0, y: 2 },
              { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
    
                
              // 3-3-E
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
  
              // 3-3-N
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
  
              // 3-3-H
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
 
 
                      
              // 3-4-E
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
              { x: 0, y: 0 },
  
              // 3-4-N
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
              { x: 0, y: 0 },
  
              // 3-4-H
-             { x: 0, y: 0 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
+             { x: 0, y: 1 },
              { x: 0, y: 0 },
 
         ];
         this.loadInit();
 
     },
+    
+
+    /**
+     * Point Array 정보 받는 곳.
+     */
+    GetPointArray: function(){
+        var initData =  Controller.getInstance().getInitOjbectDatas();
+
+        /** 
+         * 예외 처리
+         */
+        if(initData == null || initData == '') return;
+        if(initData.length < 1) return;
+
+
+        for( var i = 0 ; i < initData.length; i++ ){
+            if(initData[i].type === 'print_point') {
+                this.print_array = initData[i].require_print;
+                break;
+            }
+
+        }
+
+
+    },
+
+
 
     /**
      *  Json 데이터가 로드가 정상적으로 되었는지 Interval을 이용하여 확인한다.
@@ -479,6 +513,9 @@ cc.Class({
                     self.InitMap();
                     self.InitPlayer();
                     self.InitObject();
+
+                    // 2스테이지이상 부터 사용하는 Print
+                    self.GetPointArray();
                 }
                 clearInterval(inter);
             }
@@ -505,6 +542,7 @@ cc.Class({
         
         return false;
     },
+
 
 
     /**
@@ -774,14 +812,14 @@ cc.Class({
              if(step === "3-4" && diff === "Easy" && level === 3){ gameLevel = 85; }
  
              // 3-4-N
-             if(step === "3-4" && diff === "Normal" && level === 1){ gameLevel = 50; }
-             if(step === "3-4" && diff === "Normal" && level === 2){ gameLevel = 51; }
-             if(step === "3-4" && diff === "Normal" && level === 3){ gameLevel = 52; }
+             if(step === "3-4" && diff === "Normal" && level === 1){ gameLevel = 86; }
+             if(step === "3-4" && diff === "Normal" && level === 2){ gameLevel = 87; }
+             if(step === "3-4" && diff === "Normal" && level === 3){ gameLevel = 88; }
  
              // 3-4-H
-             if(step === "3-4" && diff === "Hard" && level === 1){ gameLevel = 53; }
-             if(step === "3-4" && diff === "Hard" && level === 2){ gameLevel = 54; }
-             if(step === "3-4" && diff === "Hard" && level === 3){ gameLevel = 55; }
+             if(step === "3-4" && diff === "Hard" && level === 1){ gameLevel = 89; }
+             if(step === "3-4" && diff === "Hard" && level === 2){ gameLevel = 90; }
+             if(step === "3-4" && diff === "Hard" && level === 3){ gameLevel = 91; }
  
 
 
@@ -885,10 +923,6 @@ cc.Class({
         this.spaceShip.active = false;
 
 
-        
-
-        console.log("Before | Camera pos = > " + this.camera.node.position);
-
         console.log(gameLevel);
 
 
@@ -968,26 +1002,58 @@ cc.Class({
             case 49: case 52: case 55:
                 this.SetCamera(-400,-1050,0.9);
                     break;
-
+            // 3-1-E-1
             case 56: case 59: case 62:
                 this.SetCamera(-400,-1050,1);
                     break;
+
+            // 3-1-E-2
             case 57: case 60: case 63:
-                this.SetCamera(-250,-950,0.8);
+                this.SetCamera(250,-950,0.8);
                 break;
-
+            // 3-1-E-3
             case 58: case 61: case 64:
-                this.SetCamera(-50,-1000,0.9);
+                this.SetCamera(-50,-1000,1.1);
                 break;
 
-            case 65:
+            // 3-2-E-1
+            case 65: case 68: case 71:
                 this.SetCamera(-400,-1100,1);
                 break;
+            // 3-2-E-2
+            case 66: case 69: case 72:
+                this.SetCamera(450,-700,0.7);
+                break;
+
+            // 3-2-E-3
+            case 67: case 70: case 73:
+                this.SetCamera(-200,-1350,0.7);
+                break;
+
+            // 3-3-E-1            
             
+            case 74: case 75: case 76:
+            case 77: case 78: case 79:
+            case 80: case 81: case 82:
+                this.SetCamera(250,-1050,0.8);
+                break;
+            
+            case 83: case 86: case 89:
+                this.SetCamera(550,-850,0.6);
+                break;
+            
+            case 84: case 87: case 90:
+                this.SetCamera(550,-900,0.6);
+                break;
+
+            case 85: case 88: case 91:
+                this.SetCamera(50,-1550,0.6);
+                break;
+
         }
 
 
-        console.log("Camera pos = > " + this.camera.node.position);
+        
         // TODO 
     },
 
@@ -1228,6 +1294,10 @@ cc.Class({
             case "drop_switch" : return Env.NORMAL_SWITCH_ON;
             case "laser_switch": return Env.LASER_SWITCH_ON;
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
+            case "variation_switch" : return Env.VARIATION_SWITCH_OFF;
+            case "door":  
+                console.log("Name To Door");
+            return Env.DOOR;
 
 
             default : return -99;
@@ -1303,6 +1373,13 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
+            case Env.DOOR: prefabName = "door"; 
+                console.log("Door 들어옴");
+                break;
+
+            case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch";
+             break;
+            
         }
 
         if(prefabName == "" ){
@@ -1334,9 +1411,6 @@ cc.Class({
                 self.node.addChild(n1);
 
             }
-
-            var ts = performance.now();
-            var li =  ts - self.startTime;
         });
     },
 
@@ -1416,7 +1490,6 @@ cc.Class({
 
             var isStatus = false;
 
-
             if(status === 0)  isStatus = false;
             else  isStatus = true;
 
@@ -1441,7 +1514,6 @@ cc.Class({
      */
     executeCommand: function(id = 0){
         var command = Controller.getInstance().getCommandLine(id);
-
 
         /**
          * 명령어 종료를 뜻함
@@ -1600,15 +1672,10 @@ cc.Class({
         if(this.isPlay) return;
         var self = this;
         this.isPlay = true;
-
-
         this.idx = Controller.getInstance().GetProgressId();
 
-        /**
-         * TODO: function;
-         */
-
         var inter = setInterval(function(){
+
             if(Controller.getInstance().isGamePause){
                 var a =  Controller.getInstance().GetProgressId();
                 self.idx = a;
@@ -1621,7 +1688,7 @@ cc.Class({
                 /**
                  * Reset 버튼 체크하는 Interval
                  */
-                this.ResetDetector();
+                self.ResetDetector();
                 clearInterval(inter);
                 self.isPlay = false;
                 Controller.getInstance().SetStatus(false);
@@ -1633,8 +1700,25 @@ cc.Class({
 
 
 
+    /**
+     * TMD 리셋 요청 코드로 인해 만든 함수 
+     * 코드 종료후 Reset 버튼 클릭시 최초 상태로 되돌리기위한 함수. 
+     */
     ResetDetector: function(){
-       
+        var self = this;
+        var inter = setInterval(function(){
+
+            var command = Controller.getInstance().getCommandLine(self.idx);
+
+            if( command === -1 && Controller.getInstance().isGameReset){
+
+                self.executeCommand(0)
+                self.player.getComponent("Player").ResetPlayer();
+                self.OnCodePlay();
+                clearInterval(inter);
+            }
+            
+        }, 1000/60);
     },
 
 

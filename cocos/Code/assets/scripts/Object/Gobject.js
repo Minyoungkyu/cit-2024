@@ -168,6 +168,14 @@ var Gobject = cc.Class({
         else if(this.itemTAG === Env.NORMAL_SWITCH_ON){
             this.ChangeSprite(Env.NORMAL_SWITCH_OFF);
         }
+        else if(this.itemTAG === Env.DOOR){
+            this.ChangeSprite(Env.DOOR);
+        }
+        else if(this.itemTAG === Env.VARIATION_SWITCH_ON){
+            this.ChangeSprite(Env.VARIATION_SWITCH_OFF);
+
+        }
+
         else{
             if(this.node.active === false)  return;
 
@@ -221,6 +229,10 @@ var Gobject = cc.Class({
             SoundManager.getInstance().PlaySfx(Env.SFX_PARTS_DOCKING);
 
             this.ShowProofEffect();
+        }
+        else if(this.itemTAG === Env.VARIATION_SWITCH_OFF){
+            this.ChangeSprite(Env.VARIATION_SWITCH_ON);
+
         }
         else if(this.itemTAG === Env.NORMAL_SWITCH_ON){
 

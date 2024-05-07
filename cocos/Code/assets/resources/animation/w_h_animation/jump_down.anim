@@ -3,7 +3,7 @@
   "_name": "jump_down",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.5333333333333333,
+  "_duration": 1.0166666666666666,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -36,25 +36,25 @@
             }
           },
           {
-            "frame": 0.3333333333333333,
+            "frame": 0.5,
             "value": {
               "__uuid__": "52921bbb-c8e0-4f58-bfc9-6beb7358cd63"
             }
           },
           {
-            "frame": 0.4166666666666667,
+            "frame": 0.5833333333333334,
             "value": {
               "__uuid__": "75d21a63-c40a-448a-a2f7-8b367e7bf061"
             }
           },
           {
-            "frame": 0.5,
+            "frame": 0.9166666666666666,
             "value": {
               "__uuid__": "f9b07232-9be9-4476-9401-4a6da52cd16d"
             }
           },
           {
-            "frame": 0.5166666666666667,
+            "frame": 1,
             "value": {
               "__uuid__": "3ed92737-f6c5-4440-8604-ee74ad4fd230"
             }

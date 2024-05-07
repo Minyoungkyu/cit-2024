@@ -124,27 +124,29 @@ cc.Class({
     ResetPlayer: function(){
 
         if(this.isResetStatus) return;
+        
         this.isResetStatus = true;
+
 
         if(this.direction === Env.DIRECTION_LEFT){
             // idle_left 애니메이션 적용 예정
-            this.setPlayerAnimation(IDLE_LEFT);
+            this.ForcePlayerAnimation(IDLE_LEFT);
 
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
         }
         else if(this.direction === Env.DIRECTION_RIGHT){
             // idle_right 애니메이션 적용 예정
-            this.setPlayerAnimation(IDLE_RIGHT);
+            this.ForcePlayerAnimation(IDLE_RIGHT);
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
         }
         else if(this.direction === Env.DIRECTION_UP){
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
-            this.setPlayerAnimation(IDLE_UP);
+            this.ForcePlayerAnimation(IDLE_UP);
 
         }
         else if(this.direction === Env.DIRECTION_DOWN){
 
-            this.setPlayerAnimation(IDLE_DOWN);
+            this.ForcePlayerAnimation(IDLE_DOWN);
             // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
         }
     },
@@ -200,6 +202,18 @@ cc.Class({
 
     },
 
+    ForcePlayerAnimation: function(animation_number){
+        var number = Controller.getInstance().getCharNumber();
+        var clip = this.getComponent(cc.Animation);
+        var animationName = this.aniArray[number][animation_number];
+
+        var upState = clip.getAnimationState(animationName);
+        clip.play(animationName);
+
+    },
+
+
+
     /**
      * 현재 방향에 따른 Scale 변경
      * 로테이션 처리
@@ -215,6 +229,7 @@ cc.Class({
         }
 
         if(this.playerStatusInfo === 1){
+
             switch (this.direction){
 
                 case Env.DIRECTION_UP:
@@ -252,6 +267,31 @@ cc.Class({
                 self.isBombAnimation = false;
             }, 1000);
 
+        }
+        else if(this.playerStatusInfo === 21){
+            // 점프상태
+
+            if(this.direction === Env.DIRECTION_LEFT){
+                // idle_left 애니메이션 적용 예정
+                this.setPlayerAnimation(JUMP_LEFT);
+
+                // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
+            }
+            else if(this.direction === Env.DIRECTION_RIGHT){
+                // idle_right 애니메이션 적용 예정
+                this.setPlayerAnimation(JUMP_RIGHT);
+                // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
+            }
+            else if(this.direction === Env.DIRECTION_UP){
+                // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+                this.setPlayerAnimation(JUMP_UP);
+
+            }
+            else if(this.direction === Env.DIRECTION_DOWN){
+
+                this.setPlayerAnimation(JUMP_DOWN);
+                // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
+            }
         }
         else{
             if(this.playerStatusInfo !== 9){
@@ -367,7 +407,6 @@ cc.Class({
                 // Set 명령어 시도중 방향이 다를경우
                 this.ShowMessage("이곳에서 할수 없는 명령어야!");
                 break;
-                
             case 14:
                 this.ShowMessage("문자열이 잘못 입력되었어.");
                 break;
@@ -384,6 +423,41 @@ cc.Class({
                 // 추가엔진
                 this.ShowMessage("추가 엔진 장착!");
                 break;
+            case 22:
+                this.ShowMessage("점프하기엔 위험해");
+                break;
+
+            case 25:
+                this.ShowMessage("회복 아이템이 없어!");
+                break;
+
+            case 18: 
+                this.ShowMessage("잘못된 명령어야!");
+                break;
+            case 23:
+                this.ShowMessage("윽.. ");
+                    break;
+            case 24:
+                this.ShowMessage("살것같아!");
+                    break;
+            case 27:
+                this.ShowMessage("list가 비어있는데?");
+                        break;
+            case 29:
+                this.ShowMessage("타입이 틀린거같아");
+                        break;
+
+            case 31:
+                this.ShowMessage("폭탄이 없어!");
+                        break;
+
+            case 37:
+                this.ShowMessage("폭탄설치중");
+                        break;
+
+            case 39:
+                this.ShowMessage("중력이 너무강해서 점프가 어려워");
+                        break;
         }
 
     },
@@ -403,7 +477,7 @@ cc.Class({
         var self = this;
         setTimeout(function(){
             self._HideBubble();
-        }, 1000); // 2000 밀리초 = 2초
+        }, 600); // 2000 밀리초 = 2초
     },
 
     /**

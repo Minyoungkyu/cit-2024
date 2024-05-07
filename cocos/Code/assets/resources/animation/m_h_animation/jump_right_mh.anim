@@ -3,7 +3,7 @@
   "_name": "jump_right_mh",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.5166666666666667,
+  "_duration": 1.0166666666666666,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -30,25 +30,25 @@
             }
           },
           {
-            "frame": 0.25,
+            "frame": 0.5,
             "value": {
               "__uuid__": "676e4efe-3955-409f-a730-668c43f77004"
             }
           },
           {
-            "frame": 0.3333333333333333,
+            "frame": 0.5833333333333334,
             "value": {
               "__uuid__": "0b928111-039f-4d0e-a06e-a7f33c2dd545"
             }
           },
           {
-            "frame": 0.4166666666666667,
+            "frame": 0.9166666666666666,
             "value": {
               "__uuid__": "faf28a03-cb8d-4145-9792-5eb19e99a8aa"
             }
           },
           {
-            "frame": 0.5,
+            "frame": 1,
             "value": {
               "__uuid__": "a4780e5c-e84a-44fb-8bef-2990698f27d0"
             }

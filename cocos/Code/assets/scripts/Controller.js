@@ -93,7 +93,6 @@ var Controller = cc.Class({
         if(data == null) return -1;
 
         if( id >= data.data.length ){
-            console.log("Out of Range");
             return -1;
         }
 
@@ -169,6 +168,8 @@ var Controller = cc.Class({
     SetStatus: function(status){
         // 이미 돌고 있으면 막음. 예비.
         this.gameStatus = status;
+
+
     },
 
 
@@ -243,6 +244,9 @@ window.SendInitData = function(json){
  * 외부에서 Call 하는 Stream Function
  */
 window.SendStreamData = function(json){
+    Controller.getInstance().isGameReset = false;
+    Controller.getInstance().isGamePause = false;
+
     Controller.getInstance().ReceiveJson(json);
     Controller.getInstance().SetProgressId(0);
     Controller.getInstance().SetStatus(true);
@@ -263,7 +267,10 @@ window.SetProgressId = function(id){
  * @constructor
  */
 window.OnClickPlay = function(){
+    Controller.getInstance().isGameReset = false;
+    Controller.getInstance().isGamePause = false;
     Controller.getInstance().SetStatus(true);
+   
 };
 
 /**
