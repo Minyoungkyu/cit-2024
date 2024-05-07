@@ -114,6 +114,19 @@ cc.Class({
 
         /**스테이지 2 에서 사용되는 정보 */
         print_array : [],
+
+
+        /** 2스테이지에서 보여질 객체 처리 */
+        bomb_sprites : {
+            default: [],
+        },
+
+        /** 2스테이지에서 2키 프레임 보다 작을경우 loop됨.  */
+        isShowVariation : false,
+        
+        bomb_sprite_max_range : 0,
+
+        bomb_sprite_id : null,
       
     },
 
@@ -277,6 +290,7 @@ cc.Class({
         this.isLoaded = true;
         Controller.getInstance().finalIndex = true;
 
+       
 
         // 카메라 초기화
         // 최종 다되면 카메라 셋업.
@@ -293,6 +307,12 @@ cc.Class({
      */
     InitGame: function(){
         var self = this;
+
+        this.bomb_sprites = [
+            [],
+            [],
+            [],
+        ];
 
         this.mapOffset = [
             // T-1
@@ -1121,6 +1141,7 @@ cc.Class({
     ShowExplosion: function(pos) {
         this.expIdx = this.showEffect(this.expList, this.expIdx, pos, "explosion", () => {
             this.isCameraShaked = false;
+            SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
         });
     },
 
@@ -1166,10 +1187,15 @@ cc.Class({
         } else {
             for (var i = 0; i < objects.length; i++) {
                 this.MakeUpObject(objects[i]);
+
+                this.AddBombSprites(objects[i]);
             }
         }
         // var ts = performance.now();
         // var li =  ts - self.startTime;
+
+        // 처리..
+        this.ShowVariableBombSprites();
     },
 
     /**
@@ -1267,13 +1293,13 @@ cc.Class({
                 var posY = object.pos[1];
                 var itemId = object.id;
                 var pos = cc.v2(posX, posY);
-    
-    
+                var status = object.status;
+
                 if(tag === Env.ROCKET_EMPTY){
                     this.AddRocketParts(tag,itemId,pos, object);
                 }
                 else{
-                    this.AddPrefabs(tag, itemId,  pos );
+                    this.AddPrefabs(tag, itemId,  pos , status , object);
                 }
             }
         }
@@ -1296,10 +1322,7 @@ cc.Class({
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
             case "variation_switch" : return Env.VARIATION_SWITCH_OFF;
             case "door":  
-                console.log("Name To Door");
-            return Env.DOOR;
-
-
+                return Env.DOOR_ON;
             default : return -99;
         }
     },
@@ -1359,7 +1382,7 @@ cc.Class({
      * @param pos  cc.v2 포지션값
      * @constructor
      */
-    AddPrefabs: function(tag , id , pos ){
+    AddPrefabs: function(tag , id , pos, status = 1 , obj ){
         var prefabName = "";
         var self = this;
 
@@ -1373,12 +1396,8 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
-            case Env.DOOR: prefabName = "door"; 
-                console.log("Door 들어옴");
-                break;
-
-            case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch";
-             break;
+            case Env.DOOR_ON: prefabName = "door";  break;
+            case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
             
         }
 
@@ -1402,8 +1421,27 @@ cc.Class({
             n1.addComponent("Gobject");
             n1.getComponent('Gobject').Init(tag,id);
 
+            if(status == 0){
+                n1.getComponent('Gobject').Show();
+                n1.getComponent('Gobject').Hide();
+            }
+
+
+
+
+
             if(tag === Env.GOAL){
                 self.goalObject = n1;
+                self.node.addChild(n1);
+            }
+            else if(tag === Env.DOOR_ON){
+                if(obj.dir === 'h'){
+                    n1.getComponent("Gobject").SetDir('h');
+                }
+                else if(obj.dir === 'v'){
+                    n1.getComponent("Gobject").SetDir('v');
+                }
+                self.item.push(n1);
                 self.node.addChild(n1);
             }
             else{
@@ -1411,6 +1449,9 @@ cc.Class({
                 self.node.addChild(n1);
 
             }
+
+
+
         });
     },
 
@@ -1638,6 +1679,163 @@ cc.Class({
           if(this.dropItemList[i].getComponent("Gobject").GetItemID() === id) return this.dropItemList[i];
       }
     },
+
+
+    /**
+     * 폭탄 보였다 안보였다 처리 효과.
+     */
+    ShowVariableBombSprites: function(){
+
+        var self = this;
+        setInterval(function(){
+            if(Controller.getInstance().getCurrentCommandID() > 2) self._HideVariableSprites();
+            else self._ShowVariableSprites();
+        },30);
+
+        
+    },
+
+
+    AddBombSprites: function(object){
+        var tag = this.NameToTag(object.type);
+        
+
+        if(tag !== Env.BOMB) return;
+        var variation_no = object.variation_no;
+        if(variation_no == null) return;
+
+        console.log(variation_no);
+
+        var posX = object.pos[0];
+        var posY = object.pos[1];
+        var pos = cc.v2(posX, posY);
+
+        var itemurl = "./prefabs/var_bomb";
+
+        var self = this;
+
+        cc.loader.loadRes(itemurl, cc.Prefab, function (err, prefabs) {
+            // 리소스 로드가 완료된 후 실행할 코드
+            if (err) {
+                cc.error("Error loading image: " + err);
+                return;
+            }
+
+
+            var n1 = cc.instantiate(prefabs);
+            n1.opacity = 0;
+            var v1 = self.GVector(pos.x,pos.y);
+            n1.setPosition(v1);
+
+            // 최대치 계산
+            self.bomb_sprite_max_range = self.bomb_sprite_max_range > variation_no[0] ? self.bomb_sprite_max_range : variation_no[0];
+
+
+            if(variation_no.length == 1){
+                switch(variation_no[0]){
+                    case 1:
+                        self.bomb_sprites[0].push(n1);
+                        break;
+                    case 2:
+                        self.bomb_sprites[1].push(n1);
+                        break;
+                    case 3:
+                        self.bomb_sprites[2].push(n1);
+                        break;
+                    case 4:
+                        self.bomb_sprites[3].push(n1);
+                        break;
+                    case 5:
+                        self.bomb_sprites[4].push(n1);
+                        break;
+                }
+            }
+            else{
+                for(var i = 0; i < variation_no.length; i++){
+                    
+                    switch(variation_no[i]){
+                        case 1:
+                            self.bomb_sprites[0].push(n1);
+                            break;
+                        case 2:
+                            self.bomb_sprites[1].push(n1);
+                            break;
+                        case 3:
+                            self.bomb_sprites[2].push(n1);
+                            break;
+                        case 4:
+                            self.bomb_sprites[3].push(n1);
+                            break;
+                        case 5:
+                            self.bomb_sprites[4].push(n1);
+                            break;
+                    }
+                }
+            }
+            //Grouping
+            self.node.addChild(n1);
+        });
+
+    },
+
+    /**
+     * 안보이게 하는 Sprites 리스트들
+     */
+    _HideVariableSprites: function(){
+        if(this.isShowVariation === false)  return;
+        this.isShowVariation = false;
+
+
+
+        clearInterval(this.bomb_sprite_id);
+        for(var i = 0; i < this.bomb_sprites.length; i++){
+            for( var j = 0; j < this.bomb_sprites[i].length; j++){
+                this.bomb_sprites[i][j].opacity = 0;
+                this.bomb_sprites[i][j].active = false;
+            }
+        }
+    },
+
+    /**
+     * 보이게 하는 Sprites;
+     */
+    _ShowVariableSprites: function(){
+        if(this.isShowVariation) return;
+        this.isShowVariation = true;
+
+
+        var show_idx = 0;
+        var opt = [0, 0, 0 ,0, 0, 0, 0];
+
+        var self = this;
+
+        this.bomb_sprite_id = setInterval(function(){
+
+            if(opt[show_idx] > 250){
+                opt[show_idx] = 0;
+
+                for( var j = 0; j < self.bomb_sprites[show_idx].length; j++){
+                    self.bomb_sprites[show_idx][j].opacity = 0;
+                }
+                
+                if(show_idx >=  self.bomb_sprite_max_range-1 ){
+                    show_idx = 0;
+                }
+                else{
+                    show_idx++;
+                }
+            }
+            else{
+                for( var j = 0; j < self.bomb_sprites[show_idx].length; j++){
+                    self.bomb_sprites[show_idx][j].opacity = opt[show_idx];
+                    opt[show_idx] += 3;
+                }
+            }
+            
+        },90);
+
+    },
+
 
 
     /**

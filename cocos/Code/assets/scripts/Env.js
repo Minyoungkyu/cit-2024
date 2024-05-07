@@ -69,7 +69,9 @@ window.Env = {
     ROCKET_EMPTY : 7,
     ROCKET_FILLED: 8,
     LASER_START_ON:9,
+
     LASER_MIDDLE_ON:10,
+
     LASER_END_ON:11,
     LASER_START_OFF:12,
     LASER_END_OFF:13,
@@ -80,8 +82,8 @@ window.Env = {
     VLASER_MIDDLE_ON : 16,
     VLASER_END_ON : 17,
     VLASER_START_OFF: 18,
-    FLOOR : 19,
-    DOOR: 20,
+    DOOR_ON: 19,
+    DOOR_OFF: 20,
     VARIATION_SWITCH_ON : 21,
     VARIATION_SWITCH_OFF : 22,
 
@@ -117,7 +119,8 @@ window.Env = {
     VL_START_OFF_FILE_NAME:'vlStart_off',
     FLOOR_FILE_NAME : 'floor',
 
-    DOOR_IMG_NAME : 'lMiddle_on',
+    DOOR_ON_FILE : 'obj_door_f',
+    DOOR_OFF_FILE : 'obj_door_s',
     VARIATION_SWITCH_ON_FILE : 'lSwitch_on',
     VARIATION_SWITCH_OFF_FILE : 'lSwitch_off',
 

@@ -41,6 +41,28 @@ var Controller = cc.Class({
 
         minigameDone : false,
         characterNumber : 0,
+
+        /**
+         * 현재 읽은 stream ID 값
+         */
+        _currentCommandID: 0,
+    },
+
+
+    /**
+     * 현재 CommandID 값 
+     * @param {number} id 
+     */
+    _setCurrentComandID: function(id){
+        this._currentCommandID = id;
+    },
+
+    /**
+     * 현재 수행중인 Command number, 즉 ID 값 리턴.
+     * @returns currentCommandID
+     */
+    getCurrentCommandID: function(){
+        return this._currentCommandID;
     },
 
 
@@ -69,6 +91,14 @@ var Controller = cc.Class({
         return this.initJson.player;
     },
 
+    /**
+     * 
+     * @param {*} id 
+     * @returns initArray
+     */
+    getInitPrintPointArray: function(id){
+        return this.initJson.item_list[id];
+    },
 
     /**
      * 최초 아이템 포지션 및 설정할때 넘기는 함수.
@@ -83,8 +113,8 @@ var Controller = cc.Class({
      * 아이템 리스트를 리턴
      * @returns stream_item_list
      */
-    getStreamItemList : function(){
-        return this.streamJson.item_list;
+    getStreamItemList : function(id){
+        return this.streamJson.data[id];
     },
 
 
@@ -92,7 +122,9 @@ var Controller = cc.Class({
     /**
      * 로드된 json정보를 id파라미터를 통해 로드
      * 메인으로 사용되는 함수
-     * 최대 명령어 줄이 瑛뺐嚥?-1 값을 리턴 사용처에선 -1이면 명령어 끝을 의미
+     * 최대 명령어 줄이 도달시, -1 값을 리턴
+     * 사용처에선 -1이면 명령어 끝을 의미
+     * 
      * @param id id 값
      * @returns {number|*} id에 해당하는 json 정보모두
      */
@@ -107,6 +139,7 @@ var Controller = cc.Class({
             return -1;
         }
 
+        this._setCurrentComandID(id);
 
         return data.data[id];
     },
