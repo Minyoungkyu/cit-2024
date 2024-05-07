@@ -499,14 +499,9 @@ cc.Class({
         // "··" 암호획득
 
         var idx = playerStatus -100;
-
-
         var initPoint = Controller.getInstance().getInitPrintPointArray(idx);
-
         var str = initPoint + " 암호획득";
-
         this.ShowMessage(str);
-
     },
 
     

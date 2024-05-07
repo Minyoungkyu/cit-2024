@@ -173,15 +173,9 @@ var Gobject = cc.Class({
         }
         else if(this.itemTAG === Env.VARIATION_SWITCH_ON){
             this.ChangeSprite(Env.VARIATION_SWITCH_OFF);
-
         }
-
         else{
             if(this.node.active === false)  return;
-
-            if(this.itemTAG === Env.BOMB){
-                SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
-            }
             this.node.active = false;
         }
 
