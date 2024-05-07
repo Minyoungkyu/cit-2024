@@ -91,6 +91,14 @@ var Controller = cc.Class({
         return this.initJson.player;
     },
 
+    /**
+     * 
+     * @param {*} id 
+     * @returns initArray
+     */
+    getInitPrintPointArray: function(id){
+        return this.initJson.item_list[id];
+    },
 
     /**
      * 최초 아이템 포지션 및 설정할때 넘기는 함수.

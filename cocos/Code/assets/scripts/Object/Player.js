@@ -22,6 +22,14 @@ const JUMP_DOWN = 15;
 
 
 
+/**
+ * TODO
+ * 플레이어 상태값에 대한 CONST 처리 필요.
+ */
+
+const STATUS_JUMP = 0;
+
+
 const Controller = require("Controller");
 
 cc.Class({
@@ -468,8 +476,37 @@ cc.Class({
 
             case 39:
                 this.ShowMessage("중력이 너무강해서 점프가 어려워");
-                        break;
+                    break;
         }
+
+
+        this.ProcessEncryptWord(this.playerStatusInfo);
+
+
+
+    },
+
+    /**
+     * GetInfo했을때 처리되는 곳.
+     * 이곳은 playerStatus 100 보다 작으면 처리되지않음
+     * @param {*} playerStatus
+     * 
+     */
+    ProcessEncryptWord: function(playerStatus){
+        if(playerStatus < 100) return;
+
+        // Init 데이터 배열 에 해당하는 값 표현!
+        // "··" 암호획득
+
+        var idx = playerStatus -100;
+
+
+        var initPoint = Controller.getInstance().getInitPrintPointArray(idx);
+
+        var str = initPoint + " 암호획득";
+
+        this.ShowMessage(str);
+
     },
 
     
@@ -495,7 +532,7 @@ cc.Class({
     /**
      * 
      * 일반 ShowMessage와 동일하나,
-     * 일부 구조조금 다름.
+     * 일부 구조 다름.
      * @param {Print_array} str 
      */
     PrintMessage: function(str){
@@ -531,8 +568,8 @@ cc.Class({
     },
 
     /**
-     * 초기기화 처리.
-     * 추후 다른곳에 필요할지도..
+     * 초기화 처리.
+     * 추후 다른곳에 필요할지도..?
      */
     InitMessageDetector: function(){
         this.isRunningDetector = false;

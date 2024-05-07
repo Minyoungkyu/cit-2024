@@ -1296,10 +1296,7 @@ cc.Class({
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
             case "variation_switch" : return Env.VARIATION_SWITCH_OFF;
             case "door":  
-                console.log("Name To Door");
-            return Env.DOOR;
-
-
+                return Env.DOOR_ON;
             default : return -99;
         }
     },
@@ -1373,7 +1370,7 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
-            case Env.DOOR: prefabName = "door"; 
+            case Env.DOOR_ON: prefabName = "door"; 
                 console.log("Door 들어옴");
                 break;
 
