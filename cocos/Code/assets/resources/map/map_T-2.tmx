@@ -6,15 +6,49 @@
  <tileset firstgid="593" source="Dithart_Scifi_Items_0.3.0/Scifi_Items_v0.3.0/tiled/scifi_items02.tsx"/>
  <tileset firstgid="625" source="Ditharts_AlienSpaceship_Tileset_v0.2/Tiled/example.tsx"/>
  <tileset firstgid="817" source="scifi_tileset_02.tsx"/>
+ <tileset firstgid="1057" source="alien_spaceship_tileset2.tsx"/>
  <layer id="1" name="f" width="5" height="7">
   <data encoding="csv">
 957,957,957,957,957,
 957,957,957,957,957,
+997,957,957,957,957,
 957,957,957,957,957,
 957,957,957,957,957,
-957,957,957,957,957,
-957,957,957,957,957,
-957,957,957,957,957
+957,957,957,2684355557,957,
+957,957,957,2684355557,957
+</data>
+ </layer>
+ <layer id="4" name="sh" width="5" height="7" opacity="0.4">
+  <data encoding="csv">
+1092,0,0,0,1092,
+1092,1092,1092,1092,0,
+838,838,838,838,0,
+0,849,0,0,0,
+0,859,0,0,0,
+0,0,0,849,0,
+1092,0,1092,859,1092
+</data>
+ </layer>
+ <layer id="2" name="w" width="5" height="7">
+  <data encoding="csv">
+850,43,43,43,848,
+830,819,84,819,50,
+0,0,0,0,24,
+834,0,0,0,24,
+24,0,0,0,24,
+58,43,848,0,24,
+830,81,828,0,854
+</data>
+ </layer>
+ <layer id="3" name="p" width="5" height="7">
+  <data encoding="csv">
+151,152,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,1610612889,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0
 </data>
  </layer>
  <layer id="6" name="Tile Layer 6" width="5" height="7">
@@ -37,39 +71,6 @@
 0,984,0,984,0,
 0,0,0,0,0,
 0,0,0,0,0
-</data>
- </layer>
- <layer id="2" name="w" width="5" height="7">
-  <data encoding="csv">
-850,43,43,43,848,
-830,819,84,819,50,
-0,0,0,0,24,
-834,0,0,0,24,
-24,0,0,0,24,
-58,43,848,0,24,
-830,81,828,0,854
-</data>
- </layer>
- <layer id="3" name="p" width="5" height="7">
-  <data encoding="csv">
-151,152,0,0,0,
-0,0,0,0,0,
-145,0,0,0,0,
-0,0,1610612889,0,0,
-0,0,0,0,0,
-0,0,0,146,0,
-0,0,0,146,0
-</data>
- </layer>
- <layer id="4" name="s" width="5" height="7" opacity="0.4">
-  <data encoding="csv">
-0,0,0,0,0,
-0,0,0,0,0,
-838,838,838,838,0,
-0,849,0,0,0,
-0,859,0,0,0,
-0,0,0,849,0,
-0,0,0,859,0
 </data>
  </layer>
 </map>
