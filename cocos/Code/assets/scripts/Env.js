@@ -87,9 +87,12 @@ window.Env = {
     VARIATION_SWITCH_ON : 21,
     VARIATION_SWITCH_OFF : 22,
 
+    MEDICINE : 23,
+    
+
 
     // 최대 사이즈표현
-    MAX_LOAD_IMAGE_LENGTH : 23,
+    MAX_LOAD_IMAGE_LENGTH : 24,
 
 
     /**
@@ -123,7 +126,7 @@ window.Env = {
     DOOR_OFF_FILE : 'obj_door_s',
     VARIATION_SWITCH_ON_FILE : 'lSwitch_on',
     VARIATION_SWITCH_OFF_FILE : 'lSwitch_off',
-
+    MEDICINE_FILE : 'medicine',
 
 
     /**

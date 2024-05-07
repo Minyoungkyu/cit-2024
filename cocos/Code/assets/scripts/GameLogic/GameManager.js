@@ -1321,8 +1321,9 @@ cc.Class({
             case "laser_switch": return Env.LASER_SWITCH_ON;
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
             case "variation_switch" : return Env.VARIATION_SWITCH_OFF;
-            case "door":  
-                return Env.DOOR_ON;
+            case "door":  return Env.DOOR_ON;
+            case "medicine": return Env.MEDICINE;
+
             default : return -99;
         }
     },
@@ -1398,7 +1399,7 @@ cc.Class({
             case Env.FLOOR: prefabName = "floor"; break;
             case Env.DOOR_ON: prefabName = "door";  break;
             case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
-            
+            case Env.MEDICINE: prefabName = "medicine"; break;
         }
 
         if(prefabName == "" ){
@@ -1425,10 +1426,6 @@ cc.Class({
                 n1.getComponent('Gobject').Show();
                 n1.getComponent('Gobject').Hide();
             }
-
-
-
-
 
             if(tag === Env.GOAL){
                 self.goalObject = n1;
