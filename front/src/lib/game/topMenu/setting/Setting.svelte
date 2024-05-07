@@ -1,7 +1,7 @@
 <script lang="ts">
     import './page.css'
 
-    let { scaleMultiplier, resolution, shopGemsModalOpen } = $props<{ scaleMultiplier:number, resolution:number, shopGemsModalOpen:boolean }>();
+    let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
     let adjustScale = $state(0);
 
     $effect(() => {

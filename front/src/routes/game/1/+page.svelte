@@ -9,8 +9,8 @@
     import type { components } from '$lib/types/api/v1/schema';
     import './page.css'
 
-    import DifficultySelector2 from '$lib/game/DifficultySelector2.svelte';
-    import TutorialSelector2 from '$lib/game//TutorialSelector2.svelte';
+    import DifficultySelector from '$lib/game/DifficultySelector.svelte';
+    import TutorialSelector from '$lib/game/TutorialSelector.svelte';
     import MiniGame1Selector from '$lib/game/MiniGame1Selector.svelte';
     import TransitioningCloseLayer from '$lib/game/TransitioningCloseLayer.svelte';
 
@@ -18,12 +18,14 @@
     import Encyclopedia from '$lib/game/topMenu/encyclopedia/Encyclopedia.svelte';
     import Setting from '$lib/game/topMenu/setting/Setting.svelte';
 
+    import { shopGemsModalOpen } from '$lib/game/shopStore';
+
     let userDevice = $state('');
     let topMenuArray = $state(Array.from({length: 7}, (v, i) => i === 0 ? true : false));
     const topMenuArrayText = ['스테이지', '상점', '코드 도감', '도전과제', '랭킹', '프로필', '설정' ];
     let currentMenuIndex = $state(0);
 
-    let shopGemsModalOpen = $state(false);
+    // let shopGemsModalOpen = $state(false);
 
     const { data } = $props<{ data: { playerLogList: components['schemas']['PlayerLogDto'][] } }>();
     const { playerLogList } = data;
@@ -155,13 +157,13 @@
                 var bottomMatch = className.match(/^bottom-\[(\d+)%\]$/);
                 if (bottomMatch) {
                     bottomValues = (parseInt(bottomMatch[1], 10)); 
-                    highlighterBottom = bottomValues;
+                    highlighterBottom = bottomValues; // Todo: 실제 디자인에 따라 위치 조절
                 }
 
                 var leftMatch = className.match(/^left-\[(\d+)%\]$/);
                 if (leftMatch) {
                     leftValues = (parseInt(leftMatch[1], 10));
-                    highlighterLeft = leftValues;
+                    highlighterLeft = leftValues; // Todo: 실제 디자인에 따라 위치 조절
                 }
             });
 
@@ -263,6 +265,7 @@
                     style="background-image:url('/img/map/btn_ranking_on.png');transform:scale(1)"></div>
             </div>
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black">{topMenuArrayText[currentMenuIndex]}</div>
+            <div>{userDevice}</div> <!-- Todo: remove -->
         </div>
         <div class=" flex flex-col items-end absolute top-[4%] right-[0] z-[60]" style="transform-origin:top right;transform:scale({scaleMultiplier2});"> <!-- 우상단 -->
             <div class="flex flex-row gap-3 mr-4 h-[160px] items-end" style="transform-origin:right;transform:scale(0.67);">
@@ -292,7 +295,7 @@
             <div class="h-full absolute flex items-center justify-center z-[58]" 
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
-            {#if shopGemsModalOpen}
+            {#if $shopGemsModalOpen}
                 <div class="h-full w-full absolute flex items-center justify-center bg-black bg-opacity-50 z-[99]">
                     <div class="flex justify-center items-center" style="transform:scale(0.4) scale({scaleMultiplier});">
                         <div class="w-[80px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_start.jpg');"></div>
@@ -307,7 +310,7 @@
                                 </div>
                                 <div class="flex flex-row w-full justify-center gap-12 text-[100px] mt-[30px]">
                                     <div class="w-[299px] h-[102px] text-gray text-[40px] font-bold italic text-center leading-[105px] cursor-pointer"
-                                        style="background-image:url('/img/inGame/btn_action4.png');transform:scale(2)" on:click={() => shopGemsModalOpen = false}>
+                                        style="background-image:url('/img/inGame/btn_action4.png');transform:scale(2)" on:click={() => shopGemsModalOpen.update(n => false)}>
                                         확인
                                     </div>
                                 </div>
@@ -320,7 +323,7 @@
                 </div>
             {/if}
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Shop scaleMultiplier={scaleMultiplier} resolution={adjustResolution} bind:shopGemsModalOpen={shopGemsModalOpen}/>
+                <Shop scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
             </div>
         {/if}
 
@@ -329,7 +332,7 @@
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Encyclopedia scaleMultiplier={scaleMultiplier} resolution={adjustResolution} bind:shopGemsModalOpen={shopGemsModalOpen}/>
+                <Encyclopedia scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
             </div>
         {/if}
 
@@ -338,7 +341,7 @@
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution} bind:shopGemsModalOpen={shopGemsModalOpen}/>
+                <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
             </div>
         {/if}
 
@@ -384,7 +387,7 @@
         </div>
         {#if isDropdownOpen[0]}
             <div class="absolute right-[0] top-[0] z-[98]" style="transform-origin:top right;transform:scale({scaleMultiplier})">
-                <TutorialSelector2 activeTransitionAnimation={activeTransitionAnimation}/>
+                <TutorialSelector activeTransitionAnimation={activeTransitionAnimation}/>
             </div>
         {/if}
         {#if isOpen(3)} <!--step 의 easy, 1레벨 맵 아이디-->
@@ -396,7 +399,7 @@
         <!-- <div class="btn absolute bottom-[16%] left-[14%] w-[6vw]" data-gameMapId="3" on:click={() => toggleDropdown(1)}>1-1(열림)</div> -->
             {#if isDropdownOpen[1]}
             <!-- gameMapId : step 의 easy, 1레벨 맵아이디, stepsLevelCount : step 의 level 갯수, -->
-                <DifficultySelector2 widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={3} stepsLevelCount={3} playerLogList={playerLogList} 
+                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={3} stepsLevelCount={3} playerLogList={playerLogList} 
                 difficultySelectorMsg={difficultySelectorMsgs[0]} difficultySelectorName={difficultySelectorNames[0]} activeTransitionAnimation={activeTransitionAnimation} />
             {/if}
         {:else}
@@ -415,7 +418,7 @@
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - TWO</div>
         </div>
             {#if isDropdownOpen[2]}
-                <DifficultySelector2 widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={12} stepsLevelCount={3} playerLogList={playerLogList} 
+                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={12} stepsLevelCount={3} playerLogList={playerLogList} 
                 difficultySelectorMsg={difficultySelectorMsgs[1]} difficultySelectorName={difficultySelectorNames[1]} activeTransitionAnimation={activeTransitionAnimation} />
             {/if}
         {:else}
@@ -434,7 +437,7 @@
         </div>
         <!-- <div class="btn absolute bottom-[16%] left-[34%] w-[6vw]" data-gameMapId="21" on:click={() => toggleDropdown(3)}>1-3(열림)</div> -->
             {#if isDropdownOpen[3]}
-                <DifficultySelector2 widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={21} stepsLevelCount={3} playerLogList={playerLogList} 
+                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={21} stepsLevelCount={3} playerLogList={playerLogList} 
                 difficultySelectorMsg={difficultySelectorMsgs[2]} difficultySelectorName={difficultySelectorNames[2]} activeTransitionAnimation={activeTransitionAnimation}/>
             {/if}
         {:else}
@@ -446,7 +449,7 @@
         {/if}
 
         {#if isOpen(30)}
-        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[65%] left-[52%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="21"
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[65%] left-[52%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="30"
             style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(30) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 4</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - FOUR</div>

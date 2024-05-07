@@ -3,7 +3,9 @@
     import rq from "$lib/rq/rq.svelte";
 	import type { components } from '$lib/types/api/v1/schema';
 
-    let { scaleMultiplier, resolution, shopGemsModalOpen } = $props<{ scaleMultiplier:number, resolution:number, shopGemsModalOpen:boolean }>();
+    import { shopGemsModalOpen } from "$lib/game/shopStore";
+
+    let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
     let adjustScale = $state(0);
 
     let currentTab = $state("equipment");
@@ -229,7 +231,7 @@
             </div>
             <div class="w-[310px] h-[76px] mt-[-1px] flex items-center justify-start cursor-pointer mt-[10px] {isPurchasable(currentItem?.itemPartsId) ? '' : 'hidden' }" 
                 style="background-image:url('/img/inventory/btn_item_etc2.jpg');transform-origin:top left;transform:scale(1);"
-                on:click={() => {isPurchasable2(currentItem?.price) ? purchaseItem(currentItem) : shopGemsModalOpen = true}}>
+                on:click={() => {isPurchasable2(currentItem?.price) ? purchaseItem(currentItem) : shopGemsModalOpen.update(n => true)}}>
                 <div class="text-white font-bold italic text-[40px] ml-[80px]" style="color:rgb(255 210 87);">
                     구매
                 </div>
@@ -256,7 +258,7 @@
             </div>
             <div class="w-[310px] h-[76px] mt-[-1px] flex items-center justify-start cursor-pointer mt-[10px]" 
                 style="background-image:url('/img/inventory/btn_item_etc2.jpg');transform-origin:top left;transform:scale(1);"
-                on:click={() => {isPurchasable2(currentProfile?.price) ? purchaseProfile(currentProfile) : shopGemsModalOpen = true}}>
+                on:click={() => {isPurchasable2(currentProfile?.price) ? purchaseProfile(currentProfile) : shopGemsModalOpen.update(n => true)}}>
                 <div class="text-white font-bold italic text-[40px] ml-[80px]" style="color:rgb(255 210 87);">
                     구매
                 </div>

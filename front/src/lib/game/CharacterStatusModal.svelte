@@ -2,9 +2,10 @@
     import rq from '$lib/rq/rq.svelte';
 	import type { components } from '$lib/types/api/v1/schema';
 	import { onMount } from 'svelte';
+    import { showCharacterStatusModal } from './playerStatusStore';
     
-    let { widthValue, scaleMultiplier, showCharacterStatusModal, gameMapDto, requiredPartsList, activeTransitionAnimation } 
-    = $props<{ widthValue:Number, scaleMultiplier:Number, showCharacterStatusModal:boolean, gameMapDto: components['schemas']['GameMapDto'] | undefined, 
+    let { widthValue, scaleMultiplier, gameMapDto, requiredPartsList, activeTransitionAnimation } 
+    = $props<{ widthValue:Number, scaleMultiplier:Number, gameMapDto: components['schemas']['GameMapDto'] | undefined, 
                 requiredPartsList: components['schemas']['RequirePartsDto'][] | undefined, activeTransitionAnimation:() => void }>();
 
     // 라우팅
@@ -205,7 +206,7 @@
         
                 <div class="w-[200px] h-[200px] text-[50px] font-[900] absolute top-[15px] left-[300px]" style="color:rgb(64 226 255)">인벤토리</div>
         
-                <div class="w-[46px] h-[46px] absolute top-[65px] left-[63%] cursor-pointer" style="background-image:url('/img/inventory/btn_popup_close.png')" on:click={() => showCharacterStatusModal = false}></div>
+                <div class="w-[46px] h-[46px] absolute top-[65px] left-[63%] cursor-pointer" style="background-image:url('/img/inventory/btn_popup_close.png')" on:click={() => showCharacterStatusModal.update(n => false)}></div>
         
                 <!-- 장착 장비 -->
                 <div class="w-[1146px] h-[949px]" style="background-image:url('/img/inventory/ui_popup_item.png')">

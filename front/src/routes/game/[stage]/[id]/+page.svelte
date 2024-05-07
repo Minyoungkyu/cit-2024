@@ -50,6 +50,7 @@
     let showEditor: boolean = $state(false);
     let hasFrameData: boolean = $state(false);
     let isReplay: boolean = $state(false);
+    let checkLineCount: boolean = $state(true);
 
     let showBtnGuide: boolean = $state(false);
     let currentGuideIndex: number = $state(0);
@@ -109,7 +110,6 @@
     async function executePython(): Promise<void> {
 
         //Todo: 실행에 대한 로그 수집
-
         isReplay = false;
         hasFrameData = true;
         console.time('executePython')
@@ -118,8 +118,15 @@
             clearInterval(frameUpdateIntervalId);
             frameUpdateIntervalId = null;
         }
-        
-        let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
+
+        const editorContent = editor.getValue();
+        const cleanedContent = editorContent.split('\n').filter((line: string) => {
+        return line.trim() !== '' && !line.trim().startsWith('#');
+        }).join('\n');
+
+        const lineCounter = cleanedContent.split('\n').length; // 실제 에디터에서 코드가 차지하는 라인 수, 로그 수집시 활용
+
+        let result: any = await runPythonCode2(gameMapDto.cocosInfo, editorContent);
 
         if(result.error) {
             let cocosInfoLength = gameMapDto.cocosInfo.split('\n').length;
@@ -135,7 +142,7 @@
             }
 
             if (lastNumber) {
-                updateErrorHighlight(Number(lastNumber - 515 - cocosInfoLength));
+                updateErrorHighlight(Number(lastNumber - 2004 - cocosInfoLength));
             } 
             rq.msgError(longText);
             return;
@@ -160,7 +167,7 @@
 
         (window as any).SendStreamData?.(wrappedData);
         progressController.max = (framesData.length - 1).toString();
-        updateFrame(framesData, 0);
+        updateFrame(framesData, 0, lineCounter);
 
         console.timeEnd('executePython')
     }
@@ -175,11 +182,25 @@
     }
     
     let i = 0;
+    // function typeWriter() {
+    //     if (i < text.length) {
+    //         element.innerText += text.charAt(i);
+    //         i++;
+    //         setTimeout(typeWriter, 50); 
+    //     }
+    // }
     function typeWriter() {
         if (i < text.length) {
-            element.innerText += text.charAt(i);
+            let currentChar = text.charAt(i);
+            if (currentChar === '\n') {
+                element.innerHTML += '<br>';
+            } else if (currentChar === ' ') {
+                element.innerHTML += '&nbsp;';
+            } else {
+                element.innerHTML += currentChar;
+            }
             i++;
-            setTimeout(typeWriter, 50); 
+            setTimeout(typeWriter, 50);
         }
     }
 
@@ -414,13 +435,13 @@
     let playCanPause = $state(false);
     let volumeCanMute = $state(true);
 
-    let hpTest = $state(100);
-    let hpTest2 = $state(100);
+    let mainHp = $state(100);
+    let hpBackLayer = $state(100);
 
-    function hpTest3(hp: number) {
-        hpTest = hp;
+    function updateHpBar(hp: number) {
+        mainHp = hp;
         setTimeout(() => {
-            hpTest2 = hpTest;
+            hpBackLayer = mainHp;
         }, 150);
     }
 
@@ -465,7 +486,7 @@
         editor.scrollToLine(HilightRow - 2, true, true, function () {});
     }
 
-    function updateClearGoal(frame:any) {
+    function updateClearGoal(frame:any, lineCounter:any) {
         for (let i = 0; i < clearGoalList.length; i++) {
             if(clearGoalList[i].includes('목표지점')) {
                 const array1 = stageObject.stage.goal_list[0].pos;
@@ -485,13 +506,16 @@
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 }
             }else if(clearGoalList[i].includes('줄 이하')) {
+                checkLineCount = false;
                 let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
-                let guideTest = gameMapDto.editorMessage.split('\n').length;
-                if (frame.line_num - 1 <= codeLineGoals[0].count + guideTest - 1) {
+                if (lineCounter <= codeLineGoals[0].count) {
+                    checkLineCount = true;
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
-                } else if(frame.line_num - 1 > codeLineGoals[0].count + guideTest - 1) {
-                    clearGoalColorArray[i] = 'rgb(64 226 255)';
-                }
+                } 
+                // else {
+                //     checkLineCount = false;
+                //     clearGoalColorArray[i] = 'rgb(64 226 255)';
+                // }
             } else if(clearGoalList[i].includes('장착하기')) {
                 let setCountGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'set');
                 let items = stageObject.stage.init_item_list.filter((goal: any) => goal.type === 'liquid_fuel' || goal.type === 'solid_propellant' || goal.type === 'engines');
@@ -519,7 +543,7 @@
             playCanPause = true;
             (window as any).ExternalResumeGame ();
             isPause = false;
-            updateFrame(framesData, parseInt(progressController.value));
+            updateFrame(framesData, parseInt(progressController.value), 0);
         } else {
             playCanPause = true;
 
@@ -549,7 +573,7 @@
         (window as any).SetProgressId?.(parseInt(progressController.value));
     }
 
-    function updateFrame(framesData: any, currentFrameIndex: number) {
+    function updateFrame(framesData: any, currentFrameIndex: number, lineCounter: any) {
         const frameRate = 60; // ToDo: 실제 초당 프레임수로
         const success = framesData[framesData.length - 1].status === 1;
         activeEditorHighlight = true;
@@ -559,16 +583,17 @@
             if (currentFrameIndex < framesData.length) {
                 const frame = framesData[currentFrameIndex];
                 progressController.value = currentFrameIndex.toString();
-                if (!isReplay) updateHighlight(frame.line_num);
-                updateClearGoal(frame);
-                hpTest3(frame.player.hp);
+                if (!isReplay) updateHighlight(frame.line_num + 1);
+                updateClearGoal(frame, lineCounter);
+                updateHpBar(frame.player.hp);
                 currentFrameIndex++;
             } else {
                 playCanPause = false;
                 canExecute = true;
+                isPause = false;
                 clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
                 frameUpdateIntervalId = null; 
-                if (success) {
+                if (success && checkLineCount) {
                     showCompleteBtn = true;
                 }
             }
@@ -579,6 +604,7 @@
         batchPlayLog();
         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
             showClearPopup = true;
+            return;
         }
         routeToNext();
     }
@@ -622,7 +648,7 @@
     let lastInsertedPosition: any = $state(null);
     let preventNextNewline: boolean = $state(false);
 
-    function test(value: string) {
+    function appendCodeToEditor(value: string) {
         let cursorPosition = editor.getCursorPosition();
 
         if (value === 'tab') {
@@ -636,7 +662,7 @@
         } else if (preventNextNewline) {
             preventNextNewline = false; 
         } else if (lastInsertedPosition && lastInsertedPosition.row === cursorPosition.row) {
-            value = '\n' + value;
+            value = value;
         }
 
         editor.session.insert(cursorPosition, value);
@@ -651,6 +677,7 @@
 
         editor.moveCursorToPosition(newPosition);
         editor.scrollToLine(newPosition.row, true, true, function() {});
+        editor.commands.exec('addLineAfter', editor);
     }
 
     function guideToNext() {
@@ -756,8 +783,8 @@
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
 
-            <a href="/game/{gameMapDto.stage}" class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10]" 
-                style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"></a>
+            <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
+                style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"></div>
 
             <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
                 style="background-image:url('/img/inGame/ui_player_status.png');transform-origin:left top;transform:scale(0.6) scale({scaleMultiplier2});">
@@ -765,8 +792,8 @@
                 <div class="flex flex-row absolute top-[72px]">
                     <div class="w-[76px] h-[36px] ml-2" style="background-image:url('/img/inGame/icon_hp.png');transform:scale(0.8)"></div>
                     <div id="health-bar" class="flex items-center border-4 w-[260px] ml-4" data-total="100" data-value="100">
-                        <div class="bar background-bar absolute w-[{hpTest2}%]" style="width:{hpTest2}%"></div> 
-                        <div class="bar foreground-bar absolute w-[{hpTest}%] {hpTest <= 50 ? hpTest <= 30 ? 'yellow-bar' : 'green-bar' : ''}" style="width:{hpTest}%"></div> 
+                        <div class="bar background-bar absolute w-[{hpBackLayer}%]" style="width:{hpBackLayer}%"></div> 
+                        <div class="bar foreground-bar absolute w-[{mainHp}%] {mainHp <= 50 ? mainHp <= 30 ? 'yellow-bar' : 'green-bar' : ''}" style="width:{mainHp}%"></div> 
                     </div>
                 </div> 
             </div>
@@ -835,7 +862,9 @@
                             style="background-image:{volumeCanMute ? 'url("/img/inGame/btn_Volume_on.png");' : 'url("/img/inGame/btn_Volume_mute.png");' }"
                             on:click={() => volumeCanMute = !volumeCanMute}></div>
                         <div class="w-[52px] h-[52px] cursor-pointer" 
-                            style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 'url("/img/inGame/btn_Control_Play.png");' }
+                            style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 
+                            isPause ? 'url("/img/inGame/btn_Control_Play.png");' : 
+                            framesData.length > 0 ? 'url("/img/inGame/btn_Control_Reset.png");' : 'url("/img/inGame/btn_Control_Play.png");'}
                             {hasFrameData ? '' : 'pointer-events:none;'}" 
                             on:click={() => {playCanPause ? handlePause() : handlePlay()}}></div> 
                     </div>
@@ -864,7 +893,7 @@
                                 <div class="flex flex-col items-center justify-center ml-[73px]">
                                     <div class="font-[900] text-[50px] absolute top-[12px] left-[200px]" style="color:rgb(64 226 255)">가이드</div>
                                     <div class="w-[46px] h-[46px] absolute top-[70px] right-[10px] cursor-pointer" style="background-image:url('/img/inGame/btn_popup_close.png')" on:click={() => closeModal()}></div>
-                                    <div id="typing" class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left" style="white-space:pre-wrap;">
+                                    <div id="typing" class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left element" style="white-space:pre-wrap;">
                                         {gameMapDto.guideText}
                                     </div>
                                     <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left" 
@@ -930,7 +959,7 @@
                     <div class="command-guide w-[590px] h-[210px] flex flex-col items-start pl-10 gap-2 pt-2 overflow-y-scroll">
                         {#each commandGuide as command}
                             {#if command}
-                                <div class="scale-up-on-hover font-bold text-white text-[22px] font-[900] cursor-pointer" on:click={() => test(command)}>{command}</div>
+                                <div class="scale-up-on-hover font-bold text-white text-[22px] font-[900] cursor-pointer" on:click={() => appendCodeToEditor(command)}>{command}</div>
                             {/if}
                         {/each}
                     </div>

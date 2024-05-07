@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-    import CharactorStatusModal from "./CharacterStatusModal.svelte";
     import type { components } from '$lib/types/api/v1/schema';
 	import rq from "$lib/rq/rq.svelte";
+    import CharacterStatusModal from "./CharacterStatusModal.svelte";
 
-    const { gameMapId, stepsLevelCount, playerLogList } = $props<{ gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][] }>();
-    
-    let dropdown: any;
+    import { showCharacterStatusModal } from "./playerStatusStore";
+
+    const { widthValue, scaleMultiplier, gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName, activeTransitionAnimation } = 
+        $props<{ widthValue:Number, scaleMultiplier:Number, gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][],
+         difficultySelectorMsg: string, difficultySelectorName: string, activeTransitionAnimation: () => void }>();
+
     let dropdownVisible = $state(true);
 
     let routeGameMapDto: components['schemas']['GameMapDto'] | undefined = $state();
@@ -99,29 +102,112 @@
 
     function onClickToStart() { // 시작 버튼 
         routePlayerToLastGame();
-        showCharactorStatusModal();
+        // showCharactorStatusModal();
+        showCharacterStatusModal.update(n => true);
     }
+
 </script>
 
-<ul tabindex="0" class:hidden={!dropdownVisible} class="dropdown-content z-[1] menu bg-white">
-    <div class="flex flex-col gap-2 items-center p-2">
-        <div class="border-2 border-black w-full h-20 flex justify-center items-center">
-            <span>스테이지 정보</span>
+<div class="flex dropdown-content justify-end pt-12 gap-12 h-[1080px] w-[575px] absolute right-[0] slide-in z-[98]"
+    style="background-image:url('/img/map/ui_stage_Gradation.png');transform-origin:top right; --scaleMultiplier:{scaleMultiplier}">
+    <div class="flex flex-col w-[501px]">
+        <div class="flex justify-end w-full mr-16">
+            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:6px 6px #666">{difficultySelectorName}</div>
         </div>
-        <div class="flex flex-row gap-4">
-            <button id="decrease" on:click={decreaseDifficulty} class="w-0 h-0" style="border-bottom:20px solid transparent;border-top: 20px solid transparent;border-left: 20px solid transparent;border-right: 30px solid skyblue;"></button>
-            <div id="difficulty" class="border-2 border-black leading-[40px] px-8 w-[170px] text-center">{difficulties[currentIndex]} {difficultiesGameMapId[currentIndex]}</div>
-            <button id="increase" on:click={increaseDifficulty} class="w-0 h-0" style="border-bottom:20px solid transparent;border-top: 20px solid transparent;border-left: 30px solid skyblue;border-right: 20px solid transparent;"></button>
+        <div class="flex flex-col items-end w-full">
+            <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png')"></div>
+            <div class="w-[450px] h-[500px] flex justify-start">
+                <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">{difficultySelectorMsg}</div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2 items-center p-2">
+            <div class="flex flex-row items-center gap-4">
+                <button id="decrease" on:click={decreaseDifficulty} class="w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next3.png')" ></button>
+                <div id="difficulty" class="leading-[40px] px-8 w-[314px] h-[76px] text-center font-bold text-white text-[40px] leading-[70px]"
+                    style="background-image:url('/img/map/ui_stage_Level.png')">{difficulties[currentIndex]}</div>
+                <button id="increase" on:click={increaseDifficulty} class="w-[45px] h-[63px]" style="background-image:url('/img/map/btn_next4.png')" ></button>
+            </div>
         </div>
         {#if difficulties[currentIndex].includes('잠김')}
-            <div class="border-2 border-black w-full h-20 flex justify-center items-center">
-                <span>해당 난이도는 클리어 후 해제됩니다.</span>
+            <div class="w-full h-20 flex justify-center items-center">
+                <span class="text-white font-bold ">해당 난이도는 클리어 후 해제됩니다.</span>
             </div>
         {:else}    
-            <button class="btn btn-accent btn-wide" on:click={onClickToStart}>시작</button>
+            <div class="flex gap-2 justify-center w-[501px] p-2">
+                <button class="w-[333px] h-[116px]" style="background-image:url('/img/map/btn_action.png')" on:click={onClickToStart}></button> 
+            </div>
         {/if}
+        </div>
     </div>
-</ul>
 
-<CharactorStatusModal bind:charactorStatusModal={characterStatusModal} closeCharacterModal={closeCharactorStatusModal} 
-                        gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList}  />
+    {#if $showCharacterStatusModal}
+    <CharacterStatusModal widthValue={widthValue} scaleMultiplier={scaleMultiplier} 
+            gameMapDto={routeGameMapDto} requiredPartsList={routeGameRequiredPartsList} activeTransitionAnimation={activeTransitionAnimation} />
+    {/if}
+
+<style>
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%) scale(var(--scaleMultiplier)); 
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0) scale(var(--scaleMultiplier)); 
+            opacity: 1;
+        }
+    }
+
+    .slide-in {
+        animation: slideIn 0.5s ease-out forwards; 
+    }
+
+    @keyframes fancySlideIn {
+        0% {
+            transform: translateX(100%) rotateY(90deg) scale(0.5);
+            opacity: 0;
+        }
+        50% {
+            transform: translateX(-10%) rotateY(-10deg) scale(1.1);
+            opacity: 0.5;
+        }
+        100% {
+            transform: translateX(0) rotateY(0deg) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .fancy-slide-in {
+        animation: fancySlideIn 1s ease-out forwards;
+    }
+
+    @keyframes superFancySlideIn {
+        0% {
+            transform: translateX(100%) scale(0) rotateZ(360deg);
+            opacity: 0;
+            filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0);
+        }
+        30% {
+            transform: translateX(0) scale(1.2) rotateZ(-30deg);
+            opacity: 0.5;
+            filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        60% {
+            transform: scale(0.9) rotateZ(15deg);
+            opacity: 0.75;
+            filter: blur(2px);
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        100% {
+            transform: scale(1) rotateZ(0deg);
+            opacity: 1;
+            filter: blur(0px);
+            background-color: rgba(255, 255, 255, 1);
+        }
+    }
+
+    .super-fancy-slide-in {
+        animation: superFancySlideIn 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+</style>

@@ -107,10 +107,18 @@
     async function executePython(): Promise<void> {
         console.time('executePython')
 
+
+
         if (frameUpdateIntervalId !== null) { // 인터벌 초기화
             clearInterval(frameUpdateIntervalId);
             frameUpdateIntervalId = null;
         }
+
+        // const editorContent = editor.getValue();
+        // const cleanedContent = editorContent.split('\n').filter((line: string) => !line.trim().startsWith('#')).join('\n');
+        // const numberOfLines = cleanedContent.split('\n').length;
+
+        // console.log(cleanedContent);
         
         let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
         // console.log(result)
@@ -121,11 +129,11 @@
         // const output = parsedData.map((item: any) => JSON.stringify(item)).join(',\n');
         // console.log(output)
         
-        const parsedData = JSON.parse(result.result);
-        const lastItem = parsedData[parsedData.length - 1];
+        // const parsedData = JSON.parse(result.result);
+        // const lastItem = parsedData[parsedData.length - 1];
         // console.log(lastItem);  
 
-        console.log(lastItem.status === 1? '깸' : '몬깸')
+        // console.log(lastItem.status === 1? '깸' : '몬깸')
 
 
     
@@ -146,7 +154,7 @@
             }
 
             if (lastNumber) {
-                updateErrorHighlight(Number(lastNumber - 515 - cocosInfoLength));
+                updateErrorHighlight(Number(lastNumber - 2004 - cocosInfoLength));
             } 
             rq.msgError(longText);
             return;
@@ -631,7 +639,7 @@
     let lastInsertedPosition: any = $state(null);
     let preventNextNewline: boolean = $state(false);
 
-    function test(value: string) {
+    function appendCodeToEditor(value: string) {
         let cursorPosition = editor.getCursorPosition();
 
         if (value === 'tab') {
@@ -645,7 +653,7 @@
         } else if (preventNextNewline) {
             preventNextNewline = false; 
         } else if (lastInsertedPosition && lastInsertedPosition.row === cursorPosition.row) {
-            value = '\n' + value;
+            value = value;
         }
 
         editor.session.insert(cursorPosition, value);
@@ -660,6 +668,7 @@
 
         editor.moveCursorToPosition(newPosition);
         editor.scrollToLine(newPosition.row, true, true, function() {});
+        editor.commands.exec('addLineAfter', editor);
     }
 
     function guideToNext() {
@@ -942,7 +951,7 @@
                     <div class="command-guide w-[590px] h-[210px] flex flex-col items-start pl-10 gap-2 pt-2 overflow-y-scroll">
                         {#each commandGuide as command}
                             {#if command}
-                                <div class="scale-up-on-hover font-bold text-white text-[22px] font-[900] cursor-pointer" on:click={() => test(command)}>{command}</div>
+                                <div class="scale-up-on-hover font-bold text-white text-[22px] font-[900] cursor-pointer" on:click={() => appendCodeToEditor(command)}>{command}</div>
                             {/if}
                         {/each}
                     </div>

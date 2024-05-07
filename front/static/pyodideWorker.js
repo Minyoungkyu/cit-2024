@@ -1832,8 +1832,9 @@ class Character:
         elif goal['goal'] == 'item' and goal['type'] == 'rocket_parts':
             return goal["count"] <= self.data["player"]["rocket_parts_count"]
         elif goal['goal'] == 'line':
-            self.line_counter = max(self.line_counter, line_num - start_line)
-            return goal["count"] >= self.line_counter
+            # self.line_counter = max(self.line_counter, line_num - start_line)
+            # return goal["count"] >= self.line_counter
+            return True
         
         elif goal['goal'] == 'set':
             count = sum(1 for item in self.data["stage"]['init_item_list'] if item["type"] == goal['type'] and item["status"] == 1)

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { codeArray } from './codeArray';
 
-    let { scaleMultiplier, resolution, shopGemsModalOpen } = $props<{ scaleMultiplier:number, resolution:number, shopGemsModalOpen:boolean }>();
+    let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
     let adjustScale = $state(0);
     
     const stageArray = [

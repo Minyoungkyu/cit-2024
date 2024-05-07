@@ -20,6 +20,12 @@
   cursor: pointer;
 }
 
+.element {
+  word-wrap: break-word;  /* 긴 단어가 부모 요소 너비를 넘어가면 자동으로 줄바꿈 */
+  overflow-wrap: break-word;  /* CSS3의 word-wrap과 같은 기능을 제공 */
+  white-space: pre-wrap;  /* 공백과 줄바꿈을 유지하면서 필요한 곳에서 자동 줄바꿈 */
+}
+
 #Cocos2dGameContainer, #GameCanvas {
   max-width:100% !important;
   max-height: 100% !important;

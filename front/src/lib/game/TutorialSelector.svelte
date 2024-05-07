@@ -1,35 +1,137 @@
 <script lang="ts">
-	import rq from "$lib/rq/rq.svelte";
+    import rq from "$lib/rq/rq.svelte";
 	import { onMount } from "svelte";
+    
+    const { activeTransitionAnimation } = $props<{ activeTransitionAnimation: () => void }>();
+    let rountGameId = $state(1);
 
-    let dropdown: any;
+    function onClickToStart() {
+        activeTransitionAnimation();
+        setTimeout(() => {
+            window.location.href = '/game/tutorial/' + rountGameId;
+        }, 500);
+    }
+
+    async function routePlayerToLastGame() {
+        const { data } = await rq.apiEndPointsWithFetch(fetch).GET(`/api/v1/playerLogs/gamesLastLog/{gameMapId}`, {
+            params: {
+                path: {
+                    gameMapId: 1
+                }
+            }
+        });
+
+        if(data!.data.playerLogDto == undefined) {
+            rountGameId = 1;
+        } else {
+            if(data!.data.playerLogDto.gameMapLevel === 2) {
+                if(data!.data.playerLogDto.detailInt === 0) {
+                    rountGameId = 2;
+                } else {
+                    rountGameId = 1;
+                }
+            } else {
+                if(data!.data.playerLogDto.detailInt === 0) {
+                    rountGameId = 1;
+                } else {
+                    rountGameId = 2;
+                }
+            }
+        }
+
+        console.log(rountGameId)
+    }
 
     onMount(() => {
-        dropdown = document.querySelector('.dropdown-content'); 
+        routePlayerToLastGame();
     });
+        
 </script>
 
+<div class="flex flex-col dropdown-content items-end pt-12 gap-12 h-[1080px] w-[575px] absolute top-[0] right-[0] slide-in z-[98]" 
+    style="background-image:url('/img/map/ui_stage_Gradation.png');">
+    <div class="flex flex-col w-[501px]">
+        <div class="w-full mr-16">
+            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:5px 10px gray">Tutorial</div>
+        </div>
+        <div class="flex flex-col items-end w-full">
+            <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
+            <div class="w-[450px] h-[500px] flex justify-start">
+                <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">
+                    {'지구의 환경이 심하게 오염되었다\n\n기본적인 이동방법을익히고\n우주로 떠나기위한 준비를하자'}
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-2 justify-center w-[501px] p-2" >
+            <button class="w-[333px] h-[116px]" on:click={() => onClickToStart()} style="background-image:url('/img/map/btn_action.png')"></button>
+        </div>
+    </div>
+</div>
+
 <style>
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%); 
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0); 
+            opacity: 1;
+        }
+    }
 
-.modal[open] {
-  opacity: 0;
-  animation: dashboardActivation 1s forwards;
-}
+    .slide-in {
+        animation: slideIn 0.5s ease-out forwards; 
+    }
 
-  /* Data Loading Animation */
-  @keyframes dashboardActivation {
-  0% { opacity: 0; transform: scale(0.95); }
-  100% { opacity: 1; transform: scale(1); }
-}
+    @keyframes fancySlideIn {
+        0% {
+            transform: translateX(100%) rotateY(90deg) scale(0.5);
+            opacity: 0;
+        }
+        50% {
+            transform: translateX(-10%) rotateY(-10deg) scale(1.1);
+            opacity: 0.5;
+        }
+        100% {
+            transform: translateX(0) rotateY(0deg) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .fancy-slide-in {
+        animation: fancySlideIn 1s ease-out forwards;
+    }
+
+    @keyframes superFancySlideIn {
+        0% {
+            transform: translateX(100%) scale(0) rotateZ(360deg);
+            opacity: 0;
+            filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0);
+        }
+        30% {
+            transform: translateX(0) scale(1.2) rotateZ(-30deg);
+            opacity: 0.5;
+            filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        60% {
+            transform: scale(0.9) rotateZ(15deg);
+            opacity: 0.75;
+            filter: blur(2px);
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        100% {
+            transform: scale(1) rotateZ(0deg);
+            opacity: 1;
+            filter: blur(0px);
+            background-color: rgba(255, 255, 255, 1);
+        }
+    }
+
+    .super-fancy-slide-in {
+        animation: superFancySlideIn 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
 </style>
 
-<ul tabindex="0" class="dropdown-content z-[1] menu bg-white absolute left-[0]">
-    <div class="flex flex-col gap-2 items-center p-2">
-        <div class="border-2 border-black w-full h-20 flex justify-center items-center">
-            <span>스테이지 정보</span>
-        </div>
-        <div class="flex flex-row gap-4">
-        </div>
-        <button class="btn btn-accent btn-wide" on:click={() => window.location.href = '/game/tutorial/1'}>시작</button>
-    </div>
-</ul>
