@@ -117,11 +117,11 @@
 
         // console.log("프레임 데이터")
         // const parsedData = JSON.parse(result.result);
-        // const formattedData = JSON.stringify(parsedData, null, 2);
-        // const output = parsedData.map((item: any) => JSON.stringify(item)).join(',\n');
-        // console.log(output)
         
         const parsedData = JSON.parse(result.result);
+        const formattedData = JSON.stringify(parsedData, null, 2);
+        const output = parsedData.map((item: any) => JSON.stringify(item)).join(',\n');
+        console.log(output)
         const lastItem = parsedData[parsedData.length - 1];
         // console.log(lastItem);  
 

@@ -423,6 +423,11 @@ cc.Class({
                 // 추가엔진
                 this.ShowMessage("추가 엔진 장착!");
                 break;
+            case 19:
+                // 출력처리
+                this.ShowPrintingBubble();
+                break;
+            
             case 22:
                 this.ShowMessage("점프하기엔 위험해");
                 break;
@@ -461,6 +466,47 @@ cc.Class({
         }
 
     },
+
+    
+    /**
+     * 유저가 프린트 하고자할때 처리됨.
+     */
+    ShowPrintingBubble: function(){
+
+        var item_list = Controller.getInstance().getStreamItemList;
+        
+        var print_data = '';
+
+        for(var i = 0; i < item_list.length; i++){
+            print_data += item_list[i];
+        }
+
+        console.log(print_data);
+    },
+
+    /**
+     * 
+     * 일반 ShowMessage와 동일하나,
+     * 일부 구조조금 다름.
+     * @param {Print_array} str 
+     */
+    PrintMessage: function(str){
+
+        this.bubbleLabel = str;
+        this._ShowBubble();
+
+        if(this.playerStatusInfo != 19){
+            // Status 가 19가 아닌경우 감추는 효과.
+            var self = this;
+            setTimeout(function(){
+                self._HideBubble();
+            },1000);
+        }
+        
+    },
+
+
+
 
     /**
      * 메시지를 띄워줍니다.

@@ -79,6 +79,17 @@ var Controller = cc.Class({
     },
 
     /**
+     * 스트리밍 데이터중
+     * 아이템 리스트를 리턴
+     * @returns stream_item_list
+     */
+    getStreamItemList : function(){
+        return this.streamJson.item_list;
+    },
+
+
+
+    /**
      * 로드된 json정보를 id파라미터를 통해 로드
      * 메인으로 사용되는 함수
      * 최대 명령어 줄이 瑛뺐嚥?-1 값을 리턴 사용처에선 -1이면 명령어 끝을 의미
