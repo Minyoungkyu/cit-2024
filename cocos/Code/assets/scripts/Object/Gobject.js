@@ -36,6 +36,7 @@ var Gobject = cc.Class({
             // console.log("GOAL HI");
             this.node.getComponent(cc.Animation).play("goal");
         }
+       
 
     },
 
@@ -155,9 +156,7 @@ var Gobject = cc.Class({
         }
         else if(this.itemTAG === Env.LASER_SWITCH_ON){
             // 레이저 스위치
-
             SoundManager.getInstance().PlaySfx(Env.SFX_LASER_BUTTON);
-
             this.ChangeSprite(Env.LASER_SWITCH_OFF);
         }
         else if(this.itemTAG === Env.ROCKET_EMPTY){
@@ -183,11 +182,10 @@ var Gobject = cc.Class({
      */
     SetDir: function(dir){
         // is Door
-        if(dir === 'h'){
+        if(dir == "h"){
             this.ChangeSprite(Env.DOOR_ON);
-
         }
-        else if(dir === 'v'){
+        else if(dir == "v"){
             this.ChangeSprite(Env.DOOR_OFF);
         }
     },
@@ -298,6 +296,8 @@ var Gobject = cc.Class({
      * @constructor
      */
     ChangeSprite: function(tag){
+
+
         this.node.getComponent(cc.Sprite).spriteFrame = Loader.getInstance().GetImage(tag);
     },
 

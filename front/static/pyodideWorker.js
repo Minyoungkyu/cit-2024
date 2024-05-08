@@ -945,9 +945,10 @@ class Character:
                     self.data['player']['advanced_medicine_count'] -= 1
                     random_value = 100 - self.data['player']['hp']
                     self.data['player']['status'] = self.hero_heal_status
-                    for _ in range(random_value):
-                        self.data['player']['hp'] += 1 if self.data['player']['hp'] < 100 else 0
-                        self.frame_append(line_num - start_line)
+                    # for _ in range(random_value):
+                    #self.data['player']['hp'] += 1 if self.data['player']['hp'] < 100 else 0
+                    self.data['player']['hp'] += random_value
+                    self.frame_append(line_num - start_line)
                     self.data['player']['status'] = self.hero_idle_status
             else:
                 self.set_fail(self.hero_not_enough_medicine_status, line_num)

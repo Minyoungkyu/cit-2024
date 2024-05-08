@@ -8,7 +8,7 @@
   "genMipmaps": false,
   "packable": true,
   "width": 32,
-  "height": 32,
+  "height": 64,
   "platformSettings": {},
   "subMetas": {
     "obj_door_s": {
@@ -23,9 +23,9 @@
       "trimX": 5,
       "trimY": 7,
       "width": 22,
-      "height": 25,
+      "height": 57,
       "rawWidth": 32,
-      "rawHeight": 32,
+      "rawHeight": 64,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

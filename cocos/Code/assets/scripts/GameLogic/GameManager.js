@@ -112,6 +112,10 @@ cc.Class({
 
 
 
+        print_ui_object: cc.Node,
+        print_ui_label: cc.Label,
+
+
         /**스테이지 2 에서 사용되는 정보 */
         print_array : [],
 
@@ -127,6 +131,13 @@ cc.Class({
         bomb_sprite_max_range : 0,
 
         bomb_sprite_id : null,
+
+
+        /**
+         * 3스테이지에서 사용하는 몬스터 객체 리스트
+         */
+
+        monster_list: [],
       
     },
 
@@ -213,6 +224,9 @@ cc.Class({
      */
     onLoad(){
         this.addBtn();
+        
+        // print_UI 초기화.
+        this._InitPrintUI();
 
         this.loadingBG.active = true;
         // this.startTime = performance.now(); // 시작 시간 기록
@@ -297,7 +311,7 @@ cc.Class({
         this.InitialCamera();
     },
 
-
+   
     
 
 
@@ -402,32 +416,32 @@ cc.Class({
             // 2-3-E
             { x: 0, y: 1 },
             { x: -1, y: 1 },
-            { x: 0, y: 1 },
+            { x: 0, y: -1 },
 
             // 2-3-N
             { x: 0, y: 1 },
             { x: -1, y: 1 },
-            { x: 0, y: 1 },
+            { x: 0, y: -1 },
 
             //2-3-H
             { x: 0, y: 1 },
             { x: -1, y: 1 },
-            { x: 0, y: 1 },
+            { x: 0, y: -1 },
 
 
 
              // 3-1-E
-             { x: 1, y: 1 },
+             { x: 1, y: 2 },
              { x: -1, y: 1 },
              { x: -1, y: 0 },
  
              // 3-1-N
-             { x: 1, y: 1 },
+             { x: 1, y: 2 },
              { x: -1, y: 1 },
              { x: -1, y: 0 },
  
              // 3-1-H
-             { x: 1, y: 1 },
+             { x: 1, y: 2},
              { x: -1, y: 1 },
              { x: -1, y: 0 },
  
@@ -532,6 +546,9 @@ cc.Class({
                 else{
                     self.InitMap();
                     self.InitPlayer();
+                    self.InitMonster();
+
+
                     self.InitObject();
 
                     // 2스테이지이상 부터 사용하는 Print
@@ -668,6 +685,117 @@ cc.Class({
         );
         return v2;
     },
+
+    /**
+     * 몬스터 최초 생성해주고, Init 처리하는 함수. 
+     * 
+     * @returns 
+     */
+    InitMonster: function(){
+        var stageObject = Controller.getInstance().getInitStageData();
+
+        var step = stageObject.step;
+        var diff = stageObject.diff;
+        var level = stageObject.level;
+
+        var gameLevel = this.ConvertGameLevel(step,diff,level);
+
+
+        // 스테이지 3 미만 접근 금지
+        if(gameLevel < 56) return;
+
+
+        var initJson = Controller.getInstance().getInitOjbectDatas();
+
+        for( var i  = 0; i < initJson.length; i++){
+            // 타입이 몬스터가 아닌경우 예외처리가 필요.
+            if(this.IsMonsterType(initJson[i].type) ){
+                this.MakeUpMonster(initJson[i]);
+            }
+
+        }
+    },
+
+    /**
+     * for loop에서 버그인지 체크가 안되는 문제가 있음
+     * 함수로 분리 
+     * @param {*} json 
+     */
+    MakeUpMonster: function(json){
+        var self = this;
+        var monsterURL = "./prefabs/monster" ;
+
+        cc.loader.loadRes(monsterURL, cc.Prefab, function (err, prefabs) {
+            // 리소스 로드가 완료된 후 실행할 코드
+            if (err) {
+                cc.error("Error loading image: " + err);
+                return;
+            }
+
+            var id = json.id;
+            var type = json.type;
+            
+
+            var dir = json.dir;
+            var status = json.status;
+            var info = json.info;
+
+            var x = json.pos[0];
+            var y = json.pos[1];
+
+            var origin_pos = cc.v2(x, y);
+
+            var n1 = cc.instantiate(prefabs);
+            var v1 = self.GVector(origin_pos.x,origin_pos.y);
+
+            n1.addComponent("Monster");
+            n1.getComponent('Monster').InitMonster(json);
+            n1.setPosition(v1);
+
+            self.monster_list.push(n1);
+            self.node.addChild(n1);
+    
+        });
+    },
+
+
+    IsMonsterType: function(type){
+
+
+        if(type === 'aggressive_monster_1' ) return true;
+        if(type === 'passive_monster') return true;
+        if(type === 'boss') return true;
+        if(type === 'aggressive_monster_2' ) return true;
+
+        return false;
+    },
+
+
+    /**
+     * 
+     * 몬스터 String json 값입력받아
+     * 몬스터들의 상태값을 조정함.
+     * 
+     * @param {streamjson} streamjson 
+     */
+    UpdateMonster: function(streamjson){
+
+        // streamJson.length가 없으면 동작안함 
+        // Maybe 이곳은 거의 들어올듯
+        if(streamjson.length < 1 ) return;
+        
+        // 이곳에서 몬스터가 없으면 안돌으니 이곳에서 걸릴듯.        
+        // 몬스터 리스트가 없으면 동작안함.
+        if(this.monster_list.length < 1) return;
+
+
+        // serial한 json 값을 ID로 구분하여 각각에 업데이트 해줘야함.
+        for(var i = 0; i < this.monster_list.length; i++){
+            this.monster_list[i].getComponent("Monster").UpdateStatus(streamjson[i]);
+        }
+    },
+
+
 
     /**
      * Json 정보를 토대로 맵 오프셋값을 가져옵니다.
@@ -864,8 +992,6 @@ cc.Class({
             self.gameMap.tmxAsset = tmxFile;  // Tiled Map 설정
 
             self.MapSetupCamera();  // 카메라 설정 함수 분리
-
-            // 맵 로드 시점에 ??
         });
     },
 
@@ -1209,8 +1335,6 @@ cc.Class({
                 var targets = object[j];
                 var goalPos = cc.v2(targets.pos[0], targets.pos[1]);
                 this.AddPrefabs(Env.GOAL, -1, goalPos);
-                var ts = performance.now();
-                var li =  ts - self.startTime;
                 break;
             }
         }
@@ -1320,7 +1444,7 @@ cc.Class({
             case "drop_switch" : return Env.NORMAL_SWITCH_ON;
             case "laser_switch": return Env.LASER_SWITCH_ON;
             case "engines": case "solid_propellant": case "liquid_fuel":  return Env.ROCKET_EMPTY;
-            case "variation_switch" : return Env.VARIATION_SWITCH_OFF;
+            case "variation_switch" : return Env.VARIATION_SWITCH_ON;
             case "door":  return Env.DOOR_ON;
             case "medicine": return Env.MEDICINE;
 
@@ -1397,10 +1521,23 @@ cc.Class({
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
-            case Env.DOOR_ON: prefabName = "door";  break;
+            case Env.DOOR_ON: 
+            /**
+             * Door 객체 전용으로 따로 구분.
+             */
+            if(obj.dir === 'v'){
+                prefabName = "door_v";
+            }
+            else if(obj.dir === 'h'){
+                prefabName = "door";
+            }
+            break;
+            
             case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
             case Env.MEDICINE: prefabName = "medicine"; break;
         }
+
+        
 
         if(prefabName == "" ){
             console.log("Not found Prefabs => " + tag + " id => " + id);
@@ -1432,23 +1569,20 @@ cc.Class({
                 self.node.addChild(n1);
             }
             else if(tag === Env.DOOR_ON){
-                if(obj.dir === 'h'){
-                    n1.getComponent("Gobject").SetDir('h');
+                if(obj.dir === 'v'){
+                    n1.getComponent('Gobject').SetDir("v");
                 }
-                else if(obj.dir === 'v'){
-                    n1.getComponent("Gobject").SetDir('v');
+                else if(obj.dir === 'h'){
+                    n1.getComponent('Gobject').SetDir('h');
                 }
                 self.item.push(n1);
                 self.node.addChild(n1);
             }
+
             else{
                 self.item.push(n1);
                 self.node.addChild(n1);
-
             }
-
-
-
         });
     },
 
@@ -1490,8 +1624,17 @@ cc.Class({
      */
     AddDropSwitchPrefabs: function(tag, id, pos, drop_item_tag, drop_item_pos) {
         var switchUrl = "./prefabs/nSwitch"; // 드롭 스위치 프리팹 경로
-        var dropUrl = './prefabs/battery'; // 드롭 아이템 프리팹 경로
+        var dropUrl = './prefabs/food';
 
+        if(drop_item_tag === Env.BATTERY){
+            dropUrl = './prefabs/battery'; // 드롭 아이템 프리팹 경로
+        }
+        else if(drop_item_tag === Env.FOOD){
+            dropUrl = './prefabs/food';
+        }
+        else if(drop_item_tag === Env.MEDICINE){
+            dropUrl = './prefabs/medicine';
+        }
         // 드롭 스위치 프리팹 생성 및 초기화
         this.createAndInitPrefab(switchUrl, tag, id, pos, this.dropSwitchList);
 
@@ -1545,6 +1688,39 @@ cc.Class({
     },
 
     /**
+     * ExcuteCommand 에서 코드 압축을 위해 함수 화.
+     * 3-1 스테이지 예외 처리
+     * 
+     * @param {command} command 
+     */
+    PrintUIDialog: function(command){
+        var stageObject = Controller.getInstance().getInitStageData();
+        var stage_step = stageObject.step;
+
+        if(stage_step === '3-1'){
+            return;
+        }
+        else{
+            var playerStatus = command.player.status;
+
+            if(playerStatus === 19){
+                var item_list = command.item_list;
+                var print_array =  item_list[0].print_array;
+                var print_data = '';
+                for(var i = 0; i < print_array.length; i++){
+                    print_data += ( print_array[i] + " ");
+                }
+                var convert = print_data.toString();
+    
+                this.ShowPrintUI(convert);
+            }
+            else if(playerStatus != 0){
+                this._InitPrintUI();
+            }
+        }
+    },
+
+    /**
      * PYthon 코드 대로 동작을 실행합니다.
      * 실제 플레이어 및  모든 객체 상태를 변화를 줍니다.
      * 단 return 값을 false 하면 이동종료를 뜻합니다.
@@ -1552,7 +1728,6 @@ cc.Class({
      */
     executeCommand: function(id = 0){
         var command = Controller.getInstance().getCommandLine(id);
-
         /**
          * 명령어 종료를 뜻함
          */
@@ -1562,9 +1737,13 @@ cc.Class({
         // 객체 상태값 업데이트
         this.ObjectUpdate(command.item_list);
 
+        this.UpdateMonster(command.item_list);
+        
+
         // 플레이어 상태값
         var playerStatus = command.player.status;
 
+        this.PrintUIDialog(command);
 
         var convertPos = this.GVector(command.player.pos[0], command.player.pos[1]);
         this.EffectControl(playerStatus, convertPos);
@@ -1678,6 +1857,37 @@ cc.Class({
     },
 
 
+     /**
+     * 2스테이지 프린트 UI를 초기화 처리 해줌
+     */
+     _InitPrintUI: function(){
+        this.print_ui_object.active = false;
+        this.print_ui_object.scale = cc.v2(1, 0);
+        this.print_ui_label.string = '';
+    },
+
+
+    /**
+     * open 효과 이펙트 줌
+     * 
+     */
+    _OpenPrintUI: function(){
+        if(this.print_ui_object.active) return;
+
+        this.print_ui_object.active = true;
+        this.print_ui_object.getComponent(cc.Animation).play('open');
+    },
+
+    /**
+     * 화면에 출력될 내용 입력받아 print() 처리
+     * @param {string} text 
+     */
+    ShowPrintUI: function(text){
+        this._OpenPrintUI();
+        this.print_ui_label.string = text;
+    },
+
+
     /**
      * 폭탄 보였다 안보였다 처리 효과.
      */
@@ -1693,6 +1903,11 @@ cc.Class({
     },
 
 
+    /**
+     * Variation Bomb Sprite 표현.
+     * @param {*} object 
+     * @returns 
+     */
     AddBombSprites: function(object){
         var tag = this.NameToTag(object.type);
         
@@ -1700,8 +1915,6 @@ cc.Class({
         if(tag !== Env.BOMB) return;
         var variation_no = object.variation_no;
         if(variation_no == null) return;
-
-        console.log(variation_no);
 
         var posX = object.pos[0];
         var posY = object.pos[1];
@@ -1775,6 +1988,8 @@ cc.Class({
 
     },
 
+
+
     /**
      * 안보이게 하는 Sprites 리스트들
      */
@@ -1832,8 +2047,6 @@ cc.Class({
         },90);
 
     },
-
-
 
     /**
      * 아이템 상태를 관리해주는 함수
