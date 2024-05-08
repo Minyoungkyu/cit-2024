@@ -139,6 +139,10 @@ cc.Class({
 
         monster_list: [],
       
+        /**
+         * 몬스터 폭발 효과를 주기위한 행동.
+         */
+        monster_isDead : [],
     },
 
     /**
@@ -711,6 +715,7 @@ cc.Class({
             // 타입이 몬스터가 아닌경우 예외처리가 필요.
             if(this.IsMonsterType(initJson[i].type) ){
                 this.MakeUpMonster(initJson[i]);
+                this.monster_isDead.push(false);
             }
 
         }
@@ -749,7 +754,7 @@ cc.Class({
             var v1 = self.GVector(origin_pos.x,origin_pos.y);
 
             n1.addComponent("Monster");
-            n1.getComponent('Monster').InitMonster(json);
+            n1.getComponent('Monster').InitMonster(json, v1);
             n1.setPosition(v1);
 
             self.monster_list.push(n1);
@@ -788,13 +793,50 @@ cc.Class({
         // 몬스터 리스트가 없으면 동작안함.
         if(this.monster_list.length < 1) return;
 
+        for(var i = 0; i < streamjson.length; i++){
+            var monster = this.FindMonsterByID(i);
+            if(monster == null) continue;
 
-        // serial한 json 값을 ID로 구분하여 각각에 업데이트 해줘야함.
-        for(var i = 0; i < this.monster_list.length; i++){
-            this.monster_list[i].getComponent("Monster").UpdateStatus(streamjson[i]);
+            if(typeof streamjson[i] != 'number' ){
+
+                var monster_id = monster.getComponent("Monster").GetID();
+
+                if(streamjson[i].status === -5){
+                    this.monster_isDead[monster_id] = false;
+
+                    var convertPos = this.GVector(streamjson[i].pos[0], streamjson[i].pos[1]);
+                    monster.getComponent("Monster").Movement(convertPos, streamjson[i].dir);
+                }
+                else if(streamjson[i].status === -4 || streamjson[i].status === -8){
+
+                    console.log("fuckup");
+                    
+                    if(this.monster_isDead[monster_id] == true) continue;
+                    this.monster_isDead[monster_id] = true;
+                    
+                    monster.getComponent("Monster").ShowExplosion();
+
+                }
+                else{
+                    console.log(streamjson[i]);
+                }
+            }
+
+            monster.getComponent("Monster").UpdateStatus(streamjson[i]);
         }
     },
 
+
+    FindMonsterByID: function(id){
+
+        for(var i = 0; i < this.monster_list.length; i++){
+            var monster_id = this.monster_list[i].getComponent("Monster").GetID();
+
+            if(id == monster_id) return this.monster_list[i];
+        }
+
+        return null;
+    },
 
 
     /**
@@ -1217,7 +1259,7 @@ cc.Class({
         var lists = [this.expList, this.hList, this.pList, this.dropEffectList]; // 각 URL에 해당하는 리스트
 
         urls.forEach((url, index) => {
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < 15; i++) {
                 cc.loader.loadRes(url, cc.Prefab, function (err, effect) {
                     if (err) {
                         cc.error("이미지 로딩 에러: " + err);

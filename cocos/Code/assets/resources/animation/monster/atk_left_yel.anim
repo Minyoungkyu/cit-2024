@@ -3,7 +3,7 @@
   "_name": "atk_left_yel",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.5166666666666667,
+  "_duration": 0.43333333333333335,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -18,7 +18,7 @@
             }
           },
           {
-            "frame": 0.08333333333333333,
+            "frame": 0.016666666666666666,
             "value": {
               "__uuid__": "6c8ff72a-18c7-4e3f-9bbd-d19ddc975dd9"
             }
@@ -30,19 +30,19 @@
             }
           },
           {
-            "frame": 0.3333333333333333,
+            "frame": 0.38333333333333336,
             "value": {
               "__uuid__": "e413f815-ef64-421f-88ee-9d3bf5356296"
             }
           },
           {
-            "frame": 0.4166666666666667,
+            "frame": 0.4,
             "value": {
               "__uuid__": "0f63f668-cf4e-4dcd-923d-950ab8a3a7ee"
             }
           },
           {
-            "frame": 0.5,
+            "frame": 0.4166666666666667,
             "value": {
               "__uuid__": "1e997d0e-4c7b-4afa-932e-6c5ffb754383"
             }

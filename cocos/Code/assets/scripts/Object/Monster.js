@@ -52,10 +52,10 @@ cc.Class({
         },
 
         monster_type : PASSIVE,
-        id: '',
+        id: 0,
         direction : '',
         status: '',
-        init_pos : null,
+        init_position : null,
 
         init_json_data: null,
         monster_number : 0,
@@ -63,6 +63,8 @@ cc.Class({
 
         deadIntevalID: null,
         timout : null,
+
+        explosionPrefabs: cc.Node,
     },
 
     start(){
@@ -81,11 +83,10 @@ cc.Class({
         return this.id;
     },
 
-    InitMonster: function(json){
+    InitMonster: function(json, init_pos){
 
+        this.init_position = init_pos;
         this.id = json.id;
-        
-
 
         this.init_json_data = json;
         if(json.type === 'aggressive_monster_2'){
@@ -116,14 +117,54 @@ cc.Class({
         this.InitDeadStatus();
     },
 
+    ShowExplosion: function(){
+        this.explosionPrefabs.getComponent(cc.Animation).play("explosion");
+    },
+
     /**
      * 몬스터의 status값을 받아 해당되는 애니메이션 처리를 진행하면됨.
      * @param {status} status
      */
     UpdateStatus: function(status){
 
-        if(status.length > 1){
-            console.log("LENGTH is OBJECT ==> " + status);
+        if(typeof status != "number" ){
+          
+            var sub_status = status.status;
+            switch(sub_status){
+                case STATE_IDLE:
+                    this.node.opacity = 255;
+                    var ani = IDLE_LEFT;
+                    if(this.direction === DIR_RIGHT){
+                        ani = IDLE_RIGHT;
+                    }
+                    this._SetMonsterAnimation(this.monster_number, ani ) ;
+                    this.InitDeadStatus();
+                    break;
+                
+
+                case STATE_ATTACK:
+                    if(this.monster_type == AGGREE_1){
+
+                        var ani = RANGE_ATK_LEFT;
+
+                        if(status.dir === 'right'){
+                            ani = RANGE_ATK_RIGHT;
+                        }
+                        this._SetMonsterAnimation(this.monster_number, ani);
+                    }
+                break;
+
+                case STATE_WAIT:
+                    this.Movement(this.init_position);
+                    var ani = IDLE_LEFT;
+                    if(this.direction === DIR_RIGHT){
+                        ani = IDLE_RIGHT;
+                    }
+                    this._SetMonsterAnimation(this.monster_number, ani ) ;
+                    this.InitDeadStatus();
+                    break;
+            }
+            
 
         }
         else{
@@ -168,6 +209,15 @@ cc.Class({
                         this._SetMonsterAnimation(this.monster_number, ani) ;
                     }
                      break;
+                case STATE_WAIT:
+                    this.Movement(this.init_position);
+                    var ani = IDLE_LEFT;
+                    if(this.direction === DIR_RIGHT){
+                        ani = IDLE_RIGHT;
+                    }
+                    this._SetMonsterAnimation(this.monster_number, ani ) ;
+                    this.InitDeadStatus();
+                    break;
                 case  STATE_RANGE_ATTACK: 
                     console.log("RANGE_ED ATK");
                     break;
@@ -184,7 +234,6 @@ cc.Class({
                     this.MonsterDeadAnimation();
                    
                     break;
-                case  STATE_WAIT :  console.log("STATE_WAIT"); break;
                 case  NONE:  console.log("NONE_STATE"); break;
             }
         }
@@ -192,6 +241,8 @@ cc.Class({
 
     InitDeadStatus: function(){
         this.isDead = false;
+        this.node.opacity = 255;
+
         clearInterval( this.deadIntevalID);
         clearInterval( this.timout);
     },
@@ -206,8 +257,14 @@ cc.Class({
      * @param pos 이동될 포지션 값
      * @constructor
      */
-    Movement: function(pos, status){
-        this.changeSpriteDirection();
+    Movement: function(pos, dir){
+        
+        var ani = IDLE_LEFT;
+        if(dir == 'right'){
+            ani = IDLE_RIGHT;
+        }
+
+        this._SetMonsterAnimation(this.monster_number,ani);
         this.node.setPosition(pos);
     },
 
@@ -264,12 +321,8 @@ cc.Class({
 
         this.timout = setTimeout(function() {
             self.deadIntervalID = setInterval(function() {
-                console.log("돌고돌아");
-        
                 self.node.opacity -= 9; // 먼저 투명도를 감소시킵니다.
-        
                 if (self.node.opacity < 1) {
-                    console.log("종료됬다!");
                     clearInterval(self.deadIntervalID); // 투명도가 5 미만이면 인터벌 중지
                 }
             }, 30);
