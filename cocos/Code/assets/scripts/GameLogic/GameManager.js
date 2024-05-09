@@ -1282,7 +1282,6 @@ cc.Class({
         var node = list[idx];
         node.active = true;
         node.setPosition(pos);
-
         var animation = node.getComponent(cc.Animation);
         animation.once('finished', () => {
             node.active = false;

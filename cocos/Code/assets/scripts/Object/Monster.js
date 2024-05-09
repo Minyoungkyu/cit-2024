@@ -65,6 +65,18 @@ cc.Class({
         timout : null,
 
         explosionPrefabs: cc.Node,
+
+        monsterNameTack: cc.Node,
+        nameLabel: cc.Label,
+
+        hpBar: cc.ProgressBar,
+        barBackground: cc.Node,
+
+
+        maxHP: 0,
+
+        isInitial: false,
+
     },
 
     start(){
@@ -88,16 +100,19 @@ cc.Class({
         this.init_position = init_pos;
         this.id = json.id;
 
-
-        console.log("만들어진 id > "+ this.id);
-
-
         this.init_json_data = json;
         if(json.type === 'aggressive_monster_2'){
             this._SetMonsterAnimation(0,IDLE_LEFT);
             this.monster_number = MONSTER_RED;
             this.direction = DIR_NONE;
             this.monster_type = AGGREE_2;
+
+
+            this.monsterNameTack.active = true;
+            this.nameLabel.string = json.name;
+
+            this.maxHP = json.hp;
+
         }
         else if(json.type === 'passive_monster'){
             if(json.dir === 'left'){
@@ -133,6 +148,8 @@ cc.Class({
 
         if(typeof status != "number" ){
           
+            this._UpdateHP(status.hp);
+
             var sub_status = status.status;
             switch(sub_status){
                 case STATE_IDLE:
@@ -173,6 +190,15 @@ cc.Class({
         }
         else{
             switch(status){
+
+                case STATE_RANGE_ATTACK:
+                    var ani = RANGE_ATK_LEFT;
+                    if(this.direction === DIR_RIGHT){
+                        ani = RANGE_ATK_RIGHT;
+                    }
+                    this._SetMonsterAnimation(this.monster_number, ani) ;
+                    break;
+
                 case STATE_IDLE :
                     this.node.opacity = 255;
                     var ani = IDLE_LEFT;
@@ -203,6 +229,13 @@ cc.Class({
                         }
                         this._SetMonsterAnimation(this.monster_number, ani) ;
                     }
+                    else if(this.monster_type === AGGREE_2){
+                        var ani = RANGE_ATK_LEFT;
+                        if(this.direction === DIR_RIGHT){
+                            ani = RANGE_ATK_RIGHT;
+                        }
+                        this._SetMonsterAnimation(this.monster_number, ani) ;
+                    }
                     else{
                         var ani = ATK_LEFT;
                         if(this.direction === DIR_RIGHT){
@@ -211,15 +244,15 @@ cc.Class({
                         this._SetMonsterAnimation(this.monster_number, ani) ;
                     }
                      break;
-                case STATE_WAIT:
-                    this.Movement(this.init_position);
-                    var ani = IDLE_LEFT;
-                    if(this.direction === DIR_RIGHT){
-                        ani = IDLE_RIGHT;
-                    }
-                    this._SetMonsterAnimation(this.monster_number, ani ) ;
-                    this.InitDeadStatus();
-                    break;
+                // case STATE_WAIT:
+                //     this.Movement(this.init_position);
+                //     var ani = IDLE_LEFT;
+                //     if(this.direction === DIR_RIGHT){
+                //         ani = IDLE_RIGHT;
+                //     }
+                //     this._SetMonsterAnimation(this.monster_number, ani ) ;
+                //     this.InitDeadStatus();
+                //     break;
                 case  STATE_RANGE_ATTACK: 
                     break;
 
@@ -233,7 +266,7 @@ cc.Class({
                 case  STATE_DEAD: 
                     if(this.IsDeadMonster()) break;
                     this.MonsterDeadAnimation();
-                   
+                    this.isInitial = false;
                     break;
                 case  NONE:
                     break;
@@ -242,11 +275,25 @@ cc.Class({
     },
 
     InitDeadStatus: function(){
+
+        if(this.isInitial) return;
+        this.isInitial = true;
+
         this.isDead = false;
         this.node.opacity = 255;
 
         clearInterval( this.deadIntevalID);
         clearInterval( this.timout);
+
+        console.log("INIT");
+
+        if(this.monster_type === AGGREE_2){
+            this.monsterNameTack.active = true;
+            this._InitHP();
+        }
+        else{
+            this.monsterNameTack.active = false;
+        }
     },
 
     IsDeadMonster : function(){
@@ -260,9 +307,6 @@ cc.Class({
      * @constructor
      */
     Movement: function(pos, dir){
-        
-        console.log("연결 -> "+this.id);
-
         var ani = IDLE_LEFT;
         if(dir == 'right'){
             ani = IDLE_RIGHT;
@@ -272,17 +316,10 @@ cc.Class({
         this.node.setPosition(pos);
     },
 
-
-    changeStatus: function(status){
-        
-
-    },
-
     convertToAnimationNumber: function(status){
         switch(status){
             case -1 : return 0;
         }
-
         return 0;
     },
 
@@ -291,7 +328,6 @@ cc.Class({
      * MONSTER 애니메이션
      * @param {*} ANIMATION_NUMBER 
      */
-
     _SetMonsterAnimation: function(number,animation_number){
         
         var clip = this.getComponent(cc.Animation);
@@ -304,6 +340,30 @@ cc.Class({
             clip.play(animationName);
         }
 
+    },
+
+    /**
+     * 
+     * 체력을 업데이트 처리해줌.
+     * @param {jsonData.hp} hp
+     * @returns 
+     */
+    _UpdateHP: function(hp){
+        if(this.monster_type !== AGGREE_2) return;
+        
+        this.hpBar.progress = hp / this.maxHP;
+
+        if(this.hpBar.progress > 0.6){
+            this.barBackground.color = new cc.Color(0, 255, 0);
+        }
+        else{
+            this.barBackground.color = new cc.Color(255, 0, 0);
+        }
+    },
+
+    _InitHP: function(){
+        this.hpBar.progress = this.maxHP;
+        this.barBackground.color = new cc.Color(0, 255, 0);
     },
 
    
