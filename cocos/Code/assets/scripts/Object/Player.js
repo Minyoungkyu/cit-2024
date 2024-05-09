@@ -114,6 +114,9 @@ cc.Class({
     
 
         deadIntevalID: null,
+
+        chargeShotParticle: cc.Node,
+        chargeShotBot: cc.Node,
     },
 
     ctor() {
@@ -174,6 +177,13 @@ cc.Class({
 
     },
 
+
+    ShowChargeShotParticle: function(){
+        this.chargeShotBot.getComponent(cc.Animation).play('shot_bot');
+        this.chargeShotParticle.getComponent(cc.Animation).play('charge_shot');
+    },
+
+
     PlayFootStep: function(){
         if(this.isPlaySound) return;
 
@@ -206,6 +216,9 @@ cc.Class({
         var animationName = this.aniArray[number][animation_number];
 
         var upState = clip.getAnimationState(animationName);
+
+        if(upState == null) return;
+
         var isPlaying = upState.isPlaying;
 
         if(!isPlaying){
@@ -512,6 +525,11 @@ cc.Class({
             case 37:
                 this.ShowMessage("폭탄설치중");
                         break;
+
+            case 38:
+                this.setPlayerAnimation(ATK_RIGHT);
+                this.ShowChargeShotParticle();
+                break;
 
             case 39:
                 this.ShowMessage("중력이 너무강해서 점프가 어려워");

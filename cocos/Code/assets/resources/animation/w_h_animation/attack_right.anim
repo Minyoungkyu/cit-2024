@@ -3,7 +3,7 @@
   "_name": "attack_right",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.43333333333333335,
+  "_duration": 0.6833333333333333,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -24,25 +24,25 @@
             }
           },
           {
-            "frame": 0.16666666666666666,
+            "frame": 0.25,
             "value": {
               "__uuid__": "34d06730-7c15-4b0e-afcf-a976da1c735d"
             }
           },
           {
-            "frame": 0.25,
+            "frame": 0.4166666666666667,
             "value": {
               "__uuid__": "f425634f-cbcd-4c7a-9fcb-4237bba5d129"
             }
           },
           {
-            "frame": 0.3333333333333333,
+            "frame": 0.5833333333333334,
             "value": {
               "__uuid__": "638bb033-1a7a-4401-ac0e-94ea2713c493"
             }
           },
           {
-            "frame": 0.4166666666666667,
+            "frame": 0.6666666666666666,
             "value": {
               "__uuid__": "862d72e5-93ae-4f5e-a492-901ae576e97b"
             }

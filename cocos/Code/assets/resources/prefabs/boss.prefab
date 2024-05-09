@@ -670,19 +670,21 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_defaultClip": null,
+    "_defaultClip": {
+      "__uuid__": "36fe0525-ae8d-4df6-80ea-b8590e5deaa7"
+    },
     "_clips": [
-      {
-        "__uuid__": "36fe0525-ae8d-4df6-80ea-b8590e5deaa7"
-      },
       {
         "__uuid__": "ac1b5d1a-d8d8-4d95-a3c4-601a56d29664"
       },
       {
         "__uuid__": "b354a3e0-0058-4b60-8177-a62edf6137ba"
+      },
+      {
+        "__uuid__": "36fe0525-ae8d-4df6-80ea-b8590e5deaa7"
       }
     ],
-    "playOnLoad": false,
+    "playOnLoad": true,
     "_id": ""
   },
   {

@@ -143,6 +143,12 @@ cc.Class({
          * 몬스터 폭발 효과를 주기위한 행동.
          */
         monster_isDead : [],
+
+        /**
+         * 보스용
+         */
+
+        bossObject: cc.Node,
     },
 
     /**
@@ -485,17 +491,17 @@ cc.Class({
              // 3-4-E
              { x: 0, y: 1 },
              { x: 0, y: 1 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-4-N
              { x: 0, y: 1 },
              { x: 0, y: 1 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-4-H
              { x: 0, y: 1 },
              { x: 0, y: 1 },
-             { x: 0, y: 0 },
+             { x: 0, y: 1 },
 
         ];
         this.loadInit();
@@ -551,6 +557,7 @@ cc.Class({
                     self.InitMap();
                     self.InitPlayer();
                     self.InitMonster();
+                    self.InitBoss();
 
 
                     self.InitObject();
@@ -695,7 +702,16 @@ cc.Class({
      * 보스 만드는곳.
      */
     InitBoss: function(){
+        var stageObject = Controller.getInstance().getInitStageData();
 
+        var step = stageObject.step;
+
+        if(step !== '3-4') return;
+
+        var initJson = Controller.getInstance().getInitOjbectDatas();
+
+            // 타입이 몬스터가 아닌경우 예외처리가 필요.
+        this.MakeUpBoss(initJson[0]);
     },
 
 
@@ -717,6 +733,7 @@ cc.Class({
 
         // 스테이지 3 미만 접근 금지
         if(gameLevel < 56) return;
+        if(gameLevel == 85 || gameLevel === 88 || gameLevel === 91 ) return;
 
 
         var initJson = Controller.getInstance().getInitOjbectDatas();
@@ -726,7 +743,6 @@ cc.Class({
             if(this.IsMonsterType(initJson[i].type) ){
                 this.MakeUpMonster(initJson[i]);
                 this.monster_isDead.push(false);
-                console.log(i);
             }
 
         }
@@ -748,14 +764,6 @@ cc.Class({
                 return;
             }
 
-            var id = json.id;
-            var type = json.type;
-            
-
-            var dir = json.dir;
-            var status = json.status;
-            var info = json.info;
-
             var x = json.pos[0];
             var y = json.pos[1];
 
@@ -764,7 +772,6 @@ cc.Class({
             var n1 = cc.instantiate(prefabs);
             var v1 = self.GVector(origin_pos.x,origin_pos.y);
 
-            n1.addComponent("Monster");
             n1.getComponent('Monster').InitMonster(json, v1);
             n1.setPosition(v1);
 
@@ -773,6 +780,39 @@ cc.Class({
     
         });
     },
+
+    /**
+     * 보스 만드는곳.
+     * 
+     * @param {json} json 
+     */
+    MakeUpBoss: function(json){
+        var self = this;
+        var bossUrl = "./prefabs/boss" ;
+
+        cc.loader.loadRes(bossUrl, cc.Prefab, function (err, prefabs) {
+            // 리소스 로드가 완료된 후 실행할 코드
+            if (err) {
+                cc.error("Error loading image: " + err);
+                return;
+            }
+            var x = json.pos[0] +2;
+            var y = json.pos[1];
+
+            var origin_pos = cc.v2(x, y);
+
+            var n1 = cc.instantiate(prefabs);
+            var v1 = self.GVector(origin_pos.x,origin_pos.y);
+
+            n1.getComponent('Boss').InitBoss(json);
+            n1.setPosition(v1);
+
+            self.bossObject = n1;
+
+            self.node.addChild(n1);
+        });
+    },
+
 
     IsBoss: function(type){
         if(type === 'boss')return true;
@@ -834,6 +874,19 @@ cc.Class({
             monster.getComponent("Monster").UpdateStatus(streamjson[i]);
         }
     },
+
+    /**
+     * 보스 상태 업데이트 해주는곳.
+     * @param {StreamJson} streamJson 
+     */
+    UpdateBoss: function(streamJson){
+
+        if(streamJson.length < 1) return;
+        if(this.bossObject == null) return;
+
+        this.bossObject.getComponent("Boss").UpdateStatus(streamJson[0]);
+    },
+
 
 
     FindMonsterByID: function(id){
@@ -1791,6 +1844,8 @@ cc.Class({
 
         this.UpdateMonster(command.item_list);
         
+        this.UpdateBoss(command.item_list);
+
 
         // 플레이어 상태값
         var playerStatus = command.player.status;

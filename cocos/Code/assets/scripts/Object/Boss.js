@@ -43,12 +43,9 @@ cc.Class({
     },
 
 
-    InitBoss: function(json, init_pos){
+    InitBoss: function(json){
         this.id = json.id;
         this.init_json_data = json;
-
-        
-
         this.InitDeadStatus();
     },
 
@@ -68,7 +65,6 @@ cc.Class({
                 break;
             
             case HIT:
-                
                 this._SetMonsterAnimation(ANIMATION_HIT);
                 break;
         }
@@ -89,28 +85,32 @@ cc.Class({
      * @param {*} ANIMATION_NUMBER 
      */
     _SetMonsterAnimation: function(animation_number){
+        var animationName = this.aniArray[animation_number];
+
+        var clip = this.getComponent(cc.Animation);
 
         var hit_ani = this.aniArray[ANIMATION_HIT];
         var atk_ani = this.aniArray[ANIMATION_ATK];
-
-        var hit_c = this.getComponent(cc.Animation);
-        var atk_c = this.getComponent(cc.Animation);
-
-        var hit_animation = hit_ani;
-        var atk_animation = atk_ani;
-
-        var hit_state = hit_c.getAnimationState(hit_animation);
-
-        var atk_state = atk_c.getAnimationState(atk_animation);
-
-
-        // 예외 처리 동작중이면..
-        if(hit_state.isPlaying || atk_state ) return;
-
-
         
-        var clip = this.getComponent(cc.Animation);
-        var animationName = this.aniArray[animation_number];
+        var hit_state = clip.getAnimationState(hit_ani);
+        var atk_state = clip.getAnimationState(atk_ani);
+        
+      
+        if (!hit_state || !atk_state) {
+            console.error("애니메이션 상태를 찾을 수 없습니다: ", hit_ani, atk_ani);
+            if(!isPlaying){
+                clip.play(animationName);
+            }
+            return;
+        }
+
+        var isPlaying_hit = hit_state.isPlaying;
+        var isPlaying_attack = atk_state.isPlaying;
+        
+
+        // 만약 하나라도 재생 중이면, 아무 것도 하지 않음
+        if (isPlaying_hit || isPlaying_attack) return;
+
 
         var upState = clip.getAnimationState(animationName);
         var isPlaying = upState.isPlaying;
