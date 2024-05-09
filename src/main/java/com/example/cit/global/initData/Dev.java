@@ -6349,20 +6349,20 @@ public class Dev {
                                 "            {\"id\": 6, \"type\": \"aggressive_monster_1\", \"pos\": [29,5], \"dir\": \"left\", \"goal\": [7,5], \"variable_no\": [0,2], \"frame_count\": 0, \"status\": -10},\n" +
                                 "            {\"id\": 7, \"type\": \"aggressive_monster_1\", \"pos\": [31,5], \"dir\": \"left\", \"goal\": [7,5], \"variable_no\": [1,2], \"frame_count\": 0, \"status\": -10},\n" +
                                 "            {\"id\": 8, \"type\": \"aggressive_monster_1\", \"pos\": [33,5], \"dir\": \"left\", \"goal\": [7,5], \"variable_no\": [1,2], \"frame_count\": 0, \"status\": -10},\n" +
-                                "            {\"id\": 10, \"type\": \"aggressive_monster_1\", \"pos\": [19,9], \"dir\": \"left\", \"goal\": [7,9], \"frame_count\": 0, \"status\": -9},\n" +
-                                "            {\"id\": 11, \"type\": \"aggressive_monster_1\", \"pos\": [21,9], \"dir\": \"left\", \"goal\": [7,9], \"frame_count\": 0, \"status\": -9},\n" +
-                                "            {\"id\": 12, \"type\": \"aggressive_monster_1\", \"pos\": [23,9], \"dir\": \"left\", \"goal\": [7,9], \"frame_count\": 0, \"status\": -9},\n" +
-                                "            {\"id\": 13, \"type\": \"bomb\", \"pos\": [12,1], \"status\": 1},\n" +
-                                "            {\"id\": 14, \"type\": \"bomb\", \"pos\": [10,1], \"status\": 1},\n" +
-                                "            {\"id\": 15, \"type\": \"bomb\", \"pos\": [8,1], \"status\": 1},\n" +
-                                "            {\"id\": 16, \"type\": \"bomb\", \"pos\": [16,5], \"status\": 0},\n" +
-                                "            {\"id\": 17, \"type\": \"bomb\", \"pos\": [14,5], \"status\": 0},\n" +
-                                "            {\"id\": 18, \"type\": \"bomb\", \"pos\": [12,5], \"status\": 0},\n" +
-                                "            {\"id\": 19, \"type\": \"bomb\", \"pos\": [10,5], \"status\": 0},\n" +
-                                "            {\"id\": 20, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 0},\n" +
-                                "            {\"id\": 21, \"type\": \"bomb\", \"pos\": [12,9], \"status\": 1},\n" +
-                                "            {\"id\": 22, \"type\": \"bomb\", \"pos\": [10,9], \"status\": 1},\n" +
-                                "            {\"id\": 23, \"type\": \"bomb\", \"pos\": [8,9], \"status\": 1}\n" +
+                                "            {\"id\": 9, \"type\": \"aggressive_monster_1\", \"pos\": [19,9], \"dir\": \"left\", \"goal\": [7,9], \"frame_count\": 0, \"status\": -9},\n" +
+                                "            {\"id\": 10, \"type\": \"aggressive_monster_1\", \"pos\": [21,9], \"dir\": \"left\", \"goal\": [7,9], \"frame_count\": 0, \"status\": -9},\n" +
+                                "            {\"id\": 11, \"type\": \"aggressive_monster_1\", \"pos\": [23,9], \"dir\": \"left\", \"goal\": [7,9], \"frame_count\": 0, \"status\": -9},\n" +
+                                "            {\"id\": 12, \"type\": \"bomb\", \"pos\": [12,1], \"status\": 1},\n" +
+                                "            {\"id\": 13, \"type\": \"bomb\", \"pos\": [10,1], \"status\": 1},\n" +
+                                "            {\"id\": 14, \"type\": \"bomb\", \"pos\": [8,1], \"status\": 1},\n" +
+                                "            {\"id\": 15, \"type\": \"bomb\", \"pos\": [16,5], \"status\": 0},\n" +
+                                "            {\"id\": 16, \"type\": \"bomb\", \"pos\": [14,5], \"status\": 0},\n" +
+                                "            {\"id\": 17, \"type\": \"bomb\", \"pos\": [12,5], \"status\": 0},\n" +
+                                "            {\"id\": 18, \"type\": \"bomb\", \"pos\": [10,5], \"status\": 0},\n" +
+                                "            {\"id\": 19, \"type\": \"bomb\", \"pos\": [8,5], \"status\": 0},\n" +
+                                "            {\"id\": 20, \"type\": \"bomb\", \"pos\": [12,9], \"status\": 1},\n" +
+                                "            {\"id\": 21, \"type\": \"bomb\", \"pos\": [10,9], \"status\": 1},\n" +
+                                "            {\"id\": 22, \"type\": \"bomb\", \"pos\": [8,9], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"enemy\"}    \n" +

@@ -88,6 +88,10 @@ cc.Class({
         this.init_position = init_pos;
         this.id = json.id;
 
+
+        console.log("만들어진 id > "+ this.id);
+
+
         this.init_json_data = json;
         if(json.type === 'aggressive_monster_2'){
             this._SetMonsterAnimation(0,IDLE_LEFT);
@@ -189,9 +193,7 @@ cc.Class({
                 case STATE_PRINT_ERROR :
                     console.log("PRINT_ERROR");
                     break;
-                case  STATE_MOVE :
-                        console.log("STATE_MOVE");
-                    break;
+                case  STATE_MOVE : break;
                 case  STATE_ATTACK: case STATE_ATTACK_MELLE:
 
                     if(this.monster_type == PASSIVE ){
@@ -219,7 +221,6 @@ cc.Class({
                     this.InitDeadStatus();
                     break;
                 case  STATE_RANGE_ATTACK: 
-                    console.log("RANGE_ED ATK");
                     break;
 
                 // case  STATE_TURN :
@@ -234,7 +235,8 @@ cc.Class({
                     this.MonsterDeadAnimation();
                    
                     break;
-                case  NONE:  console.log("NONE_STATE"); break;
+                case  NONE:
+                    break;
             }
         }
     },
@@ -259,6 +261,8 @@ cc.Class({
      */
     Movement: function(pos, dir){
         
+        console.log("연결 -> "+this.id);
+
         var ani = IDLE_LEFT;
         if(dir == 'right'){
             ani = IDLE_RIGHT;

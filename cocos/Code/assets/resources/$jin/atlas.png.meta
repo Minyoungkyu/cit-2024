@@ -7,8 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
-  "width": 256,
-  "height": 603,
+  "width": 64,
+  "height": 565,
   "platformSettings": {},
   "subMetas": {}
 }

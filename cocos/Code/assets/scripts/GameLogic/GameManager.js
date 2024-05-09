@@ -437,17 +437,17 @@ cc.Class({
              // 3-1-E
              { x: 1, y: 2 },
              { x: -1, y: 1 },
-             { x: -1, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-1-N
              { x: 1, y: 2 },
              { x: -1, y: 1 },
-             { x: -1, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-1-H
              { x: 1, y: 2},
              { x: -1, y: 1 },
-             { x: -1, y: 0 },
+             { x: 0, y: 1 },
  
              // 3-2-E
              { x: 0, y: 2 },
@@ -716,6 +716,7 @@ cc.Class({
             if(this.IsMonsterType(initJson[i].type) ){
                 this.MakeUpMonster(initJson[i]);
                 this.monster_isDead.push(false);
+                console.log(i);
             }
 
         }
@@ -808,20 +809,12 @@ cc.Class({
                     monster.getComponent("Monster").Movement(convertPos, streamjson[i].dir);
                 }
                 else if(streamjson[i].status === -4 || streamjson[i].status === -8){
-
-                    console.log("fuckup");
-                    
                     if(this.monster_isDead[monster_id] == true) continue;
                     this.monster_isDead[monster_id] = true;
                     
                     monster.getComponent("Monster").ShowExplosion();
-
-                }
-                else{
-                    console.log(streamjson[i]);
                 }
             }
-
             monster.getComponent("Monster").UpdateStatus(streamjson[i]);
         }
     },
@@ -1489,6 +1482,7 @@ cc.Class({
             case "variation_switch" : return Env.VARIATION_SWITCH_ON;
             case "door":  return Env.DOOR_ON;
             case "medicine": return Env.MEDICINE;
+            case "box": return Env.BOMB_BOX;
 
             default : return -99;
         }
@@ -1577,6 +1571,7 @@ cc.Class({
             
             case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
             case Env.MEDICINE: prefabName = "medicine"; break;
+            case Env.BOMB_BOX : prefabName = "bomb_box"; break;
         }
 
         
@@ -1809,7 +1804,7 @@ cc.Class({
             this.ShakeEffect();
             this.ShowExplosion(pos);
         }
-        else if( status === 3){
+        else if( status === 3 || status === 37){
             this.ShowPickup(pos);
         }
     },
