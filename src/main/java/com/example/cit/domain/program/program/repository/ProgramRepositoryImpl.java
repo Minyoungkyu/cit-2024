@@ -69,7 +69,7 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
                             .from(school)
                             .join(school.programs, program)
                             .where(program.id.eq(program.id)
-                                    .and(school.name.containsIgnoreCase(kw)))
+                                    .and(school.schoolName.containsIgnoreCase(kw)))
                             .exists()
             );
 
@@ -88,7 +88,7 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
                                     .from(school)
                                     .join(school.programs, program)
                                     .where(program.id.eq(program.id)
-                                            .and(school.name.containsIgnoreCase(kw)))
+                                            .and(school.schoolName.containsIgnoreCase(kw)))
                                     .exists())
             );
         }
