@@ -29,14 +29,11 @@ var Gobject = cc.Class({
 
         this.isStatusChange = true;
 
-        if(TAG === Env.FOOD ){
-            this.node.getChildByName("gliter").getComponent(cc.Animation).play("gliter");
-        }
-        else if(TAG === Env.GOAL){
+        
+        if(TAG === Env.GOAL){
             // console.log("GOAL HI");
             this.node.getComponent(cc.Animation).play("goal");
         }
-
     },
 
     /**
@@ -67,6 +64,7 @@ var Gobject = cc.Class({
         this.laser_direction = direction;
 
         if(direction === 'h'){
+            // Horizontal 경우
             if(isOn){
                 if(TAG === Env.LASER_START_ON){
                     this.ChangeSprite(Env.LASER_START_ON);
@@ -94,6 +92,7 @@ var Gobject = cc.Class({
             }
         }
         else{
+            // Vertical
             if(isOn){
                 if(TAG === Env.LASER_START_ON){
                     this.ChangeSprite(Env.VLASER_START_ON);
@@ -155,9 +154,7 @@ var Gobject = cc.Class({
         }
         else if(this.itemTAG === Env.LASER_SWITCH_ON){
             // 레이저 스위치
-
             SoundManager.getInstance().PlaySfx(Env.SFX_LASER_BUTTON);
-
             this.ChangeSprite(Env.LASER_SWITCH_OFF);
         }
         else if(this.itemTAG === Env.ROCKET_EMPTY){
@@ -183,11 +180,10 @@ var Gobject = cc.Class({
      */
     SetDir: function(dir){
         // is Door
-        if(dir === 'h'){
+        if(dir == "h"){
             this.ChangeSprite(Env.DOOR_ON);
-
         }
-        else if(dir === 'v'){
+        else if(dir == "v"){
             this.ChangeSprite(Env.DOOR_OFF);
         }
     },
@@ -205,9 +201,11 @@ var Gobject = cc.Class({
         if(this.itemTAG === Env.LASER_START_ON ){
             // 레이저 시작점.
             if(this.laser_direction === 'h'){
+                // Horizontal
                 this.ChangeSprite(Env.LASER_START_ON);
             }
             else{
+                // vertical
                 this.ChangeSprite(Env.VLASER_START_ON);
             }
 
@@ -215,13 +213,28 @@ var Gobject = cc.Class({
         else if(this.itemTAG === Env.LASER_END_ON){
             // 레이저 끝점
             if(this.laser_direction === 'h'){
+                // horizontal
                 this.ChangeSprite(Env.LASER_END_ON);
             }
             else{
                 this.node.active = true;
+                // vertial
                 this.ChangeSprite(Env.VLASER_MIDDLE_ON);
             }
 
+        }
+        else if(this.itemTAG === Env.LASER_MIDDLE_ON){
+            // 혹여나 들어오면 확인..
+            console.log("Laser 들어옴");
+            this.node.active = true;
+            if(this.laser_direction === 'h'){
+                // horizontal
+                this.ChangeSprite(Env.LASER_MIDDLE_ON);
+            }
+            else{
+                // Vertial
+                this.ChangeSprite(Env.VLASER_MIDDLE_ON);
+            }
         }
         else if(this.itemTAG === Env.LASER_SWITCH_ON){
             // 레이저 스위치

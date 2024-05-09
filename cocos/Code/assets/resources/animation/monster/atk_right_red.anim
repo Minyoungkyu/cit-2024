@@ -3,7 +3,7 @@
   "_name": "atk_right_red",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.35,
+  "_duration": 0.43333333333333335,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -18,7 +18,7 @@
             }
           },
           {
-            "frame": 0.08333333333333333,
+            "frame": 0.016666666666666666,
             "value": {
               "__uuid__": "38bb4736-5235-47b8-a6a6-73428dd8550d"
             }
@@ -30,18 +30,38 @@
             }
           },
           {
-            "frame": 0.25,
+            "frame": 0.38333333333333336,
             "value": {
               "__uuid__": "8eeeba22-b6d3-4aff-8a2c-72f32a5b5e37"
             }
           },
           {
-            "frame": 0.3333333333333333,
+            "frame": 0.4,
             "value": {
               "__uuid__": "a8ee1b05-75a0-4769-b429-300a22fc4a8e"
             }
+          },
+          {
+            "frame": 0.4166666666666667,
+            "value": {
+              "__uuid__": "e6fc4be4-ac93-4775-9ca4-2250df1f0931"
+            }
           }
         ]
+      }
+    },
+    "paths": {
+      "effect": {
+        "props": {
+          "active": [],
+          "x": [],
+          "y": []
+        },
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": []
+          }
+        }
       }
     }
   },

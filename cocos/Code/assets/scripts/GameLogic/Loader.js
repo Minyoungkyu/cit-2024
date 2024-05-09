@@ -51,8 +51,8 @@
                 Env.ROCKET_EMPTY_FILE_NAME,
                 Env.ROCKET_FILLED_FILE_NAME,
                 Env.L_START_ON_FILE_NAME,
-
                 Env.L_MIDDLE_FILE_NAME,
+                
                 Env.L_END_ON_FILE_NAME,
                 Env.L_START_OFF_FILE_NAME,
                 Env.L_END_OFF_FILE_NAME,
@@ -65,7 +65,8 @@
                 Env.DOOR_OFF_FILE,
                 Env.VARIATION_SWITCH_ON_FILE,
                 Env.VARIATION_SWITCH_OFF_FILE,
-
+                Env.MEDICINE_FILE,
+                Env.BOMB_BOX_FILE,
             ];
 
             for (let i = 0; i < imgArray.length; i++) {

@@ -109,8 +109,11 @@ cc.Class({
         isRunningDetector: false,
         // Messagedetetor ID
         mdID: null,
+
+        healParticle: cc.ParticleSystem,
     
 
+        deadIntevalID: null,
     },
 
     ctor() {
@@ -121,8 +124,6 @@ cc.Class({
             ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w", "", "", "", "", "", ""],
             ["left_idle", "right_idle", "idle_back", "idle_front", "leftRun", "rightRun", "upRun", "downRun", "hit_left", "hit_right", "attack_left", "attack_right", "jump_left", "jump_right", "jump_up", "jump_down"]
         ];
-
-
 
 
     },
@@ -236,6 +237,7 @@ cc.Class({
 
         var isPlaying = false;
         if(this.playerStatusInfo  < 2){
+            clearInterval(this.deadIntevalID);
             this.PlayerInitAnimation();
         }
 
@@ -381,10 +383,15 @@ cc.Class({
      * 플레이어 정보를 초기화 하는 함수입니다.
      */
     playerInit : function(){
+
+        
+        healParticle.loop = false;
+
         this.node.setPosition(this.initPosition);
         this.direction = Env.DIRECTION_RIGHT;
         this.changeSpriteDirection();
     },
+
 
     /**
      * 플레이어 바라보고 있는 방향을 설정합니다.
@@ -437,10 +444,10 @@ cc.Class({
                 // 추가엔진
                 this.ShowMessage("추가 엔진 장착!");
                 break;
-            case 19:
-                // 출력처리
-                this.ShowPrintingBubble();
-                break;
+            // case 19:
+            //     // 출력처리
+            //     this.ShowPrintingBubble();
+            //     break;
             
             case 22:
                 this.ShowMessage("점프하기엔 위험해");
@@ -458,6 +465,7 @@ cc.Class({
                     break;
             case 24:
                 this.ShowMessage("살것같아!");
+                this.healParticle.resetSystem();
                     break;
             case 27:
                 this.ShowMessage("list가 비어있는데?");
@@ -512,16 +520,16 @@ cc.Class({
 
         /// TODO 3-1-{}-1 스테이지 몬스터 print는 따로 예외 처리가 필요함.
 
-        var currentID = Controller.getInstance().getCurrentCommandID();
-        var item_list = Controller.getInstance().getStreamItemList(currentID).item_list;
-        var print_array =  item_list[0].print_array;
+        // var currentID = Controller.getInstance().getCurrentCommandID();
+        // var item_list = Controller.getInstance().getStreamItemList(currentID).item_list;
+        // var print_array =  item_list[0].print_array;
 
-        var print_data = '';
-        for(var i = 0; i < print_array.length; i++){
-            print_data += ( print_array[i] + " ");
-        }
-        var convert = print_data.toString();
-        this.PrintMessage(convert);
+        // var print_data = '';
+        // for(var i = 0; i < print_array.length; i++){
+        //     print_data += ( print_array[i] + " ");
+        // }
+        // var convert = print_data.toString();
+        this.PrintMessage('암호입력');
     },
 
     /**
@@ -615,8 +623,12 @@ cc.Class({
      */
     PlayerInitAnimation: function(){
         if(this.playerIsDead === false) return;
+       
+
         this.playerIsDead = false;
         this.node.opacity = 255;
+
+        
 
     },
 
@@ -635,11 +647,11 @@ cc.Class({
         // } else {
         //     animationClip.play(Env.ANIMATION_RIGHT_HIT);
         // }
-        var pInterval = setInterval(function(e){
+        self.deadIntevalID = setInterval(function(e){
             if(self.node.opacity < 1){
-                clearInterval(pInterval);
+                clearInterval(self.deadIntevalID);
             }
-            self.node.opacity -= 10;
+            self.node.opacity -= 20;
         }, 20);
     },
 

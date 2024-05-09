@@ -3,7 +3,7 @@
   "_name": "r_atk_left_yel",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.31666666666666665,
+  "_duration": 0.35,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -18,37 +18,37 @@
             }
           },
           {
-            "frame": 0.05,
+            "frame": 0.016666666666666666,
             "value": {
               "__uuid__": "8bf90e69-1041-43ae-a5e2-2f66aebdf3a1"
             }
           },
           {
-            "frame": 0.1,
+            "frame": 0.03333333333333333,
             "value": {
               "__uuid__": "664498fa-dbc6-49a0-9e1d-7ee7f06195dd"
             }
           },
           {
-            "frame": 0.15,
+            "frame": 0.16666666666666666,
             "value": {
               "__uuid__": "73bdbfe2-6e4c-44a4-b711-7d74639c19fa"
             }
           },
           {
-            "frame": 0.2,
+            "frame": 0.3,
             "value": {
               "__uuid__": "ace4d624-9ec1-4a68-9a06-d65f0bde45f5"
             }
           },
           {
-            "frame": 0.25,
+            "frame": 0.31666666666666665,
             "value": {
               "__uuid__": "6ce4fc91-b572-4089-8a54-39eced77a04c"
             }
           },
           {
-            "frame": 0.3,
+            "frame": 0.3333333333333333,
             "value": {
               "__uuid__": "1b4f572d-fbee-463e-83f0-6f22516e7aaf"
             }
