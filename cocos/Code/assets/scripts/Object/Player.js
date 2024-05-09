@@ -306,6 +306,16 @@ cc.Class({
                 // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
             }
         }
+        else if(this.playerStatusInfo === 33){
+            if(this.direction === Env.DIRECTION_LEFT){
+                // idle_left 애니메이션 적용 예정
+                this.setPlayerAnimation(ATK_LEFT);
+            }
+            else if(this.direction === Env.DIRECTION_RIGHT){
+                // idle_right 애니메이션 적용 예정
+                this.setPlayerAnimation(ATK_RIGHT);
+            }
+        }
         else{
             if(this.playerStatusInfo !== 9){
                 // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
