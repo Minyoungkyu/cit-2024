@@ -690,6 +690,16 @@ cc.Class({
         return v2;
     },
 
+
+    /**
+     * 보스 만드는곳.
+     */
+    InitBoss: function(){
+
+    },
+
+
+
     /**
      * 몬스터 최초 생성해주고, Init 처리하는 함수. 
      * 
@@ -762,6 +772,12 @@ cc.Class({
             self.node.addChild(n1);
     
         });
+    },
+
+    IsBoss: function(type){
+        if(type === 'boss')return true;
+
+        return false;
     },
 
 
@@ -1784,9 +1800,18 @@ cc.Class({
         var convertPos = this.GVector(command.player.pos[0], command.player.pos[1]);
         this.EffectControl(playerStatus, convertPos);
 
-        this.player.getComponent("Player").setPlayerStatus(playerStatus);
-        this.player.getComponent("Player").setDirection(command.player.dir);
-        this.player.getComponent("Player").Movement(convertPos);
+
+      
+        var hit_stauts = command.player.hit_status;
+        if(hit_stauts == 1 && command.player.hp > 1){
+            this.player.getComponent("Player").SetHitStatus();
+        }
+        else{
+            this.player.getComponent("Player").setPlayerStatus(playerStatus);
+            this.player.getComponent("Player").setDirection(command.player.dir);
+            this.player.getComponent("Player").Movement(convertPos);
+        }
+
         return true;
     },
 

@@ -75,8 +75,6 @@ cc.Class({
 
         maxHP: 0,
 
-        isInitial: false,
-
     },
 
     start(){
@@ -84,7 +82,6 @@ cc.Class({
             ['idle_left_red', 'idle_right_red', 'hit_left_red', 'hit_right_red', 'atk_left_red', 'atk_right_red','r_atk_left_red', 'r_atk_right_red'],
             ['idle_left_yel', 'idle_right_yel', 'hit_left_yel', 'hit_right_yel', 'atk_left_yel', 'atk_right_yel','r_atk_left_yel', 'r_atk_right_yel']
         ];
-
     },
 
     /**
@@ -96,11 +93,10 @@ cc.Class({
     },
 
     InitMonster: function(json, init_pos){
-
         this.init_position = init_pos;
         this.id = json.id;
-
         this.init_json_data = json;
+
         if(json.type === 'aggressive_monster_2'){
             this._SetMonsterAnimation(0,IDLE_LEFT);
             this.monster_number = MONSTER_RED;
@@ -108,9 +104,14 @@ cc.Class({
             this.monster_type = AGGREE_2;
 
 
-            this.monsterNameTack.active = true;
-            this.nameLabel.string = json.name;
+            if(json.is_name_open == 1){
+                this.monsterNameTack.active = true;
+            }
+            else{
+                this.monsterNameTack.active = false;
+            }
 
+            this.nameLabel.string = json.name;
             this.maxHP = json.hp;
 
         }
@@ -152,6 +153,11 @@ cc.Class({
 
             var sub_status = status.status;
             switch(sub_status){
+
+                case NONE: 
+                this.InitDeadStatus();
+                    break;
+
                 case STATE_IDLE:
                     this.node.opacity = 255;
                     var ani = IDLE_LEFT;
@@ -159,13 +165,18 @@ cc.Class({
                         ani = IDLE_RIGHT;
                     }
                     this._SetMonsterAnimation(this.monster_number, ani ) ;
-                    this.InitDeadStatus();
+                 
                     break;
                 
 
                 case STATE_ATTACK:
-                    if(this.monster_type == AGGREE_1){
 
+                    if(this.monster_type == AGGREE_1){
+                        console.log("ATK_AGG_1");
+
+                       
+                    }
+                    else if(this.monster_type === AGGREE_2){
                         var ani = RANGE_ATK_LEFT;
 
                         if(status.dir === 'right'){
@@ -173,6 +184,7 @@ cc.Class({
                         }
                         this._SetMonsterAnimation(this.monster_number, ani);
                     }
+                    
                 break;
 
                 case STATE_WAIT:
@@ -191,6 +203,10 @@ cc.Class({
         else{
             switch(status){
 
+                case NONE: 
+                    this.InitDeadStatus();
+                    break;
+
                 case STATE_RANGE_ATTACK:
                     var ani = RANGE_ATK_LEFT;
                     if(this.direction === DIR_RIGHT){
@@ -206,8 +222,6 @@ cc.Class({
                         ani = IDLE_RIGHT;
                     }
                     this._SetMonsterAnimation(this.monster_number, ani ) ;
-                    this.InitDeadStatus();
-
                      break;
                 case STATE_PRINTING :
                     var ani = HIT_LEFT;
@@ -219,9 +233,7 @@ cc.Class({
                 case STATE_PRINT_ERROR :
                     console.log("PRINT_ERROR");
                     break;
-                case  STATE_MOVE : break;
                 case  STATE_ATTACK: case STATE_ATTACK_MELLE:
-
                     if(this.monster_type == PASSIVE ){
                         var ani = ATK_RIGHT;
                         if(this.direction === DIR_RIGHT){
@@ -243,16 +255,17 @@ cc.Class({
                         }
                         this._SetMonsterAnimation(this.monster_number, ani) ;
                     }
+
                      break;
-                // case STATE_WAIT:
-                //     this.Movement(this.init_position);
-                //     var ani = IDLE_LEFT;
-                //     if(this.direction === DIR_RIGHT){
-                //         ani = IDLE_RIGHT;
-                //     }
-                //     this._SetMonsterAnimation(this.monster_number, ani ) ;
-                //     this.InitDeadStatus();
-                //     break;
+                case STATE_WAIT:
+                    // this.Movement(this.init_position);
+                    var ani = IDLE_LEFT;
+                    if(this.direction === DIR_RIGHT){
+                        ani = IDLE_RIGHT;
+                    }
+                    this._SetMonsterAnimation(this.monster_number, ani ) ;
+                    // this.InitDeadStatus();
+                    break;
                 case  STATE_RANGE_ATTACK: 
                     break;
 
@@ -266,7 +279,6 @@ cc.Class({
                 case  STATE_DEAD: 
                     if(this.IsDeadMonster()) break;
                     this.MonsterDeadAnimation();
-                    this.isInitial = false;
                     break;
                 case  NONE:
                     break;
@@ -275,10 +287,6 @@ cc.Class({
     },
 
     InitDeadStatus: function(){
-
-        if(this.isInitial) return;
-        this.isInitial = true;
-
         this.isDead = false;
         this.node.opacity = 255;
 
@@ -286,12 +294,20 @@ cc.Class({
         clearInterval( this.timout);
 
         console.log("INIT");
-
+        this.Movement(this.init_position, this.direction);
         if(this.monster_type === AGGREE_2){
-            this.monsterNameTack.active = true;
+
+            if(this.init_json_data.is_name_open === 1){
+                this.monsterNameTack.active = true;
+            }
+            else{
+                this.monsterNameTack.active = false;
+            }
             this._InitHP();
+
         }
         else{
+            this.hpBar.active = false;
             this.monsterNameTack.active = false;
         }
     },

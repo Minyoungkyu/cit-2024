@@ -411,6 +411,17 @@ cc.Class({
         this.direction = dir;
     },
 
+
+    SetHitStatus: function(){
+        if (this.direction === Env.DIRECTION_LEFT) {
+            this.setPlayerAnimation(HIT_LEFT);
+        }
+        else {
+            this.setPlayerAnimation(HIT_RIGHT);
+        }
+    },
+
+
     /**
      * 플레이어 상태값을 입력받아
      * 말풍선, 죽음, 플레이어상태 표현 출력
@@ -419,11 +430,11 @@ cc.Class({
     setPlayerStatus: function(status){
 
         this.playerStatusInfo = status;
+
+
         if(this.playerStatusInfo < 2 ) return;
 
-
-        
-
+        console.log(this.playerStatusInfo);
 
         switch (status) {
             case 9:
@@ -433,6 +444,16 @@ cc.Class({
             case 10:
                 // 해당방향으로 이동하지못함.
                 this.ShowMessage("이 방향으로 이동할수 없어!");
+                break;
+
+            case 11:
+                // 피격중인 상태
+                if (this.direction === Env.DIRECTION_LEFT) {
+                    this.setPlayerAnimation(HIT_LEFT);
+                }
+                else {
+                    this.setPlayerAnimation(HIT_RIGHT);
+                }
                 break;
             case 13:
                 // Set 명령어 시도중 방향이 다를경우
