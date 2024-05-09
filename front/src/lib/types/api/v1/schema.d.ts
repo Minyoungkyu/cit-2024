@@ -9,7 +9,7 @@ export interface paths {
     /** 별명등록, 초회 이벤트 별명등록 */
     put: operations["setName"];
   };
-  "/api/v1/members/{id}/modify": {
+  "/api/v1/members/modify": {
     /** 관리자정보 수정 */
     put: operations["modify"];
   };
@@ -57,6 +57,10 @@ export interface paths {
     /** 플레이어 인벤토리 조회 */
     get: operations["test"];
   };
+  "/api/v1/programs": {
+    /** 사업 조회 */
+    get: operations["getPrograms"];
+  };
   "/api/v1/profileInventory/myInventory": {
     /** 플레이어 인벤토리 조회 */
     get: operations["getMyInventory"];
@@ -80,6 +84,10 @@ export interface paths {
   "/api/v1/members/me": {
     /** 내 정보 */
     get: operations["getMe"];
+  };
+  "/api/v1/members/adm/me": {
+    /** 관리자 마이페이지 */
+    get: operations["getAdminMe"];
   };
   "/api/v1/item/items": {
     /** 전체 아이템 목록 조회 */
@@ -142,10 +150,12 @@ export interface components {
       item: components["schemas"]["PlayerDto"];
     };
     ModifyRequestBody: {
-      oldPassword: string;
-      newPassword: string;
-      nickname: string;
+      newPassword?: string;
+      realName: string;
       cellphoneNo: string;
+      department: string;
+      position: string;
+      extensionNo: string;
     };
     MemberDto: {
       /** Format: int64 */
@@ -371,6 +381,42 @@ export interface components {
       /** Format: int64 */
       id: number;
     };
+    GetProgramsResponseBody: {
+      itemPage: components["schemas"]["PageDtoProgramDto"];
+    };
+    PageDtoProgramDto: {
+      /** Format: int64 */
+      totalElementsCount: number;
+      /** Format: int64 */
+      pageElementsCount: number;
+      /** Format: int64 */
+      totalPagesCount: number;
+      /** Format: int32 */
+      number: number;
+      content: components["schemas"]["ProgramDto"][];
+    };
+    ProgramDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      name: string;
+      /** Format: date */
+      startDate: string;
+      /** Format: date */
+      endDate: string;
+      city: string;
+      administrativeDistrict: string;
+    };
+    RsDataGetProgramsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetProgramsResponseBody"];
+    };
     MyProfileInventoryResponseBody: {
       profileInventoryDtoList: components["schemas"]["ProfileInventoryDto"][];
     };
@@ -450,6 +496,32 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["MeResponseBody"];
+    };
+    AdminMeResponseBody: {
+      item: components["schemas"]["MemberProgramAdmDto"];
+    };
+    MemberProgramAdmDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      username: string;
+      name: string;
+      cellphoneNo: string;
+      authorities: string[];
+      department: string;
+      position: string;
+      extensionNo: string;
+      responsibilities: components["schemas"]["ProgramDto"][];
+    };
+    RsDataAdminMeResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["AdminMeResponseBody"];
     };
     ItemsResponseBody: {
       itemDtoList: components["schemas"]["ItemDto"][];
@@ -551,11 +623,6 @@ export interface operations {
   };
   /** 관리자정보 수정 */
   modify: {
-    parameters: {
-      path: {
-        id: number;
-      };
-    };
     requestBody: {
       content: {
         "application/json": components["schemas"]["ModifyRequestBody"];
@@ -806,6 +873,30 @@ export interface operations {
       };
     };
   };
+  /** 사업 조회 */
+  getPrograms: {
+    parameters: {
+      query: {
+        page: number;
+        kw: string;
+        kwType: "ALL" | "TITLE" | "REGION" | "INCHARGENAME" | "AGENCY";
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetProgramsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 플레이어 인벤토리 조회 */
   getMyInventory: {
     responses: {
@@ -908,6 +999,23 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataMeResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 관리자 마이페이지 */
+  getAdminMe: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataAdminMeResponseBody"];
         };
       };
       /** @description Bad Request */

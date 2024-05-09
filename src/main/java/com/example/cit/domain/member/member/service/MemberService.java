@@ -1,12 +1,13 @@
 package com.example.cit.domain.member.member.service;
 
-import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
-import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
-import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.service.PlayerLogService;
+import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.repository.MemberRepository;
 import com.example.cit.domain.player.player.entity.Player;
+import com.example.cit.domain.program.program.dto.ProgramDto;
+import com.example.cit.domain.program.program.entity.Program;
+import com.example.cit.domain.program.program.service.ProgramService;
 import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.global.security.SecurityUser;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +31,38 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final AuthTokenService authTokenService;
     private final PlayerLogService playerLogService;
+    private final ProgramService programService;
 
     @Transactional
-    public RsData<Member> join(String username, String password, String name, String cellphoneNo, int roleLevel) {
+    public RsData<Member> join(String username, String password, int roleLevel) {
+        if (findByUsername(username).isPresent()) {
+            return RsData.of("400-2", "이미 존재하는 회원입니다.");
+        }
+
+        Member member = Member.builder()
+                .username(username)
+                .password(encodePasswordForAdmin(roleLevel, password))
+                .refreshToken(authTokenService.genRefreshToken())
+                .roleLevel(roleLevel)
+                .build();
+        memberRepository.save(member);
+
+        member.setPlayer(
+                Player
+                        .builder()
+                        .member(member)
+                        .nickname("")
+                        .exp(0)
+                        .gems(0)
+                        .build()
+        );
+
+        playerLogService.setFirstGame(member);
+
+        return RsData.of("회원가입이 완료되었습니다.".formatted(member.getUsername()), member);
+    }
+    @Transactional
+    public RsData<Member> join(String username, String password, String name, String cellphoneNo, int roleLevel, String department, String position, String extensionNo) {
         if (findByUsername(username).isPresent()) {
             return RsData.of("400-2", "이미 존재하는 회원입니다.");
         }
@@ -43,6 +74,9 @@ public class MemberService {
                 .name(name)
                 .cellphoneNo(cellphoneNo)
                 .roleLevel(roleLevel)
+                .department(department)
+                .position(position)
+                .extensionNo(extensionNo)
                 .build();
         memberRepository.save(member);
 
@@ -98,18 +132,20 @@ public class MemberService {
 //    }
 
     @Transactional
-    public RsData<Member> modify(long id, String oldPassword, String newPassword, String name, String cellphoneNo) {
+    public RsData<Member> modify(long id, String password, String name, String cellphoneNo, String department, String position, String extensionNo) {
         return memberRepository.findById(id)
                 .map(member -> {
-                    if(!passwordMatches(member, oldPassword)) {
-                        throw new GlobalException("400-2", "비밀번호가 일치하지 않습니다.");
+                    if (password != null && !password.isEmpty()) {
+                        member.setPassword(passwordEncoder.encode(password));
                     }
-                    member.setPassword(passwordEncoder.encode(newPassword));
                     member.setName(name);
                     member.setCellphoneNo(cellphoneNo);
+                    member.setDepartment(department);
+                    member.setPosition(position);
+                    member.setExtensionNo(extensionNo);
                     return member;
                 })
-                .map(member -> RsData.of("회원정보가 수정되었습니다.", member))
+                .map(member -> RsData.of("회원정보가 저장되었습니다.", member))
                 .orElseThrow(() -> new GlobalException("400-1", "해당 유저가 존재하지 않습니다."));
     }
 
@@ -125,12 +161,19 @@ public class MemberService {
         return member;
     }
 
+    public MemberProgramAdmDto makeProgramAdmDto(Member member) {
+        List<ProgramDto> programDtoList = programService.getPrograms(member).stream()
+                .map(ProgramDto::new)
+                .toList();
+
+        return new MemberProgramAdmDto(member, programDtoList);
+    }
+
     public record AuthAndMakeTokensResponseBody(
             @NonNull Member member,
             @NonNull String accessToken,
             @NonNull String refreshToken
-    ) {
-    }
+    ) {}
 
     @Transactional
     public RsData<AuthAndMakeTokensResponseBody> memberLogin(String username, String password) {

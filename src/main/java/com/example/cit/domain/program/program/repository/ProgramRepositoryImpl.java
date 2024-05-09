@@ -1,0 +1,117 @@
+package com.example.cit.domain.program.program.repository;
+
+import com.example.cit.domain.member.member.entity.QMember;
+import com.example.cit.domain.program.program.entity.Program;
+import com.example.cit.domain.school.school.entity.QSchool;
+import com.example.cit.standard.base.KwTypeV1;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.support.PageableExecutionUtils;
+
+import static com.example.cit.domain.program.program.entity.QProgram.program;
+
+@RequiredArgsConstructor
+public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
+    private final JPAQueryFactory jpaQueryFactory;
+    private final EntityManager entityManager;
+    @Override
+    public Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (kw != null && !kw.isBlank()) {
+            applyKeywordFilter(kwType, kw, builder);
+        }
+
+        JPAQuery<Program> programQuery = createProgramQuery(builder);
+        applySorting(pageable, programQuery);
+
+        programQuery.offset(pageable.getOffset()).limit(pageable.getPageSize());
+
+        JPAQuery<Long> totalQuery = createTotalQuery(builder);
+
+        return PageableExecutionUtils.getPage(programQuery.fetch(), pageable, totalQuery::fetchOne);
+    }
+
+    private void applyKeywordFilter(KwTypeV1 kwType, String kw, BooleanBuilder builder) {
+        QMember member = QMember.member;
+        QSchool school = QSchool.school;
+
+        switch (kwType) {
+            case TITLE -> builder.and(program.name.containsIgnoreCase(kw));
+
+            case REGION -> builder.and(
+                    program.city.containsIgnoreCase(kw)
+                            .or(program.administrativeDistrict.containsIgnoreCase(kw))
+            );
+
+            case INCHARGENAME -> builder.and(
+                    JPAExpressions
+                            .selectOne()
+                            .from(member)
+                            .where(member.programs.any().id.eq(program.id)
+                                    .and(member.name.containsIgnoreCase(kw)))
+                            .exists()
+            );
+
+            case AGENCY -> builder.and(
+                    JPAExpressions
+                            .selectOne()
+                            .from(school)
+                            .join(school.programs, program)
+                            .where(program.id.eq(program.id)
+                                    .and(school.name.containsIgnoreCase(kw)))
+                            .exists()
+            );
+
+            default -> builder.and(
+                    program.name.containsIgnoreCase(kw)
+                            .or(program.city.containsIgnoreCase(kw))
+                            .or(program.administrativeDistrict.containsIgnoreCase(kw))
+                            .or(JPAExpressions
+                                    .selectOne()
+                                    .from(member)
+                                    .where(member.programs.any().id.eq(program.id)
+                                            .and(member.name.containsIgnoreCase(kw)))
+                                    .exists())
+                            .or(JPAExpressions
+                                    .selectOne()
+                                    .from(school)
+                                    .join(school.programs, program)
+                                    .where(program.id.eq(program.id)
+                                            .and(school.name.containsIgnoreCase(kw)))
+                                    .exists())
+            );
+        }
+    }
+
+    private JPAQuery<Program> createProgramQuery(BooleanBuilder builder) {
+        return jpaQueryFactory
+                .select(program)
+                .from(program)
+                .where(builder);
+    }
+
+    private void applySorting(Pageable pageable, JPAQuery<Program> postsQuery) {
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(program.getType(), program.getMetadata());
+            postsQuery.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, pathBuilder.get(o.getProperty())));
+        }
+    }
+
+    private JPAQuery<Long> createTotalQuery(BooleanBuilder builder) {
+        return jpaQueryFactory
+                .select(program.count())
+                .from(program)
+                .where(builder);
+    }
+}

@@ -1,5 +1,6 @@
 
 <script lang="ts">
+	import { goto } from '$app/navigation';
     import rq from '$lib/rq/rq.svelte';
 
     let passwordVisible = false;
@@ -38,7 +39,7 @@
         if(error) rq.msgError(error.msg);
         else if(data) {
             rq.verifiedPassword = true;
-            rq.msgAndRedirect(data, undefined, '/adm/menu/my')
+            goto('/adm/menu/my')
         }
     }
 </script>
@@ -49,13 +50,13 @@
     <form method="post" on:submit|preventDefault={submitCheckPasswordForm}>
         <div class="form-control relative flex items-center mt-12">
             {#if passwordVisible}
-            <input  class="input input-bordered pr-12 w-[40vh] h-14" 
+            <input  class="input input-bordered pr-12 w-[370px] h-14" 
                     type="text" name="password"
                     bind:value={password} 
                     on:focus={() => labelMove = true} 
                     on:blur={() => labelMove = password.length > 0} />
             {:else}
-            <input class="input input-bordered pr-12 w-[40vh] h-14" 
+            <input class="input input-bordered pr-12 w-[370px] h-14" 
                     type="password" name="password"
                     bind:value={password} 
                     on:focus={() => labelMove = true} 

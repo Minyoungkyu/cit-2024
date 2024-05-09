@@ -12,13 +12,13 @@
     }
 </script>
 
-<ul class="menu sideMenuContainer bg-gray-800 text-gray-200 min-w-[170px] w-[14vw] shadow-md h-screen relative flex flex-col p-0">
+<ul class="menu sideMenuContainer bg-gray-800 text-gray-200 min-w-[170px] w-[270px] shadow-md h-screen relative p-0 overflow-hidden">
     <li class="text-3xl font-bold mt-4 mb-[6vh]"><a href="/adm/menu">관리자 페이지</a></li>
     {#each menuItems as { label, path }}
-        <li class="{isActive(path) ? 'active' : ''} sideMenuContent text-base"><a href="{path}">{label}</a></li>
+        <li class="{isActive(path) ? 'active' : ''} sideMenuContent text-base w-[230px]"><a href="{path}">{label}</a></li>
     {/each}
     {#if rq.isSuperAdmin()}
-        <li class="{isActive('/adm/me') ? 'active' : ''} sideMenuContent active"><a href="#">마이 페이지</a></li>
+        <li class="{isActive('/adm/me') ? 'active' : ''} sideMenuContent active w-[270px]"><a href="#">마이 페이지</a></li>
     {/if}
 </ul>
 

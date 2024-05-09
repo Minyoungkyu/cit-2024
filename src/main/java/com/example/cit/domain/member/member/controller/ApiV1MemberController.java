@@ -1,9 +1,9 @@
 package com.example.cit.domain.member.member.controller;
 
+import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
 import com.example.cit.domain.member.member.dto.MemberDto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.MemberService;
-import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
@@ -87,8 +87,7 @@ public class ApiV1MemberController {
         );
     }
 
-    public record MeResponseBody(@NonNull MemberDto item) {
-    }
+    public record MeResponseBody(@NonNull MemberDto item) {}
 
     @GetMapping(value = "/me", consumes = ALL_VALUE)
     @Operation(summary = "내 정보")
@@ -97,6 +96,20 @@ public class ApiV1MemberController {
         return RsData.of(
                 new MeResponseBody(
                         new MemberDto(rq.getMember())
+                )
+        );
+    }
+
+    public record AdminMeResponseBody(@NonNull MemberProgramAdmDto item) {}
+
+    @GetMapping(value = "/adm/me", consumes = ALL_VALUE)
+    @Operation(summary = "관리자 마이페이지")
+    @PreAuthorize("hasRole('CLASSADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<AdminMeResponseBody> getAdminMe() {
+        return RsData.of(
+                new AdminMeResponseBody(
+                        memberService.makeProgramAdmDto(rq.getMember())
                 )
         );
     }
@@ -121,23 +134,26 @@ public class ApiV1MemberController {
         return RsData.of("로그아웃 성공");
     }
 
-    public record ModifyRequestBody(@NotBlank String oldPassword, @NotBlank String newPassword, @NotBlank String nickname, @NotBlank String cellphoneNo) {}
+    public record ModifyRequestBody(String newPassword,
+                                    @NotBlank String realName, @NotBlank String cellphoneNo, @NotBlank String department,
+                                    @NotBlank String position, @NotBlank String extensionNo) {}
     public record ModifyResponseBody(@NonNull MemberDto item) {}
 
-    @PutMapping("/{id}/modify")
+    @PutMapping("/modify")
     @Operation(summary = "관리자정보 수정")
     @PreAuthorize("hasRole('CLASSADMIN')")
     @Transactional
     public RsData<ModifyResponseBody> modify(
-            @PathVariable("id") long id,
             @Valid @RequestBody ModifyRequestBody body
     ) {
         RsData<Member> modifyRs = memberService.modify(
-                id,
-                body.oldPassword,
+                rq.getMember().getId(),
                 body.newPassword,
-                body.nickname,
-                body.cellphoneNo
+                body.realName,
+                body.cellphoneNo,
+                body.department,
+                body.position,
+                body.extensionNo
         );
 
         return modifyRs.newDataOf(

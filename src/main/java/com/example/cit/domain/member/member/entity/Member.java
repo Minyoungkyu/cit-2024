@@ -32,6 +32,9 @@ public class Member extends BaseTime {
     private String refreshToken;
     private String name;
     private String cellphoneNo;
+    private String department;
+    private String position;
+    private String extensionNo;
 
     private int roleLevel; // 권한 레벨
 

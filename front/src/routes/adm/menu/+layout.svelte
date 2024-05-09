@@ -20,7 +20,6 @@
             } else {
                 isMobile = false;
             }
-            console.log(isMobile)
         }
 
         query.addListener(checkMatch);
@@ -37,12 +36,12 @@
     });
 </script>
 
-<div class="flex flex-row">
+<div class="flex flex-row adm-area">
     {#if !isMobile}
         <SideMenu />
     {/if}
-    <div class="flex flex-col items-center justify-center w-screen h-screen">
-        <div class="flex flex-row {isMobile ? 'justify-between' : 'justify-end'} items-center pr-4 gap-4 bg-gray-800 text-gray-200 w-full h-[8vh]">
+    <div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-800">
+        <div class="flex flex-row {isMobile ? 'justify-between' : 'justify-end'} items-center pr-4 gap-4 bg-gray-800 text-gray-200 w-full h-[80px]">
             <div class="{isMobile ? '' : 'hidden'}">
                 <MobileSideMenu />
             </div>
@@ -51,10 +50,8 @@
                 <div class="top-content cursor-pointer">로그아웃</div>
             </div>
         </div>
-        <div class="w-full h-full contentBody bg-gray-800 overflow-y-auto">
-            <div class="flex justify-center items-center h-full border-2 bg-white {isMobile ? '' : 'rounded-l-xl'} z-99">
-                <slot></slot>
-            </div>
+        <div class="w-full h-full contentBody bg-gray-800 flex flex-col items-center bg-white {isMobile ? '' : 'rounded-l-xl'} overflow-auto pt-20">
+            <slot></slot>
         </div>
     </div>
 </div>

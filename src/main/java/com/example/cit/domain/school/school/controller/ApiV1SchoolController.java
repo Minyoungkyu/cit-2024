@@ -28,7 +28,18 @@ public class ApiV1SchoolController {
 
     private final SchoolService schoolService;
 
-    public record CreateSchoolRequestBody(String name, String location, String phoneNo) {}
+    public record CreateSchoolRequestBody(
+            String region,
+            String administrativeDistrict,
+            String schoolLevel,
+            String highSchoolType,
+            String schoolName,
+            String establishmentType,
+            String coeducationType,
+            String areaType,
+            String address,
+            String phoneNumber
+    ) {}
 
     public record CreateSchoolResponseBody(SchoolDto schoolDto) {}
 
@@ -38,10 +49,21 @@ public class ApiV1SchoolController {
     @Transactional
     public RsData<CreateSchoolResponseBody> createSchool(@Valid @RequestBody CreateSchoolRequestBody body) {
 
-        School school = schoolService.createSchool(body.name(), body.location(), body.phoneNo());
+        School school = schoolService.createSchool(
+                body.region,
+                body.administrativeDistrict,
+                body.schoolLevel,
+                body.highSchoolType,
+                body.schoolName,
+                body.establishmentType,
+                body.coeducationType,
+                body.areaType,
+                body.address,
+                body.phoneNumber
+        );
 
         return RsData.of(
-                "%s 가 생성되었습니다.".formatted(body.name),
+                "%s 가 생성되었습니다.".formatted(body.schoolName),
                 new CreateSchoolResponseBody(
                         new SchoolDto(school)
                 )

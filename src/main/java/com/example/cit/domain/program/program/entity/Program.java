@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,14 @@ public class Program extends BaseTime {
 
     @NotNull
     private String name;
+    @NotNull
+    private LocalDate startDate;
+    @NotNull
+    private LocalDate endDate;
+    @NotNull
+    private String city;
+    @NotNull
+    private String administrativeDistrict;
 
     @ManyToMany(fetch = LAZY)
     @Builder.Default

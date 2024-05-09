@@ -49,6 +49,7 @@
         }
         });
 
+        if (error) rq.msgError(error.msg);
         if(data) {
             rq.msgAndRedirect(data, undefined, '/adm/menu', () => rq.setLogined(data.data.item))
         }
@@ -57,7 +58,7 @@
 
 
 
-<div class="flex flex-col items-center justify-center p-8 h-screen">
+<div class="flex flex-col items-center justify-center p-8 h-screen adm-area">
     <div class="w-1/4 px-4">
         <h1 class="mb-4">
             <i class="fa-solid fa-arrow-right-to-bracket"></i>

@@ -22,8 +22,14 @@ public class QProgram extends EntityPathBase<Program> {
 
     public final com.example.cit.global.jpa.base.QBaseTime _super = new com.example.cit.global.jpa.base.QBaseTime(this);
 
+    public final StringPath administrativeDistrict = createString("administrativeDistrict");
+
+    public final StringPath city = createString("city");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+
+    public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
 
     //inherited
     public final NumberPath<Long> id = _super.id;
@@ -36,6 +42,8 @@ public class QProgram extends EntityPathBase<Program> {
     public final StringPath name = createString("name");
 
     public final ListPath<com.example.cit.domain.school.school.entity.School, com.example.cit.domain.school.school.entity.QSchool> schools = this.<com.example.cit.domain.school.school.entity.School, com.example.cit.domain.school.school.entity.QSchool>createList("schools", com.example.cit.domain.school.school.entity.School.class, com.example.cit.domain.school.school.entity.QSchool.class, PathInits.DIRECT2);
+
+    public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
 
     public QProgram(String variable) {
         super(Program.class, forVariable(variable));

@@ -145,7 +145,7 @@
             <form class="flex flex-col gap-12" method="POST" on:submit|preventDefault={submitLoginForm}>
                 <div class="flex items-center gap-4">
                   <div class="flex flex-row items-center justify-center gap-4">
-                    <input id="radio1" type="radio" name="roleLevel" value="1" hidden checked=""/>
+                    <input id="radio1" type="radio" name="roleLevel" value="1" hidden checked={true}/>
                     <label for="radio1" class="radio-custom" style=""></label>
                     <div class="w-[58px] h-[58px] text-[25px] text-white font-bold leading-[59px]">학생</div>
                   </div>

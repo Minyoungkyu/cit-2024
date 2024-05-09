@@ -31,6 +31,10 @@ public class QMember extends EntityPathBase<Member> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
+    public final StringPath department = createString("department");
+
+    public final StringPath extensionNo = createString("extensionNo");
+
     //inherited
     public final NumberPath<Long> id = _super.id;
 
@@ -42,6 +46,8 @@ public class QMember extends EntityPathBase<Member> {
     public final StringPath password = createString("password");
 
     public final com.example.cit.domain.player.player.entity.QPlayer player;
+
+    public final StringPath position = createString("position");
 
     public final ListPath<com.example.cit.domain.program.program.entity.Program, com.example.cit.domain.program.program.entity.QProgram> programs = this.<com.example.cit.domain.program.program.entity.Program, com.example.cit.domain.program.program.entity.QProgram>createList("programs", com.example.cit.domain.program.program.entity.Program.class, com.example.cit.domain.program.program.entity.QProgram.class, PathInits.DIRECT2);
 

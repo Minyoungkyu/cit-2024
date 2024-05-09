@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,6 +69,71 @@ public class PlayerLogService {
 
         createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
                 firstGame.getId(), firstGame.getStage(), firstGame.getStep(), firstGame.getDifficulty(), firstGame.getLevel(),
+                "", 0);
+    }
+
+    @Transactional
+    public void batchPlayLogV2(Member member, GameMapDto gameMapDto, String result) {
+        PlayerLog currentGameLog = playerLogRepository.findByUserIdAndGameMapIdAndLogType(member.getId(), gameMapDto.id(), "STAGECLEAR").orElse(null);
+
+        if ( gameMapDto.id() == 2 || gameMapDto.id() == 30 || gameMapDto.id() == 58) {
+            assert currentGameLog != null;
+            currentGameLog.setDetailInt(1);
+            playerLogRepository.save(currentGameLog);
+            makeNextGameLog(member, gameMapDto);
+            
+            // Todo: 보상지급
+            return;
+        }
+
+        if (currentGameLog != null) {
+            if (currentGameLog.getDetailInt() == 1) {
+                return;  // 이미 클리어 했던 게임
+
+            } else if (currentGameLog.getDetailInt() == 0) {
+
+                currentGameLog.setDetailInt(1); // 게임 클리어 처리
+                playerLogRepository.save(currentGameLog);
+                // Todo: 보상지급
+
+                if (gameMapDto.level() != 3) {
+                    makeNextGameLog(member, gameMapDto); // level 3 아니면 다음게임로그 생성
+
+                } else {
+
+                    switch (gameMapDto.difficulty()) {
+                        case "Easy":
+                            makeNextStepGameLog(member, gameMapDto);
+                            makeNextGameLog(member, gameMapDto);
+                            break;
+                        case "Normal":
+                            makeNextGameLog(member, gameMapDto);
+                            break;
+                        case "Hard":
+                            return;
+                    }
+                }
+            }
+        } else {
+            // currentGameLog 가 없는 경우. (있으면 안되는 경우)
+        }
+    }
+
+    private void makeNextGameLog(Member member, GameMapDto gameMapDto) {
+        GameMap nextGame = gameMapService.findGameMapById(gameMapDto.id() + 1).get();
+
+        createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                nextGame.getId(), nextGame.getStage(), nextGame.getStep(), nextGame.getDifficulty(), nextGame.getLevel(),
+                "", 0);
+    }
+
+    private void makeNextStepGameLog(Member member, GameMapDto gameMapDto) {
+        if (gameMapDto.level() == 88) return;
+
+        GameMap nextStepGame = gameMapService.findGameMapById(gameMapDto.id() + 7).get();
+
+        createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                nextStepGame.getId(), nextStepGame.getStage(), nextStepGame.getStep(), nextStepGame.getDifficulty(), nextStepGame.getLevel(),
                 "", 0);
     }
 

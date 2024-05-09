@@ -13,6 +13,8 @@ import com.example.cit.domain.log.log.service.PlayerLogService;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.MemberService;
 import com.example.cit.domain.player.inventroy.service.InventoryService;
+import com.example.cit.domain.program.program.entity.Program;
+import com.example.cit.domain.program.program.service.ProgramService;
 import com.example.cit.global.app.AppConfig;
 import com.example.cit.standard.util.Ut;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 
+import java.time.LocalDate;
 import java.util.List;
 
 //@Profile("dev")
@@ -38,6 +41,7 @@ public class Dev {
     private final RequirePartsService requirePartsService;
     private final GameMapRepository gameMapRepository;
     private final ProfileService profileService;
+    private final ProgramService programService;
 
 //    @Bean
 //    @Order(4)
@@ -2172,66 +2176,66 @@ public class Dev {
                         1,
                         1);
 
-                Member memberUser2 = memberService.join("hadle", "1234", "", "", 1).getData();
+                Member memberUser2 = memberService.join("hadle", "1234", 1).getData();
                 memberUser2.setRefreshToken("hadle");
 
-                Member memberUser3 = memberService.join("testUser1", "tmd0405", "", "", 1).getData();
+                Member memberUser3 = memberService.join("testUser1", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser1");
 
-                Member memberUser4 = memberService.join("testUser2", "tmd0405", "", "", 1).getData();
+                Member memberUser4 = memberService.join("testUser2", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser2");
 
-                Member memberUser5 = memberService.join("testUser3", "tmd0405", "", "", 1).getData();
+                Member memberUser5 = memberService.join("testUser3", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser3");
 
-                Member memberUser11 = memberService.join("testUser4", "tmd0405", "", "", 1).getData();
+                Member memberUser11 = memberService.join("testUser4", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser4");
-                Member memberUser12 = memberService.join("testUser5", "tmd0405", "", "", 1).getData();
+                Member memberUser12 = memberService.join("testUser5", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser5");
-                Member memberUser13 = memberService.join("testUser6", "tmd0405", "", "", 1).getData();
+                Member memberUser13 = memberService.join("testUser6", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser6");
-                Member memberUser14 = memberService.join("testUser7", "tmd0405", "", "", 1).getData();
+                Member memberUser14 = memberService.join("testUser7", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser7");
-                Member memberUser15 = memberService.join("testUser8", "tmd0405", "", "", 1).getData();
+                Member memberUser15 = memberService.join("testUser8", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser8");
-                Member memberUser16 = memberService.join("testUser9", "tmd0405", "", "", 1).getData();
+                Member memberUser16 = memberService.join("testUser9", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser9");
-                Member memberUser17 = memberService.join("testUser10", "tmd0405", "", "", 1).getData();
+                Member memberUser17 = memberService.join("testUser10", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser10");
-                Member memberUser18 = memberService.join("testUser11", "tmd0405", "", "", 1).getData();
+                Member memberUser18 = memberService.join("testUser11", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser11");
-                Member memberUser19 = memberService.join("testUser12", "tmd0405", "", "", 1).getData();
+                Member memberUser19 = memberService.join("testUser12", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser12");
-                Member memberUser20 = memberService.join("testUser13", "tmd0405", "", "", 1).getData();
+                Member memberUser20 = memberService.join("testUser13", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser13");
-                Member memberUser21 = memberService.join("testUser14", "tmd0405", "", "", 1).getData();
+                Member memberUser21 = memberService.join("testUser14", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser14");
-                Member memberUser22 = memberService.join("testUser15", "tmd0405", "", "", 1).getData();
+                Member memberUser22 = memberService.join("testUser15", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser15");
-                Member memberUser23 = memberService.join("testUser16", "tmd0405", "", "", 1).getData();
+                Member memberUser23 = memberService.join("testUser16", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser16");
-                Member memberUser24 = memberService.join("testUser17", "tmd0405", "", "", 1).getData();
+                Member memberUser24 = memberService.join("testUser17", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser17");
-                Member memberUser25 = memberService.join("testUser18", "tmd0405", "", "", 1).getData();
+                Member memberUser25 = memberService.join("testUser18", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser18");
-                Member memberUser26 = memberService.join("testUser19", "tmd0405", "", "", 1).getData();
+                Member memberUser26 = memberService.join("testUser19", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser19");
-                Member memberUser27 = memberService.join("testUser20", "tmd0405", "", "", 1).getData();
+                Member memberUser27 = memberService.join("testUser20", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser20");
 
-                Member memberUser6 = memberService.join("test4", "1234", "", "", 1).getData();
+                Member memberUser6 = memberService.join("test4", "1234", 1).getData();
                 memberUser2.setRefreshToken("test4");
 
-                Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2).getData();
+                Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
                 memberClassAdmin.setRefreshToken("class");
 
-                Member memberUser7 = memberService.join("testAdmin", "tmd0405", "테스트어드민", "010-1234-1234", 2).getData();
+                Member memberUser7 = memberService.join("testAdmin", "tmd0405", "테스트어드민", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
                 memberUser7.setRefreshToken("testAdmin");
 
-                Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3).getData();
+                Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3, "부서1", "직급1", "123-456-7890").getData();
                 memberProgramAdmin.setRefreshToken("program");
 
-                Member memberSystemAdmin = memberService.join("system", "1234", "시스템관리자", "010-1234-1234", 4).getData();
+                Member memberSystemAdmin = memberService.join("system", "1234", "시스템관리자", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
                 memberSystemAdmin.setRefreshToken("system");
 
                 ItemParts itemParts1 = itemPartsService.createItemParts("신발");

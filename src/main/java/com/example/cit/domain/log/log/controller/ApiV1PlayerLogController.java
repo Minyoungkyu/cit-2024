@@ -103,6 +103,6 @@ public class ApiV1PlayerLogController {
     public void batchPlayLog(
             @RequestBody BatchPlayLogRequestBody body
     ) {
-        playerLogService.batchPlayLog(rq.getMember(), body.gameMapDto, body.result);
+        playerLogService.batchPlayLogV2(rq.getMember(), body.gameMapDto, body.result);
     }
 }
