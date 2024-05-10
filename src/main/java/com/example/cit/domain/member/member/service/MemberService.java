@@ -1,6 +1,7 @@
 package com.example.cit.domain.member.member.service;
 
 import com.example.cit.domain.log.log.service.PlayerLogService;
+import com.example.cit.domain.member.member.dto.MemberInputListDto;
 import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.repository.MemberRepository;
@@ -169,6 +170,10 @@ public class MemberService {
         return new MemberProgramAdmDto(member, programDtoList);
     }
 
+    public List<MemberInputListDto> getProgramMembers() {
+        return memberRepository.findByRoleLevelGreaterThanEqual(3);
+    }
+
     public record AuthAndMakeTokensResponseBody(
             @NonNull Member member,
             @NonNull String accessToken,
@@ -248,5 +253,9 @@ public class MemberService {
         String accessToken = authTokenService.genAccessToken(member);
 
         return RsData.of("200-1", "토큰 갱신 성공", accessToken);
+    }
+
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id).orElseThrow();
     }
 }

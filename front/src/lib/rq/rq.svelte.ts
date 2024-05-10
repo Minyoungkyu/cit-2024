@@ -72,6 +72,20 @@ class Rq {
     this.replace('/redirect?url=' + window.location.href);
   }
 
+  public goToCurrentPageWithNewParam(name: string, value: string) {
+    const currentUrl = new URL(window.location.href);
+
+    const searchParams = currentUrl.searchParams;
+
+    searchParams.set(name, value);
+
+    this.goToCurrentPageWithNewQueryStr(searchParams.toString());
+  }
+
+  public goToCurrentPageWithNewQueryStr(query: string) {
+    this.goTo(window.location.pathname + '?' + query);
+  }
+
   // API END POINTS
   public apiEndPoints() {
     return createClient<paths>({

@@ -25,14 +25,14 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @Setter
 public class School extends BaseTime {
-    private String region; // 시도
-    private String administrativeDistrict; // 행정구
-    private String schoolLevel; // 학교급 (초, 중, 고)
-    private String highSchoolType; // 고등학교 유형 (일반, 특성화, 자율형, 마이스터고, 외국인학교)
+    private String region; // 시도 [서울, 부산, 대구, 인천, 광주, 대전, 울산, 세종, 경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주]
+    private String administrativeDistrict; // 행정구 [....., 없음]
+    private String schoolLevel; // 학교급 [고등학교, 특수학교, 고등기술학교, 각종학교, 초등학교, 중학교, 고등공민학교]
+    private String highSchoolType; // 고등학교 유형 [일반고, 자율고, 특목고, 특성화고 (직업), 특성화고 (대안), 없음]
     private String schoolName; // 학교명
-    private String establishmentType; // 설립유형 (국립, 공립, 사립)
-    private String coeducationType; // 남녀공학 (남, 여, 남녀공학)
-    private String areaType; // 지역유형 (도심, 도외, 제2도심)
+    private String establishmentType; // 설립유형 [국립, 공립, 사립]
+    private String coeducationType; // 남녀공학 [남자, 여자, 남여공학, 없음]
+    private String areaType; // 지역규모 [특별/광역시, 읍지역, 면지역, 도서벽지, 중소도시]
     private String address;
     private String phoneNumber;
 
@@ -46,9 +46,8 @@ public class School extends BaseTime {
     @Builder.Default
     private List<Member> members = new ArrayList<>();
 
-    @ManyToMany(fetch = LAZY)
+    @ManyToMany(mappedBy = "schools", fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
     private List<Program> programs = new ArrayList<>();
-
 }

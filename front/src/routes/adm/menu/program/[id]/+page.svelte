@@ -1,0 +1,369 @@
+<script lang="ts">
+	import rq from "$lib/rq/rq.svelte";
+	import { onMount } from "svelte";
+    import type { components } from '$lib/types/api/v1/schema';
+
+    const { data } = $props<{ data: { programDto: components['schemas']['ProgramDetailDto'] } }>();
+    const { programDto } = data;
+
+    let regions = $state([]) as components['schemas']['Region'][];
+    let filteredRegions = $state([]) as components['schemas']['Region'][];
+    let ads = $state([]) as components['schemas']['AdministrativeDistrict'][];
+    let filteredAds = $state([]) as components['schemas']['AdministrativeDistrict'][];
+    let schools = $state([]) as components['schemas']['SchoolInputListDto'][];
+    let filteredSchools = $state([]) as components['schemas']['SchoolInputListDto'][];
+    let members = $state([]) as components['schemas']['MemberInputListDto'][];
+    let filteredMembers = $state([]) as components['schemas']['MemberInputListDto'][];
+
+    let regionsBox: HTMLDivElement | null = null;
+    let adsBox: HTMLDivElement | null = null;
+    let schoolsBox: HTMLDivElement | null = null;
+    let membersBox: HTMLDivElement | null = null;
+
+    let focusRegion = $state(false);
+    let focusAd = $state(false);
+    let focusAgency = $state(false);
+    let focusMember = $state(false);
+
+    let regionInput = $state(programDto.city);
+    let adInput = $state(programDto.administrativeDistrict);
+    let agencyInput = $state(programDto.schoolsNames) as components['schemas']['SchoolInputListDto'][];
+    let agencyInputText = $state('');
+    let memberInput = $state(programDto.responsibleMemberNames) as components['schemas']['MemberInputListDto'][];
+    let memberInputText = $state('');
+
+    async function loadRegion() {
+        if (regions.length > 0) {
+            focusRegion = true;
+            return;
+        }
+
+        const { data } = await rq.apiEndPoints().GET('/api/v1/regions', {
+        });
+
+        regions = data?.data.regions || [];
+        filteredRegions = regions;
+        focusRegion = true;
+    }
+
+    async function loadAd() {
+        if (!isValidRegionInput()) return
+
+        const { data } = await rq.apiEndPointsWithFetch(fetch).GET('/api/v1/ads', {
+            params: {
+                query: {
+                    regionCode: regions.find(region => region.name === regionInput)?.code
+                }
+            }
+        });
+
+        ads = data?.data.ads || [];
+        filteredAds = ads;
+        focusAd = true;
+    }
+
+    async function loadSchool() {
+        if (schools.length > 0) {
+            focusAgency = true;
+            return;
+        }
+
+        const { data } = await rq.apiEndPoints().GET('/api/v1/schools', {
+        });
+
+        schools = data?.data.schools || [];
+        filteredSchools = schools;
+        focusAgency = true;
+    }
+
+    async function loadMember() {
+        if (members.length > 0) {
+            focusMember = true;
+            return;
+        }
+
+        const { data } = await rq.apiEndPoints().GET('/api/v1/members/program', {
+        });
+
+        members = data?.data.members || [];
+        filteredMembers = members;
+        focusMember = true;
+    }
+
+    function isValidRegionInput(): boolean {
+        return regions.some(region => region.name === regionInput);
+    }
+
+    function updateRegions(searchText: string) {
+        const searchLower = searchText.toLowerCase();
+        filteredRegions = [...regions].sort((a, b) => {
+            const scoreA = similarityScore(a.name ?? '', searchLower);
+            const scoreB = similarityScore(b.name ?? '', searchLower);
+            return scoreB - scoreA; 
+        });
+
+        if (regionsBox) regionsBox.scrollTop = 0;
+    }
+
+    function updateSchools(searchText: string) {
+        const searchLower = searchText.toLowerCase();
+        filteredSchools = [...schools].sort((a, b) => {
+            const scoreA = similarityScore(a.schoolName ?? '', searchLower);
+            const scoreB = similarityScore(b.schoolName ?? '', searchLower);
+            return scoreB - scoreA; 
+        });
+
+        if (schoolsBox) schoolsBox.scrollTop = 0;
+    }
+
+    function updateMembers(searchText: string) {
+        const searchLower = searchText.toLowerCase();
+        filteredMembers = [...members].sort((a, b) => {
+            const scoreA = similarityScore(a.name ?? '', searchLower);
+            const scoreB = similarityScore(b.name ?? '', searchLower);
+            return scoreB - scoreA; 
+        });
+
+        if (membersBox) membersBox.scrollTop = 0;
+    }
+
+    function updateAds(searchText: string) {
+        const searchLower = searchText.toLowerCase();
+        filteredAds = [...ads].sort((a, b) => {
+            const scoreA = similarityScore(a.name ?? '', searchLower);
+            const scoreB = similarityScore(b.name ?? '', searchLower);
+            return scoreB - scoreA; 
+        });
+
+        if (adsBox) adsBox.scrollTop = 0;
+    }
+
+    function similarityScore(regionName: string, searchText: string): number {
+        const nameLower = regionName.toLowerCase();
+        if (nameLower.startsWith(searchText)) return 100; 
+        if (nameLower.includes(searchText)) return searchText.length; 
+        return 0; 
+    }
+
+
+    async function submitModifyProgramForm(this: HTMLFormElement) {
+        const form: HTMLFormElement = this;
+
+        if (form.programName.value.trim().length === 0) {
+            rq.msgError('사업명을 입력해주세요.');
+            form.programName.focus();
+            return;
+        }
+
+        if (form.startDate.value === '' || form.endDate.value === '') {
+            rq.msgError('사업기간을 입력해주세요.');
+            return;
+        }
+
+        if (regionInput.trim().length === 0) {
+            rq.msgError('지역을 입력해주세요.');
+            form.region.focus();
+            return;
+        }
+
+        if (adInput.trim().length === 0) {
+            rq.msgError('행정구를 입력해주세요.');
+            form.ad.focus();
+            return;
+        }
+
+        if (agencyInput.length === 0) {
+            rq.msgError('사용 기관을 입력해주세요.');
+            form.agency.focus();
+            return;
+        }
+
+        if (memberInput.length === 0) {
+            rq.msgError('담당자를 입력해주세요.');
+            form.member.focus();
+            return;
+        }
+
+        const { data, error } = await rq.apiEndPoints().PUT('/api/v1/programs/modify', {
+            body: {
+                id: programDto.id,
+                name: form.programName.value,
+                startDate: form.startDate.value,
+                endDate: form.endDate.value,
+                region: regionInput,
+                ad: adInput,
+                agency: agencyInput,
+                member: memberInput
+            }
+        });
+
+        if (data?.data) {
+            rq.msgAndRedirect(data, undefined, '/adm/menu/program');
+        }
+    }
+</script>
+
+<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
+    사업 정보
+</div>
+<div class="w-full h-screen flex justify-center">
+    <form class="flex flex-col gap-4 w-[900px] h-full" method="POST" on:submit|preventDefault={submitModifyProgramForm}>
+        <div class="overflow-x-auto h-full">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">사업명</td>
+                  <td class="border-2 p-1">
+                    <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-full" value={programDto.name}/>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">사업기간</td>
+                  <td class="border-2 p-1">
+                    <input name="startDate" type="date" placeholder="사업명" class="input input-bordered w-[200px]" value={programDto.startDate}/>
+                    <span class="text-[20px]">&nbsp; ~ &nbsp;</span>
+                    <input name="endDate" type="date" placeholder="사업명" class="input input-bordered w-[200px]" value={programDto.endDate}/>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">지역</td>
+                  <td class="border-2 p-1">
+                    <div class="flex flex-row gap-6">
+                        <div>
+                            <input name="region" type="text" placeholder="시도" class="input input-bordered w-[150px] text-center" 
+                                bind:value={regionInput}
+                                on:focus={() => loadRegion()}
+                                on:input={(event) => event.target && updateRegions((event.target as HTMLInputElement).value)}
+                                on:blur={() => setTimeout(() => { focusRegion = false; }, 100)}
+                                />
+                            {#if focusRegion}
+                            <div bind:this={regionsBox} class="w-[150px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto bg-white">
+                                {#each filteredRegions as region}
+                                    <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                        on:click={() => regionInput = (region.name ?? '')}>
+                                        {region.name}
+                                    </div>
+                                {/each}
+                            </div>
+                            {/if}
+                        </div>
+                        <div>
+                            <input name="ad" type="text" placeholder="행정구" class="input input-bordered w-[150px] text-center" 
+                                bind:value={adInput}
+                                on:focus={() => loadAd()}
+                                on:input={(event) => event.target && updateAds((event.target as HTMLInputElement).value)}
+                                on:blur={() => setTimeout(() => { focusAd = false; }, 150)}
+                                />
+                            {#if focusAd}
+                            <div bind:this={adsBox} class="w-[150px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto bg-white">
+                                {#each filteredAds as ad}
+                                    <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                        on:click={() => adInput = (ad.name ?? '')}>
+                                        {ad.name}
+                                    </div>
+                                {/each}
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+
+                  </td>
+                </tr>
+                <tr>
+                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">사용 기관</td>
+                    <td class="border-2 p-1">
+                        <div class="flex flex-col">
+                            <div>
+                                <input name="agency" type="search" placeholder="사용 기관" class="input input-bordered w-[300px] text-center" 
+                                    bind:value={agencyInputText}
+                                    on:focus={() => loadSchool()}
+                                    on:input={(event) => event.target && updateSchools((event.target as HTMLInputElement).value)}
+                                    on:blur={() => setTimeout(() => { focusAgency = false; }, 100)}
+                                    />
+                                    {#if focusAgency}
+                                    <div bind:this={schoolsBox} class="w-[330px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredSchools as school}
+                                            <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                            on:click={() => {
+                                                if (!agencyInput.some(a => a.id === school.id)) {
+                                                    agencyInput.push(school);
+                                                }}}>
+                                                {school.schoolName} ({school.region} / {school.administrativeDistrict})
+                                            </div>
+                                        {/each}
+                                    </div>
+                                    {/if}
+                            </div>
+                            {#each agencyInput as agency}
+                                <div class="flex flex-row gap-2 text-[15px] ml-4 mt-2">
+                                    <div class="w-full text-left">
+                                        {agency.schoolName} ({agency.region} / {agency.administrativeDistrict})
+                                        <span class="ml-2 cursor-pointer" 
+                                        on:click={() => agencyInput.splice(agencyInput.indexOf(agency), 1)}>
+                                            <i class="fa-solid fa-x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            {/each}
+                        </div>
+                    </td>
+                  </tr>
+                <tr>
+                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">담당자</td>
+                    <td class="border-2 p-1">
+                        <div class="flex flex-col">
+                            <div>
+                                <input name="member" type="search" placeholder="담당자" class="input input-bordered w-[200px] text-center" 
+                                    bind:value={memberInputText}
+                                    on:focus={() => loadMember()}
+                                    on:input={(event) => event.target && updateMembers((event.target as HTMLInputElement).value)}
+                                    on:blur={() => setTimeout(() => { focusMember = false; }, 100)}
+                                    />
+                                    {#if focusMember}
+                                    <div bind:this={membersBox} class="w-[200px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredMembers as member}
+                                            <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                            on:click={() => {
+                                                if (!memberInput.some(m => m.id === member.id)) {
+                                                    memberInput.push(member);
+                                                }}}>
+                                                {member.name} ({member.username})
+                                            </div>
+                                        {/each}
+                                    </div>
+                                    {/if}
+                            </div>
+                            {#each memberInput as member}
+                                <div class="flex flex-row gap-2 text-[15px] ml-4 mt-2">
+                                    <div class="w-full text-left">
+                                        {member.name} ({member.username})
+                                        <span class="ml-2 cursor-pointer" 
+                                        on:click={() => memberInput.splice(memberInput.indexOf(member), 1)}>
+                                            <i class="fa-solid fa-x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            {/each}
+                        </div>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+
+            <div class="flex flex-row mt-40 justify-between gap-2">
+                <div class="btn btn-block btn-error gap-1 w-[100px]" on:click={() => rq.goTo('/adm/menu/program')}>
+                    <span>취소</span>
+                </div>
+                <button class="btn btn-block btn-primary gap-1 w-[100px]" type="submit">
+                    <span>저장</span>
+                </button>
+            </div>
+          </div>
+    </form>
+</div>
+
+<style>
+    .options:hover {
+        border-bottom: 2px solid gray;
+    }
+</style>

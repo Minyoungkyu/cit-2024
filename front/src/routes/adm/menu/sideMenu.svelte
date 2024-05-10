@@ -8,7 +8,7 @@
 
     // 메뉴 항목의 경로와 현재 페이지 경로가 일치하는지 확인하는 함수
     function isActive(path: string) {
-        return currentPagePath === path;
+        return currentPagePath.startsWith(path);
     }
 </script>
 

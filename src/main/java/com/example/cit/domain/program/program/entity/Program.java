@@ -3,16 +3,18 @@ package com.example.cit.domain.program.program.entity;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.global.jpa.base.BaseTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -36,17 +38,23 @@ public class Program extends BaseTime {
     private String administrativeDistrict;
 
     @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "member_program",
+            joinColumns = @JoinColumn(name = "program_id"),
+            inverseJoinColumns = @JoinColumn(name = "member_id")
+    )
     @Builder.Default
     @ToString.Exclude
-    private List<Member> members = new ArrayList<>();
+    private Set<Member> members = new HashSet<>();
 
     @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "school_program",
+            joinColumns = @JoinColumn(name = "program_id"),
+            inverseJoinColumns = @JoinColumn(name = "school_id")
+    )
     @Builder.Default
     @ToString.Exclude
-    private List<School> schools = new ArrayList<>();
-
-
-
-
+    private Set<School> schools = new HashSet<>();
 
 }

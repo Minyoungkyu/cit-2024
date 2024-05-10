@@ -110,7 +110,7 @@ class Character:
         # 결과값
         self.frames = []
 
-
+        self.make_monster_init_frame()
         self.monster_game_set()
 
     def monster_game_set(self):
@@ -228,6 +228,32 @@ class Character:
                     item_list.append({"status": item["status"], "print_array": []})
                     continue
             item_list.append(item["status"])
+        return item_list
+
+    def make_monster_init_frame(self):
+        monster_types = ['passive_monster', 'aggressive_monster_1', 'aggressive_monster_2', 'boss']
+
+        if any(item['type'] in monster_types for item in self.data['stage']['init_item_list']):
+            self.frames.append({
+                "id": len(self.frames), 
+                "status": 0, 
+                "line_num": 0,
+                "player": self.make_player(), 
+                "item_list": self.make_init_monster_list()
+            })
+
+        return
+    
+    def make_init_monster_list(self):
+        item_list = []
+        for item in self.data['stage']["init_item_list"]:
+            if item['type'] == 'tile_damage':
+                continue
+            elif item['type'] == 'passive_monster' or item['type'] == 'aggressive_monster_1' or item['type'] == 'aggressive_monster_2' or item['type'] == 'boss':
+                item_list.append(self.monster_invisible_status)
+            else:
+                item_list.append(item["status"])
+        
         return item_list
             
     def handle_item_status(self, target_id, status): # 아이템 리스트 두 곳 에서 아이템 status 변경

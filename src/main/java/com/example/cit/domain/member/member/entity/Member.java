@@ -41,7 +41,7 @@ public class Member extends BaseTime {
     @OneToOne(fetch = LAZY, cascade = ALL)
     private Player player;
 
-    @ManyToMany(fetch = LAZY)
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
     private List<Program> programs = new ArrayList<>();

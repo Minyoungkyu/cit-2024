@@ -67,8 +67,7 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
                     JPAExpressions
                             .selectOne()
                             .from(school)
-                            .join(school.programs, program)
-                            .where(program.id.eq(program.id)
+                            .where(school.programs.any().id.eq(program.id)
                                     .and(school.schoolName.containsIgnoreCase(kw)))
                             .exists()
             );
@@ -86,8 +85,7 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
                             .or(JPAExpressions
                                     .selectOne()
                                     .from(school)
-                                    .join(school.programs, program)
-                                    .where(program.id.eq(program.id)
+                                    .where(school.programs.any().id.eq(program.id)
                                             .and(school.schoolName.containsIgnoreCase(kw)))
                                     .exists())
             );

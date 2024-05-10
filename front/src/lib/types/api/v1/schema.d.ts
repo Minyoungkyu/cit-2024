@@ -5,13 +5,17 @@
 
 
 export interface paths {
+  "/api/v1/programs/modify": {
+    /** 사업 수정 */
+    put: operations["modify"];
+  };
   "/api/v1/players/{id}/name": {
     /** 별명등록, 초회 이벤트 별명등록 */
     put: operations["setName"];
   };
   "/api/v1/members/modify": {
     /** 관리자정보 수정 */
-    put: operations["modify"];
+    put: operations["modify_1"];
   };
   "/api/v1/inventory/update/inventory": {
     /** 플레이어 인벤토리 업데이트 */
@@ -21,13 +25,21 @@ export interface paths {
     /** 관리자 - 학교생성 */
     post: operations["createSchool"];
   };
+  "/api/v1/programs/new": {
+    /** 사업 생성 */
+    post: operations["batchPlayLog"];
+  };
+  "/api/v1/programs/delete": {
+    /** 사업 삭제 */
+    post: operations["delete"];
+  };
   "/api/v1/profileInventory/addProfileInventory": {
     /** 아이템 구매, 획득 */
     post: operations["addProfileInventory"];
   };
   "/api/v1/playerLogs/batchPlayLog": {
     /** 게임결과 로그 일괄처리 */
-    post: operations["batchPlayLog"];
+    post: operations["batchPlayLog_1"];
   };
   "/api/v1/members/logout": {
     /** 로그아웃 */
@@ -57,9 +69,21 @@ export interface paths {
     /** 플레이어 인벤토리 조회 */
     get: operations["test"];
   };
+  "/api/v1/schools": {
+    /** 학교 전체 조회 */
+    get: operations["getSchools"];
+  };
+  "/api/v1/regions": {
+    /** 시도 조회 */
+    get: operations["getRegions"];
+  };
   "/api/v1/programs": {
     /** 사업 조회 */
     get: operations["getPrograms"];
+  };
+  "/api/v1/programs/{id}": {
+    /** 사업 단건 조회 */
+    get: operations["getProgram"];
   };
   "/api/v1/profileInventory/myInventory": {
     /** 플레이어 인벤토리 조회 */
@@ -80,6 +104,10 @@ export interface paths {
   "/api/v1/playerLogs/clearLog/{stage}": {
     /** 스테이지 클리어 로그 */
     get: operations["getClearLog"];
+  };
+  "/api/v1/members/program": {
+    /** 사업관리자 이상 조회 */
+    get: operations["getSchools_1"];
   };
   "/api/v1/members/me": {
     /** 내 정보 */
@@ -109,6 +137,10 @@ export interface paths {
     /** 특정 게임 테스트용 */
     get: operations["getGameMapTest"];
   };
+  "/api/v1/ads": {
+    /** 행정구역 조회 */
+    get: operations["getAds"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -122,6 +154,59 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["Empty"];
+    };
+    MemberInputListDto: {
+      /** Format: int64 */
+      id?: number;
+      username?: string;
+      name?: string;
+    };
+    ModifyProgramRequestBody: {
+      /** Format: int64 */
+      id: number;
+      name: string;
+      /** Format: date */
+      startDate: string;
+      /** Format: date */
+      endDate: string;
+      region: string;
+      ad: string;
+      agency: components["schemas"]["SchoolInputListDto"][];
+      member: components["schemas"]["MemberInputListDto"][];
+    };
+    SchoolInputListDto: {
+      /** Format: int64 */
+      id?: number;
+      region?: string;
+      administrativeDistrict?: string;
+      schoolName?: string;
+    };
+    ModifyProgramResponseBody: {
+      programDto: components["schemas"]["ProgramDto"];
+    };
+    ProgramDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      name: string;
+      /** Format: date */
+      startDate: string;
+      /** Format: date */
+      endDate: string;
+      city: string;
+      administrativeDistrict: string;
+      responsibleMemberNames: string[];
+      schoolsNames: string[];
+    };
+    RsDataModifyProgramResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ModifyProgramResponseBody"];
     };
     SetNickNameRequestBody: {
       nickname: string;
@@ -220,9 +305,16 @@ export interface components {
       memberDto: components["schemas"]["MemberDto"];
     };
     CreateSchoolRequestBody: {
-      name?: string;
-      location?: string;
-      phoneNo?: string;
+      region?: string;
+      administrativeDistrict?: string;
+      schoolLevel?: string;
+      highSchoolType?: string;
+      schoolName?: string;
+      establishmentType?: string;
+      coeducationType?: string;
+      areaType?: string;
+      address?: string;
+      phoneNumber?: string;
     };
     CreateSchoolResponseBody: {
       schoolDto?: components["schemas"]["SchoolDto"];
@@ -236,10 +328,41 @@ export interface components {
     };
     SchoolDto: {
       /** Format: int64 */
-      id: number;
+      id?: number;
+      region?: string;
+      administrativeDistrict?: string;
+      schoolLevel?: string;
+      highSchoolType?: string;
+      schoolName?: string;
+      establishmentType?: string;
+      coeducationType?: string;
+      areaType?: string;
+      address?: string;
+      phoneNumber?: string;
+    };
+    createProgramRequestBody: {
       name: string;
-      location: string;
-      phoneNo: string;
+      /** Format: date */
+      startDate: string;
+      /** Format: date */
+      endDate: string;
+      region: string;
+      ad: string;
+      agency: components["schemas"]["SchoolInputListDto"][];
+      member: components["schemas"]["MemberInputListDto"][];
+    };
+    RsDataCreateProgramResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["createProgramResponseBody"];
+    };
+    createProgramResponseBody: {
+      program: components["schemas"]["ProgramDto"];
+    };
+    ProgramDeleteRequestBody: {
+      programIds: number[];
     };
     addProfileInventoryRequestBody: {
       /** Format: int64 */
@@ -381,6 +504,31 @@ export interface components {
       /** Format: int64 */
       id: number;
     };
+    RsDataSchoolsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SchoolsResponseBody"];
+    };
+    SchoolsResponseBody: {
+      schools?: components["schemas"]["SchoolInputListDto"][];
+    };
+    Region: {
+      /** Format: int64 */
+      code?: number;
+      name?: string;
+    };
+    RegionsResponseBody: {
+      regions?: components["schemas"]["Region"][];
+    };
+    RsDataRegionsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["RegionsResponseBody"];
+    };
     GetProgramsResponseBody: {
       itemPage: components["schemas"]["PageDtoProgramDto"];
     };
@@ -395,7 +543,17 @@ export interface components {
       number: number;
       content: components["schemas"]["ProgramDto"][];
     };
-    ProgramDto: {
+    RsDataGetProgramsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetProgramsResponseBody"];
+    };
+    GetProgramResponseBody: {
+      item: components["schemas"]["ProgramDetailDto"];
+    };
+    ProgramDetailDto: {
       /** Format: int64 */
       id: number;
       /** Format: date-time */
@@ -409,13 +567,15 @@ export interface components {
       endDate: string;
       city: string;
       administrativeDistrict: string;
+      responsibleMemberNames: components["schemas"]["MemberInputListDto"][];
+      schoolsNames: components["schemas"]["SchoolInputListDto"][];
     };
-    RsDataGetProgramsResponseBody: {
+    RsDataGetProgramResponseBody: {
       resultCode: string;
       /** Format: int32 */
       statusCode: number;
       msg: string;
-      data: components["schemas"]["GetProgramsResponseBody"];
+      data: components["schemas"]["GetProgramResponseBody"];
     };
     MyProfileInventoryResponseBody: {
       profileInventoryDtoList: components["schemas"]["ProfileInventoryDto"][];
@@ -486,6 +646,16 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["ClearLogResponseBody"];
+    };
+    ProgramMembersResponseBody: {
+      members?: components["schemas"]["MemberInputListDto"][];
+    };
+    RsDataProgramMembersResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ProgramMembersResponseBody"];
     };
     MeResponseBody: {
       item: components["schemas"]["MemberDto"];
@@ -580,6 +750,23 @@ export interface components {
       msg: string;
       data: components["schemas"]["GameMapTestResponseBody"];
     };
+    AdministrativeDistrict: {
+      /** Format: int64 */
+      code?: number;
+      name?: string;
+      /** Format: int64 */
+      regionCode?: number;
+    };
+    AdsResponseBody: {
+      ads?: components["schemas"]["AdministrativeDistrict"][];
+    };
+    RsDataAdsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["AdsResponseBody"];
+    };
   };
   responses: never;
   parameters: never;
@@ -594,6 +781,28 @@ export type external = Record<string, never>;
 
 export interface operations {
 
+  /** 사업 수정 */
+  modify: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifyProgramRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataModifyProgramResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 별명등록, 초회 이벤트 별명등록 */
   setName: {
     parameters: {
@@ -622,7 +831,7 @@ export interface operations {
     };
   };
   /** 관리자정보 수정 */
-  modify: {
+  modify_1: {
     requestBody: {
       content: {
         "application/json": components["schemas"]["ModifyRequestBody"];
@@ -687,6 +896,50 @@ export interface operations {
       };
     };
   };
+  /** 사업 생성 */
+  batchPlayLog: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["createProgramRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataCreateProgramResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업 삭제 */
+  delete: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ProgramDeleteRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 아이템 구매, 획득 */
   addProfileInventory: {
     requestBody: {
@@ -710,7 +963,7 @@ export interface operations {
     };
   };
   /** 게임결과 로그 일괄처리 */
-  batchPlayLog: {
+  batchPlayLog_1: {
     requestBody: {
       content: {
         "*/*": components["schemas"]["BatchPlayLogRequestBody"];
@@ -873,13 +1126,47 @@ export interface operations {
       };
     };
   };
+  /** 학교 전체 조회 */
+  getSchools: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataSchoolsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 시도 조회 */
+  getRegions: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataRegionsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 사업 조회 */
   getPrograms: {
     parameters: {
-      query: {
-        page: number;
-        kw: string;
-        kwType: "ALL" | "TITLE" | "REGION" | "INCHARGENAME" | "AGENCY";
+      query?: {
+        page?: number;
+        kw?: string;
+        kwType?: "ALL" | "TITLE" | "REGION" | "INCHARGENAME" | "AGENCY";
       };
     };
     responses: {
@@ -887,6 +1174,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGetProgramsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업 단건 조회 */
+  getProgram: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetProgramResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -982,6 +1291,23 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataClearLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업관리자 이상 조회 */
+  getSchools_1: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataProgramMembersResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -1117,6 +1443,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGameMapTestResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 행정구역 조회 */
+  getAds: {
+    parameters: {
+      query?: {
+        regionCode?: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataAdsResponseBody"];
         };
       };
       /** @description Bad Request */

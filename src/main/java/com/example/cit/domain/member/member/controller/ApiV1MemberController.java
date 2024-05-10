@@ -1,9 +1,12 @@
 package com.example.cit.domain.member.member.controller;
 
+import com.example.cit.domain.member.member.dto.MemberInputListDto;
 import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
 import com.example.cit.domain.member.member.dto.MemberDto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.MemberService;
+import com.example.cit.domain.school.school.controller.ApiV1SchoolController;
+import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
@@ -18,6 +21,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
@@ -159,6 +164,20 @@ public class ApiV1MemberController {
         return modifyRs.newDataOf(
                 new ModifyResponseBody(
                         new MemberDto(modifyRs.getData())
+                )
+        );
+    }
+
+    public record ProgramMembersResponseBody(List<MemberInputListDto> members) {}
+
+    @GetMapping(value = "/program", consumes = ALL_VALUE)
+    @Operation(summary = "사업관리자 이상 조회")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<ProgramMembersResponseBody> getSchools(
+    ) {
+        return RsData.of(
+                new ProgramMembersResponseBody(
+                        memberService.getProgramMembers()
                 )
         );
     }
