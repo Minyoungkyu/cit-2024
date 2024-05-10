@@ -226,9 +226,6 @@ cc.Class({
 
         var isPlaying = upState.isPlaying;
 
-
-        console.log("anima ==> " + animationName + "number => " + number + "animation_number = > " + animation_number);
-
         if(!isPlaying){
             clip.play(animationName);
         }
@@ -374,9 +371,6 @@ cc.Class({
                 else if(this.direction === Env.DIRECTION_DOWN){
 
                     this.setPlayerAnimation(IDLE_DOWN);
-
-                    console.log("FUCK 들어옴?");
-
                     // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
                 }
             }
@@ -610,7 +604,6 @@ cc.Class({
                         break;
             case 38:
                 var number = CHARGE_SHOT;
-                console.log("38 들어온 넘버정보--> " + number);
                 this.setPlayerAnimation(number);
                 this.ShowChargeShotParticle();
                 break;

@@ -2,7 +2,7 @@
 
 const IDLE = -1;
 const ATK = -6;
-const HIT = 2;
+const HIT = -4;
 const DEAD = -8;
 
 
@@ -38,6 +38,7 @@ cc.Class({
     },
 
 
+
     start(){
         this.aniArray = [ 'boss_left_idle' ,'boss_left_hit','boss_left_atk'];
     },
@@ -47,17 +48,40 @@ cc.Class({
         this.id = json.id;
         this.init_json_data = json;
         this.InitDeadStatus();
+        this.HideSpecialAttack();
     },
 
+
+    /**즉사 공격 이펙트 표현 */
+    SpecialAttack: function(){
+        this.special_atk_particle.active = true;
+    },
+
+    HideSpecialAttack: function(){
+        console.log("IHIT");
+        this.special_atk_particle.active = false;
+    },
+
+    /**
+     * 
+     */
     ShowExplosion: function(){
         this.explosionPrefabs.getComponent(cc.Animation).play("explosion");
     },
 
+    /**
+     * 업데이트 상태 표시 전환
+     * @param {*} status 
+     */
     UpdateStatus: function(status){
+
+        // console.log("boss -> "+status);
+
 
         switch(status){
             case IDLE:
                 this._SetMonsterAnimation(ANIMATION_IDLE);
+                this.InitDeadStatus();
                 break;
             
             case ATK:
@@ -65,16 +89,29 @@ cc.Class({
                 break;
             
             case HIT:
+                console.log("HIT STATUS");
                 this._SetMonsterAnimation(ANIMATION_HIT);
                 break;
+
+            case DEAD:
+                this.DeadAnimation();
+                break;
         }
-
-
     },
 
+
+    /**
+     *  Dead Status 초기화 해주는곳.
+     * 
+     * @returns 
+     */
     InitDeadStatus: function(){
+       
+
+        if(this.isDead == false) return;
         this.isDead = false;
         this.node.opacity = 255;
+        this.HideSpecialAttack();
 
         clearInterval( this.deadIntevalID);
         clearInterval( this.timout);
@@ -89,43 +126,24 @@ cc.Class({
 
         var clip = this.getComponent(cc.Animation);
 
-        var hit_ani = this.aniArray[ANIMATION_HIT];
-        var atk_ani = this.aniArray[ANIMATION_ATK];
-        
-        var hit_state = clip.getAnimationState(hit_ani);
-        var atk_state = clip.getAnimationState(atk_ani);
-        
-      
-        if (!hit_state || !atk_state) {
-            console.error("애니메이션 상태를 찾을 수 없습니다: ", hit_ani, atk_ani);
-            if(!isPlaying){
-                clip.play(animationName);
-            }
-            return;
-        }
-
-        var isPlaying_hit = hit_state.isPlaying;
-        var isPlaying_attack = atk_state.isPlaying;
-        
-
-        // 만약 하나라도 재생 중이면, 아무 것도 하지 않음
-        if (isPlaying_hit || isPlaying_attack) return;
-
-
         var upState = clip.getAnimationState(animationName);
         var isPlaying = upState.isPlaying;
 
         if(!isPlaying){
-
-            if(animationName === HIT){
+            if(animationName === 'boss_left_hit'){
                 this.ShowExplosion();
             }
-
             clip.play(animationName);
         }
 
     },
 
+    /**
+     * 미사용
+     * HP 처리 사용
+     * @param {*} hp 
+     * @returns 
+     */
     _UpdateHP: function(hp){
         if(this.monster_type !== AGGREE_2) return;
         
@@ -139,24 +157,23 @@ cc.Class({
         }
     },
 
+    /**
+     * 미사용, HP 처리 필요
+     */
     _InitHP: function(){
         this.hpBar.progress = this.maxHP;
         this.barBackground.color = new cc.Color(0, 255, 0);
     },
 
 
+    /**
+     * 보스 죽었을때 애니메이션 처리
+     */
     DeadAnimation: function(){
         if(this.isDead) return;
 
         this.isDead = true;
-
-        if (this.direction === DIR_RIGHT) {
-            this._SetMonsterAnimation(this.monster_number, HIT_RIGHT);
-        }
-        else {
-            this._SetMonsterAnimation(this.monster_number, HIT_LEFT);
-        }
-
+        this._SetMonsterAnimation(ANIMATION_HIT);
         var self = this;
 
         this.ShowExplosion();

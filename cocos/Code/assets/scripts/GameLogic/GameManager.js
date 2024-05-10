@@ -705,8 +705,10 @@ cc.Class({
         var stageObject = Controller.getInstance().getInitStageData();
 
         var step = stageObject.step;
+        var level = stageObject.level
 
         if(step !== '3-4') return;
+        if(level !== 3 ) return;
 
         var initJson = Controller.getInstance().getInitOjbectDatas();
 
@@ -886,7 +888,6 @@ cc.Class({
 
         this.bossObject.getComponent("Boss").UpdateStatus(streamJson[0]);
     },
-
 
 
     FindMonsterByID: function(id){
@@ -1844,7 +1845,6 @@ cc.Class({
 
         this.UpdateMonster(command.item_list);
         
-        this.UpdateBoss(command.item_list);
 
 
         // 플레이어 상태값
@@ -1856,8 +1856,19 @@ cc.Class({
         this.EffectControl(playerStatus, convertPos);
 
 
+        if(id == 0){
+            // HIDE 처리!
+            console.log("init");
+            this.bossObject.getComponent("Boss").HideSpecialAttack();
+        }
+
       
         var hit_stauts = command.player.hit_status;
+
+        if(hit_stauts === 2){
+            this.bossObject.getComponent("Boss").SpecialAttack();
+        }
+
         if(hit_stauts == 1 && command.player.hp > 1){
             this.player.getComponent("Player").SetHitStatus();
         }
@@ -1867,6 +1878,9 @@ cc.Class({
            
             this.player.getComponent("Player").Movement(convertPos);
         }
+
+
+        this.UpdateBoss(command.item_list);
 
         return true;
     },
