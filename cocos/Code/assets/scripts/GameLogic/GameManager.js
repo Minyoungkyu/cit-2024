@@ -1095,7 +1095,8 @@ cc.Class({
                 return;
             }
             self.gameMap.tmxAsset = tmxFile;  // Tiled Map 설정
-
+            // 맵 opacity 조정.
+            self.gameMap.node.getChildByName('sh').opacity = 150;
             self.MapSetupCamera();  // 카메라 설정 함수 분리
         });
     },
@@ -1748,8 +1749,6 @@ cc.Class({
         this.createAndInitPrefab(dropUrl, drop_item_tag, id, drop_item_pos, this.dropItemList, true);
     },
 
-
-
     /**
      * 레이저 객체 프리팹을 만들어주는 함수
      * @param tag  레이저 태그
@@ -1845,8 +1844,6 @@ cc.Class({
 
         this.UpdateMonster(command.item_list);
         
-
-
         // 플레이어 상태값
         var playerStatus = command.player.status;
 
@@ -1856,10 +1853,15 @@ cc.Class({
         this.EffectControl(playerStatus, convertPos);
 
 
+        /**
+         * 최초 0 프레임시 보스 행동 막기위해 처리하는함수.
+         */
         if(id == 0){
             // HIDE 처리!
-            console.log("init");
-            this.bossObject.getComponent("Boss").HideSpecialAttack();
+
+            if(this.bossObject !== null){
+                this.bossObject.getComponent("Boss").HideSpecialAttack();
+            }
         }
 
       
@@ -1875,10 +1877,8 @@ cc.Class({
         else{
             this.player.getComponent("Player").setDirection(command.player.dir);
             this.player.getComponent("Player").setPlayerStatus(playerStatus);
-           
             this.player.getComponent("Player").Movement(convertPos);
         }
-
 
         this.UpdateBoss(command.item_list);
 
@@ -2024,6 +2024,7 @@ cc.Class({
      */
     ShowVariableBombSprites: function(){
 
+        console.log("HI In come");
         var self = this;
         setInterval(function(){
             if(Controller.getInstance().getCurrentCommandID() > 2) self._HideVariableSprites();
@@ -2118,8 +2119,6 @@ cc.Class({
         });
 
     },
-
-
 
     /**
      * 안보이게 하는 Sprites 리스트들
@@ -2236,7 +2235,6 @@ cc.Class({
             self.idx++;
         }, 1000/60);
     },
-
 
 
     /**
