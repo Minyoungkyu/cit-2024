@@ -1794,15 +1794,16 @@ cc.Class({
 
     /**
      * ExcuteCommand 에서 코드 압축을 위해 함수 화.
-     * 3-1 스테이지 예외 처리
+     * 3-1-*-1 , 3-1-*-3 스테이지 예외 처리
      * 
      * @param {command} command 
      */
     PrintUIDialog: function(command){
         var stageObject = Controller.getInstance().getInitStageData();
         var stage_step = stageObject.step;
+        var level = stageObject.level;
 
-        if(stage_step === '3-1'){
+        if(stage_step === '3-1' && level !== 2){
             return;
         }
         else{
@@ -2018,22 +2019,7 @@ cc.Class({
         this.print_ui_label.string = text;
     },
 
-
-    /**
-     * 폭탄 보였다 안보였다 처리 효과.
-     */
-    ShowVariableBombSprites: function(){
-
-        console.log("HI In come");
-        var self = this;
-        setInterval(function(){
-            if(Controller.getInstance().getCurrentCommandID() > 2) self._HideVariableSprites();
-            else self._ShowVariableSprites();
-        },30);
-
-        
-    },
-
+    
 
     /**
      * Variation Bomb Sprite 표현.
@@ -2120,6 +2106,22 @@ cc.Class({
 
     },
 
+
+    /**
+     * 폭탄 보였다 안보였다 처리 효과.
+     */
+    ShowVariableBombSprites: function(){
+
+        console.log("HI In come");
+        var self = this;
+        setInterval(function(){
+            if(Controller.getInstance().getCurrentCommandID() > 2) self._HideVariableSprites();
+            else self._ShowVariableSprites();
+        },30);
+
+        
+    },
+
     /**
      * 안보이게 하는 Sprites 리스트들
      */
@@ -2142,8 +2144,19 @@ cc.Class({
      * 보이게 하는 Sprites;
      */
     _ShowVariableSprites: function(){
+
         if(this.isShowVariation) return;
         this.isShowVariation = true;
+
+
+        var opRatio = 3;
+        var intervalSpeed = 90;
+
+        // 2-3-*-3 속도 문제 해결을 위한 시퀀스
+        if(this.bomb_sprites[0].length > 20){
+            intervalSpeed = 210;
+            opRatio = 1;
+        }
 
 
         var show_idx = 0;
@@ -2170,13 +2183,21 @@ cc.Class({
             else{
                 for( var j = 0; j < self.bomb_sprites[show_idx].length; j++){
                     self.bomb_sprites[show_idx][j].opacity = opt[show_idx];
-                    opt[show_idx] += 3;
+                    opt[show_idx] += opRatio;
                 }
             }
             
-        },90);
+        },intervalSpeed);
 
     },
+
+
+
+    // TODO
+    GameClearAllHideUI: function(){
+        this._InitPrintUI();
+    },
+
 
     /**
      * 아이템 상태를 관리해주는 함수

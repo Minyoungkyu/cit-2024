@@ -24,6 +24,8 @@ class Character:
         self.jump_time = 2.0
         self.attack_time = 0.5
         self.check_time = 0.5
+        self.monster_attack_time = 1.5
+        self.monster_hit_time = 0.5 # appresseive_monster_1 만 적용됨
 
         # 상태값
         self.hero_idle_status = 0
@@ -158,6 +160,15 @@ class Character:
     
     def is_boss_stage(self):
         return self.data['stage']['step'] == '3-4' and self.data['stage']['level'] == 3
+    
+    def end_game_frame_append(self):
+        self.frames.append({
+            "id": len(self.frames), 
+            "status": 2, 
+            "line_num": 0,
+            "player": self.make_player(), 
+            "item_list": self.make_item_list()
+            })
 
     def frame_append(self, line_num):
         # self.time_count += 1
@@ -229,7 +240,7 @@ class Character:
                     continue
             item_list.append(item["status"])
         return item_list
-
+    
     def make_monster_init_frame(self):
         monster_types = ['passive_monster', 'aggressive_monster_1', 'aggressive_monster_2', 'boss']
 
@@ -254,7 +265,7 @@ class Character:
             else:
                 item_list.append(item["status"])
         
-        return item_list    
+        return item_list
             
     def handle_item_status(self, target_id, status): # 아이템 리스트 두 곳 에서 아이템 status 변경
         for item in self.data['stage']['init_item_list']:
@@ -365,7 +376,7 @@ class Character:
                         item['status'] = self.monster_run_status
 
                     if item['status'] == self.monster_hit_status:
-                        if item['frame_count'] > int(self.hit_bomb_time * self.fps):
+                        if item['frame_count'] > int(self.monster_hit_time * self.fps):
                             item['status'] = self.monster_die_status 
                             item['frame_count'] = 0
                             continue
@@ -396,7 +407,7 @@ class Character:
                                     continue
                     
                     if [round(pos) for pos in self.data["player"]["pos"]] == [monster_pos[0] - 0.9, monster_pos[1]] and item['type'] == 'aggressive_monster_1':
-                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.hit_bomb_time * self.fps):
+                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.monster_attack_time * self.fps):
                             self.data['player']['status'] = self.hero_die_status
                             item['frame_count'] = 0
                             continue
@@ -408,7 +419,7 @@ class Character:
                             continue
                             
                     if item['goal'] == monster_pos:
-                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.hit_bomb_time * self.fps):
+                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.monster_attack_time * self.fps):
                             self.data['player']['status'] = self.hero_die_status
                             item['frame_count'] = 0
                             continue
@@ -426,6 +437,7 @@ class Character:
 
 
     def batch_aggressive_monster_2(self):
+        hero_hit_now = False
         for item in self.data['stage']['init_item_list']:
             if item['type'] == 'aggressive_monster_2' and item['status'] != self.monster_die_status:
                 if item['frame_count'] == 9999:
@@ -485,18 +497,19 @@ class Character:
                                 self.data["player"]["hp"] -= item['damage']
                                 if self.data['player']['hp'] < 0:
                                     self.data['player']['hp'] = 0
-                                self.data['player']['hit_status'] = 1
+                                # self.data['player']['hit_status'] = 1
+                                hero_hit_now = True
                                 item['frame_count'] += 1
                                 if self.data['player']['hp'] == 0:
                                     self.data['player']['status'] = self.hero_die_status
                                     item['frame_count'] = 9999
                                 continue
-                            elif item['frame_count'] <= 11:
+                            elif item['frame_count'] <= int(self.monster_attack_time * self.fps):
+                                hero_hit_now = True
                                 item['frame_count'] += 1
                                 continue
-                            elif item['frame_count'] > 11 and item['frame_count'] < item['attack_speed']:
+                            elif item['frame_count'] > int(self.monster_attack_time * self.fps) and item['frame_count'] < item['attack_speed']:
                                 item['status'] = self.monster_idle_status
-                                self.data['player']['hit_status'] = 0
                                 item['frame_count'] += 1
                                 continue
                             elif item['frame_count'] >= item['attack_speed']:
@@ -517,6 +530,9 @@ class Character:
                         #     item['pos'][1] -= 2/int(self.go_time * self.fps)
                         # elif monster_pos[1] < player_pos[1]:
                         #     item['pos'][1] += 2/int(self.go_time * self.fps)
+
+        self.data['player']['hit_status'] = 1 if hero_hit_now else 0
+
 
     def batch_boss(self):
         if self.data['player']['status'] != self.hero_heal_status:
@@ -560,10 +576,10 @@ class Character:
                 self.data['stage']['init_item_list'][id]['password'] = password
                 self.data['stage']['init_item_list'][id]['answer'] = answer
 
-            elif self.data['stage']['init_item_list'][0]['attack_frame'] > 0 and self.data['stage']['init_item_list'][0]['attack_frame'] < 11 :
+            elif self.data['stage']['init_item_list'][0]['attack_frame'] > 0 and self.data['stage']['init_item_list'][0]['attack_frame'] < int(self.monster_attack_time * self.fps):
                 self.data['stage']['init_item_list'][0]['attack_frame'] += 1
 
-            elif self.data['stage']['init_item_list'][0]['attack_frame'] >= 11:
+            elif self.data['stage']['init_item_list'][0]['attack_frame'] >= int(self.monster_attack_time * self.fps):
                 if self.data['stage']['init_item_list'][0]['status'] == self.monster_attack_status:
                     self.data['stage']['init_item_list'][0]['status'] = self.monster_idle_status
                 self.data['stage']['init_item_list'][0]['attack_frame'] = 0
@@ -926,6 +942,9 @@ class Character:
                 else:
                     if self.data['player']['bomb_count'] <= 0:
                         self.set_fail(self.hero_not_enough_bomb_status, line_num)
+                        # self.create_data()
+                        # sys.exit()
+                        # print('삐용삐용 갯수초과!') # Todo: for logicFPyo
                         raise SystemExit
                         return
                     else:
@@ -954,8 +973,8 @@ class Character:
                     self.data['player']['medicine_count'] -= 1
                     random_value = random.randint(25, 40)
                     self.data['player']['status'] = self.hero_heal_status
-                    for _ in range(random_value):
-                        self.data['player']['hp'] += 1 if self.data['player']['hp'] < 100 else 0
+                    for _ in range(1):
+                        self.data['player']['hp'] += random_value if self.data['player']['hp'] < 100 else 0
                         self.frame_append(line_num - start_line)
                     self.data['player']['status'] = self.hero_idle_status
             else:
@@ -971,10 +990,9 @@ class Character:
                     self.data['player']['advanced_medicine_count'] -= 1
                     random_value = 100 - self.data['player']['hp']
                     self.data['player']['status'] = self.hero_heal_status
-                    # for _ in range(random_value):
-                    #self.data['player']['hp'] += 1 if self.data['player']['hp'] < 100 else 0
-                    self.data['player']['hp'] += random_value
-                    self.frame_append(line_num - start_line)
+                    for _ in range(1):
+                        self.data['player']['hp'] += random_value if self.data['player']['hp'] < 100 else 0
+                        self.frame_append(line_num - start_line)
                     self.data['player']['status'] = self.hero_idle_status
             else:
                 self.set_fail(self.hero_not_enough_medicine_status, line_num)
@@ -1112,7 +1130,7 @@ class Character:
                 else: # 인쇄 실패, 몬스터는 회전 후 공격, 플레이어는 hit 후 사망 처리
                     self.print_fail(self.hero_miss_args_status, target_id, line_num)
                     turn_frames = int(self.turn_time * self.fps)
-                    attack_frames = int(self.attack_time * self.fps)
+                    attack_frames = int(self.monster_attack_time * self.fps)
 
                     item['dir'] = 'right' if item['dir'] == 'left' else 'left'
                     item['status'] = self.monster_turn_status
@@ -1859,8 +1877,9 @@ class Character:
         elif goal['goal'] == 'item' and goal['type'] == 'rocket_parts':
             return goal["count"] <= self.data["player"]["rocket_parts_count"]
         elif goal['goal'] == 'line':
-            self.line_counter = max(self.line_counter, line_num - start_line)
-            return goal["count"] >= self.line_counter
+            # self.line_counter = max(self.line_counter, line_num - start_line)
+            # return goal["count"] >= self.line_counter
+            return True
         
         elif goal['goal'] == 'set':
             count = sum(1 for item in self.data["stage"]['init_item_list'] if item["type"] == goal['type'] and item["status"] == 1)
@@ -1881,6 +1900,8 @@ class Character:
     def check_game_status(self): # 게임 종료 체크
         if self.frames:
             if self.frames[-1]["player"]["status"] == self.hero_die_status or self.frames[-1]["status"] == 1:
+                # self.create_data()
+                # sys.exit()  # ToDo: logicFPyo 에서 사용
                 raise SystemExit
                 return True
 
@@ -2044,6 +2065,9 @@ except SystemExit:
 
 while not hero.check_monster(0):
     pass  
+
+if hero.get_frames()[-1]["status"] == 0:
+    hero.end_game_frame_append()
 
 frames = hero.get_frames()  
 json.dumps(frames)     

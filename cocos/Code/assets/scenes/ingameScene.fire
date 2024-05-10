@@ -399,8 +399,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 672
+      "width": 352,
+      "height": 352
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -463,8 +463,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 672
+      "width": 352,
+      "height": 352
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -553,8 +553,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 672
+      "width": 352,
+      "height": 352
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -643,8 +643,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 672
+      "width": 352,
+      "height": 352
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -733,8 +733,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 672
+      "width": 352,
+      "height": 352
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -781,12 +781,6 @@
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      },
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      },
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
     "_id": "7cF9/pJ75KQLOaSrwMvpdQ"
@@ -829,8 +823,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 672
+      "width": 352,
+      "height": 352
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -919,8 +913,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 672
+      "width": 352,
+      "height": 352
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -991,7 +985,7 @@
     },
     "_enabled": true,
     "_tmxFile": {
-      "__uuid__": "ae8927f6-f7df-41f6-bac5-3096c6576486"
+      "__uuid__": "5478820d-476f-4e7e-8a98-3098e4996887"
     },
     "_id": "56tCWJtJtIyb32qc8Lkg/k"
   },
