@@ -1812,12 +1812,18 @@ cc.Class({
             if(playerStatus === 19){
                 var item_list = command.item_list;
                 var print_array =  item_list[0].print_array;
+
+                // 데이터가 없을 경우 예외 처리가 필요..
+                if(print_array.length < 1) return;
+
                 var print_data = '';
                 for(var i = 0; i < print_array.length; i++){
                     print_data += ( print_array[i] + " ");
                 }
                 var convert = print_data.toString();
     
+                console.log(convert);
+
                 this.ShowPrintUI(convert);
             }
             else if(playerStatus != 0){
@@ -1838,7 +1844,12 @@ cc.Class({
          * 명령어 종료를 뜻함
          */
         if(command === -1) return false;
-        if(command.status === 1) return false;
+        if(command.status === 1 || command.status === 2){
+            // 1 클리어
+            // 2 종료
+            this.GameClearAllHideUI();
+            return false;
+        } 
 
         // 객체 상태값 업데이트
         this.ObjectUpdate(command.item_list);
@@ -2007,7 +2018,7 @@ cc.Class({
         if(this.print_ui_object.active) return;
 
         this.print_ui_object.active = true;
-        this.print_ui_object.getComponent(cc.Animation).play('open');
+        this.print_ui_object.getComponent(cc.Animation).play('ui_open');
     },
 
     /**

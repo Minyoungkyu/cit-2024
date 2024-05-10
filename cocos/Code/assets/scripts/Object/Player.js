@@ -351,6 +351,11 @@ cc.Class({
 
                 if(this.playerStatusInfo == 38 || this.playerStatusInfo === 33 ) return;
 
+                // 이곳에서 처리가 안되는거 같1은데..
+
+                console.log("정보 ==> "+this.playerStatusInfo);
+
+
                 // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
                 if(this.direction === Env.DIRECTION_LEFT){
                     // idle_left 애니메이션 적용 예정

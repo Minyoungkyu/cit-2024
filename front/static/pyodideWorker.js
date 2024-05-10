@@ -24,6 +24,7 @@ class Character:
         self.jump_time = 2.0
         self.attack_time = 0.5
         self.check_time = 0.5
+        self.print_result_time = 0.5
         self.monster_attack_time = 1.5
         self.monster_hit_time = 0.5 # appresseive_monster_1 만 적용됨
 
@@ -344,6 +345,7 @@ class Character:
 
     def print_fail(self, status, target_id, line_num):
         total_frames = int(self.print_fail_time * self.fps)
+        total_frames2 = int(self.print_result_time * self.fps)
         # self.data["player"]["status"] = status
 
         # if status == self.hero_miss_args_status:
@@ -352,16 +354,28 @@ class Character:
 
         for _ in range(total_frames):
             self.frame_append(line_num - start_line)
+
+        self.handle_item_status(target_id, self.monster_error_status * 10)
+
+        for _ in range(total_frames2):
+            self.frame_append(line_num - start_line)
             
         self.data["player"]["status"] = 0
         self.handle_item_status(target_id, self.monster_idle_status)
 
     def print_success(self, target_id, target_status, line_num):
         total_frames = int(self.print_time * self.fps)
+        total_frames2 = int(self.print_result_time * self.fps)
+
         self.data["player"]["status"] = self.hero_print_status
         self.handle_item_status(target_id, target_status)
 
         for _ in range(total_frames):
+            self.frame_append(line_num - start_line)
+
+        self.handle_item_status(target_id, self.monster_print_status * 10)
+
+        for _ in range(total_frames2):
             self.frame_append(line_num - start_line)
             
         self.data["player"]["status"] = 0
