@@ -114,6 +114,9 @@ cc.Class({
     
 
         deadIntevalID: null,
+
+        chargeShotParticle: cc.Node,
+        chargeShotBot: cc.Node,
     },
 
     ctor() {
@@ -174,6 +177,13 @@ cc.Class({
 
     },
 
+
+    ShowChargeShotParticle: function(){
+        this.chargeShotBot.getComponent(cc.Animation).play('shot_bot');
+        this.chargeShotParticle.getComponent(cc.Animation).play('charge_shot');
+    },
+
+
     PlayFootStep: function(){
         if(this.isPlaySound) return;
 
@@ -206,6 +216,9 @@ cc.Class({
         var animationName = this.aniArray[number][animation_number];
 
         var upState = clip.getAnimationState(animationName);
+
+        if(upState == null) return;
+
         var isPlaying = upState.isPlaying;
 
         if(!isPlaying){
@@ -411,6 +424,17 @@ cc.Class({
         this.direction = dir;
     },
 
+
+    SetHitStatus: function(){
+        if (this.direction === Env.DIRECTION_LEFT) {
+            this.setPlayerAnimation(HIT_LEFT);
+        }
+        else {
+            this.setPlayerAnimation(HIT_RIGHT);
+        }
+    },
+
+
     /**
      * 플레이어 상태값을 입력받아
      * 말풍선, 죽음, 플레이어상태 표현 출력
@@ -419,11 +443,11 @@ cc.Class({
     setPlayerStatus: function(status){
 
         this.playerStatusInfo = status;
+
+
         if(this.playerStatusInfo < 2 ) return;
 
-
-        
-
+        console.log(this.playerStatusInfo);
 
         switch (status) {
             case 9:
@@ -433,6 +457,16 @@ cc.Class({
             case 10:
                 // 해당방향으로 이동하지못함.
                 this.ShowMessage("이 방향으로 이동할수 없어!");
+                break;
+
+            case 11:
+                // 피격중인 상태
+                if (this.direction === Env.DIRECTION_LEFT) {
+                    this.setPlayerAnimation(HIT_LEFT);
+                }
+                else {
+                    this.setPlayerAnimation(HIT_RIGHT);
+                }
                 break;
             case 13:
                 // Set 명령어 시도중 방향이 다를경우
@@ -491,6 +525,11 @@ cc.Class({
             case 37:
                 this.ShowMessage("폭탄설치중");
                         break;
+
+            case 38:
+                this.setPlayerAnimation(ATK_RIGHT);
+                this.ShowChargeShotParticle();
+                break;
 
             case 39:
                 this.ShowMessage("중력이 너무강해서 점프가 어려워");
