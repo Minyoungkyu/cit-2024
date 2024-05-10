@@ -19,6 +19,7 @@ const JUMP_LEFT = 12;
 const JUMP_RIGHT = 13;
 const JUMP_UP = 14;
 const JUMP_DOWN = 15;
+const CHARGE_SHOT = 16;
 
 
 
@@ -99,6 +100,7 @@ cc.Class({
          * 13 jump_right
          * 14 jump_up
          * 15 jump_down
+         * 16 charge_shot
          */
         aniArray : {
             default: []
@@ -119,16 +121,15 @@ cc.Class({
         chargeShotBot: cc.Node,
     },
 
-    ctor() {
-        // 생성자에서 배열 초기화
+
+    start(){
+        // 객체 시작지점에으로 변경.
         this.aniArray = [
-            ["idle_left_m", "idle_right_m", "idle_up_m", "idle_down_m", "run_left", "run_right", "run_up", "run_down", "hit_l_m", "hit_r_m", "", "", "", "", "", ""],
-            ["idle_left_mh", "idle_right_mh", "idle_up_mh", "idle_down_mh", "run_left_mh", "rum_right_mh", "rum_up_mh", "run_down_mh", "hit_left_mh", "hit_right_mh", "atk_left_mh", "atk_right_mh", "jump_left_mh", "jump_right_mh", "jump_up_mh", "jump_down_mh"],
-            ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w", "", "", "", "", "", ""],
-            ["left_idle", "right_idle", "idle_back", "idle_front", "leftRun", "rightRun", "upRun", "downRun", "hit_left", "hit_right", "attack_left", "attack_right", "jump_left", "jump_right", "jump_up", "jump_down"]
+            ["idle_left_m", "idle_right_m", "idle_up_m", "idle_down_m", "run_left", "run_right", "run_up", "run_down", "hit_l_m", "hit_r_m", "", "", "", "", "", "", ""],
+            ["idle_left_mh", "idle_right_mh", "idle_up_mh", "idle_down_mh", "run_left_mh", "rum_right_mh", "rum_up_mh", "run_down_mh", "hit_left_mh", "hit_right_mh", "atk_left_mh", "atk_right_mh", "jump_left_mh", "jump_right_mh", "jump_up_mh", "jump_down_mh" , "charge_shot_mh"],
+            ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w", "", "", "", "", "", "" , ""],
+            ["left_idle_wh", "right_idle_wh", "idle_back_wh", "idle_front_wh", "leftRun_wh", "rightRun_wh", "upRun_wh", "downRun_wh", "hit_left_wh", "hit_right_wh", "attack_left_wh", "attack_right_wh", "jump_left_wh", "jump_right_wh", "jump_up_wh", "jump_down_wh", "charge_shot_wh"]
         ];
-
-
     },
 
 
@@ -172,7 +173,6 @@ cc.Class({
      * @constructor
      */
     Movement: function(pos){
-        this.changeSpriteDirection();
         this.node.setPosition(pos);
 
     },
@@ -211,21 +211,42 @@ cc.Class({
      */
 
     setPlayerAnimation: function(animation_number){
-        var number = Controller.getInstance().getCharNumber();
+        var number = this.GetGenderInfo();
+        
         var clip = this.getComponent(cc.Animation);
-        var animationName = this.aniArray[number][animation_number];
 
+
+
+        var animationName = this.aniArray[number][animation_number];
         var upState = clip.getAnimationState(animationName);
 
-        if(upState == null) return;
+        if(upState == null){
+            return;
+        } 
 
         var isPlaying = upState.isPlaying;
+
+
+        console.log("anima ==> " + animationName + "number => " + number + "animation_number = > " + animation_number);
 
         if(!isPlaying){
             clip.play(animationName);
         }
 
     },
+
+    GetGenderInfo: function(){
+        var number = Controller.getInstance().getCharNumber();
+        var stageObject = Controller.getInstance().getInitStageData();
+        var step = stageObject.step;
+
+        // if(step == '1-1' && number == 0 ) return 0;
+        // if(step == '1-1' && number == 2 ) return 3;
+        
+        return number;
+
+    },
+
 
     ForcePlayerAnimation: function(animation_number){
         var number = Controller.getInstance().getCharNumber();
@@ -249,6 +270,7 @@ cc.Class({
         // RUN 상태
 
         var isPlaying = false;
+
         if(this.playerStatusInfo  < 2){
             clearInterval(this.deadIntevalID);
             this.PlayerInitAnimation();
@@ -259,9 +281,7 @@ cc.Class({
             switch (this.direction){
 
                 case Env.DIRECTION_UP:
-
                         this.setPlayerAnimation(RUN_UP);
-                        // animationClip.play(Env.ANIMATION_UP);
                     break;
                 case Env.DIRECTION_DOWN:
                         this.setPlayerAnimation(RUN_DOWN);
@@ -330,7 +350,10 @@ cc.Class({
             }
         }
         else{
-            if(this.playerStatusInfo !== 9){
+            if(this.playerStatusInfo !== 9  ){
+
+                if(this.playerStatusInfo == 38 || this.playerStatusInfo === 33 ) return;
+
                 // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
                 if(this.direction === Env.DIRECTION_LEFT){
                     // idle_left 애니메이션 적용 예정
@@ -351,6 +374,9 @@ cc.Class({
                 else if(this.direction === Env.DIRECTION_DOWN){
 
                     this.setPlayerAnimation(IDLE_DOWN);
+
+                    console.log("FUCK 들어옴?");
+
                     // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
                 }
             }
@@ -443,13 +469,31 @@ cc.Class({
     setPlayerStatus: function(status){
 
         this.playerStatusInfo = status;
-
-
-        if(this.playerStatusInfo < 2 ) return;
-
-        console.log(this.playerStatusInfo);
-
         switch (status) {
+            case 1:
+                switch (this.direction){
+
+                    case Env.DIRECTION_UP:
+                            this.setPlayerAnimation(RUN_UP);
+                        break;
+                    case Env.DIRECTION_DOWN:
+                            this.setPlayerAnimation(RUN_DOWN);
+                        break;
+                    case Env.DIRECTION_RIGHT:
+                            this.setPlayerAnimation(RUN_RIGHT);
+                        break;
+                    case Env.DIRECTION_LEFT:
+                            this.setPlayerAnimation(RUN_LEFT);
+                        break;
+                }
+                // 효과음 추가.
+                this.PlayFootStep();
+                break;
+            
+            case 2:
+                clearInterval(this.deadIntevalID);
+                this.PlayerInitAnimation();
+                break;
             case 9:
                 // 플레이어 죽음.
                 this.PlayerDealAnimation();
@@ -461,12 +505,20 @@ cc.Class({
 
             case 11:
                 // 피격중인 상태
+                if(this.isBombAnimation) return;
+                this.isBombAnimation = true;
+                // 폭탄에 맞음
                 if (this.direction === Env.DIRECTION_LEFT) {
                     this.setPlayerAnimation(HIT_LEFT);
-                }
-                else {
+                } else {
                     this.setPlayerAnimation(HIT_RIGHT);
                 }
+    
+                var self = this;
+                setTimeout(function(){
+                    self.isBombAnimation = false;
+                }, 1000);
+    
                 break;
             case 13:
                 // Set 명령어 시도중 방향이 다를경우
@@ -488,21 +540,36 @@ cc.Class({
                 // 추가엔진
                 this.ShowMessage("추가 엔진 장착!");
                 break;
+
+            case 18: 
+                this.ShowMessage("잘못된 명령어야!");
+                break;
             // case 19:
             //     // 출력처리
             //     this.ShowPrintingBubble();
             //     break;
             
+            case 21:
+                if(this.direction === Env.DIRECTION_LEFT){
+                    // idle_left 애니메이션 적용 예정
+                    this.setPlayerAnimation(JUMP_LEFT);
+                }
+                else if(this.direction === Env.DIRECTION_RIGHT){
+                    // idle_right 애니메이션 적용 예정
+                    this.setPlayerAnimation(JUMP_RIGHT);
+                }
+                else if(this.direction === Env.DIRECTION_UP){
+                    this.setPlayerAnimation(JUMP_UP);
+    
+                }
+                else if(this.direction === Env.DIRECTION_DOWN){
+    
+                    this.setPlayerAnimation(JUMP_DOWN);
+                }
+                break;
+
             case 22:
                 this.ShowMessage("점프하기엔 위험해");
-                break;
-
-            case 25:
-                this.ShowMessage("회복 아이템이 없어!");
-                break;
-
-            case 18: 
-                this.ShowMessage("잘못된 명령어야!");
                 break;
             case 23:
                 this.ShowMessage("윽.. ");
@@ -511,6 +578,11 @@ cc.Class({
                 this.ShowMessage("살것같아!");
                 this.healParticle.resetSystem();
                     break;
+
+            case 25:
+                this.ShowMessage("회복 아이템이 없어!");
+                break;
+          
             case 27:
                 this.ShowMessage("list가 비어있는데?");
                         break;
@@ -522,12 +594,24 @@ cc.Class({
                 this.ShowMessage("폭탄이 없어!");
                         break;
 
+            case 33:
+                if(this.direction === Env.DIRECTION_LEFT){
+                    // idle_left 애니메이션 적용 예정
+                    this.setPlayerAnimation(ATK_LEFT);
+                }
+                else if(this.direction === Env.DIRECTION_RIGHT){
+                    // idle_right 애니메이션 적용 예정
+                    this.setPlayerAnimation(ATK_RIGHT);
+                }
+                break;
+
             case 37:
                 this.ShowMessage("폭탄설치중");
                         break;
-
             case 38:
-                this.setPlayerAnimation(ATK_RIGHT);
+                var number = CHARGE_SHOT;
+                console.log("38 들어온 넘버정보--> " + number);
+                this.setPlayerAnimation(number);
                 this.ShowChargeShotParticle();
                 break;
 
@@ -536,11 +620,7 @@ cc.Class({
                     break;
         }
 
-
         this.ProcessEncryptWord(this.playerStatusInfo);
-
-
-
     },
 
     /**

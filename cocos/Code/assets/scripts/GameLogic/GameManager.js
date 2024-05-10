@@ -1862,8 +1862,9 @@ cc.Class({
             this.player.getComponent("Player").SetHitStatus();
         }
         else{
-            this.player.getComponent("Player").setPlayerStatus(playerStatus);
             this.player.getComponent("Player").setDirection(command.player.dir);
+            this.player.getComponent("Player").setPlayerStatus(playerStatus);
+           
             this.player.getComponent("Player").Movement(convertPos);
         }
 
