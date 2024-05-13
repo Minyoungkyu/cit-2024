@@ -1,4 +1,4 @@
-﻿
+﻿const SoundManager = require("../GameLogic/SoundManager");
 const Controller = require("../Controller");
 
 cc.Class({
@@ -129,6 +129,7 @@ cc.Class({
 
         this.AddEvent();
         this.GameUpdator();
+
     },
 
 
@@ -137,7 +138,12 @@ cc.Class({
             this.spaceShip.active = false;
             var rotate = 0;
 
-            var rotateAction = cc.rotateTo(0.8, 0);
+            var rotateAction = cc.rotateTo(1, 0);
+
+            var func = cc.spawn(cc.callFunc(()=>{
+                SoundManager.getInstance().PlaySfx(Env.SFX_ROCKET_LAUNCH_ANGLE);
+            }),rotateAction);
+
             var delayAction = cc.delayTime(0.5);
 
             var fadeOutAction = cc.fadeOut(0.5);
@@ -159,7 +165,7 @@ cc.Class({
                 this.ShowPopupMessage("발사체에 연료 주입하기 (3회)");
             }, this);
 
-            var sequenceAction = cc.sequence(rotateAction, delayAction, fadeAndCall, finalCallbackAction);
+            var sequenceAction = cc.sequence(func, delayAction, fadeAndCall, finalCallbackAction);
             this.movingTarget.runAction(sequenceAction);
         }
         else if(this.status == 3){
@@ -214,6 +220,7 @@ cc.Class({
             var del = cc.delayTime(0.2);
             var func = cc.callFunc(()=>{
                this.particle_1.active = true;
+               SoundManager.getInstance().PlaySfx(Env.SFX_ROCKET_GO);
             });
 
 
@@ -278,6 +285,19 @@ cc.Class({
 
     GameUpdator: function(){
         this.ShowMessageBox(0);
+
+        var bg = setInterval(function(){
+
+            if(SoundManager.getInstance().IsBgmPlayed()){
+                console.log("좀료됨.");
+                clearInterval(bg);
+            }
+            else{
+                SoundManager.getInstance().PlayBGM();
+                console.log("NONE");
+            }
+
+        },500);
     },
 
     InitUI : function(){
@@ -323,12 +343,21 @@ cc.Class({
         var totalNodes = this.phase1Nodes.length;
 
         var self = this;
+        
+        SoundManager.getInstance().PlaySfx(Env.SFX_OPEN_UI);
 
         this.phase1Nodes.forEach((node, index) => {
             node.opacity = 0;
             // 각 노드의 딜레이 계산 (index * initialDelay)
             var delayTime = cc.delayTime(index * initialDelay);
+
+
             var fadeIn = cc.fadeIn(0.8);
+
+            var cspawn = cc.spawn(cc.callFunc(()=>{
+                
+            }), fadeIn);
+
 
             // 모든 노드의 애니메이션이 끝난 후 실행할 작업 정의
             var onAllAnimationsComplete = cc.callFunc(() => {
@@ -353,7 +382,9 @@ cc.Class({
                 }
             });
 
-            var sequence = cc.sequence(delayTime, fadeIn, onAllAnimationsComplete);
+
+
+            var sequence = cc.sequence(delayTime, cspawn, onAllAnimationsComplete);
 
             // 시퀀스에 애니메이션 완료 콜백 추가
             // 애니메이션 실행
@@ -368,6 +399,12 @@ cc.Class({
         var scaleAction = cc.scaleTo(0.5, 1, 1);
         var delay = cc.delayTime(0.8);
 
+
+        var cspawn = cc.spawn(cc.callFunc(()=>{
+            SoundManager.getInstance().PlaySfx(Env.SFX_OPEN_UI);
+        }), scaleAction);
+
+
         var callFuncAction = cc.callFunc(()=>{
             this.status = 2;
             this.ShowPopupMessage("발사각도를 90도로 조정해주세요!");
@@ -377,7 +414,10 @@ cc.Class({
             // this.phase1StopBtn.active = true;
         }, this, "Hello World");
 
-        var seq = cc.sequence(scaleAction, delay , callFuncAction );
+        var seq = cc.sequence(cspawn, delay , callFuncAction );
+
+
+
 
         this.phase1Object.runAction(seq);
     },
@@ -468,6 +508,8 @@ cc.Class({
         this.limitLeftObject.active = false;
         this.limitRightObject.active = false;
 
+        SoundManager.getInstance().PlaySfx(Env.SFX_OPEN_UI);
+
         this.phase2Nodes.forEach((node, index) => {
             node.opacity = 0;
             // 각 노드의 딜레이 계산 (index * initialDelay)
@@ -527,7 +569,7 @@ cc.Class({
         var fadeIn = cc.fadeIn(0.8);
         var delayTime = cc.delayTime(0.5);
 
-
+        SoundManager.getInstance().PlaySfx(Env.SFX_OPEN_UI);
         this.limitLeftObject.active = true;
         this.limitRightObject.active = true;
 
@@ -562,6 +604,7 @@ cc.Class({
             if (index < text.length) {
                 label.string += text.charAt(index); // 현재 인덱스의 문자 추가
                 index++; // 인덱스 증가
+                SoundManager.getInstance().PlaySfx(Env.SFX_TYPING)
                 setTimeout(typeChar, 30); // 다음 문자를 위한 시간 지연 설정 (100ms)
             } else if (onComplete) {
                 onComplete(); // 모든 문자 출력 완료 시 호출할 함수
@@ -670,6 +713,8 @@ cc.Class({
                 self.ShowMessageBox(self.dialongIndex);
             },1000);
         }
+
+        SoundManager.getInstance().PlaySfx(Env.SFX_BTN);
     },
 
 
@@ -689,6 +734,7 @@ cc.Class({
 
 
         if(isError){
+            SoundManager.getInstance().PlaySfx(Env.SFX_ERROR);
             this.errorPange.active = true;
         }
 
@@ -711,10 +757,12 @@ cc.Class({
         // 시퀀스 생성 및 실행
         let sequence = cc.sequence(shakes[0],shakes[1],shakes[2],shakes[3], restoreOriginal);
         object.runAction(sequence);
+
     },
 
 
     Phase1StopAction :function(){
+        SoundManager.getInstance().PlaySfx(Env.SFX_MINIGAME_BTN);
 
         if(this.degree <= 5){
             this.status = 1;
@@ -727,9 +775,12 @@ cc.Class({
         else{
             this.ShakeObject(this.phase1Object);
         }
+
     },
 
     Phase2StopAction : function(){
+
+        SoundManager.getInstance().PlaySfx(Env.SFX_MINIGAME_BTN);
 
         if(this.progressValue >= this.leftLimit && this.progressValue <= this.rightLimit){
 
@@ -747,12 +798,13 @@ cc.Class({
                 this.FilledOiled(this.phase2Level);
                 this.phase2Level++;
                 this.progressValue = 0;
+                SoundManager.getInstance().PlaySfx(Env.SFX_FILL_OIL);
             }
+
         }
         else{
             this.ShakeObject(this.phase2Object);
         }
-
     },
 
     StopDegreeLooper:function(){

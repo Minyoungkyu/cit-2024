@@ -16,6 +16,7 @@ window.Env = {
     //48
 
 
+    
 
     /**
      * SFX 태그 정보 해당 태그를 이용해 불르도록.
@@ -41,6 +42,22 @@ window.Env = {
     SFX_FILENAME_PARTS_DOCKING: 'parts_done',
 
 
+    SFX_ROCKET_LAUNCH_ANGLE_FILE : 'launch',
+    SFX_BTN_FILE : 'btn',
+    SFX_ERROR_FILE: 'error',
+    SFX_FILL_OIL_FILE : 'fill_oil',
+    SFX_ROCKET_GO_FILE: 'spaceship_boost',
+    SFX_TYPING_FILE: 'typing',
+    SFX_UI_OPEN_FILE : 'open_ui',
+
+    SFX_SHOT_FILE: 'nomalShot',
+    SFX_CHARGE_SHOT_FILE : 'charge_shot',
+    SFX_MONSTER_DEAD_FILE: 'monster_dead',
+    SFX_MINI_BTN_FILE : 'mini_btn',
+    MINIGAME_1_BG_FILE: 'minigame_bg',
+
+    
+
     // Audio Manager 에서 불려짐.
     SFX_DROP_SWITCH: 0,
     SFX_LASER_BUTTON: 1,
@@ -50,7 +67,18 @@ window.Env = {
     SFX_LASER_ON : 5,
     SFX_LASER_OFF : 6,
     SFX_PARTS_DOCKING : 7,
-
+    SFX_BTN : 8,
+    SFX_ERROR : 9,
+    SFX_FILL_OIL : 10,
+    SFX_ROCKET_LAUNCH_ANGLE: 11,
+    SFX_ROCKET_GO : 12,
+    SFX_TYPING : 13,
+    SFX_OPEN_UI : 14,
+    SFX_SHOT : 15,
+    SFX_CHARGE_SHOT : 16,
+    SFX_MONSTER_DEAD: 17,
+    MINIGAME_1_BG: 18,
+    SFX_MINIGAME_BTN: 19,
 
 
 
@@ -88,9 +116,10 @@ window.Env = {
     VARIATION_SWITCH_OFF : 22,
     MEDICINE : 23,
     BOMB_BOX : 24,
+    BOSS_BOMB_BOX : 25,
 
     // 최대 사이즈표현
-    MAX_LOAD_IMAGE_LENGTH : 25,
+    MAX_LOAD_IMAGE_LENGTH : 26,
 
 
     /**
@@ -126,6 +155,11 @@ window.Env = {
     VARIATION_SWITCH_OFF_FILE : 'lSwitch_off',
     MEDICINE_FILE : 'medicine',
     BOMB_BOX_FILE : 'bomb_box',
+
+    // 보스스테이지 에서 폭탄
+    BOSS_BOMB_FILE : 'item_bboom',
+
+
 
 
     /**

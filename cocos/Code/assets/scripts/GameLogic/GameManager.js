@@ -116,10 +116,6 @@ cc.Class({
         print_ui_label: cc.Label,
 
 
-        /**스테이지 2 에서 사용되는 정보 */
-        print_array : [],
-
-
         /** 2스테이지에서 보여질 객체 처리 */
         bomb_sprites : {
             default: [],
@@ -149,6 +145,17 @@ cc.Class({
          */
 
         bossObject: cc.Node,
+
+        // 현재 스테이지 정보 가져옴.
+        currentStage: '',
+        currentStep : '',
+        currentLevel: '',
+
+
+        print_point_array: [],
+
+        print_idx : 0,
+
     },
 
     /**
@@ -524,10 +531,9 @@ cc.Class({
 
         for( var i = 0 ; i < initData.length; i++ ){
             if(initData[i].type === 'print_point') {
-                this.print_array = initData[i].require_print;
-                break;
+                var id = initData[i].id;
+                this.print_point_array.push(id);
             }
-
         }
 
 
@@ -1088,6 +1094,7 @@ cc.Class({
         var self = this;
         var mapUrl = "./map/" + this.GetMapURL();  // 맵 URL 동적 생성
 
+        
         // Tiled Map 리소스 로드
         cc.loader.loadRes(mapUrl, cc.TiledMapAsset, function (err, tmxFile) {
             if (err) {
@@ -1413,19 +1420,25 @@ cc.Class({
 
         var objects = Controller.getInstance().getInitOjbectDatas();
 
+        var stageObject = Controller.getInstance().getInitStageData();
+        /**
+         * 현재 스탭, 레벨, 단계 정보 담아야함. 
+         * 폭탄부분 및 다른곳에서 필요하네 
+         */
+
+        this.currentLevel = stageObject.level;
+        this.currentStage = stageObject.stage;
+        this.currentStep = stageObject.step;
+
+
         if (objects.length < 1) {
             return;
         } else {
             for (var i = 0; i < objects.length; i++) {
                 this.MakeUpObject(objects[i]);
-
                 this.AddBombSprites(objects[i]);
             }
         }
-        // var ts = performance.now();
-        // var li =  ts - self.startTime;
-
-        // 처리..
         this.ShowVariableBombSprites();
     },
 
@@ -1617,13 +1630,24 @@ cc.Class({
         var prefabName = "";
         var self = this;
 
+        var isBossBomb = false;
+
         // 태그값에 해당하는 프리팹 이름 가져옴.
         switch (tag){
             case Env.FOOD : prefabName = "food";    break;
             case Env.NORMAL_SWITCH_ON : case Env.NORMAL_SWITCH_OFF : prefabName = "nSwitch";  break;
             case Env.LASER_SWITCH_ON : case Env.LASER_SWITCH_OFF : prefabName = "lSwitch"; break;
             case Env.BATTERY : prefabName = "battery"; break;
-            case Env.BOMB : prefabName = "bomb"; break;
+            case Env.BOMB :
+                if(this.currentStep === '3-4' && this.currentLevel == 3){
+                    prefabName = 'boss_bomb';
+                    isBossBomb = true;
+                }
+                else{
+                    prefabName = "bomb";
+                }
+            
+            break;
             case Env.ROCKET_EMPTY : case Env.ROCKET_FILLED : prefabName = "rocketParts";  break;
             case Env.GOAL : prefabName = "goal"; break;
             case Env.FLOOR: prefabName = "floor"; break;
@@ -1644,8 +1668,6 @@ cc.Class({
             case Env.BOMB_BOX : prefabName = "bomb_box"; break;
         }
 
-        
-
         if(prefabName == "" ){
             console.log("Not found Prefabs => " + tag + " id => " + id);
             return;
@@ -1664,7 +1686,15 @@ cc.Class({
             var v1 = self.GVector(pos.x,pos.y);
             n1.setPosition(v1);
             n1.addComponent("Gobject");
-            n1.getComponent('Gobject').Init(tag,id);
+
+            if(isBossBomb){
+                n1.getComponent('Gobject').Init(Env.BOSS_BOMB_BOX,id);
+
+            }
+            else{
+                n1.getComponent('Gobject').Init(tag,id);
+            }
+
 
             if(status == 0){
                 n1.getComponent('Gobject').Show();
@@ -1685,7 +1715,6 @@ cc.Class({
                 self.item.push(n1);
                 self.node.addChild(n1);
             }
-
             else{
                 self.item.push(n1);
                 self.node.addChild(n1);
@@ -1803,32 +1832,31 @@ cc.Class({
         var stage_step = stageObject.step;
         var level = stageObject.level;
 
-        if(stage_step === '3-1' && level !== 2){
-            return;
+      
+        var playerStatus = command.player.status;
+
+        // console.log("Loade playerStatus->"+playerStatus);
+
+        if(playerStatus === 19){
+            var item_list = command.item_list;
+
+            var printIndex = this.print_point_array[this.print_idx];
+
+            var print_array_info =  item_list[printIndex].print_array;
+
+            // 데이터가 없을 경우 예외 처리가 필요..
+            if(print_array_info.length < 1) return;
+
+            var print_data = '';
+            for(var i = 0; i < print_array_info.length; i++){
+                print_data += ( print_array_info[i] + " ");
+            }
+            var convert = print_data.toString();
+
+            this.ShowPrintUI(convert);
         }
-        else{
-            var playerStatus = command.player.status;
-
-            if(playerStatus === 19){
-                var item_list = command.item_list;
-                var print_array =  item_list[0].print_array;
-
-                // 데이터가 없을 경우 예외 처리가 필요..
-                if(print_array.length < 1) return;
-
-                var print_data = '';
-                for(var i = 0; i < print_array.length; i++){
-                    print_data += ( print_array[i] + " ");
-                }
-                var convert = print_data.toString();
-    
-                console.log(convert);
-
-                this.ShowPrintUI(convert);
-            }
-            else if(playerStatus != 0){
-                this._InitPrintUI();
-            }
+        else if(playerStatus == 0){
+            this._HidePrintUI();
         }
     },
 
@@ -2007,6 +2035,7 @@ cc.Class({
         this.print_ui_object.active = false;
         this.print_ui_object.scale = cc.v2(1, 0);
         this.print_ui_label.string = '';
+        this.print_idx = 0;
     },
 
 
@@ -2019,6 +2048,19 @@ cc.Class({
 
         this.print_ui_object.active = true;
         this.print_ui_object.getComponent(cc.Animation).play('ui_open');
+    },
+
+    _HidePrintUI: function(){
+        if(this.print_ui_object.active === false) return;
+
+
+        if(this.print_idx < this.print_point_array.length -1){
+            this.print_idx++ 
+        }
+
+        this.print_ui_object.active = false;
+        this.print_ui_object.scale = cc.v2(1, 0);
+        this.print_ui_label.string = '';
     },
 
     /**
@@ -2117,20 +2159,16 @@ cc.Class({
 
     },
 
-
     /**
      * 폭탄 보였다 안보였다 처리 효과.
      */
     ShowVariableBombSprites: function(){
 
-        console.log("HI In come");
         var self = this;
         setInterval(function(){
             if(Controller.getInstance().getCurrentCommandID() > 2) self._HideVariableSprites();
             else self._ShowVariableSprites();
         },30);
-
-        
     },
 
     /**
@@ -2155,10 +2193,8 @@ cc.Class({
      * 보이게 하는 Sprites;
      */
     _ShowVariableSprites: function(){
-
         if(this.isShowVariation) return;
         this.isShowVariation = true;
-
 
         var opRatio = 3;
         var intervalSpeed = 90;
@@ -2168,13 +2204,10 @@ cc.Class({
             intervalSpeed = 210;
             opRatio = 1;
         }
-
-
         var show_idx = 0;
         var opt = [0, 0, 0 ,0, 0, 0, 0];
 
         var self = this;
-
         this.bomb_sprite_id = setInterval(function(){
 
             if(opt[show_idx] > 250){
@@ -2183,7 +2216,6 @@ cc.Class({
                 for( var j = 0; j < self.bomb_sprites[show_idx].length; j++){
                     self.bomb_sprites[show_idx][j].opacity = 0;
                 }
-                
                 if(show_idx >=  self.bomb_sprite_max_range-1 ){
                     show_idx = 0;
                 }
@@ -2201,8 +2233,6 @@ cc.Class({
         },intervalSpeed);
 
     },
-
-
 
     // TODO
     GameClearAllHideUI: function(){
@@ -2223,15 +2253,24 @@ cc.Class({
 
             var itemID = itemObject.GetItemID();
             var itemTag = itemObject.GetItemTag();
+
             if(itemID === index && status === 0){
                 itemObject.Hide();
             }
             else if(itemObject.GetItemID() === index && status === 1){
+
+                if(itemTag === Env.BOSS_BOMB_BOX){
+                    // 보스 스테이지 에서 폭탄 생성 이펙트 추가.
+                    if(this.currentStep === '3-4' && this.currentLevel === 3){
+                        if(this.item[i].active === false){
+                            this.ShowDropEffect(this.item[i].position);
+                        }
+                    }
+                }
                 itemObject.Show();
             }
         }
     },
-
 
     /**
      * Json에서 읽어온 코드 뭉치를 게임에 적용하여 플레이 합니다.
@@ -2268,7 +2307,6 @@ cc.Class({
         }, 1000/60);
     },
 
-
     /**
      * TMD 리셋 요청 코드로 인해 만든 함수 
      * 코드 종료후 Reset 버튼 클릭시 최초 상태로 되돌리기위한 함수. 
@@ -2289,6 +2327,4 @@ cc.Class({
             
         }, 1000/60);
     },
-
-
 });

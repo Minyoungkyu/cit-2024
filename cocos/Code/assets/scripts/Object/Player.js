@@ -181,6 +181,8 @@ cc.Class({
     ShowChargeShotParticle: function(){
         this.chargeShotBot.getComponent(cc.Animation).play('shot_bot');
         this.chargeShotParticle.getComponent(cc.Animation).play('charge_shot');
+
+        SoundManager.getInstance().PlaySfx(Env.CHARGE_SHOT);
     },
 
 
@@ -227,6 +229,12 @@ cc.Class({
         var isPlaying = upState.isPlaying;
 
         if(!isPlaying){
+
+
+            if(animation_number === Env.SFX_SHOT){
+                SoundManager.getInstance().PlaySfx(SFX_SHOT);
+            }
+
             clip.play(animationName);
         }
 
@@ -269,7 +277,7 @@ cc.Class({
         var isPlaying = false;
 
         if(this.playerStatusInfo  < 2){
-            clearInterval(this.deadIntevalID);
+           
             this.PlayerInitAnimation();
         }
 
@@ -345,6 +353,9 @@ cc.Class({
                 // idle_right 애니메이션 적용 예정
                 this.setPlayerAnimation(ATK_RIGHT);
             }
+
+            
+
         }
         else{
             if(this.playerStatusInfo !== 9  ){
@@ -469,6 +480,9 @@ cc.Class({
 
         this.playerStatusInfo = status;
         switch (status) {
+            case 0:
+                this.PlayerInitAnimation();
+                break;
             case 1:
                 switch (this.direction){
 
@@ -490,8 +504,28 @@ cc.Class({
                 break;
             
             case 2:
-                clearInterval(this.deadIntevalID);
-                this.PlayerInitAnimation();
+                // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
+                if(this.direction === Env.DIRECTION_LEFT){
+                    // idle_left 애니메이션 적용 예정
+                    this.setPlayerAnimation(IDLE_LEFT);
+
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_LEFT);
+                }
+                else if(this.direction === Env.DIRECTION_RIGHT){
+                    // idle_right 애니메이션 적용 예정
+                    this.setPlayerAnimation(IDLE_RIGHT);
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_RIGHT);
+                }
+                else if(this.direction === Env.DIRECTION_UP){
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_UP);
+                    this.setPlayerAnimation(IDLE_UP);
+
+                }
+                else if(this.direction === Env.DIRECTION_DOWN){
+
+                    this.setPlayerAnimation(IDLE_DOWN);
+                    // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
+                }
                 break;
             case 9:
                 // 플레이어 죽음.
@@ -754,7 +788,7 @@ cc.Class({
 
         this.playerIsDead = false;
         this.node.opacity = 255;
-
+        clearInterval(this.deadIntevalID);
         
 
     },

@@ -17,7 +17,7 @@ const MONSTER_YELLOW = 1;
 
 
 const Controller = require("Controller");
-
+const SoundManager = require("../GameLogic/SoundManager");
 
 
 

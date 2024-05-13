@@ -67,6 +67,7 @@
                 Env.VARIATION_SWITCH_OFF_FILE,
                 Env.MEDICINE_FILE,
                 Env.BOMB_BOX_FILE,
+                Env.BOSS_BOMB_FILE,
             ];
 
             for (let i = 0; i < imgArray.length; i++) {

@@ -58,7 +58,6 @@ cc.Class({
     },
 
     HideSpecialAttack: function(){
-        console.log("IHIT");
         this.special_atk_particle.active = false;
     },
 
@@ -89,7 +88,6 @@ cc.Class({
                 break;
             
             case HIT:
-                console.log("HIT STATUS");
                 this._SetMonsterAnimation(ANIMATION_HIT);
                 break;
 
