@@ -154,6 +154,13 @@ cc.Class({
 
         print_point_array: [],
 
+
+        // 프린트 객체 배열
+        objectPrintArray: [],
+        // 인포 객체 배열
+        objectInfoArray: [],
+
+
         print_idx : 0,
 
     },
@@ -1566,6 +1573,9 @@ cc.Class({
             case "door":  return Env.DOOR_ON;
             case "medicine": return Env.MEDICINE;
             case "box": return Env.BOMB_BOX;
+            case "print_point" : return Env.PRINT_POINT;
+            case "info_point" : return Env.INFO_POINT;
+            case "number_point" : return Env.NUMBER_POINT;
 
             default : return -99;
         }
@@ -1666,6 +1676,7 @@ cc.Class({
             case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
             case Env.MEDICINE: prefabName = "medicine"; break;
             case Env.BOMB_BOX : prefabName = "bomb_box"; break;
+            case Env.PRINT_POINT: case Env.INFO_POINT: case Env.NUMBER_POINT:  prefabName = "ui_quest"; break;
         }
 
         if(prefabName == "" ){
@@ -1713,6 +1724,15 @@ cc.Class({
                     n1.getComponent('Gobject').SetDir('h');
                 }
                 self.item.push(n1);
+                self.node.addChild(n1);
+            }
+            else if(tag === Env.PRINT_POINT){
+
+                self.objectPrintArray.push(n1);
+                self.node.addChild(n1);
+            }
+            else if(tag === Env.INFO_POINT || tag === Env.NUMBER_POINT){
+                self.objectInfoArray.push(n1);
                 self.node.addChild(n1);
             }
             else{
@@ -1840,6 +1860,8 @@ cc.Class({
         if(playerStatus === 19){
             var item_list = command.item_list;
 
+            if(this.currentStep == '3-1' && this.currentLevel == '1') return;
+
             var printIndex = this.print_point_array[this.print_idx];
 
             var print_array_info =  item_list[printIndex].print_array;
@@ -1855,7 +1877,7 @@ cc.Class({
 
             this.ShowPrintUI(convert);
         }
-        else if(playerStatus == 0){
+        else if(playerStatus == 2){
             this._HidePrintUI();
         }
     },
@@ -1938,7 +1960,7 @@ cc.Class({
             this.ShakeEffect();
             this.ShowExplosion(pos);
         }
-        else if( status === 3 || status === 37){
+        else if( status === 3){
             this.ShowPickup(pos);
         }
     },
@@ -1958,8 +1980,10 @@ cc.Class({
             this.ItemStatusUpdate(i, id_list[i]);
             // Drop Switch UPdate
             this.DropSwitchUpdate(i, id_list[i]);
+
         }
     },
+
 
     /**
      * 드롭 스위치 의 상태를 표현해주는 함수입니다.
@@ -2048,6 +2072,8 @@ cc.Class({
 
         this.print_ui_object.active = true;
         this.print_ui_object.getComponent(cc.Animation).play('ui_open');
+
+        SoundManager.getInstance().PlaySfx(Env.SFX_OPEN_UI);
     },
 
     _HidePrintUI: function(){
@@ -2068,8 +2094,16 @@ cc.Class({
      * @param {string} text 
      */
     ShowPrintUI: function(text){
+        // 3-1 예외 처리.
+
         this._OpenPrintUI();
+
+        if(this.print_ui_label.string !== text){
+            SoundManager.getInstance().PlaySfx(Env.SFX_TYPING);
+        }
+
         this.print_ui_label.string = text;
+
     },
 
     
@@ -2254,23 +2288,81 @@ cc.Class({
             var itemID = itemObject.GetItemID();
             var itemTag = itemObject.GetItemTag();
 
-            if(itemID === index && status === 0){
-                itemObject.Hide();
-            }
-            else if(itemObject.GetItemID() === index && status === 1){
+            if(itemTag === Env.PRINT_POINT || itemTag == Env.INFO_POINT
+                || itemTag == Env.NUMBER_POINT) continue;
 
-                if(itemTag === Env.BOSS_BOMB_BOX){
-                    // 보스 스테이지 에서 폭탄 생성 이펙트 추가.
-                    if(this.currentStep === '3-4' && this.currentLevel === 3){
-                        if(this.item[i].active === false){
-                            this.ShowDropEffect(this.item[i].position);
+
+            if(itemTag == Env.DOOR_ON){
+                if(itemID === index && status === 0){
+
+                    if(itemObject.node.active){
+                        this.ShowDropEffect(itemObject.node.position);       
+                        SoundManager.getInstance().PlaySfx(Env.SFX_PARTS_DOCKING);
+                    } 
+                    itemObject.Hide();
+                    this.AllHidePrintObject();
+                    // FUCK 
+
+                    
+
+                }
+                else if(itemObject.GetItemID() === index && status === 1){
+                    itemObject.Show();
+                    this.AllShowPrintObject();
+                }
+            }
+            else{
+                if(itemID === index && status === 0){
+                    itemObject.Hide();
+                }
+                else if(itemObject.GetItemID() === index && status === 1){
+    
+                    if(itemTag === Env.BOSS_BOMB_BOX){
+                        // 보스 스테이지 에서 폭탄 생성 이펙트 추가.
+                        if(this.currentStep === '3-4' && this.currentLevel === 3){
+                            if(this.item[i].active === false){
+                                this.ShowDropEffect(this.item[i].position);
+                            }
                         }
                     }
+                    itemObject.Show();
                 }
-                itemObject.Show();
             }
         }
     },
+
+
+    /**
+     * print_array, info_point Quest 객체 감추기.
+     */
+    AllHidePrintObject: function(){
+
+
+        for(var i = 0; i < this.objectInfoArray.length; i++){
+            this.objectInfoArray[i].getComponent("Gobject").Hide();
+        }
+
+        for(var i = 0; i < this.objectPrintArray.length; i++){
+            this.objectPrintArray[i].getComponent("Gobject").Hide();
+        }
+    },
+
+    /**
+     * print_array, info_point Quest 객체 보여주는곳
+     */
+    AllShowPrintObject: function(){
+
+        for(var i = 0; i < this.objectInfoArray.length; i++){
+            this.objectInfoArray[i].getComponent("Gobject").Show();
+        }
+
+        for(var i = 0; i < this.objectPrintArray.length; i++){
+            this.objectPrintArray[i].getComponent("Gobject").Show();
+        }
+    },
+
+
+    
 
     /**
      * Json에서 읽어온 코드 뭉치를 게임에 적용하여 플레이 합니다.

@@ -23,6 +23,8 @@ var Gobject = cc.Class({
      * @constructor
      */
     Init: function(TAG, id){
+
+        
         this.ChangeSprite(TAG);
         this.itemId = id;
         this.itemTAG = TAG;
@@ -225,7 +227,6 @@ var Gobject = cc.Class({
         }
         else if(this.itemTAG === Env.LASER_MIDDLE_ON){
             // 혹여나 들어오면 확인..
-            console.log("Laser 들어옴");
             this.node.active = true;
             if(this.laser_direction === 'h'){
                 // horizontal
@@ -311,6 +312,8 @@ var Gobject = cc.Class({
      * @constructor
      */
     ChangeSprite: function(tag){
+        if(tag === Env.PRINT_POINT || tag == Env.INFO_POINT || tag === Env.NUMBER_POINT) return;
+
         this.node.getComponent(cc.Sprite).spriteFrame = Loader.getInstance().GetImage(tag);
     },
 

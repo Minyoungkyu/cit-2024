@@ -97,6 +97,9 @@ cc.Class({
         this.id = json.id;
         this.init_json_data = json;
 
+        console.log("monster -> "+json.type);
+
+
         if(json.type === 'aggressive_monster_2'){
             this._SetMonsterAnimation(0,IDLE_LEFT);
             this.monster_number = MONSTER_RED;
@@ -116,6 +119,9 @@ cc.Class({
 
         }
         else if(json.type === 'passive_monster'){
+            this.monster_number = MONSTER_YELLOW;
+            this.monster_type = PASSIVE;
+
             if(json.dir === 'left'){
                 this._SetMonsterAnimation(1,IDLE_LEFT);
                 this.direction  = DIR_LEFT;
@@ -124,11 +130,20 @@ cc.Class({
                 this._SetMonsterAnimation(1,IDLE_RIGHT);
                 this.direction = DIR_RIGHT;
             }
-            this.monster_number = MONSTER_YELLOW;
-            this.monster_type = PASSIVE;
+
+            this.hpBar.active = false;
+            this.monsterNameTack.active = false;
+          
         }
         else if(json.type == 'aggressive_monster_1'){
-            this._SetMonsterAnimation(1,IDLE_LEFT);
+
+            if(json.dir === 'left'){
+                this._SetMonsterAnimation(1,IDLE_LEFT);
+            }
+            else{
+                this._SetMonsterAnimation(1,IDLE_RIGHT);
+            }
+
             this.direction = DIR_NONE;
             this.monster_number = MONSTER_YELLOW;
             this.monster_type = AGGREE_1;
@@ -138,6 +153,8 @@ cc.Class({
     },
 
     ShowExplosion: function(){
+
+        SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
         this.explosionPrefabs.getComponent(cc.Animation).play("explosion");
     },
 
@@ -172,7 +189,6 @@ cc.Class({
                 case STATE_ATTACK:
 
                     if(this.monster_type == AGGREE_1){
-                        console.log("ATK_AGG_1");
 
                        
                     }
@@ -293,7 +309,6 @@ cc.Class({
         clearInterval( this.deadIntevalID);
         clearInterval( this.timout);
 
-        console.log("INIT");
         this.Movement(this.init_position, this.direction);
         if(this.monster_type === AGGREE_2){
 
@@ -352,7 +367,15 @@ cc.Class({
         var upState = clip.getAnimationState(animationName);
         var isPlaying = upState.isPlaying;
 
+        
+
+
         if(!isPlaying){
+
+            if(animation_number == HIT_LEFT || animation_number == HIT_RIGHT){
+                SoundManager.getInstance().PlaySfx(Env.SFX_MONSTER_DEAD);
+            }
+
             clip.play(animationName);
         }
 
@@ -400,6 +423,7 @@ cc.Class({
 
 
         this.timout = setTimeout(function() {
+
             self.deadIntervalID = setInterval(function() {
                 self.node.opacity -= 9; // 먼저 투명도를 감소시킵니다.
                 if (self.node.opacity < 1) {

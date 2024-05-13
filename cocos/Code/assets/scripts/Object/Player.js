@@ -32,6 +32,7 @@ const STATUS_JUMP = 0;
 
 
 const Controller = require("Controller");
+const SoundManager = require("../GameLogic/SoundManager");
 
 cc.Class({
     extends: cc.Component,
@@ -182,7 +183,6 @@ cc.Class({
         this.chargeShotBot.getComponent(cc.Animation).play('shot_bot');
         this.chargeShotParticle.getComponent(cc.Animation).play('charge_shot');
 
-        SoundManager.getInstance().PlaySfx(Env.CHARGE_SHOT);
     },
 
 
@@ -231,8 +231,11 @@ cc.Class({
         if(!isPlaying){
 
 
-            if(animation_number === Env.SFX_SHOT){
-                SoundManager.getInstance().PlaySfx(SFX_SHOT);
+            if(animation_number === ATK_LEFT || animation_number === ATK_RIGHT){
+                SoundManager.getInstance().PlaySfx(Env.SFX_SHOT);
+            }
+            else if(animation_number == CHARGE_SHOT){
+                SoundManager.getInstance().PlaySfx(Env.SFX_CHARGE_SHOT);
             }
 
             clip.play(animationName);
@@ -364,8 +367,6 @@ cc.Class({
 
                 // 이곳에서 처리가 안되는거 같1은데..
 
-                console.log("정보 ==> "+this.playerStatusInfo);
-
 
                 // 방향이 왼쪽을 제외하곤 다 오른쪽 보도록
                 if(this.direction === Env.DIRECTION_LEFT){
@@ -442,8 +443,6 @@ cc.Class({
      * 플레이어 정보를 초기화 하는 함수입니다.
      */
     playerInit : function(){
-
-        
         healParticle.loop = false;
 
         this.node.setPosition(this.initPosition);

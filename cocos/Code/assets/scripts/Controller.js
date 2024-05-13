@@ -46,6 +46,8 @@ var Controller = cc.Class({
          * 현재 읽은 stream ID 값
          */
         _currentCommandID: 0,
+
+        _soundVolume : 1,
     },
 
 
@@ -257,9 +259,20 @@ var Controller = cc.Class({
         this.isGameReset = true;
     },
 
+    setVolume: function(number){
+        this._soundVolume = number / 100;
+    },
+
 });
 
 module.exports = Controller;
+
+
+
+window.SetVolume = function(number){
+    Controller.getInstance().setVolume(number);
+}
+
 
 
 /**
@@ -276,7 +289,7 @@ window.SetCharacterInfo = function(number){
 /**
  * 페이지가 최초 로드될때 Call 되는 Init Json 데이터
  */
-window.SendInitData = function(json){
+window.SendInitData = function(json, gender = 0, skin = 0  ){
     if(Controller.getInstance().initJson != null) return true;
 
     Controller.getInstance().ReceiveJson(json , true);

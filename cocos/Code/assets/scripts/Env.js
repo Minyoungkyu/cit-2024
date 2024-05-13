@@ -121,6 +121,9 @@ window.Env = {
     // 최대 사이즈표현
     MAX_LOAD_IMAGE_LENGTH : 26,
 
+    PRINT_POINT : 99,
+    INFO_POINT : 100,
+    NUMBER_POINT : 101,
 
     /**
      * Loader class 에서 사용되는 파일명 및 경로

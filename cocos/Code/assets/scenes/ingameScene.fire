@@ -2363,6 +2363,8 @@
     "currentStep": "",
     "currentLevel": "",
     "print_point_array": [],
+    "objectPrintArray": [],
+    "objectInfoArray": [],
     "print_idx": 0,
     "_id": "cfAwpmampJyqu2Lpn6r8Ms"
   },
@@ -2723,7 +2725,7 @@
       "array": [
         -200,
         -950,
-        935.3074360871938,
+        712.021730027084,
         0,
         0,
         0,
@@ -2821,7 +2823,7 @@
       "array": [
         0,
         0,
-        935.3074360871938,
+        712.021730027084,
         0,
         0,
         0,
