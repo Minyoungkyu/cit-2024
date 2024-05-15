@@ -20,7 +20,12 @@ const JUMP_RIGHT = 13;
 const JUMP_UP = 14;
 const JUMP_DOWN = 15;
 const CHARGE_SHOT = 16;
-
+const SKIN_1_ATK_LEFT = 17;
+const SKIN_1_ATK_RIGHT = 18;
+const SKIN_1_CHARGE_SHOT = 19;
+const SKIN_2_ATK_LEFT = 20;
+const SKIN_2_ATK_RIGHT = 21;
+const SKIN_2_CHARGE_SHOT = 22;
 
 
 /**
@@ -130,10 +135,15 @@ cc.Class({
     start(){
         // 객체 시작지점에으로 변경.
         this.aniArray = [
-            ["idle_left_m", "idle_right_m", "idle_up_m", "idle_down_m", "run_left", "run_right", "run_up", "run_down", "hit_l_m", "hit_r_m", "", "", "", "", "", "", ""],
-            ["idle_left_mh", "idle_right_mh", "idle_up_mh", "idle_down_mh", "run_left_mh", "rum_right_mh", "rum_up_mh", "run_down_mh", "hit_left_mh", "hit_right_mh", "atk_left_mh", "atk_right_mh", "jump_left_mh", "jump_right_mh", "jump_up_mh", "jump_down_mh" , "charge_shot_mh"],
-            ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w", "", "", "", "", "", "" , ""],
-            ["left_idle_wh", "right_idle_wh", "idle_back_wh", "idle_front_wh", "leftRun_wh", "rightRun_wh", "upRun_wh", "downRun_wh", "hit_left_wh", "hit_right_wh", "attack_left_wh", "attack_right_wh", "jump_left_wh", "jump_right_wh", "jump_up_wh", "jump_down_wh", "charge_shot_wh"]
+            ["idle_left_m", "idle_right_m", "idle_up_m", "idle_down_m", "run_left", "run_right", "run_up", "run_down", "hit_l_m", "hit_r_m", "", "", "", "", "", "", "","", "", "", "", "", ""],
+            ["idle_left_mh", "idle_right_mh", "idle_up_mh", "idle_down_mh", "run_left_mh", "rum_right_mh", "rum_up_mh", "run_down_mh", "hit_left_mh","hit_right_mh",
+             "atk_left_mh", "atk_right_mh", "jump_left_mh", "jump_right_mh", "jump_up_mh", "jump_down_mh" , "charge_shot_mh", 'atk_left_mh_1','atk_right_mh_1' ,'charge_shot_mh_1' ,
+             'atk_left_mh_2', 'atk_right_mh_2' ,'charge_shot_mh_2' ],
+            ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w",
+             "", "", "", "", "", "" , "","", "", "", "", "", ""],
+            ["left_idle_wh", "right_idle_wh", "idle_back_wh", "idle_front_wh", "leftRun_wh", "rightRun_wh", "upRun_wh", "downRun_wh", "hit_left_wh", "hit_right_wh",
+             "attack_left_wh", "attack_right_wh", "jump_left_wh", "jump_right_wh", "jump_up_wh", "jump_down_wh", "charge_shot_wh",'attack_left_wh_1', 'attack_right_wh_1','charge_shot_wh_1', 
+             'attack_left_wh_2', 'attack_right_wh_2', 'charge_shot_wh_2']
         ];
 
         if(this.flameEffect.active){
