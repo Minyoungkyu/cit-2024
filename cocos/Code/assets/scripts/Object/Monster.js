@@ -79,6 +79,8 @@ cc.Class({
         damageLabel: cc.Label,
 
         isShowedLabel : false,
+
+        isShowHitAnimation : false,
     },
 
     start(){
@@ -123,16 +125,17 @@ cc.Class({
             }
 
 
+            if(json.is_hp_open == 1){
+                this.hpBar.node.active = true;
+            }
+            else{
+                this.hpBar.node.active = false;
+            }
+
 
 
             this.nameLabel.string = json.name;
-
-            console.log("load-> "+json);
-
-            console.log("load-> "+json.hp);
-
             this.maxHP = json.hp;
-            this.hpBar.node.active = true;
         }
         else if(json.type === 'passive_monster'){
             this.monster_number = MONSTER_YELLOW;
@@ -177,8 +180,18 @@ cc.Class({
 
     ShowExplosion: function(){
 
+        if(this.isShowHitAnimation) return;
+
+        this.isShowHitAnimation = true;
+
         SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
         this.explosionPrefabs.getComponent(cc.Animation).play("explosion");
+
+        var self = this;
+        setTimeout(function(){
+            self.isShowHitAnimation = false;
+        },400);
+
     },
 
 
@@ -200,6 +213,14 @@ cc.Class({
 
     },
 
+
+
+    HideMonster: function(){
+        if(this.isDead) return;
+
+        this.isDead = true;
+        this.node.opacity = 0;
+    },
 
 
     /**
@@ -295,7 +316,6 @@ cc.Class({
                     break;
 
                 case  STATE_ATTACK: case STATE_ATTACK_MELLE:
-                    console.log("NOMAL");
 
                     if(this.monster_type == PASSIVE ){
                         var ani = ATK_RIGHT;
@@ -410,12 +430,9 @@ cc.Class({
 
             if(animation_number == HIT_LEFT || animation_number == HIT_RIGHT){
 
-                if(this.id > 2){
-
-                    console.log(this.id);
+                if(this.isDead){
                     SoundManager.getInstance().PlaySfx(Env.SFX_MONSTER_DEAD);
                 }
-             
             }
             else if(animation_number == ATK_LEFT || animation_number === ATK_RIGHT){
                 SoundManager.getInstance().PlaySfx(Env.SFX_MONSTER_M_ATK);

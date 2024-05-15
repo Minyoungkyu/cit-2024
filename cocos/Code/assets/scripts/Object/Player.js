@@ -27,15 +27,12 @@ const SKIN_2_ATK_LEFT = 20;
 const SKIN_2_ATK_RIGHT = 21;
 const SKIN_2_CHARGE_SHOT = 22;
 
-
 /**
  * TODO
  * 플레이어 상태값에 대한 CONST 처리 필요.
  */
 
 const STATUS_JUMP = 0;
-
-
 const Controller = require("Controller");
 const SoundManager = require("../GameLogic/SoundManager");
 

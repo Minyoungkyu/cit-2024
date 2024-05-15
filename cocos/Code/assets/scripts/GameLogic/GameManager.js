@@ -866,7 +866,7 @@ cc.Class({
      * 
      * @param {streamjson} streamjson 
      */
-    UpdateMonster: function(streamjson){
+    UpdateMonster: function(streamjson,stream_id){
 
         // streamJson.length가 없으면 동작안함 
         // Maybe 이곳은 거의 들어올듯
@@ -884,19 +884,30 @@ cc.Class({
 
                 var monster_id = monster.getComponent("Monster").GetID();
 
+
+               // 몬스터 삭제재생성시 문제가 있네.. 이거 해결해야할듯. 
+
+
                 if(streamjson[i].status === -5){
                     this.monster_isDead[monster_id] = false;
 
                     var convertPos = this.GVector(streamjson[i].pos[0], streamjson[i].pos[1]);
                     monster.getComponent("Monster").Movement(convertPos, streamjson[i].dir);
                 }
-                else if(streamjson[i].status === -4 || streamjson[i].status === -8){
+                else if(streamjson[i].status === -8){
                     if(this.monster_isDead[monster_id] == true) continue;
                     this.monster_isDead[monster_id] = true;
-                    
                     monster.getComponent("Monster").ShowExplosion();
                 }
+                else if(streamJson[i].status === -4){
+                    monster.getComponent("Monster").ShowExplosion();
+                }
+                
             }
+
+            
+
+
             monster.getComponent("Monster").UpdateStatus(streamjson[i]);
         }
     },
@@ -1997,7 +2008,8 @@ cc.Class({
         // 객체 상태값 업데이트
         this.ObjectUpdate(command.item_list);
 
-        this.UpdateMonster(command.item_list);
+        // 몬스터 상태 업데이트
+        this.UpdateMonster(command.item_list , id);
         
         // 플레이어 상태값
         var playerStatus = command.player.status;
@@ -2039,7 +2051,6 @@ cc.Class({
                     console.log("NOt found Monster");
                     continue;
                 } 
-                console.log("INIT ==> " + monster_list[i].hp);
                 monster.getComponent("Monster").RandomMonsterHPInit(monster_list[i].hp);
             }
         }
