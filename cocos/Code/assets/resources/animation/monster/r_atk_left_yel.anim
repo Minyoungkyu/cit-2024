@@ -3,7 +3,7 @@
   "_name": "r_atk_left_yel",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.35,
+  "_duration": 0.6,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -18,39 +18,33 @@
             }
           },
           {
-            "frame": 0.016666666666666666,
+            "frame": 0.08333333333333333,
             "value": {
               "__uuid__": "8bf90e69-1041-43ae-a5e2-2f66aebdf3a1"
             }
           },
           {
-            "frame": 0.03333333333333333,
+            "frame": 0.16666666666666666,
             "value": {
               "__uuid__": "664498fa-dbc6-49a0-9e1d-7ee7f06195dd"
             }
           },
           {
-            "frame": 0.16666666666666666,
+            "frame": 0.4166666666666667,
             "value": {
               "__uuid__": "73bdbfe2-6e4c-44a4-b711-7d74639c19fa"
             }
           },
           {
-            "frame": 0.3,
+            "frame": 0.5,
             "value": {
-              "__uuid__": "ace4d624-9ec1-4a68-9a06-d65f0bde45f5"
+              "__uuid__": "e15454c2-6b5c-4465-98ef-41fcfe200e3f"
             }
           },
           {
-            "frame": 0.31666666666666665,
+            "frame": 0.5833333333333334,
             "value": {
-              "__uuid__": "6ce4fc91-b572-4089-8a54-39eced77a04c"
-            }
-          },
-          {
-            "frame": 0.3333333333333333,
-            "value": {
-              "__uuid__": "1b4f572d-fbee-463e-83f0-6f22516e7aaf"
+              "__uuid__": "f45ee4be-0234-40e0-b52a-56fbcca53a44"
             }
           }
         ]

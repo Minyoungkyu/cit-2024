@@ -113,13 +113,17 @@ cc.Class({
         // Messagedetetor ID
         mdID: null,
 
-        healParticle: cc.ParticleSystem,
+        healParticle: cc.Node,
     
 
         deadIntevalID: null,
 
         chargeShotParticle: cc.Node,
         chargeShotBot: cc.Node,
+        flameEffect: cc.Node,
+
+        isEncrypWordShowed: false,
+
     },
 
 
@@ -131,6 +135,14 @@ cc.Class({
             ["idle_left_w", "idle_right_w", "idle_up_w", "idle_down_w", "run_left_w", "run_right_w", "run_up_w", "run_down_w", "hit_left_w", "hit_right_w", "", "", "", "", "", "" , ""],
             ["left_idle_wh", "right_idle_wh", "idle_back_wh", "idle_front_wh", "leftRun_wh", "rightRun_wh", "upRun_wh", "downRun_wh", "hit_left_wh", "hit_right_wh", "attack_left_wh", "attack_right_wh", "jump_left_wh", "jump_right_wh", "jump_up_wh", "jump_down_wh", "charge_shot_wh"]
         ];
+
+        if(this.flameEffect.active){
+            this.flameEffect.active =false;
+        }
+
+        if(this.healParticle.active){
+            this.healParticle.active = false;
+        }
     },
 
 
@@ -178,6 +190,24 @@ cc.Class({
 
     },
 
+    ShowFlameEffect: function() {
+        if (this.flameEffect.active) return;
+    
+        this.flameEffect.active = true;
+        var animation = this.flameEffect.getComponent(cc.Animation);
+    
+
+        // 애니메이션 재생
+        animation.play('flame');
+    
+        SoundManager.getInstance().PlaySfx(Env.SFX_FLAME);
+
+        // 애니메이션 이벤트 리스너 추가
+        animation.on('finished', () => {
+            this.flameEffect.active = false;
+        }, this);
+    },
+
 
     ShowChargeShotParticle: function(){
         this.chargeShotBot.getComponent(cc.Animation).play('shot_bot');
@@ -185,6 +215,21 @@ cc.Class({
 
     },
 
+    ShowHealParticle: function(){
+        if(this.healParticle.active) return;
+        this.healParticle.active = true;
+
+        var parti = this.healParticle.getComponent(cc.ParticleSystem);
+
+        parti.resetSystem();
+        SoundManager.getInstance().PlaySfx(Env.SFX_HEAL);
+
+        var self = this;
+        setTimeout(function(){
+            self.healParticle.active = false;
+        },500);
+
+    },
 
     PlayFootStep: function(){
         if(this.isPlaySound) return;
@@ -229,15 +274,17 @@ cc.Class({
         var isPlaying = upState.isPlaying;
 
         if(!isPlaying){
-
-
             if(animation_number === ATK_LEFT || animation_number === ATK_RIGHT){
                 SoundManager.getInstance().PlaySfx(Env.SFX_SHOT);
             }
             else if(animation_number == CHARGE_SHOT){
                 SoundManager.getInstance().PlaySfx(Env.SFX_CHARGE_SHOT);
             }
+            else if(animation_number === JUMP_DOWN || animation_number === JUMP_LEFT ||
+                animation_number == JUMP_RIGHT || animation_number === JUMP_UP){
 
+                SoundManager.getInstance().PlaySfx(Env.SFX_JUMP);
+            }
             clip.play(animationName);
         }
 
@@ -476,10 +523,18 @@ cc.Class({
      * @param status
      */
     setPlayerStatus: function(status){
+        
+        
+
 
         this.playerStatusInfo = status;
+
+
+
+
         switch (status) {
             case 0:
+                this.isEncrypWordShowed =  false;
                 this.PlayerInitAnimation();
                 break;
             case 1:
@@ -526,6 +581,10 @@ cc.Class({
                     // this.getComponent(cc.Animation).play(Env.ANIMATION_IDLE_DOWN);
                 }
                 break;
+
+            case 3:
+               
+                break;
             case 9:
                 // 플레이어 죽음.
                 this.PlayerDealAnimation();
@@ -545,7 +604,9 @@ cc.Class({
                 } else {
                     this.setPlayerAnimation(HIT_RIGHT);
                 }
+                SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
     
+
                 var self = this;
                 setTimeout(function(){
                     self.isBombAnimation = false;
@@ -604,11 +665,13 @@ cc.Class({
                 this.ShowMessage("점프하기엔 위험해");
                 break;
             case 23:
-                this.ShowMessage("윽.. ");
+                    this.ShowMessage("윽.. ");
+                    // 화염 이펙트 
+                    this.ShowFlameEffect();
                     break;
             case 24:
                 this.ShowMessage("살것같아!");
-                this.healParticle.resetSystem();
+                this.ShowHealParticle();
                     break;
 
             case 25:
@@ -621,7 +684,9 @@ cc.Class({
             case 29:
                 this.ShowMessage("타입이 틀린거같아");
                         break;
-
+            case 30:
+                this.ShowMessage("폭탄설치중.");
+                break;
             case 31:
                 this.ShowMessage("폭탄이 없어!");
                         break;
@@ -638,8 +703,8 @@ cc.Class({
                 break;
 
             case 37:
-                this.ShowMessage("폭탄설치중");
-                        break;
+                this.ShowMessage("Get()중..");
+                break;
             case 38:
                 var number = CHARGE_SHOT;
                 this.setPlayerAnimation(number);
@@ -670,6 +735,12 @@ cc.Class({
         var initPoint = Controller.getInstance().getInitPrintPointArray(idx);
         var str = initPoint + " 암호획득";
         this.ShowMessage(str);
+
+        if(this.isEncrypWordShowed) return;
+        this.isEncrypWordShowed = true;
+
+        SoundManager.getInstance().PlaySfx(Env.SFX_DATA_COLLECT);
+
     },
 
     
@@ -751,6 +822,17 @@ cc.Class({
 
         this.bubbleLabel.string =  label;
         this._ShowBubble();
+
+        if(this.playerStatusInfo === 30){
+            // 폭탄 설치중
+            SoundManager.getInstance().PlaySfx(Env.SFX_DIG);
+        }
+        else if(this.playerStatusInfo === 37){
+            // TODO
+            SoundManager.getInstance().PlaySfx(Env.SFX_GET_IT);
+        }
+
+
 
         var self = this;
         setTimeout(function(){

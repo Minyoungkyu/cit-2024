@@ -163,6 +163,17 @@ cc.Class({
 
         print_idx : 0,
 
+        isShowWarnning : false,
+
+        errorPange: cc.Node,
+
+        // 폭발 발생시킬 포지션 정보.
+        destroyPos : [],
+
+        isEarned : false,
+
+        isPrintChangeStatus: false,
+
     },
 
     /**
@@ -904,6 +915,8 @@ cc.Class({
 
 
     FindMonsterByID: function(id){
+        if(this.monster_list.length < 1) return null;
+
 
         for(var i = 0; i < this.monster_list.length; i++){
             var monster_id = this.monster_list[i].getComponent("Monster").GetID();
@@ -1261,7 +1274,7 @@ cc.Class({
 
             // 2-3-E-2 ~
             case 48: case 51: case 54:
-                this.SetCamera(580,-650,0.6);
+                this.SetCamera(480,-650,0.6);
                 break;
 
             // 2-3-E-3 ~
@@ -1305,11 +1318,11 @@ cc.Class({
                 break;
             
             case 83: case 86: case 89:
-                this.SetCamera(550,-850,0.6);
+                this.SetCamera(550,-850,0.7);
                 break;
             
             case 84: case 87: case 90:
-                this.SetCamera(550,-900,0.6);
+                this.SetCamera(550,-900,0.7);
                 break;
 
             case 85: case 88: case 91:
@@ -1317,10 +1330,7 @@ cc.Class({
                 break;
 
         }
-
-
         
-        // TODO 
     },
 
 
@@ -1335,24 +1345,28 @@ cc.Class({
         var self = this;
         var urls = ['/prefabs/explosion', '/prefabs/heal', '/prefabs/pickup', '/prefabs/dropEffect'];
         var lists = [this.expList, this.hList, this.pList, this.dropEffectList]; // 각 URL에 해당하는 리스트
-
         urls.forEach((url, index) => {
-            for (var i = 0; i < 15; i++) {
+            for (var i = 0; i < 35; i++) {
                 cc.loader.loadRes(url, cc.Prefab, function (err, effect) {
                     if (err) {
                         cc.error("이미지 로딩 에러: " + err);
                         return;
                     }
-
                     var newInstance = cc.instantiate(effect);
                     newInstance.active = false;
                     self.effectParent.addChild(newInstance);
+                    
+
                     lists[index].push(newInstance); // URL 인덱스에 따라 적절한 리스트에 추가
                 });
             }
         });
-
     },
+
+   
+
+    
+
 
     /**
      * 공통 이펙트 표시 함수
@@ -1386,7 +1400,6 @@ cc.Class({
     ShowExplosion: function(pos) {
         this.expIdx = this.showEffect(this.expList, this.expIdx, pos, "explosion", () => {
             this.isCameraShaked = false;
-            SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
         });
     },
 
@@ -1576,6 +1589,7 @@ cc.Class({
             case "print_point" : return Env.PRINT_POINT;
             case "info_point" : return Env.INFO_POINT;
             case "number_point" : return Env.NUMBER_POINT;
+            case "monster_info" : return Env.MONSTER_INFO;
 
             default : return -99;
         }
@@ -1676,7 +1690,7 @@ cc.Class({
             case Env.VARIATION_SWITCH_OFF: case Env.VARIATION_SWITCH_ON : prefabName = "variation_switch"; break;
             case Env.MEDICINE: prefabName = "medicine"; break;
             case Env.BOMB_BOX : prefabName = "bomb_box"; break;
-            case Env.PRINT_POINT: case Env.INFO_POINT: case Env.NUMBER_POINT:  prefabName = "ui_quest"; break;
+            case Env.PRINT_POINT: case Env.INFO_POINT: case Env.NUMBER_POINT: case Env.MONSTER_INFO:  prefabName = "ui_quest"; break;
         }
 
         if(prefabName == "" ){
@@ -1699,6 +1713,7 @@ cc.Class({
             n1.addComponent("Gobject");
 
             if(isBossBomb){
+                self.destroyPos.push(v1);
                 n1.getComponent('Gobject').Init(Env.BOSS_BOMB_BOX,id);
 
             }
@@ -1731,7 +1746,7 @@ cc.Class({
                 self.objectPrintArray.push(n1);
                 self.node.addChild(n1);
             }
-            else if(tag === Env.INFO_POINT || tag === Env.NUMBER_POINT){
+            else if(tag === Env.INFO_POINT || tag === Env.NUMBER_POINT || tag == Env.MONSTER_INFO){
                 self.objectInfoArray.push(n1);
                 self.node.addChild(n1);
             }
@@ -1852,12 +1867,30 @@ cc.Class({
         var stage_step = stageObject.step;
         var level = stageObject.level;
 
-      
         var playerStatus = command.player.status;
 
-        // console.log("Loade playerStatus->"+playerStatus);
+        // if(playerStatus === 0){
+        //     var item_list = command.item_list;
+            
+        //     if(this.currentStep == '3-1' && this.currentLevel == '1') return;
 
-        if(playerStatus === 19){
+        //     if(this.print_point_array.length < 1) return;
+
+        //     var printIndex = this.print_point_array[this.print_idx];
+
+        //     var print_array_info =  item_list[printIndex].print_array;
+        //     var ui_status = item_list[printIndex].status;
+
+        //     if(ui_status == -20){
+        //         if(this.isPrintChangeStatus) return;
+        //         this.isPrintChangeStatus = true;
+
+        //         this.ShowCheckPrint(null,false);
+        //     }
+        // }
+        // else
+
+         if(playerStatus === 19){
             var item_list = command.item_list;
 
             if(this.currentStep == '3-1' && this.currentLevel == '1') return;
@@ -1865,22 +1898,81 @@ cc.Class({
             var printIndex = this.print_point_array[this.print_idx];
 
             var print_array_info =  item_list[printIndex].print_array;
+            var ui_status = item_list[printIndex].status;
 
-            // 데이터가 없을 경우 예외 처리가 필요..
-            if(print_array_info.length < 1) return;
 
-            var print_data = '';
-            for(var i = 0; i < print_array_info.length; i++){
-                print_data += ( print_array_info[i] + " ");
+            if(ui_status === -30){
+
+                if(this.isPrintChangeStatus) return;
+
+                this.isPrintChangeStatus = true;
+                this.ShowCheckPrint(null,true);
             }
-            var convert = print_data.toString();
+            else if(ui_status == -20){
+                if(this.isPrintChangeStatus) return;
 
-            this.ShowPrintUI(convert);
+                this.isPrintChangeStatus = true;
+                this.ShowCheckPrint(null,false);
+            }
+            else{
+                if(print_array_info.length < 1) return;
+
+                var print_data = '';
+                for(var i = 0; i < print_array_info.length; i++){
+                    print_data += ( print_array_info[i] + " ");
+                }
+                var convert = print_data.toString();
+    
+                this.ShowPrintUI(convert);
+            }
+            
+        }
+        else if(playerStatus === 26){
+            // 체크중..
+            var item_list = command.item_list;
+            var data = this.GetPrintArrayInfo(command.player.player_check_array);
+            this.ShowCheckPrint(data,true);
+        }
+        else if(playerStatus == 28){
+            // 체크 중 -> 실패!
+
+            var fail_data = this.GetPrintArrayInfo(command.player.player_check_array);
+
+            this.ShowCheckPrint(fail_data, false);
         }
         else if(playerStatus == 2){
             this._HidePrintUI();
+
+
         }
+ 
+
+
+
+
+
+
+
+
     },
+
+    GetPrintArrayInfo(item_list){
+
+        var print_array_info =  item_list;
+
+        // 데이터가 없을 경우 예외 처리가 필요..
+        if(print_array_info.length < 1) return null;
+        var print_data = '';
+        for(var i = 0; i < print_array_info.length; i++){
+            print_data += ( print_array_info[i] + " ");
+        }
+        var convert = print_data.toString();
+
+        return convert;
+
+    },
+
+
 
     /**
      * PYthon 코드 대로 동작을 실행합니다.
@@ -1897,6 +1989,7 @@ cc.Class({
         if(command.status === 1 || command.status === 2){
             // 1 클리어
             // 2 종료
+            
             this.GameClearAllHideUI();
             return false;
         } 
@@ -1920,9 +2013,34 @@ cc.Class({
          */
         if(id == 0){
             // HIDE 처리!
-
+            this.isPrintChangeStatus = false;
             if(this.bossObject !== null){
                 this.bossObject.getComponent("Boss").HideSpecialAttack();
+            }
+
+        }
+        else if(id == 1){
+            /**
+             * 몬스터 HP 셋팅중..
+             */
+            if(command.item_list.length < 1) return;
+
+
+            var monster_list = command.item_list;
+
+            for( var i = 0; i < monster_list.length ; i++){
+
+                if(monster_list[i].hp == undefined) continue;
+
+                var monster = this.FindMonsterByID(i);
+                console.log(i);
+                
+                if(monster == null){
+                    console.log("NOt found Monster");
+                    continue;
+                } 
+                console.log("INIT ==> " + monster_list[i].hp);
+                monster.getComponent("Monster").RandomMonsterHPInit(monster_list[i].hp);
             }
         }
 
@@ -1931,12 +2049,20 @@ cc.Class({
 
         if(hit_stauts === 2){
             this.bossObject.getComponent("Boss").SpecialAttack();
+
+            this.AllDestroyBomb();
         }
 
         if(hit_stauts == 1 && command.player.hp > 1){
             this.player.getComponent("Player").SetHitStatus();
         }
         else{
+
+            if(playerStatus === 11 || playerStatus === 23){
+                this.ShowWarning();
+            }
+
+
             this.player.getComponent("Player").setDirection(command.player.dir);
             this.player.getComponent("Player").setPlayerStatus(playerStatus);
             this.player.getComponent("Player").Movement(convertPos);
@@ -1961,7 +2087,12 @@ cc.Class({
             this.ShowExplosion(pos);
         }
         else if( status === 3){
+            if(this.isEarned == true) return;
+            this.isEarned = true;
             this.ShowPickup(pos);
+        }
+        else{
+            this.isEarned = false;
         }
     },
 
@@ -1982,6 +2113,31 @@ cc.Class({
             this.DropSwitchUpdate(i, id_list[i]);
 
         }
+    },
+
+    // 보스가 전체 공격을 시전했을때 폭발 이펙트 추가해주기위한 함수 
+    // 이펙표현용 함수임.
+    AllDestroyBomb: function(){
+        for(var i = 0; i< this.item.length; i++){
+            if(this.item[i].getComponent("Gobject").GetItemTag() === Env.BOSS_BOMB_BOX){
+                this.item[i].getComponent("Gobject").Hide();
+            }
+         }
+         var self = this;
+
+         var bomb_idx = 0;
+
+        var inter= setInterval(()=>{
+
+            if(bomb_idx >= self.destroyPos.length-1) {
+                clearInterval(inter);
+            }
+            self.ShowExplosion(self.destroyPos[bomb_idx]);
+            SoundManager.getInstance().PlaySfx(Env.SFX_BOMB);
+            bomb_idx++;
+
+         },100);
+         
     },
 
 
@@ -2084,9 +2240,40 @@ cc.Class({
             this.print_idx++ 
         }
 
+        this.isPrintChangeStatus = false;
+
         this.print_ui_object.active = false;
         this.print_ui_object.scale = cc.v2(1, 0);
         this.print_ui_label.string = '';
+    },
+
+    ShowCheckPrint: function(text, status){
+
+        
+
+        this._OpenPrintUI();
+
+        var self = this;
+        if(this.print_ui_label.string !== text){
+            SoundManager.getInstance().PlaySfx(Env.SFX_TYPING);
+
+            setTimeout(function(){
+
+                // TODO  3-2-*-1
+                // 프레임수 늘리고 동작 상태 확인해야함.
+                if(status === true){
+                    self.print_ui_object.getComponent(cc.Animation).play('dialog_suc');
+                }
+                else{
+                    self.print_ui_object.getComponent(cc.Animation).play('dialog_fail');
+                }
+            },300);
+        }
+
+        if(text !== null){
+            this.print_ui_label.string = text;
+        }
+
     },
 
     /**
@@ -2103,7 +2290,6 @@ cc.Class({
         }
 
         this.print_ui_label.string = text;
-
     },
 
     
@@ -2268,7 +2454,6 @@ cc.Class({
 
     },
 
-    // TODO
     GameClearAllHideUI: function(){
         this._InitPrintUI();
     },
@@ -2288,8 +2473,8 @@ cc.Class({
             var itemID = itemObject.GetItemID();
             var itemTag = itemObject.GetItemTag();
 
-            if(itemTag === Env.PRINT_POINT || itemTag == Env.INFO_POINT
-                || itemTag == Env.NUMBER_POINT) continue;
+            if(itemTag === Env.PRINT_POINT || itemTag == Env.INFO_POINT) continue;
+            if(itemTag == Env.NUMBER_POINT || itemTag === Env.MONSTER_INFO) continue;
 
 
             if(itemTag == Env.DOOR_ON){
@@ -2315,17 +2500,35 @@ cc.Class({
                 if(itemID === index && status === 0){
                     itemObject.Hide();
                 }
-                else if(itemObject.GetItemID() === index && status === 1){
+                else if((itemObject.GetItemID() === index && status === 1) || (itemObject.GetItemID() == index && status === 2) ){
     
                     if(itemTag === Env.BOSS_BOMB_BOX){
                         // 보스 스테이지 에서 폭탄 생성 이펙트 추가.
                         if(this.currentStep === '3-4' && this.currentLevel === 3){
                             if(this.item[i].active === false){
                                 this.ShowDropEffect(this.item[i].position);
+                                SoundManager.getInstance().PlaySfx(Env.SFX_DROP_ITEM);
                             }
                         }
+
+
+                        // 보스 스테이지에선 Status 2도 사용함.
+                        if( status === 1){
+                            itemObject.Unexploded(true);
+                            itemObject.Show();
+                        }
+                        else if(status === 2){
+                            itemObject.Unexploded(false);
+                            itemObject.Show();
+                        }
                     }
-                    itemObject.Show();
+                    else{
+
+                        if(status == 1){
+                            itemObject.Show();
+                        }
+
+                    }
                 }
             }
         }
@@ -2419,4 +2622,60 @@ cc.Class({
             
         }, 1000/60);
     },
+
+
+
+    /**
+     * 
+     * 피격 이펙트 보여주는곳.
+     */
+    ShowWarning: function(){
+        if(this.isShowWarnning) return;
+        this.isShowVariation = true;
+        this.ShakeIt();
+    },
+    
+
+    /**
+     * Shake Effect
+     * @constructor
+     */
+
+    ShakeIt : function() {
+
+        var object = this.camera;
+
+        var magnitude = 15.2;
+        let shakes = [];
+
+        var originalPosition = object.position;
+
+        this.errorPange.active = true;
+
+        for (let i = 0; i < 4; i++) {
+            // 무작위 위치 변경
+            let shakeX = (Math.random() - 0.5) * 2 * magnitude;
+            let shakeY = (Math.random() - 0.5) * 2 * magnitude;
+            let delay = cc.delayTime(0.02);  // 쉐이크 간격
+            let move = cc.moveBy(0.02, cc.v2(shakeX, shakeY));
+            let restore = cc.moveBy(0.02, cc.v2(-shakeX, -shakeY));
+            shakes.push(delay, move, restore);
+        }
+
+        // 모든 쉐이크 후에 카메라 원래 위치로 복귀
+        let restoreOriginal = cc.callFunc(() => {
+            this.errorPange.active = false;
+            object.position = originalPosition;
+            this.isShowWarnning = false;
+        });
+
+        // 시퀀스 생성 및 실행
+        let sequence = cc.sequence(shakes[0],shakes[1],shakes[2],shakes[3], restoreOriginal);
+        object.node.runAction(sequence);
+
+    },
+
+
+
+
 });

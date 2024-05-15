@@ -13,6 +13,8 @@ var Gobject = cc.Class({
         itemTAG : 0,
         isStatusChange : false,
         laser_direction : 'h',
+
+        isUnexpload : false,
     },
 
     /**
@@ -54,6 +56,22 @@ var Gobject = cc.Class({
     GetItemID: function(){
         return this.itemId;
     },
+
+    /**
+     *  보스에서 불발탄 처리 하기 위함.
+     */
+    Unexploded: function(status = true){
+        var particle = this.node.getChildByName('flash_add_1');
+        if(status === true){
+            particle.active = true;
+        }
+        else{
+            particle.active = false;
+        }
+    },
+
+    
+
 
     /**
      * 레이저 객체에서 최초 초기화 하는방식.
@@ -167,6 +185,7 @@ var Gobject = cc.Class({
             this.ChangeSprite(Env.NORMAL_SWITCH_OFF);
         }
         else if(this.itemTAG === Env.VARIATION_SWITCH_ON){
+            SoundManager.getInstance().PlaySfx(Env.SFX_LASER_BUTTON);
             this.ChangeSprite(Env.VARIATION_SWITCH_OFF);
         }
         else{
@@ -250,6 +269,7 @@ var Gobject = cc.Class({
             this.ShowProofEffect();
         }
         else if(this.itemTAG === Env.VARIATION_SWITCH_OFF){
+            SoundManager.getInstance().PlaySfx(Env.SFX_LASER_BUTTON);
             this.ChangeSprite(Env.VARIATION_SWITCH_ON);
 
         }
@@ -312,7 +332,7 @@ var Gobject = cc.Class({
      * @constructor
      */
     ChangeSprite: function(tag){
-        if(tag === Env.PRINT_POINT || tag == Env.INFO_POINT || tag === Env.NUMBER_POINT) return;
+        if(tag === Env.PRINT_POINT || tag == Env.INFO_POINT || tag === Env.NUMBER_POINT || tag === Env.MONSTER_INFO) return;
 
         this.node.getComponent(cc.Sprite).spriteFrame = Loader.getInstance().GetImage(tag);
     },

@@ -71,6 +71,38 @@
         "props": {
           "opacity": []
         }
+      },
+      "Suc_Label": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "Fail_Label": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            }
+          ]
+        }
+      }
+    },
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "1d5bf278-68a5-41c9-8d07-c9a8fe29b080"
+            }
+          }
+        ]
       }
     }
   },

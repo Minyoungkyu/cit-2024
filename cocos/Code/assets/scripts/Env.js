@@ -56,7 +56,15 @@ window.Env = {
     SFX_MINI_BTN_FILE : 'mini_btn',
     MINIGAME_1_BG_FILE: 'minigame_bg',
 
-    
+    SFX_MONSTER_M_ATK_FILE : 'atk_melee_monster',
+    SFX_MONSTER_R_ATK_FILE : 'atk_range_monster',
+    SFX_BOSS_SPECIAL_FILE : 'boss_special',
+    SFX_JUMP_FILE : 'jump',
+    SFX_FLAME_FILE : 'flame',
+    SFX_HEAL_FILE : 'cure2',
+    SFX_DIG_FILE : 'dig',
+    SFX_GET_IT_FILE : 'getit',
+    SFX_DATA_COLLECT_FILE: 'collect',
 
     // Audio Manager 에서 불려짐.
     SFX_DROP_SWITCH: 0,
@@ -79,6 +87,15 @@ window.Env = {
     SFX_MONSTER_DEAD: 17,
     MINIGAME_1_BG: 18,
     SFX_MINIGAME_BTN: 19,
+    SFX_MONSTER_M_ATK : 20,
+    SFX_MONSTER_R_ATK: 21,
+    SFX_BOSS_SPECIAL:22,
+    SFX_JUMP : 23,
+    SFX_FLAME: 24,
+    SFX_HEAL: 25,
+    SFX_DIG : 26,
+    SFX_GET_IT: 27,
+    SFX_DATA_COLLECT: 28,
 
 
 
@@ -124,6 +141,7 @@ window.Env = {
     PRINT_POINT : 99,
     INFO_POINT : 100,
     NUMBER_POINT : 101,
+    MONSTER_INFO : 102,
 
     /**
      * Loader class 에서 사용되는 파일명 및 경로

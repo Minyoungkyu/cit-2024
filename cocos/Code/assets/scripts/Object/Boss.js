@@ -14,6 +14,8 @@ const ANIMATION_ATK = 2;
 
 
 
+const SoundManager = require("../GameLogic/SoundManager");
+
 cc.Class({
     extends: cc.Component,
 
@@ -54,7 +56,12 @@ cc.Class({
 
     /**즉사 공격 이펙트 표현 */
     SpecialAttack: function(){
+        if(this.special_atk_particle.active) return;
+            
         this.special_atk_particle.active = true;
+
+
+        SoundManager.getInstance().PlaySfx(Env.SFX_BOSS_SPECIAL);
     },
 
     HideSpecialAttack: function(){

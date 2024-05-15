@@ -16,14 +16,15 @@ const MONSTER_RED = 0;
 const MONSTER_YELLOW = 1;
 
 
-const Controller = require("Controller");
 const SoundManager = require("../GameLogic/SoundManager");
-
 
 
 const STATE_IDLE = -1;
 const STATE_PRINT_ERROR = -2;
 const STATE_PRINTING =  -3;
+
+const STATE_HIT = -4;
+
 const STATE_MOVE = -5;
 const STATE_ATTACK = -6;
 const STATE_RANGE_ATTACK = 1;
@@ -75,6 +76,9 @@ cc.Class({
 
         maxHP: 0,
 
+        damageLabel: cc.Label,
+
+        isShowedLabel : false,
     },
 
     start(){
@@ -93,12 +97,16 @@ cc.Class({
     },
 
     InitMonster: function(json, init_pos){
+
+
         this.init_position = init_pos;
         this.id = json.id;
         this.init_json_data = json;
 
-        console.log("monster -> "+json.type);
+        this.hpBar.node.active = false;
+        this.monsterNameTack.active = false;
 
+        this.InitDeadStatus();
 
         if(json.type === 'aggressive_monster_2'){
             this._SetMonsterAnimation(0,IDLE_LEFT);
@@ -114,26 +122,33 @@ cc.Class({
                 this.monsterNameTack.active = false;
             }
 
-            this.nameLabel.string = json.name;
-            this.maxHP = json.hp;
 
+
+
+            this.nameLabel.string = json.name;
+
+            console.log("load-> "+json);
+
+            console.log("load-> "+json.hp);
+
+            this.maxHP = json.hp;
+            this.hpBar.node.active = true;
         }
         else if(json.type === 'passive_monster'){
             this.monster_number = MONSTER_YELLOW;
             this.monster_type = PASSIVE;
 
-            if(json.dir === 'left'){
-                this._SetMonsterAnimation(1,IDLE_LEFT);
-                this.direction  = DIR_LEFT;
+            var ani = IDLE_LEFT;
+
+            if(json.dir == 'left'){
+                this.direction = DIR_LEFT;
             }
-            else if(json.dir === 'right' ){
-                this._SetMonsterAnimation(1,IDLE_RIGHT);
-                this.direction = DIR_RIGHT;
+            else if(json.dir == 'right' ){
+                this.direction  = DIR_RIGHT;
+                ani = IDLE_RIGHT;
             }
 
-            this.hpBar.active = false;
-            this.monsterNameTack.active = false;
-          
+            this._SetMonsterAnimation(1,ani);
         }
         else if(json.type == 'aggressive_monster_1'){
 
@@ -148,8 +163,16 @@ cc.Class({
             this.monster_number = MONSTER_YELLOW;
             this.monster_type = AGGREE_1;
         }
+    },
 
-        this.InitDeadStatus();
+
+    /**
+     * Random성 몬스터 체력을 설정하기위한 조건.
+     * @param {*} hp 
+     */
+    RandomMonsterHPInit: function(monster_hp){
+        this.maxHP = monster_hp;
+        this.hp = monster_hp
     },
 
     ShowExplosion: function(){
@@ -158,6 +181,27 @@ cc.Class({
         this.explosionPrefabs.getComponent(cc.Animation).play("explosion");
     },
 
+
+    InitHitLable: function(){
+        this.isShowedLabel = false;
+    },
+
+    ShowHitLabel: function(){
+
+        if(this.isShowedLabel) return;
+        this.isShowedLabel = true;
+
+        this.damageLabel.getComponent(cc.Animation).play('damage');
+
+        var self = this;
+        setTimeout(function(){
+            self.InitHitLable();
+        },1000);
+
+    },
+
+
+
     /**
      * 몬스터의 status값을 받아 해당되는 애니메이션 처리를 진행하면됨.
      * @param {status} status
@@ -165,14 +209,14 @@ cc.Class({
     UpdateStatus: function(status){
 
         if(typeof status != "number" ){
-          
             this._UpdateHP(status.hp);
 
             var sub_status = status.status;
             switch(sub_status){
 
                 case NONE: 
-                this.InitDeadStatus();
+                    this.InitDeadStatus();
+                    this.InitHitLable();
                     break;
 
                 case STATE_IDLE:
@@ -185,27 +229,24 @@ cc.Class({
                  
                     break;
                 
+                case STATE_HIT: 
+                    this.ShowHitLabel();
+                    break;
 
                 case STATE_ATTACK:
-
-                    if(this.monster_type == AGGREE_1){
-
-                       
-                    }
-                    else if(this.monster_type === AGGREE_2){
+                    if(this.monster_type === AGGREE_2 || this.monster_type === AGGREE_1){
                         var ani = RANGE_ATK_LEFT;
-
                         if(status.dir === 'right'){
                             ani = RANGE_ATK_RIGHT;
                         }
                         this._SetMonsterAnimation(this.monster_number, ani);
                     }
-                    
                 break;
 
                 case STATE_WAIT:
                     this.Movement(this.init_position);
                     var ani = IDLE_LEFT;
+
                     if(this.direction === DIR_RIGHT){
                         ani = IDLE_RIGHT;
                     }
@@ -247,9 +288,15 @@ cc.Class({
                     this._SetMonsterAnimation(this.monster_number, ani ) ;
                     break;
                 case STATE_PRINT_ERROR :
-                    console.log("PRINT_ERROR");
                     break;
+
+                case STATE_HIT: 
+                    this.ShowHitLabel();
+                    break;
+
                 case  STATE_ATTACK: case STATE_ATTACK_MELLE:
+                    console.log("NOMAL");
+
                     if(this.monster_type == PASSIVE ){
                         var ani = ATK_RIGHT;
                         if(this.direction === DIR_RIGHT){
@@ -279,19 +326,10 @@ cc.Class({
                     if(this.direction === DIR_RIGHT){
                         ani = IDLE_RIGHT;
                     }
+
                     this._SetMonsterAnimation(this.monster_number, ani ) ;
                     // this.InitDeadStatus();
                     break;
-                case  STATE_RANGE_ATTACK: 
-                    break;
-
-                // case  STATE_TURN :
-                //     var ani = IDLE_RIGHT;
-                //     if(this.direction === DIR_RIGHT){
-                //         ani = IDLE_LEFT;
-                //     }
-                //     this._SetMonsterAnimation(this.monster_number, ani ) ;
-                //      break;    
                 case  STATE_DEAD: 
                     if(this.IsDeadMonster()) break;
                     this.MonsterDeadAnimation();
@@ -322,7 +360,7 @@ cc.Class({
 
         }
         else{
-            this.hpBar.active = false;
+            this.hpBar.node.active = false;
             this.monsterNameTack.active = false;
         }
     },
@@ -360,22 +398,31 @@ cc.Class({
      * @param {*} ANIMATION_NUMBER 
      */
     _SetMonsterAnimation: function(number,animation_number){
-        
+
         var clip = this.getComponent(cc.Animation);
         var animationName = this.aniArray[number][animation_number];
 
         var upState = clip.getAnimationState(animationName);
         var isPlaying = upState.isPlaying;
 
-        
-
 
         if(!isPlaying){
 
             if(animation_number == HIT_LEFT || animation_number == HIT_RIGHT){
-                SoundManager.getInstance().PlaySfx(Env.SFX_MONSTER_DEAD);
-            }
 
+                if(this.id > 2){
+
+                    console.log(this.id);
+                    SoundManager.getInstance().PlaySfx(Env.SFX_MONSTER_DEAD);
+                }
+             
+            }
+            else if(animation_number == ATK_LEFT || animation_number === ATK_RIGHT){
+                SoundManager.getInstance().PlaySfx(Env.SFX_MONSTER_M_ATK);
+            }
+            else if(animation_number === RANGE_ATK_LEFT || animation_number === RANGE_ATK_RIGHT){
+                SoundManager.getInstance().PlaySfx(Env.SFX_MONSTER_R_ATK);
+            }
             clip.play(animationName);
         }
 

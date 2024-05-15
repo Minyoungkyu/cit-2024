@@ -32,7 +32,7 @@
      * @constructor
      */
     IsLoadCheck: function(){
-        return this.sound[7] !== null;
+        return this.sound[18] !== null;
     },
 
     /**
@@ -93,6 +93,15 @@
         loadClip.call(this,17,Env.SFX_MONSTER_DEAD_FILE);
         loadClip.call(this,18,Env.MINIGAME_1_BG_FILE);
         loadClip.call(this,19,Env.SFX_MINI_BTN_FILE);
+        loadClip.call(this,20,Env.SFX_MONSTER_M_ATK_FILE);
+        loadClip.call(this,21,Env.SFX_MONSTER_R_ATK_FILE);
+        loadClip.call(this,22,Env.SFX_BOSS_SPECIAL_FILE);
+        loadClip.call(this,23,Env.SFX_JUMP_FILE);
+        loadClip.call(this,24,Env.SFX_FLAME_FILE);
+        loadClip.call(this,25,Env.SFX_HEAL_FILE);
+        loadClip.call(this,26,Env.SFX_DIG_FILE);
+        loadClip.call(this,27,Env.SFX_GET_IT_FILE);
+        loadClip.call(this,28,Env.SFX_DATA_COLLECT_FILE);
         
         this.isLoadedSFX = true;
     },
