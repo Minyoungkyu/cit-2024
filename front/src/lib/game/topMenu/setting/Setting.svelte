@@ -13,15 +13,18 @@
     });
 </script>
 
-<div class="flex justify-center items-end mt-[10%] relative" style="transform:scale(0.8) scale({adjustScale});pointer-events:auto;">
+<div class="setting_box flex justify-center items-end mt-[10%] relative" style="transform:scale(0.8) scale({adjustScale});pointer-events:auto;">
     <div class="w-[1442px] h-[819px] flex flex-col items-center relative" style="background-image:url('/img/setting/ui_option_bg.png');">
         <div class="w-full h-[401px] flex flex-col items-center">
             <div class="flex justify-start text-[40px] font-bold italic text-white w-full pt-[30px] pl-[50px]" style="color:rgb(64 226 255)">
                 사운드 옵션
             </div>
             <div class="w-full flex flex-row gap-8 justify-center items-center mt-8">
-                <div class="w-[52px] h-[52px]" style="background-image:url('/img/inGame/btn_Volume_on.png');"></div>
-                <input class="cursor-grab" type="range" min="0" max="100" value="40" step="5" />
+                <div class="w-[150px] flex justify-start">
+                    <div class="text-[30px] font-bold" style="color:rgb(64 226 255);">배경 음악</div>
+                </div>
+                <div class="w-[52px] h-[52px] cursor-pointer" style="background-image:url('/img/inGame/btn_Volume_on.png');"></div>
+                <input class="cursor-grab" type="range" min="0" max="100" value="40" step="10" />
                 <div>
                     <div class="flex flex-row items-center justify-center gap-4">
                         <input id="checkbox1" type="checkBox" name="roleLevel" value="1" hidden/>
@@ -30,8 +33,11 @@
                 </div>
             </div>
             <div class="w-full flex flex-row gap-8 justify-center items-center mt-8">
-                <div class="w-[52px] h-[52px]" style="background-image:url('/img/inGame/btn_Volume_on.png');"></div>
-                <input class="cursor-grab" type="range" min="0" max="100" value="40" step="5" />
+                <div class="w-[150px] flex justify-start">
+                    <div class="text-[30px] font-bold" style="color:rgb(64 226 255);">효과음</div>
+                </div>
+                <div class="w-[52px] h-[52px] cursor-pointer" style="background-image:url('/img/inGame/btn_Volume2_on.png');"></div>
+                <input class="cursor-grab" type="range" min="0" max="100" value="40" step="10" />
                 <div>
                     <div class="flex flex-row items-center justify-center gap-4">
                         <input id="checkbox2" type="checkBox" name="roleLevel" value="1" hidden/>
@@ -60,11 +66,14 @@
                     <input id="checkbox4" type="checkBox" name="roleLevel" value="1" hidden/>
                     <label for="checkbox4" class="radio-custom" style=""></label>
                 </div>
-                <div class="ml-12 w-[511px] h-[64px] flex justify-center items-center text-[35px] text-white font-bold italic" 
+                <div class="ml-12 w-[511px] h-[64px] flex justify-center items-center text-[30px] text-white font-bold italic" 
                     style="background-image:url('/img/setting/ui_option_frame.png');color:rgb(64 226 255)">
-                    자동 기능
+                    자동 닫힘 (따옴표, 괄호 등) 활성화
                 </div>
             </div>
+        </div>
+
+        <div class="w-[252px] h-[87px] absolute right-[70px] bottom-[40px] cursor-pointer" style="background-image:url('/img/setting/btn_change.png');">
         </div>
     </div>
 </div>

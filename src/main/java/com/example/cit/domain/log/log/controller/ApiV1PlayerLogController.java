@@ -1,17 +1,21 @@
 package com.example.cit.domain.log.log.controller;
 
+import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
 import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.service.PlayerLogService;
+import com.example.cit.domain.player.player.service.PlayerService;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -105,4 +109,5 @@ public class ApiV1PlayerLogController {
     ) {
         playerLogService.batchPlayLogV2(rq.getMember(), body.gameMapDto, body.result);
     }
+
 }

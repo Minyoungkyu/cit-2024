@@ -121,7 +121,7 @@
         // console.log(cleanedContent);
         
         let result: any = await runPythonCode2(gameMapDto.cocosInfo, editor.getValue());
-        // console.log(result)
+        console.log(result)
 
         console.log("프레임 데이터")
         const parsedData = JSON.parse(result.result);

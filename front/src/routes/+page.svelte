@@ -13,6 +13,7 @@
     let scaleMultiplier2 = $state(1);
     let video: HTMLVideoElement;
     let showBgThumb = $state(true);
+    let selectType = $state(0);
 
     onMount(() => {
 
@@ -179,7 +180,7 @@
 
     const { data, error } = await rq.apiEndPoints().PUT('/api/v1/players/{id}/name', {
       params: { path: { id: rq.member.id } },
-      body: { nickname: form.nickname.value }
+      body: { nickname: form.nickname.value, characterType: selectType}
     });
 
     if (error) rq.msgError(error.msg);
@@ -251,20 +252,28 @@
       {#if setNameCondition && !setLoginCondition}
       <div transition:fly="{{ x: 200, duration: 500}}" class="absolute top-[0] right-[0] z-[99]"
           style="transform-origin:top right; --scaleMultiplier: {scaleMultiplier};transform:scale({scaleMultiplier});">
-        <div id="side_bar_2" class="flex flex-col items-center justify-start pt-60 gap-10 h-[953px] w-[459px] absolute right-[0]" 
+        <div id="side_bar_2" class="flex flex-col items-center justify-start pt-[75px] gap-10 h-[953px] w-[459px] absolute right-[0]" 
             style=" background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');">
           <div class="w-[420px] h-[22px] flex justify-center items-center" style="background-image:url('/img/login/window_1.png')"></div>
+          <div class="w-full text-left ml-10 text-[18px] italic font-bold" style="color:rgb(28 211 216);">캐릭터를 선택해 주세요.</div>
           <form class="flex flex-col items-center gap-[6.5rem] w-[80%]" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
-            <div class="form-control">
+            <div class="w-full flex flex-row">
+              <div class="w-[260.8px] h-[427.2px] cursor-pointer" on:click={() => selectType = 0}
+                style="background-image:{ selectType == 0 ? 'url("/img/login/frame_Selecte.png"), ' : ''}url('/img/login/img_man.png'); background-size:contain;background-repeat:no-repeat;"></div>
+              <div class="w-[260.8px] h-[427.2px] cursor-pointer" on:click={() => selectType = 1}
+                style="background-image:{ selectType == 1 ? 'url("/img/login/frame_Selecte.png"), ' : ''}url('/img/login/img_woman.png');background-size:contain;background-repeat:no-repeat;"></div>
+            </div>
+            <div class="form-control mt-[-200px]">
               <label class="label">
                   <span class="label-text text-white text-lg">닉네임</span>
               </label>
               <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
                       name="nickname" type="text" autocomplete="off">
               <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 4자 이상 입력해주세요</span>
+              <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 변경이 불가능합니다.</span>
             </div>
 
-            <div class="flex justify-center">
+            <div class="flex justify-center mt-[-50px]">
               <button class="w-[333px] h-[116px]" style="background-image:url('/img/login/btn_action.png')"></button>
             </div>
           </form>      

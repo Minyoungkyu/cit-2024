@@ -1,11 +1,11 @@
 
  /* === range theme and appearance === */
- input[type="range"] {
+ .setting_box input[type="range"] {
      font-size: 1.5rem;
      width: 600px;
  }
  
- input[type="range"] {
+ .setting_box input[type="range"] {
      color: rgb(64 226 255);
      --thumb-height: 1.125em;
      --track-height: 0.125em;
@@ -16,31 +16,31 @@
  }
  
  /* === range commons === */
- input[type="range"] {
+ .setting_box input[type="range"] {
      position: relative;
      background: #fff0;
      overflow: hidden;
  }
  
- input[type="range"]:active {
+ .setting_box input[type="range"]:active {
      cursor: grabbing;
  }
  
  /* === WebKit specific styles === */
- input[type="range"],
- input[type="range"]::-webkit-slider-runnable-track,
- input[type="range"]::-webkit-slider-thumb {
+ .setting_box input[type="range"],
+ .setting_box input[type="range"]::-webkit-slider-runnable-track,
+ .setting_box input[type="range"]::-webkit-slider-thumb {
      -webkit-appearance: none;
      transition: all ease 100ms;
      height: var(--thumb-height);
  }
  
- input[type="range"]::-webkit-slider-runnable-track,
- input[type="range"]::-webkit-slider-thumb {
+ .setting_box input[type="range"]::-webkit-slider-runnable-track,
+ .setting_box input[type="range"]::-webkit-slider-thumb {
      position: relative;
  }
  
- input[type="range"]::-webkit-slider-thumb {
+ .setting_box input[type="range"]::-webkit-slider-thumb {
      --thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
      --clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
      --clip-bottom: calc(var(--thumb-height) - var(--clip-top));
@@ -73,31 +73,31 @@
      cursor: grab;
  } */
  
- input[type="range"]:active::-webkit-slider-thumb {
+ .setting_box input[type="range"]:active::-webkit-slider-thumb {
      cursor: grabbing;
  }
  
- input[type="range"]::-webkit-slider-runnable-track {
+ .setting_box input[type="range"]::-webkit-slider-runnable-track {
      background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center /
          100% calc(var(--track-height) + 1px);
  }
  
  /* === Firefox specific styles === */
- input[type="range"],
- input[type="range"]::-moz-range-track,
- input[type="range"]::-moz-range-thumb {
+ .setting_box input[type="range"],
+ .setting_box input[type="range"]::-moz-range-track,
+ .setting_box input[type="range"]::-moz-range-thumb {
      appearance: none;
      transition: all ease 100ms;
      height: var(--thumb-height);
  }
  
- input[type="range"]::-moz-range-track,
- input[type="range"]::-moz-range-thumb,
- input[type="range"]::-moz-range-progress {
+ .setting_box input[type="range"]::-moz-range-track,
+ .setting_box input[type="range"]::-moz-range-thumb,
+ .setting_box input[type="range"]::-moz-range-progress {
      background: #fff0;
  }
  
- input[type="range"]::-moz-range-thumb {
+ .setting_box input[type="range"]::-moz-range-thumb {
      background: currentColor;
      border: 0;
      width: var(--thumb-width, var(--thumb-height));
@@ -105,28 +105,28 @@
      cursor: grab;
  }
  
- input[type="range"]:active::-moz-range-thumb {
+ .setting_box input[type="range"]:active::-moz-range-thumb {
      cursor: grabbing;
  }
  
- input[type="range"]::-moz-range-track {
+ .setting_box input[type="range"]::-moz-range-track {
      width: 100%;
      background: var(--track-color);
  }
  
- input[type="range"]::-moz-range-progress {
+ .setting_box input[type="range"]::-moz-range-progress {
      appearance: none;
      background: currentColor;
      transition-delay: 30ms;
  }
  
- input[type="range"]::-moz-range-track,
- input[type="range"]::-moz-range-progress {
+ .setting_box input[type="range"]::-moz-range-track,
+ .setting_box input[type="range"]::-moz-range-progress {
      height: calc(var(--track-height) + 1px);
      border-radius: var(--track-height);
  }
  
- input[type="range"]:disabled::-moz-range-thumb {
+ .setting_box input[type="range"]:disabled::-moz-range-thumb {
      cursor: not-allowed;
  }
 

@@ -1,7 +1,11 @@
 package com.example.cit.global.initData;
 
+import com.example.cit.domain.achievement.achievement.entity.Achievement;
+import com.example.cit.domain.achievement.achievement.service.AchievementService;
 import com.example.cit.domain.areaCode.administrativeDistrict.service.AdministrativeDistrictService;
 import com.example.cit.domain.areaCode.region.service.RegionService;
+import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
+import com.example.cit.domain.item.profileIcon.service.ProfileService;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.MemberService;
 import com.example.cit.domain.program.program.entity.Program;
@@ -25,6 +29,8 @@ public class DevInit2 {
     private final MemberService memberService;
     private final SchoolService schoolService;
     private final RegionService regionService;
+    private final ProfileService profileService;
+    private final AchievementService achievementService;
     private final AdministrativeDistrictService administrativeDistrictService;
 
 
@@ -340,7 +346,103 @@ public class DevInit2 {
         };
     }
 
+    @Bean
+    @Order(11)
+    ApplicationRunner initAchievementAndProfileIcon() {
 
+        return args -> {
 
+            if (achievementService.getAchievementById(1L).isEmpty()) {
+                achievementService.createAchievement("테스트업적1", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 2, 5, 25, null);
+                achievementService.createAchievement("테스트업적2", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 5, 5, 25, null);
+                achievementService.createAchievement("테스트업적3", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 14, 5, 25, null);
+                achievementService.createAchievement("테스트업적4", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 23, 5, 25, null);
+                achievementService.createAchievement("테스트업적5", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 33, 10, 50, null);
+                achievementService.createAchievement("테스트업적6", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 42, 10, 50, null);
+                achievementService.createAchievement("테스트업적7", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 51, 10, 50, null);
+                achievementService.createAchievement("테스트업적8", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 61, 15, 75, null);
+                achievementService.createAchievement("테스트업적9", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 70, 15, 75, null);
+                achievementService.createAchievement("테스트업적10", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 79, 15, 75, null);
+                achievementService.createAchievement("테스트업적11", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 88, 15, 75, null);
+                achievementService.createAchievement("테스트업적12", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 8, 8, 40, null);
+                achievementService.createAchievement("테스트업적13", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 17, 8, 40, null);
+                achievementService.createAchievement("테스트업적14", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 26, 8, 40, null);
+                achievementService.createAchievement("테스트업적15", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 36, 16, 80, null);
+                achievementService.createAchievement("테스트업적16", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 45, 16, 80, null);
+                achievementService.createAchievement("테스트업적17", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 54, 16, 80, null);
+                achievementService.createAchievement("테스트업적18", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 64, 24, 120, null);
+                achievementService.createAchievement("테스트업적19", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 73, 24, 120, null);
+                achievementService.createAchievement("테스트업적20", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 82, 24, 120, null);
+                achievementService.createAchievement("테스트업적21", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 91, 24, 120, null);
+                achievementService.createAchievement("테스트업적22", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 11, 10, 50, null);
+                achievementService.createAchievement("테스트업적23", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 20, 10, 50, null);
+                achievementService.createAchievement("테스트업적24", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 29, 10, 50, null);
+                achievementService.createAchievement("테스트업적25", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 39, 20, 100, null);
+                achievementService.createAchievement("테스트업적26", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 48, 20, 100, null);
+                achievementService.createAchievement("테스트업적27", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 57, 20, 100, null);
+                achievementService.createAchievement("테스트업적28", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 67, 30, 150, null);
+                achievementService.createAchievement("테스트업적29", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 76, 30, 150, null);
+                achievementService.createAchievement("테스트업적30", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 85, 30, 150, null);
+                achievementService.createAchievement("테스트업적31", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 94, 30, 150, null);
+                achievementService.createAchievement("테스트업적32", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 5, 20, 100, null);
+                achievementService.createAchievement("테스트업적33", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 10, 30, 150, null);
+                achievementService.createAchievement("테스트업적34", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 15, 40, 200, null);
+                achievementService.createAchievement("테스트업적35", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 20, 50, 250, null);
+                achievementService.createAchievement("테스트업적36", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 25, 50, 250, null);
+                achievementService.createAchievement("테스트업적37", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 30, 100, 500, null);
+                achievementService.createAchievement("테스트업적38", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 35, 150, 750, null);
+                achievementService.createAchievement("테스트업적39", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 40, 200, 1000, null);
+                achievementService.createAchievement("테스트업적40", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 45, 250, 1250, null);
+                achievementService.createAchievement("테스트업적41", "테스트 테스트, 테스트 테스트!", "PLAYER LEVEL", 50, 500, 2500, null);
+                achievementService.createAchievement("테스트업적42", "테스트 테스트, 테스트 테스트!", "PURCHASE EQUIPMENT", 1, 5, 25, null);
+                achievementService.createAchievement("테스트업적43", "테스트 테스트, 테스트 테스트!", "PURCHASE ICON", 1, 5, 25, null);
+                achievementService.createAchievement("테스트업적44", "테스트 테스트, 테스트 테스트!", "CHECK ENCY", 1, 5, 25, null);
+                achievementService.createAchievement("테스트업적45", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 30, 10, 50, null);
+                achievementService.createAchievement("테스트업적46", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 58, 10, 50, null);
+                achievementService.createAchievement("테스트업적47", "테스트 테스트, 테스트 테스트!", "PURCHASE EQUIPMENT", 5, 10, 50, null);
+                achievementService.createAchievement("테스트업적48", "테스트 테스트, 테스트 테스트!", "PURCHASE EQUIPMENT", 10, 10, 50, null);
+                achievementService.createAchievement("테스트업적49", "테스트 테스트, 테스트 테스트!", "COUNT NORMAL", 5, 100, 500, null);
+                achievementService.createAchievement("테스트업적50", "테스트 테스트, 테스트 테스트!", "COUNT NORMAL", 30, 300, 1500, null);
+                Achievement ac1 = achievementService.createAchievement("테스트업적51", "테스트 테스트, 테스트 테스트!", "COUNT NORMAL", 100, 500, 2500, null);
+                Achievement ac2 = achievementService.createAchievement("테스트업적52", "테스트 테스트, 테스트 테스트!", "COUNT NORMAL", 300, 1000, 5000, null);
+                achievementService.createAchievement("테스트업적53", "테스트 테스트, 테스트 테스트!", "COUNT BOSS", 1, 50, 250, null);
+                achievementService.createAchievement("테스트업적54", "테스트 테스트, 테스트 테스트!", "COUNT BOSS", 3, 300, 1500, null);
+                Achievement ac3 = achievementService.createAchievement("테스트업적55", "테스트 테스트, 테스트 테스트!", "COUNT BOSS", 10, 1500, 7500, null);
+                achievementService.createAchievement("테스트업적56", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 30, 100, 500, null);
+                achievementService.createAchievement("테스트업적57", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 58, 250, 1250, null);
+                achievementService.createAchievement("테스트업적58", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 94, 500, 2500, null);
+                Achievement ac4 = achievementService.createAchievement("테스트업적59", "테스트 테스트, 테스트 테스트!", "PURCHASE EQUIPMENT SET", 0, 500, 2500, null);
+                Achievement ac5 = achievementService.createAchievement("테스트업적59", "테스트 테스트, 테스트 테스트!", "PURCHASE EQUIPMENT SET", 1, 500, 2500, null);
+
+                profileService.createProfile("테스트1", "테스트 테스트, 테스트 테스트!", "img_icon1", 500, null);
+                profileService.createProfile("테스트2", "테스트 테스트, 테스트 테스트!", "img_icon2", 500, null);
+                profileService.createProfile("테스트3", "테스트 테스트, 테스트 테스트!", "img_icon3", 500, null);
+                profileService.createProfile("테스트4", "테스트 테스트, 테스트 테스트!", "img_icon4", 500, null);
+                profileService.createProfile("테스트5", "테스트 테스트, 테스트 테스트!", "img_icon7", 500, null);
+                profileService.createProfile("테스트6", "테스트 테스트, 테스트 테스트!", "img_icon8", 500, null);
+                profileService.createProfile("테스트7", "테스트 테스트, 테스트 테스트!", "img_icon9", 500, null);
+                profileService.createProfile("테스트8", "테스트 테스트, 테스트 테스트!", "img_icon10", 500, null);
+
+                ProfileIcon icon1 = profileService.createProfile("테스트10", "테스트 테스트, 테스트 테스트!", "img_icon5", 0, null);
+                ProfileIcon icon2 = profileService.createProfile("테스트11", "테스트 테스트, 테스트 테스트!", "img_icon6", 0, null);
+                ProfileIcon icon3 = profileService.createProfile("테스트12", "테스트 테스트, 테스트 테스트!", "img_icon11", 0, null);
+                ProfileIcon icon4 = profileService.createProfile("테스트13", "테스트 테스트, 테스트 테스트!", "img_icon12", 0, null);
+                ProfileIcon icon5 = profileService.createProfile("테스트14", "테스트 테스트, 테스트 테스트!", "img_icon13", 0, null);
+
+                achievementService.setRewardIcon(ac1, icon1);
+                achievementService.setRewardIcon(ac2, icon2);
+                achievementService.setRewardIcon(ac3, icon3);
+                achievementService.setRewardIcon(ac4, icon4);
+                achievementService.setRewardIcon(ac5, icon5);
+
+                profileService.setAchievement(icon1, ac1);
+                profileService.setAchievement(icon2, ac2);
+                profileService.setAchievement(icon3, ac3);
+                profileService.setAchievement(icon4, ac4);
+                profileService.setAchievement(icon5, ac5);
+            }
+        };
+
+    }
 
 }

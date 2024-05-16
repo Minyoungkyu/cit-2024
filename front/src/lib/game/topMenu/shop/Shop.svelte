@@ -155,7 +155,7 @@
                 <div class="mt-[40px] flex flex-col relative">
                     <div class="w-[203px] h-[203px] cursor-pointer" on:click={() => currentItem = item} 
                         style="background-image:{currentItem == item ? 'url("/img/shop/ui_itemframe2.png");' : 'url("/img/shop/ui_itemframe.png");'}">
-                        <div class="w-[203px] h-[203px] mt-[-5px]" style="background-image:url('{item.sourcePath}');"></div>
+                        <div class="w-[203px] h-[203px] mt-[-5px]" style="background-image:url('/img/item/0/{item.sourcePath}.png');"></div>
                     </div>
                     <div class="w-[310px] h-[76px] mt-[-1px] cursor-pointer" on:click={() => currentItem = item}
                         style="background-image:{currentItem == item ? 'url("/img/inventory/btn_item_etc2.jpg");' : 'url("/img/inventory/btn_item_etc.jpg");'} 
@@ -190,7 +190,7 @@
                 {#each profileList as profile}
                 <div class="mt-[40px] flex flex-col cursor-pointer">
                     <div class="w-[180px] h-[180px] z-[10] ml-[15px] mb-[2px]" on:click={() => currentProfile = profile}
-                        style="background-image:{currentProfile == profile ? 'url("/img/shop/icon_frame_glow.png"),' : ''} url('{profile.sourcePath}');">
+                        style="background-image:{currentProfile == profile ? 'url("/img/shop/icon_frame_glow.png"),' : ''} url('/img/icon/{profile.sourcePath}.png');background-size:contain;">
                     </div>
                     <div class="w-[310px] h-[76px] mt-[20px]" on:click={() => currentProfile = profile} 
                         style="background-image:url('/img/inventory/btn_item_etc.jpg');transform-origin:top left;transform:scale(0.655);">
@@ -246,7 +246,9 @@
             <div class="text-[40px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentProfile?.name}</div>
         </div>
         <div class="absolute top-[132px] right-[30px] w-[404px] h-[637px] flex flex-col items-center" style="background-image:url('/img/shop/ui_store_inupbg2.png');">
-            <div class="w-[180px] h-[180px] z-[10] mt-[31.5px]" style="background-image:url('/img/shop/icon_frame_glow.png'), url('{currentProfile?.sourcePath}');"></div>
+            <div class="w-[180px] h-[180px] z-[10] mt-[31.5px]" 
+                style="background-image:url('/img/shop/icon_frame_glow.png'), url('/img/icon/{currentProfile?.sourcePath}.png');background-size:contain;">
+            </div>
             <div class="w-[404px] h-[22px] mt-[31.5px]" style="background-image:url('/img/shop/window_1.png');"></div>
             <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[25px] font-bold italic" style="color:rgb(28 211 216);">
                 {currentProfile?.description}

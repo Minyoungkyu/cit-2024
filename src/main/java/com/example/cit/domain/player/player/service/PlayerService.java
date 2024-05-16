@@ -1,8 +1,18 @@
 package com.example.cit.domain.player.player.service;
 
+import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
+import com.example.cit.domain.achievement.playerAchievement.service.PlayerAchievementService;
+import com.example.cit.domain.item.item.dto.ItemDto;
+import com.example.cit.domain.item.item.entity.Item;
+import com.example.cit.domain.item.profileIcon.dto.ProfileDto;
+import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
+import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.player.inventroy.service.InventoryService;
+import com.example.cit.domain.player.inventroy.service.ProfileInventoryService;
 import com.example.cit.domain.player.player.entity.Player;
 import com.example.cit.domain.player.player.repository.PlayerRepository;
 import com.example.cit.global.exceptions.GlobalException;
+import com.example.cit.global.rq.Rq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,19 +25,68 @@ import java.util.Optional;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final InventoryService inventoryService;
+    private final ProfileInventoryService profileInventoryService;
+    private final PlayerAchievementService playerAchievementService;
+    private final Rq rq;
+
 
     @Transactional
-    public Player setNickName(long id, String nickname) {
+    public Player setNickName(long id, String nickname, int characterType) {
 
-        return findPlayerByMemberId(id)
-            .map(player -> {
-                player.setNickname(nickname);
-                return player;
-            })
+        Player player = findPlayerByMemberId(id)
             .orElseThrow(() -> new GlobalException("400-1", "존재하지 않는 플레이어입니다."));
+
+        player.setNickname(nickname);
+        player.setCharacterType(characterType);
+
+        playerRepository.save(player);
+
+        profileInventoryService.addDefaultIcon(player, characterType);
+
+        return player;
+    }
+
+    @Transactional
+    public void getRewardAndUpdateAchievement(Member member, AchievementDto achievement) {
+
+        this.addRewardToPlayer(achievement.rewardExp(), achievement.rewardJewel());
+
+        playerAchievementService.updateGetReward(member, achievement);
+    }
+
+    @Transactional
+    public void addRewardToPlayer(int rewardExp, int rewardJewel) {
+        this.updatePlayerReward(rq.getMember().getId(), rewardExp, rewardJewel);
+    }
+
+    @Transactional
+    public void addRewardToPlayer(int rewardExp, int rewardJewel, ItemDto item) {
+        this.addRewardToPlayer(rewardExp, rewardJewel);
+
+        // Todo: 이미 획득한 아이템인지 점검
+        this.inventoryService.createInventory(findPlayerByMemberId(rq.getMember().getId()).get(), item.id(), false);
+    }
+
+    @Transactional
+    public void addRewardToPlayer(int rewardExp, int rewardJewel, ProfileDto profile) {
+        this.addRewardToPlayer(rewardExp, rewardJewel);
+        this.profileInventoryService.createInventory(findPlayerByMemberId(rq.getMember().getId()).get(), profile.id(), false);
+    }
+
+    @Transactional
+    public void updatePlayerReward(long memberId, int rewardExp, int rewardJewel) {
+        findPlayerByMemberId(memberId)
+            .ifPresent(player -> {
+                player.setExp(player.getExp() + rewardExp);
+                player.setGems(player.getGems() + rewardJewel);
+            });
+
+        playerAchievementService.checkPlayerLevelAchievement(rq.getMember());
     }
 
     public Optional<Player> findPlayerByMemberId(long id) {
         return playerRepository.findByMemberId(id);
     }
+
 }

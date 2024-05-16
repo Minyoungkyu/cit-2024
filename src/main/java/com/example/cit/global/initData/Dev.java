@@ -2287,22 +2287,26 @@ public class Dev {
                 ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
                 ItemParts itemParts6 = itemPartsService.createItemParts("총");
 
-                Item item1 = itemService.createItem(itemParts1, "우주용 신발",
-                        "이동과 회전 명령어를 사용할 수 있게 하는 장비.\n" +
-                                "go() : 플레이어를 바라보고 있는 방향으로 이동시킨다.\n" +
-                                "turnLeft() : 플레이어를 왼쪽으로 회전시킨다.\n" +
-                                "turnRight() : 플레이어를 오른쪽으로 회전시킨다.",
-                        "", "/img/inventory/icon_space_boots.png", 0);
-
-                Item item2 = itemService.createItem(itemParts2, "Lv1 모듈",
-                        "반복 명령어 for를 사용할 수 있게 하는 장비.",
-                        "", "/img/inventory/icon_module.png", 0);
-
-                Item item3 = itemService.createItem(itemParts3, "우주용 장갑",
-                        "장착 명령어를 사용할 수 있게 하는 장비.\n" +
-                                "set() : 입력된 아이템을 플레이어가 바라보고 있는 곳에 장착시킨다.",
+                Item item1 = itemService.createItem(itemParts1,
+                        "우주용 신발",
                         "",
-                        "/img/inventory/icon_space_gloves.png", 0);
+                        "icon_chariter_space_boots",
+                        "icon_space_boots",
+                        0);
+
+                Item item2 = itemService.createItem(itemParts2,
+                        "Lv1 모듈",
+                        "",
+                        "",
+                        "icon_module",
+                        0);
+
+                Item item3 = itemService.createItem(itemParts3,
+                        "우주용 장갑",
+                        "",
+                        "icon_chariter_space_gloves",
+                        "icon_space_gloves",
+                        0);
 
                 gameMapTutorial2.setRewardItem(item1);
                 gameMap11e3.setRewardItem(item2);
@@ -2598,31 +2602,126 @@ public class Dev {
     @Order(6)
     ApplicationRunner initItemAndProfile() {
         return args -> {
-            if (profileService.getProfileList().isEmpty()) {
-                profileService.createProfile("테스트1", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 100, null);
-                profileService.createProfile("테스트2", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 200, null);
-                profileService.createProfile("테스트3", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 300, null);
-                profileService.createProfile("테스트4", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 400, null);
-                profileService.createProfile("테스트5", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 500, null);
-                profileService.createProfile("테스트6", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 600, null);
-            }
-
             if(itemService.getItemList().isEmpty()) {
-                itemService.createItem(itemPartsService.getItemParts(1), "테스트신발1", "테스트 아이템1", "", "/img/shop/icon_space_boots.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(1), "테스트신발2", "테스트 아이템1", "", "/img/shop/icon_space_boots.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(3), "테스트장갑1", "테스트 아이템1", "", "/img/shop/icon_space_gloves.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(3), "테스트장갑2", "테스트 아이템1", "", "/img/shop/icon_space_gloves.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(4), "테스트우주복1", "테스트 아이템1", "", "/img/shop/icon_space_suit.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(4), "테스트우주복2", "테스트 아이템1", "", "/img/shop/icon_space_suit.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(5), "테스트헬멧1", "테스트 아이템1", "", "/img/shop/icon_helmet.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(5), "테스트헬멧2", "테스트 아이템1", "", "/img/shop/icon_helmet.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(6), "테스트총1", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(6), "테스트총2", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(2), "보상모듈Lv2", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(2), "보상모듈Lv3", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(4), "보상우주복", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(5), "보상헬멧", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(6), "보상총", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
+                itemService.createItem(
+                        itemPartsService.getItemParts(1),
+                        "테스트신발1",
+                        "테스트 아이템1",
+                        "icon_chariter_pirate_boots",
+                        "icon_pirate_boots",
+                        100);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(1),
+                        "테스트신발2",
+                        "테스트 아이템1",
+                        "icon_chariter_carbon_boots",
+                        "icon_carbon_boots",
+                        200);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(3),
+                        "테스트장갑1",
+                        "테스트 아이템1",
+                        "icon_chariter_pirate_gloves",
+                        "icon_pirate_gloves",
+                        100);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(3),
+                        "테스트장갑2",
+                        "테스트 아이템1",
+                        "icon_chariter_carbon_gloves",
+                        "icon_carbon_gloves",
+                        200);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(4),
+                        "테스트우주복1",
+                        "테스트 아이템1",
+                        "icon_chariter_pirate_suit",
+                        "icon_pirate_suit",
+                        100);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(4),
+                        "테스트우주복2",
+                        "테스트 아이템1",
+                        "icon_chariter_carbon_suit",
+                        "icon_carbon_suit",
+                        200);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(5),
+                        "테스트헬멧1",
+                        "테스트 아이템1",
+                        "icon_chariter_pirate_helmet",
+                        "icon_pirate_helmet",
+                        100);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(5),
+                        "테스트헬멧2",
+                        "테스트 아이템1",
+                        "icon_chariter_carbon_helmet",
+                        "icon_carbon_helmet",
+                        200);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(6),
+                        "테스트총1",
+                        "테스트 아이템1",
+                        "",
+                        "Icon_gun3",
+                        100);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(6),
+                        "테스트총2",
+                        "테스트 아이템1",
+                        "",
+                        "Icon_gun2",
+                        200);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(2),
+                        "보상모듈Lv2",
+                        "테스트 아이템1",
+                        "",
+                        "icon_module2",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(2),
+                        "보상모듈Lv3",
+                        "테스트 아이템1",
+                        "",
+                        "icon_module3",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(4),
+                        "보상우주복",
+                        "테스트 아이템1",
+                        "icon_chariter_space_suit",
+                        "icon_space_suit",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(5),
+                        "보상헬멧",
+                        "테스트 아이템1",
+                        "icon_chariter_helmet",
+                        "icon_helmet",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(6),
+                        "보상총",
+                        "테스트 아이템1",
+                        "",
+                        "Icon_gun1",
+                        0);
             }
         };
     }

@@ -21,7 +21,8 @@
     import { runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
     import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
-	import { scale } from 'svelte/transition';
+ 
+    import Setting from '$lib/game/topMenu/setting/Setting.svelte';
 
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'], guideItems: string[] } }>();
     const { gameMapDto } = data;
@@ -51,6 +52,7 @@
     let hasFrameData: boolean = $state(false);
     let isReplay: boolean = $state(false);
     let checkLineCount: boolean = $state(true);
+    let openSetting: boolean = $state(false);
 
     let showBtnGuide: boolean = $state(false);
     let currentGuideIndex: number = $state(0);
@@ -170,6 +172,24 @@
         updateFrame(framesData, 0, lineCounter);
 
         console.timeEnd('executePython')
+
+        const parsedData = JSON.parse(result.result);
+        const lastItem = parsedData[parsedData.length - 1];
+        let resultCode = lastItem.status === 1 ? 1 : 0;
+
+        batchGameLog(resultCode);
+    }
+
+    async function batchGameLog(result: number) {
+        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/gameLogs/batchGameLog`, {
+            body: {
+                gameMapDto: gameMapDto,
+                result: result,
+                editorAutoComplete: rq.member.player.editorAutoComplete,
+                editorAutoClose: rq.member.player.editorAutoClose,
+                killCount: 1
+            }
+        });
     }
 
     async function batchPlayLog() {
@@ -219,6 +239,7 @@
     let scaleMultiplier2 = $state(0);
     let widthMultiplier = $state(1920);
     let userDevice = $state('');
+    let adjustResolution = $state(0);
 
     onMount(() => {
         audio = document.getElementById("myAudio") as HTMLAudioElement;
@@ -284,6 +305,7 @@
             // guideContainer.style.height = `${contentHeight}px`;
             }
             
+            adjustResolution = resolution;
             scaleMultiplier2 = (backgroundContainer.offsetWidth/1920);
             scaleMultiplier = (backgroundContainer.offsetHeight / originalHeight);
             widthMultiplier = backgroundContainer.offsetWidth - (633 * scaleMultiplier);
@@ -707,6 +729,14 @@
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container flex flex-col items-center justify-center overflow-hidden bg-gray-700">
+
+    {#if openSetting}
+    <div class="w-screen h-screen absolute bg-black opacity-50 z-[60]" style=""></div>
+    <div class="h-full mt-[-10%] absolute flex items-center justify-center z-[61]" style="width:{widthMultiplier}px;pointer-events:none;" on:click={() => openSetting = !openSetting}>
+        <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+    </div>
+    {/if}
+
     <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden">
 
         {#if showBtnGuide}
@@ -817,7 +847,7 @@
                     <div class="w-[506px] h-[134px] flex justify-center items-center italic" style="background-image:url('/img/inGame/ui_stage_title.png')">
                         <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} {#if gameMapDto.difficulty !== "0"} {gameMapDto.difficulty} {/if}</div>
                     </div>
-                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_off.png')"></div>
+                    <div class="w-[134px] h-[134px] cursor-pointer btn_setting" style="background-image:url('/img/map/btn_settomg_off.png')" on:click={() => openSetting = !openSetting}></div>
                   </div>
                   <div class="flex flex-col" style="transform-origin:top right;transform:scale(1.03);
                         {showBtnGuide && btnGuideArray[0] ? 'box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">

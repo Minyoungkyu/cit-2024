@@ -24,6 +24,9 @@ class Character:
         self.jump_time = 2.0
         self.attack_time = 0.5
         self.check_time = 0.5
+        self.print_result_time = 0.5
+        self.monster_attack_time = 1.5
+        self.monster_hit_time = 0.5 # appresseive_monster_1 만 적용됨
 
         # 상태값
         self.hero_idle_status = 0
@@ -102,6 +105,7 @@ class Character:
         self.hero_print_array = []
         self.hero_item_list = []
         self.info_print_index = self.update_print_index()
+        self.hero_do_print = False
 
         self.hero_cannot_jump_stage = ['2-2Normal1','2-2Hard1',
                                        '2-3Easy1','2-3Easy2','2-3Normal1','2-3Normal2','2-3Hard1','2-3Hard2',
@@ -158,6 +162,15 @@ class Character:
     
     def is_boss_stage(self):
         return self.data['stage']['step'] == '3-4' and self.data['stage']['level'] == 3
+    
+    def end_game_frame_append(self):
+        self.frames.append({
+            "id": len(self.frames), 
+            "status": 2, 
+            "line_num": 0,
+            "player": self.make_player(), 
+            "item_list": self.make_item_list()
+            })
 
     def frame_append(self, line_num):
         # self.time_count += 1
@@ -229,7 +242,7 @@ class Character:
                     continue
             item_list.append(item["status"])
         return item_list
-
+    
     def make_monster_init_frame(self):
         monster_types = ['passive_monster', 'aggressive_monster_1', 'aggressive_monster_2', 'boss']
 
@@ -333,7 +346,7 @@ class Character:
 
     def print_fail(self, status, target_id, line_num):
         total_frames = int(self.print_fail_time * self.fps)
-        # self.data["player"]["status"] = status
+        self.data["player"]["status"] = status
 
         # if status == self.hero_miss_args_status:
         self.handle_item_status(target_id, self.monster_error_status)
@@ -341,7 +354,7 @@ class Character:
 
         for _ in range(total_frames):
             self.frame_append(line_num - start_line)
-            
+
         self.data["player"]["status"] = 0
         self.handle_item_status(target_id, self.monster_idle_status)
 
@@ -352,7 +365,7 @@ class Character:
 
         for _ in range(total_frames):
             self.frame_append(line_num - start_line)
-            
+
         self.data["player"]["status"] = 0
         self.handle_item_status(target_id, self.monster_idle_status)
 
@@ -365,7 +378,7 @@ class Character:
                         item['status'] = self.monster_run_status
 
                     if item['status'] == self.monster_hit_status:
-                        if item['frame_count'] > int(self.hit_bomb_time * self.fps):
+                        if item['frame_count'] > int(self.monster_hit_time * self.fps):
                             item['status'] = self.monster_die_status 
                             item['frame_count'] = 0
                             continue
@@ -396,7 +409,7 @@ class Character:
                                     continue
                     
                     if [round(pos) for pos in self.data["player"]["pos"]] == [monster_pos[0] - 0.9, monster_pos[1]] and item['type'] == 'aggressive_monster_1':
-                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.hit_bomb_time * self.fps):
+                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.monster_attack_time * self.fps):
                             self.data['player']['status'] = self.hero_die_status
                             item['frame_count'] = 0
                             continue
@@ -408,7 +421,7 @@ class Character:
                             continue
                             
                     if item['goal'] == monster_pos:
-                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.hit_bomb_time * self.fps):
+                        if self.data['player']['hp'] == 0 and item['frame_count'] > int(self.monster_attack_time * self.fps):
                             self.data['player']['status'] = self.hero_die_status
                             item['frame_count'] = 0
                             continue
@@ -426,6 +439,7 @@ class Character:
 
 
     def batch_aggressive_monster_2(self):
+        hero_hit_now = False
         for item in self.data['stage']['init_item_list']:
             if item['type'] == 'aggressive_monster_2' and item['status'] != self.monster_die_status:
                 if item['frame_count'] == 9999:
@@ -485,18 +499,19 @@ class Character:
                                 self.data["player"]["hp"] -= item['damage']
                                 if self.data['player']['hp'] < 0:
                                     self.data['player']['hp'] = 0
-                                self.data['player']['hit_status'] = 1
+                                # self.data['player']['hit_status'] = 1
+                                hero_hit_now = True
                                 item['frame_count'] += 1
                                 if self.data['player']['hp'] == 0:
                                     self.data['player']['status'] = self.hero_die_status
                                     item['frame_count'] = 9999
                                 continue
-                            elif item['frame_count'] <= 11:
+                            elif item['frame_count'] <= int(self.monster_attack_time * self.fps):
+                                hero_hit_now = True
                                 item['frame_count'] += 1
                                 continue
-                            elif item['frame_count'] > 11 and item['frame_count'] < item['attack_speed']:
+                            elif item['frame_count'] > int(self.monster_attack_time * self.fps) and item['frame_count'] < item['attack_speed']:
                                 item['status'] = self.monster_idle_status
-                                self.data['player']['hit_status'] = 0
                                 item['frame_count'] += 1
                                 continue
                             elif item['frame_count'] >= item['attack_speed']:
@@ -517,6 +532,9 @@ class Character:
                         #     item['pos'][1] -= 2/int(self.go_time * self.fps)
                         # elif monster_pos[1] < player_pos[1]:
                         #     item['pos'][1] += 2/int(self.go_time * self.fps)
+
+        self.data['player']['hit_status'] = 1 if hero_hit_now else 0
+
 
     def batch_boss(self):
         if self.data['player']['status'] != self.hero_heal_status:
@@ -560,10 +578,10 @@ class Character:
                 self.data['stage']['init_item_list'][id]['password'] = password
                 self.data['stage']['init_item_list'][id]['answer'] = answer
 
-            elif self.data['stage']['init_item_list'][0]['attack_frame'] > 0 and self.data['stage']['init_item_list'][0]['attack_frame'] < 11 :
+            elif self.data['stage']['init_item_list'][0]['attack_frame'] > 0 and self.data['stage']['init_item_list'][0]['attack_frame'] < int(self.monster_attack_time * self.fps):
                 self.data['stage']['init_item_list'][0]['attack_frame'] += 1
 
-            elif self.data['stage']['init_item_list'][0]['attack_frame'] >= 11:
+            elif self.data['stage']['init_item_list'][0]['attack_frame'] >= int(self.monster_attack_time * self.fps):
                 if self.data['stage']['init_item_list'][0]['status'] == self.monster_attack_status:
                     self.data['stage']['init_item_list'][0]['status'] = self.monster_idle_status
                 self.data['stage']['init_item_list'][0]['attack_frame'] = 0
@@ -926,6 +944,9 @@ class Character:
                 else:
                     if self.data['player']['bomb_count'] <= 0:
                         self.set_fail(self.hero_not_enough_bomb_status, line_num)
+                        # self.create_data()
+                        # sys.exit()
+                        # print('삐용삐용 갯수초과!') # Todo: for logicFPyo
                         raise SystemExit
                         return
                     else:
@@ -954,8 +975,8 @@ class Character:
                     self.data['player']['medicine_count'] -= 1
                     random_value = random.randint(25, 40)
                     self.data['player']['status'] = self.hero_heal_status
-                    for _ in range(random_value):
-                        self.data['player']['hp'] += 1 if self.data['player']['hp'] < 100 else 0
+                    for _ in range(1):
+                        self.data['player']['hp'] += random_value if self.data['player']['hp'] < 100 else 0
                         self.frame_append(line_num - start_line)
                     self.data['player']['status'] = self.hero_idle_status
             else:
@@ -971,8 +992,8 @@ class Character:
                     self.data['player']['advanced_medicine_count'] -= 1
                     random_value = 100 - self.data['player']['hp']
                     self.data['player']['status'] = self.hero_heal_status
-                    for _ in range(random_value):
-                        self.data['player']['hp'] += 1 if self.data['player']['hp'] < 100 else 0
+                    for _ in range(1):
+                        self.data['player']['hp'] += random_value if self.data['player']['hp'] < 100 else 0
                         self.frame_append(line_num - start_line)
                     self.data['player']['status'] = self.hero_idle_status
             else:
@@ -980,6 +1001,8 @@ class Character:
                 return
 
     def print(self, args, line_num): 
+        self.hero_do_print = True
+
         dir_offsets = {
             'up': (0, -1),
             'down': (0, 1),
@@ -999,27 +1022,12 @@ class Character:
                 print_value = str(args)
                 self.hero_print_array.append(print_value)
                 if (isinstance(args, int) or isinstance(args, str)) and item['print_type'] == 'string': # 인쇄할 아이템 검사
-                    if args == item['print_count'][self.info_print_index][0]: # 인쇄할 아이템 검사 (순서보장을 위한 인덱싱) 
-                        # for index, msg in enumerate(self.data['item_list'][0]): # 인쇄할 아이템 선택
-                        #     if isinstance(args, int):
-                        #         target = str(args)
-                        #     else:
-                        #         target = args
-                        #     if msg == target:
-                        #         target_status = index
+                    if item['print_count'][self.info_print_index] and args == item['print_count'][self.info_print_index][0]: # 인쇄할 아이템 검사 (순서보장을 위한 인덱싱) 
 
                         self.print_success(target_id, self.monster_print_status, line_num)
                         item['print_count'][self.info_print_index].remove(args) # 인쇄한 아이템 제거
-                        
-                        if item['print_count'][self.info_print_index] == []: # 모두 인쇄 완료 시 작업 ( 해결 완료 시 )
-                            if item['action_type'] == 'door': # 문 일떄
-                                self.handle_item_status(item['action_id'][0], self.item_off_status)
-                            elif item['action_type'] == 'bomb':
-                                for i in range(len(item['action_id'])):
-                                    self.handle_item_status(item['action_id'][i], self.item_on_status)
-                            elif item['action_type'] == 'laser':
-                                self.handle_laser_status(item['action_id']) 
-                        return  
+
+                        return
                     
                     else: 
                         item['print_count'][self.info_print_index] = item['require_print'][self.info_print_index]
@@ -1028,37 +1036,20 @@ class Character:
                             self.print_success(target_id, self.monster_print_status, line_num)
                             item['print_count'][self.info_print_index].remove(args) # 인쇄한 아이템 제거
 
-                            if item['print_count'][self.info_print_index] == []: # 모두 인쇄 완료 시 작업 ( 해결 완료 시 )
-                                if item['action_type'] == 'door': # 문 일떄
-                                    self.handle_item_status(item['action_id'][0], self.item_off_status)
-                                elif item['action_type'] == 'bomb':
-                                    for i in range(len(item['action_id'])):
-                                        self.handle_item_status(item['action_id'][i], self.item_on_status)
-                                elif item['action_type'] == 'laser':
-                                    self.handle_laser_status(item['action_id']) 
                             return
-                        
+
                         else:
                             item['print_count'][self.info_print_index] = item['require_print'][self.info_print_index]
-                            self.print_fail(self.hero_miss_args_status, target_id, line_num)
+                            self.print_fail(self.hero_print_status, target_id, line_num)
                             return
                 elif isinstance(args, list) and item['print_type'] == 'list':
                     if args == item['print_count'][self.info_print_index]: # 인쇄할 아이템 검사 (순서보장을 위한 인덱싱) 
 
                         self.print_success(target_id, self.monster_print_status, line_num)
                         item['print_count'][self.info_print_index] = [] # 인쇄한 아이템 제거
-                        
-                        if item['print_count'][self.info_print_index] == []: # 모두 인쇄 완료 시 작업 ( 해결 완료 시 )
-                            if item['action_type'] == 'door': # 문 일떄
-                                self.handle_item_status(item['action_id'][0], self.item_off_status)
-                            elif item['action_type'] == 'bomb':
-                                for i in range(len(item['action_id'])):
-                                    self.handle_item_status(item['action_id'][i], self.item_on_status)
-                            elif item['action_type'] == 'laser':
-                                self.handle_laser_status(item['action_id']) 
 
-                        return  
-                    
+                        return
+                        
                     else: 
                         item['print_count'][self.info_print_index] = item['require_print'][self.info_print_index]
                         if args == item['print_count'][self.info_print_index][0]:
@@ -1066,31 +1057,23 @@ class Character:
                             self.print_success(target_id, self.monster_print_status, line_num)
                             item['print_count'][self.info_print_index].remove(args) # 인쇄한 아이템 제거
 
-                            if item['print_count'][self.info_print_index] == []: # 모두 인쇄 완료 시 작업 ( 해결 완료 시 )
-                                if item['action_type'] == 'door': # 문 일떄
-                                    self.handle_item_status(item['action_id'][0], self.item_off_status)
-                                elif item['action_type'] == 'bomb':
-                                    for i in range(len(item['action_id'])):
-                                        self.handle_item_status(item['action_id'][i], self.item_on_status)
-                                elif item['action_type'] == 'laser':
-                                    self.handle_laser_status(item['action_id']) 
                             return
                         
                         else:
                             item['print_count'][self.info_print_index] = item['require_print'][self.info_print_index]
-                            self.print_fail(self.hero_miss_args_status, target_id, line_num)
+                            self.print_fail(self.hero_print_status, target_id, line_num)
                             return
 
                 else:
                     item['print_count'][self.info_print_index] = item['require_print'][self.info_print_index]
-                    self.print_fail(self.hero_miss_args_status, target_id, line_num)
+                    self.print_fail(self.hero_print_status, target_id, line_num)
                     return
                 
             elif item['type'] == 'passive_monster' and item['require_dir'] == self.data["player"]["dir"] and tuple(item["pos"]) == target_pos and item['status'] == self.monster_idle_status:
                 target_id = item['id']
                 self.hero_print_array = []
                 self.hero_print_array.append(args)
-                if args == item['print_count'][self.info_print_index][0]: # 인쇄할 아이템 검사 (순서보장을 위한 인덱싱) 
+                if item['print_count'][self.info_print_index] and args == item['print_count'][self.info_print_index][0]: # 인쇄할 아이템 검사 (순서보장을 위한 인덱싱) 
                     self.print_success(target_id, self.monster_print_status, line_num)
                     item['print_count'][self.info_print_index].remove(args) # 인쇄한 아이템 제거
                     
@@ -1109,9 +1092,9 @@ class Character:
                     return  
             
                 else: # 인쇄 실패, 몬스터는 회전 후 공격, 플레이어는 hit 후 사망 처리
-                    self.print_fail(self.hero_miss_args_status, target_id, line_num)
+                    self.print_fail(self.hero_print_status, target_id, line_num)
                     turn_frames = int(self.turn_time * self.fps)
-                    attack_frames = int(self.attack_time * self.fps)
+                    attack_frames = int(self.monster_attack_time * self.fps)
 
                     item['dir'] = 'right' if item['dir'] == 'left' else 'left'
                     item['status'] = self.monster_turn_status
@@ -1134,6 +1117,53 @@ class Character:
                     return
                 
         self.set_fail(self.hero_miss_dir_status, line_num)
+
+    def check_print_status(self):
+        if self.hero_do_print: # 프린트 하고 있었음
+            self.hero_do_print = False # 연속 프린트 종결
+            total_frame = int(self.print_result_time * self.fps)
+            self.data["player"]["status"] = self.hero_print_status
+
+            dir_offsets = {
+                'up': (0, -1),
+                'down': (0, 1),
+                'left': (-1, 0),
+                'right': (1, 0)
+            }
+
+            player_dir = self.data["player"]["dir"]
+            player_pos = [round(pos) for pos in self.data["player"]["pos"]]
+
+            offset = dir_offsets.get(player_dir, (0, 0))
+            target_pos = (player_pos[0] + offset[0], player_pos[1] + offset[1])
+
+            for item in self.data['stage']['init_item_list']:
+                if item['type'] == 'print_point' and item['require_dir'] == self.data["player"]["dir"] and tuple(item["pos"]) == target_pos:
+                    item['status'] = self.monster_error_status * 10
+                    if item['print_count'][self.info_print_index] == []: # 모두 인쇄 완료 시 작업 ( 해결 완료 시 )
+                        item['status'] = self.monster_print_status * 10
+
+                        if item['action_type'] == 'door': # 문 일떄
+                            self.handle_item_status(item['action_id'][0], self.item_off_status)
+                        elif item['action_type'] == 'bomb':
+                            for i in range(len(item['action_id'])):
+                                self.handle_item_status(item['action_id'][i], self.item_on_status)
+                        elif item['action_type'] == 'laser':
+                            self.handle_laser_status(item['action_id']) 
+
+                        for _ in range(total_frame):
+                            self.frame_append(0)
+
+                        self.data['player']['status'] = self.hero_idle_status
+                        item['status'] = self.monster_idle_status
+                        return
+                    
+                    for _ in range(total_frame):
+                        self.frame_append(0)
+
+                    self.data['player']['status'] = self.hero_idle_status
+                    item['status'] = self.monster_idle_status
+                    return
 
     def getItem(self, line_num):
         dir_offsets = {
@@ -1878,9 +1908,13 @@ class Character:
 
         return False 
     
-    def check_game_status(self): # 게임 종료 체크
+    def check_game_status(self, fc): # 게임 종료 체크
+        if fc != 'print':
+            self.check_print_status()
         if self.frames:
             if self.frames[-1]["player"]["status"] == self.hero_die_status or self.frames[-1]["status"] == 1:
+                # self.create_data()
+                # sys.exit()  # ToDo: logicFPyo 에서 사용
                 raise SystemExit
                 return True
 
@@ -1903,15 +1937,15 @@ class Character:
 def go(num = 1):
     for _ in range(num):
         # print("go")
-        if(hero.check_game_status()):
+        if(hero.check_game_status('go')):
             return
         hero.go(inspect.currentframe().f_back.f_lineno)
         hero.check_goal(inspect.currentframe().f_back.f_lineno)
-
+        
 def jump(num = 1):
     for _ in range(num):
         # print("jump")
-        if(hero.check_game_status()):
+        if(hero.check_game_status('jump')):
             return
         hero.jump(inspect.currentframe().f_back.f_lineno)
         hero.check_goal(inspect.currentframe().f_back.f_lineno)
@@ -1919,7 +1953,7 @@ def jump(num = 1):
 def turnRight(num = 1):
     for _ in range(num):
         # print("turnRight")
-        if(hero.check_game_status()):
+        if(hero.check_game_status('turn')):
             return
         hero.turnRight(inspect.currentframe().f_back.f_lineno)
         hero.check_goal(inspect.currentframe().f_back.f_lineno)
@@ -1927,102 +1961,102 @@ def turnRight(num = 1):
 def turnLeft(num = 1):
     for _ in range(num):
         # print("turnLeft")
-        if(hero.check_game_status()):
+        if(hero.check_game_status('turn')):
             return
         hero.turnLeft(inspect.currentframe().f_back.f_lineno)
         hero.check_goal(inspect.currentframe().f_back.f_lineno)
 
 def checkFront():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('check')):
         return
     return hero.checkFront(inspect.currentframe().f_back.f_lineno)
 
 def checkRight():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('check')):
         return
     return hero.checkRight(inspect.currentframe().f_back.f_lineno)
 
 def checkLeft():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('check')):
         return
     return hero.checkLeft(inspect.currentframe().f_back.f_lineno)
 
 def checkFar():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('check')):
         return
     return hero.detect_obstacle_far()
 
 def check(item_list):
-    if(hero.check_game_status()):
+    if(hero.check_game_status('check')):
         return
     return hero.check(item_list, inspect.currentframe().f_back.f_lineno)
 
 def set(item):
     # print("set("+item+")")
-    if(hero.check_game_status()):
+    if(hero.check_game_status('set')):
         return
     hero.set(item, inspect.currentframe().f_back.f_lineno)
     hero.check_goal(inspect.currentframe().f_back.f_lineno)
 
 def print(args):
-    if(hero.check_game_status()):
+    if(hero.check_game_status('print')):
         return
     hero.print(args, inspect.currentframe().f_back.f_lineno)
     hero.check_goal(inspect.currentframe().f_back.f_lineno)
 
 def getInfo():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('get')):
         return
     return hero.getInfo(inspect.currentframe().f_back.f_lineno)
 
 def getNumber():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('get')):
         return
     return hero.getNumber(inspect.currentframe().f_back.f_lineno)
 
 def getNumberList():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('get')):
         return
     return hero.getNumberList(inspect.currentframe().f_back.f_lineno)
 
 def getItem():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('get')):
         return
     return hero.getItem(inspect.currentframe().f_back.f_lineno)
 
 def getItemList():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('get')):
         return
     return hero.getItemList(inspect.currentframe().f_back.f_lineno)
 
 def getHp(name=None):
-    if(hero.check_game_status()):
+    if(hero.check_game_status('get')):
         return -1
     return hero.getHp(name)
 
 def get(arg):
-    if(hero.check_game_status()):
+    if(hero.check_game_status('get')):
         return
     return hero.get(arg, inspect.currentframe().f_back.f_lineno)
 
 def use(args):
-    if(hero.check_game_status()):
+    if(hero.check_game_status('use')):
         return
     hero.use(args, inspect.currentframe().f_back.f_lineno)
 
 def attack(args):
-    if(hero.check_game_status()):
+    if(hero.check_game_status('attack')):
         return
     hero.attack(args, inspect.currentframe().f_back.f_lineno)
     hero.check_goal(inspect.currentframe().f_back.f_lineno)
 
 def findEnemy():
-    if(hero.check_game_status()):
+    if(hero.check_game_status('find')):
         return
     return hero.findEnemy()
 
 def chargeShot(answer=1):
-    if hero.check_game_status():
+    if hero.check_game_status('attack'):
         return
     hero.chargeShot(answer, inspect.currentframe().f_back.f_lineno)
     hero.check_goal(inspect.currentframe().f_back.f_lineno)
@@ -2042,8 +2076,12 @@ const logic3 =
 except SystemExit:
     pass
 
+hero.check_print_status()
 while not hero.check_monster(0):
     pass  
+
+if hero.get_frames()[-1]["status"] == 0:
+    hero.end_game_frame_append()
 
 frames = hero.get_frames()  
 json.dumps(frames)     

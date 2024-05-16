@@ -69,4 +69,26 @@ public class ApiV1PlayerProfileInventoryController {
                 )
         );
     }
+
+    public record UpdateProfileInventoryRequestBody(@NonNull List<ProfileInventoryDto> profileInventoryDtoList) {}
+    public record UpdateProfileInventoryResponseBody(@NonNull MemberDto memberDto) {}
+
+    @PutMapping(value = "/update/inventory", consumes = ALL_VALUE)
+    @Operation(summary = "플레이어 인벤토리 업데이트")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<UpdateProfileInventoryResponseBody> updateProfileInventory(
+            @RequestBody UpdateProfileInventoryRequestBody body
+    ) {
+        profileInventoryService.updateInventory(body.profileInventoryDtoList(), rq.getMember());
+
+        return RsData.of(
+                new UpdateProfileInventoryResponseBody(
+                        new MemberDto(
+                                rq.getMember()
+                        )
+                )
+        );
+    }
 }

@@ -237,6 +237,12 @@ dialog::backdrop { /* modal back layer */
     animation: reverseScan 0.4s linear forwards;
 } */
 
+.btn_setting:hover {
+  background-image: url('/img/map/btn_settomg_on.png') !important;
+  transform: scale(1.05) !important;
+  transform-origin: bottom;
+}
+
 .rotated-input {
       transform: rotate(270deg);
   }

@@ -1,7 +1,6 @@
 package com.example.cit.domain.item.profileIcon.dto;
 
-import com.example.cit.domain.achievement.dto.AchievementDto;
-import com.example.cit.domain.item.item.entity.Item;
+import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
 import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
 import org.springframework.lang.NonNull;
 
@@ -26,7 +25,12 @@ public record ProfileDto(
                 ProfileIcon.getDescription(),
                 ProfileIcon.getSourcePath(),
                 ProfileIcon.getPrice(),
-                ProfileIcon.getAchievement() != null ? new AchievementDto(ProfileIcon.getAchievement()) : null
+                ProfileIcon.getAchievement() != null ? new AchievementDto(
+                        ProfileIcon.getAchievement(),
+                        ProfileIcon.getAchievement().getCreateDate(),
+                        0,
+                        0
+                ) : null
         );
     }
 }

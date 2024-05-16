@@ -1,11 +1,9 @@
 package com.example.cit.domain.item.profileIcon.service;
 
-import com.example.cit.domain.achievement.entity.Achievement;
-import com.example.cit.domain.item.item.entity.Item;
-import com.example.cit.domain.item.item.repository.ItemRepository;
-import com.example.cit.domain.item.itemParts.entity.ItemParts;
+import com.example.cit.domain.achievement.achievement.entity.Achievement;
 import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
 import com.example.cit.domain.item.profileIcon.repository.ProfileRepository;
+import com.querydsl.core.Fetchable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,11 +33,21 @@ public class ProfileService {
         return profileIcon;
     }
 
+    @Transactional
+    public void setAchievement(ProfileIcon profileIcon, Achievement achievement) {
+        profileIcon.setAchievement(achievement);
+        profileRepository.save(profileIcon);
+    }
+
     public List<ProfileIcon> getProfileList() {
         return profileRepository.findByPriceGreaterThan(0);
     }
 
     public ProfileIcon getProfile(long profileId) {
         return profileRepository.findById(profileId).get();
+    }
+
+    public List<ProfileIcon> getAllProfileList() {
+        return profileRepository.findAll();
     }
 }

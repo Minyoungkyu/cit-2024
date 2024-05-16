@@ -16,6 +16,9 @@
 
     import Shop from '$lib/game/topMenu/shop/Shop.svelte';
     import Encyclopedia from '$lib/game/topMenu/encyclopedia/Encyclopedia.svelte';
+    import Achievements from '$lib/game/topMenu/achievements/Achievements.svelte';
+	import Ranking from '$lib/game/topMenu/ranking/Ranking.svelte';
+    import Profile from '$lib/game/topMenu/profile/Profile.svelte';
     import Setting from '$lib/game/topMenu/setting/Setting.svelte';
 
     import { shopGemsModalOpen } from '$lib/game/shopStore';
@@ -88,7 +91,6 @@
     }
 
     function onClickTopMenu(index: number) {
-        console.log(topMenuArray);
         topMenuArray = topMenuArray.map(() => false);
         topMenuArray[index] = true;
         currentMenuIndex = index;
@@ -239,37 +241,43 @@
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center bg-gray-500 overflow-hidden">
     <div class="background-container w-screen h-screen relative overflow-hidden" style="background-image:url('/background_1.png');background-position:center;background-size:cover;background-repeat:no-repeat;">
         <div class="absolute top-[0] left-[0] w-[1226px] h-[523px] z-[60]"
-             style="background-image:url('/img/map/ui_background_L.png');opacity:1;transform:scale(0.67) scale({scaleMultiplier2});transform-origin:left top;">
+             style="background-image:url('/img/map/ui_background_L.png');opacity:1;transform:scale(0.67) scale({scaleMultiplier2});transform-origin:left top;pointer-events:none;">
         </div> <!--좌상단 백그라운드 레이어-->
         <div class="absolute top-[0] right-[0] w-[1044px] h-[445px] z-[60]"
-             style="background-image:url('/img/map/ui_background_R.png');opacity:1;transform:scale(0.67) scale({scaleMultiplier2});transform-origin:right top">
+             style="background-image:url('/img/map/ui_background_R.png');opacity:1;transform:scale(0.67) scale({scaleMultiplier2});transform-origin:right top;pointer-events:none;">
         </div> <!--우상단 백그라운드 레이어-->
         <div class="absolute top-[0] right-[0] w-[386px] h-screen" style="transform:scale({scaleMultiplier});transform-origin:top right;">
             <div class="absolute top-[0] right-[0] w-[386px] h-[1080px]" style="background-image:url('/img/map/ui_Gradation.png');"></div> <!-- 우측 백그라운드 레이어 -->
         </div>
-        <div class="absolute top-[50%] right-[1%] w-[83px] h-[124px] cursor-pointer" style="background-image:url('/img/map/btn_next.png');transform-origin:top right;transform:scale(0.67) scale({scaleMultiplier2});"></div> <!-- 다음 맵 버튼 -->
-        <div class="flex flex-col absolute top-[2%] left-[2%] z-[60]" style="transform-origin:top left;transform:scale({scaleMultiplier2});"> <!-- 좌상단 -->
+        <div class="absolute top-[50%] right-[1%] w-[83px] h-[124px] cursor-pointer" on:click={() => rq.goTo('/game/2')}
+            style="background-image:url('/img/map/btn_next.png');transform-origin:top right;transform:scale(0.67) scale({scaleMultiplier2});"></div> <!-- 다음 맵 버튼 -->
+        <div class="flex flex-col absolute top-[2%] left-[2%] z-[60]" style="transform-origin:top left;transform:scale({scaleMultiplier2});pointer-events:none;"> <!-- 좌상단 -->
             <div class="flex flex-row items-end gap-5 h-[160px]" style="transform:scale(0.67) rotateZ(3deg) rotateY(5deg);transform-origin:left;">
                 <div class="{topMenuArray[0] ? '' : 'btn_stage'} cursor-pointer" 
                     style="background-image:{topMenuArray[0] ? 'url("/img/map/btn_stage_off.png");width:160px;height:160px;' : 'url("/img/map/btn_stage_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;" on:click={() => onClickTopMenu(0)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(0)}></div>
                 <div class="{topMenuArray[1] ? '' : 'btn_shop'} cursor-pointer" 
                     style="background-image:{topMenuArray[1] ? 'url("/img/map/btn_shop_off.png");width:160px;height:160px;' : 'url("/img/map/btn_shop_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;" on:click={() => onClickTopMenu(1)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(1)}></div>
                 <div class="{topMenuArray[2] ? '' : 'btn_codebook'} cursor-pointer" 
                     style="background-image:{topMenuArray[2] ? 'url("/img/map/btn_coodbook_off.png");width:160px;height:160px;' : 'url("/img/map/btn_coodbook_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;" on:click={() => onClickTopMenu(2)}></div>
-                <div class="w-[133px] h-[134px] btn_challenge" 
-                    style="background-image:url('/img/map/btn_challenge_on.png');transform:scale(1)"></div>
-                <div class="w-[133px] h-[134px] btn_rank" 
-                    style="background-image:url('/img/map/btn_ranking_on.png');transform:scale(1)"></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(2)}></div>
+                <div class="{topMenuArray[3] ? '' : 'btn_challenge'} cursor-pointer" 
+                    style="background-image:{topMenuArray[3] ? 'url("/img/map/btn_challenge_off.png");width:160px;height:160px;' : 'url("/img/map/btn_challenge_on.png");width:134px;height:134px;' }
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(3)}></div>
+                <div class="{topMenuArray[4] ? '' : 'btn_rank'} cursor-pointer" 
+                    style="background-image:{topMenuArray[4] ? 'url("/img/map/btn_ranking_off.png");width:160px;height:160px;' : 'url("/img/map/btn_ranking_on.png");width:134px;height:134px;' }
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(4)}></div>
             </div>
-            <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black">{topMenuArrayText[currentMenuIndex]}</div>
+            <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black;pointer-events:none;">{topMenuArrayText[currentMenuIndex]}</div>
             <div>{userDevice}</div> <!-- Todo: remove -->
         </div>
-        <div class=" flex flex-col items-end absolute top-[4%] right-[0] z-[60]" style="transform-origin:top right;transform:scale({scaleMultiplier2});"> <!-- 우상단 -->
+        <div class=" flex flex-col items-end absolute top-[4%] right-[0] z-[60]" style="transform-origin:top right;transform:scale({scaleMultiplier2});pointer-events:none;"> <!-- 우상단 -->
             <div class="flex flex-row gap-3 mr-4 h-[160px] items-end" style="transform-origin:right;transform:scale(0.67);">
-                <div class="w-[506px] h-[134px]" style="background-image:url('/img/map/ui_user_inf.png');">
+                <div class="w-[506px] h-[134px] {topMenuArray[5] ? '' : 'btn_profile'} cursor-pointer" 
+                    style="background-image:{topMenuArray[5] ? 'url("/img/map/ui_user_inf_on.png");transform:scale(1.05);transform-origin:bottom right;' : 'url("/img/map/ui_user_inf_off.png");' }
+                    pointer-events:auto;"
+                    on:click={() => onClickTopMenu(5)}>
                     <div class="text-white text-[40px] font-bold h-full flex flex-row items-center justify-between mr-4 italic">
                         <div class="ml-16 stage-text">Lv {rq.getPlayerLeve()}</div>
                         <div class="mr-4 stage-text">{rq.member.player.nickname}</div>
@@ -277,9 +285,11 @@
                 </div>
                 <div class="{topMenuArray[6] ? '' : 'btn_setting'} cursor-pointer" 
                 style="background-image:{topMenuArray[6] ? 'url("/img/map/btn_settomg_on.png");width:160px;height:160px;' : 'url("/img/map/btn_settomg_off.png");width:134px;height:134px;' }
-                transform:scale(1);background-repeat:no-repeat;background-size:contain;" on:click={() => onClickTopMenu(6)}></div>
+                transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(6)}></div>
                 <!-- <div class="w-[134px] h-[134px] btn_setting cursor-pointer" style="background-image:url('/img/map/btn_settomg_off.png');"></div> -->
-                <div class="w-[134px] h-[134px] btn_logout cursor-pointer" style="background-image:url('/img/map/btn_logout.png');" on:click={() => showLogoutModal=true}></div> <!-- 로그아웃 자리 -->
+                <div class="w-[134px] h-[134px] btn_logout cursor-pointer" 
+                    style="background-image:url('/img/map/btn_logout.png');pointer-events:auto;" 
+                    on:click={() => showLogoutModal=true}></div> <!-- 로그아웃 자리 -->
             </div>
             {#if topMenuArray[0]}
             <div class=" font-bold relative text-white text-[25px] text-center w-[510px] h-[216px] top-[-25px]" 
@@ -333,6 +343,33 @@
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
                 <Encyclopedia scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+            </div>
+        {/if}
+
+        {#if topMenuArray[3]}
+            <div class="h-full absolute flex items-center justify-center z-[58]" 
+                style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
+            </div>
+            <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
+                <Achievements scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+            </div>
+        {/if}
+
+        {#if topMenuArray[4]}
+            <div class="h-full absolute flex items-center justify-center z-[58]" 
+                style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
+            </div>
+            <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
+                <Ranking scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+            </div>
+        {/if}
+
+        {#if topMenuArray[5]}
+            <div class="h-full absolute flex items-center justify-center z-[58]" 
+                style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
+            </div>
+            <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
+                <Profile scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
             </div>
         {/if}
 

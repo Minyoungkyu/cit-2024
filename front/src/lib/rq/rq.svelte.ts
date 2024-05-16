@@ -149,6 +149,16 @@ class Rq {
     }
   }
 
+  public equipProfile(profileId: number) {
+    rq.profileInventories.all.forEach(profile => {
+      if(profile.profileIcon.id === profileId) {
+        profile.isEquipped = true;
+      } else {
+        profile.isEquipped = false;
+      }
+    });
+  }
+
   public makeReactivityInventories() {
     const inventories = $state([] as Array<components['schemas']['InventoryDto']>);
     
@@ -197,6 +207,10 @@ class Rq {
         profileInventories.push(profile);
       },
 
+      findEquippedProfil() {
+        return profileInventories.find(profile => profile.isEquipped);
+      },
+
       isProfileOwned(profileId: number) {
         return profileInventories.some(inventory => inventory.profileIcon.id === profileId);
       }
@@ -219,7 +233,12 @@ class Rq {
       modifyDate: '',
       nickname: '',
       exp: 0,
-      gems: 0
+      gems: 0,
+      characterType: 0,
+      backgroundVolume: 0,
+      effectVolume: 0,
+      editorAutoComplete: 1,
+      editorAutoClose: 1
     });
 
     return {
@@ -275,6 +294,11 @@ class Rq {
         player.nickname = value.nickname;
         player.exp = value.exp;
         player.gems = value.gems;
+        player.characterType = value.characterType;
+        player.backgroundVolume = value.backgroundVolume;
+        player.effectVolume = value.effectVolume;
+        player.editorAutoComplete = value.editorAutoComplete;
+        player.editorAutoClose = value.editorAutoClose;
       }
     };
   }
@@ -295,7 +319,17 @@ class Rq {
   }
 
   public getPlayerLeve() { // ToDo: 레벨 계산식 필요
-    return this.member.player.exp;
+    let level = 1;
+    let requiredExp = 6;
+    let exp = this.member.player.exp;
+
+    while (exp >= requiredExp) {
+        exp -= requiredExp;
+        level++;
+        requiredExp += 6;
+    }
+
+    return level;
   }
   
 
@@ -311,7 +345,9 @@ class Rq {
     this.member.username = '';
     this.member.cellphoneNo = '';
     this.member.authorities = [];	
-    this.member.player = { id: 0, createDate: '', modifyDate: '', nickname: '', exp: 0, gems: 0};
+    this.member.player = { 
+      id: 0, createDate: '', modifyDate: '', nickname: '', exp: 0, gems: 0, characterType: 0, backgroundVolume: 0, effectVolume: 0, editorAutoComplete: 1, editorAutoClose: 1
+    };
     while (this.inventories.all.length > 0) {
       this.inventories.all.pop();
     }

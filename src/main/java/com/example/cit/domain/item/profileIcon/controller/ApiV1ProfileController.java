@@ -35,7 +35,7 @@ public class ApiV1ProfileController {
     public record ProfilesResponseBody(@NonNull List<ProfileDto> profileDtoList) {}
 
     @GetMapping(value = "/profiles", consumes = ALL_VALUE)
-    @Operation(summary = "전체 프로필아이콘 목록 조회")
+    @Operation(summary = "전체 상점 프로필아이콘 목록 조회")
     @PreAuthorize("hasRole('MEMBER')")
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
@@ -44,6 +44,24 @@ public class ApiV1ProfileController {
         return RsData.of(
                 new ProfilesResponseBody(
                         profileService.getProfileList().stream()
+                                .map(ProfileDto::new)
+                                .toList()
+                )
+        );
+    }
+
+    public record GetAllProfileResponseBody(@NonNull List<ProfileDto> profileDtoList) {}
+
+    @GetMapping(value = "/all", consumes = ALL_VALUE)
+    @Operation(summary = "전체 프로필아이콘 목록 조회")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<GetAllProfileResponseBody> getAllProfile(
+    ) {
+        return RsData.of(
+                new GetAllProfileResponseBody(
+                        profileService.getAllProfileList().stream()
                                 .map(ProfileDto::new)
                                 .toList()
                 )

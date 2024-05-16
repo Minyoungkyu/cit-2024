@@ -1,11 +1,13 @@
 package com.example.cit.domain.log.log.service;
 
+import com.example.cit.domain.achievement.playerAchievement.service.PlayerAchievementService;
 import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.player.player.service.PlayerService;
 import com.querydsl.core.group.GroupBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class PlayerLogService {
 
     private final PlayerLogRepository playerLogRepository;
     private final GameMapService gameMapService;
+    private final PlayerAchievementService playerAchievementService;
+    private final PlayerService playerService;
 
     @Transactional
     public void createPlayerLog(String logType, String username, Long userId,
@@ -48,8 +52,6 @@ public class PlayerLogService {
     public Optional<PlayerLog> getGamesLastLog(Long memberId, GameMap gameMap) {
         return playerLogRepository.findTop1ByLogTypeAndUserIdAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByModifyDateDesc(
                 "STAGECLEAR", memberId, gameMap.getStage(), gameMap.getStep(), gameMap.getDifficulty());
-
-
     }
 
     public Optional<PlayerLog> findByUserIdAndGameMapId(Long memberId, Long gameMapId) {
@@ -64,6 +66,10 @@ public class PlayerLogService {
         return playerLogRepository.findFirstByUserIdAndDetailIntOrderByGameMapIdDesc(id, 1);
     }
 
+    public long getStageClearCount(Long playerId, String difficulty) {
+        return playerLogRepository.countByUserIdAndGameMapDifficultyAndLogTypeAndDetailInt(playerId, difficulty, "STAGECLEAR", 1);
+    }
+
     public void setFirstGame(Member member) {
         GameMap firstGame = gameMapService.findGameMapById(1L).get();
 
@@ -76,11 +82,18 @@ public class PlayerLogService {
     public void batchPlayLogV2(Member member, GameMapDto gameMapDto, String result) {
         PlayerLog currentGameLog = playerLogRepository.findByUserIdAndGameMapIdAndLogType(member.getId(), gameMapDto.id(), "STAGECLEAR").orElse(null);
 
+        // Todo: 현재는 보상 반복획득, 협의 결과에따라 변경예정
+        if ( gameMapDto.rewardItem() != null) playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel(), gameMapDto.rewardItem());
+        else playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
+        
+
         if ( gameMapDto.id() == 2 || gameMapDto.id() == 30 || gameMapDto.id() == 58) {
             assert currentGameLog != null;
             currentGameLog.setDetailInt(1);
             playerLogRepository.save(currentGameLog);
             makeNextGameLog(member, gameMapDto);
+
+            playerAchievementService.checkStageClearAchievement(member, gameMapDto); // 업적달성 조회 및 추가
             
             // Todo: 보상지급
             return;
@@ -100,6 +113,8 @@ public class PlayerLogService {
                     makeNextGameLog(member, gameMapDto); // level 3 아니면 다음게임로그 생성
 
                 } else {
+                    
+                    playerAchievementService.checkStageClearAchievement(member, gameMapDto); // level 3 클리어시 업적달성 조회 및 추가작업
 
                     switch (gameMapDto.difficulty()) {
                         case "Easy":

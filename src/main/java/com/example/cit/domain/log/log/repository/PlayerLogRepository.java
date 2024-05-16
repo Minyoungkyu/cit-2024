@@ -19,4 +19,6 @@ public interface PlayerLogRepository extends JpaRepository<PlayerLog, Long> {
     Optional<PlayerLog> findByUserIdAndGameMapIdAndLogTypeAndDetailInt(Long userId, Long gameMapId, String logType, Integer detailInt);
 
     Optional<PlayerLog> findFirstByUserIdAndDetailIntOrderByGameMapIdDesc(Long id, int i);
+
+    long countByUserIdAndGameMapDifficultyAndLogTypeAndDetailInt(Long playerId, String difficulty, String logType, int detailInt);
 }

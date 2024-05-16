@@ -9,9 +9,17 @@ export interface paths {
     /** 사업 수정 */
     put: operations["modify"];
   };
+  "/api/v1/profileInventory/update/inventory": {
+    /** 플레이어 인벤토리 업데이트 */
+    put: operations["updateProfileInventory"];
+  };
   "/api/v1/players/{id}/name": {
     /** 별명등록, 초회 이벤트 별명등록 */
     put: operations["setName"];
+  };
+  "/api/v1/players/getReward": {
+    /** 업적 보상 획득 */
+    put: operations["getRewardFromAchievement"];
   };
   "/api/v1/members/modify": {
     /** 관리자정보 수정 */
@@ -65,6 +73,10 @@ export interface paths {
     /** 특정 게임 테스트용2 */
     post: operations["getGameMapTest2"];
   };
+  "/api/v1/gameLogs/batchGameLog": {
+    /** 게임 로그 일괄 처리 */
+    post: operations["batchPlayLog_2"];
+  };
   "/api/v1/test/test": {
     /** 플레이어 인벤토리 조회 */
     get: operations["test"];
@@ -90,8 +102,12 @@ export interface paths {
     get: operations["getMyInventory"];
   };
   "/api/v1/profile/profiles": {
-    /** 전체 프로필아이콘 목록 조회 */
+    /** 전체 상점 프로필아이콘 목록 조회 */
     get: operations["getProfiles"];
+  };
+  "/api/v1/profile/all": {
+    /** 전체 프로필아이콘 목록 조회 */
+    get: operations["getAllProfile"];
   };
   "/api/v1/playerLogs/highest": {
     /** 플레이어의 최고기록 로그 */
@@ -117,6 +133,14 @@ export interface paths {
     /** 관리자 마이페이지 */
     get: operations["getAdminMe"];
   };
+  "/api/v1/logs/profile": {
+    /** 학습정보 로그정보 조회 */
+    get: operations["getProfileMainLog"];
+  };
+  "/api/v1/logs/detail": {
+    /** 학습정보 스테이지 상세로그 조회 */
+    get: operations["getProfileDetailLog"];
+  };
   "/api/v1/item/items": {
     /** 전체 아이템 목록 조회 */
     get: operations["getItems"];
@@ -140,6 +164,10 @@ export interface paths {
   "/api/v1/ads": {
     /** 행정구역 조회 */
     get: operations["getAds"];
+  };
+  "/api/v1/achievements": {
+    /** 업적 목록 조회 */
+    get: operations["getAchievements"];
   };
 }
 
@@ -208,39 +236,49 @@ export interface components {
       msg: string;
       data: components["schemas"]["ModifyProgramResponseBody"];
     };
-    SetNickNameRequestBody: {
-      nickname: string;
+    AchievementDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      name: string;
+      description: string;
+      /** Format: int32 */
+      rewardExp: number;
+      /** Format: int32 */
+      rewardJewel: number;
+      rewardIconSource?: string;
+      /** Format: int32 */
+      getReward?: number;
+      /** Format: int32 */
+      isAchieved?: number;
     };
-    PlayerDto: {
+    ProfileDto: {
       /** Format: int64 */
       id: number;
       /** Format: date-time */
       createDate: string;
       /** Format: date-time */
-      modifyDate: string;
-      nickname: string;
+      updateDate: string;
+      name: string;
+      description: string;
+      sourcePath: string;
       /** Format: int32 */
-      exp: number;
-      /** Format: int32 */
-      gems: number;
+      price: number;
+      achievement?: components["schemas"]["AchievementDto"];
     };
-    RsDataSetNickNameResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["SetNickNameResponseBody"];
+    ProfileInventoryDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      profileIcon: components["schemas"]["ProfileDto"];
+      isEquipped: boolean;
     };
-    SetNickNameResponseBody: {
-      item: components["schemas"]["PlayerDto"];
-    };
-    ModifyRequestBody: {
-      newPassword?: string;
-      realName: string;
-      cellphoneNo: string;
-      department: string;
-      position: string;
-      extensionNo: string;
+    UpdateProfileInventoryRequestBody: {
+      profileInventoryDtoList: components["schemas"]["ProfileInventoryDto"][];
     };
     MemberDto: {
       /** Format: int64 */
@@ -254,6 +292,65 @@ export interface components {
       cellphoneNo: string;
       authorities: string[];
       player: components["schemas"]["PlayerDto"];
+    };
+    PlayerDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      nickname: string;
+      /** Format: int32 */
+      exp: number;
+      /** Format: int32 */
+      gems: number;
+      /** Format: int32 */
+      characterType: number;
+      /** Format: int32 */
+      backgroundVolume: number;
+      /** Format: int32 */
+      effectVolume: number;
+      /** Format: int32 */
+      editorAutoComplete: number;
+      /** Format: int32 */
+      editorAutoClose: number;
+    };
+    RsDataUpdateProfileInventoryResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["UpdateProfileInventoryResponseBody"];
+    };
+    UpdateProfileInventoryResponseBody: {
+      memberDto: components["schemas"]["MemberDto"];
+    };
+    SetNickNameRequestBody: {
+      nickname: string;
+      /** Format: int32 */
+      characterType: number;
+    };
+    RsDataSetNickNameResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SetNickNameResponseBody"];
+    };
+    SetNickNameResponseBody: {
+      item: components["schemas"]["PlayerDto"];
+    };
+    GetRewardFromAchievementRequestBody: {
+      achievement: components["schemas"]["AchievementDto"];
+    };
+    ModifyRequestBody: {
+      newPassword?: string;
+      realName: string;
+      cellphoneNo: string;
+      department: string;
+      position: string;
+      extensionNo: string;
     };
     ModifyResponseBody: {
       item: components["schemas"]["MemberDto"];
@@ -368,44 +465,6 @@ export interface components {
       /** Format: int64 */
       profileId: number;
     };
-    AchievementDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      name: string;
-      description: string;
-      logType: string;
-      detail1: string;
-      /** Format: int32 */
-      detail2: number;
-    };
-    ProfileDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      name: string;
-      description: string;
-      sourcePath: string;
-      /** Format: int32 */
-      price: number;
-      achievement?: components["schemas"]["AchievementDto"];
-    };
-    ProfileInventoryDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      profileIcon: components["schemas"]["ProfileDto"];
-      isEquipped: boolean;
-    };
     RsDataAddProfileInventoryResponseBody: {
       resultCode: string;
       /** Format: int32 */
@@ -492,6 +551,17 @@ export interface components {
       statusCode: number;
       msg: string;
       data: Record<string, never>;
+    };
+    BatchGameLogRequestBody: {
+      gameMapDto: components["schemas"]["GameMapDto"];
+      /** Format: int32 */
+      result: number;
+      /** Format: int32 */
+      editorAutoComplete: number;
+      /** Format: int32 */
+      editorAutoClose: number;
+      /** Format: int32 */
+      killCount: number;
     };
     RsDataTestResponseBody: {
       resultCode: string;
@@ -597,6 +667,16 @@ export interface components {
       msg: string;
       data: components["schemas"]["ProfilesResponseBody"];
     };
+    GetAllProfileResponseBody: {
+      profileDtoList: components["schemas"]["ProfileDto"][];
+    };
+    RsDataGetAllProfileResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetAllProfileResponseBody"];
+    };
     GamesHighestLogResponseBody: {
       playerLogDto?: components["schemas"]["PlayerLogDto"];
     };
@@ -693,6 +773,41 @@ export interface components {
       msg: string;
       data: components["schemas"]["AdminMeResponseBody"];
     };
+    GetProfileLogResponseBody: {
+      profileLogDto: components["schemas"]["ProfileLogDto"];
+    };
+    ProfileClearRateDto: {
+      difficulty: string;
+      /** Format: int64 */
+      clearCount: number;
+    };
+    ProfileLogDto: {
+      playerLogDto?: components["schemas"]["PlayerLogDto"];
+      profileClearRateDtoList: components["schemas"]["ProfileClearRateDto"][];
+    };
+    RsDataGetProfileLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetProfileLogResponseBody"];
+    };
+    GetDetailLogResponseBody: {
+      profileDetailLogDto: components["schemas"]["ProfileDetailLogDto"];
+    };
+    ProfileDetailLogDto: {
+      /** Format: int64 */
+      clearCount: number;
+      /** Format: int64 */
+      executionCount: number;
+    };
+    RsDataGetDetailLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetDetailLogResponseBody"];
+    };
     ItemsResponseBody: {
       itemDtoList: components["schemas"]["ItemDto"][];
     };
@@ -767,6 +882,16 @@ export interface components {
       msg: string;
       data: components["schemas"]["AdsResponseBody"];
     };
+    GetAchievementResponseBody: {
+      achievementDtoList: components["schemas"]["AchievementDto"][];
+    };
+    RsDataGetAchievementResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetAchievementResponseBody"];
+    };
   };
   responses: never;
   parameters: never;
@@ -803,6 +928,28 @@ export interface operations {
       };
     };
   };
+  /** 플레이어 인벤토리 업데이트 */
+  updateProfileInventory: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["UpdateProfileInventoryRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataUpdateProfileInventoryResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 별명등록, 초회 이벤트 별명등록 */
   setName: {
     parameters: {
@@ -821,6 +968,26 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["RsDataSetNickNameResponseBody"];
         };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 업적 보상 획득 */
+  getRewardFromAchievement: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["GetRewardFromAchievementRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
       };
       /** @description Bad Request */
       400: {
@@ -1109,6 +1276,26 @@ export interface operations {
       };
     };
   };
+  /** 게임 로그 일괄 처리 */
+  batchPlayLog_2: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["BatchGameLogRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 플레이어 인벤토리 조회 */
   test: {
     responses: {
@@ -1223,13 +1410,30 @@ export interface operations {
       };
     };
   };
-  /** 전체 프로필아이콘 목록 조회 */
+  /** 전체 상점 프로필아이콘 목록 조회 */
   getProfiles: {
     responses: {
       /** @description OK */
       200: {
         content: {
           "application/json": components["schemas"]["RsDataProfilesResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 전체 프로필아이콘 목록 조회 */
+  getAllProfile: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetAllProfileResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -1342,6 +1546,46 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataAdminMeResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학습정보 로그정보 조회 */
+  getProfileMainLog: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetProfileLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학습정보 스테이지 상세로그 조회 */
+  getProfileDetailLog: {
+    parameters: {
+      query: {
+        diff: string;
+        step: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetDetailLogResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -1465,6 +1709,23 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataAdsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 업적 목록 조회 */
+  getAchievements: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetAchievementResponseBody"];
         };
       };
       /** @description Bad Request */

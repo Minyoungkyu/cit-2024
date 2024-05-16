@@ -1,5 +1,6 @@
 package com.example.cit.domain.player.player.controller;
 
+import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
 import com.example.cit.domain.member.member.controller.ApiV1MemberController;
 import com.example.cit.domain.member.member.dto.MemberDto;
 import com.example.cit.domain.member.member.entity.Member;
@@ -7,6 +8,7 @@ import com.example.cit.domain.player.player.dto.PlayerDto;
 import com.example.cit.domain.player.player.entity.Player;
 import com.example.cit.domain.player.player.service.PlayerService;
 import com.example.cit.global.exceptions.GlobalException;
+import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,8 +29,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ApiV1PlayerController {
 
     private final PlayerService playerService;
+    private final Rq rq;
 
-    public record SetNickNameRequestBody(@NotBlank String nickname) {
+    public record SetNickNameRequestBody(@NotBlank String nickname, @NonNull int characterType) {
     }
 
     public record SetNickNameResponseBody(@NonNull PlayerDto item) {
@@ -39,9 +42,9 @@ public class ApiV1PlayerController {
     @Transactional
     public RsData<ApiV1PlayerController.SetNickNameResponseBody> setName(
             @PathVariable("id") long id,
-            @Valid @RequestBody ApiV1PlayerController.SetNickNameRequestBody body
+            @Valid @RequestBody SetNickNameRequestBody body
     ) {
-        Player player = playerService.setNickName(id, body.nickname);
+        Player player = playerService.setNickName(id, body.nickname, body.characterType);
 
         return RsData.of(
                 "환영합니다 %s님".formatted(body.nickname),
@@ -49,6 +52,18 @@ public class ApiV1PlayerController {
                         new PlayerDto(player)
                 )
         );
+    }
+
+    public record GetRewardFromAchievementRequestBody(@NotBlank AchievementDto achievement) {
+    }
+
+    @PutMapping("/getReward")
+    @Operation(summary = "업적 보상 획득")
+    @Transactional
+    public void getRewardFromAchievement(
+            @RequestBody GetRewardFromAchievementRequestBody body
+    ) {
+        playerService.getRewardAndUpdateAchievement(rq.getMember(), body.achievement);
     }
 
 }
