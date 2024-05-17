@@ -106,7 +106,11 @@ cc.Class({
     btnOLogic: function(){
         var pat = this.gamePattern[0];
 
-        var str = this.GetQuestionTitle();
+
+        // console.log(pat[this.currentIndex]);
+
+
+        var str = this.GetQuestionTitle(pat[this.currentIndex]);
 
         this.ShowOXGameTitle(str);
         this.currentIndex++;
@@ -119,15 +123,18 @@ cc.Class({
 
     MainGameLogic: function(){
 
-        console.log(this.jsonData['minigame']);
+        // console.log(this.jsonData['minigame']);
 
-        for(var i = 0; i < this.jsonData.length; i++){
-            console.log(this.jsonData[i]);
-        }
+        // for(var i = 0; i < this.jsonData.length; i++){
+        //     console.log(this.jsonData[i]);
+        // }
     },
 
 
     GetQuestionTitle: function(id){
+
+        console.log(id);
+
         if(id > this.jsonData[id].length) return null;
         return this.jsonData[id].title;
     },
