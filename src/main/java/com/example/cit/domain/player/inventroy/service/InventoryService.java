@@ -49,6 +49,7 @@ public class InventoryService {
         Inventory inventory = createInventory(player, item, isEquipped);
 
         playerAchievementService.checkPurchaseEquipmentAchievement(rq.getMember());
+        playerAchievementService.checkPurchaseSetItemAchievement(rq.getMember());
 
         return inventory;
     }

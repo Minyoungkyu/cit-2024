@@ -39,6 +39,10 @@
     }
 
     async function getReward(achievement: components['schemas']['AchievementDto']) {
+        
+        rq.member.player.exp += achievement.rewardExp;
+        rq.member.player.gems += achievement.rewardJewel;
+
         await rq.apiEndPoints().PUT('/api/v1/players/getReward', {
             body: {
                 achievement: achievement
@@ -93,7 +97,7 @@
 
                             <div class="w-[61.2px] h-[66px] mt-[-8px] text-center leading-[120px] text-white font-bold italic text-[20px]" 
                                 style="background-image:url('/img/inGame/clearPop/icon_gem.png');background-size:contain;background-repeat:no-repeat;">
-                                <div class="text-border">{achievement.rewardExp}</div>
+                                <div class="text-border">{achievement.rewardJewel}</div>
                             </div>
                         </div>
                         <div class="w-[75px] h-[75px]" 
@@ -106,10 +110,23 @@
                             <div class="w-[75px] h-[75px] flex justify-center items-center">
                                 <div class="w-[74.4px] h-[34.8px] mt-[-8px] text-center leading-[90px] text-white font-bold italic text-[20px]" 
                                    style="background-image:url('/img/inGame/clearPop/icon_exp.png');background-size:contain;background-repeat:no-repeat;">
-                                   <div class="text-border">{achievement.rewardJewel}</div>
+                                   <div class="text-border">{achievement.rewardExp}</div>
                                 </div>
                            </div>  
                         </div>
+                        {#if achievement.rewardIcon}
+                        <div class="w-[75px] h-[75px]" 
+                            style="background-image:url('/img/shop/ui_itemframe{achievement.isAchieved === 1 ? '2':''}.png');background-size:contain;">
+
+                            {#if achievement.getReward === 1}
+                            <div class="w-[75px] h-[75px] absolute" style="background-image:url('/img/achievements/ui_itemframe_check.png');"></div>
+                            {/if}
+
+                            <div class="w-[75px] h-[75px] flex justify-center items-center" 
+                                style="background-image:url('/img/icon/{achievement.rewardIcon.sourcePath}.png');background-size:contain;">
+                           </div>  
+                        </div>
+                        {/if}
                     </div>
                 </div>
             </div>

@@ -1,12 +1,10 @@
 package com.example.cit.domain.log.service;
 
-import com.example.cit.domain.item.profileIcon.dto.ProfileClearRateDto;
+import com.example.cit.domain.log.dto.ProfileClearRateDto;
 import com.example.cit.domain.log.dto.ProfileDetailLogDto;
 import com.example.cit.domain.log.dto.ProfileLogDto;
-import com.example.cit.domain.log.gameLog.detail.clearCountLog.entity.ClearCountLog;
 import com.example.cit.domain.log.gameLog.detail.clearCountLog.repository.ClearCountLogRepository;
 import com.example.cit.domain.log.gameLog.detail.executionLog.repository.ExecutionLogRepository;
-import com.example.cit.domain.log.gameLog.entity.GameLog;
 import com.example.cit.domain.log.gameLog.repository.GameLogRepository;
 import com.example.cit.domain.log.gameLog.service.GameLogService;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;

@@ -236,7 +236,8 @@
     <source src="/sound/map_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center bg-gray-500 overflow-hidden">
-    <div class="background-container w-screen h-screen relative overflow-hidden" style="background-image:url('/img/map/background_3.png');background-position:center;background-size:cover;background-repeat:no-repeat;">
+    <div class="background-container w-screen h-screen relative overflow-hidden" 
+        style="background-image:url('/img/map/background_3.png');background-position:center;background-size:cover;background-repeat:no-repeat;background-position:top;">
         <div class="absolute top-[0] left-[0] w-[1226px] h-[523px] z-[60]"
              style="background-image:url('/img/map/ui_background_L.png');opacity:1;transform:scale(0.67) scale({scaleMultiplier2});transform-origin:left top;pointer-events:none;">
         </div> <!--좌상단 백그라운드 레이어-->
@@ -415,8 +416,8 @@
         {#if isOpen(59)} <!--step 의 easy, 1레벨 맵 아이디-->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[15%] left-[48%] cursor-pointer" on:click={() => toggleDropdown(1)} data-gameMapId="59"
             style="bottom:15%;left:48%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(5) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
-            <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 1</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - ONE</div>
+            <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 1</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - ONE</div>
         </div>
         <!-- <div class="btn absolute bottom-[16%] left-[14%] w-[6vw]" data-gameMapId="3" on:click={() => toggleDropdown(1)}>1-1(열림)</div> -->
             {#if isDropdownOpen[1]}
@@ -427,8 +428,8 @@
         {:else}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[15%] left-[48%] cursor-pointer"
             style="bottom:15%;left:48%;background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
-            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>1 - 1</div>
-            <div class="stage-text inE absolute right-[7%] top-[33%] text-[25px] text-gray-400 italic" style="">ONE - ONE</div>
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>3 - 1</div>
+            <div class="stage-text inE absolute right-[7%] top-[33%] text-[25px] text-gray-400 italic" style="">THREE - ONE</div>
         </div>
         {/if}
 
@@ -436,8 +437,8 @@
         <!-- <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[60%] cursor-pointer" on:click={() => toggleDropdown(2)} data-gameMapId="68"
             style="bottom:40%;left:60%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(14) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
-            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 2</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - TWO</div>
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 2</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - TWO</div>
         </div>
             {#if isDropdownOpen[2]}
                 <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={12} stepsLevelCount={3} playerLogList={playerLogList} 
@@ -446,16 +447,16 @@
         {:else}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[60%] cursor-pointer"
             style="bottom:40%;left:60%;background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
-            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>1 - 2</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">ONE - TWO</div>
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>3 - 2</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">THREE - TWO</div>
         </div>
         {/if}
 
         {#if isOpen(77)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[55%] cursor-pointer" on:click={() => toggleDropdown(3)} data-gameMapId="77"
             style="bottom:60%;left:55%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(23) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
-            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 3</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - THREE</div>
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 3</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - THREE</div>
         </div>
         <!-- <div class="btn absolute bottom-[16%] left-[34%] w-[6vw]" data-gameMapId="21" on:click={() => toggleDropdown(3)}>1-3(열림)</div> -->
             {#if isDropdownOpen[3]}
@@ -465,16 +466,16 @@
         {:else}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[55%] cursor-pointer"
             style="bottom:60%;left:55%;background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
-            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>1 - 3</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">ONE - THREE</div>
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>3 - 3</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">THREE - THREE</div>
         </div>
         {/if}
 
         {#if isOpen(86)}
-        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[40%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="86"
-            style="bottom:60%;left:40%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(30) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
-            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 4</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">ONE - FOUR</div>
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[55%] left-[40%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="86"
+            style="bottom:55%;left:40%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(30) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 4</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - FOUR</div>
         </div>
             {#if isDropdownOpen[4]}
                 <div class="absolute right-[0] top-[0] z-[98]" style="transform-origin:top right;transform:scale({scaleMultiplier})">
@@ -482,10 +483,10 @@
                 </div>
             {/if}
         {:else}
-        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[40%] cursor-pointer"
-            style="bottom:60%;left:40%;background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
-            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>1 - 3</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">ONE - THREE</div>
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[55%] left-[40%] cursor-pointer"
+            style="bottom:55%;left:40%;background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>3 - 4</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">THREE - THREE</div>
         </div>
         {/if}
     </div>

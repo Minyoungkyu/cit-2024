@@ -42,6 +42,7 @@ public class GameMap extends BaseTime {
     private String commandGuide;
     private int rewardExp;
     private int rewardJewel;
+    private int maxBonusCriteria;
 
     @OneToMany(mappedBy = "gameMap")
     @ToString.Exclude

@@ -237,6 +237,10 @@ dialog::backdrop { /* modal back layer */
     animation: reverseScan 0.4s linear forwards;
 } */
 
+.switchBtn:hover {
+  transform: scale(1.2);
+}
+
 .btn_setting:hover {
   background-image: url('/img/map/btn_settomg_on.png') !important;
   transform: scale(1.05) !important;

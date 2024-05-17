@@ -48,6 +48,8 @@ public class QGameMap extends EntityPathBase<GameMap> {
 
     public final NumberPath<Integer> level = createNumber("level", Integer.class);
 
+    public final NumberPath<Integer> maxBonusCriteria = createNumber("maxBonusCriteria", Integer.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifyDate = _super.modifyDate;
 

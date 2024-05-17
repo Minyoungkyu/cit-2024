@@ -72,7 +72,7 @@
         });
 
         const profilesData = data!.data.profileDtoList;
-        const inventoryIds = rq.profileInventories.all.map(profile => profile.id);
+        const inventoryIds = rq.profileInventories.all.map(profile => profile.profileIcon.id);
         const equippedProfileId = rq.profileInventories.findEquippedProfil()?.profileIcon?.id;
 
         profiles = profilesData.map(profile => {

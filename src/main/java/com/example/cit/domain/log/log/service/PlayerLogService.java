@@ -4,6 +4,7 @@ import com.example.cit.domain.achievement.playerAchievement.service.PlayerAchiev
 import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
+import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.member.member.entity.Member;
@@ -76,6 +77,11 @@ public class PlayerLogService {
         createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
                 firstGame.getId(), firstGame.getStage(), firstGame.getStep(), firstGame.getDifficulty(), firstGame.getLevel(),
                 "", 0);
+    }
+
+    public List<PlayerLogDto> getSwitchLog(Member member, String step, String diff) {
+        return playerLogRepository.findByUserIdAndGameMapStepAndGameMapDifficulty(member.getId(), step, diff)
+                .stream().map(PlayerLogDto::new).toList();
     }
 
     @Transactional
@@ -219,5 +225,4 @@ public class PlayerLogService {
             }
         }
     }
-
 }

@@ -27,6 +27,8 @@
     let weapon = $state<components['schemas']['InventoryDto'] | undefined>(undefined);
     let module = $state<components['schemas']['InventoryDto'] | undefined>(undefined);
 
+    let setItem = $state('');
+
     $effect(() => {
         shoes = rq.inventories.findEquippedByItemPartsId(1);
         gloves = rq.inventories.findEquippedByItemPartsId(3);
@@ -38,6 +40,7 @@
 
     $effect(() => {
         checkPartsAndHighlighting();
+        isFullSet();
     });
 
     let startHighlighterHidden = $state(false); // 시작 하이라이터
@@ -88,6 +91,22 @@
         setTimeout(() => {
             window.location.href = '/game/' + stage + '/' + id;
         }, 500);
+    }
+
+    function isFullSet() {
+        const carbonSet = [5,7,9,11]
+        const pirateSet = [4,6,8,10]
+
+        const equippedItems = rq.inventories.all.filter(item => item.isEquipped);
+
+        const carbonSetCount = equippedItems.filter(item => carbonSet.includes(item.item.id)).length;
+        const pirateSetCount = equippedItems.filter(item => pirateSet.includes(item.item.id)).length;
+
+        if(carbonSetCount === 4 || pirateSetCount === 4) {
+            setItem = carbonSetCount === 4 ? 'carbon' : 'pirate';
+        } else {
+            setItem = '';
+        }
     }
 
     async function updateInventory() {
@@ -212,13 +231,15 @@
                 <!-- 장착 장비 -->
                 <div class="w-[1146px] h-[949px]" style="background-image:url('/img/inventory/ui_popup_item.png')">
                     <div class="w-[636px] h-[609px] absolute top-[156px] left-[223px]" style="background-image:url('/img/inventory/ui_itme_background.png');">
-                        <div class="w-[326px] h-[534px] absolute top-[30px] left-[145px]" 
+                        <div class="w-[326px] h-[534px] absolute top-[30px] left-[145px]" on:click={() => console.log(setItem)}
                             style="background-image:
-                            {shoes ? 'url("/img/item/0/' + shoes.item.availableCommands + '.png"),' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_boots.png"),'}
-                            {gloves ? 'url("/img/item/0/' + gloves.item.availableCommands + '.png"),' : ''}
-                            {suit ? 'url("/img/item/0/' + suit.item.availableCommands + '.png"),' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_suit.png"),'}
+                            {gloves ? 'url("/img/item/' + rq.member.player.characterType + '/' + gloves.item.availableCommands + '.png"),' : ''}
+                            {setItem == 'carbon' ? 'url("/img/item/0/icon_chariter_carbon_set.png"),' : ''}
+                            {setItem == 'pirate' ? 'url("/img/item/0/icon_chariter_pirate_set.png"),' : ''}
+                            {shoes ? 'url("/img/item/' + rq.member.player.characterType + '/' + shoes.item.availableCommands + '.png"),' : suit ? '' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_boots.png"),'}
+                            {suit ? 'url("/img/item/' + rq.member.player.characterType + '/' + suit.item.availableCommands + '.png"),' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_suit.png"),'}
                             url('/img/item/{rq.member.player.characterType}/icon_chariter.png'), 
-                            url('/img/item/{rq.member.player.characterType}/icon_chariter_head.png');">
+                            {helmet ? 'url("/img/item/' + rq.member.player.characterType + '/' + helmet.item.availableCommands + '.png");' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_head.png");'}">
                         </div>
                         <div class="w-[203px] h-[203px] absolute cursor-pointer" 
                         style="background-image:{helmet && currentItem!.id == helmet?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6);"
@@ -293,7 +314,7 @@
                             {/if} 
                         </div>
                     </div>
-                    <div class="w-[361px] h-[609px] absolute top-[156px] right-[675px]" style="background-image:url('/img/inventory/ui_itme_background2.png')">
+                    <div class="w-[361px] h-[609px] absolute top-[156px] right-[675px] overflow-y-scroll" style="background-image:url('/img/inventory/ui_itme_background2.png')">
                         <div class="grid grid-cols-3 gap-2 mt-4">
                             <div id="itemHighlighter" class="item-highlighter w-[100px] h-[100px] absolute z-[10] ml-2 animatedItemHighlighter {highlighterHidden ? 'hidden' : ''}"
                             style="top: {highlighterTopValue}px; left: {highlighterLeftValue}px; background-image:url('/img/inventory/ui_aim.png');background-size:contain;background-repeat:no-repeat;pointer-events: none;"></div>

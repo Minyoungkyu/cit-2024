@@ -1,6 +1,8 @@
 package com.example.cit.domain.achievement.achievement.dto;
 
 import com.example.cit.domain.achievement.achievement.entity.Achievement;
+import com.example.cit.domain.item.profileIcon.dto.ProfileDto;
+import com.example.cit.domain.item.profileIcon.dto.ProfileRewardDto;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
@@ -12,7 +14,7 @@ public record AchievementDto(
         @NonNull String description,
         @NonNull int rewardExp,
         @NonNull int rewardJewel,
-        String rewardIconSource,
+        ProfileRewardDto rewardIcon,
         int getReward,
         int isAchieved
 ) {
@@ -24,7 +26,7 @@ public record AchievementDto(
                 achievement.getDescription(),
                 achievement.getRewardExp(),
                 achievement.getRewardJewel(),
-                achievement.getRewardIcon() != null ? achievement.getRewardIcon().getSourcePath() : null,
+                achievement.getRewardIcon() != null ? new ProfileRewardDto(achievement.getRewardIcon()) : null,
                 getReward,
                 isAchieved
         );

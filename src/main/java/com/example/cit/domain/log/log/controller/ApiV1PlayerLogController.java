@@ -110,4 +110,20 @@ public class ApiV1PlayerLogController {
         playerLogService.batchPlayLogV2(rq.getMember(), body.gameMapDto, body.result);
     }
 
+    public record SwitchResponseBody(@NonNull List<PlayerLogDto> switchLogList) {}
+
+    @GetMapping(value = "/switch", consumes = ALL_VALUE)
+    @Operation(summary = "레벨이동 확인")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<SwitchResponseBody> getSwitchLog(
+            @RequestParam(name = "step") @NotBlank String step,
+            @RequestParam(name = "diff") @NotBlank String diff
+    ) {
+        return RsData.of(
+                new SwitchResponseBody(
+                        playerLogService.getSwitchLog(rq.getMember(), step, diff)
+                )
+        );
+    }
 }

@@ -104,6 +104,42 @@
         return finalPercentage;
     }
 
+    async function loadSwitchLog() {
+        const { data } = await rq.apiEndPointsWithFetch(fetch).GET(`/api/v1/playerLogs/switch`, {
+            params: {
+                query: {
+                    step: gameMapDto.step,
+                    diff: gameMapDto.difficulty,
+                }
+            }
+        });
+
+        let maxLevel = 0;
+
+        if (gameMapDto.step == '3-4') maxLevel = 4;
+        else if (gameMapDto.step == 'tutorial') maxLevel = 2;
+        else maxLevel = 3;
+
+        let newList = [];
+        let level = 1;
+        let switchLogList = data!.data.switchLogList;
+
+        while (level <= maxLevel) {
+            const matchingLog = switchLogList.find(log => log.gameMapLevel == level);
+            
+            if (matchingLog) {
+                newList.push(matchingLog);
+            } else {
+                newList.push(null);
+            }
+
+            level++;
+        }
+
+        console.log(newList)
+        return newList;
+    }
+
     async function executePython(): Promise<void> {
         console.time('executePython')
 
@@ -781,6 +817,20 @@
             <a href="/game/{gameMapDto.stage}" class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10]" 
                 style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"></a>
 
+            {#await loadSwitchLog()}
+            {:then data}
+            <div class="flex flex-row gap-4 absolute top-[2%] left-[15%]" style="transform:scale({scaleMultiplier2});transform-origin:left top;">
+                {#each data as switchLog, index}
+                    {#if switchLog}
+                    <div class="w-[55px] h-[55px] cursor-pointer" on:click={() => window.location.href = `/game/${switchLog.gameMapStage}/${switchLog.gameMapId}`}
+                        style="background-image:url('/img/inGame/btn_{switchLog?.gameMapLevel}_on.png');background-size:contain;"></div>
+                    {:else}
+                    <div class="w-[55px] h-[55px]" style="background-image:url('/img/inGame/btn_{index + 1}_off.png');background-size:contain;"></div>
+                    {/if}
+                {/each}
+            </div>
+            {/await}
+
             <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
                 style="background-image:url('/img/inGame/ui_player_status.png');transform-origin:left top;transform:scale(0.6) scale({scaleMultiplier2});">
                 <div class="w-full h-[54px]"></div> 
@@ -843,7 +893,7 @@
             
             <!-- control box -->
             <div class="flex flex-row items-center absolute bottom-[4%] left-[0] gap-6 ml-[2.5%]" 
-                style="background-color:#181818;transform-origin:left;transform:scale({Math.min(1, scaleMultiplier)});width:{calculateWidthPercentage(Math.min(1,scaleMultiplier))}%;
+                style="background-color:#181818;transform-origin:left bottom;transform:scale({Math.min(1, scaleMultiplier)});width:{calculateWidthPercentage(Math.min(1,scaleMultiplier))}%;
                 {showBtnGuide && btnGuideArray[3] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
 
                 <!-- btn Guide 5 -->

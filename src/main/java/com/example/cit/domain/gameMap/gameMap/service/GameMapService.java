@@ -30,7 +30,7 @@ public class GameMapService {
     @Transactional
     public GameMap createGameMap(String stage, String step, String difficulty, int level, String editorAutoComplete, String editorMessage,
                               String clearGoal, String cocosInfo, String guideText, String guideImage, String commandGuide,
-                              int rewardExp, int rewardJewel) {
+                              int rewardExp, int rewardJewel, int maxBonusCriteria) {
 
         GameMap gameMap = GameMap.builder()
                 .stage(stage)
@@ -46,6 +46,7 @@ public class GameMapService {
                 .commandGuide(commandGuide)
                 .rewardExp(rewardExp)
                 .rewardJewel(rewardJewel)
+                .maxBonusCriteria(maxBonusCriteria)
                 .rewardItem(null)
                 .build();
 

@@ -258,7 +258,9 @@ public class Dev {
                         "go()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        2
+                );
 
                 GameMap gameMapTutorial2 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 2,
@@ -306,7 +308,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        3
+                );
 
                 GameMap gameMap11e1 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 1,
@@ -357,7 +361,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        6
+                );
 
                 GameMap gameMap11e2 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 2,
@@ -409,7 +415,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        5
+                );
 
                 GameMap gameMap11e3 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 3,
@@ -479,7 +487,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        9
+                );
 
                 GameMap gameMap11n1 = gameMapService.createGameMap(
                         "1", "1-1", "Normal", 1,
@@ -535,7 +545,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        11
+                );
 
                 GameMap gameMap11n2 = gameMapService.createGameMap(
                         "1", "1-1", "Normal", 2,
@@ -593,7 +605,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap11n3 = gameMapService.createGameMap(
                         "1", "1-1", "Normal", 3,
@@ -659,7 +673,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        21
+                );
 
                 GameMap gameMap11h1 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 1,
@@ -718,7 +734,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        21
+                );
 
                 GameMap gameMap11h2 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 2,
@@ -777,7 +795,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        11
+                );
 
                 GameMap gameMap11h3 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 3,
@@ -840,7 +860,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight()",
                         1,
-                        1);
+                        1,
+                        31
+                );
 
                 GameMap gameMap12e1 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 1,
@@ -902,7 +924,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        5
+                );
 
                 GameMap gameMap12e2 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 2,
@@ -982,7 +1006,9 @@ public class Dev {
                                 "최소 코드작성",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        28
+                );
 
                 GameMap gameMap12e3 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 3,
@@ -1064,7 +1090,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        36
+                );
 
                 GameMap gameMap12n1 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 1,
@@ -1132,7 +1160,9 @@ public class Dev {
                                 "turnRight()\n",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap12n2 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 2,
@@ -1213,7 +1243,9 @@ public class Dev {
                                 "최소 코드작성",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        38
+                );
 
                 GameMap gameMap12n3 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 3,
@@ -1296,7 +1328,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        56
+                );
 
                 GameMap gameMap12h1 = gameMapService.createGameMap(
                         "1", "1-2", "Hard", 1,
@@ -1393,7 +1427,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        23
+                );
 
                 GameMap gameMap12h2 = gameMapService.createGameMap(
                         "1", "1-2", "Hard", 2,
@@ -1474,7 +1510,9 @@ public class Dev {
                                 "최소 코드작성",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        38
+                );
 
                 GameMap gameMap12h3 = gameMapService.createGameMap(
                         "1", "1-2", "Hard", 3,
@@ -1563,7 +1601,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         1,
-                        1);
+                        1,
+                        76
+                );
 
                 GameMap gameMap13e1 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 1,
@@ -1624,7 +1664,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        9
+                );
 
                 GameMap gameMap13e2 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 2,
@@ -1691,7 +1733,9 @@ public class Dev {
                                 "turnLeft()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        21
+                );
 
                 GameMap gameMap13e3 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 3,
@@ -1763,7 +1807,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        17
+                );
 
                 GameMap gameMap13n1 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 1,
@@ -1827,7 +1873,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        17
+                );
 
                 GameMap gameMap13n2 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 2,
@@ -1904,7 +1952,9 @@ public class Dev {
                                 "turnLeft()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        23
+                );
 
                 GameMap gameMap13n3 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 3,
@@ -1978,7 +2028,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        29
+                );
 
                 GameMap gameMap13h1 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 1,
@@ -2045,7 +2097,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        20
+                );
 
                 GameMap gameMap13h2 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 2,
@@ -2130,7 +2184,9 @@ public class Dev {
                                 "turnLeft()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        25
+                );
 
                 GameMap gameMap13h3 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 3,
@@ -2216,7 +2272,9 @@ public class Dev {
                                 "turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
                         1,
-                        1);
+                        1,
+                        31
+                );
 
                 Member memberUser2 = memberService.join("hadle", "1234", 1).getData();
                 memberUser2.setRefreshToken("hadle");
@@ -2748,7 +2806,9 @@ public class Dev {
                         "",
                         "",
                         1,
-                        1);
+                        1,
+                        0
+                );
 
                 GameMap gameMap21e1 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 1,
@@ -2807,7 +2867,9 @@ public class Dev {
                                 "  print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap21e2 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 2,
@@ -2868,7 +2930,9 @@ public class Dev {
                                 "print(info)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo()",
                         1,
-                        1);
+                        1,
+                        14
+                );
 
                 GameMap gameMap21e3 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 3,
@@ -2934,7 +2998,9 @@ public class Dev {
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        18
+                );
 
                 GameMap gameMap21n1 = gameMapService.createGameMap(
                         "2", "2-1", "Normal", 1,
@@ -2991,7 +3057,9 @@ public class Dev {
                                 "   print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap21n2 = gameMapService.createGameMap(
                         "2", "2-1", "Normal", 2,
@@ -3066,7 +3134,9 @@ public class Dev {
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        22
+                );
 
                 GameMap gameMap21n3 = gameMapService.createGameMap(
                         "2", "2-1", "Normal", 3,
@@ -3131,7 +3201,9 @@ public class Dev {
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        17
+                );
 
                 GameMap gameMap21h1 = gameMapService.createGameMap(
                         "2", "2-1", "Hard", 1,
@@ -3186,7 +3258,9 @@ public class Dev {
                                 "  print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap21h2 = gameMapService.createGameMap(
                         "2", "2-1", "Hard", 2,
@@ -3269,7 +3343,9 @@ public class Dev {
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        18
+                );
 
                 GameMap gameMap21h3 = gameMapService.createGameMap(
                         "2", "2-1", "Hard", 3,
@@ -3331,7 +3407,9 @@ public class Dev {
                                 "    print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        15
+                );
 
                 GameMap gameMap22e1 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 1,
@@ -3407,7 +3485,9 @@ public class Dev {
                                 "   jump()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         1,
-                        1);
+                        1,
+                        4
+                );
 
                 GameMap gameMap22e2 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 2,
@@ -3470,7 +3550,9 @@ public class Dev {
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         1,
-                        1);
+                        1,
+                        4
+                );
 
                 GameMap gameMap22e3 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 3,
@@ -3582,7 +3664,9 @@ public class Dev {
                                 "       turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap22n1 = gameMapService.createGameMap(
                         "2", "2-2", "Normal", 1,
@@ -3664,7 +3748,9 @@ public class Dev {
                                 "     go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         1,
-                        1);
+                        1,
+                        10
+                );
 
                 GameMap gameMap22n2 = gameMapService.createGameMap(
                         "2", "2-2", "Normal", 2,
@@ -3752,7 +3838,9 @@ public class Dev {
                                 "    go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         1,
-                        1);
+                        1,
+                        8
+                );
 
                 GameMap gameMap22n3 = gameMapService.createGameMap(
                         "2", "2-2", "Normal", 3,
@@ -3868,7 +3956,9 @@ public class Dev {
                                 "  go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap22h1 = gameMapService.createGameMap(
                         "2", "2-2", "Hard", 1,
@@ -3948,7 +4038,9 @@ public class Dev {
                                 "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
                         1,
-                        1);
+                        1,
+                        18
+                );
 
                 GameMap gameMap22h2 = gameMapService.createGameMap(
                         "2", "2-2", "Hard", 2,
@@ -4021,7 +4113,9 @@ public class Dev {
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
                         1,
-                        1);
+                        1,
+                        4
+                );
 
                 GameMap gameMap22h3 = gameMapService.createGameMap(
                         "2", "2-2", "Hard", 3,
@@ -4130,7 +4224,9 @@ public class Dev {
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
                         1,
-                        1);
+                        1,
+                        9
+                );
 
                 GameMap gameMap23e1 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 1,
@@ -4192,7 +4288,9 @@ public class Dev {
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        3
+                );
 
                 GameMap gameMap23e2 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 2,
@@ -4276,7 +4374,9 @@ public class Dev {
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        4
+                );
 
                 GameMap gameMap23e3 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 3,
@@ -4348,7 +4448,9 @@ public class Dev {
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        14
+                );
 
                 GameMap gameMap23n1 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 1,
@@ -4411,7 +4513,9 @@ public class Dev {
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        17
+                );
 
                 GameMap gameMap23n2 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 2,
@@ -4486,7 +4590,9 @@ public class Dev {
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        11
+                );
 
                 GameMap gameMap23n3 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 3,
@@ -4551,7 +4657,9 @@ public class Dev {
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        13
+                );
 
                 GameMap gameMap23h1 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 1,
@@ -4618,7 +4726,9 @@ public class Dev {
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        26
+                );
 
                 GameMap gameMap23h2 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 2,
@@ -4697,7 +4807,9 @@ public class Dev {
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        10
+                );
 
                 GameMap gameMap23h3 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 3,
@@ -4762,7 +4874,9 @@ public class Dev {
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        13
+                );
 
                 GameMap gameMap24e1 = gameMapService.createGameMap(
                         "1", "2-4", "Easy", 1,
@@ -4781,7 +4895,9 @@ public class Dev {
                         "",
                         "",
                         1,
-                        1);
+                        1,
+                        0
+                );
 
                 ItemParts shoes = itemPartsService.getItemParts(1);
                 ItemParts module = itemPartsService.getItemParts(2);
@@ -4920,7 +5036,9 @@ public class Dev {
                                 "attack(target)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        6
+                );
 
                 GameMap gameMap31e2 = gameMapService.createGameMap(
                         "3", "3-1", "Easy", 2,
@@ -4987,7 +5105,9 @@ public class Dev {
                                 "print(ch)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        8
+                );
 
                 GameMap gameMap31e3 = gameMapService.createGameMap(
                         "3", "3-1", "Easy", 3,
@@ -5057,7 +5177,9 @@ public class Dev {
                                 "print(ch)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        6
+                );
 
                 GameMap gameMap31n1 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 1,
@@ -5129,7 +5251,9 @@ public class Dev {
                                 "   attack(target)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        10
+                );
 
                 GameMap gameMap31n2 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 2,
@@ -5200,7 +5324,9 @@ public class Dev {
                                 "   print(ch[2:5])",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        8
+                );
 
                 GameMap gameMap31n3 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 3,
@@ -5269,7 +5395,9 @@ public class Dev {
                                 "    print(i[-1])",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap31h1 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 1,
@@ -5340,7 +5468,9 @@ public class Dev {
                                 "       attack(char)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        12
+                );
 
                 GameMap gameMap31h2 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 2,
@@ -5412,7 +5542,9 @@ public class Dev {
                                 "  index = int(number)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        11
+                );
 
                 GameMap gameMap31h3 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 3,
@@ -5483,7 +5615,9 @@ public class Dev {
                                 "       attack(char)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         1,
-                        1);
+                        1,
+                        10
+                );
 
                 GameMap gameMap32e1 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 1,
@@ -5559,7 +5693,9 @@ public class Dev {
                                 "itemLsit[1] = getItem()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        12
+                );
 
                 GameMap gameMap32e2 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 2,
@@ -5636,7 +5772,9 @@ public class Dev {
                                 "itemList.append(getItem())",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        11
+                );
 
                 GameMap gameMap32e3 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 3,
@@ -5721,7 +5859,9 @@ public class Dev {
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        15
+                );
 
                 GameMap gameMap32n1 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 1,
@@ -5807,7 +5947,9 @@ public class Dev {
                                 "itemListAll = itemList1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        12
+                );
 
                 GameMap gameMap32n2 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 2,
@@ -5905,7 +6047,9 @@ public class Dev {
                                 "itemListAll = itemList1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        14
+                );
 
                 GameMap gameMap32n3 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 3,
@@ -5995,7 +6139,9 @@ public class Dev {
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        17
+                );
 
                 GameMap gameMap32h1 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 1,
@@ -6075,7 +6221,9 @@ public class Dev {
                                 "    itemList.append(items)  ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        13
+                );
 
                 GameMap gameMap32h2 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 2,
@@ -6168,7 +6316,9 @@ public class Dev {
                                 "itemList.append(getItem())",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        20
+                );
 
                 GameMap gameMap32h3 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 3,
@@ -6253,7 +6403,9 @@ public class Dev {
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        18
+                );
 
                 GameMap gameMap33e1 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 1,
@@ -6345,7 +6497,9 @@ public class Dev {
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        8
+                );
 
                 GameMap gameMap33e2 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 2,
@@ -6442,7 +6596,9 @@ public class Dev {
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        8
+                );
 
                 GameMap gameMap33e3 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 3,
@@ -6560,7 +6716,9 @@ public class Dev {
                                 "     setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        18
+                );
 
                 GameMap gameMap33n1 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 1,
@@ -6643,7 +6801,9 @@ public class Dev {
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        16
+                );
 
                 GameMap gameMap33n2 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 2,
@@ -6756,7 +6916,9 @@ public class Dev {
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        22
+                );
 
                 GameMap gameMap33n3 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 3,
@@ -6883,7 +7045,9 @@ public class Dev {
                                 "     setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        29
+                );
 
                 GameMap gameMap33h1 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 1,
@@ -6986,7 +7150,9 @@ public class Dev {
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        22
+                );
 
                 GameMap gameMap33h2 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 2,
@@ -7095,7 +7261,9 @@ public class Dev {
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        24
+                );
 
                 GameMap gameMap33h3 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 3,
@@ -7217,7 +7385,9 @@ public class Dev {
                                 "     setTrapAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1,
-                        1);
+                        1,
+                        30
+                );
 
                 GameMap gameMap34e1 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 1,
@@ -7272,7 +7442,9 @@ public class Dev {
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack()",
                         1,
-                        1);
+                        1,
+                        4
+                );
 
                 GameMap gameMap34e2 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 2,
@@ -7334,7 +7506,9 @@ public class Dev {
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy()",
                         1,
-                        1);
+                        1,
+                        4
+                );
 
                 GameMap gameMap34e3 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 3,
@@ -7428,7 +7602,9 @@ public class Dev {
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
                         1,
-                        1);
+                        1,
+                        10
+                );
 
                 GameMap gameMap34n1 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 1,
@@ -7486,7 +7662,9 @@ public class Dev {
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
                         1,
-                        1);
+                        1,
+                        5
+                );
 
                 GameMap gameMap34n2 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 2,
@@ -7548,7 +7726,9 @@ public class Dev {
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
                         1,
-                        1);
+                        1,
+                        5
+                );
 
                 GameMap gameMap34n3 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 3,
@@ -7637,7 +7817,9 @@ public class Dev {
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
                         1,
-                        1);
+                        1,
+                        11
+                );
 
                 GameMap gameMap34h1 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 1,
@@ -7697,7 +7879,9 @@ public class Dev {
                                 "     attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap34h2 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 2,
@@ -7772,7 +7956,9 @@ public class Dev {
                                 "     attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
                         1,
-                        1);
+                        1,
+                        7
+                );
 
                 GameMap gameMap34h3 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 3,
@@ -7860,7 +8046,9 @@ public class Dev {
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
                         1,
-                        1);
+                        1,
+                        15
+                );
 
 
                 ItemParts shoes = itemPartsService.getItemParts(1);

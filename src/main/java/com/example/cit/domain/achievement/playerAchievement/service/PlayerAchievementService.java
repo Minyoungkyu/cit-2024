@@ -6,14 +6,20 @@ import com.example.cit.domain.achievement.achievement.service.AchievementService
 import com.example.cit.domain.achievement.playerAchievement.entity.PlayerAchievement;
 import com.example.cit.domain.achievement.playerAchievement.repository.PlayerAchievementRepository;
 import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
+import com.example.cit.domain.item.item.entity.Item;
 import com.example.cit.domain.log.gameLog.detail.killCountLog.entity.KillCountLog;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.player.inventroy.entity.Inventory;
 import com.example.cit.domain.player.inventroy.service.InventoryService;
+import com.example.cit.global.rq.Rq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +28,7 @@ public class PlayerAchievementService {
 
     private final PlayerAchievementRepository playerAchievementRepository;
     private final AchievementService achievementService;
+    private final Rq rq;
 
     @Transactional
     public void checkStageClearAchievement(Member member, GameMapDto gameMapDto) {
@@ -57,6 +64,31 @@ public class PlayerAchievementService {
     }
 
     @Transactional
+    public void checkPurchaseSetItemAchievement(Member member) {
+
+        List<Long> setCarbonItemIds = List.of(5L, 7L, 9L, 11L, 13L);
+        List<Long> setPirateItemIds = List.of(4L, 6L, 8L, 10L, 12L);
+
+        Set<Long> inventoryItemIds = rq.getMember().getPlayer().getInventories().stream()
+                .map(Inventory::getItem)
+                .map(Item::getId)
+                .collect(Collectors.toSet());
+
+        boolean hasAllCarbonItems = inventoryItemIds.containsAll(setCarbonItemIds);
+        boolean hasAllPirateItems = inventoryItemIds.containsAll(setPirateItemIds);
+
+        if (hasAllCarbonItems) {
+            Optional<Achievement> opAchievement = achievementService.getAchievement("PURCHASE EQUIPMENT SET", 0);
+            opAchievement.ifPresent(achievement -> this.addAchievementToPlayerIfEmpty(member, achievement));
+        }
+
+        if (hasAllPirateItems) {
+            Optional<Achievement> opAchievement = achievementService.getAchievement("PURCHASE EQUIPMENT SET", 1);
+            opAchievement.ifPresent(achievement -> this.addAchievementToPlayerIfEmpty(member, achievement));
+        }
+    }
+
+    @Transactional
     public void checkPurchaseProfileIconAchievement(Member member) {
 
         long count = member.getPlayer().getProfileInventories().stream()
@@ -74,6 +106,12 @@ public class PlayerAchievementService {
 
         opAchievementNormalKill.ifPresent(achievement -> this.addAchievementToPlayerIfEmpty(member, achievement));
         opAchievementBossKill.ifPresent(achievement -> this.addAchievementToPlayerIfEmpty(member, achievement));
+    }
+
+    @Transactional
+    public void checkPlayerEncyAchievement() {
+        Optional<Achievement> opAchievement = achievementService.getAchievement("CHECK ENCY", 1);
+        opAchievement.ifPresent(achievement -> this.addAchievementToPlayerIfEmpty(rq.getMember(), achievement));
     }
 
     @Transactional

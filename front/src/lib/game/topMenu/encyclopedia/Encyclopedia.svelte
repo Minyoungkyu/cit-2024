@@ -1,4 +1,6 @@
 <script lang="ts">
+	import rq from '$lib/rq/rq.svelte';
+	import { onMount } from 'svelte';
     import { codeArray } from './codeArray';
 
     let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
@@ -21,6 +23,14 @@
         } else {
             adjustScale = scaleMultiplier;
         }
+    });
+
+    async function playerCheckEncyAchievement() {
+        await rq.apiEndPoints().POST('/api/v1/playerAchievement/ency', {});
+    }
+
+    onMount(() => {
+        playerCheckEncyAchievement();
     });
 </script>
 

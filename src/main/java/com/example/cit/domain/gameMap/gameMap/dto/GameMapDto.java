@@ -24,6 +24,7 @@ public record GameMapDto(
         @NonNull String commandGuide,
         @NonNull int rewardExp,
         @NonNull int rewardJewel,
+        @NonNull int maxBonusCriteria,
         ItemDto rewardItem
 
 ) {
@@ -45,6 +46,7 @@ public record GameMapDto(
                 gameMap.getCommandGuide(),
                 gameMap.getRewardExp(),
                 gameMap.getRewardJewel(),
+                gameMap.getMaxBonusCriteria(),
                 gameMap.getRewardItem() == null ? null : new ItemDto(gameMap.getRewardItem())
         );
     }

@@ -423,11 +423,11 @@ public class DevInit2 {
                 profileService.createProfile("테스트7", "테스트 테스트, 테스트 테스트!", "img_icon9", 500, null);
                 profileService.createProfile("테스트8", "테스트 테스트, 테스트 테스트!", "img_icon10", 500, null);
 
-                ProfileIcon icon1 = profileService.createProfile("테스트10", "테스트 테스트, 테스트 테스트!", "img_icon5", 0, null);
-                ProfileIcon icon2 = profileService.createProfile("테스트11", "테스트 테스트, 테스트 테스트!", "img_icon6", 0, null);
-                ProfileIcon icon3 = profileService.createProfile("테스트12", "테스트 테스트, 테스트 테스트!", "img_icon11", 0, null);
-                ProfileIcon icon4 = profileService.createProfile("테스트13", "테스트 테스트, 테스트 테스트!", "img_icon12", 0, null);
-                ProfileIcon icon5 = profileService.createProfile("테스트14", "테스트 테스트, 테스트 테스트!", "img_icon13", 0, null);
+                ProfileIcon icon1 = profileService.createProfile("테스트10", "테스트 테스트, 테스트 테스트!", "img_icon11", 0, null);
+                ProfileIcon icon2 = profileService.createProfile("테스트11", "테스트 테스트, 테스트 테스트!", "img_icon12", 0, null);
+                ProfileIcon icon3 = profileService.createProfile("테스트12", "테스트 테스트, 테스트 테스트!", "img_icon13", 0, null);
+                ProfileIcon icon4 = profileService.createProfile("테스트13", "테스트 테스트, 테스트 테스트!", "img_icon6", 0, null);
+                ProfileIcon icon5 = profileService.createProfile("테스트14", "테스트 테스트, 테스트 테스트!", "img_icon5", 0, null);
 
                 achievementService.setRewardIcon(ac1, icon1);
                 achievementService.setRewardIcon(ac2, icon2);

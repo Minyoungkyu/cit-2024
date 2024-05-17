@@ -5,7 +5,9 @@ import com.example.cit.domain.achievement.playerAchievement.service.PlayerAchiev
 import com.example.cit.domain.item.item.dto.ItemDto;
 import com.example.cit.domain.item.item.entity.Item;
 import com.example.cit.domain.item.profileIcon.dto.ProfileDto;
+import com.example.cit.domain.item.profileIcon.dto.ProfileRewardDto;
 import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
+import com.example.cit.domain.item.profileIcon.service.ProfileService;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.player.inventroy.service.InventoryService;
 import com.example.cit.domain.player.inventroy.service.ProfileInventoryService;
@@ -50,8 +52,10 @@ public class PlayerService {
     @Transactional
     public void getRewardAndUpdateAchievement(Member member, AchievementDto achievement) {
 
-        this.addRewardToPlayer(achievement.rewardExp(), achievement.rewardJewel());
-
+        if (achievement.rewardIcon() != null) this.addRewardToPlayer(
+                achievement.rewardExp(), achievement.rewardJewel(), achievement.rewardIcon()
+        );
+        else this.addRewardToPlayer(achievement.rewardExp(), achievement.rewardJewel());
         playerAchievementService.updateGetReward(member, achievement);
     }
 
@@ -69,7 +73,7 @@ public class PlayerService {
     }
 
     @Transactional
-    public void addRewardToPlayer(int rewardExp, int rewardJewel, ProfileDto profile) {
+    public void addRewardToPlayer(int rewardExp, int rewardJewel, ProfileRewardDto profile) {
         this.addRewardToPlayer(rewardExp, rewardJewel);
         this.profileInventoryService.createInventory(findPlayerByMemberId(rq.getMember().getId()).get(), profile.id(), false);
     }

@@ -1,4 +1,4 @@
-package com.example.cit.domain.item.profileIcon.dto;
+package com.example.cit.domain.log.dto;
 
 import org.springframework.lang.NonNull;
 

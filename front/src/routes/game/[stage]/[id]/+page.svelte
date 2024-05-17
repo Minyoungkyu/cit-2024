@@ -109,6 +109,42 @@
         return finalPercentage;
     }
 
+    async function loadSwitchLog() {
+        const { data } = await rq.apiEndPointsWithFetch(fetch).GET(`/api/v1/playerLogs/switch`, {
+            params: {
+                query: {
+                    step: gameMapDto.step,
+                    diff: gameMapDto.difficulty,
+                }
+            }
+        });
+
+        let maxLevel = 0;
+
+        if (gameMapDto.step == '3-4') maxLevel = 4;
+        else if (gameMapDto.step == 'tutorial') maxLevel = 2;
+        else maxLevel = 3;
+
+        let newList = [];
+        let level = 1;
+        let switchLogList = data!.data.switchLogList;
+
+        while (level <= maxLevel) {
+            const matchingLog = switchLogList.find(log => log.gameMapLevel == level);
+            
+            if (matchingLog) {
+                newList.push(matchingLog);
+            } else {
+                newList.push(null);
+            }
+
+            level++;
+        }
+
+        console.log(newList)
+        return newList;
+    }
+
     async function executePython(): Promise<void> {
 
         //Todo: 실행에 대한 로그 수집
@@ -815,6 +851,21 @@
 
             <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
                 style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"></div>
+
+            {#await loadSwitchLog()}
+            {:then data}
+            <div class="flex flex-row gap-4 absolute top-[2%] left-[10%]" style="transform:scale({scaleMultiplier2});transform-origin:left top;">
+                {#each data as switchLog, index}
+                    {#if switchLog}
+                    <div class="switchBtn w-[55px] h-[55px] cursor-pointer" on:click={() => window.location.href = `/game/${switchLog.gameMapStage}/${switchLog.gameMapId}`}
+                        style="background-image:url('/img/inGame/btn_{switchLog?.gameMapLevel}_on.png');background-size:contain;{switchLog.gameMapId == gameMapDto.id ? 'pointer-events:none;' : ''}"></div>
+                    {:else}
+                    <div class="w-[55px] h-[55px]" style="background-image:url('/img/inGame/btn_{index + 1}_off.png');background-size:contain;"></div>
+                    {/if}
+                {/each}
+            </div>
+            {/await}
+
 
             <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
                 style="background-image:url('/img/inGame/ui_player_status.png');transform-origin:left top;transform:scale(0.6) scale({scaleMultiplier2});">

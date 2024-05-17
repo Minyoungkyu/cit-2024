@@ -2,6 +2,7 @@ package com.example.cit.domain.log.log.repository;
 
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.log.log.entity.PlayerLog;
+import com.querydsl.core.Fetchable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.swing.text.html.Option;
@@ -21,4 +22,6 @@ public interface PlayerLogRepository extends JpaRepository<PlayerLog, Long> {
     Optional<PlayerLog> findFirstByUserIdAndDetailIntOrderByGameMapIdDesc(Long id, int i);
 
     long countByUserIdAndGameMapDifficultyAndLogTypeAndDetailInt(Long playerId, String difficulty, String logType, int detailInt);
+
+    List<PlayerLog> findByUserIdAndGameMapStepAndGameMapDifficulty(Long userId, String step, String difficulty);
 }

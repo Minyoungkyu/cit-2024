@@ -49,6 +49,10 @@ export interface paths {
     /** 게임결과 로그 일괄처리 */
     post: operations["batchPlayLog_1"];
   };
+  "/api/v1/playerAchievement/ency": {
+    /** 플레이어 도감확인 업적 */
+    post: operations["postPlayerAchievement"];
+  };
   "/api/v1/members/logout": {
     /** 로그아웃 */
     post: operations["logout"];
@@ -108,6 +112,10 @@ export interface paths {
   "/api/v1/profile/all": {
     /** 전체 프로필아이콘 목록 조회 */
     get: operations["getAllProfile"];
+  };
+  "/api/v1/playerLogs/switch": {
+    /** 레벨이동 확인 */
+    get: operations["getSwitchLog"];
   };
   "/api/v1/playerLogs/highest": {
     /** 플레이어의 최고기록 로그 */
@@ -247,7 +255,7 @@ export interface components {
       rewardExp: number;
       /** Format: int32 */
       rewardJewel: number;
-      rewardIconSource?: string;
+      rewardIcon?: components["schemas"]["ProfileRewardDto"];
       /** Format: int32 */
       getReward?: number;
       /** Format: int32 */
@@ -276,6 +284,12 @@ export interface components {
       updateDate: string;
       profileIcon: components["schemas"]["ProfileDto"];
       isEquipped: boolean;
+    };
+    ProfileRewardDto: {
+      /** Format: int64 */
+      id: number;
+      name: string;
+      sourcePath: string;
     };
     UpdateProfileInventoryRequestBody: {
       profileInventoryDtoList: components["schemas"]["ProfileInventoryDto"][];
@@ -502,6 +516,8 @@ export interface components {
       rewardExp: number;
       /** Format: int32 */
       rewardJewel: number;
+      /** Format: int32 */
+      maxBonusCriteria: number;
       rewardItem?: components["schemas"]["ItemDto"];
     };
     LoginRequestBody: {
@@ -677,9 +693,6 @@ export interface components {
       msg: string;
       data: components["schemas"]["GetAllProfileResponseBody"];
     };
-    GamesHighestLogResponseBody: {
-      playerLogDto?: components["schemas"]["PlayerLogDto"];
-    };
     PlayerLogDto: {
       /** Format: int64 */
       id: number;
@@ -699,6 +712,19 @@ export interface components {
       detailText?: string;
       /** Format: int32 */
       detailInt?: number;
+    };
+    RsDataSwitchResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SwitchResponseBody"];
+    };
+    SwitchResponseBody: {
+      switchLogList: components["schemas"]["PlayerLogDto"][];
+    };
+    GamesHighestLogResponseBody: {
+      playerLogDto?: components["schemas"]["PlayerLogDto"];
     };
     RsDataGamesHighestLogResponseBody: {
       resultCode: string;
@@ -1149,6 +1175,21 @@ export interface operations {
       };
     };
   };
+  /** 플레이어 도감확인 업적 */
+  postPlayerAchievement: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 로그아웃 */
   logout: {
     responses: {
@@ -1434,6 +1475,29 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGetAllProfileResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 레벨이동 확인 */
+  getSwitchLog: {
+    parameters: {
+      query: {
+        step: string;
+        diff: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataSwitchResponseBody"];
         };
       };
       /** @description Bad Request */
