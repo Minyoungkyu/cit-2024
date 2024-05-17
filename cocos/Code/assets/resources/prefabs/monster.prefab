@@ -1067,6 +1067,8 @@
     "damageLabel": {
       "__id__": 23
     },
+    "isShowedLabel": false,
+    "isShowHitAnimation": false,
     "_id": ""
   },
   {

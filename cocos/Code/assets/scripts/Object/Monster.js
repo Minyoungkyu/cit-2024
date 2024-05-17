@@ -204,12 +204,23 @@ cc.Class({
         if(this.isShowedLabel) return;
         this.isShowedLabel = true;
 
+        if(this.monster_type == PASSIVE){
+            this.damageLabel.string = "-999";
+        }
+        else if(this.monster_type === AGGREE_1){
+            this.damageLabel.string = "-999";
+        }
+        else if(this.monster_type === AGGREE_2){
+            this.damageLabel.string = "-20";
+        }
+
+
         this.damageLabel.getComponent(cc.Animation).play('damage');
 
         var self = this;
         setTimeout(function(){
             self.InitHitLable();
-        },1000);
+        },400);
 
     },
 
@@ -227,7 +238,7 @@ cc.Class({
      * 몬스터의 status값을 받아 해당되는 애니메이션 처리를 진행하면됨.
      * @param {status} status
      */
-    UpdateStatus: function(status){
+    UpdateStatus: function(status, id){
 
         if(typeof status != "number" ){
             this._UpdateHP(status.hp);
@@ -351,8 +362,17 @@ cc.Class({
                     // this.InitDeadStatus();
                     break;
                 case  STATE_DEAD: 
-                    if(this.IsDeadMonster()) break;
-                    this.MonsterDeadAnimation();
+
+                    if(id < 2){
+                        this.HideMonster();
+                    }
+                    else{
+                        if(this.IsDeadMonster()) break;
+                        this.MonsterDeadAnimation();
+                    }
+
+
+                    
                     break;
                 case  NONE:
                     break;

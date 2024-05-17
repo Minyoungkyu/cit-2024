@@ -174,6 +174,12 @@ cc.Class({
 
         isPrintChangeStatus: false,
 
+
+        /**
+         * 게임 결과 Pannel
+         */
+        resultPanne: cc.Node,
+
     },
 
     /**
@@ -622,12 +628,12 @@ cc.Class({
      * @param {step} SendInitData_Stage_step_값 
      */
     bonusGameSceneLoaded: function(step){
-        if(step === "1-4" ) {
+        if(step === "1-4" || step === "2-4" ) {
             cc.director.loadScene("minigame1");
         }
-        else if(step === "2-4"){
+        // else if(step === "2-4"){
 
-        }
+        // }
     },
   
 
@@ -884,31 +890,20 @@ cc.Class({
 
                 var monster_id = monster.getComponent("Monster").GetID();
 
-
-               // 몬스터 삭제재생성시 문제가 있네.. 이거 해결해야할듯. 
-
-
                 if(streamjson[i].status === -5){
                     this.monster_isDead[monster_id] = false;
 
                     var convertPos = this.GVector(streamjson[i].pos[0], streamjson[i].pos[1]);
                     monster.getComponent("Monster").Movement(convertPos, streamjson[i].dir);
                 }
-                else if(streamjson[i].status === -8){
+                else if(streamjson[i].status === -8 || streamjson[i].status === -4){
                     if(this.monster_isDead[monster_id] == true) continue;
                     this.monster_isDead[monster_id] = true;
                     monster.getComponent("Monster").ShowExplosion();
                 }
-                else if(streamJson[i].status === -4){
-                    monster.getComponent("Monster").ShowExplosion();
-                }
-                
             }
 
-            
-
-
-            monster.getComponent("Monster").UpdateStatus(streamjson[i]);
+            monster.getComponent("Monster").UpdateStatus(streamjson[i] , stream_id);
         }
     },
 
@@ -2001,9 +1996,12 @@ cc.Class({
             // 1 클리어
             // 2 종료
             
+            this.ShowGameResult(command.status);
             this.GameClearAllHideUI();
             return false;
         } 
+
+        this.InitGameResult();
 
         // 객체 상태값 업데이트
         this.ObjectUpdate(command.item_list);
@@ -2045,7 +2043,6 @@ cc.Class({
                 if(monster_list[i].hp == undefined) continue;
 
                 var monster = this.FindMonsterByID(i);
-                console.log(i);
                 
                 if(monster == null){
                     console.log("NOt found Monster");
@@ -2685,6 +2682,29 @@ cc.Class({
         object.node.runAction(sequence);
 
     },
+
+    /**
+     * 게임 결과 화면
+     * @param {*} status 
+     */
+    ShowGameResult: function(status){
+
+        this.resultPanne.active = true;
+
+        if(status === 2){
+            this.resultPanne.getComponent(cc.Animation).play('game_fail');
+        }
+        else if(status === 1){
+            this.resultPanne.getComponent(cc.Animation).play('game_suc');
+        }
+    },
+
+    /**
+     * 초기화 처리.
+     */
+    InitGameResult: function(){
+        this.resultPanne.active = false;
+    }
 
 
 

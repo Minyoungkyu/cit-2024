@@ -6369,6 +6369,7 @@ public class Dev {
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
+
                                 "        \"pos\" : [3,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
