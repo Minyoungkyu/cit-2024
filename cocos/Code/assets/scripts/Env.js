@@ -67,8 +67,12 @@ window.Env = {
     SFX_DATA_COLLECT_FILE: 'collect',
 
     MINIGAME_2_BG_FILE : 'mini2_bgm',
-    MINIGAME_2_CORRECT_FILE : 'mini2_correct',
+    MINIGAME_2_CORRECT_FILE : 'mini_correct',
     SFX_MINI_2_HIT_FILE : 'mini2_hit',
+    SFX_MINI_2_ERROR_FILE: 'mini_error',
+
+
+    STAGE_3_INGAME_FILE : 'stage3_in',
 
     // Audio Manager 에서 불려짐.
     SFX_DROP_SWITCH: 0,
@@ -103,6 +107,9 @@ window.Env = {
     MINIGAME_2_BG: 29,
     SFX_MINIGAME_2_CORRECT: 30,
     SFX_MINI_2_HIT: 31,
+    SFX_MINI_2_ERROR: 32,
+    
+    STAGE3_INGAME_BG: 33,
 
 
 
