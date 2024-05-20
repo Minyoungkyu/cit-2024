@@ -15,6 +15,9 @@
     let showBgThumb = $state(true);
     let selectType = $state(0);
 
+    let myAudio: HTMLAudioElement;
+    let muted = $state(true);
+
     onMount(() => {
 
     video = document.getElementById('backgroundVideo') as HTMLVideoElement;
@@ -192,10 +195,8 @@
     }
   }
 
-  
 </script>
-<iframe src="/sound/silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
-<audio class="myAudio" autoplay>
+<audio id="myAudio" bind:this={myAudio} >
   <source src="/sound/login_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-500">
@@ -207,6 +208,11 @@
       <div id="logoContainer" class="absolute w-[903px] h-[300px] left-[20px] top-[20px]" 
         style="background-image:url('/img/login/title.png');background-repeat:no-repeat;background-size:contain;transform-origin:top left;transform:scale({scaleMultiplier});">
       </div> <!-- Todo: 에니메이션 작업-->
+
+      <div class="w-[52px] h-[52px] absolute z-[99] right-[475px] bottom-[10px] cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
+        style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');">
+      </div>
+
       <div class="absolute top-[0] right-[0] {setNameCondition ? 'slide-out-right' : ''} {setLoginCondition ? 'slide-out-right' : ''}" 
           style="transform-origin:top right;transform:scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier};">
         <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-[953px] w-[459px] z-[99]"

@@ -16,7 +16,7 @@
     import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
-    import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
+    import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup.svelte';
     import Cocos from '$lib/cocos/cocos.svelte';
     import { runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';

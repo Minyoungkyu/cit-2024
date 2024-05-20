@@ -1,3 +1,7 @@
+<svelte:head>
+  <link rel="icon" href="/favicon2.png" />
+</svelte:head>
+
 <script  lang="ts">
 	import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';

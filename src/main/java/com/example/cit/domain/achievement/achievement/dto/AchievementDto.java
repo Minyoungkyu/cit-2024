@@ -14,7 +14,7 @@ public record AchievementDto(
         @NonNull String description,
         @NonNull int rewardExp,
         @NonNull int rewardJewel,
-        ProfileRewardDto rewardIcon,
+        ProfileDto rewardIcon,
         int getReward,
         int isAchieved
 ) {
@@ -26,7 +26,7 @@ public record AchievementDto(
                 achievement.getDescription(),
                 achievement.getRewardExp(),
                 achievement.getRewardJewel(),
-                achievement.getRewardIcon() != null ? new ProfileRewardDto(achievement.getRewardIcon()) : null,
+                achievement.getRewardIcon() != null ? new ProfileDto(achievement.getRewardIcon()) : null,
                 getReward,
                 isAchieved
         );

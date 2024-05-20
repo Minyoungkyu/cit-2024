@@ -60,7 +60,7 @@ public class PlayerLogService {
     }
 
     public List<PlayerLog> getStageClearLog(Long id, String stage) {
-        return playerLogRepository.findByUserIdAndGameMapStageAndLogTypeAndDetailInt(id, stage, "STAGECLEAR", 1);
+        return playerLogRepository.findByUserIdAndGameMapStageAndLogTypeAndDetailIntGreaterThanEqual(id, stage, "STAGECLEAR", 1);
     }
 
     public Optional<PlayerLog> getHighestLog(Long id) {
@@ -68,7 +68,7 @@ public class PlayerLogService {
     }
 
     public long getStageClearCount(Long playerId, String difficulty) {
-        return playerLogRepository.countByUserIdAndGameMapDifficultyAndLogTypeAndDetailInt(playerId, difficulty, "STAGECLEAR", 1);
+        return playerLogRepository.countByUserIdAndGameMapDifficultyAndLogTypeAndDetailIntGreaterThanEqual(playerId, difficulty, "STAGECLEAR", 1);
     }
 
     public void setFirstGame(Member member) {
@@ -85,13 +85,8 @@ public class PlayerLogService {
     }
 
     @Transactional
-    public void batchPlayLogV2(Member member, GameMapDto gameMapDto, String result) {
+    public void batchPlayLogV2(Member member, GameMapDto gameMapDto, int playerScore, String result) {
         PlayerLog currentGameLog = playerLogRepository.findByUserIdAndGameMapIdAndLogType(member.getId(), gameMapDto.id(), "STAGECLEAR").orElse(null);
-
-        // Todo: 현재는 보상 반복획득, 협의 결과에따라 변경예정
-        if ( gameMapDto.rewardItem() != null) playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel(), gameMapDto.rewardItem());
-        else playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
-        
 
         if ( gameMapDto.id() == 2 || gameMapDto.id() == 30 || gameMapDto.id() == 58) {
             assert currentGameLog != null;
@@ -101,19 +96,32 @@ public class PlayerLogService {
 
             playerAchievementService.checkStageClearAchievement(member, gameMapDto); // 업적달성 조회 및 추가
             
-            // Todo: 보상지급
+            // 보상 지급
+            if ( gameMapDto.rewardItem() != null) playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel(), gameMapDto.rewardItem());
+            else playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
+
             return;
         }
 
         if (currentGameLog != null) {
-            if (currentGameLog.getDetailInt() == 1) {
+            if (currentGameLog.getDetailInt() >= 1) {
+
+                // Todo: detailInt 갱신
+                if (currentGameLog.getDetailInt() < playerScore) {
+                    currentGameLog.setDetailInt(playerScore);
+                    playerLogRepository.save(currentGameLog);
+                }
+
                 return;  // 이미 클리어 했던 게임
 
             } else if (currentGameLog.getDetailInt() == 0) {
 
-                currentGameLog.setDetailInt(1); // 게임 클리어 처리
+                currentGameLog.setDetailInt(playerScore); // 게임 클리어 처리 Todo: detailInt update
                 playerLogRepository.save(currentGameLog);
-                // Todo: 보상지급
+
+                // 보상 지급
+                if ( gameMapDto.rewardItem() != null) playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel(), gameMapDto.rewardItem());
+                else playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
 
                 if (gameMapDto.level() != 3) {
                     makeNextGameLog(member, gameMapDto); // level 3 아니면 다음게임로그 생성
@@ -162,7 +170,7 @@ public class PlayerLogService {
     @Transactional
     public void batchPlayLog(Member member, GameMapDto gameMapDto, String result) {
 
-        PlayerLog currentClearGameLog = playerLogRepository.findByUserIdAndGameMapIdAndLogTypeAndDetailInt(member.getId(), gameMapDto.id(), "STAGECLEAR", 1).orElse(null);
+        PlayerLog currentClearGameLog = playerLogRepository.findByUserIdAndGameMapIdAndLogTypeAndDetailIntGreaterThanEqual(member.getId(), gameMapDto.id(), "STAGECLEAR", 1).orElse(null);
         PlayerLog currentGameLog = playerLogRepository.findByUserIdAndGameMapIdAndLogType(member.getId(), gameMapDto.id(), "STAGECLEAR").orElse(null);
 
         if(result.equals("clear")) {

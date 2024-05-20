@@ -2790,7 +2790,7 @@ public class Dev {
         return args -> {
             if (gameMapService.findGameMapById(35L).isEmpty()) {
                 GameMap gameMap14e1 = gameMapService.createGameMap(
-                        "1", "1-4", "Easy", 1,
+                        "1", "1-4", "0", 1,
                         "",
                         "",
                         "로켓 발사하기",
@@ -4879,7 +4879,7 @@ public class Dev {
                 );
 
                 GameMap gameMap24e1 = gameMapService.createGameMap(
-                        "1", "2-4", "Easy", 1,
+                        "1", "2-4", "0", 1,
                         "",
                         "",
                         "",

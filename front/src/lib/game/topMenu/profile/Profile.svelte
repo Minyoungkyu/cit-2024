@@ -222,7 +222,7 @@
                             {#if profile.price > 0}
                             <div class="text-white">상점에서 구매</div>
                             {:else}
-                            <div class="text-white text-center">업적 {profile.achievement.name} 클리어</div>
+                            <div class="text-white text-center">업적 {profile.achievementName} 클리어</div>
                             {/if}
                         </div>
                         {/if}

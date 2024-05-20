@@ -9,8 +9,10 @@ import com.example.cit.domain.item.profileIcon.dto.ProfileRewardDto;
 import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
 import com.example.cit.domain.item.profileIcon.service.ProfileService;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.player.inventroy.entity.ProfileInventory;
 import com.example.cit.domain.player.inventroy.service.InventoryService;
 import com.example.cit.domain.player.inventroy.service.ProfileInventoryService;
+import com.example.cit.domain.player.player.dto.PlayerDto;
 import com.example.cit.domain.player.player.entity.Player;
 import com.example.cit.domain.player.player.repository.PlayerRepository;
 import com.example.cit.global.exceptions.GlobalException;
@@ -50,13 +52,19 @@ public class PlayerService {
     }
 
     @Transactional
-    public void getRewardAndUpdateAchievement(Member member, AchievementDto achievement) {
+    public ProfileInventory getRewardAndUpdateAchievement(Member member, AchievementDto achievement) {
 
-        if (achievement.rewardIcon() != null) this.addRewardToPlayer(
-                achievement.rewardExp(), achievement.rewardJewel(), achievement.rewardIcon()
-        );
+        ProfileInventory profileInventory = null;
+
+        if (achievement.rewardIcon() != null) {
+            profileInventory = this.addRewardToPlayer(
+                    achievement.rewardExp(), achievement.rewardJewel(), achievement.rewardIcon()
+            );
+        }
         else this.addRewardToPlayer(achievement.rewardExp(), achievement.rewardJewel());
         playerAchievementService.updateGetReward(member, achievement);
+
+        return profileInventory;
     }
 
     @Transactional
@@ -73,9 +81,9 @@ public class PlayerService {
     }
 
     @Transactional
-    public void addRewardToPlayer(int rewardExp, int rewardJewel, ProfileRewardDto profile) {
+    public ProfileInventory addRewardToPlayer(int rewardExp, int rewardJewel, ProfileDto profile) {
         this.addRewardToPlayer(rewardExp, rewardJewel);
-        this.profileInventoryService.createInventory(findPlayerByMemberId(rq.getMember().getId()).get(), profile.id(), false);
+        return this.profileInventoryService.createInventory(findPlayerByMemberId(rq.getMember().getId()).get(), profile.id(), false);
     }
 
     @Transactional
@@ -93,4 +101,15 @@ public class PlayerService {
         return playerRepository.findByMemberId(id);
     }
 
+    @Transactional
+    public void updatePlayerSetting(Member member, PlayerDto playerDto) {
+        Player player = member.getPlayer();
+
+        player.setBackgroundVolume(playerDto.backgroundVolume());
+        player.setEffectVolume(playerDto.effectVolume());
+        player.setEditorAutoComplete(playerDto.editorAutoComplete());
+        player.setEditorAutoClose(playerDto.editorAutoClose());
+
+        playerRepository.save(player);
+    }
 }

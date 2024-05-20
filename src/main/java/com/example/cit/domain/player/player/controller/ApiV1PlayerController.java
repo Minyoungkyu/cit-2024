@@ -4,6 +4,8 @@ import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
 import com.example.cit.domain.member.member.controller.ApiV1MemberController;
 import com.example.cit.domain.member.member.dto.MemberDto;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.player.inventroy.dto.ProfileInventoryDto;
+import com.example.cit.domain.player.inventroy.entity.ProfileInventory;
 import com.example.cit.domain.player.player.dto.PlayerDto;
 import com.example.cit.domain.player.player.entity.Player;
 import com.example.cit.domain.player.player.service.PlayerService;
@@ -11,13 +13,18 @@ import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -54,16 +61,39 @@ public class ApiV1PlayerController {
         );
     }
 
-    public record GetRewardFromAchievementRequestBody(@NotBlank AchievementDto achievement) {
-    }
+    public record GetRewardFromAchievementRequestBody(@NotBlank AchievementDto achievement) {}
+    public record GetRewardFromAchievementResponseBody(ProfileInventoryDto profileInventoryDto) {}
 
     @PutMapping("/getReward")
     @Operation(summary = "업적 보상 획득")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public void getRewardFromAchievement(
+    public RsData<GetRewardFromAchievementResponseBody> getRewardFromAchievement(
             @RequestBody GetRewardFromAchievementRequestBody body
     ) {
-        playerService.getRewardAndUpdateAchievement(rq.getMember(), body.achievement);
+        ProfileInventory pi = playerService.getRewardAndUpdateAchievement(rq.getMember(), body.achievement());
+
+        ProfileInventoryDto profileInventoryDto = Optional.ofNullable(pi)
+                .map(ProfileInventoryDto::new)
+                .orElse(null);
+
+        return RsData.of(
+                new GetRewardFromAchievementResponseBody(profileInventoryDto)
+        );
+    }
+
+    public record UpdatePlayerSetting(@NonNull PlayerDto playerDto) {}
+
+    @PutMapping("/setting")
+    @Operation(summary = "플레이어 설정 변경")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public void updatePlayerSetting(
+            @Valid @RequestBody UpdatePlayerSetting body
+    ) {
+        playerService.updatePlayerSetting(rq.getMember(), body.playerDto());
     }
 
 }

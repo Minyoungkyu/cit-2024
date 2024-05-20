@@ -14,7 +14,7 @@ public record ProfileDto(
         @NonNull String description,
         @NonNull String sourcePath,
         @NonNull int price,
-        AchievementDto achievement
+        String achievementName
 ) {
     public ProfileDto(ProfileIcon ProfileIcon) {
         this(
@@ -25,12 +25,7 @@ public record ProfileDto(
                 ProfileIcon.getDescription(),
                 ProfileIcon.getSourcePath(),
                 ProfileIcon.getPrice(),
-                ProfileIcon.getAchievement() != null ? new AchievementDto(
-                        ProfileIcon.getAchievement(),
-                        ProfileIcon.getAchievement().getCreateDate(),
-                        0,
-                        0
-                ) : null
+                ProfileIcon.getAchievement() != null ? ProfileIcon.getAchievement().getName() : null
         );
     }
 }

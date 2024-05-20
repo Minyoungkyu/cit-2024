@@ -77,7 +77,7 @@
                 if (playerLog == undefined) {
                     routeGameMapId = difficultiesGameMapId[currentIndex];
                 } else {
-                    if (playerLog.detailInt === 1) {
+                    if (playerLog.detailInt! >= 1) {
                         if (playerLog.gameMapId + 1 > difficultiesGameMapId[currentIndex] - 1 + stepsLevelCount) {
                             routeGameMapId = difficultiesGameMapId[currentIndex];
                         } else {

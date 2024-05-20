@@ -14,9 +14,9 @@
 <script lang="ts">
     export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
-    import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
+    import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup.svelte';
     import Cocos from '$lib/cocos/cocos.svelte';
     import { runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
@@ -27,6 +27,9 @@
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'], guideItems: string[] } }>();
     const { gameMapDto } = data;
     const { guideItems } = data;
+
+    const usingMedicineStage = [49,52,55]
+    const usingKitStage = [50,53,56,91,92,93,94]
 
     let audio: HTMLAudioElement;
     let editor: any;
@@ -58,6 +61,21 @@
     let currentGuideIndex: number = $state(0);
     let btnGuideArray = $state(Array.from({length: 7}, () => false));
 
+    let baseScore = 0;
+    let playerScore = 1;
+
+    async function sha256(message: string) {
+        const msgBuffer = new TextEncoder().encode(message);
+
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
+
     function isFirstStep() {
         return gameMapDto.step === 'tutorial' && gameMapDto.level === 1;
     }
@@ -66,11 +84,15 @@
     const jsonObjectString = stageString.trim().substring("stage = ".length);
     const stageObject = JSON.parse(jsonObjectString);
 
+    let medicine = $state(stageObject.player.medicine_count);
+    let advancedMedicine = stageObject.player.advanced_medicine_count;
+
     let clearGoalList = gameMapDto.clearGoal.split('\n');
     let clearGoalColorArray = $state(Array.from({length: clearGoalList.length}, () => 'rgb(64 226 255)'));
 
     $effect(() => {
         if (isCoReady) {
+            editorSetVal();
             setInterval(() => {
                 if((window as any).IsCocosGameLoad()) {
                     setTimeout(() => {
@@ -83,7 +105,11 @@
         }
     });
 
-    const explanation: String = gameMapDto.editorMessage;
+    function editorSetVal() {
+       if(editor.getValue() === '') {
+            editor.setValue(localStorage.getItem(rq.member.username + '_' + gameMapDto.id) || gameMapDto.editorMessage, 1);
+       }
+    }
 
     const customCompletions = gameMapDto.editorAutoComplete.split(',')
         .filter(command => command.trim() !== '') 
@@ -94,16 +120,9 @@
     }));
 
     function calculateWidthPercentage(scaleMultiplier: number): number {
-        // 1. 1222 x scaleMultiplier (소수점 두 자리까지만 계산)
         const product = Math.floor(1222 * scaleMultiplier * 100) / 100;
-
-        // 2. 1222 / (1의 결과) -> 소수점 두 자리까지만 계산
         const division = Math.floor((1222 / product) * 100) / 100;
-
-        // 3. 2의 결과에 x 100
         const percentage = division * 100;
-
-        // 4. 3의 결과 - 3의 5%
         const finalPercentage = percentage - (percentage * 0.05);
 
         return finalPercentage;
@@ -141,7 +160,6 @@
             level++;
         }
 
-        console.log(newList)
         return newList;
     }
 
@@ -159,7 +177,7 @@
 
         const editorContent = editor.getValue();
         const cleanedContent = editorContent.split('\n').filter((line: string) => {
-        return line.trim() !== '' && !line.trim().startsWith('#');
+            return line.trim() !== '' && !line.trim().startsWith('#');
         }).join('\n');
 
         const lineCounter = cleanedContent.split('\n').length; // 실제 에디터에서 코드가 차지하는 라인 수, 로그 수집시 활용
@@ -180,9 +198,14 @@
             }
 
             if (lastNumber) {
-                updateErrorHighlight(Number(lastNumber - 2004 - cocosInfoLength));
+                updateErrorHighlight(Number(lastNumber - 2067 - cocosInfoLength));
             } 
-            rq.msgError(longText);
+            const errorPattern = /\b\w+Error\b:.*/;
+            const errorMessage = longText.split('\n').find((line: string) => errorPattern.test(line));
+
+            let errorText = '에러발생! 에러코드를 참고하여 에디터를 수정하세요<br>' + errorMessage;
+
+            rq.msgError(errorText);
             return;
         } 
 
@@ -195,15 +218,21 @@
             framesData = JSON.parse(result.result);
         } catch (e) {
             if(!result.error) {
-                rq.msgError('프레임 데이터를 파싱하는 중 오류가 발생했습니다.'); // ToDo: 무한반복 처리 and 다른 오류 발생가능성 검토
+                rq.msgError('실행 시간이 초과되었습니다. 빠져나오지 못한 반복문이 없는지 확인하세요'); // ToDo: 무한반복 처리 and 다른 오류 발생가능성 검토
                 return;
             }
         }
+
         const wrappedData = {
             data: framesData
         };
 
-        (window as any).SendStreamData?.(wrappedData);
+        if (gameMapDto.difficulty != '0') {
+            baseScore = gameMapDto.difficulty === "Easy" ? 100 : gameMapDto.difficulty === "Normal" ? 200 : 500;
+            playerScore = calculateBonus(gameMapDto.maxBonusCriteria, lineCounter);
+        } 
+
+        (window as any).SendStreamData?.(wrappedData, baseScore, playerScore);
         progressController.max = (framesData.length - 1).toString();
         updateFrame(framesData, 0, lineCounter);
 
@@ -214,6 +243,19 @@
         let resultCode = lastItem.status === 1 ? 1 : 0;
 
         batchGameLog(resultCode);
+    }
+
+    function calculateBonus(shortestLength: number, userLength:number) {
+        let excessLength = userLength - shortestLength;
+        let bonusPoints;
+
+        if (excessLength > 0) {
+            bonusPoints = baseScore * (1 - excessLength / (shortestLength + excessLength));
+        } else {
+            bonusPoints = baseScore;
+        }
+
+        return baseScore + bonusPoints;
     }
 
     async function batchGameLog(result: number) {
@@ -228,10 +270,11 @@
         });
     }
 
-    async function batchPlayLog() {
+    async function batchPlayLog(playerScore:number) {
         await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
             body: {
                 gameMapDto: gameMapDto,
+                playerScore: playerScore,
                 result: "clear"
             }
         });
@@ -265,8 +308,13 @@
             typeWriter();
         }
     });
+
+    async function saveEditorState(event: any) {
+        localStorage.setItem(rq.member.username + '_' + gameMapDto.id, editor.getValue());
+    }
     
     onMount(async () => {
+        window.addEventListener('beforeunload', saveEditorState);
         runPythonCode2("", "");
     });
 
@@ -276,6 +324,50 @@
     let widthMultiplier = $state(1920);
     let userDevice = $state('');
     let adjustResolution = $state(0);
+
+    function toggleFullScreenMode() {
+        const doc = document as Document & {
+            mozFullScreenElement?: Element;
+            msFullscreenElement?: Element;
+            webkitFullscreenElement?: Element;
+            mozCancelFullScreen?: () => Promise<void>;
+            webkitExitFullscreen?: () => Promise<void>;
+            msExitFullscreen?: () => Promise<void>;
+        };
+
+        const docElem = document.documentElement as HTMLElement & {
+            mozRequestFullScreen?: () => Promise<void>;
+            webkitRequestFullscreen?: () => Promise<void>;
+            msRequestFullscreen?: () => Promise<void>;
+        };
+
+        if (
+            doc.fullscreenElement ||
+            doc.mozFullScreenElement ||
+            doc.webkitFullscreenElement ||
+            doc.msFullscreenElement
+        ) {
+            if (doc.exitFullscreen) {
+                doc.exitFullscreen();
+            } else if (doc.mozCancelFullScreen) {
+                doc.mozCancelFullScreen();
+            } else if (doc.webkitExitFullscreen) {
+                doc.webkitExitFullscreen();
+            } else if (doc.msExitFullscreen) {
+                doc.msExitFullscreen();
+            }
+        } else {
+            if (docElem.requestFullscreen) {
+                docElem.requestFullscreen();
+            } else if (docElem.mozRequestFullScreen) {
+                docElem.mozRequestFullScreen();
+            } else if (docElem.webkitRequestFullscreen) {
+                docElem.webkitRequestFullscreen();
+            } else if (docElem.msRequestFullscreen) {
+                docElem.msRequestFullscreen();
+            }
+        }
+    }
 
     onMount(() => {
         audio = document.getElementById("myAudio") as HTMLAudioElement;
@@ -297,6 +389,7 @@
                 return 'Desktop';
             }
         }
+
 
         userDevice = detectDeviceType();
 
@@ -397,7 +490,7 @@
         updateScale();
         
         editor = setupAceEditor('editor', customCompletions);
-        editor.setValue(explanation, 1); 
+        // editor.setValue(explanation, 1); 
 
         editor.on('focus', function(e:any) {
             if(frameUpdateIntervalId) {
@@ -493,8 +586,8 @@
     let playCanPause = $state(false);
     let volumeCanMute = $state(true);
 
-    let mainHp = $state(100);
-    let hpBackLayer = $state(100);
+    let mainHp = $state(stageObject.player.hp);
+    let hpBackLayer = $state(stageObject.player.hp);
 
     function updateHpBar(hp: number) {
         mainHp = hp;
@@ -590,6 +683,10 @@
                 if(count >= setCountGoals[0].count) {
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 } 
+            } else {
+                if (frame[frame.length - 1].status === 1) {
+                    clearGoalColorArray[i] = 'rgb(255 210 87)';
+                }
             }
         }
 
@@ -644,6 +741,7 @@
                 if (!isReplay) updateHighlight(frame.line_num + 1);
                 updateClearGoal(frame, lineCounter);
                 updateHpBar(frame.player.hp);
+                medicine = frame.player.medicine_count;
                 currentFrameIndex++;
             } else {
                 playCanPause = false;
@@ -659,7 +757,7 @@
     }
 
     function doComplete() {
-        batchPlayLog();
+        batchPlayLog(playerScore);
         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
             showClearPopup = true;
             return;
@@ -759,6 +857,10 @@
 
         btnGuideArray[currentGuideIndex] = true;
     }
+
+    function closeSetting() {
+        openSetting = false;
+    }
 </script>
 
 <audio id="myAudio">
@@ -768,8 +870,8 @@
 
     {#if openSetting}
     <div class="w-screen h-screen absolute bg-black opacity-50 z-[60]" style=""></div>
-    <div class="h-full mt-[-10%] absolute flex items-center justify-center z-[61]" style="width:{widthMultiplier}px;pointer-events:none;" on:click={() => openSetting = !openSetting}>
-        <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+    <div class="h-full mt-[-10%] absolute flex items-center justify-center z-[61]" style="width:{widthMultiplier}px;pointer-events:none;" >
+        <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={closeSetting}/>
     </div>
     {/if}
 
@@ -823,7 +925,7 @@
                     </div>
                     {#if gameMapDto.rewardItem}
                     <div id="star3" class="w-[203px] h-[203px] absolute top-[175px] left-[550px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
-                        <div class="w-[203px] h-[203px] absolute" style="background-image:url('{gameMapDto.rewardItem?.sourcePath}');background-size:contain;background-repeat:no-repeat;"></div>
+                        <div class="w-[195px] h-[195px] absolute top-[3px] left-[4px]" style="background-image:url('/img/item/{rq.member.player.characterType}/{gameMapDto.rewardItem?.sourcePath}.png');background-size:contain;background-repeat:no-repeat;"></div>
                     </div>
                     {/if}
                 </div>
@@ -877,6 +979,18 @@
                         <div class="bar foreground-bar absolute w-[{mainHp}%] {mainHp <= 50 ? mainHp <= 30 ? 'yellow-bar' : 'green-bar' : ''}" style="width:{mainHp}%"></div> 
                     </div>
                 </div> 
+                {#if usingMedicineStage.includes(gameMapDto.id)}
+                <div class="flex flex-row absolute top-[150px]">
+                    <div class="ml-6 w-[80px] h-[80px]" style="background-image:url('/img/inGame/medicine.png');background-size:contain;"></div>
+                    <div class="text-[50px] text-white font-bold"> X {medicine}</div>
+                </div>
+                {/if}
+                {#if usingKitStage.includes(gameMapDto.id)}
+                <div class="flex flex-row absolute top-[150px]">
+                    <div class="ml-6 w-[80px] h-[80px]" style="background-image:url('/img/inGame/kit.png');background-size:contain;"></div>
+                    <div class="text-[50px] text-white font-bold"> X {advancedMedicine}</div>
+                </div>
+                {/if}
             </div>
 
             <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" 
@@ -951,7 +1065,9 @@
                     </div>
                     <div class="flex justify-end w-full">
                         <div class="flex items-center w-[98%]" style="transform:scale(1)">
-                            <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%]" style="transform-origin:left;" bind:this={progressController} on:change={handleProgressChange}/>
+                            <!-- <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%] custom-slider" style="transform-origin:left;" bind:this={progressController} on:change={handleProgressChange}/> -->
+                            <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%] range range-xs range-info" 
+                                style="transform-origin:left;" bind:this={progressController} on:change={handleProgressChange}/>
                         </div>
                     </div>
                 </div>
@@ -966,7 +1082,9 @@
                     <!-- editor control -->
                     <div class="flex flex-row gap-[2rem] mr-10 mt-[-10px]"
                         style="{showBtnGuide && btnGuideArray[4] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
-                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8]" style="background-image:url('/img/inGame/btn_expand.png')"></div>
+                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8] cursor-pointer" 
+                            style="background-image:url('/img/inGame/btn_expand.png')" 
+                            on:click={() => toggleFullScreenMode()}></div>
                         <div class="cursor-pointer w-[34px] h-[34px] scale-[0.8]" style="background-image:url('/img/inGame/btn_help.png')" on:click={showModal}></div>
                             <div bind:this={hintModal} class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute z-[99] top-0 right-0 origin-top-right {showGuide ? '' : ''}" 
                                 style="background-image:url('/img/inGame/ui_help_background.png');">
@@ -991,7 +1109,8 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="w-[34px] h-[34px]" style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> 
+                        <div class="w-[34px] h-[34px] cursor-pointer" on:click={() => {editor.setValue(gameMapDto.editorMessage, 1); editor.focus();}}
+                            style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> 
                     </div>
 
                     <!-- btn Guide 6 -->

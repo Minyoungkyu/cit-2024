@@ -43,12 +43,18 @@
         rq.member.player.exp += achievement.rewardExp;
         rq.member.player.gems += achievement.rewardJewel;
 
-        await rq.apiEndPoints().PUT('/api/v1/players/getReward', {
+        const { data } = await rq.apiEndPoints().PUT('/api/v1/players/getReward', {
             body: {
                 achievement: achievement
             }
         });
         
+        if (data) {
+            if (data.data.profileInventoryDto) {
+                rq.profileInventories.add(data.data.profileInventoryDto);
+            }
+        }
+
         load()
     }
 
@@ -64,7 +70,6 @@
 <div class="flex justify-center items-end mt-[10%] relative" style="transform:scale(0.8) scale({adjustScale});pointer-events:auto;">
     <div class="w-[1442px] h-[819px] flex flex-col items-center relative" style="background-image:url('/img/setting/ui_option_bg.png');">
         {#await load()}
-            <p>ㅎㅇ</p>
         {:then}
         <div class="flex justify-start w-full">
             <div class="text-[30px] italic m-5 ml-10" style="color:rgb(28 211 216);">

@@ -17,6 +17,10 @@ export interface paths {
     /** 별명등록, 초회 이벤트 별명등록 */
     put: operations["setName"];
   };
+  "/api/v1/players/setting": {
+    /** 플레이어 설정 변경 */
+    put: operations["updatePlayerSetting"];
+  };
   "/api/v1/players/getReward": {
     /** 업적 보상 획득 */
     put: operations["getRewardFromAchievement"];
@@ -244,23 +248,6 @@ export interface components {
       msg: string;
       data: components["schemas"]["ModifyProgramResponseBody"];
     };
-    AchievementDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      name: string;
-      description: string;
-      /** Format: int32 */
-      rewardExp: number;
-      /** Format: int32 */
-      rewardJewel: number;
-      rewardIcon?: components["schemas"]["ProfileRewardDto"];
-      /** Format: int32 */
-      getReward?: number;
-      /** Format: int32 */
-      isAchieved?: number;
-    };
     ProfileDto: {
       /** Format: int64 */
       id: number;
@@ -273,7 +260,7 @@ export interface components {
       sourcePath: string;
       /** Format: int32 */
       price: number;
-      achievement?: components["schemas"]["AchievementDto"];
+      achievementName?: string;
     };
     ProfileInventoryDto: {
       /** Format: int64 */
@@ -284,12 +271,6 @@ export interface components {
       updateDate: string;
       profileIcon: components["schemas"]["ProfileDto"];
       isEquipped: boolean;
-    };
-    ProfileRewardDto: {
-      /** Format: int64 */
-      id: number;
-      name: string;
-      sourcePath: string;
     };
     UpdateProfileInventoryRequestBody: {
       profileInventoryDtoList: components["schemas"]["ProfileInventoryDto"][];
@@ -355,8 +336,38 @@ export interface components {
     SetNickNameResponseBody: {
       item: components["schemas"]["PlayerDto"];
     };
+    UpdatePlayerSetting: {
+      playerDto: components["schemas"]["PlayerDto"];
+    };
+    AchievementDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      name: string;
+      description: string;
+      /** Format: int32 */
+      rewardExp: number;
+      /** Format: int32 */
+      rewardJewel: number;
+      rewardIcon?: components["schemas"]["ProfileDto"];
+      /** Format: int32 */
+      getReward?: number;
+      /** Format: int32 */
+      isAchieved?: number;
+    };
     GetRewardFromAchievementRequestBody: {
       achievement: components["schemas"]["AchievementDto"];
+    };
+    GetRewardFromAchievementResponseBody: {
+      profileInventoryDto?: components["schemas"]["ProfileInventoryDto"];
+    };
+    RsDataGetRewardFromAchievementResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetRewardFromAchievementResponseBody"];
     };
     ModifyRequestBody: {
       newPassword?: string;
@@ -491,6 +502,8 @@ export interface components {
     };
     BatchPlayLogRequestBody: {
       gameMapDto: components["schemas"]["GameMapDto"];
+      /** Format: int32 */
+      playerScore: number;
       result: string;
     };
     GameMapDto: {
@@ -1003,6 +1016,26 @@ export interface operations {
       };
     };
   };
+  /** 플레이어 설정 변경 */
+  updatePlayerSetting: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdatePlayerSetting"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 업적 보상 획득 */
   getRewardFromAchievement: {
     requestBody: {
@@ -1013,7 +1046,9 @@ export interface operations {
     responses: {
       /** @description OK */
       200: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["RsDataGetRewardFromAchievementResponseBody"];
+        };
       };
       /** @description Bad Request */
       400: {

@@ -96,7 +96,7 @@ public class ApiV1PlayerLogController {
         );
     }
 
-    public record BatchPlayLogRequestBody(@NonNull GameMapDto gameMapDto, @NonNull String result) {}
+    public record BatchPlayLogRequestBody(@NonNull GameMapDto gameMapDto, @NonNull int playerScore, @NonNull String result) {}
 //    public record BatchPlayLogResponseBody(PlayerLogDto playerLogDto) {}
 
     @PostMapping(value = "/batchPlayLog", consumes = ALL_VALUE)
@@ -107,7 +107,7 @@ public class ApiV1PlayerLogController {
     public void batchPlayLog(
             @RequestBody BatchPlayLogRequestBody body
     ) {
-        playerLogService.batchPlayLogV2(rq.getMember(), body.gameMapDto, body.result);
+        playerLogService.batchPlayLogV2(rq.getMember(), body.gameMapDto, body.playerScore, body.result);
     }
 
     public record SwitchResponseBody(@NonNull List<PlayerLogDto> switchLogList) {}

@@ -15,12 +15,13 @@
   <meta http-equiv="Expires" content="0">
 
   <link rel="stylesheet" type="text/css" href="/web-desktop/style-desktop.css"/>
-  <link rel="icon" href="/web-desktop/favicon.ico"/>
+  <link rel="icon" href="/favicon.png" />
 </svelte:head>
 
 <script lang="ts">
   import { onMount, createEventDispatcher  } from 'svelte';
 	import type { components } from '$lib/types/api/v1/schema';
+  import rq from '$lib/rq/rq.svelte';
 
   let { gameMapDto, isCoReady } 
     = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined, isCoReady:boolean }>();
@@ -57,7 +58,7 @@
             const stageObject = JSON.parse(jsonObjectString);
 
             const trySendInitData = () => {
-              const result = (window as any).SendInitData?.(stageObject);
+              const result = (window as any).SendInitData?.(stageObject, rq.member.player.characterType, rq.inventories.findEquippedByItemPartsId(6)?.item.id);
               if (!result) {
                 setTimeout(trySendInitData, 100);
               } else {
