@@ -60,6 +60,12 @@ cc.Class({
 
     properties: {
 
+        loadingPan: cc.Node,
+
+        camera : cc.Camera,
+
+        errorPage: cc.Node,
+
         gamestatus: STATUS_INIT,
 
         jsonData: null,
@@ -77,10 +83,12 @@ cc.Class({
         btnX: cc.Button,
         oxGameLabel: cc.Label,
 
+        resultOX: null,
         /**
          * FAKE STRING PATTERN
          */
         stringPattern : [],
+        isDescription: false,
 
 
         /**
@@ -129,6 +137,11 @@ cc.Class({
         isHaveShuffleAnswer : false,
         cardAnswerIdx : -1,
 
+        cardObjectRow: {
+            default: [],
+            type: cc.Node,
+        },
+
 
         mobPickArr: [],
     },
@@ -138,13 +151,14 @@ cc.Class({
 
         var self = this;
 
+        this.loadingPan.active = true;
+        this.loadingPan.opacity = 255;
+
         cc.loader.loadRes("minigame_2/minigame", (err, jsonAsset) => {
             if (err) {
                 cc.error(err);
                 return;
             }
-
-            console.log("LOADED");
             self.jsonData = jsonAsset.json['minigame'];
             // JSON 데이터를 활용한 추가 로직을 여기에 작성하세요.
 
@@ -155,16 +169,15 @@ cc.Class({
 
     start () {
         this.gamePattern = [
-            [1,3,4,5,6,7],
-
+            // [1,3,4,5,6,7],
             [0,1,2,3,7,8],
             [7,8,3,2,1,0],
         ]
 
 
-        this.stringPattern = ['얄','구','펭','쥭','무','요','한','갬','뷱','졍','통','앨','멜',
-                                '슌','셈','눙','룽','둥','퓽','젭','셉','케','퐁','렙','룹','엔','뽁',
-                            '핫','묠','랫','풰','툽','였','줍','몹','쿄','몽','푭','훗','띠','쁘']
+        this.stringPattern = ['얄','구','에','윤','컴','퓨','한','갬','랜','졍','통','자','보',
+                                '소','셈','눙','루','터','포','로','레','렌','호','안','배','달','파',
+                            '골','글','유','브','튜','호','프','콜','코','몽','드','골','안','고']
         
         this.AddEvnet();
     },
@@ -172,10 +185,36 @@ cc.Class({
 
 
     GameUpdator: function(){
+        var self = this;
+
+        setTimeout(function(){
+            self._HIDE();
+            self._Starter();
+        },2000);
+    
+    },
+
+    _HIDE: function(){
+        var off = 3;
+        var self = this;
+        var inter = setInterval(function(){
+            if(self.loadingPan.opacity <= 30){
+                self.loadingPan.active = false;
+                SoundManager.getInstance().AutoPlayBGM(Env.MINIGAME_2_BG);
+                clearInterval(inter);
+            }
+            else{
+                self.loadingPan.opacity -= off;
+            }
+        },30);
+    },
+    
+
+    _Starter:function(){
 
         var self = this;
 
-        setInterval(function(){
+        var inter = setInterval(function(){
             switch(self.gamestatus){
     
                 case STATUS_INIT:
@@ -183,7 +222,13 @@ cc.Class({
                     break;
     
                 case STATUS_GAME_READY: 
-                    self.PickGame();
+
+                    if(self.currentIndex >= 6){
+                        self.gamestatus = STATUS_DONE;
+                    }
+                    else{
+                        self.PickGame();
+                    }
                     break;
     
                 case STATUS_PLAY:
@@ -196,32 +241,23 @@ cc.Class({
     
                 case STATUS_CHECKUP:
 
-                    if(self.currentIndex == 6){
-                        self.gamestatus = STATUS_DONE;
-                    }
-                    else{
-                        self.currentIndex++;
-                        self.gamestatus = STATUS_GAME_READY;
-                    }
-
+                    self.currentIndex++;
+                    self.gamestatus = STATUS_GAME_READY;
                     break;
                 
                 case STATUS_DONE:
+                    clearInterval(inter);
                     break;
     
             }
         },30);
-
     },
-
 
     _GameInit: function(){
         this.currentIndex = 0;
         this.gamestatus = STATUS_GAME_READY;
         this.cardManager.getComponent("CardManager").HideCards();
     },
-    
-
 
     PickGame: function(){
         this.currentGameID = this.gamePattern[0][this.currentIndex];
@@ -231,9 +267,11 @@ cc.Class({
         // console.log(this.currentGameID);
 
         if(this.CURRENT_GAME_TYPE === TYPE_CARD_GAME){
+
             this.InitCardGame();
         }
         else if(this.CURRENT_GAME_TYPE === TYPE_OX_GAME){
+     
             this.InitOXGame();
         }
         else{
@@ -241,49 +279,110 @@ cc.Class({
         }
 
         this.gamestatus = STATUS_PLAY;
-
     },
 
-
     InitCardGame: function(){
-        var title  = this.GetQuestionTitle(this.currentGameID);
+        this.OX_GAME_NODE.active = false;
+        this.cardObjectRow[0].active = true;
+        this.cardObjectRow[1].active = true;
 
+
+        var title  = this.GetQuestionTitle(this.currentGameID);
         var ans = this.GetQuestionAnswer(this.currentGameID);
         this.resultCardGameArr = ans;
-        console.log(this.resultCardGameArr);
+        // console.log(this.resultCardGameArr);
+        console.log("read Card Length -> "+this.resultCardGameArr.length);
 
         Manager2.getInstance().InitResultArray(this.resultCardGameArr.length);
-
         this.ShowCardGameTitle(title);
 
         var self = this;
 
         setTimeout(function(){
+            self.cardManager.getComponent("CardManager").InitCards(self.resultCardGameArr);
             self.StartCardGame();
         },3000);
     },
 
-    
-
-
     InitOXGame: function(){
+        this.cardObjectRow[0].active = false;
+        this.cardObjectRow[1].active = false;
 
-
-
+        this.OX_GAME_NODE.active = true;
+        this.InitBtn();
+        this.isDescription = false;
+        var title = this.GetQuestionTitle(this.currentGameID);
+        var ans = this.GetQuestionAnswer(this.currentGameID);
+        this.resultOX = ans;
+        this.ShowOXGameTitle(title);
     },
-
     
+    btnOLogic: function(){
+        this.checkUp_O_Answer();
+    },
 
-    StartOXGame: function(){
-        
+    btnXLogic: function(){
+        this.checkUp_X_Answer();        
+    },
+
+    checkUp_O_Answer: function(){
+        if(this.resultOX === 'O'){
+            this.btnO.getComponent(cc.Animation).play('btnOn');
+            this.btnX.getComponent(cc.Animation).play('btnOff');
+            this.btnX.node.active =false;
+
+            var self = this;
+
+            setTimeout(function(){
+                self.gamestatus = STATUS_CHECKUP;
+            },1000);
+            SoundManager.getInstance().PlaySfx(Env.SFX_MINIGAME_2_CORRECT);
+        }
+        else{
+
+            this.cardManager.getComponent("CardManager").ShakeIt();
+
+            
+        }
+    },
+
+    checkUp_X_Answer: function(){
+        if(this.resultOX === 'X'){
+            this.btnX.getComponent(cc.Animation).play('btnOn');
+            this.btnO.getComponent(cc.Animation).play('btnOff');
+            this.btnO.node.active =false;
+            SoundManager.getInstance().PlaySfx(Env.SFX_MINIGAME_2_CORRECT);
+
+            var self = this;
+            setTimeout(function(){
+                self.isDescription = true;
+                var description = "(해설)\n"+self.GetDescription(self.currentGameID);
+
+                
+                self.ShowOXGameTitle(description);
+            },1000);
+
+            
+        }
+        else{
+            this.cardManager.getComponent("CardManager").ShakeIt();
+        }
     },
 
 
- 
+    InitBtn: function(){
+        this.btnO.getComponent(cc.Animation).play('btnOff');
+        this.btnX.getComponent(cc.Animation).play('btnOff');
+
+        this.btnO.node.active = false;
+        this.btnX.node.active = false;
+    },
 
 
-    GetRandomNumber: function(max_number) {
-        return Math.floor(Math.random() * max_number) + 1;
+
+
+    GetRandomNumber: function(max_number , offset = 1) {
+        return Math.floor(Math.random() * max_number) + offset;
     },
 
 
@@ -349,6 +448,8 @@ cc.Class({
         for(var i = 0; i < this.minimobArr.length;i++){
             this.minimobArr[i].getComponent("MiniMob").InitMob(i, this.getRandomString(), -1, false);
         }
+
+        Manager2.getInstance().ClearResultArray();
     },
 
 
@@ -383,10 +484,10 @@ cc.Class({
 
      
 
-        var isHaveAnswer = this.GetRandomNumber(2);
+        var isHaveAnswer = this.GetRandomNumber(10);
         // var isHaveAnswer = 2;
 
-        if(isHaveAnswer !== -1){
+        if(isHaveAnswer%2 === 0){
 
             for(var i = 0; i < this.minimobArr.length;i++){
                 this.minimobArr[i].getComponent("MiniMob").InitMob(i, this.getRandomString(), -1, false);
@@ -437,7 +538,7 @@ cc.Class({
         this.mobPickArr.length = 0;
         var rCounter = 0;
 
-        rCounter = this.GetRandomNumber(11);
+        rCounter = this.GetRandomNumber(11,4);
 
 
         // 몇번 인덱스 보여줄지?
@@ -508,15 +609,6 @@ cc.Class({
     },
 
 
-    btnOLogic: function(){
-        var pat = this.gamePattern[0];
-
-    },
-
-    btnXLogic: function(){
-        console.log("BTN X LOGIC CLICK");
-    },
-
 
     GetQuestionTitle: function(id){
         return this.jsonData[id].title;
@@ -555,30 +647,24 @@ cc.Class({
 
         return type;
     },
-    
 
     /**
-     * Get NUmber 처리..
-     * @param {*} quest_type 
+     * 카드 게임에 타이틀 표현해주는곳.
+     * @param {string} str 
      */
-    GetShuffle: function(quest_type){
-        var isShuffleBack = false;
-        var min = 1;
-        var max = 9;
-
-        var resultNumber = 0;
-        resultNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-
-    },
-
-
     ShowCardGameTitle: function(str){
         this.typeText(this.cardGameLabel,str,this.CallTypingEnd.bind(this));
     },
 
 
-
+    /**
+     * OX Game 타이틀 보여주는곳.
+     * @param {string} str 
+     */
     ShowOXGameTitle: function(str){
+        this.btnO.node.active = false;
+        this.btnX.node.active = false;
+
         this.typeText(this.oxGameLabel,str, this.CallTypingEnd.bind(this));
     },
 
@@ -589,36 +675,23 @@ cc.Class({
      */
     CallTypingEnd: function() {
         // 타이핑 끝났을때 처리해주는 함수.
-        // console.log("Typing Done");
-
-
         var self = this;
-
-        
-
         if(this.CURRENT_GAME_TYPE === TYPE_CARD_GAME){
-            
-            setTimeout(function(){
-
-
-                console.log(self.resultCardGameArr);
-                self.cardManager.getComponent("CardManager").InitCards(self.resultCardGameArr);
-
-                // for(var i = 0; i < self.resultCardGameArr.length; i++){
-                //     self.cardArray[i].active = true;
-                //     self.cardArray[i].getComponent(cc.Animation).play('card_off');
-                // }
-            },500);
-
-            
            
-
-
         }
         else if(this.CURRENT_GAME_TYPE === TYPE_OX_GAME){
+            var self = this;
 
+            if(this.isDescription){
+                setTimeout(function(){
+                    self.gamestatus = STATUS_CHECKUP;
+                },1000);
+            }
+            else{
+                this.btnO.node.active= true;
+                this.btnX.node.active= true;
+            }
         }
-
 
     },
 
@@ -648,4 +721,9 @@ cc.Class({
 
         typeChar(); // 타이핑 시작
     },
+
+
+
+    
+
 });

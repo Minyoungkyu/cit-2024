@@ -11,7 +11,7 @@
             return SoundManager._instance;
         },
 
-        MAX_SIZE : 30,
+        MAX_SIZE : 40,
     },
 
     properties: {
@@ -32,7 +32,7 @@
      * @constructor
      */
     IsLoadCheck: function(){
-        return this.sound[18] !== null;
+        return this.sound[30] !== null;
     },
 
     /**
@@ -102,6 +102,9 @@
         loadClip.call(this,26,Env.SFX_DIG_FILE);
         loadClip.call(this,27,Env.SFX_GET_IT_FILE);
         loadClip.call(this,28,Env.SFX_DATA_COLLECT_FILE);
+        loadClip.call(this,29,Env.MINIGAME_2_BG_FILE);
+        loadClip.call(this,30,Env.MINIGAME_2_CORRECT_FILE);
+        loadClip.call(this,31,Env.SFX_MINI_2_HIT_FILE);
         
         this.isLoadedSFX = true;
     },
@@ -111,6 +114,20 @@
         var clip = this.sound[Env.MINIGAME_1_BG];
         if (!clip) {
             console.error("SFX NULL ERROR: No sound loaded for BGM ");
+            return;
+        }
+        cc.audioEngine.playMusic(clip, true);
+    },
+
+    AutoPlayBGM: function(TAG){
+        if (TAG >= this.sound.length ) {
+            console.error("BGM Load ERROR: Index out of range");
+            return;
+        }
+
+        var clip = this.sound[TAG];
+        if (!clip) {
+            console.error("BGM NULL ERROR: No sound loaded for TAG " + TAG);
             return;
         }
         cc.audioEngine.playMusic(clip, true);

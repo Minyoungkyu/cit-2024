@@ -16,11 +16,17 @@ var Manager2 = cc.Class({
 
 
     InitResultArray: function(size){
-        if (this.resultArray)  this.resultArray.length = 0;
+
+        console.log("ReesultA-> " + size + " cur -> " + this.resultArray.length);
         
         this.resultArray = new Array(size).fill(false);
 
-        console.log("Result Init -> " + size);
+        console.log("Result Init -> " + this.resultArray.length);
+    },
+
+    ClearResultArray: function(){
+        this.resultArray.length = 0;
+        this.resultArray = [];
     },
 
     /**

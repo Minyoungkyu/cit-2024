@@ -66,6 +66,10 @@ window.Env = {
     SFX_GET_IT_FILE : 'getit',
     SFX_DATA_COLLECT_FILE: 'collect',
 
+    MINIGAME_2_BG_FILE : 'mini2_bgm',
+    MINIGAME_2_CORRECT_FILE : 'mini2_correct',
+    SFX_MINI_2_HIT_FILE : 'mini2_hit',
+
     // Audio Manager 에서 불려짐.
     SFX_DROP_SWITCH: 0,
     SFX_LASER_BUTTON: 1,
@@ -96,6 +100,9 @@ window.Env = {
     SFX_DIG : 26,
     SFX_GET_IT: 27,
     SFX_DATA_COLLECT: 28,
+    MINIGAME_2_BG: 29,
+    SFX_MINIGAME_2_CORRECT: 30,
+    SFX_MINI_2_HIT: 31,
 
 
 

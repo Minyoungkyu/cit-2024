@@ -49,8 +49,6 @@ cc.Class({
         this.node.opacity = 255;
         
         this.node.getComponent(cc.Animation).play('mob_show');
-
-        console.log(this.id);
     },
 
 
@@ -61,13 +59,6 @@ cc.Class({
 
 
         this.cardManager = cc.find("Game1/quest_title/card_parent");
-
-        if(this.cardManager == null){
-            console.log("YES NULL");
-        }
-        else{
-            console.log("No Find it ");
-        }
     },
 
     onTouchStart(event) {
@@ -79,10 +70,16 @@ cc.Class({
 
         if(this.isAnswer){
             Manager2.getInstance().GetIt(this.answerIndex);
-            this.cardManager.getComponent("CardManager").ShowCards(this.answerIndex)
+            this.cardManager.getComponent("CardManager").ShowCards(this.answerIndex);
+            SoundManager.getInstance().PlaySfx(Env.SFX_MINIGAME_2_CORRECT);
+        }
+        else{
+            this.cardManager.getComponent("CardManager").ShakeIt();
         }
         
 
+
+        SoundManager.getInstance().PlaySfx(Env.SFX_MINI_2_HIT);
         var self = this;
 
         this.intervalID = setTimeout(function(){
