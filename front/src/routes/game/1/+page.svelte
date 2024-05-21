@@ -259,11 +259,10 @@
 
         <div class="absolute top-[50%] right-[1%] w-[83px] h-[124px] cursor-pointer" on:click={() => rq.goTo('/game/2')}
             style="background-image:url('/img/map/btn_next.png');transform-origin:top right;transform:scale(0.67) scale({scaleMultiplier2});"></div> <!-- 다음 맵 버튼 -->
-        <div class="w-[52px] h-[52px] absolute z-[99] right-[0] bottom-[10px] cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
-            style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');">
+
+        <div class="w-[52px] h-[52px] absolute z-[99] right-[0] bottom-0 cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
+            style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');transform:scale({scaleMultiplier});transform-origin:bottom right;">
         </div>
-
-
 
         <div class="flex flex-col absolute top-[2%] left-[2%] z-[60]" style="transform-origin:top left;transform:scale({scaleMultiplier2});pointer-events:none;"> <!-- 좌상단 -->
             <div class="flex flex-row items-end gap-5 h-[160px]" style="transform:scale(0.67) rotateZ(3deg) rotateY(5deg);transform-origin:left;">

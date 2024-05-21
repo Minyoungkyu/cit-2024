@@ -341,7 +341,7 @@
                         {currentItem?.item.name}</div>
                     <div class="w-[445px] h-[699px] absolute top-[190px] right-[156px] flex flex-col items-center" style="background-image:url('/img/inventory/ui_itme_background3.png')">
                         <div class="w-[203px] h-[203px] absolute top-[45px]" style="background-image:url('/img/inventory/ui_itemframe2.png')">
-                            <div class="w-[195px] h-[195px] absolute top-[2px] left-[4px]" 
+                            <div class="w-[195px] h-[195px] absolute top-[2px] left-[4px]"
                                 style="background-image:url('/img/item/{rq.member.player.characterType}/{currentItem?.item.sourcePath}.png');background-repeat:no-repeat;background-size:contain;"></div>
                         </div>
                         <div class="w-[420px] h-[22px] absolute top-[270px]" style="background-image:url('/img/inventory/window_1.png');"></div>

@@ -64,18 +64,6 @@
     let baseScore = 0;
     let playerScore = 1;
 
-    async function sha256(message: string) {
-        const msgBuffer = new TextEncoder().encode(message);
-
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
-    }
-
-
     function isFirstStep() {
         return gameMapDto.step === 'tutorial' && gameMapDto.level === 1;
     }
@@ -232,7 +220,7 @@
             playerScore = calculateBonus(gameMapDto.maxBonusCriteria, lineCounter);
         } 
 
-        (window as any).SendStreamData?.(wrappedData, baseScore, playerScore);
+        (window as any).SendStreamData?.(wrappedData, baseScore, playerScore, gameMapDto.maxBonusCriteria);
         progressController.max = (framesData.length - 1).toString();
         updateFrame(framesData, 0, lineCounter);
 
@@ -314,6 +302,7 @@
     }
     
     onMount(async () => {
+        rq.fetchAndInitializeInventories();
         window.addEventListener('beforeunload', saveEditorState);
         runPythonCode2("", "");
     });
@@ -684,7 +673,7 @@
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 } 
             } else {
-                if (frame[frame.length - 1].status === 1) {
+                if (frame.status === 1) {
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 }
             }
@@ -948,7 +937,7 @@
         <div class="relative bg-gray-500" style="width:{widthMultiplier}px;">
             <div class="absolute w-full h-full {showBtnGuide ? 'bg-black bg-opacity-50 z-[99]' : 'hidden'}"></div>
             <div id="game-player-container" class="flex justify-center items-center h-full"> 
-                <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
+                <Cocos {gameMapDto} {isCoReady} equippedGunId={rq.inventories.findEquippedByItemPartsId(6)?.item.id} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
 
             <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
@@ -1095,9 +1084,12 @@
                                     <div id="typing" class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left element" style="white-space:pre-wrap;">
                                         {gameMapDto.guideText}
                                     </div>
-                                    <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left" 
-                                        style="background-image:url('/img/inGame/ui_editor_background4.png');transform:scale(0.8)">
-                                        <div class="w-full h-full flex items-start justify-start ml-10 mt-[30px]" style="white-space:pre-wrap;">
+                                    <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left flex items-center justify-center" 
+                                        style="background-image:url('/img/inGame/ui_editor_background4.png');transform:scale(0.8);">
+                                        <!-- <div class="w-[481.6px] h-[200px] flex items-start justify-start ml-10 mt-[30px]" style="white-space:pre-wrap;">
+                                            {gameMapDto.guideImage}
+                                        </div> -->
+                                        <div class="stageInfo w-[573px] h-[200px] pl-2 flex items-start justify-start overflow-y-scroll" style="white-space:pre-wrap;">
                                             {gameMapDto.guideImage}
                                         </div>
                                     </div>

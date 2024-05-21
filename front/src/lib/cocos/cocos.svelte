@@ -15,7 +15,6 @@
   <meta http-equiv="Expires" content="0">
 
   <link rel="stylesheet" type="text/css" href="/web-desktop/style-desktop.css"/>
-  <link rel="icon" href="/favicon.png" />
 </svelte:head>
 
 <script lang="ts">
@@ -23,8 +22,8 @@
 	import type { components } from '$lib/types/api/v1/schema';
   import rq from '$lib/rq/rq.svelte';
 
-  let { gameMapDto, isCoReady } 
-    = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined, isCoReady:boolean }>();
+  let { gameMapDto, isCoReady, equippedGunId } 
+    = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined, isCoReady:boolean, equippedGunId:number | undefined }>();
 
   const dispatch = createEventDispatcher();
   

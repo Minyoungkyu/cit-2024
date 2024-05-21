@@ -28,6 +28,9 @@
     const topMenuArrayText = ['스테이지', '상점', '코드 도감', '도전과제', '랭킹', '프로필', '설정' ];
     let currentMenuIndex = $state(0);
 
+    let myAudio: HTMLAudioElement;
+    let muted = $state(true);
+
     // let shopGemsModalOpen = $state(false);
 
     const { data } = $props<{ data: { playerLogList: components['schemas']['PlayerLogDto'][] } }>();
@@ -91,6 +94,10 @@
         topMenuArray = topMenuArray.map(() => false);
         topMenuArray[index] = true;
         currentMenuIndex = index;
+    }
+
+    function onClickTopMenuWithZero() {
+        onClickTopMenu(0);
     }
 
     const originalHeight = 1080;
@@ -247,8 +254,14 @@
         <div class="absolute top-[0] right-[0] w-[386px] h-screen" style="transform:scale({scaleMultiplier});transform-origin:top right;">
             <div class="absolute top-[0] right-[0] w-[386px] h-[1080px]" style="background-image:url('/img/map/ui_Gradation.png');"></div> <!-- 우측 백그라운드 레이어 -->
         </div>
+
         <div class="absolute top-[50%] right-[96%] w-[83px] h-[124px] cursor-pointer" on:click={() => rq.goTo('/game/2')}
             style="background-image:url('/img/map/btn_prev.png');transform-origin:top right;transform:scale(0.67) scale({scaleMultiplier2});"></div> <!-- 다음 맵 버튼 -->
+        
+        <div class="w-[52px] h-[52px] absolute z-[99] right-[0] bottom-0 cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
+            style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');transform:scale({scaleMultiplier});transform-origin:bottom right;">
+        </div>
+
         <div class="flex flex-col absolute top-[2%] left-[2%] z-[60]" style="transform-origin:top left;transform:scale({scaleMultiplier2});pointer-events:none;"> <!-- 좌상단 -->
             <div class="flex flex-row items-end gap-5 h-[160px]" style="transform:scale(0.67) rotateZ(3deg) rotateY(5deg);transform-origin:left;">
                 <div class="{topMenuArray[0] ? '' : 'btn_stage'} cursor-pointer" 
@@ -376,7 +389,7 @@
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+                <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={onClickTopMenuWithZero}/>
             </div>
         {/if}
 

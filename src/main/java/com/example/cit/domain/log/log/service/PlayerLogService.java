@@ -89,18 +89,20 @@ public class PlayerLogService {
         PlayerLog currentGameLog = playerLogRepository.findByUserIdAndGameMapIdAndLogType(member.getId(), gameMapDto.id(), "STAGECLEAR").orElse(null);
 
         if ( gameMapDto.id() == 2 || gameMapDto.id() == 30 || gameMapDto.id() == 58) {
-            assert currentGameLog != null;
-            currentGameLog.setDetailInt(1);
-            playerLogRepository.save(currentGameLog);
-            makeNextGameLog(member, gameMapDto);
+            if (currentGameLog != null && currentGameLog.getDetailInt() == 0) {
+                currentGameLog.setDetailInt(1);
+                playerLogRepository.save(currentGameLog);
+                makeNextGameLog(member, gameMapDto);
 
-            playerAchievementService.checkStageClearAchievement(member, gameMapDto); // 업적달성 조회 및 추가
-            
-            // 보상 지급
-            if ( gameMapDto.rewardItem() != null) playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel(), gameMapDto.rewardItem());
-            else playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
+                playerAchievementService.checkStageClearAchievement(member, gameMapDto); // 업적달성 조회 및 추가
 
-            return;
+                // 보상 지급
+                if (gameMapDto.rewardItem() != null) {
+                    playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel(), gameMapDto.rewardItem());
+                } else {
+                    playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
+                }
+            }
         }
 
         if (currentGameLog != null) {

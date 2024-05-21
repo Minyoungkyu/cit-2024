@@ -10,8 +10,7 @@
     import './page.css'
 
     import DifficultySelector from '$lib/game/DifficultySelector.svelte';
-    import TutorialSelector from '$lib/game/TutorialSelector.svelte';
-    import MiniGame1Selector from '$lib/game/MiniGame1Selector.svelte';
+    import MiniGame2Selector from '$lib/game/MiniGame2Selector.svelte';
     import TransitioningCloseLayer from '$lib/game/TransitioningCloseLayer.svelte';
 
     import Shop from '$lib/game/topMenu/shop/Shop.svelte';
@@ -27,6 +26,9 @@
     let topMenuArray = $state(Array.from({length: 7}, (v, i) => i === 0 ? true : false));
     const topMenuArrayText = ['스테이지', '상점', '코드 도감', '도전과제', '랭킹', '프로필', '설정' ];
     let currentMenuIndex = $state(0);
+
+    let myAudio: HTMLAudioElement;
+    let muted = $state(true);
 
     // let shopGemsModalOpen = $state(false);
 
@@ -95,6 +97,10 @@
         topMenuArray = topMenuArray.map(() => false);
         topMenuArray[index] = true;
         currentMenuIndex = index;
+    }
+
+    function onClickTopMenuWithZero() {
+        onClickTopMenu(0);
     }
 
     const originalHeight = 1080;
@@ -255,6 +261,11 @@
             style="background-image:url('/img/map/btn_prev.png');transform-origin:top right;transform:scale(0.67) scale({scaleMultiplier2});"></div>
         <div class="absolute top-[50%] right-[1%] w-[83px] h-[124px] cursor-pointer" on:click={() => rq.goTo('/game/3')}
             style="background-image:url('/img/map/btn_next.png');transform-origin:top right;transform:scale(0.67) scale({scaleMultiplier2});"></div> <!-- 다음 맵 버튼 -->
+
+        <div class="w-[52px] h-[52px] absolute z-[99] right-[0] bottom-0 cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
+            style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');transform:scale({scaleMultiplier});transform-origin:bottom right;">
+        </div>
+
         <div class="flex flex-col absolute top-[2%] left-[2%] z-[60]" style="transform-origin:top left;transform:scale({scaleMultiplier2});pointer-events:none;"> <!-- 좌상단 -->
             <div class="flex flex-row items-end gap-5 h-[160px]" style="transform:scale(0.67) rotateZ(3deg) rotateY(5deg);transform-origin:left;">
                 <div class="{topMenuArray[0] ? '' : 'btn_stage'} cursor-pointer" 
@@ -382,7 +393,7 @@
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+                <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={onClickTopMenuWithZero}/>
             </div>
         {/if}
 
@@ -486,7 +497,7 @@
         </div>
             {#if isDropdownOpen[4]}
                 <div class="absolute right-[0] top-[0] z-[98]" style="transform-origin:top right;transform:scale({scaleMultiplier})">
-                    <MiniGame1Selector activeTransitionAnimation={activeTransitionAnimation}/>
+                    <MiniGame2Selector activeTransitionAnimation={activeTransitionAnimation}/>
                 </div>
             {/if}
         {:else}

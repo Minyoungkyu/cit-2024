@@ -1,5 +1,5 @@
 <svelte:head>
-  <link rel="icon" href="/favicon2.png" />
+  <link rel="icon" href="/favicon.png" />
 </svelte:head>
 
 <script  lang="ts">
@@ -28,4 +28,6 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- <header on:click={() => rq.replace('/')}>헤더</header> -->
-<main class="flex-1 flex flex-col">{@render children()}</main>
+<main class="flex-1 flex flex-col">
+	<slot />
+</main>

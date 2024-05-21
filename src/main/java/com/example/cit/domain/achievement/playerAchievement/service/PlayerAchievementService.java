@@ -16,10 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +28,12 @@ public class PlayerAchievementService {
     private final PlayerAchievementRepository playerAchievementRepository;
     private final AchievementService achievementService;
     private final Rq rq;
+
+    private Long[][] AllDiffClearAchieveList = new Long[][] {
+            {22L, 23L, 24L},
+            {25L, 26L, 27L},
+            {28L, 29L, 30L, 31L}
+    };
 
     @Transactional
     public void checkStageClearAchievement(Member member, GameMapDto gameMapDto) {
@@ -123,6 +128,42 @@ public class PlayerAchievementService {
                     .build();
 
             playerAchievementRepository.save(playerAchievement);
+        }
+
+        Long achievementId = achievement.getId(); // achievement 객체의 ID를 가져옴
+
+        OptionalInt foundIndex = IntStream.range(0, this.AllDiffClearAchieveList.length)
+                .filter(i -> Arrays.stream(this.AllDiffClearAchieveList[i]).anyMatch(id -> id == achievementId))
+                .findFirst();
+
+        if (foundIndex.isPresent()) {
+            this.checkAllDiffAchievement(member, foundIndex.getAsInt());
+        }
+    }
+
+    @Transactional
+    public void checkAllDiffAchievement(Member member, int foundIndex) {
+        Long playerId = member.getPlayer().getId();
+        Long[] achievementIds = this.AllDiffClearAchieveList[foundIndex];
+
+        boolean allAchievementsExist = Arrays.stream(achievementIds)
+                .allMatch(achievementId ->
+                        playerAchievementRepository.findByPlayerIdAndAchievementId(playerId, achievementId).isPresent()
+                );
+
+        if (allAchievementsExist) {
+            Optional<Achievement> opAchievement = achievementService.getAchievementLessThanCondition("ALL DIFF CLEAR", foundIndex + 1);
+            opAchievement
+                    .ifPresent(achievement -> {
+                        if (playerAchievementRepository.findByPlayerIdAndAchievementId(member.getPlayer().getId(), achievement.getId()).isEmpty()) {
+                            PlayerAchievement playerAchievement = PlayerAchievement.builder()
+                                    .player(member.getPlayer())
+                                    .achievement(achievement)
+                                    .build();
+
+                            playerAchievementRepository.save(playerAchievement);
+                        }
+                    });
         }
     }
 

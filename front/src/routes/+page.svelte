@@ -209,13 +209,13 @@
         style="background-image:url('/img/login/title.png');background-repeat:no-repeat;background-size:contain;transform-origin:top left;transform:scale({scaleMultiplier});">
       </div> <!-- Todo: 에니메이션 작업-->
 
-      <div class="w-[52px] h-[52px] absolute z-[99] right-[475px] bottom-[10px] cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
-        style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');">
+      <div class="w-[52px] h-[52px] z-[99] absolute bottom-0 right-0 cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
+        style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');transform:scale({scaleMultiplier});transform-origin:bottom right;">
       </div>
 
       <div class="absolute top-[0] right-[0] {setNameCondition ? 'slide-out-right' : ''} {setLoginCondition ? 'slide-out-right' : ''}" 
           style="transform-origin:top right;transform:scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier};">
-        <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-[953px] w-[459px] z-[99]"
+        <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-[953px] w-[459px] z-[98]"
             style="background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');transform-origin:top right;">
             <form class="flex flex-col gap-12" method="POST" on:submit|preventDefault={submitLoginForm}>
                 <div class="flex items-center gap-4">
@@ -256,7 +256,7 @@
         </div>
       </div>
       {#if setNameCondition && !setLoginCondition}
-      <div transition:fly="{{ x: 200, duration: 500}}" class="absolute top-[0] right-[0] z-[99]"
+      <div transition:fly="{{ x: 200, duration: 500}}" class="absolute top-[0] right-[0] z-[98]"
           style="transform-origin:top right; --scaleMultiplier: {scaleMultiplier};transform:scale({scaleMultiplier});">
         <div id="side_bar_2" class="flex flex-col items-center justify-start pt-[75px] gap-10 h-[953px] w-[459px] absolute right-[0]" 
             style=" background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');">
@@ -286,6 +286,7 @@
         </div>
       </div>
       {/if}
+
     </div>
 </div>
 

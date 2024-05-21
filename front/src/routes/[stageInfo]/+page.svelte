@@ -245,6 +245,7 @@
     // });
     
     onMount(async () => {
+        rq.fetchAndInitializeInventories();
         runPythonCode2("", "");
     });
 

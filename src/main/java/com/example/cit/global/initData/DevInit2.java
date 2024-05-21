@@ -353,30 +353,147 @@ public class DevInit2 {
         return args -> {
 
             if (achievementService.getAchievementById(1L).isEmpty()) {
-                achievementService.createAchievement("테스트업적1", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 2, 5, 25, null);
-                achievementService.createAchievement("테스트업적2", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 5, 5, 25, null);
-                achievementService.createAchievement("테스트업적3", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 14, 5, 25, null);
-                achievementService.createAchievement("테스트업적4", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 23, 5, 25, null);
-                achievementService.createAchievement("테스트업적5", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 33, 10, 50, null);
-                achievementService.createAchievement("테스트업적6", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 42, 10, 50, null);
-                achievementService.createAchievement("테스트업적7", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 51, 10, 50, null);
-                achievementService.createAchievement("테스트업적8", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 61, 15, 75, null);
-                achievementService.createAchievement("테스트업적9", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 70, 15, 75, null);
-                achievementService.createAchievement("테스트업적10", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 79, 15, 75, null);
-                achievementService.createAchievement("테스트업적11", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 88, 15, 75, null);
-                achievementService.createAchievement("테스트업적12", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 8, 8, 40, null);
-                achievementService.createAchievement("테스트업적13", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 17, 8, 40, null);
-                achievementService.createAchievement("테스트업적14", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 26, 8, 40, null);
-                achievementService.createAchievement("테스트업적15", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 36, 16, 80, null);
-                achievementService.createAchievement("테스트업적16", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 45, 16, 80, null);
-                achievementService.createAchievement("테스트업적17", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 54, 16, 80, null);
-                achievementService.createAchievement("테스트업적18", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 64, 24, 120, null);
-                achievementService.createAchievement("테스트업적19", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 73, 24, 120, null);
-                achievementService.createAchievement("테스트업적20", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 82, 24, 120, null);
-                achievementService.createAchievement("테스트업적21", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 91, 24, 120, null);
-                achievementService.createAchievement("테스트업적22", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 11, 10, 50, null);
-                achievementService.createAchievement("테스트업적23", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 20, 10, 50, null);
-                achievementService.createAchievement("테스트업적24", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 29, 10, 50, null);
+                achievementService.createAchievement(
+                        "인류에게 작은 발걸음이지만, 나에게는 위대한 도약이다",
+                        "튜토리얼 클리어",
+                        "STAGE CLEAR",
+                        2, 5, 25, null
+                );
+                achievementService.createAchievement(
+                        "엄마가 주신 턴슈즈",
+                        "1-1 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        5, 5, 25, null
+                );
+                achievementService.createAchievement(
+                        "업데이트 for 모듈",
+                        "1-2 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        14, 5, 25, null
+                );
+                achievementService.createAchievement(
+                        "손끼임 방지",
+                        "1-3 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        23, 5, 25, null
+                );
+                achievementService.createAchievement(
+                        "옷이 부스터다",
+                        "2-1 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        33, 10, 50, null
+                );
+                achievementService.createAchievement(
+                        "업데이트 if 모듈",
+                        "2-2 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        42, 10, 50, null
+                );
+                achievementService.createAchievement(
+                        "업데이트 while 모듈",
+                        "2-3 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        51, 10, 50, null
+                );
+                achievementService.createAchievement(
+                        "서든스페이스어택",
+                        "3-1 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        61, 15, 75, null
+                );
+                achievementService.createAchievement(
+                        "보급선 구축",
+                        "3-2 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        70, 15, 75, null
+                );
+                achievementService.createAchievement(
+                        "Tonight, joins the hunt...",
+                        "3-3 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        79, 15, 75, null
+                );
+                achievementService.createAchievement(
+                        "BANG!BANG!BANG!",
+                        "3-4 스테이지 Easy 난이도 클리어",
+                        "STAGE CLEAR",
+                        88, 15, 75, null
+                );
+                achievementService.createAchievement(
+                        "굶지마!",
+                        "1-1 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        8, 8, 40, null
+                );
+                achievementService.createAchievement(
+                        "빙글빙글",
+                        "1-2 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        17, 8, 40, null
+                );
+                achievementService.createAchievement(
+                        "대세는 하이브리드 엔진",
+                        "1-3 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        26, 8, 40, null
+                );
+                achievementService.createAchievement(
+                        "두뇌풀가동!",
+                        "2-1 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        36, 16, 80, null
+                );
+                achievementService.createAchievement(
+                        "폭탄이 내린다 샤라랄라라랄라",
+                        "2-2 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        45, 16, 80, null
+                );
+                achievementService.createAchievement(
+                        "불맛 맛집",
+                        "2-3 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        54, 16, 80, null
+                );
+                achievementService.createAchievement(
+                        "전기통구이",
+                        "3-1 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        64, 24, 120, null
+                );
+                achievementService.createAchievement(
+                        "랜덤박스",
+                        "3-2 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        73, 24, 120, null
+                );
+                achievementService.createAchievement(
+                        "지뢰제거반",
+                        "3-3 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        82, 24, 120, null
+                );
+                achievementService.createAchievement(
+                        "It's High Noon",
+                        "3-4 스테이지 Normal 난이도 클리어",
+                        "STAGE CLEAR",
+                        91, 24, 120, null
+                );
+                achievementService.createAchievement(
+                        "밥먹을땐 개도 안건드린다는데",
+                        "1-1 스테이지 Hard 난이도 클리어",
+                        "STAGE CLEAR",
+                        11, 10, 50, null
+                );
+                achievementService.createAchievement(
+                        "고든 유료맨",
+                        "1-2 스테이지 Hard 난이도 클리어",
+                        "STAGE CLEAR",
+                        20, 10, 50, null
+                );
+                achievementService.createAchievement(
+                        "공학자 너무만화",
+                        "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 29, 10, 50, null);
                 achievementService.createAchievement("테스트업적25", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 39, 20, 100, null);
                 achievementService.createAchievement("테스트업적26", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 48, 20, 100, null);
                 achievementService.createAchievement("테스트업적27", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 57, 20, 100, null);
@@ -408,9 +525,9 @@ public class DevInit2 {
                 achievementService.createAchievement("테스트업적53", "테스트 테스트, 테스트 테스트!", "COUNT BOSS", 1, 50, 250, null);
                 achievementService.createAchievement("테스트업적54", "테스트 테스트, 테스트 테스트!", "COUNT BOSS", 3, 300, 1500, null);
                 Achievement ac3 = achievementService.createAchievement("테스트업적55", "테스트 테스트, 테스트 테스트!", "COUNT BOSS", 10, 1500, 7500, null);
-                achievementService.createAchievement("테스트업적56", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 30, 100, 500, null);
-                achievementService.createAchievement("테스트업적57", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 58, 250, 1250, null);
-                achievementService.createAchievement("테스트업적58", "테스트 테스트, 테스트 테스트!", "STAGE CLEAR", 94, 500, 2500, null);
+                achievementService.createAchievement("테스트업적56", "테스트 테스트, 테스트 테스트!", "ALL DIFF CLEAR", 1, 100, 500, null);
+                achievementService.createAchievement("테스트업적57", "테스트 테스트, 테스트 테스트!", "ALL DIFF CLEAR", 2, 250, 1250, null);
+                achievementService.createAchievement("테스트업적58", "테스트 테스트, 테스트 테스트!", "ALL DIFF CLEAR", 3, 500, 2500, null);
                 Achievement ac4 = achievementService.createAchievement("테스트업적59", "테스트 테스트, 테스트 테스트!", "PURCHASE EQUIPMENT SET", 0, 500, 2500, null);
                 Achievement ac5 = achievementService.createAchievement("테스트업적59", "테스트 테스트, 테스트 테스트!", "PURCHASE EQUIPMENT SET", 1, 500, 2500, null);
 

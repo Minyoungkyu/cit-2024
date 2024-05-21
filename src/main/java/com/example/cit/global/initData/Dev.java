@@ -255,10 +255,11 @@ public class Dev {
                         "이동방법을 배웁니다.\n" +
                                 "\n" +
                                 "go() 함수를 사용하면 플레이어가 바라보고 있는 방향으로 이동합니다.",
-                        "go()",
+                        "go()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         2
                 );
 
@@ -303,12 +304,13 @@ public class Dev {
                                 "turnLeft() 함수를 사용하면 플레이어가 왼쪽방향으로 틀게됩니다.\n" +
                                 "\n" +
                                 "turnRight() 함수를 사용하게 되면 플레이어가 오른쪽 방향으로 돌게됩니다.",
-                        "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "turnLeft()\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         3
                 );
 
@@ -357,11 +359,13 @@ public class Dev {
                                 "\n" +
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
+                                "go()\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "turnLeft()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         6
                 );
 
@@ -408,14 +412,13 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go에 인수 사용\n" +
-                                "\n" +
-                                "go()\n" +
+                        "go(3)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "turnLeft()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         5
                 );
 
@@ -481,13 +484,13 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   turnRight()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        6,
+                        92,
                         9
                 );
 
@@ -541,11 +544,13 @@ public class Dev {
                                 "\n" +
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
+                                "go()\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "turnLeft()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         11
                 );
 
@@ -598,14 +603,13 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go에 인수 사용\n" +
-                                "\n" +
-                                "go()\n" +
+                        "go(3)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "turnLeft()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         7
                 );
 
@@ -667,13 +671,13 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   turnRight()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        29,
+                        288,
                         21
                 );
 
@@ -730,11 +734,13 @@ public class Dev {
                                 "\n" +
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
+                                "go()\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "turnLeft()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         21
                 );
 
@@ -788,14 +794,13 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go에 인수 사용\n" +
-                                "\n" +
-                                "go()\n" +
+                        "go(3)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "turnLeft()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        0,
+                        0,
                         11
                 );
 
@@ -854,13 +859,13 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   turnRight()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1,
+                        345,
+                        2070,
                         31
                 );
 
@@ -918,13 +923,13 @@ public class Dev {
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        0,
+                        0,
                         5
                 );
 
@@ -956,25 +961,14 @@ public class Dev {
                                 "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
-                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [19,1], \"status\": 1},\n" +
-                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [9,9], \"status\": 1},\n" +
-                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,9], \"status\": 1},\n" +
-                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,9], \"status\": 1},\n" +
-                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
-                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
-                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1}\n" +
+                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [3,4], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
                                 "            {\"goal\": \"line\", \"count\": 40}\n" +
                                 "        ]\n" +
                                 "    },\n" +
@@ -999,14 +993,16 @@ public class Dev {
                                 "\n" +
                                 "레이저스위치를 작동시켜\n" +
                                 "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n" +
-                                "최소 코드작성",
+                        "go()\n" +
+                                "for i in range(2):\n" +
+                                "  go()\n" +
+                                "  for i in range(3):\n" +
+                                "     go(2)\n" +
+                                "     turnLeft()\n" +
+                                "     turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        0,
+                        0,
                         28
                 );
 
@@ -1040,27 +1036,17 @@ public class Dev {
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
                                 "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [27,1], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [23,9], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":17, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1}\n" +
+                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [6,7,8,9], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [6,7,8,9], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 4},\n" +
                                 "            {\"goal\": \"line\", \"count\": 60}\n" +
                                 "        ]\n" +
                                 "    },\n" +
@@ -1084,13 +1070,16 @@ public class Dev {
                                 "\n" +
                                 "레이저스위치를 작동시켜\n" +
                                 "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "for i in range(2):\n" +
+                                "  go()\n" +
+                                "  for i in range(3):\n" +
+                                "     go(2)\n" +
+                                "     turnLeft()\n" +
+                                "     turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        12,
+                        184,
                         36
                 );
 
@@ -1154,13 +1143,13 @@ public class Dev {
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        0,
+                        0,
                         7
                 );
 
@@ -1193,26 +1182,26 @@ public class Dev {
                                 "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [19,1], \"status\": 1},\n" +
+                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [9,9], \"status\": 1},\n" +
+                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,9], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,9], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
-                                "            {\"goal\": \"line\", \"count\": 60}\n" +
+                                "            {\"goal\": \"line\", \"count\": 40}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1236,14 +1225,16 @@ public class Dev {
                                 "\n" +
                                 "레이저스위치를 작동시켜\n" +
                                 "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n" +
-                                "최소 코드작성",
+                        "go()\n" +
+                                "for i in range(2):\n" +
+                                "  go()\n" +
+                                "  for i in range(3):\n" +
+                                "     go(2)\n" +
+                                "     turnLeft()\n" +
+                                "     turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        0,
+                        0,
                         38
                 );
 
@@ -1276,30 +1267,30 @@ public class Dev {
                                 "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [5,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [25,3], \"pos_drop\": [27,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [9,9], \"pos_drop\": [5,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [25,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [27,1], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [23,9], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":16, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":17, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
-                                "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "            {\"goal\": \"line\", \"count\": 60}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1322,13 +1313,16 @@ public class Dev {
                                 "\n" +
                                 "레이저스위치를 작동시켜\n" +
                                 "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "for i in range(2):\n" +
+                                "  go()\n" +
+                                "  for i in range(3):\n" +
+                                "     go(2)\n" +
+                                "     turnLeft()\n" +
+                                "     turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        58,
+                        575,
                         56
                 );
 
@@ -1421,13 +1415,13 @@ public class Dev {
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        0,
+                        0,
                         23
                 );
 
@@ -1470,16 +1464,16 @@ public class Dev {
                                 "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
                                 "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
                                 "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
-                                "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
+                                "            {\"goal\": \"line\", \"count\": 60}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1503,14 +1497,16 @@ public class Dev {
                                 "\n" +
                                 "레이저스위치를 작동시켜\n" +
                                 "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n" +
-                                "최소 코드작성",
+                        "go()\n" +
+                                "for i in range(2):\n" +
+                                "  go()\n" +
+                                "  for i in range(3):\n" +
+                                "     go(2)\n" +
+                                "     turnLeft()\n" +
+                                "     turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        0,
+                        0,
                         38
                 );
 
@@ -1530,53 +1526,47 @@ public class Dev {
                                 "        \"diff\" : \"Hard\",\n" +
                                 "        \"level\" : 3,\n" +
                                 "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,5], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,9], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,8], \"pos_end\": [26,8], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [7,5], \"pos_drop\": [9,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [15,5], \"pos_drop\": [13,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [21,5], \"pos_drop\": [21,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [23,5], \"pos_drop\": [23,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [7,11], \"pos_drop\": [7,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [11,11], \"pos_drop\": [13,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [19,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,9], \"pos_drop\": [23,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":20, \"type\": \"bomb\", \"pos\": [27,4], \"status\": 1},\n" +
-                                "            {\"id\":21, \"type\": \"bomb\", \"pos\": [17,10], \"status\": 1}\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
+                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
+                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
+                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [5,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [25,3], \"pos_drop\": [27,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [9,9], \"pos_drop\": [5,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [25,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 24},\n" +
-                                "            {\"goal\": \"line\", \"count\": 200}\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
+                                "            {\"goal\": \"line\", \"count\": 100}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
-                                "        \"pos\" : [1,7],\n" +
+                                "        \"pos\" : [1,5],\n" +
                                 "        \"dir\" : \"right\", \n" +
                                 "        \"hp\" : 100,\n" +
                                 "        \"status\" : 0,\n" +
@@ -1595,13 +1585,16 @@ public class Dev {
                                 "\n" +
                                 "레이저스위치를 작동시켜\n" +
                                 "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "for i in range(2):\n" +
+                                "  go()\n" +
+                                "  for i in range(3):\n" +
+                                "     go(2)\n" +
+                                "     turnLeft()\n" +
+                                "     turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1,
+                        230,
+                        1380,
                         76
                 );
 
@@ -1658,13 +1651,11 @@ public class Dev {
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "set(\"고체추진제\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go(2)\n" +
+                                "set(\"고체추진제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        0,
+                        0,
                         9
                 );
 
@@ -1725,15 +1716,13 @@ public class Dev {
                                 "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "최소코드작성\n" +
-                                "set(\"액체연료\")\n" +
-                                "for\n" +
-                                "go()\n" +
+                        "turnRight()\n" +
+                                "go(2)\n" +
                                 "turnRight()\n" +
-                                "turnLeft()",
+                                "set(\"액체연료\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        0,
+                        0,
                         21
                 );
 
@@ -1799,15 +1788,12 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "for\n" +
-                                "최소코드작성\n" +
-                                "set(\"추가엔진\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "set(\"추가엔진\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        17,
+                        276,
                         17
                 );
 
@@ -1867,13 +1853,11 @@ public class Dev {
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "set(\"고체추진제\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go(2)\n" +
+                                "set(\"고체추진제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        0,
+                        0,
                         17
                 );
 
@@ -1944,15 +1928,13 @@ public class Dev {
                                 "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "최소코드작성\n" +
-                                "set(\"액체연료\")\n" +
-                                "for\n" +
-                                "go()\n" +
+                        "turnRight()\n" +
+                                "go(2)\n" +
                                 "turnRight()\n" +
-                                "turnLeft()",
+                                "set(\"액체연료\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        0,
+                        0,
                         23
                 );
 
@@ -2020,15 +2002,12 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "for\n" +
-                                "최소코드작성\n" +
-                                "set(\"추가엔진\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "set(\"추가엔진\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        86,
+                        863,
                         29
                 );
 
@@ -2091,13 +2070,11 @@ public class Dev {
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "set(\"고체추진제\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go(2)\n" +
+                                "set(\"고체추진제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        0,
+                        0,
                         20
                 );
 
@@ -2176,15 +2153,13 @@ public class Dev {
                                 "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "최소코드작성\n" +
-                                "set(\"액체연료\")\n" +
-                                "for\n" +
-                                "go()\n" +
+                        "turnRight()\n" +
+                                "go(2)\n" +
                                 "turnRight()\n" +
-                                "turnLeft()",
+                                "set(\"액체연료\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        0,
+                        0,
                         25
                 );
 
@@ -2264,15 +2239,12 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "for\n" +
-                                "최소코드작성\n" +
-                                "set(\"추가엔진\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "set(\"추가엔진\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1,
+                        345,
+                        2070,
                         31
                 );
 
@@ -2805,8 +2777,8 @@ public class Dev {
                         "",
                         "",
                         "",
-                        1,
-                        1,
+                        50,
+                        564,
                         0
                 );
 
@@ -2866,8 +2838,8 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "  print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print()",
-                        1,
-                        1,
+                        0,
+                        0,
                         7
                 );
 
@@ -2929,8 +2901,8 @@ public class Dev {
                                 "info = getInfo()\n" +
                                 "print(info)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo()",
-                        1,
-                        1,
+                        0,
+                        0,
                         14
                 );
 
@@ -2997,8 +2969,8 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        12,
+                        184,
                         18
                 );
 
@@ -3056,8 +3028,8 @@ public class Dev {
                                 "for i in range(2, 6):\n" +
                                 "   print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        0,
+                        0,
                         7
                 );
 
@@ -3133,8 +3105,8 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        0,
+                        0,
                         22
                 );
 
@@ -3200,8 +3172,8 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        58,
+                        575,
                         17
                 );
 
@@ -3257,8 +3229,8 @@ public class Dev {
                         "for i in range(4, 12, 2):\n" +
                                 "  print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        0,
+                        0,
                         7
                 );
 
@@ -3342,8 +3314,8 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        0,
+                        0,
                         18
                 );
 
@@ -3406,8 +3378,8 @@ public class Dev {
                                 "for i in range(num, 1, -1):\n" +
                                 "    print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        230,
+                        1380,
                         15
                 );
 
@@ -3484,8 +3456,8 @@ public class Dev {
                         "if checkFront() == \"폭탄\":\n" +
                                 "   jump()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1,
+                        0,
+                        0,
                         4
                 );
 
@@ -3549,8 +3521,8 @@ public class Dev {
                                 "  else :\n" +
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1,
+                        0,
+                        0,
                         4
                 );
 
@@ -3663,8 +3635,8 @@ public class Dev {
                                 "     else :\n" +
                                 "       turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1,
+                        23,
+                        368,
                         7
                 );
 
@@ -3747,8 +3719,8 @@ public class Dev {
                                 "  for i in range(15):\n" +
                                 "     go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1,
+                        0,
+                        0,
                         10
                 );
 
@@ -3837,8 +3809,8 @@ public class Dev {
                                 "   turnRight()\n" +
                                 "    go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1,
+                        0,
+                        0,
                         8
                 );
 
@@ -3955,8 +3927,8 @@ public class Dev {
                                 "elif checkFront() == \"보급품\":\n" +
                                 "  go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1,
+                        115,
+                        1150,
                         7
                 );
 
@@ -4037,8 +4009,8 @@ public class Dev {
                                 "else:\n" +
                                 "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
-                        1,
-                        1,
+                        0,
+                        0,
                         18
                 );
 
@@ -4112,8 +4084,8 @@ public class Dev {
                                 "      turnRight()\n" +
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
-                        1,
-                        1,
+                        0,
+                        0,
                         4
                 );
 
@@ -4223,8 +4195,8 @@ public class Dev {
                                 "   else:\n" +
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
-                        1,
-                        1,
+                        460,
+                        2760,
                         9
                 );
 
@@ -4287,8 +4259,8 @@ public class Dev {
                         "while getHp() < 100 : \n" +
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         3
                 );
 
@@ -4373,8 +4345,8 @@ public class Dev {
                                 "   else:\n" +
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         4
                 );
 
@@ -4447,8 +4419,8 @@ public class Dev {
                                 "        print(i)\n" +
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        35,
+                        552,
                         14
                 );
 
@@ -4512,8 +4484,8 @@ public class Dev {
                         "while getHp() < 100 : \n" +
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         17
                 );
 
@@ -4589,8 +4561,8 @@ public class Dev {
                                 "   else:\n" +
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         11
                 );
 
@@ -4656,8 +4628,8 @@ public class Dev {
                                 "        print(i)\n" +
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        173,
+                        1725,
                         13
                 );
 
@@ -4725,8 +4697,8 @@ public class Dev {
                         "while getHp() < 100 : \n" +
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         26
                 );
 
@@ -4806,8 +4778,8 @@ public class Dev {
                                 "   else:\n" +
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         10
                 );
 
@@ -4873,8 +4845,8 @@ public class Dev {
                                 "        print(i)\n" +
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        690,
+                        4140,
                         13
                 );
 
@@ -4894,8 +4866,8 @@ public class Dev {
                         "",
                         "",
                         "",
-                        1,
-                        1,
+                        50,
+                        600,
                         0
                 );
 
@@ -5035,8 +5007,8 @@ public class Dev {
                                 "target = enemy.upper()\n" +
                                 "attack(target)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         6
                 );
 
@@ -5104,8 +5076,8 @@ public class Dev {
                                 "ch = info[2]\n" +
                                 "print(ch)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         8
                 );
 
@@ -5136,7 +5108,7 @@ public class Dev {
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"aria\"],[\"unct\"],[\"bjec\"]], \n" +
                                 "            \"print_count\": [[\"aria\"],[\"unct\"],[\"bjec\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"variable\",\"function\",\"object\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5176,8 +5148,8 @@ public class Dev {
                                 "ch = info[2: 5]\n" +
                                 "print(ch)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        17,
+                        276,
                         6
                 );
 
@@ -5250,8 +5222,8 @@ public class Dev {
                                 "   target = enemy.upper()\n" +
                                 "   attack(target)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         10
                 );
 
@@ -5323,8 +5295,8 @@ public class Dev {
                                 "for ch in  range(len(info)):\n" +
                                 "   print(ch[2:5])",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         8
                 );
 
@@ -5355,7 +5327,7 @@ public class Dev {
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"css\"],[\"sql\"],[\"cmd\"]], \n" +
                                 "            \"print_count\": [[\"css\"],[\"sql\"],[\"cmd\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"hfsesvc\",\"leqcs\",\"playdomac\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5394,8 +5366,8 @@ public class Dev {
                                 "for i in range(len(ch)):\n" +
                                 "    print(i[-1])",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        86,
+                        863,
                         7
                 );
 
@@ -5467,8 +5439,8 @@ public class Dev {
                                 "    if char.isupper(): \n" +
                                 "       attack(char)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         12
                 );
 
@@ -5541,8 +5513,8 @@ public class Dev {
                                 "for i in range(len(ch)):\n" +
                                 "  index = int(number)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        0,
+                        0,
                         11
                 );
 
@@ -5574,7 +5546,7 @@ public class Dev {
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"constructor\"],[\"inheritance\"],[\"interface\"]],\n" +
                                 "            \"print_count\": [[\"constructor\"],[\"inheritance\"],[\"interface\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"cconsssttrrructtorrr\",\"iinnheeerrrriiitaaannncce\",\"iiiinttttteerrffffaaceee\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5614,8 +5586,8 @@ public class Dev {
                                 "    if char.isupper(): \n" +
                                 "       attack(char)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1,
+                        345,
+                        2070,
                         10
                 );
 
@@ -5692,8 +5664,8 @@ public class Dev {
                                 "turnLeft()\n" +
                                 "itemLsit[1] = getItem()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         12
                 );
 
@@ -5771,8 +5743,8 @@ public class Dev {
                                 "turnLeft()\n" +
                                 "itemList.append(getItem())",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         11
                 );
 
@@ -5858,8 +5830,8 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        35,
+                        552,
                         15
                 );
 
@@ -5946,8 +5918,8 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         12
                 );
 
@@ -6046,8 +6018,8 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         14
                 );
 
@@ -6138,8 +6110,8 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        173,
+                        1725,
                         17
                 );
 
@@ -6220,8 +6192,8 @@ public class Dev {
                                 "if items != \"고장난 폭탄\":\n" +
                                 "    itemList.append(items)  ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         13
                 );
 
@@ -6315,8 +6287,8 @@ public class Dev {
                                 "turnLeft()\n" +
                                 "itemList.append(getItem())",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         20
                 );
 
@@ -6402,8 +6374,8 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        690,
+                        4140,
                         18
                 );
 
@@ -6496,8 +6468,8 @@ public class Dev {
                                 "    go() \n" +
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         8
                 );
 
@@ -6595,8 +6567,8 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         8
                 );
 
@@ -6715,8 +6687,8 @@ public class Dev {
                                 "for i in range(len(totalNum)):\n" +
                                 "     setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        52,
+                        828,
                         18
                 );
 
@@ -6800,8 +6772,8 @@ public class Dev {
                                 "    go() \n" +
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         16
                 );
 
@@ -6915,8 +6887,8 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         22
                 );
 
@@ -7044,8 +7016,8 @@ public class Dev {
                                 "for i in range(len(totalNum)):\n" +
                                 "     setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        259,
+                        2588,
                         29
                 );
 
@@ -7149,8 +7121,8 @@ public class Dev {
                                 "    go() \n" +
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         22
                 );
 
@@ -7260,8 +7232,8 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        0,
+                        0,
                         24
                 );
 
@@ -7384,8 +7356,8 @@ public class Dev {
                                 "for i in range(len(totalNum)):\n" +
                                 "     setTrapAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1,
+                        1109,
+                        6210,
                         30
                 );
 
@@ -7441,8 +7413,8 @@ public class Dev {
                         "for j in range(3):\n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack()",
-                        1,
-                        1,
+                        0,
+                        0,
                         4
                 );
 
@@ -7505,8 +7477,8 @@ public class Dev {
                                 "for j in range(3):\n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy()",
-                        1,
-                        1,
+                        0,
+                        0,
                         4
                 );
 
@@ -7601,8 +7573,8 @@ public class Dev {
                                 "       get(\"폭탄\")\n" +
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1,
+                        69,
+                        1104,
                         10
                 );
 
@@ -7661,8 +7633,8 @@ public class Dev {
                                 "if  getHp(enemy) > 0: \n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1,
+                        0,
+                        0,
                         5
                 );
 
@@ -7725,8 +7697,8 @@ public class Dev {
                                 " f  getHp(enemy) > 0: \n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1,
+                        0,
+                        0,
                         5
                 );
 
@@ -7816,8 +7788,8 @@ public class Dev {
                                 "       get(\"폭탄\")\n" +
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1,
+                        345,
+                        3450,
                         11
                 );
 
@@ -7878,8 +7850,8 @@ public class Dev {
                                 "     else : \n" +
                                 "     attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1,
+                        0,
+                        0,
                         7
                 );
 
@@ -7955,8 +7927,8 @@ public class Dev {
                                 "  for j in range(3):\n" +
                                 "     attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1,
+                        0,
+                        0,
                         7
                 );
 
@@ -8045,8 +8017,8 @@ public class Dev {
                                 "       get(\"폭탄\")\n" +
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1,
+                        1380,
+                        8280,
                         15
                 );
 
