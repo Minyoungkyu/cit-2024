@@ -352,9 +352,6 @@ cc.Class({
         this.InitialCamera();
     },
 
-   
-    
-
 
     /**
      * 게임 초기화 해주는 함수입니다.
@@ -594,11 +591,31 @@ cc.Class({
 
                     // 2스테이지이상 부터 사용하는 Print
                     self.GetPointArray();
+
+                    self.PlayBGM();
                 }
                 clearInterval(inter);
             }
 
         }, 5);
+    },
+
+    PlayBGM: function(){
+        if(this.currentStep === '3-4' && this.currentLevel === 4 ){
+            //보스전.        
+            SoundManager.getInstance().AutoPlayBGM(STAGE_BOSS_BG);
+        }
+        else{
+            if(this.currentStage === 1){
+                SoundManager.getInstance().AutoPlayBGM(STAGE1_INGAME_BG);
+            }
+            else if(this.currentStage === 2){
+                SoundManager.getInstance().AutoPlayBGM(STAGE2_INGAME_BG);
+            }
+            else if(this.currentStage == 3){
+                SoundManager.getInstance().AutoPlayBGM(STAGE3_INGAME_BG);
+            }
+        }
     },
 
 
@@ -621,19 +638,17 @@ cc.Class({
         return false;
     },
 
-
-
     /**
      * 보너스게임 Scene Change 해주는것.
      * @param {step} SendInitData_Stage_step_값 
      */
     bonusGameSceneLoaded: function(step){
-        if(step === "1-4" || step === "2-4" ) {
+        if(step === "1-4" ) {
             cc.director.loadScene("minigame1");
         }
-        // else if(step === "2-4"){
-
-        // }
+        else if(step === "2-4"){
+            cc.director.loadScene("minigame2");
+        }
     },
   
 

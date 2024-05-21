@@ -60,6 +60,10 @@ cc.Class({
 
     properties: {
 
+        card_totalLabel: cc.Label,
+        ox_totalLabel: cc.Label,
+
+
         loadingPan: cc.Node,
 
         camera : cc.Camera,
@@ -202,6 +206,8 @@ cc.Class({
                 self.loadingPan.active = false;
                 SoundManager.getInstance().AutoPlayBGM(Env.MINIGAME_2_BG);
                 clearInterval(inter);
+
+                Controller.getInstance().finalIndex = true;
             }
             else{
                 self.loadingPan.opacity -= off;
@@ -215,6 +221,9 @@ cc.Class({
         var self = this;
 
         var inter = setInterval(function(){
+
+           
+
             switch(self.gamestatus){
     
                 case STATUS_INIT:
@@ -247,8 +256,20 @@ cc.Class({
                 
                 case STATUS_DONE:
                     clearInterval(inter);
+                    self.loadingPan.active = true;
+                    self.loadingPan.opacity = 255;
+                    Controller.getInstance().minigameDone = true;
+
+
                     break;
-    
+            }
+
+            if(self.ox_totalLabel.node.active){
+                self.ox_totalLabel.string = (self.currentIndex +1) +"/6";
+            }
+
+            if(self.card_totalLabel.node.active){
+                self.card_totalLabel.string = (self.currentIndex +1) +"/6";
             }
         },30);
     },
@@ -268,10 +289,14 @@ cc.Class({
 
         if(this.CURRENT_GAME_TYPE === TYPE_CARD_GAME){
 
+            this.ox_totalLabel.node.active = false;
+            this.card_totalLabel.node.active = true;
             this.InitCardGame();
         }
         else if(this.CURRENT_GAME_TYPE === TYPE_OX_GAME){
      
+            this.card_totalLabel.node.active = false;
+            this.ox_totalLabel.node.active = true;
             this.InitOXGame();
         }
         else{
@@ -339,10 +364,8 @@ cc.Class({
             SoundManager.getInstance().PlaySfx(Env.SFX_MINIGAME_2_CORRECT);
         }
         else{
-
+            SoundManager.getInstance().PlaySfx(Env.SFX_MINI_2_ERROR);
             this.cardManager.getComponent("CardManager").ShakeIt();
-
-            
         }
     },
 
@@ -357,18 +380,14 @@ cc.Class({
             setTimeout(function(){
                 self.isDescription = true;
                 var description = "(해설)\n"+self.GetDescription(self.currentGameID);
-
-                
                 self.ShowOXGameTitle(description);
             },1000);
-
-            
         }
         else{
             this.cardManager.getComponent("CardManager").ShakeIt();
+            SoundManager.getInstance().PlaySfx(Env.SFX_MINI_2_ERROR);
         }
     },
-
 
     InitBtn: function(){
         this.btnO.getComponent(cc.Animation).play('btnOff');
@@ -378,14 +397,9 @@ cc.Class({
         this.btnX.node.active = false;
     },
 
-
-
-
     GetRandomNumber: function(max_number , offset = 1) {
         return Math.floor(Math.random() * max_number) + offset;
     },
-
-
 
     StartCardGame: function(){
         if(this.isLoopInterval) return;
@@ -426,9 +440,7 @@ cc.Class({
 
                 case CARD_GAME_END:
                     // 종료됬으니 모두 숨기고 초기화.
-
                     clearInterval(interval);
-                   
 
                     self.CardGameClear();
                     self.gamestatus = STATUS_CHECKUP;
@@ -438,7 +450,6 @@ cc.Class({
         },30);
     },
 
-    
     CardGameClear: function(){
         this.ShowCardGameTitle('');
         this.cardManager.getComponent("CardManager").HideCards();
@@ -596,8 +607,6 @@ cc.Class({
         }
     },
 
-
-
     getRandomString() {
         const randomIndex = Math.floor(Math.random() * this.stringPattern.length);
         return this.stringPattern[randomIndex];
@@ -607,8 +616,6 @@ cc.Class({
         this.btnO.node.on('click', this.btnOLogic,this );
         this.btnX.node.on('click', this.btnXLogic,this );
     },
-
-
 
     GetQuestionTitle: function(id){
         return this.jsonData[id].title;

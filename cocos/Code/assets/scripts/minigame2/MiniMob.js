@@ -9,7 +9,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-    
         id: -1,
         isAnswer: false,
 
@@ -75,6 +74,7 @@ cc.Class({
         }
         else{
             this.cardManager.getComponent("CardManager").ShakeIt();
+            SoundManager.getInstance().PlaySfx(Env.SFX_MINI_2_ERROR);
         }
         
 

@@ -107,6 +107,11 @@
         loadClip.call(this,31,Env.SFX_MINI_2_HIT_FILE);
         loadClip.call(this,32,Env.SFX_MINI_2_ERROR_FILE);
         loadClip.call(this,33,Env.STAGE_3_INGAME_FILE);
+        loadClip.call(this,34,Env.STAGE2_INGAME_FILE);
+        loadClip.call(this,35,Env.STAGE1_INGAME_FILE);
+        loadClip.call(this,36,Env.BOSS_BGM_FILE);
+
+        
         
         this.isLoadedSFX = true;
     },
@@ -140,6 +145,25 @@
         if (!cc.audioEngine.isMusicPlaying())  return false;
         return true;
     },
+
+
+
+    SetVolume: function(v){
+
+        if(v <= 1){
+            cc.audioEngine.setMusicVolume(0);
+            cc.audioEngine.setEffectsVolume(0);
+        }
+        else{
+            var volume = v/100;
+
+            cc.audioEngine.setMusicVolume(volume);
+            cc.audioEngine.setEffectsVolume(volume);
+        }
+
+    },
+
+    
 
 
 });
