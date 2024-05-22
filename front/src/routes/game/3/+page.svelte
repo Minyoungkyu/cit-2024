@@ -40,10 +40,10 @@
     const highestClearedgameMapId = Math.max(...clearedgameMapIds);
 
     const difficultySelectorMsgs = [ // 셀렉터 메시지
-        '훈련을 마쳤다\n로켓 발사장으로 이동하자',
-        '본격적으로 우주로\n나가기 위한 준비를 하자',
-        '로켓을 수리하기위한 재료가 모두 모였다\n로켓을 수리해보자',
-        '로켓을 수리하기위한 재료가 모두 모였다\n로켓을 수리해보자'
+        '우주선 도입\n\n우주해적의 우주함선에 도착했습니다.\n함선 내부에는 수많은 적군이 보입니다.\n우주 해적을 정복하기 위해 함선을 탐사해 나가세요.',
+        '승리를 위한 준비\n\n우주 해적을 소탕하기 전에, 함선에 폭탄을 설치해야 합니다.\n적의 함선에 있는 폭탄을 활용할 것입니다.\n우리는 승리를 위해 철저히 준비해야 합니다.',
+        '일촉즉발\n\n우주 해적에게 우리의 계획이 들켰습니다.\n적과의 전투는 피할 수 없습니다.\n전투에서 승리하세요.',
+        '사투\n\n마지막 전투가 다가옵니다.\n정예 전투원들과의 싸움은 쉽지 않을 것입니다.\n빠른 판단력으로 적을 사살하고 승리하세요.'
     ]
 
     const difficultySelectorNames = [ // 셀렉터 이름
@@ -239,8 +239,8 @@
     }
 </script>
 
-<audio autoplay>
-    <source src="/sound/map_sound.mp3" type="audio/mpeg">
+<audio bind:this={myAudio}>
+    <source src="/sound/map_sound_3.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center bg-gray-500 overflow-hidden">
     <div class="background-container w-screen h-screen relative overflow-hidden" 
@@ -428,14 +428,14 @@
 
         {#if isOpen(59)} <!--step 의 easy, 1레벨 맵 아이디-->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[15%] left-[48%] cursor-pointer" on:click={() => toggleDropdown(1)} data-gameMapId="59"
-            style="bottom:15%;left:48%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(5) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
+            style="bottom:15%;left:48%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(59) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
             <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 1</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - ONE</div>
         </div>
         <!-- <div class="btn absolute bottom-[16%] left-[14%] w-[6vw]" data-gameMapId="3" on:click={() => toggleDropdown(1)}>1-1(열림)</div> -->
             {#if isDropdownOpen[1]}
             <!-- gameMapId : step 의 easy, 1레벨 맵아이디, stepsLevelCount : step 의 level 갯수, -->
-                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={3} stepsLevelCount={3} playerLogList={playerLogList} 
+                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={59} stepsLevelCount={3} playerLogList={playerLogList} 
                 difficultySelectorMsg={difficultySelectorMsgs[0]} difficultySelectorName={difficultySelectorNames[0]} activeTransitionAnimation={activeTransitionAnimation} />
             {/if}
         {:else}
@@ -449,12 +449,12 @@
         {#if isOpen(68)}
         <!-- <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[60%] cursor-pointer" on:click={() => toggleDropdown(2)} data-gameMapId="68"
-            style="bottom:40%;left:60%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(14) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="bottom:40%;left:60%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(68) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 2</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - TWO</div>
         </div>
             {#if isDropdownOpen[2]}
-                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={12} stepsLevelCount={3} playerLogList={playerLogList} 
+                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={68} stepsLevelCount={3} playerLogList={playerLogList} 
                 difficultySelectorMsg={difficultySelectorMsgs[1]} difficultySelectorName={difficultySelectorNames[1]} activeTransitionAnimation={activeTransitionAnimation} />
             {/if}
         {:else}
@@ -467,13 +467,13 @@
 
         {#if isOpen(77)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[55%] cursor-pointer" on:click={() => toggleDropdown(3)} data-gameMapId="77"
-            style="bottom:60%;left:55%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(23) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="bottom:60%;left:55%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(77) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 3</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - THREE</div>
         </div>
         <!-- <div class="btn absolute bottom-[16%] left-[34%] w-[6vw]" data-gameMapId="21" on:click={() => toggleDropdown(3)}>1-3(열림)</div> -->
             {#if isDropdownOpen[3]}
-                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={21} stepsLevelCount={3} playerLogList={playerLogList} 
+                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={77} stepsLevelCount={3} playerLogList={playerLogList} 
                 difficultySelectorMsg={difficultySelectorMsgs[2]} difficultySelectorName={difficultySelectorNames[2]} activeTransitionAnimation={activeTransitionAnimation}/>
             {/if}
         {:else}
@@ -486,14 +486,13 @@
 
         {#if isOpen(86)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[55%] left-[40%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="86"
-            style="bottom:55%;left:40%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(30) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="bottom:55%;left:40%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(86) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 4</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">THREE - FOUR</div>
         </div>
             {#if isDropdownOpen[4]}
-                <div class="absolute right-[0] top-[0] z-[98]" style="transform-origin:top right;transform:scale({scaleMultiplier})">
-                    <MiniGame1Selector activeTransitionAnimation={activeTransitionAnimation}/>
-                </div>
+                <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={86} stepsLevelCount={3} playerLogList={playerLogList} 
+                difficultySelectorMsg={difficultySelectorMsgs[2]} difficultySelectorName={difficultySelectorNames[3]} activeTransitionAnimation={activeTransitionAnimation}/>
             {/if}
         {:else}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[55%] left-[40%] cursor-pointer"

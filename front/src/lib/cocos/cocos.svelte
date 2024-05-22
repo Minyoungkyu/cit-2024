@@ -22,8 +22,8 @@
 	import type { components } from '$lib/types/api/v1/schema';
   import rq from '$lib/rq/rq.svelte';
 
-  let { gameMapDto, isCoReady, equippedGunId } 
-    = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined, isCoReady:boolean, equippedGunId:number | undefined }>();
+  let { gameMapDto, isCoReady } 
+    = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined, isCoReady:boolean }>();
 
   const dispatch = createEventDispatcher();
   
@@ -58,6 +58,7 @@
 
             const trySendInitData = () => {
               const result = (window as any).SendInitData?.(stageObject, rq.member.player.characterType, rq.inventories.findEquippedByItemPartsId(6)?.item.id);
+              if ((window as any).SetVolume) (window as any).SetVolume(rq.member.player.backgroundVolume, rq.member.player.effectVolume);
               if (!result) {
                 setTimeout(trySendInitData, 100);
               } else {

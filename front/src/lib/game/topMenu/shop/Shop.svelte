@@ -167,7 +167,7 @@
                         {:else}
                             <div class="flex flex-row items-center justify-start ml-8">
                                 <div class="w-[68px] h-[68px]" style="background-image:url('/img/shop/icon_gem2.png');background-size:cover;"></div>
-                                <div class="text-[35px] font-bold italic ml-[30px] {isPurchasable2(item.price) ? 'text-white' : 'text-red-500'}"> {item.price} </div>
+                                <div class="text-[35px] font-bold italic ml-[5px] {isPurchasable2(item.price) ? 'text-white' : 'text-red-500'}"> {item.price} </div>
                             </div>
                         {/if}
                     </div>
@@ -221,15 +221,15 @@
                 <div class="w-[203px] h-[203px] mt-[-5px]" style="background-image:url('/img/item/0/{currentItem?.sourcePath}.png');"></div>
             </div>
             <div class="w-[404px] h-[22px] mt-[20px]" style="background-image:url('/img/shop/window_1.png');"></div>
-            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[25px] font-bold italic" style="color:rgb(28 211 216);">
+            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[20px] font-bold italic whitespace-pre-wrap" style="color:rgb(28 211 216);">
                 {currentItem?.description}
             </div>
             {#if !rq.inventories.isItemOwned(currentItem?.id)}
-            <div class="flex flex-row items-center justify-center ml-[-50px] mt-[40px]">
+            <div class="flex flex-row items-center justify-center ml-[-50px] mt-[60px]">
                 <div class="w-[90px] h-[90px]" style="background-image:url('/img/shop/icon_gem2.png');background-size:cover;"></div>
                 <div class="text-[35px] italic {isPurchasable2(currentItem?.price) ? 'text-white' : 'text-red-500'} font-[900]"> {currentItem?.price} </div>
             </div>
-            <div class="w-[310px] h-[76px] mt-[-1px] flex items-center justify-start cursor-pointer mt-[10px] {isPurchasable(currentItem?.itemPartsId) ? '' : 'hidden' }" 
+            <div class="w-[310px] h-[76px] mt-[-1px] flex items-center justify-start cursor-pointer mt-[10px] {isPurchasable(currentItem?.itemPartsId) ? '' : '' }" 
                 style="background-image:url('/img/inventory/btn_item_etc2.jpg');transform-origin:top left;transform:scale(1);"
                 on:click={() => {isPurchasable2(currentItem?.price) ? purchaseItem(currentItem) : shopGemsModalOpen.update(n => true)}}>
                 <div class="text-white font-bold italic text-[40px] ml-[80px]" style="color:rgb(255 210 87);">

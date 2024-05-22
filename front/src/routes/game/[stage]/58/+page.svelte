@@ -21,6 +21,8 @@
     import './page.css';
     import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
 
+    import Setting from '$lib/game/topMenu/setting/Setting.svelte';
+
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'], guideItems: string[] } }>();
     const { gameMapDto } = data;
     const { guideItems } = data;
@@ -35,6 +37,10 @@
     let startTyping: boolean = $state(false);
     let element: HTMLElement;
     let text: string;
+
+    let openSetting: boolean = $state(false);
+    let widthValue: number = $state(0);
+    let adjustResolution: number = $state(0);
 
     let showBtnGuide: boolean = $state(false);
     let btnGuideArray = $state(Array.from({length: 7}, () => false));
@@ -144,6 +150,7 @@
             backgroundContainer.style.marginRight = `0`;
             // guideContainer.style.width = `${contentWidth}px`;
             // guideContainer.style.height = `${targetHeight}px`;
+            widthValue = contentWidth;
             } else {
             const targetWidth = contentHeight * resolution;
             backgroundContainer.style.width = `${targetWidth}px`;
@@ -154,8 +161,10 @@
             backgroundContainer.style.marginRight = `${(contentWidth - targetWidth) / 2}px`;
             // guideContainer.style.width = `${targetWidth}px`;
             // guideContainer.style.height = `${contentHeight}px`;
+            widthValue = targetWidth;
             }
             
+            adjustResolution = resolution;
             scaleMultiplier2 = (backgroundContainer.offsetWidth/1920);
             scaleMultiplier = (backgroundContainer.offsetHeight / originalHeight);
             widthMultiplier = backgroundContainer.offsetWidth - (633 * scaleMultiplier);
@@ -211,6 +220,10 @@
 
         window.location.href = `/game/${routeStage}`;
     }
+
+    function closeSetting() {
+        openSetting = false;
+    }
 </script>
 
 <audio id="myAudio">
@@ -218,6 +231,12 @@
 </audio>
 <div class="content-container flex flex-col items-center justify-center overflow-hidden bg-gray-700">
     <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden">
+
+        {#if openSetting}
+        <div class="h-full absolute flex items-center justify-center z-[61] mt-[-5%]" style="width:{widthValue}px;pointer-events:none;">
+            <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={closeSetting}/>
+        </div>
+        {/if}
 
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - scaleMultiplier*0.15});">
@@ -265,9 +284,10 @@
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
 
-            <a href="/game/{gameMapDto.stage}" class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10]" 
-                style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"></a>
-
+            <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
+                style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;">
+            </div>
+            
             <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" 
                 style="background-image:url('/img/inGame/ui_background_R.png');transform-origin:top right;transform:scale(0.45) scale({scaleMultiplier2});">
             </div>
@@ -287,7 +307,8 @@
                     <div class="w-[506px] h-[134px] flex justify-center items-center italic" style="background-image:url('/img/inGame/ui_stage_title.png')">
                         <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} stage</div>
                     </div>
-                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_off.png')"></div>
+                    <div class="w-[134px] h-[134px] cursor-pointer" on:click={() => openSetting = true}
+                        style="background-image:url('/img/map/btn_settomg_off.png')"></div>
                   </div>
                   <div class="flex flex-col" style="transform-origin:top right;transform:scale(1.03);
                         {showBtnGuide && btnGuideArray[0] ? 'box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">

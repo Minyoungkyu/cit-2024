@@ -19,7 +19,7 @@
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
             <div class="w-[450px] h-[500px] flex justify-start">
                 <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">
-                    {'로켓 발사를 위한 모든 준비가 끝났다\n이제 로켓을 발사해 보자\n\n로켓 발사는 타이밍이 중요하다'}
+                    {'선봉대와의 조우\n\n이곳은 우주 해적들이 노리고 있던 행성입니다.\n우주해적 선봉대와의 결투에서 승리하세요.'}
                 </div>
             </div>
         </div>

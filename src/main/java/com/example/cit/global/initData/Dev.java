@@ -2251,6 +2251,19 @@ public class Dev {
                 Member memberUser2 = memberService.join("hadle", "1234", 1).getData();
                 memberUser2.setRefreshToken("hadle");
 
+                Member test1 = memberService.join("hadeul1", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul1");
+                Member test2 = memberService.join("hadeul2", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul2");
+                Member test3 = memberService.join("hadeul3", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul3");
+                Member test4 = memberService.join("hadeul4", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul4");
+                Member test5 = memberService.join("hadeul5", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul5");
+                Member test6 = memberService.join("hadeul6", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul6");
+
                 Member memberUser3 = memberService.join("testUser1", "tmd0405", 1).getData();
                 memberUser2.setRefreshToken("testUser1");
 
@@ -2318,22 +2331,22 @@ public class Dev {
                 ItemParts itemParts6 = itemPartsService.createItemParts("총");
 
                 Item item1 = itemService.createItem(itemParts1,
-                        "우주용 신발",
-                        "",
+                        "스페이스 부츠",
+                        "보급품으로 남아있던 스페이스 부츠\n이동에 자유로움을 준다",
                         "icon_chariter_space_boots",
                         "icon_space_boots",
                         0);
 
                 Item item2 = itemService.createItem(itemParts2,
                         "Lv1 모듈",
-                        "",
+                        "가장 기본적인 성능의 모듈이다",
                         "",
                         "icon_module",
                         0);
 
                 Item item3 = itemService.createItem(itemParts3,
-                        "우주용 장갑",
-                        "",
+                        "스페이스 글러브",
+                        "보급품으로 남아있던 스페이스 글러브\n안정성이 뛰어나 험한 작업에도 문제없다",
                         "icon_chariter_space_gloves",
                         "icon_space_gloves",
                         0);
@@ -2345,97 +2358,97 @@ public class Dev {
                 gameMapRepository.save(gameMap11e3);
                 gameMapRepository.save(gameMap12e3);
 
-                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser3.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser3.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser3.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser4.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser4.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser4.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser5.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser5.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser5.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser6.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser6.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser6.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser7.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser7.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser7.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser11.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser11.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser11.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser12.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser12.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser12.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser13.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser13.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser13.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser14.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser14.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser14.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser15.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser15.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser15.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser16.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser16.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser16.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser17.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser17.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser17.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser18.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser18.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser18.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser19.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser19.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser19.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser20.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser20.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser20.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser21.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser21.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser21.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser22.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser22.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser22.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser23.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser23.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser23.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser24.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser24.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser24.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser25.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser25.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser25.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser26.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser26.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser26.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser27.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser27.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser27.getPlayer(), item3, false);
+//                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser3.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser3.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser3.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser4.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser4.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser4.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser5.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser5.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser5.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser6.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser6.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser6.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser7.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser7.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser7.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser11.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser11.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser11.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser12.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser12.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser12.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser13.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser13.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser13.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser14.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser14.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser14.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser15.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser15.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser15.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser16.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser16.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser16.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser17.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser17.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser17.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser18.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser18.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser18.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser19.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser19.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser19.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser20.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser20.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser20.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser21.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser21.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser21.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser22.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser22.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser22.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser23.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser23.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser23.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser24.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser24.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser24.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser25.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser25.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser25.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser26.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser26.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser26.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser27.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser27.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser27.getPlayer(), item3, false);
 
                 // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);
@@ -2635,120 +2648,120 @@ public class Dev {
             if(itemService.getItemList().isEmpty()) {
                 itemService.createItem(
                         itemPartsService.getItemParts(1),
-                        "테스트신발1",
-                        "테스트 아이템1",
+                        "우주해적 부츠",
+                        "우주해적단의 보스를 본딴 부츠\n정작 세세한 디자인은 다른데 이상하게 아무도 트집을 잡지 않는다",
                         "icon_chariter_pirate_boots",
                         "icon_pirate_boots",
-                        100);
+                        3500);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(1),
-                        "테스트신발2",
-                        "테스트 아이템1",
+                        "네온 고양이 부츠",
+                        "발목의 안전을 위해 두꺼운 보호대가 있는 부츠\n키가 작아 보이는 단점이 있다",
                         "icon_chariter_carbon_boots",
                         "icon_carbon_boots",
-                        200);
+                        2000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(3),
-                        "테스트장갑1",
-                        "테스트 아이템1",
+                        "우주해적 글러브",
+                        "우주해적단의 보스를 본딴 글러브\n원본의 촉수 고증을 위해 한가닥 한가닥 둘러야해서 착용감이 안좋다",
                         "icon_chariter_pirate_gloves",
                         "icon_pirate_gloves",
-                        100);
+                        4000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(3),
-                        "테스트장갑2",
-                        "테스트 아이템1",
+                        "네온 고양이 글러브",
+                        "손바닥 전면과 손등의 네온 빛으로 어둠 속에서 작업의 정확성을 높혀주는 글러브\n손만 빛나면 무슨 소용이지?",
                         "icon_chariter_carbon_gloves",
                         "icon_carbon_gloves",
-                        200);
+                        2000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(4),
-                        "테스트우주복1",
-                        "테스트 아이템1",
+                        "우주해적 슈트",
+                        "우주해적단의 보스를 본딴 슈트\n편한 바지와 푸른색의 상의가 일부 종족들에게 인기가 많다",
                         "icon_chariter_pirate_suit",
                         "icon_pirate_suit",
-                        100);
+                        6000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(4),
-                        "테스트우주복2",
-                        "테스트 아이템1",
+                        "네온 고양이 슈트",
+                        "신축성 소재로, 어둠 속에서 착용자를 확인할 수 있는 노란 네온빛이 특징인 슈트\n어둠속의 세로로 된 빛은 키를 더 커보이게 한다.",
                         "icon_chariter_carbon_suit",
                         "icon_carbon_suit",
-                        200);
+                        4000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(5),
-                        "테스트헬멧1",
-                        "테스트 아이템1",
+                        "우주해적 헬멧",
+                        "우주해적단의 보스를 본딴 헬멧\n다른 헬멧보다 유리가 어두워 가시성은 안좋지만 멋때문에 찾는 종족이 많다",
                         "icon_chariter_pirate_helmet",
                         "icon_pirate_helmet",
-                        100);
+                        4500);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(5),
-                        "테스트헬멧2",
-                        "테스트 아이템1",
+                        "네온 고양이 헬멧",
+                        "어두운 후드 안을 들여다보면 야광 고양이가 있는 헬멧\non/off 버튼이 있지만, 찾지 못해서 끄지 못하고 있다",
                         "icon_chariter_carbon_helmet",
                         "icon_carbon_helmet",
-                        200);
+                        3000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(6),
-                        "테스트총1",
-                        "테스트 아이템1",
+                        "골든 샤크 대포",
+                        "황금빛으로 빛나는 상어 모양의 대포\n그 날카로운 입에선 무엇이든 빨아들이는 블랙홀을 발사한다는 설정을 가지고 있다",
                         "",
                         "Icon_gun3",
-                        100);
+                        13000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(6),
-                        "테스트총2",
-                        "테스트 아이템1",
+                        "카본 레일건",
+                        "카본소재의 본체에 노란 네온빛이 특징인 레일건\n레일건은 아니지만 멋있다는 이유로 이름이 결정됐다",
                         "",
                         "Icon_gun2",
-                        200);
+                        10000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(2),
-                        "보상모듈Lv2",
-                        "테스트 아이템1",
+                        "Lv2 모듈",
+                        "성능이 한층 강화된 형태의 모듈이다",
                         "",
                         "icon_module2",
                         0);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(2),
-                        "보상모듈Lv3",
-                        "테스트 아이템1",
+                        "Lv3 모듈",
+                        "최고의 성능을 자랑하는 모듈이다",
                         "",
                         "icon_module3",
                         0);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(4),
-                        "보상우주복",
-                        "테스트 아이템1",
+                        "스페이스 슈트",
+                        "보급품으로 남아있던 스페이스 슈트\n몸에 착 달라붙는 슈트는 마치 맨몸인 것 같은 편안함을 준다",
                         "icon_chariter_space_suit",
                         "icon_space_suit",
                         0);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(5),
-                        "보상헬멧",
-                        "테스트 아이템1",
+                        "스페이스 헬멧",
+                        "보급품으로 남아있던 스페이스 헬멧\n우주에서 활동하기 위해선 필수품이다",
                         "icon_chariter_helmet",
                         "icon_helmet",
                         0);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(6),
-                        "보상총",
-                        "테스트 아이템1",
+                        "스페이스 건",
+                        "보급품으로 남아있던 스페이스 건\n보통의 공격력을 가진 평범한 우주용 총이다",
                         "",
                         "Icon_gun1",
                         0);
@@ -4851,10 +4864,10 @@ public class Dev {
                 );
 
                 GameMap gameMap24e1 = gameMapService.createGameMap(
-                        "1", "2-4", "0", 1,
+                        "2", "2-4", "0", 1,
                         "",
                         "",
-                        "",
+                        "퀴즈 모두 해결하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -4927,6 +4940,131 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap23h1, List.of(shoes, module, gloves, suit, helmet));
                 requirePartsService.addRequireParts(gameMap23h2, List.of(shoes, module, gloves, suit, helmet));
                 requirePartsService.addRequireParts(gameMap23h3, List.of(shoes, module, gloves, suit, helmet));
+
+
+                Member member = memberService.findByUsername("testAdmin").get();
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap14e1.getId(), gameMap14e1.getStage(), gameMap14e1.getStep(), gameMap14e1.getDifficulty(), gameMap14e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21e1.getId(), gameMap21e1.getStage(), gameMap21e1.getStep(), gameMap21e1.getDifficulty(), gameMap21e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21e2.getId(), gameMap21e2.getStage(), gameMap21e2.getStep(), gameMap21e2.getDifficulty(), gameMap21e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21e3.getId(), gameMap21e3.getStage(), gameMap21e3.getStep(), gameMap21e3.getDifficulty(), gameMap21e3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21n1.getId(), gameMap21n1.getStage(), gameMap21n1.getStep(), gameMap21n1.getDifficulty(), gameMap21n1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21n2.getId(), gameMap21n2.getStage(), gameMap21n2.getStep(), gameMap21n2.getDifficulty(), gameMap21n2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21n3.getId(), gameMap21n3.getStage(), gameMap21n3.getStep(), gameMap21n3.getDifficulty(), gameMap21n3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21h1.getId(), gameMap21h1.getStage(), gameMap21h1.getStep(), gameMap21h1.getDifficulty(), gameMap21h1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21h2.getId(), gameMap21h2.getStage(), gameMap21h2.getStep(), gameMap21h2.getDifficulty(), gameMap21h2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21h3.getId(), gameMap21h3.getStage(), gameMap21h3.getStep(), gameMap21h3.getDifficulty(), gameMap21h3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22e1.getId(), gameMap22e1.getStage(), gameMap22e1.getStep(), gameMap22e1.getDifficulty(), gameMap22e1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22e2.getId(), gameMap22e2.getStage(), gameMap22e2.getStep(), gameMap22e2.getDifficulty(), gameMap22e2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22e3.getId(), gameMap22e3.getStage(), gameMap22e3.getStep(), gameMap22e3.getDifficulty(), gameMap22e3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22n1.getId(), gameMap22n1.getStage(), gameMap22n1.getStep(), gameMap22n1.getDifficulty(), gameMap22n1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22n2.getId(), gameMap22n2.getStage(), gameMap22n2.getStep(), gameMap22n2.getDifficulty(), gameMap22n2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22n3.getId(), gameMap22n3.getStage(), gameMap22n3.getStep(), gameMap22n3.getDifficulty(), gameMap22n3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22h1.getId(), gameMap22h1.getStage(), gameMap22h1.getStep(), gameMap22h1.getDifficulty(), gameMap22h1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22h2.getId(), gameMap22h2.getStage(), gameMap22h2.getStep(), gameMap22h2.getDifficulty(), gameMap22h2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22h3.getId(), gameMap22h3.getStage(), gameMap22h3.getStep(), gameMap22h3.getDifficulty(), gameMap22h3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23e1.getId(), gameMap23e1.getStage(), gameMap23e1.getStep(), gameMap23e1.getDifficulty(), gameMap23e1.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23e2.getId(), gameMap23e2.getStage(), gameMap23e2.getStep(), gameMap23e2.getDifficulty(), gameMap23e2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23e3.getId(), gameMap23e3.getStage(), gameMap23e3.getStep(), gameMap23e3.getDifficulty(), gameMap23e3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23n1.getId(), gameMap23n1.getStage(), gameMap23n1.getStep(), gameMap23n1.getDifficulty(), gameMap23n1.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23n2.getId(), gameMap23n2.getStage(), gameMap23n2.getStep(), gameMap23n2.getDifficulty(), gameMap23n2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23n3.getId(), gameMap23n3.getStage(), gameMap23n3.getStep(), gameMap23n3.getDifficulty(), gameMap23n3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23h1.getId(), gameMap23h1.getStage(), gameMap23h1.getStep(), gameMap23h1.getDifficulty(), gameMap23h1.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23h2.getId(), gameMap23h2.getStage(), gameMap23h2.getStep(), gameMap23h2.getDifficulty(), gameMap23h2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23h3.getId(), gameMap23h3.getStage(), gameMap23h3.getStep(), gameMap23h3.getDifficulty(), gameMap23h3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap24e1.getId(), gameMap24e1.getStage(), gameMap24e1.getStep(), gameMap24e1.getDifficulty(), gameMap24e1.getLevel(),
+                        "", 1);
+
+
+
+
+
+
             }
 
 
@@ -8084,6 +8222,153 @@ public class Dev {
 
                 gameMap33e3.setRewardItem(rewardGun);
                 gameMapRepository.save(gameMap33e3);
+
+
+                Member member = memberService.findByUsername("testAdmin").get();
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31e1.getId(), gameMap31e1.getStage(), gameMap31e1.getStep(), gameMap31e1.getDifficulty(), gameMap31e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31e2.getId(), gameMap31e2.getStage(), gameMap31e2.getStep(), gameMap31e2.getDifficulty(), gameMap31e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31e3.getId(), gameMap31e3.getStage(), gameMap31e3.getStep(), gameMap31e3.getDifficulty(), gameMap31e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31n1.getId(), gameMap31n1.getStage(), gameMap31n1.getStep(), gameMap31n1.getDifficulty(), gameMap31n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31n2.getId(), gameMap31n2.getStage(), gameMap31n2.getStep(), gameMap31n2.getDifficulty(), gameMap31n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31n3.getId(), gameMap31n3.getStage(), gameMap31n3.getStep(), gameMap31n3.getDifficulty(), gameMap31n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31h1.getId(), gameMap31h1.getStage(), gameMap31h1.getStep(), gameMap31h1.getDifficulty(), gameMap31h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31h2.getId(), gameMap31h2.getStage(), gameMap31h2.getStep(), gameMap31h2.getDifficulty(), gameMap31h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31h3.getId(), gameMap31h3.getStage(), gameMap31h3.getStep(), gameMap31h3.getDifficulty(), gameMap31h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32e1.getId(), gameMap32e1.getStage(), gameMap32e1.getStep(), gameMap32e1.getDifficulty(), gameMap32e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32e2.getId(), gameMap32e2.getStage(), gameMap32e2.getStep(), gameMap32e2.getDifficulty(), gameMap32e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32e3.getId(), gameMap32e3.getStage(), gameMap32e3.getStep(), gameMap32e3.getDifficulty(), gameMap32e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32n1.getId(), gameMap32n1.getStage(), gameMap32n1.getStep(), gameMap32n1.getDifficulty(), gameMap32n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32n2.getId(), gameMap32n2.getStage(), gameMap32n2.getStep(), gameMap32n2.getDifficulty(), gameMap32n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32n3.getId(), gameMap32n3.getStage(), gameMap32n3.getStep(), gameMap32n3.getDifficulty(), gameMap32n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32h1.getId(), gameMap32h1.getStage(), gameMap32h1.getStep(), gameMap32h1.getDifficulty(), gameMap32h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32h2.getId(), gameMap32h2.getStage(), gameMap32h2.getStep(), gameMap32h2.getDifficulty(), gameMap32h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32h3.getId(), gameMap32h3.getStage(), gameMap32h3.getStep(), gameMap32h3.getDifficulty(), gameMap32h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33e1.getId(), gameMap33e1.getStage(), gameMap33e1.getStep(), gameMap33e1.getDifficulty(), gameMap33e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33e2.getId(), gameMap33e2.getStage(), gameMap33e2.getStep(), gameMap33e2.getDifficulty(), gameMap33e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33e3.getId(), gameMap33e3.getStage(), gameMap33e3.getStep(), gameMap33e3.getDifficulty(), gameMap33e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33n1.getId(), gameMap33n1.getStage(), gameMap33n1.getStep(), gameMap33n1.getDifficulty(), gameMap33n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33n2.getId(), gameMap33n2.getStage(), gameMap33n2.getStep(), gameMap33n2.getDifficulty(), gameMap33n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33n3.getId(), gameMap33n3.getStage(), gameMap33n3.getStep(), gameMap33n3.getDifficulty(), gameMap33n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33h1.getId(), gameMap33h1.getStage(), gameMap33h1.getStep(), gameMap33h1.getDifficulty(), gameMap33h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33h2.getId(), gameMap33h2.getStage(), gameMap33h2.getStep(), gameMap33h2.getDifficulty(), gameMap33h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33h3.getId(), gameMap33h3.getStage(), gameMap33h3.getStep(), gameMap33h3.getDifficulty(), gameMap33h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34e1.getId(), gameMap34e1.getStage(), gameMap34e1.getStep(), gameMap34e1.getDifficulty(), gameMap34e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34e2.getId(), gameMap34e2.getStage(), gameMap34e2.getStep(), gameMap34e2.getDifficulty(), gameMap34e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34e3.getId(), gameMap34e3.getStage(), gameMap34e3.getStep(), gameMap34e3.getDifficulty(), gameMap34e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34n1.getId(), gameMap34n1.getStage(), gameMap34n1.getStep(), gameMap34n1.getDifficulty(), gameMap34n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34n2.getId(), gameMap34n2.getStage(), gameMap34n2.getStep(), gameMap34n2.getDifficulty(), gameMap34n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34n3.getId(), gameMap34n3.getStage(), gameMap34n3.getStep(), gameMap34n3.getDifficulty(), gameMap34n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34h1.getId(), gameMap34h1.getStage(), gameMap34h1.getStep(), gameMap34h1.getDifficulty(), gameMap34h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34h2.getId(), gameMap34h2.getStage(), gameMap34h2.getStep(), gameMap34h2.getDifficulty(), gameMap34h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34h3.getId(), gameMap34h3.getStage(), gameMap34h3.getStep(), gameMap34h3.getDifficulty(), gameMap34h3.getLevel(),
+                        "", 1);
 
             }
         };

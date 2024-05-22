@@ -39,9 +39,9 @@
     const highestClearedgameMapId = Math.max(...clearedgameMapIds);
 
     const difficultySelectorMsgs = [ // 셀렉터 메시지
-        '훈련을 마쳤다\n로켓 발사장으로 이동하자',
-        '본격적으로 우주로\n나가기 위한 준비를 하자',
-        '로켓을 수리하기위한 재료가 모두 모였다\n로켓을 수리해보자'
+        '새로운 행성\n\n새로운 행성에 성공적으로 착륙했습니다.\n우주복을 착용하고 이 미지의 행성을 탐사하세요.\n복잡한 암호를 해독하여\n행성의 비밀을 밝혀내는 것이 당신의 임무입니다.',
+        '함정과 난관\n\n이곳은 함정과 미로로 가득 찬 어려운 행성입니다.\n기존의 방식과는 달리, 더욱 논리적인 접근이 필요합니다.',
+        '행성의 비밀 발견\n\n행성은 우리가 살아가기에 최적화된 생태계를 가지고 있습니다.\n중력이 존재하며, 다양한 생명체가 확인되었습니다.\n하지만 이곳 역시 함정과 난관이 많습니다.\n모든 도전을 헤쳐 나가세요.'
     ]
 
     const difficultySelectorNames = [ // 셀렉터 이름
@@ -242,8 +242,8 @@
     }
 </script>
 
-<audio autoplay>
-    <source src="/sound/map_sound.mp3" type="audio/mpeg">
+<audio bind:this={myAudio}>
+    <source src="/sound/map_sound_2.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center bg-gray-500 overflow-hidden">
     <div class="background-container w-screen h-screen relative overflow-hidden" 
@@ -433,7 +433,7 @@
 
         {#if isOpen(31)} <!--step 의 easy, 1레벨 맵 아이디-->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[15%] left-[25%] cursor-pointer" on:click={() => toggleDropdown(1)} data-gameMapId="31"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(5) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(31) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
             <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 1</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TWO - ONE</div>
         </div>
@@ -454,7 +454,7 @@
         {#if isOpen(40)}
         <!-- <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[30%] cursor-pointer" on:click={() => toggleDropdown(2)} data-gameMapId="40"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(14) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(40) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 2</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TWO - TWO</div>
         </div>
@@ -472,7 +472,7 @@
 
         {#if isOpen(49)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[43%] cursor-pointer" on:click={() => toggleDropdown(3)} data-gameMapId="49"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(23) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(49) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 3</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TWO - THREE</div>
         </div>
@@ -491,7 +491,7 @@
 
         {#if isOpen(58)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[75%] left-[50%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="58"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(30) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(58) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 4</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TWO - FOUR</div>
         </div>

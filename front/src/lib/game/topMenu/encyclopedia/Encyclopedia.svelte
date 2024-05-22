@@ -44,9 +44,9 @@
                 style="{currentTab == stage ? 'color:rgb(255 210 87);' : 'color:rgb(64 226 255);'}">{stage}</div>
         </div>
         {/each}
-        <div class="absolute top-[132px] left-[300px] w-[404px] h-[637px] flex flex-col gap-4 items-center ">
+        <div class="absolute top-[132px] left-[300px] w-[404px] h-[637px] grid grid-col gap-4 content-start items-center overflow-y-scroll">
             {#each filterCodeArray(currentTab) as code}
-            <div class="w-[343px] h-[75px] text-[25px] font-bold pl-4 pt-2 cursor-pointer" on:click={() => currentCodeId = code.id} 
+            <div class="ml-10 w-[343px] h-[75px] text-[25px] font-bold pl-4 pt-2 cursor-pointer" on:click={() => currentCodeId = code.id} 
                 style="background-image:{currentCodeId == code.id ? 'url("/img/encyclopedia/ui_code_list2.png");' : 'url("/img/encyclopedia/ui_code_list.png");'}
                 color:rgb(28 211 216)">{code.code}</div>
             {/each}
@@ -61,17 +61,26 @@
 
     <div class="w-[962px] h-[819px] ml-[30px]" style="background-image:url('/img/shop/ui_store_bg.png');">
         <div class="absolute top-[110px] right-[57px] w-[878px] h-[658px]" style="background-image:url('/img/shop/ui_store_inupbg.png');">
-            <div class="encyclopedia-container w-[878px] h-[608px] grid grid-cols-1 pl-[30px] overflow-y-scroll">
+            <div class="encyclopedia-container w-[878px] h-[608px] grid grid-cols-1 gap-6 pl-[30px] overflow-y-scroll">
                 <div class="text-[50px] mt-4 font-bold" style="color:rgb(28 211 216);">{codeArray[currentCodeId].code}</div>
                 <div class="text-[35px] font-bold text-white italic">{codeArray[currentCodeId].type}</div>
-                <div class="text-[25px] font-bold italic" style="color:rgb(28 211 216);">{codeArray[currentCodeId].description}</div>
+                <div class="text-[25px] font-bold whitespace-pre-wrap" style="color:rgb(28 211 216);">{codeArray[currentCodeId].description}</div>
                 <div></div>
                 <div class="text-[25px] text-white font-bold">예시</div>
-                <div class="w-[537px] h-[223px] flex items-center justify-center" style="background-image:url('/img/encyclopedia/ui_code_bg4.png');">
+                <div class="flex flex-col">
+                    <div class="w-[537px] h-[48px]" style="background-image:url('/img/encyclopedia/ui_code_bg_up.png');"></div>
+                    <div class="w-[537px]" style="background-image:url('/img/encyclopedia/ui_code_bg_middle.png');">
+                        <div class="w-[537px] pl-5 pr-2 whitespace-pre-wrap text-white text-[20px]">
+                            {codeArray[currentCodeId].example}
+                        </div>
+                    </div>
+                    <div class="w-[537px] h-[47px]" style="background-image:url('/img/encyclopedia/ui_code_bg_down.png');"></div>
+                </div>
+                <!-- <div class="w-[537px] h-[223px] flex items-center justify-center whitespace-pre-wrap" style="background-image:url('/img/encyclopedia/ui_code_bg4.png');">
                     <div class="w-[480px] h-[200px]">
                         {codeArray[currentCodeId].example}
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@ export const load: Load = async ({ params, fetch }) => {
     const { data } = await rq.apiEndPointsWithFetch(fetch).GET(`/api/v1/playerLogs/clearLog/{stage}`, {
       params: {
         path: {
-          stage: "1"
+          stage: "3"
         }
       }
     });

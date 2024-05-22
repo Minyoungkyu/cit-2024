@@ -48,6 +48,8 @@
             }
         });
 
+        if ( (window as any).SetVolume ) (window as any).SetVolume(rq.member.player.backgroundVolume, rq.member.player.effectVolume);
+
         closeFc();
     }
 </script>

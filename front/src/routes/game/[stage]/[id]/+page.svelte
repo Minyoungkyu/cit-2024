@@ -59,10 +59,12 @@
 
     let showBtnGuide: boolean = $state(false);
     let currentGuideIndex: number = $state(0);
-    let btnGuideArray = $state(Array.from({length: 7}, () => false));
+    let btnGuideArray = $state(Array.from({length: 8}, () => false));
 
     let baseScore = 0;
     let playerScore = 1;
+
+    let currentGameLog: any = $state(null);
 
     function isFirstStep() {
         return gameMapDto.step === 'tutorial' && gameMapDto.level === 1;
@@ -71,6 +73,7 @@
     const stageString = gameMapDto.cocosInfo;
     const jsonObjectString = stageString.trim().substring("stage = ".length);
     const stageObject = JSON.parse(jsonObjectString);
+    const killCount = stageObject.stage.init_item_list.filter((item: any) => item.type.includes('monster' || 'boss')).length;
 
     let medicine = $state(stageObject.player.medicine_count);
     let advancedMedicine = stageObject.player.advanced_medicine_count;
@@ -128,13 +131,14 @@
 
         let maxLevel = 0;
 
-        if (gameMapDto.step == '3-4') maxLevel = 4;
-        else if (gameMapDto.step == 'tutorial') maxLevel = 2;
+        if (gameMapDto.step == 'tutorial') maxLevel = 2;
         else maxLevel = 3;
 
         let newList = [];
         let level = 1;
         let switchLogList = data!.data.switchLogList;
+
+        currentGameLog = switchLogList.find(log => log.gameMapId === gameMapDto.id);
 
         while (level <= maxLevel) {
             const matchingLog = switchLogList.find(log => log.gameMapLevel == level);
@@ -253,7 +257,7 @@
                 result: result,
                 editorAutoComplete: rq.member.player.editorAutoComplete,
                 editorAutoClose: rq.member.player.editorAutoClose,
-                killCount: 1
+                killCount: killCount
             }
         });
     }
@@ -647,6 +651,11 @@
                 }
             }else if(clearGoalList[i].includes('줄 이하')) {
                 checkLineCount = false;
+                if (gameMapDto.difficulty !== 'Hard') {
+                    checkLineCount = true;
+                    return;
+                }
+
                 let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
                 if (lineCounter <= codeLineGoals[0].count) {
                     checkLineCount = true;
@@ -748,8 +757,10 @@
     function doComplete() {
         batchPlayLog(playerScore);
         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            showClearPopup = true;
-            return;
+            if ( currentGameLog && currentGameLog.detailInt === 0) {
+                showClearPopup = true;
+                return;
+            }
         }
         routeToNext();
     }
@@ -757,7 +768,10 @@
     function routeToNext() {
         const nextLevel = gameMapDto.id + 1;
         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            return;
+            openLayer = true;
+            setTimeout(() => {
+                window.location.href = `/game/${gameMapDto.stage}`;
+            }, 500);
         } else if (gameMapDto.difficulty === "0") {
             openLayer = true;
             setTimeout(() => {
@@ -937,7 +951,7 @@
         <div class="relative bg-gray-500" style="width:{widthMultiplier}px;">
             <div class="absolute w-full h-full {showBtnGuide ? 'bg-black bg-opacity-50 z-[99]' : 'hidden'}"></div>
             <div id="game-player-container" class="flex justify-center items-center h-full"> 
-                <Cocos {gameMapDto} {isCoReady} equippedGunId={rq.inventories.findEquippedByItemPartsId(6)?.item.id} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
+                <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
 
             <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
@@ -945,7 +959,8 @@
 
             {#await loadSwitchLog()}
             {:then data}
-            <div class="flex flex-row gap-4 absolute top-[2%] left-[10%]" style="transform:scale({scaleMultiplier2});transform-origin:left top;">
+            <div class="flex flex-row gap-4 absolute top-[2%] left-[10%]" 
+                style="transform:scale({scaleMultiplier2});transform-origin:left top;{showBtnGuide && btnGuideArray[7] ? 'box-shadow:0 0px 20px 20px rgb(255, 255, 255, 0.5);z-index:999;' : ''}">
                 {#each data as switchLog, index}
                     {#if switchLog}
                     <div class="switchBtn w-[55px] h-[55px] cursor-pointer" on:click={() => window.location.href = `/game/${switchLog.gameMapStage}/${switchLog.gameMapId}`}
@@ -1022,7 +1037,13 @@
                                         ◇
                                     {/if}
                                 </div> 
-                                <div>{goal}</div>   
+                                <div>
+                                    {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
+                                      {goal} (권장)
+                                    {:else}
+                                      {goal}
+                                    {/if}
+                                </div>
                             </div>
                         {/each}
                     </div>
@@ -1042,9 +1063,9 @@
 
                 <div class="flex flex-row justify-between h-[52px] w-full">
                     <div class="flex flex-row gap-2">
-                        <div class="w-[52px] h-[52px] cursor-pointer" 
+                        <!-- <div class="w-[52px] h-[52px] cursor-pointer" 
                             style="background-image:{volumeCanMute ? 'url("/img/inGame/btn_Volume_on.png");' : 'url("/img/inGame/btn_Volume_mute.png");' }"
-                            on:click={() => volumeCanMute = !volumeCanMute}></div>
+                            on:click={() => volumeCanMute = !volumeCanMute}></div> -->
                         <div class="w-[52px] h-[52px] cursor-pointer" 
                             style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 
                             isPause ? 'url("/img/inGame/btn_Control_Play.png");' : 
@@ -1172,4 +1193,4 @@
 </div>
 
 
-<!-- <TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>
