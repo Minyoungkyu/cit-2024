@@ -239,7 +239,7 @@
     }
 </script>
 
-<audio bind:this={myAudio}>
+<audio loop bind:this={myAudio}>
     <source src="/sound/map_sound_3.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center bg-gray-500 overflow-hidden">
@@ -281,7 +281,6 @@
                     transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(4)}></div>
             </div>
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black;pointer-events:none;">{topMenuArrayText[currentMenuIndex]}</div>
-            <div>{userDevice}</div> <!-- Todo: remove -->
         </div>
         <div class=" flex flex-col items-end absolute top-[4%] right-[0] z-[60]" style="transform-origin:top right;transform:scale({scaleMultiplier2});pointer-events:none;"> <!-- 우상단 -->
             <div class="flex flex-row gap-3 mr-4 h-[160px] items-end" style="transform-origin:right;transform:scale(0.67);">
@@ -498,7 +497,7 @@
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[55%] left-[40%] cursor-pointer"
             style="bottom:55%;left:40%;background-image:url('/img/map/ui_stage_0.png');transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-gray-400 font-bold" style=""><i class="fa-solid fa-lock text-[30px] mr-4"></i>3 - 4</div>
-            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">THREE - THREE</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">THREE - FOUR</div>
         </div>
         {/if}
     </div>

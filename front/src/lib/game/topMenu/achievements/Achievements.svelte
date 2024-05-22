@@ -82,8 +82,9 @@
         <div class="w-[96%] h-[76%] mt-5 grid grid-col gap-4 overflow-auto">
             {#each achievements as achievement}
             <div class="w-[1320px] h-[126px] flex flex-row {achievement.getReward === 0 && achievement.isAchieved === 1 ? 'cursor-pointer' : ''}" 
-                on:click={() => getReward(achievement)}
-                style="background-image:url(/img/achievements/frame_challenge_{achievement.isAchieved === 1 ? 'clear':'n'}.png);">
+                on:click={() => {getReward(achievement); console.log('ㅎㅇ');}}
+                style="background-image:url(/img/achievements/frame_challenge_{achievement.isAchieved === 1 ? 'clear':'n'}.png); 
+                {achievement.getReward === 1 || achievement.isAchieved === 0 ? 'pointer-events:none;' : ''};">
                 <div class="w-[80%] h-full flex flex-col">
                     <div class="text-[30px] font-[500] italic text-white ml-10 mt-4 mb-1">{achievement.name}</div>
                     <div class="text-[30px] font-[500] italic ml-32" 

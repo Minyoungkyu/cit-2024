@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +62,22 @@ public class PlayerLogService {
     }
 
     public List<PlayerLog> getStageClearLog(Long id, String stage) {
-        return playerLogRepository.findByUserIdAndGameMapStageAndLogTypeAndDetailIntGreaterThanEqual(id, stage, "STAGECLEAR", 1);
+
+        List<PlayerLog> playerLogList = playerLogRepository.findByUserIdAndGameMapStageAndLogTypeAndDetailIntGreaterThanEqual(id, stage, "STAGECLEAR", 1);
+
+        Stream<Optional<PlayerLog>> additionalLogsStream = Stream.of(
+                stage.equals("2") ? playerLogRepository.findByUserIdAndGameMapIdAndLogTypeAndDetailIntGreaterThanEqual(id, 30L, "STAGECLEAR", 1) : Optional.empty(),
+                stage.equals("3") ? playerLogRepository.findByUserIdAndGameMapIdAndLogTypeAndDetailIntGreaterThanEqual(id, 58L, "STAGECLEAR", 1) : Optional.empty()
+        );
+
+        List<PlayerLog> additionalLogs = additionalLogsStream
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        playerLogList.addAll(additionalLogs);
+
+        return playerLogList;
     }
 
     public Optional<PlayerLog> getHighestLog(Long id) {

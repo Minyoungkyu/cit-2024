@@ -23,8 +23,8 @@ class Character:
         self.get_info_time = 0.5
         self.jump_time = 2.0
         self.attack_time = 0.5
-        self.check_time = 0.5
-        self.print_result_time = 0.5
+        self.check_time = 1.5
+        self.print_result_time = 1.5
         self.monster_attack_time = 1.5
         self.monster_hit_time = 0.5 # appresseive_monster_1 만 적용됨
 

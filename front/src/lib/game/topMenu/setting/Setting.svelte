@@ -69,11 +69,11 @@
                 <input class="cursor-grab" type="range" min="0" max="100" step="10" 
                     on:change={() => rq.member.player.backgroundVolume = backgroundVolume}
                     bind:value={backgroundVolume}/>
-                <div>
+                <!-- <div>
                     <div class="flex flex-row items-center justify-center gap-4 w-[48px] h-[48px] cursor-pointer" on:click={() => backgroundVolume = 100}
                         style="background-image:url('/img/login/slect_{backgroundVolume == 100 ? 'on' : 'off'}.png');">
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="w-full flex flex-row gap-8 justify-center items-center mt-8">
                 <div class="w-[150px] flex justify-start">
@@ -84,11 +84,11 @@
                 <input class="cursor-grab" type="range" min="0" max="100" step="10" 
                     on:change={() => rq.member.player.effectVolume = effectVolume}
                     bind:value={effectVolume}/>
-                <div>
+                <!-- <div>
                     <div class="flex flex-row items-center justify-center gap-4 w-[48px] h-[48px] cursor-pointer" on:click={() => effectVolume = 100}
                         style="background-image:url('/img/login/slect_{effectVolume == 100 ? 'on' : 'off'}.png');">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="w-[98%] h-[17px]" style="background-image:url('/img/setting/ui_option_window.png');"></div>

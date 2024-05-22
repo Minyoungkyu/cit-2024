@@ -229,7 +229,7 @@
                 <div class="w-[90px] h-[90px]" style="background-image:url('/img/shop/icon_gem2.png');background-size:cover;"></div>
                 <div class="text-[35px] italic {isPurchasable2(currentItem?.price) ? 'text-white' : 'text-red-500'} font-[900]"> {currentItem?.price} </div>
             </div>
-            <div class="w-[310px] h-[76px] mt-[-1px] flex items-center justify-start cursor-pointer mt-[10px] {isPurchasable(currentItem?.itemPartsId) ? '' : '' }" 
+            <div class="w-[310px] h-[76px] mt-[-1px] flex items-center justify-start cursor-pointer mt-[10px] {isPurchasable(currentItem?.itemPartsId) ? '' : 'hidden' }" 
                 style="background-image:url('/img/inventory/btn_item_etc2.jpg');transform-origin:top left;transform:scale(1);"
                 on:click={() => {isPurchasable2(currentItem?.price) ? purchaseItem(currentItem) : shopGemsModalOpen.update(n => true)}}>
                 <div class="text-white font-bold italic text-[40px] ml-[80px]" style="color:rgb(255 210 87);">
