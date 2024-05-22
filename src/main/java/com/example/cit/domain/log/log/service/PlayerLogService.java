@@ -81,7 +81,7 @@ public class PlayerLogService {
     }
 
     public Optional<PlayerLog> getHighestLog(Long id) {
-        return playerLogRepository.findFirstByUserIdAndDetailIntOrderByGameMapIdDesc(id, 1);
+        return playerLogRepository.findFirstByUserIdAndDetailIntGreaterThanEqualOrderByGameMapIdDesc(id, 1);
     }
 
     public long getStageClearCount(Long playerId, String difficulty) {
@@ -176,7 +176,7 @@ public class PlayerLogService {
     }
 
     private void makeNextStepGameLog(Member member, GameMapDto gameMapDto) {
-        if (gameMapDto.level() == 88) return;
+        if (gameMapDto.id() == 88) return;
 
         GameMap nextStepGame = gameMapService.findGameMapById(gameMapDto.id() + 7).get();
 

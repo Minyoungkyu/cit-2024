@@ -260,7 +260,7 @@
         <div class="absolute top-[50%] right-[1%] w-[83px] h-[124px] cursor-pointer" on:click={() => rq.goTo('/game/2')}
             style="background-image:url('/img/map/btn_next.png');transform-origin:top right;transform:scale(0.67) scale({scaleMultiplier2});"></div> <!-- 다음 맵 버튼 -->
 
-        <div class="w-[52px] h-[52px] absolute z-[99] right-[0] bottom-0 cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
+        <div class="w-[52px] h-[52px] absolute z-[97] right-[0] bottom-0 cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
             style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');transform:scale({scaleMultiplier});transform-origin:bottom right;">
         </div>
 
@@ -324,11 +324,11 @@
                         <div class="w-[1200px] h-[904px] text-white font-[900] text-[50px] flex flex-col items-center justify-around whitespace-nowrap" style="background-image:url('/img/inventory/ui_popup_middle.jpg');">
                             <div class=" ml-[100px] flex flex-col h-full items-center whitespace-nowrap">
                                 <div class="text-[150px] mt-[20px]">
-                                    젬 부족
+                                    보석 부족
                                 </div>
                                 <div class="absolute w-full h-[19px] top-[260px] left-[62px]" style="background-image:url('/img/inventory/ui_itme_window3.png');background-repeat:no-repeat;transform:scale(2.8);transform-origin:left;"></div>
                                 <div class="flex w-full h-1/4 items-start justify-center text-[75px] mt-[220px]">
-                                    젬이 부족하여 구매할 수 없습니다.
+                                    보석이 부족하여 구매할 수 없습니다.
                                 </div>
                                 <div class="flex flex-row w-full justify-center gap-12 text-[100px] mt-[30px]">
                                     <div class="w-[299px] h-[102px] text-gray text-[40px] font-bold italic text-center leading-[105px] cursor-pointer"

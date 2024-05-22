@@ -357,97 +357,97 @@ public class DevInit2 {
                         "인류에게 작은 발걸음이지만, 나에게는 위대한 도약이다",
                         "튜토리얼 클리어",
                         "STAGE CLEAR",
-                        2, 5, 25, null
+                        2, 0, 25, null
                 );
                 achievementService.createAchievement(
                         "엄마가 주신 턴슈즈",
                         "1-1 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        5, 5, 25, null
+                        5, 0, 25, null
                 );
                 achievementService.createAchievement(
                         "업데이트 for 모듈",
                         "1-2 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        14, 5, 25, null
+                        14, 0, 25, null
                 );
                 achievementService.createAchievement(
                         "손끼임 방지",
                         "1-3 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        23, 5, 25, null
+                        23, 0, 25, null
                 );
                 achievementService.createAchievement(
                         "옷이 부스터다",
                         "2-1 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        33, 10, 50, null
+                        33, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "업데이트 if 모듈",
                         "2-2 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        42, 10, 50, null
+                        42, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "업데이트 while 모듈",
                         "2-3 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        51, 10, 50, null
+                        51, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "서든스페이스어택",
                         "3-1 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        61, 15, 75, null
+                        61, 0, 75, null
                 );
                 achievementService.createAchievement(
                         "보급선 구축",
                         "3-2 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        70, 15, 75, null
+                        70, 0, 75, null
                 );
                 achievementService.createAchievement(
                         "Tonight, joins the hunt...",
                         "3-3 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        79, 15, 75, null
+                        79, 0, 75, null
                 );
                 achievementService.createAchievement(
                         "BANG!BANG!BANG!",
                         "3-4 스테이지 Easy 난이도 클리어",
                         "STAGE CLEAR",
-                        88, 15, 75, null
+                        88, 0, 75, null
                 );
                 achievementService.createAchievement(
                         "굶지마!",
                         "1-1 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        8, 8, 40, null
+                        8, 0, 40, null
                 );
                 achievementService.createAchievement(
                         "빙글빙글",
                         "1-2 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        17, 8, 40, null
+                        17, 0, 40, null
                 );
                 achievementService.createAchievement(
                         "대세는 하이브리드 엔진",
                         "1-3 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        26, 8, 40, null
+                        26, 0, 40, null
                 );
                 achievementService.createAchievement(
                         "두뇌풀가동!",
                         "2-1 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        36, 16, 80, null
+                        36, 0, 80, null
                 );
                 achievementService.createAchievement(
                         "폭탄이 내린다 샤라랄라라랄라",
                         "2-2 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        45, 16, 80, null
+                        45, 0, 80, null
                 );
                 achievementService.createAchievement(
                         "불맛 맛집",
@@ -784,8 +784,8 @@ public class DevInit2 {
                 achievementService.setRewardIcon(ac1, icon1);
                 achievementService.setRewardIcon(ac2, icon2);
                 achievementService.setRewardIcon(ac3, icon3);
-                achievementService.setRewardIcon(ac4, icon4);
-                achievementService.setRewardIcon(ac5, icon5);
+                achievementService.setRewardIcon(ac4, icon5);
+                achievementService.setRewardIcon(ac5, icon4);
 
                 profileService.setAchievement(icon1, ac1);
                 profileService.setAchievement(icon2, ac2);

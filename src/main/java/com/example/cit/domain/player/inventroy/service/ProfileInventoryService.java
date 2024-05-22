@@ -65,7 +65,7 @@ public class ProfileInventoryService {
 
 
     public void addDefaultIcon(Player player, int characterType) {
-        createInventory(player, characterType + 1, true);
+        createInventory(player, characterType == 1 ? 2L : 1L, true);
     }
 
     @Transactional

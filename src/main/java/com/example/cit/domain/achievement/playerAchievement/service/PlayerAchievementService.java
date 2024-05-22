@@ -71,8 +71,8 @@ public class PlayerAchievementService {
     @Transactional
     public void checkPurchaseSetItemAchievement(Member member) {
 
-        List<Long> setCarbonItemIds = List.of(5L, 7L, 9L, 11L, 13L);
-        List<Long> setPirateItemIds = List.of(4L, 6L, 8L, 10L, 12L);
+        List<Long> setPirateItemIds = List.of(5L, 7L, 9L, 11L, 13L);
+        List<Long> setCarbonItemIds = List.of(4L, 6L, 8L, 10L, 12L);
 
         Set<Long> inventoryItemIds = rq.getMember().getPlayer().getInventories().stream()
                 .map(Inventory::getItem)
@@ -83,12 +83,12 @@ public class PlayerAchievementService {
         boolean hasAllPirateItems = inventoryItemIds.containsAll(setPirateItemIds);
 
         if (hasAllCarbonItems) {
-            Optional<Achievement> opAchievement = achievementService.getAchievement("PURCHASE EQUIPMENT SET", 0);
+            Optional<Achievement> opAchievement = achievementService.getAchievement("PURCHASE EQUIPMENT SET", 1);
             opAchievement.ifPresent(achievement -> this.addAchievementToPlayerIfEmpty(member, achievement));
         }
 
         if (hasAllPirateItems) {
-            Optional<Achievement> opAchievement = achievementService.getAchievement("PURCHASE EQUIPMENT SET", 1);
+            Optional<Achievement> opAchievement = achievementService.getAchievement("PURCHASE EQUIPMENT SET", 0);
             opAchievement.ifPresent(achievement -> this.addAchievementToPlayerIfEmpty(member, achievement));
         }
     }

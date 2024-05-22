@@ -214,7 +214,7 @@
     <!-- equipment -->
     <div class="w-[460px] h-[819px] ml-[30px] {currentTab == "equipment" ? '' : 'hidden'}" style="background-image:url('/img/shop/ui_store_bg2.png');">
         <div class="absolute top-[16px] right-[85px] w-[330px] h-[74px] flex items-center justify-start" style="background-image:url('/img/shop/ui_itemname.png');">
-            <div class="text-[40px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentItem?.name}</div>
+            <div class="text-[30px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentItem?.name}</div>
         </div>
         <div class="absolute top-[132px] right-[30px] w-[404px] h-[637px] flex flex-col items-center" style="background-image:url('/img/shop/ui_store_inupbg2.png');">
             <div class="w-[203px] h-[203px] mt-[20px]" style="background-image:url('/img/shop/ui_itemframe2.png');">
@@ -243,7 +243,7 @@
     <!-- profile -->
     <div class="w-[460px] h-[819px] ml-[30px] {currentTab == "equipment" ? 'hidden' : ''}" style="background-image:url('/img/shop/ui_store_bg2.png');">
         <div class="absolute top-[16px] right-[85px] w-[330px] h-[74px] flex items-center justify-start" style="background-image:url('/img/shop/ui_itemname.png');">
-            <div class="text-[40px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentProfile?.name}</div>
+            <div class="text-[30px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentProfile?.name}</div>
         </div>
         <div class="absolute top-[132px] right-[30px] w-[404px] h-[637px] flex flex-col items-center" style="background-image:url('/img/shop/ui_store_inupbg2.png');">
             <div class="w-[180px] h-[180px] z-[10] mt-[31.5px]" 

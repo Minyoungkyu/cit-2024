@@ -141,8 +141,8 @@
             </div>
             <div class="w-[330px] h-[330px] flex flex-col items-center justify-center mt-2" 
                 style="background-image:url('/img/profile/frame_stageinfo.png');background-size:contain;color:rgb(255 210 87);">
-                <div class="text-[25px] font-[100]">{profileMain.playerLogDto?.gameMapDifficulty}</div>
-                <div class="text-[85px] font-bold">{profileMain.playerLogDto?.gameMapStep || 'Tutorial'}</div>
+                <div class="text-[25px] font-[100]">{profileMain.playerLogDto?.gameMapDifficulty == '0' ? '':`${profileMain.playerLogDto?.gameMapDifficulty}`}</div>
+                <div class="text-[{profileMain.playerLogDto?.gameMapStep == 'tutorial' ? '70px' : '85px'}] font-bold">{profileMain.playerLogDto?.gameMapStep}</div>
             </div>
             <div class="flex flex-col gap-2 mt-6 w-full items-start">
                 {#each profileMain.profileClearRateDtoList as rate}
@@ -150,7 +150,7 @@
                     <div class="w-[419px] h-[63px] flex items-center justify-between text-[30px] cursor-pointer" on:click={() => toggleCurrentDiff(rate.difficulty)}
                         style="background-image:url('/img/profile/ui_stage_list{currentDiff == rate.difficulty ? '_on' : ''}.png');color:rgb({currentDiff == rate.difficulty ? '255 210 87' : '64 226 255'});">
                         <div class="ml-10 font-bold">{rate.difficulty}</div>
-                        <div class="mr-10">{rate.clearCount/30 * 100}%</div>
+                        <div class="mr-10">{Math.round(rate.clearCount/30 * 100)}%</div>
                     </div>
                 </div>
                 {/each}
@@ -168,7 +168,7 @@
                     <div class="w-[800px] flex flex-row justify-between items-center border-b-2 cursor-pointer" 
                         style="border-color:rgb(64 226 255);" on:click={() => toggleDetail(index)}>
                         <div class="text-[50px] font-bold ml-2" style="color:rgb(28 211 216);">{step}</div>
-                        <div class="w-[25px] h-[22px] mr-2" style="background-image:{openDetailIds.has(index) ? 'url("/img/profile/btn_down.png");' : 'url("/img/profile/btn_up.png");'}"></div>
+                        <div class="w-[25px] h-[22px] mr-2" style="background-image:{openDetailIds.has(index) ? 'url("/img/profile/btn_up.png");' : 'url("/img/profile/btn_down.png");'}"></div>
                     </div>
                     {#if openDetailIds.has(index)}
                     {#await loadProfileDetail(step, currentDiff)}

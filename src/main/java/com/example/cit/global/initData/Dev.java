@@ -304,7 +304,8 @@ public class Dev {
                                 "turnLeft() 함수를 사용하면 플레이어가 왼쪽방향으로 틀게됩니다.\n" +
                                 "\n" +
                                 "turnRight() 함수를 사용하게 되면 플레이어가 오른쪽 방향으로 돌게됩니다.",
-                        "turnLeft()\n" +
+                        "go()\n" +
+                                "turnLeft()\n" +
                                 "go()\n" +
                                 "turnRight()\n" +
                                 "go()",
@@ -317,7 +318,7 @@ public class Dev {
                 GameMap gameMap11e1 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 1,
                         "go(),turnLeft(),turnRight()",
-                        "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표 지점에 도달하세요.\n",
+                        "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표지점에 도달하세요.\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -359,9 +360,9 @@ public class Dev {
                                 "\n" +
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
+                                "turnLeft()\n" +
                                 "go()\n" +
-                                "turnLeft()\n" +
-                                "turnLeft()\n" +
+                                "turnRight()\n" +
                                 "go()",
                         "go(),turnLeft(),turnRight()",
                         0,
@@ -372,8 +373,9 @@ public class Dev {
                 GameMap gameMap11e2 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 2,
                         "go(),turnLeft(),turnRight()",
-                        "# 더 멀리 이동하기 위해  다음과 같이 이동 명령문의 괄호 안에 숫자를 넣어보세요.\n" +
-                                "# go(2)\n",
+                        "# 더 멀리 이동하기 위해 이동 명령문의 괄호 안에 숫자를 넣어보세요\n" +
+                                "\n" +
+                                "go(2)",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -412,10 +414,9 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go(3)\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnLeft()\n" +
-                                "go()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
                         0,
                         0,
@@ -425,7 +426,7 @@ public class Dev {
                 GameMap gameMap11e3 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 3,
                         "go(),turnLeft(),turnRight()",
-                        "# 바닥에 있는 폭탄을 피해서 보급품을 획득하세요.\n",
+                        "# 이동명령문을 사용하여 폭탄을 피해 식량을 획득하고 목표지점으로 이동하세요.\n",
                         "목표지점에 도달하기\n" +
                                 "보급품 3개 획득하기",
                         "stage = {\n" +
@@ -484,10 +485,9 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for i in range(3):\n" +
-                                "   go(2)\n" +
-                                "   turnLeft()\n" +
-                                "   turnRight()",
+                        "go(2)\n" +
+                                "turnLeft()\n" +
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
                         6,
                         92,
@@ -544,9 +544,9 @@ public class Dev {
                                 "\n" +
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
+                                "turnLeft()\n" +
                                 "go()\n" +
-                                "turnLeft()\n" +
-                                "turnLeft()\n" +
+                                "turnRight()\n" +
                                 "go()",
                         "go(),turnLeft(),turnRight()",
                         0,
@@ -603,10 +603,9 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go(3)\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnLeft()\n" +
-                                "go()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
                         0,
                         0,
@@ -671,10 +670,9 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for i in range(3):\n" +
-                                "   go(2)\n" +
-                                "   turnLeft()\n" +
-                                "   turnRight()",
+                        "go(2)\n" +
+                                "turnLeft()\n" +
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
                         29,
                         288,
@@ -734,9 +732,9 @@ public class Dev {
                                 "\n" +
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
+                                "turnLeft()\n" +
                                 "go()\n" +
-                                "turnLeft()\n" +
-                                "turnLeft()\n" +
+                                "turnRight()\n" +
                                 "go()",
                         "go(),turnLeft(),turnRight()",
                         0,
@@ -747,7 +745,7 @@ public class Dev {
                 GameMap gameMap11h2 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 2,
                         "go(),turnLeft(),turnRight()",
-                        "",
+                        "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
                         "목표지점에 도달하기\n" +
                                 "보급품 3개 획득하기",
                         "stage = {\n" +
@@ -794,10 +792,9 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go(3)\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnLeft()\n" +
-                                "go()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
                         0,
                         0,
@@ -807,7 +804,7 @@ public class Dev {
                 GameMap gameMap11h3 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 3,
                         "go(),turnLeft(),turnRight()",
-                        "",
+                        "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
                         "목표지점에 도달하기\n" +
                                 "보급품 4개 획득하기",
                         "stage = {\n" +
@@ -859,10 +856,9 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for i in range(3):\n" +
-                                "   go(2)\n" +
-                                "   turnLeft()\n" +
-                                "   turnRight()",
+                        "go(2)\n" +
+                                "turnLeft()\n" +
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
                         345,
                         2070,
@@ -872,8 +868,10 @@ public class Dev {
                 GameMap gameMap12e1 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "for i in range(3):\n" +
+                                "    # for 명령어 아래에 들여쓰기 된 이곳부터 반복됩니다.\n" +
+                                "    go()",
                         "목표지점에 도달하기\n" +
                                 "로켓부품 2개 획득하기\n" +
                                 "코드 5줄 이하로 작성하기",
@@ -919,14 +917,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수\n" +
+                        "부품회수-1\n" +
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
                         "for i in range(3):\n" +
                                 "   go(2)\n" +
                                 "   turnLeft()\n" +
-                                "   turnRight()",
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
@@ -936,9 +934,13 @@ public class Dev {
                 GameMap gameMap12e2 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
-                                "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n",
+                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "for i in range(2):\n" +
+                                "    # 이곳에 이동 명령어를 사용하여 식량을 획득하세요.\n" +
+                                "    go(3)\n" +
+                                "    \n" +
+                                "\n" +
+                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하면 다음 식량은 반복으로 획득할 수 있습니다.\n",
                         "로켓부품 2개 획득하기\n" +
                                 "코드 40줄 이하로 작성하기",
                         "stage = {\n" +
@@ -962,10 +964,7 @@ public class Dev {
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [3,4], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1}\n" +
+                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
@@ -983,23 +982,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-1\n" +
+                        "부품회수-2\n" +
                                 "\n" +
-                                "앞에 보이는 레이저를 조심하세요!!\n" +
-                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "go()\n" +
-                                "for i in range(2):\n" +
-                                "  go()\n" +
-                                "  for i in range(3):\n" +
-                                "     go(2)\n" +
-                                "     turnLeft()\n" +
-                                "     turnRight()",
+                                "로켓을 만들기위해 로켓 부품을 찾아야 합니다. \n" +
+                                "방 구석 구석을 잘 찾아보세요.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
@@ -1009,9 +999,13 @@ public class Dev {
                 GameMap gameMap12e3 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
-                                "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n",
+                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "for i in range(2):\n" +
+                                "    # 이곳에 이동 명령어를 사용하여 가까운 위쪽 방과 아래 방의 식량을 획득하세요.\n" +
+                                "    go(3)\n" +
+                                "    \n" +
+                                "\n" +
+                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하면 다음 식량은 반복으로 획득할 수 있습니다.\n",
                         "로켓부품 4개 획득하기\n" +
                                 "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1037,13 +1031,7 @@ public class Dev {
                                 "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
                                 "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
                                 "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [6,7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [6,7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1}\n" +
+                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 4},\n" +
@@ -1061,22 +1049,13 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-2\n" +
+                        "부품회수-3\n" +
                                 "\n" +
-                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "go()\n" +
-                                "for i in range(2):\n" +
-                                "  go()\n" +
-                                "  for i in range(3):\n" +
-                                "     go(2)\n" +
-                                "     turnLeft()\n" +
-                                "     turnRight()",
+                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         12,
                         184,
@@ -1139,14 +1118,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수\n" +
+                        "부품회수-1\n" +
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
                         "for i in range(3):\n" +
                                 "   go(2)\n" +
                                 "   turnLeft()\n" +
-                                "   turnRight()",
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
@@ -1161,7 +1140,7 @@ public class Dev {
                                 "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
                                 "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
                         "로켓부품 6개 획득하기\n" +
-                                "코드 60줄 이하로 작성하기",
+                                "코드 40줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1215,23 +1194,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-1\n" +
+                        "부품회수-2\n" +
                                 "\n" +
-                                "앞에 보이는 레이저를 조심하세요!!\n" +
-                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "go()\n" +
-                                "for i in range(2):\n" +
-                                "  go()\n" +
-                                "  for i in range(3):\n" +
-                                "     go(2)\n" +
-                                "     turnLeft()\n" +
-                                "     turnRight()",
+                                "로켓을 만들기위해 로켓 부품을 찾아야 합니다. \n" +
+                                "방 구석 구석을 잘 찾아보세요.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
@@ -1246,7 +1216,7 @@ public class Dev {
                                 "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
                                 "# 스위치가 있는 방은 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
                         "로켓부품 8개 획득하기\n" +
-                                "코드 100줄 이하로 작성하기",
+                                "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1304,22 +1274,13 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-2\n" +
+                        "부품회수-3\n" +
                                 "\n" +
-                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "go()\n" +
-                                "for i in range(2):\n" +
-                                "  go()\n" +
-                                "  for i in range(3):\n" +
-                                "     go(2)\n" +
-                                "     turnLeft()\n" +
-                                "     turnRight()",
+                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         58,
                         575,
@@ -1411,14 +1372,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수\n" +
+                        "부품회수-1\n" +
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
                         "for i in range(3):\n" +
                                 "   go(2)\n" +
                                 "   turnLeft()\n" +
-                                "   turnRight()",
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
@@ -1432,8 +1393,8 @@ public class Dev {
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
                                 "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
                                 "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
-                        "로켓부품 18개 획득하기\n" +
-                                "코드 100줄 이하로 작성하기",
+                        "로켓부품 6개 획득하기\n" +
+                                "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1487,23 +1448,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-1\n" +
+                        "부품회수-2\n" +
                                 "\n" +
-                                "앞에 보이는 레이저를 조심하세요!!\n" +
-                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "go()\n" +
-                                "for i in range(2):\n" +
-                                "  go()\n" +
-                                "  for i in range(3):\n" +
-                                "     go(2)\n" +
-                                "     turnLeft()\n" +
-                                "     turnRight()",
+                                "로켓을 만들기위해 로켓 부품을 찾아야 합니다. \n" +
+                                "방 구석 구석을 잘 찾아보세요.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
@@ -1517,8 +1469,8 @@ public class Dev {
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
                                 "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
                                 "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어지고 각 스위치는 세번씩 작동합니다.\n",
-                        "로켓부품 24개 획득하기\n" +
-                                "코드 200줄 이하로 작성하기",
+                        "로켓부품 8개 획득하기\n" +
+                                "코드 100줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1576,22 +1528,13 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-2\n" +
+                        "부품회수-3\n" +
                                 "\n" +
-                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "go()\n" +
-                                "for i in range(2):\n" +
-                                "  go()\n" +
-                                "  for i in range(3):\n" +
-                                "     go(2)\n" +
-                                "     turnLeft()\n" +
-                                "     turnRight()",
+                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         230,
                         1380,
@@ -1601,8 +1544,7 @@ public class Dev {
                 GameMap gameMap13e1 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
-                                "# 노란색 마커에서 장착이 가능합니다.\n",
+                        "# 장착지점으로 이동한 뒤 set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n",
                         "고체추진제 4개 장착하기\n" +
                                 "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1662,8 +1604,7 @@ public class Dev {
                 GameMap gameMap13e2 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘액체연료’)를 작성하여로켓 재료를 장착합니다. \n" +
-                                "# 노란색 마커에서 장착이 가능합니다.\n",
+                        "# 장착지점으로 이동한 뒤 set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다.\n",
                         "액체연료 5개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1729,8 +1670,7 @@ public class Dev {
                 GameMap gameMap13e3 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
-                                "# 노란색 마커에서 장착이 가능합니다.\n",
+                        "# 장착지점으로 이동한 뒤 set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다.\n",
                         "추가엔진 6개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -2646,6 +2586,15 @@ public class Dev {
     ApplicationRunner initItemAndProfile() {
         return args -> {
             if(itemService.getItemList().isEmpty()) {
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(1),
+                        "네온 고양이 부츠",
+                        "발목의 안전을 위해 두꺼운 보호대가 있는 부츠\n키가 작아 보이는 단점이 있다",
+                        "icon_chariter_carbon_boots",
+                        "icon_carbon_boots",
+                        2000);
+
                 itemService.createItem(
                         itemPartsService.getItemParts(1),
                         "우주해적 부츠",
@@ -2655,11 +2604,11 @@ public class Dev {
                         3500);
 
                 itemService.createItem(
-                        itemPartsService.getItemParts(1),
-                        "네온 고양이 부츠",
-                        "발목의 안전을 위해 두꺼운 보호대가 있는 부츠\n키가 작아 보이는 단점이 있다",
-                        "icon_chariter_carbon_boots",
-                        "icon_carbon_boots",
+                        itemPartsService.getItemParts(3),
+                        "네온 고양이 글러브",
+                        "손바닥 전면과 손등의 네온 빛으로 어둠 속에서 작업의 정확성을 높혀주는 글러브\n손만 빛나면 무슨 소용이지?",
+                        "icon_chariter_carbon_gloves",
+                        "icon_carbon_gloves",
                         2000);
 
                 itemService.createItem(
@@ -2671,12 +2620,12 @@ public class Dev {
                         4000);
 
                 itemService.createItem(
-                        itemPartsService.getItemParts(3),
-                        "네온 고양이 글러브",
-                        "손바닥 전면과 손등의 네온 빛으로 어둠 속에서 작업의 정확성을 높혀주는 글러브\n손만 빛나면 무슨 소용이지?",
-                        "icon_chariter_carbon_gloves",
-                        "icon_carbon_gloves",
-                        2000);
+                        itemPartsService.getItemParts(4),
+                        "네온 고양이 슈트",
+                        "신축성 소재로, 어둠 속에서 착용자를 확인할 수 있는 노란 네온빛이 특징인 슈트\n어둠속의 세로로 된 빛은 키를 더 커보이게 한다.",
+                        "icon_chariter_carbon_suit",
+                        "icon_carbon_suit",
+                        4000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(4),
@@ -2687,12 +2636,12 @@ public class Dev {
                         6000);
 
                 itemService.createItem(
-                        itemPartsService.getItemParts(4),
-                        "네온 고양이 슈트",
-                        "신축성 소재로, 어둠 속에서 착용자를 확인할 수 있는 노란 네온빛이 특징인 슈트\n어둠속의 세로로 된 빛은 키를 더 커보이게 한다.",
-                        "icon_chariter_carbon_suit",
-                        "icon_carbon_suit",
-                        4000);
+                        itemPartsService.getItemParts(5),
+                        "네온 고양이 헬멧",
+                        "어두운 후드 안을 들여다보면 야광 고양이가 있는 헬멧\non/off 버튼이 있지만, 찾지 못해서 끄지 못하고 있다",
+                        "icon_chariter_carbon_helmet",
+                        "icon_carbon_helmet",
+                        3000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(5),
@@ -2703,12 +2652,12 @@ public class Dev {
                         4500);
 
                 itemService.createItem(
-                        itemPartsService.getItemParts(5),
-                        "네온 고양이 헬멧",
-                        "어두운 후드 안을 들여다보면 야광 고양이가 있는 헬멧\non/off 버튼이 있지만, 찾지 못해서 끄지 못하고 있다",
-                        "icon_chariter_carbon_helmet",
-                        "icon_carbon_helmet",
-                        3000);
+                        itemPartsService.getItemParts(6),
+                        "카본 레일건",
+                        "카본소재의 본체에 노란 네온빛이 특징인 레일건\n레일건은 아니지만 멋있다는 이유로 이름이 결정됐다",
+                        "",
+                        "Icon_gun2",
+                        10000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(6),
@@ -2717,14 +2666,6 @@ public class Dev {
                         "",
                         "Icon_gun3",
                         13000);
-
-                itemService.createItem(
-                        itemPartsService.getItemParts(6),
-                        "카본 레일건",
-                        "카본소재의 본체에 노란 네온빛이 특징인 레일건\n레일건은 아니지만 멋있다는 이유로 이름이 결정됐다",
-                        "",
-                        "Icon_gun2",
-                        10000);
 
                 itemService.createItem(
                         itemPartsService.getItemParts(2),

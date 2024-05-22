@@ -94,8 +94,8 @@
     }
 
     function isFullSet() {
-        const carbonSet = [5,7,9,11]
-        const pirateSet = [4,6,8,10]
+        const carbonSet = [4,6,8,10]
+        const pirateSet = [5,7,9,11]
 
         const equippedItems = rq.inventories.all.filter(item => item.isEquipped);
 

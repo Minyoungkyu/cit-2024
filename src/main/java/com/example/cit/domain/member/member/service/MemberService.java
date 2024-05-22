@@ -91,8 +91,6 @@ public class MemberService {
                 .extensionNo(extensionNo)
                 .build();
 
-        member.getPrograms().add(Program.builder().name("프로그램1").build());
-
         memberRepository.save(member);
 
         member.setPlayer(
