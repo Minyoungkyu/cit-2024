@@ -142,7 +142,7 @@
             <div class="w-[330px] h-[330px] flex flex-col items-center justify-center mt-2" 
                 style="background-image:url('/img/profile/frame_stageinfo.png');background-size:contain;color:rgb(255 210 87);">
                 <div class="text-[25px] font-[100]">{profileMain.playerLogDto?.gameMapDifficulty == '0' ? '':`${profileMain.playerLogDto?.gameMapDifficulty}`}</div>
-                <div class="text-[{profileMain.playerLogDto?.gameMapStep == 'tutorial' ? '70px' : '85px'}] font-bold">{profileMain.playerLogDto?.gameMapStep}</div>
+                <div class="font-bold" style="font-size:{profileMain.playerLogDto?.gameMapStep == 'tutorial' ? '70px' : '85px'}">{profileMain.playerLogDto?.gameMapStep}</div>
             </div>
             <div class="flex flex-col gap-2 mt-6 w-full items-start">
                 {#each profileMain.profileClearRateDtoList as rate}
@@ -161,8 +161,8 @@
         <div class="w-[10px] h-[757px]" style="background-image:url('/img/ranking/ui_itme_window6.png');"></div>
 
         <div class="w-[60%] h-[94%]">
-            <div class="text-[40px] font-bold my-20 ml-10" style="color:rgb(64 226 255);">세부 정보</div>
-            <div class="h-[60%] grid grid-col gap-16 justify-center overflow-y-scroll content-start">
+            <div class="text-[40px] font-bold mt-4 mb-20 ml-10" style="color:rgb(64 226 255);">세부 정보</div>
+            <div class="h-[75%] grid grid-col gap-16 justify-center overflow-y-scroll content-start">
                 {#each stepList as step, index}
                 <div class="w-[800px] flex flex-col justify-end items-end gap-2 italic">
                     <div class="w-[800px] flex flex-row justify-between items-center border-b-2 cursor-pointer" 
@@ -211,7 +211,7 @@
         <div class="w-[810.7px] h-[608.3px] ml-10 mt-[-100px]"
             style="background-image:url('/img/profile/frame_Pficon.png');background-size:contain;background-repeat:no-repeat;">
 
-            <div bind:this={profileIconBox} class="w-[810.7px] h-[86%] mt-7 grid grid-cols-3 overflow-y-scroll content-start pl-6">
+            <div bind:this={profileIconBox} class="w-[806px] h-[86%] mt-7 grid grid-cols-3 overflow-y-scroll content-start pl-6">
                 {#await loadProfile()}
                 {:then} 
                     {#each profiles as profile}

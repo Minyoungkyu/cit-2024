@@ -453,266 +453,266 @@ public class DevInit2 {
                         "불맛 맛집",
                         "2-3 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        54, 16, 80, null
+                        54, 0, 80, null
                 );
                 achievementService.createAchievement(
                         "전기통구이",
                         "3-1 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        64, 24, 120, null
+                        64, 0, 120, null
                 );
                 achievementService.createAchievement(
                         "랜덤박스",
                         "3-2 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        73, 24, 120, null
+                        73, 0, 120, null
                 );
                 achievementService.createAchievement(
                         "지뢰제거반",
                         "3-3 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        82, 24, 120, null
+                        82, 0, 120, null
                 );
                 achievementService.createAchievement(
                         "It's High Noon",
                         "3-4 스테이지 Normal 난이도 클리어",
                         "STAGE CLEAR",
-                        91, 24, 120, null
+                        91, 0, 120, null
                 );
                 achievementService.createAchievement(
                         "밥먹을땐 개도 안건드린다는데",
                         "1-1 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        11, 10, 50, null
+                        11, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "고든 유료맨",
                         "1-2 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        20, 10, 50, null
+                        20, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "공학자 너무만화",
                         "1-3 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        29, 10, 50, null
+                        29, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "방탈출 힌트 사용할게요",
                         "2-1 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        39, 20, 100, null
+                        39, 0, 100, null
                 );
                 achievementService.createAchievement(
                         "XX이~ 좋아하는~ 랜덤~ 폭탄!",
                         "2-2 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        48, 20, 100, null
+                        48, 0, 100, null
                 );
                 achievementService.createAchievement(
                         "마이야르 반응",
                         "2-3 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        57, 20, 100, null
+                        57, 0, 100, null
                 );
                 achievementService.createAchievement(
                         "찌릿 타코야키",
                         "3-1 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        67, 30, 150, null
+                        67, 0, 150, null
                 );
                 achievementService.createAchievement(
                         "0.3%면 혜자인데?",
                         "3-2 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        76, 30, 150, null
+                        76, 0, 150, null
                 );
                 achievementService.createAchievement(
                         "어이 그 앞은 지옥이다",
                         "3-3 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        85, 30, 150, null)
+                        85, 0, 150, null)
                 ;
                 achievementService.createAchievement(
                         "Cut off their tentacle!",
                         "3-4 스테이지 Hard 난이도 클리어",
                         "STAGE CLEAR",
-                        94, 30, 150, null
+                        94, 0, 150, null
                 );
                 achievementService.createAchievement(
                         "우주도시의 Level 5",
                         "캐릭터 레벨 5 달성",
                         "PLAYER LEVEL",
-                        5, 20, 100, null
+                        5, 0, 100, null
                 );
                 achievementService.createAchievement(
                         "10살에 공구를 잡은",
                         "캐릭터 레벨 10 달성",
                         "PLAYER LEVEL",
-                        10, 30, 150, null
+                        10, 0, 150, null
                 );
                 achievementService.createAchievement(
                         "크큭 내 오른팔에 흑염소가",
                         "캐릭터 레벨 15 달성",
                         "PLAYER LEVEL",
-                        15, 40, 200, null
+                        15, 0, 200, null
                 );
                 achievementService.createAchievement(
                         "너흰 아직 준비가 안됐다",
                         "캐릭터 레벨 20 달성",
                         "PLAYER LEVEL",
-                        20, 50, 250, null
+                        20, 0, 250, null
                 );
                 achievementService.createAchievement(
                         "스물다섯, 스물하나",
                         "캐릭터 레벨 25 달성",
                         "PLAYER LEVEL",
-                        25, 50, 250, null
+                        25, 0, 250, null
                 );
                 achievementService.createAchievement(
                         "진정한 시작",
                         "캐릭터 레벨 30 달성",
                         "PLAYER LEVEL",
-                        30, 100, 500, null
+                        30, 0, 500, null
                 );
                 achievementService.createAchievement(
                         "시원찮은 나를 위한 육성법",
                         "캐릭터 레벨 35 달성",
                         "PLAYER LEVEL",
-                        35, 150, 750, null
+                        35, 0, 750, null
                 );
                 achievementService.createAchievement(
                         "이제 사십니다",
                         "캐릭터 레벨 40 달성",
                         "PLAYER LEVEL",
-                        40, 200, 1000, null
+                        40, 0, 1000, null
                 );
                 achievementService.createAchievement(
                         "저거 사오세요",
                         "캐릭터 레벨 45 달성",
                         "PLAYER LEVEL",
-                        45, 250, 1250, null
+                        45, 0, 1250, null
                 );
                 achievementService.createAchievement(
                         "나는 대머리가 되어 있었고, 약해져 있었다",
                         "캐릭터 레벨 50 달성",
                         "PLAYER LEVEL",
-                        50, 500, 2500, null
+                        50, 0, 2500, null
                 );
                 achievementService.createAchievement(
                         "첫 용돈의 추억",
                         "상점에서 장비 구매",
                         "PURCHASE EQUIPMENT",
-                        1, 5, 25, null
+                        1, 0, 25, null
                 );
                 achievementService.createAchievement(
                         "꾸안꾸",
                         "상점에서 초상화 구매",
                         "PURCHASE ICON",
-                        1, 5, 25, null
+                        1, 0, 25, null
                 );
                 achievementService.createAchievement(
                         "교과서 위주로 공부했어요",
                         "코드도감 확인",
                         "CHECK ENCY",
-                        1, 5, 25, null
+                        1, 0, 25, null
                 );
                 achievementService.createAchievement(
                         "나로 HO!",
                         "1-4 스테이지 미니게임 클리어",
                         "STAGE CLEAR",
-                        30, 10, 50, null
+                        30, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "검색기록: 문어랑 대화하는 방법",
                         "2-4 스테이지 미니게임 클리어",
                         "STAGE CLEAR",
-                        58, 10, 50, null
+                        58, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "여기서부터 저기까지 주세요",
                         "상점에서 장비 구매 5회",
                         "PURCHASE EQUIPMENT",
-                        5, 10, 50, null
+                        5, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "-Flex-",
                         "상점에서 장비 구매 10회",
                         "PURCHASE EQUIPMENT",
-                        10, 10, 50, null
+                        10, 0, 50, null
                 );
                 achievementService.createAchievement(
                         "우주해적이 이렇게 귀여울리가 없어",
                         "우주해적 처치 5회",
                         "COUNT NORMAL",
-                        5, 100, 500, null
+                        5, 0, 500, null
                 );
                 achievementService.createAchievement(
                         "2만원치 주세요",
                         "우주해적 처치 30회",
                         "COUNT NORMAL",
-                        30, 300, 1500, null
+                        30, 0, 1500, null
                 );
 
                 Achievement ac1 = achievementService.createAchievement(
                         "일당백",
                         "우주해적 처치 100회",
                         "COUNT NORMAL",
-                        100, 500, 2500, null
+                        100, 0, 2500, null
                 );
                 Achievement ac2 = achievementService.createAchievement(
                         "우주무쌍",
                         "우주해적 처치 300회",
                         "COUNT NORMAL",
-                        300, 1000, 5000, null
+                        300, 0, 5000, null
                 );
                 achievementService.createAchievement(
                         "해적선의 봄",
                         "보스 처치",
                         "COUNT BOSS",
-                        1, 50, 250, null
+                        1, 0, 250, null
                 );
                 achievementService.createAchievement(
                         "샥스핀 맛집",
                         "보스 처치 3회",
                         "COUNT BOSS",
-                        3, 300, 1500, null
+                        3, 0, 1500, null
                 );
                 Achievement ac3 = achievementService.createAchievement(
                         "어때요, 참 쉽죠?",
                         "보스 처치 10회",
                         "COUNT BOSS",
-                        10, 1500, 7500, null
+                        10, 0, 7500, null
                 );
                 achievementService.createAchievement(
                         "대탈출",
                         "1스테이지 모든 난이도 클리어",
                         "ALL DIFF CLEAR",
-                        1, 100, 500, null
+                        1, 0, 500, null
                 );
                 achievementService.createAchievement(
                         "템플 코드",
                         "2스테이지 모든 난이도 클리어",
                         "ALL DIFF CLEAR",
-                        2, 250, 1250, null
+                        2, 0, 1250, null
                 );
                 achievementService.createAchievement(
                         "우주경찰 특별채용",
                         "3스테이지 모든 난이도 클리어",
                         "ALL DIFF CLEAR",
-                        3, 500, 2500, null
+                        3, 0, 2500, null
                 );
                 Achievement ac4 = achievementService.createAchievement(
                         "화끈하게 가자!",
                         "우주해적 세트 모두 구매",
                         "PURCHASE EQUIPMENT SET",
-                        0, 500, 2500, null
+                        0, 0, 2500, null
                 );
                 Achievement ac5 = achievementService.createAchievement(
                         "이것봐 야광 고양이야!",
                         "네온고양이 세트 모두 구매",
                         "PURCHASE EQUIPMENT SET",
-                        1, 500, 2500, null
+                        1, 0, 2500, null
                 );
 
                 profileService.createProfile(

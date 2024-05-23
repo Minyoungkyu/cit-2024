@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public record AchievementDto(
         @NonNull Long id,
-        @NonNull LocalDateTime createDate,
+        LocalDateTime createDate,
         @NonNull String name,
         @NonNull String description,
         @NonNull int rewardExp,

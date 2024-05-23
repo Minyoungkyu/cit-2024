@@ -73,10 +73,10 @@
     const stageString = gameMapDto.cocosInfo;
     const jsonObjectString = stageString.trim().substring("stage = ".length);
     const stageObject = JSON.parse(jsonObjectString);
-    const killCount = stageObject.stage.init_item_list.filter((item: any) => item.type.includes('monster' || 'boss')).length;
+    const killCount = stageObject.stage.init_item_list.filter((item: any) => item.type.includes('monster') || item.type.includes('boss')).length;
 
     let medicine = $state(stageObject.player.medicine_count);
-    let advancedMedicine = stageObject.player.advanced_medicine_count;
+    let advancedMedicine = $state(stageObject.player.advanced_medicine_count);
 
     let clearGoalList = gameMapDto.clearGoal.split('\n');
     let clearGoalColorArray = $state(Array.from({length: clearGoalList.length}, () => 'rgb(64 226 255)'));
@@ -242,7 +242,7 @@
         let bonusPoints;
 
         if (excessLength > 0) {
-            bonusPoints = baseScore * (1 - excessLength / (shortestLength + excessLength));
+            bonusPoints = Math.round(baseScore * (1 - excessLength / (shortestLength + excessLength)));
         } else {
             bonusPoints = baseScore;
         }
@@ -363,6 +363,7 @@
     }
 
     onMount(() => {
+        console.log('killCOunt', killCount)
         audio = document.getElementById("myAudio") as HTMLAudioElement;
         audio.volume = 0.4;
 
@@ -740,6 +741,7 @@
                 updateClearGoal(frame, lineCounter);
                 updateHpBar(frame.player.hp);
                 medicine = frame.player.medicine_count;
+                advancedMedicine = frame.player.advanced_medicine_count;
                 currentFrameIndex++;
             } else {
                 playCanPause = false;
@@ -756,8 +758,11 @@
 
     function doComplete() {
         batchPlayLog(playerScore);
+
         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
             if ( currentGameLog && currentGameLog.detailInt === 0) {
+                rq.member.player.gems += gameMapDto.rewardJewel;
+                rq.member.player.exp += gameMapDto.rewardExp;
                 showClearPopup = true;
                 return;
             }
@@ -913,21 +918,27 @@
 
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - scaleMultiplier*0.15});">
-            <div class="text-[43px] font-[900] italic absolute top-[14px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
+            <div class="text-[43px] font-[900] italic absolute top-[14px] left-[165px]" style="color:rgb(64 226 255)">미션 성공</div>
             <div class="w-[46px] h-[46px] absolute right-[20px] top-[65px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_popup_close.png');" on:click={() => showClearPopup = false}></div>
             <div class="w-[1030px] h-[446px] absolute top-[165px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_clear_background2.png');">
                 <div class="absolute w-full top-[55px] left-[-145px]" style="transform:scale(0.7)">
                     <div class="text-[50px] font-[900] italic absolute top-[50px] left-[50px]" style="color:rgb(64 226 255)">획득 보상</div>
+                    {#if gameMapDto.rewardExp > 0}
                     <div id="star1" class="w-[203px] h-[203px] absolute top-[175px] left-[50px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[124px] h-[58px] absolute top-[50px] left-[40px]" style="background-image:url('/img/inGame/clearPop/icon_exp.png');transform:scale(1.7);"></div>
                         <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:1px 0 black, -1px 0 black, 0 1px black, 0 -1px black;">{gameMapDto.rewardExp}</div>
                     </div>
+                    {/if}
+                    {#if gameMapDto.rewardJewel > 0}
                     <div id="star2" class="w-[203px] h-[203px] absolute top-[175px] left-[300px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[102px] h-[110px] absolute top-[30px] left-[55px]" style="background-image:url('/img/inGame/clearPop/icon_gem.png');transform:scale(1.6)"></div>
                         <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:">{gameMapDto.rewardJewel}</div>
                     </div>
+                    {/if}
                     {#if gameMapDto.rewardItem}
-                    <div id="star3" class="w-[203px] h-[203px] absolute top-[175px] left-[550px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                    <div id="{gameMapDto.rewardExp == 0 && gameMapDto.rewardJewel == 0 ? 'star1' : 'star3'}" 
+                        class="w-[203px] h-[203px] absolute top-[175px] left-[{gameMapDto.rewardExp == 0 && gameMapDto.rewardJewel == 0 ? '50px' : '550px'}]" 
+                        style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[195px] h-[195px] absolute top-[3px] left-[4px]" style="background-image:url('/img/item/{rq.member.player.characterType}/{gameMapDto.rewardItem?.sourcePath}.png');background-size:contain;background-repeat:no-repeat;"></div>
                     </div>
                     {/if}
@@ -1030,6 +1041,9 @@
                     <div class="w-[547px] pl-4" style="background-image:url('/img/inGame/ui_goal_middle.png');">
                         {#each clearGoalList as goal, index}
                             <div class="text-[30px] font-[900] flex flex-row ml-[30px]" style="color:{clearGoalColorArray[index]};">
+                                {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
+                                <div class="w-[40px] h-[20px]"></div>
+                                {:else}
                                 <div class="w-[40px] h-[20px]">
                                     {#if clearGoalColorArray[index] === 'rgb(255 210 87)'}
                                         ◆
@@ -1037,17 +1051,28 @@
                                         ◇
                                     {/if}
                                 </div> 
+                                {/if}
+                                {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
+                                <!-- <div class="mt-[20px]">
+                                    {goal} (권장)
+                                </div> -->
+                                {:else}
                                 <div>
-                                    {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
-                                      {goal} (권장)
-                                    {:else}
-                                      {goal}
-                                    {/if}
+                                    {goal}
                                 </div>
+                                {/if}
                             </div>
                         {/each}
                     </div>
-                    <div class="w-[547px] h-[71px]" style="background-image:url('/img/inGame/ui_goal_end.png');"></div>
+                    <div class="w-[547px] h-[71px]" style="background-image:url('/img/inGame/ui_goal_end.png');">
+                        {#each clearGoalList as goal, index}
+                        {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
+                        <div class="text-[30px] font-[900] flex flex-row ml-[85px]" style="color:rgb(64 226 255);">
+                            {goal} (권장)
+                        </div>
+                        {/if}
+                        {/each}
+                    </div>
                   </div>
             </div>
             
@@ -1098,7 +1123,7 @@
                         <div class="cursor-pointer w-[34px] h-[34px] scale-[0.8]" style="background-image:url('/img/inGame/btn_help.png')" on:click={showModal}></div>
                             <div bind:this={hintModal} class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute z-[99] top-0 right-0 origin-top-right {showGuide ? '' : ''}" 
                                 style="background-image:url('/img/inGame/ui_help_background.png');">
-                                <div class="absolute text-[35px] top-[630px] left-[90px] text-white">핵심내용</div>
+                                <div class="absolute text-[35px] top-[630px] left-[90px] text-white">예제코드</div>
                                 <div class="flex flex-col items-center justify-center ml-[73px]">
                                     <div class="font-[900] text-[50px] absolute top-[12px] left-[200px]" style="color:rgb(64 226 255)">가이드</div>
                                     <div class="w-[46px] h-[46px] absolute top-[70px] right-[10px] cursor-pointer" style="background-image:url('/img/inGame/btn_popup_close.png')" on:click={() => closeModal()}></div>

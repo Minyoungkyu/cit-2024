@@ -39,6 +39,10 @@
     }
 
     async function getReward(achievement: components['schemas']['AchievementDto']) {
+
+        if (achievement.getReward === 1) {
+            return;
+        }
         
         rq.member.player.exp += achievement.rewardExp;
         rq.member.player.gems += achievement.rewardJewel;
@@ -82,7 +86,7 @@
         <div class="w-[96%] h-[76%] mt-5 grid grid-col gap-4 overflow-auto">
             {#each achievements as achievement}
             <div class="w-[1320px] h-[126px] flex flex-row {achievement.getReward === 0 && achievement.isAchieved === 1 ? 'cursor-pointer' : ''}" 
-                on:click={() => {getReward(achievement); console.log('ㅎㅇ');}}
+                on:click={() => getReward(achievement)}
                 style="background-image:url(/img/achievements/frame_challenge_{achievement.isAchieved === 1 ? 'clear':'n'}.png); 
                 {achievement.getReward === 1 || achievement.isAchieved === 0 ? 'pointer-events:none;' : ''};">
                 <div class="w-[80%] h-full flex flex-col">
@@ -91,8 +95,13 @@
                         style="color:rgb({achievement.isAchieved === 1 ? '255 210 87':'64 226 255'});">{achievement.description}</div>
                 </div>
                 <div class="w-[20%] h-full relative">
+                    {#if achievement.createDate} 
                     <div class="text-right mr-5 mt-4 italic" 
                         style="color:rgb({achievement.isAchieved === 1 ? '255 210 87':'64 226 255'});">{formatDate(achievement.createDate)}</div>
+                    {:else}
+                    <div class="text-right mr-5 mt-4 italic" 
+                        style="color:rgb({achievement.isAchieved === 1 ? '255 210 87':'64 226 255'});">미달성</div>
+                    {/if}
                     <div class="flex flex-row gap-2 mr-2 justify-end">
                         <div class="w-[75px] h-[75px] flex justify-center items-center" 
                             style="background-image:url('/img/shop/ui_itemframe{achievement.isAchieved === 1 ? '2':''}.png');background-size:contain">
@@ -106,7 +115,7 @@
                                 <div class="text-border">{achievement.rewardJewel}</div>
                             </div>
                         </div>
-                        <div class="w-[75px] h-[75px]" 
+                        <!-- <div class="w-[75px] h-[75px]" 
                             style="background-image:url('/img/shop/ui_itemframe{achievement.isAchieved === 1 ? '2':''}.png');background-size:contain;">
 
                             {#if achievement.getReward === 1}
@@ -119,7 +128,7 @@
                                    <div class="text-border">{achievement.rewardExp}</div>
                                 </div>
                            </div>  
-                        </div>
+                        </div> -->
                         {#if achievement.rewardIcon}
                         <div class="w-[75px] h-[75px]" 
                             style="background-image:url('/img/shop/ui_itemframe{achievement.isAchieved === 1 ? '2':''}.png');background-size:contain;">

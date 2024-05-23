@@ -871,7 +871,12 @@ public class Dev {
                         "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "for i in range(3):\n" +
                                 "    # for 명령어 아래에 들여쓰기 된 이곳부터 반복됩니다.\n" +
-                                "    go()",
+                                "    # 이곳에 이동 명령어를 사용해 가까운 식량까지 이동하세요.\n" +
+                                "    go()\n" +
+                                "    \n" +
+                                "    \n" +
+                                "    # 식량을 획득한 뒤에 다음 반복을 위해 회전 명령어를 사용해 원래 바라보던 곳을 바라봐야합니다.\n" +
+                                "    ",
                         "목표지점에 도달하기\n" +
                                 "로켓부품 2개 획득하기\n" +
                                 "코드 5줄 이하로 작성하기",
@@ -939,10 +944,11 @@ public class Dev {
                                 "    # 이곳에 이동 명령어를 사용하여 식량을 획득하세요.\n" +
                                 "    go(3)\n" +
                                 "    \n" +
-                                "\n" +
-                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하면 다음 식량은 반복으로 획득할 수 있습니다.\n",
+                                "    \n" +
+                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하고 오른쪽을 보게하면 다음 식량은 반복으로 획득할 수 있습니다.\n" +
+                                "    ",
                         "로켓부품 2개 획득하기\n" +
-                                "코드 40줄 이하로 작성하기",
+                                "코드 14줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -993,7 +999,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
-                        28
+                        7
                 );
 
                 GameMap gameMap12e3 = gameMapService.createGameMap(
@@ -1004,10 +1010,11 @@ public class Dev {
                                 "    # 이곳에 이동 명령어를 사용하여 가까운 위쪽 방과 아래 방의 식량을 획득하세요.\n" +
                                 "    go(3)\n" +
                                 "    \n" +
-                                "\n" +
-                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하면 다음 식량은 반복으로 획득할 수 있습니다.\n",
+                                "    \n" +
+                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하고 오른쪽을 보게하면 다음 식량은 반복으로 획득할 수 있습니다.\n" +
+                                "    ",
                         "로켓부품 4개 획득하기\n" +
-                                "코드 60줄 이하로 작성하기",
+                                "코드 18줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1059,7 +1066,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         12,
                         184,
-                        36
+                        9
                 );
 
                 GameMap gameMap12n1 = gameMapService.createGameMap(
@@ -1205,7 +1212,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         0,
                         0,
-                        38
+                        28
                 );
 
                 GameMap gameMap12n3 = gameMapService.createGameMap(
@@ -1284,7 +1291,7 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         58,
                         575,
-                        56
+                        36
                 );
 
                 GameMap gameMap12h1 = gameMapService.createGameMap(
@@ -1538,13 +1545,15 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range(3):",
                         230,
                         1380,
-                        76
+                        56
                 );
 
                 GameMap gameMap13e1 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# 장착지점으로 이동한 뒤 set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(4): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
                         "고체추진제 4개 장착하기\n" +
                                 "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1604,7 +1613,9 @@ public class Dev {
                 GameMap gameMap13e2 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# 장착지점으로 이동한 뒤 set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다.\n",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(3): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
                         "액체연료 5개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1670,7 +1681,9 @@ public class Dev {
                 GameMap gameMap13e3 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# 장착지점으로 이동한 뒤 set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다.\n",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(3): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
                         "추가엔진 6개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -2204,48 +2217,48 @@ public class Dev {
                 Member test6 = memberService.join("hadeul6", "1234", 1).getData();
                 memberUser2.setRefreshToken("hadeul6");
 
-                Member memberUser3 = memberService.join("testUser1", "tmd0405", 1).getData();
+                Member memberUser3 = memberService.join("testUser1", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser1");
 
-                Member memberUser4 = memberService.join("testUser2", "tmd0405", 1).getData();
+                Member memberUser4 = memberService.join("testUser2", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser2");
 
-                Member memberUser5 = memberService.join("testUser3", "tmd0405", 1).getData();
+                Member memberUser5 = memberService.join("testUser3", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser3");
 
-                Member memberUser11 = memberService.join("testUser4", "tmd0405", 1).getData();
+                Member memberUser11 = memberService.join("testUser4", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser4");
-                Member memberUser12 = memberService.join("testUser5", "tmd0405", 1).getData();
+                Member memberUser12 = memberService.join("testUser5", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser5");
-                Member memberUser13 = memberService.join("testUser6", "tmd0405", 1).getData();
+                Member memberUser13 = memberService.join("testUser6", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser6");
-                Member memberUser14 = memberService.join("testUser7", "tmd0405", 1).getData();
+                Member memberUser14 = memberService.join("testUser7", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser7");
-                Member memberUser15 = memberService.join("testUser8", "tmd0405", 1).getData();
+                Member memberUser15 = memberService.join("testUser8", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser8");
-                Member memberUser16 = memberService.join("testUser9", "tmd0405", 1).getData();
+                Member memberUser16 = memberService.join("testUser9", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser9");
-                Member memberUser17 = memberService.join("testUser10", "tmd0405", 1).getData();
+                Member memberUser17 = memberService.join("testUser10", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser10");
-                Member memberUser18 = memberService.join("testUser11", "tmd0405", 1).getData();
+                Member memberUser18 = memberService.join("testUser11", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser11");
-                Member memberUser19 = memberService.join("testUser12", "tmd0405", 1).getData();
+                Member memberUser19 = memberService.join("testUser12", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser12");
-                Member memberUser20 = memberService.join("testUser13", "tmd0405", 1).getData();
+                Member memberUser20 = memberService.join("testUser13", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser13");
-                Member memberUser21 = memberService.join("testUser14", "tmd0405", 1).getData();
+                Member memberUser21 = memberService.join("testUser14", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser14");
-                Member memberUser22 = memberService.join("testUser15", "tmd0405", 1).getData();
+                Member memberUser22 = memberService.join("testUser15", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser15");
-                Member memberUser23 = memberService.join("testUser16", "tmd0405", 1).getData();
+                Member memberUser23 = memberService.join("testUser16", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser16");
-                Member memberUser24 = memberService.join("testUser17", "tmd0405", 1).getData();
+                Member memberUser24 = memberService.join("testUser17", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser17");
-                Member memberUser25 = memberService.join("testUser18", "tmd0405", 1).getData();
+                Member memberUser25 = memberService.join("testUser18", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser18");
-                Member memberUser26 = memberService.join("testUser19", "tmd0405", 1).getData();
+                Member memberUser26 = memberService.join("testUser19", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser19");
-                Member memberUser27 = memberService.join("testUser20", "tmd0405", 1).getData();
+                Member memberUser27 = memberService.join("testUser20", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser20");
 
                 Member memberUser6 = memberService.join("test4", "1234", 1).getData();
@@ -2254,7 +2267,7 @@ public class Dev {
                 Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
                 memberClassAdmin.setRefreshToken("class");
 
-                Member memberUser7 = memberService.join("testAdmin", "tmd0405", "테스트어드민", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
+                Member memberUser7 = memberService.join("testAdmin", "tmd0523", "테스트어드민", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
                 memberUser7.setRefreshToken("testAdmin");
 
                 Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3, "부서1", "직급1", "123-456-7890").getData();

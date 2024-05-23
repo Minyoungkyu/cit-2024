@@ -60,7 +60,10 @@ public class PlayerService {
             profileInventory = this.addRewardToPlayer(
                     achievement.rewardExp(), achievement.rewardJewel(), achievement.rewardIcon()
             );
-        } else this.addRewardToPlayer(achievement.rewardExp(), achievement.rewardJewel());
+        } else {
+
+            this.addRewardToPlayer(achievement.rewardExp(), achievement.rewardJewel());
+        }
 
         playerAchievementService.updateGetReward(member, achievement);
 

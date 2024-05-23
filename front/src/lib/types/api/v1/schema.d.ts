@@ -343,7 +343,7 @@ export interface components {
       /** Format: int64 */
       id: number;
       /** Format: date-time */
-      createDate: string;
+      createDate?: string;
       name: string;
       description: string;
       /** Format: int32 */

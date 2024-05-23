@@ -225,6 +225,11 @@
                 style=" --scaleValue:0.87; --scaleMultiplier:{scaleMultiplier};">
         
                 <div class="w-[200px] h-[200px] text-[50px] font-[900] absolute top-[15px] left-[300px]" style="color:rgb(64 226 255)">인벤토리</div>
+
+                <div class="w-[600px] h-[110px] text-[30px] font-[900] absolute bottom-[10px] left-[225px]" 
+                    style="color:rgb(64 226 255)">
+                        TIP. 아이콘을 더블 클릭하여 장착/해제 가능
+                    </div>
         
                 <div class="w-[46px] h-[46px] absolute top-[65px] left-[63%] cursor-pointer" style="background-image:url('/img/inventory/btn_popup_close.png')" on:click={() => showCharacterStatusModal.update(n => false)}></div>
         
@@ -233,13 +238,13 @@
                     <div class="w-[636px] h-[609px] absolute top-[156px] left-[223px]" style="background-image:url('/img/inventory/ui_itme_background.png');">
                         <div class="w-[326px] h-[534px] absolute top-[30px] left-[145px]" on:click={() => console.log(setItem)}
                             style="background-image:
+                            {helmet ? 'url("/img/item/' + rq.member.player.characterType + '/' + helmet.item.availableCommands + '.png"),' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_head.png"),'}
                             {gloves ? 'url("/img/item/' + rq.member.player.characterType + '/' + gloves.item.availableCommands + '.png"),' : ''}
                             {setItem == 'carbon' ? 'url("/img/item/0/icon_chariter_carbon_set.png"),' : ''}
                             {setItem == 'pirate' ? 'url("/img/item/0/icon_chariter_pirate_set.png"),' : ''}
                             {shoes ? 'url("/img/item/' + rq.member.player.characterType + '/' + shoes.item.availableCommands + '.png"),' : suit ? '' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_boots.png"),'}
                             {suit ? 'url("/img/item/' + rq.member.player.characterType + '/' + suit.item.availableCommands + '.png"),' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_suit.png"),'}
-                            url('/img/item/{rq.member.player.characterType}/icon_chariter.png'), 
-                            {helmet ? 'url("/img/item/' + rq.member.player.characterType + '/' + helmet.item.availableCommands + '.png");' : 'url("/img/item/' + rq.member.player.characterType + '/icon_chariter_head.png");'}">
+                            url('/img/item/{rq.member.player.characterType}/icon_chariter.png');">
                         </div>
                         <div class="w-[203px] h-[203px] absolute cursor-pointer" 
                         style="background-image:{helmet && currentItem!.id == helmet?.id ? 'url("/img/inventory/ui_itemframe2.png");' : 'url("/img/inventory/ui_itemframe.png");'}transform:scale(0.6);"
@@ -318,6 +323,9 @@
                         <div class="grid grid-cols-3 gap-2 mt-4">
                             <div id="itemHighlighter" class="item-highlighter w-[100px] h-[100px] absolute z-[10] ml-2 animatedItemHighlighter {highlighterHidden ? 'hidden' : ''}"
                             style="top: {highlighterTopValue}px; left: {highlighterLeftValue}px; background-image:url('/img/inventory/ui_aim.png');background-size:contain;background-repeat:no-repeat;pointer-events: none;"></div>
+                            {#if rq.inventories.unequipped.length == 0}
+                            <div class="w-[340px] h-[580px] flex items-center justify-center text-[50px] italic font-bold" style="color:rgb(3 122 125);">NO ITEM</div>
+                            {/if}
                             {#each rq.inventories.unequipped as inventory (inventory.id)}
                             <div class="flex flex-col items-center" data-partsId={inventory.item.itemPartsId} >
                                 <div class="w-[100px] h-[100px] cursor-pointer relative" 

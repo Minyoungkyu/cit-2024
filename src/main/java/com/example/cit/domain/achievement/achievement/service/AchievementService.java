@@ -71,7 +71,7 @@ public class AchievementService {
                                 1
                         );
                     } else {
-                        return new AchievementDto(achievement, achievement.getCreateDate(), 0, 0);
+                        return new AchievementDto(achievement, null, 0, 0);
                     }
                 })
                 .collect(Collectors.toList());

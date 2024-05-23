@@ -250,7 +250,7 @@
                 style="background-image:url('/img/shop/icon_frame_glow.png'), url('/img/icon/{currentProfile?.sourcePath}.png');background-size:contain;">
             </div>
             <div class="w-[404px] h-[22px] mt-[31.5px]" style="background-image:url('/img/shop/window_1.png');"></div>
-            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[25px] font-bold italic" style="color:rgb(28 211 216);">
+            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[20px] font-bold italic whitespace-pre-wrap" style="color:rgb(28 211 216);">
                 {currentProfile?.description}
             </div>
             {#if !rq.profileInventories.isProfileOwned(currentProfile?.id)}
