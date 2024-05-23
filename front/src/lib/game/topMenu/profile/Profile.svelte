@@ -141,8 +141,18 @@
             </div>
             <div class="w-[330px] h-[330px] flex flex-col items-center justify-center mt-2" 
                 style="background-image:url('/img/profile/frame_stageinfo.png');background-size:contain;color:rgb(255 210 87);">
-                <div class="text-[25px] font-[100]">{profileMain.playerLogDto?.gameMapDifficulty == '0' ? '':`${profileMain.playerLogDto?.gameMapDifficulty}`}</div>
-                <div class="font-bold" style="font-size:{profileMain.playerLogDto?.gameMapStep == 'tutorial' ? '70px' : '85px'}">{profileMain.playerLogDto?.gameMapStep}</div>
+                <div class="text-[25px] font-[100]">
+                    {profileMain.playerLogDto?.gameMapDifficulty == '0' || !profileMain.gameMapDifficulty ? '':`${profileMain.playerLogDto?.gameMapDifficulty}`}
+                </div>
+                {#if profileMain.playerLogDto}
+                <div class="font-bold" style="font-size:{profileMain.playerLogDto?.gameMapStep == 'tutorial' ? '70px' : '85px'}">
+                    {profileMain.playerLogDto?.gameMapStep}
+                </div>
+                {:else}
+                <div class="font-bold" style="font-size:70px">
+                    tutorial
+                </div>
+                {/if}
             </div>
             <div class="flex flex-col gap-2 mt-6 w-full items-start">
                 {#each profileMain.profileClearRateDtoList as rate}
