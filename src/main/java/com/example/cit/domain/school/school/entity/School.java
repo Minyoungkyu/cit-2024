@@ -7,6 +7,7 @@ import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.global.jpa.base.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -36,12 +37,15 @@ public class School extends BaseTime {
     private String address;
     private String phoneNumber;
 
+    @ColumnDefault("'학교'")
+    private String instituteType; // 기관타입 [학교, 기관]
+
     @OneToMany(mappedBy = "school", cascade = ALL, orphanRemoval = true)
     @ToString.Exclude
     @Builder.Default
     private List<SchoolClass> schoolClasses = new ArrayList<>();
 
-    @ManyToMany(fetch = LAZY)
+    @ManyToMany(mappedBy = "schools", fetch = LAZY)
     @ToString.Exclude
     @Builder.Default
     private List<Member> members = new ArrayList<>();

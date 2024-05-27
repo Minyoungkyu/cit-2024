@@ -10,6 +10,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,8 +36,9 @@ public class Member extends BaseTime {
     private String department;
     private String position;
     private String extensionNo;
-
     private int roleLevel; // 권한 레벨
+    private int studentNumber;
+    private int studentYear;
 
     @OneToOne(fetch = LAZY, cascade = ALL)
     private Player player;
@@ -48,6 +50,11 @@ public class Member extends BaseTime {
 
 
     @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "member_school",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "school_id")
+    )
     @ToString.Exclude
     @Builder.Default
     private List<School> schools = new ArrayList<>();
@@ -56,6 +63,11 @@ public class Member extends BaseTime {
     @ToString.Exclude
     @Builder.Default
     private List<SchoolClass> schoolClasses = new ArrayList<>();
+
+    @ManyToOne(fetch = LAZY)
+    @ToString.Exclude
+    private SchoolClass studentClass;
+
 
     // 캐시 데이터
     // admin ( class < system < super )

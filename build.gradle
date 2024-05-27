@@ -46,6 +46,9 @@ dependencies {
 	implementation 'org.apache.tika:tika-core:2.9.0'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'com.opencsv:opencsv:5.5'
+	implementation 'org.sqids:sqids:0.1.0'
 }
 
 tasks.named('test') {

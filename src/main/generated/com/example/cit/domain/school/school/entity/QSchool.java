@@ -40,6 +40,8 @@ public class QSchool extends EntityPathBase<School> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
+    public final StringPath instituteType = createString("instituteType");
+
     public final ListPath<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember> members = this.<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember>createList("members", com.example.cit.domain.member.member.entity.Member.class, com.example.cit.domain.member.member.entity.QMember.class, PathInits.DIRECT2);
 
     //inherited

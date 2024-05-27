@@ -76,7 +76,8 @@
         <div class="flex flex-row gap-4">
             <button class="btn btn-sm" on:click={() => window.location.href="/adm/menu/program/new"}>생성</button>
             <button class="btn btn-sm" on:click={() => handleCheckedPrograms()}>삭제</button>
-            <button class="btn btn-sm">액셀 다운로드</button>
+            <!-- <button class="btn btn-sm">엑셀 다운로드</button> -->
+            <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/programs/download/csv" class="btn btn-sm">엑셀 다운로드</a>
         </div>
         <div class="flex flex-row gap-2 items-center">
             {#if $page.url.searchParams.get('kw')}
@@ -115,7 +116,7 @@
                             bind:checked={allChecked}
                             on:change={toggleAllChecks}>
                     </th>
-                    <th>사업번호</th>
+                    <!-- <th>사업번호</th> -->
                     <th>사업명</th>
                     <th>사업 기간</th>
                     <th class="min-w-[150px]">지역</th>
@@ -133,9 +134,9 @@
                             bind:checked={individualChecks[index]}
                             on:change={updateAllChecked}>
                     </td>
-                    <td >{program.id}</td>
+                    <!-- <td >{program.id}</td> -->
                     <td >{program.name}</td>
-                    <td >{program.startDate} - {program.endDate}</td>
+                    <td >{program.startDate} ~ {program.endDate}</td>
                     <td >{program.city}&nbsp;{program.administrativeDistrict}</td>
                     <td >{program.responsibleMemberNames}</td>
                     <td >{program.schoolsNames}</td>

@@ -19,5 +19,8 @@ public record SchoolInputListDto(
         );
     }
 
+    public static String getName(School school) {
+        return school.getSchoolName();
+    }
 }
 

@@ -5,11 +5,21 @@ import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
 import com.example.cit.domain.member.member.dto.MemberDto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.MemberService;
-import com.example.cit.domain.school.school.controller.ApiV1SchoolController;
+import com.example.cit.domain.program.program.dto.ProgramDto;
+import com.example.cit.domain.program.program.dto.ProgramInputDto;
+import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.dto.SchoolInputListDto;
+import com.example.cit.domain.school.school.entity.School;
+import com.example.cit.domain.school.schoolClass.controller.ApiV1SchoolClassController;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassDto;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassMultipleDto;
+import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
+import com.example.cit.global.app.AppConfig;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
+import com.example.cit.standard.base.PageDto;
+import com.opencsv.CSVWriter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,12 +27,26 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
@@ -182,5 +206,542 @@ public class ApiV1MemberController {
         );
     }
 
+
+    public record GetSystemAdminResponseBody(@NonNull PageDto<MemberDto> itemPage) {}
+
+    @GetMapping(value = "/system", consumes = ALL_VALUE)
+    @Operation(summary = "사업관리자 목록 조회")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GetSystemAdminResponseBody> getSystemAdminListPage(
+            @RequestParam(defaultValue = "1", name = "page") int page,
+            @RequestParam(defaultValue = "", name = "kw") String kw,
+            @RequestParam(defaultValue = "ALL", name = "kwType") String kwType
+    ) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
+        Page<Member> itemPage = memberService.findByKw(kwType, kw, pageable, 3);
+
+        Page<MemberDto> _itemPage = itemPage.map(MemberDto::new);
+
+        return RsData.of(
+                new ApiV1MemberController.GetSystemAdminResponseBody(
+                        new PageDto<>(_itemPage)
+                )
+        );
+    }
+
+    public record createSystemAdminRequestBody(
+            @NonNull String username,
+            @NonNull String password,
+            @NonNull String name,
+            @NonNull String department,
+            @NonNull String position,
+            @NonNull String extensionNo,
+            @NonNull String cellphoneNo,
+            @NonNull List<ProgramInputDto> programs
+    ) {}
+
+    public record createSystemAdminResponseBody(@NonNull int resultCode) {}
+
+    @PostMapping(value = "/system/new", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "사업관리자 생성")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<createSystemAdminResponseBody> batchPlayLog(
+            @RequestBody createSystemAdminRequestBody body
+    ) {
+        memberService.join(
+                body.username,
+                body.password,
+                body.name,
+                body.department,
+                body.position,
+                body.extensionNo,
+                body.cellphoneNo,
+                body.programs,
+                3
+        );
+
+        return RsData.of("사업관리자 계정이 생성되었습니다.",
+                new createSystemAdminResponseBody(
+                        1
+                )
+        );
+    }
+
+    public record ModifySystemAdminRequestBody(
+            @NonNull long id,
+            @NonNull String password,
+            @NonNull String name,
+            @NonNull String department,
+            @NonNull String position,
+            @NonNull String extensionNo,
+            @NonNull String cellphoneNo,
+            @NonNull List<ProgramInputDto> programs
+    ) {}
+    public record ModifySystemAdminResponseBody(@NonNull MemberDto memberDto) {}
+
+    @PutMapping("/system/modify")
+    @Operation(summary = "사업관리자 수정")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<ModifySystemAdminResponseBody> modify(
+            @Valid @RequestBody ModifySystemAdminRequestBody body
+    ) {
+        return RsData.of( "정보가 수정되었습니다.",
+                new ModifySystemAdminResponseBody(
+                        new MemberDto(
+                                memberService.modifySystemAdminMember(
+                                        body
+                                )
+                        )
+                )
+        );
+    }
+
+    public record SystemAdminDeleteRequestBody(@NonNull List<Long> systemAdminIds) {}
+
+    @PostMapping("/system/delete")
+    @Operation(summary = "사업관리자 삭제")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<Empty> systemAdminDelete(
+            @Valid @RequestBody SystemAdminDeleteRequestBody body
+    ) {
+        memberService.deleteMembers(body.systemAdminIds);
+
+        return RsData.of("사업관리자가 삭제되었습니다.");
+    }
+
+    @GetMapping(value="/system/download/csv", consumes = MimeTypeUtils.ALL_VALUE, produces = MimeTypeUtils.ALL_VALUE)
+    @Operation(summary = "사업관리자 엑셀 다운로드")
+    @Transactional
+    public ResponseEntity<byte[]> downloadCsv() throws IOException {
+        // 결과를 담을 리스트 생성
+        List<String[]> resultList = new ArrayList<>();
+        // 컬럼명을 정의하는 배열 추가
+        resultList.add(new String[]{
+                "아이디",
+                "이름",
+                "부서",
+                "직급",
+                "내선번호",
+                "휴대폰",
+                "담당사업",
+                "생성일",
+        });
+
+        // 학교 정보를 가져와서 리스트에 추가
+        List<Member> memberList = memberService.getMemberDetail(3);
+
+
+        for(Member member : memberList) {
+            List<String> programNames = member.getPrograms().stream()
+                    .map(Program::getName)
+                    .collect(Collectors.toList());
+
+            String programs = String.join(", ", programNames);
+
+            resultList.add(new String[]{
+                    member.getUsername(),
+                    member.getName(),
+                    member.getDepartment(),
+                    member.getPosition(),
+                    member.getExtensionNo(),
+                    member.getCellphoneNo(),
+                    programs,
+                    member.getCreateDate().toString(),
+            });
+        }
+
+        // CSV 파일 생성
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // UTF-8 BOM 추가
+        baos.write(0xEF);
+        baos.write(0xBB);
+        baos.write(0xBF);
+
+        OutputStreamWriter writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8);
+        CSVWriter csvWriter = new CSVWriter(writer);
+
+        csvWriter.writeAll(resultList);
+        csvWriter.close();
+
+        byte[] bytes = baos.toByteArray();
+
+        // 파일 다운로드를 위한 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"systemAdmin.csv\"");
+        headers.add(HttpHeaders.CONTENT_TYPE, "text/csv; charset=utf-8");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(bytes);
+    }
+
+
+    public record GetClassAdminResponseBody(@NonNull PageDto<MemberDto> itemPage) {}
+
+    @GetMapping(value = "/class", consumes = ALL_VALUE)
+    @Operation(summary = "학급관리자 목록 조회")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GetSystemAdminResponseBody> getClassAdminListPage(
+            @RequestParam(defaultValue = "1", name = "page") int page,
+            @RequestParam(defaultValue = "", name = "kw") String kw,
+            @RequestParam(defaultValue = "ALL", name = "kwType") String kwType
+    ) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
+        Page<Member> itemPage = memberService.findByKw(kwType, kw, pageable, 2);
+
+        Page<MemberDto> _itemPage = itemPage.map(MemberDto::new);
+
+        return RsData.of(
+                new ApiV1MemberController.GetSystemAdminResponseBody(
+                        new PageDto<>(_itemPage)
+                )
+        );
+    }
+
+    public record createClassAdminRequestBody(
+            @NonNull String username,
+            @NonNull String password,
+            @NonNull String name,
+            @NonNull String cellphoneNo,
+            @NonNull List<SchoolInputListDto> schools
+    ) {}
+
+    public record createClassAdminResponseBody(@NonNull int resultCode) {}
+
+    @PostMapping(value = "/class/new", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "학급관리자 생성")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<createClassAdminResponseBody> batchPlayLog(
+            @RequestBody createClassAdminRequestBody body
+    ) {
+        memberService.joinClassAdmin(
+                body.username,
+                body.password,
+                body.name,
+                body.cellphoneNo,
+                body.schools,
+                2
+        );
+
+        return RsData.of("학급관리자 계정이 생성되었습니다.",
+                new createClassAdminResponseBody(
+                        1
+                )
+        );
+    }
+
+    public record ModifyClassAdminRequestBody(
+            @NonNull long id,
+            @NonNull String password,
+            @NonNull String name,
+            @NonNull String cellphoneNo,
+            @NonNull List<SchoolInputListDto> schools
+    ) {}
+    public record ModifyClassAdminResponseBody(@NonNull MemberDto memberDto) {}
+
+    @PutMapping("/class/modify")
+    @Operation(summary = "학급관리자 수정")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<ModifyClassAdminResponseBody> modify(
+            @Valid @RequestBody ModifyClassAdminRequestBody body
+    ) {
+        return RsData.of( "정보가 수정되었습니다.",
+                new ModifyClassAdminResponseBody(
+                        new MemberDto(
+                                memberService.modifyClassAdminMember(
+                                        body
+                                )
+                        )
+                )
+        );
+    }
+
+    public record ClassAdminDeleteRequestBody(@NonNull List<Long> classAdminIds) {}
+
+    @PostMapping("/class/delete")
+    @Operation(summary = "학급관리자 삭제")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<Empty> classAdminDelete(
+            @Valid @RequestBody ClassAdminDeleteRequestBody body
+    ) {
+        memberService.deleteMembers(body.classAdminIds);
+
+        return RsData.of("학급관리자가 삭제되었습니다.");
+    }
+
+    @GetMapping(value="/class/download/csv", consumes = MimeTypeUtils.ALL_VALUE, produces = MimeTypeUtils.ALL_VALUE)
+    @Operation(summary = "학급관리자 엑셀 다운로드")
+    @Transactional
+    public ResponseEntity<byte[]> downloadCsvClass() throws IOException {
+        // 결과를 담을 리스트 생성
+        List<String[]> resultList = new ArrayList<>();
+        // 컬럼명을 정의하는 배열 추가
+        resultList.add(new String[]{
+                "아이디",
+                "이름",
+                "휴대폰",
+                "담당사업",
+                "생성일",
+        });
+
+        // 학교 정보를 가져와서 리스트에 추가
+        List<Member> memberList = memberService.getMemberDetail(2);
+
+
+        for(Member member : memberList) {
+            List<String> programNames = member.getPrograms().stream()
+                    .map(Program::getName)
+                    .collect(Collectors.toList());
+            String programs = String.join(", ", programNames);
+
+            List<String> schoolNames = member.getSchools().stream()
+                    .map(School::getSchoolName)
+                    .collect(Collectors.toList());
+            String schools = String.join(", ", schoolNames);
+
+            resultList.add(new String[]{
+                    member.getUsername(),
+                    member.getName(),
+                    member.getCellphoneNo(),
+                    schools,
+                    member.getCreateDate().toString(),
+            });
+        }
+
+        // CSV 파일 생성
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // UTF-8 BOM 추가
+        baos.write(0xEF);
+        baos.write(0xBB);
+        baos.write(0xBF);
+
+        OutputStreamWriter writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8);
+        CSVWriter csvWriter = new CSVWriter(writer);
+
+        csvWriter.writeAll(resultList);
+        csvWriter.close();
+
+        byte[] bytes = baos.toByteArray();
+
+        // 파일 다운로드를 위한 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"classAdmin.csv\"");
+        headers.add(HttpHeaders.CONTENT_TYPE, "text/csv; charset=utf-8");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(bytes);
+    }
+
+
+    public record GetStudentResponseBody(@NonNull PageDto<MemberDto> itemPage) {}
+
+    @GetMapping(value = "/student", consumes = ALL_VALUE)
+    @Operation(summary = "학생 목록 조회")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GetStudentResponseBody> getStudentListPage(
+            @RequestParam(defaultValue = "1", name = "page") int page,
+            @RequestParam(defaultValue = "", name = "kw") String kw,
+            @RequestParam(defaultValue = "ALL", name = "kwType") String kwType
+    ) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
+        Page<Member> itemPage = memberService.findByKw(kwType, kw, pageable, 1);
+
+        Page<MemberDto> _itemPage = itemPage.map(MemberDto::new);
+
+        return RsData.of(
+                new ApiV1MemberController.GetStudentResponseBody(
+                        new PageDto<>(_itemPage)
+                )
+        );
+    }
+
+    public record createStudentRequestBody(
+            @NonNull long schoolClassId,
+            @NonNull int studentYear,
+            @NonNull int studentNumber,
+            @NonNull String password
+    ) {}
+
+    public record createStudentResponseBody(@NonNull int resultCode) {}
+
+    @PostMapping(value = "/student/new", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "학생 생성")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<createStudentResponseBody> batchPlayLog(
+            @RequestBody createStudentRequestBody body
+    ) {
+        memberService.joinStudent(
+                body.schoolClassId,
+                body.studentYear,
+                body.studentNumber,
+                body.password
+        );
+
+        return RsData.of("학생 계정이 생성되었습니다.",
+                new createStudentResponseBody(
+                        1
+                )
+        );
+    }
+
+    public record ModifyStudentRequestBody(
+            @NonNull long id,
+            @NonNull String password,
+            @NonNull String nickname
+    ) {}
+    public record ModifyStudentResponseBody(@NonNull MemberDto memberDto) {}
+
+    @PutMapping("/student/modify")
+    @Operation(summary = "학생 수정")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<ModifyStudentResponseBody> modify(
+            @Valid @RequestBody ModifyStudentRequestBody body
+    ) {
+        return RsData.of( "정보가 수정되었습니다.",
+                new ModifyStudentResponseBody(
+                        new MemberDto(
+                                memberService.modifyStudentMember(
+                                        body
+                                )
+                        )
+                )
+        );
+    }
+
+    public record DeleteStudentRequestBody(@NonNull List<Long> studentIds) {}
+
+    @PostMapping("/student/delete")
+    @Operation(summary = "학생 삭제")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<Empty> studentDelete(
+            @Valid @RequestBody DeleteStudentRequestBody body
+    ) {
+        memberService.deleteMembers(body.studentIds);
+
+        return RsData.of("학생이 삭제되었습니다.");
+    }
+
+    @GetMapping(value="/student/download/csv", consumes = MimeTypeUtils.ALL_VALUE, produces = MimeTypeUtils.ALL_VALUE)
+    @Operation(summary = "학생 엑셀 다운로드")
+    @Transactional
+    public ResponseEntity<byte[]> downloadCsvStudent() throws IOException {
+        // 결과를 담을 리스트 생성
+        List<String[]> resultList = new ArrayList<>();
+        // 컬럼명을 정의하는 배열 추가
+        resultList.add(new String[]{
+                "아이디",
+                "이름",
+                "휴대폰",
+                "담당사업",
+                "생성일",
+        });
+
+        // 학교 정보를 가져와서 리스트에 추가
+        List<Member> memberList = memberService.getMemberDetail(2);
+
+
+        for(Member member : memberList) {
+            List<String> programNames = member.getPrograms().stream()
+                    .map(Program::getName)
+                    .collect(Collectors.toList());
+            String programs = String.join(", ", programNames);
+
+            List<String> schoolNames = member.getSchools().stream()
+                    .map(School::getSchoolName)
+                    .collect(Collectors.toList());
+            String schools = String.join(", ", schoolNames);
+
+            resultList.add(new String[]{
+                    member.getUsername(),
+                    member.getName(),
+                    member.getCellphoneNo(),
+                    schools,
+                    member.getCreateDate().toString(),
+            });
+        }
+
+        // CSV 파일 생성
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // UTF-8 BOM 추가
+        baos.write(0xEF);
+        baos.write(0xBB);
+        baos.write(0xBF);
+
+        OutputStreamWriter writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8);
+        CSVWriter csvWriter = new CSVWriter(writer);
+
+        csvWriter.writeAll(resultList);
+        csvWriter.close();
+
+        byte[] bytes = baos.toByteArray();
+
+        // 파일 다운로드를 위한 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"classAdmin.csv\"");
+        headers.add(HttpHeaders.CONTENT_TYPE, "text/csv; charset=utf-8");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(bytes);
+    }
+
+
+
+    public record DuplicateRequestBody(@NonNull String username) {}
+    public record DuplicateResponseBody(@NonNull boolean canUse) {}
+
+    @PostMapping("/duplicate")
+    @Operation(summary = "아이디 중복 확인")
+    @Transactional
+    public RsData<DuplicateResponseBody> duplicate(
+            @Valid @RequestBody DuplicateRequestBody body
+    ) {
+        boolean canUse = !memberService.duplicate(body.username);
+
+        return RsData.of(
+                new DuplicateResponseBody(canUse)
+        );
+    }
+
+    public record MemberDetailResponseBody(@NonNull MemberDto item) {}
+
+    @GetMapping(value = "/{id}", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "계정 단건 조회")
+    public RsData<MemberDetailResponseBody> getSchoolClass(
+            @PathVariable("id") Long id
+    ) {
+        return RsData.of(
+                new MemberDetailResponseBody(
+                        new MemberDto(
+                                memberService.getMemberById(id)
+                        )
+                )
+        );
+    }
 
 }

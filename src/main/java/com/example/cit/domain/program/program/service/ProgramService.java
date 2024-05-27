@@ -179,6 +179,10 @@ public class ProgramService {
         return programRepository.findAllByMembers_Id(member.getId());
     }
 
+    public List<Program> getProgramsDetail() {
+        return programRepository.findAll();
+    }
+
     public Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable) {
         return programRepository.findByKw(kwType, kw, pageable);
     }

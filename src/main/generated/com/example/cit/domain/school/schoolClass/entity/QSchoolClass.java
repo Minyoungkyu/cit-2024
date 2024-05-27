@@ -24,22 +24,32 @@ public class QSchoolClass extends EntityPathBase<SchoolClass> {
 
     public final com.example.cit.global.jpa.base.QBaseTime _super = new com.example.cit.global.jpa.base.QBaseTime(this);
 
+    public final NumberPath<Integer> classNo = createNumber("classNo", Integer.class);
+
     public final StringPath code = createString("code");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
+    public final NumberPath<Integer> grade = createNumber("grade", Integer.class);
+
     //inherited
     public final NumberPath<Long> id = _super.id;
+
+    public final BooleanPath isSpecial = createBoolean("isSpecial");
 
     public final ListPath<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember> members = this.<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember>createList("members", com.example.cit.domain.member.member.entity.Member.class, com.example.cit.domain.member.member.entity.QMember.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifyDate = _super.modifyDate;
 
-    public final StringPath name = createString("name");
+    public final ListPath<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember> players = this.<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember>createList("players", com.example.cit.domain.member.member.entity.Member.class, com.example.cit.domain.member.member.entity.QMember.class, PathInits.DIRECT2);
 
     public final com.example.cit.domain.school.school.entity.QSchool school;
+
+    public final StringPath specialName = createString("specialName");
+
+    public final SetPath<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember> students = this.<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember>createSet("students", com.example.cit.domain.member.member.entity.Member.class, com.example.cit.domain.member.member.entity.QMember.class, PathInits.DIRECT2);
 
     public QSchoolClass(String variable) {
         this(SchoolClass.class, forVariable(variable), INITS);

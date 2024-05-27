@@ -65,7 +65,7 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().GET('/api/v1/schools', {
+        const { data } = await rq.apiEndPoints().GET('/api/v1/schools/input', {
         });
 
         schools = data?.data.schools || [];
@@ -351,7 +351,7 @@
 
             <div class="flex flex-row mt-40 justify-between gap-2">
                 <div class="btn btn-block btn-error gap-1 w-[100px]" on:click={() => rq.goTo('/adm/menu/program')}>
-                    <span>취소</span>
+                    <span>목록</span>
                 </div>
                 <button class="btn btn-block btn-primary gap-1 w-[100px]" type="submit">
                     <span>저장</span>

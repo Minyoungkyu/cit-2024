@@ -59,6 +59,12 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<com.example.cit.domain.school.school.entity.School, com.example.cit.domain.school.school.entity.QSchool> schools = this.<com.example.cit.domain.school.school.entity.School, com.example.cit.domain.school.school.entity.QSchool>createList("schools", com.example.cit.domain.school.school.entity.School.class, com.example.cit.domain.school.school.entity.QSchool.class, PathInits.DIRECT2);
 
+    public final com.example.cit.domain.school.schoolClass.entity.QSchoolClass studentClass;
+
+    public final NumberPath<Integer> studentNumber = createNumber("studentNumber", Integer.class);
+
+    public final NumberPath<Integer> studentYear = createNumber("studentYear", Integer.class);
+
     public final StringPath username = createString("username");
 
     public QMember(String variable) {
@@ -80,6 +86,7 @@ public class QMember extends EntityPathBase<Member> {
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.player = inits.isInitialized("player") ? new com.example.cit.domain.player.player.entity.QPlayer(forProperty("player"), inits.get("player")) : null;
+        this.studentClass = inits.isInitialized("studentClass") ? new com.example.cit.domain.school.schoolClass.entity.QSchoolClass(forProperty("studentClass"), inits.get("studentClass")) : null;
     }
 
 }
