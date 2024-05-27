@@ -345,7 +345,7 @@
         
                 <!-- item status -->
                 <div class="w-[508px] h-[904px]" style="background-image:url('/img/inventory/ui_popup_item_info.png')">
-                    <div class="w-[330px] h-[74px] absolute top-[70px] right-[270px] text-[40px] font-[900] pl-[40px] leading-[2] " style="background-image:url('/img/inventory/ui_itemname.png');color:rgb(64 226 255);">
+                    <div class="w-[330px] h-[74px] absolute top-[70px] right-[270px] text-[30px] font-[900] pl-[40px] leading-[2.5] " style="background-image:url('/img/inventory/ui_itemname.png');color:rgb(64 226 255);">
                         {currentItem?.item.name}</div>
                     <div class="w-[445px] h-[699px] absolute top-[190px] right-[156px] flex flex-col items-center" style="background-image:url('/img/inventory/ui_itme_background3.png')">
                         <div class="w-[203px] h-[203px] absolute top-[45px]" style="background-image:url('/img/inventory/ui_itemframe2.png')">

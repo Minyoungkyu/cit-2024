@@ -5,7 +5,9 @@ import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.repository.GameMapRepository;
 import com.example.cit.domain.gameMap.requireParts.entity.RequireParts;
 import com.example.cit.domain.log.log.entity.PlayerLog;
+import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.log.log.service.PlayerLogService;
+import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rq.Rq;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class GameMapService {
 
     private final GameMapRepository gameMapRepository;
     private final Rq rq;
+
+    private final PlayerLogRepository playerLogRepository;
 
     @Transactional
     public GameMap createGameMap(String stage, String step, String difficulty, int level, String editorAutoComplete, String editorMessage,
@@ -60,10 +64,37 @@ public class GameMapService {
     }
 
     public GameMap checkAccessAndGetGameMap(Long gameMapId) {
-//        playerLogService.findByUserIdAndGameMapId(rq.getMember().getId(), gameMapId)
-//                .orElseThrow(() -> new GlobalException("403-1", "잘못 된 접근입니다."));
 
-        return findGameMapById(gameMapId).orElseThrow(() -> new GlobalException("404-1", "게임 맵을 찾을 수 없습니다."));
+        Member member = rq.getMember();
+        GameMap gameMap = gameMapRepository.findById(gameMapId)
+                .orElseThrow(() -> new GlobalException("404-1", "잘못된 접근입니다."));
+
+        playerLogRepository.findByUserIdAndGameMapIdAndLogType(member.getId(), gameMapId, "STAGECLEAR")
+                .ifPresentOrElse(
+                        log -> {},
+                        () -> {
+                            if (!rq.getMember().getIdList().contains(gameMapId)) {
+                                throw new GlobalException("403-1", "잘못된 접근입니다.");
+                            } else {
+                                PlayerLog playerLog = PlayerLog.builder()
+                                        .logType("STAGECLEAR")
+                                        .username(member.getUsername())
+                                        .userId(member.getId())
+                                        .gameMapId(gameMap.getId())
+                                        .gameMapStage(gameMap.getStage())
+                                        .gameMapStep(gameMap.getStep())
+                                        .gameMapDifficulty(gameMap.getDifficulty())
+                                        .gameMapLevel(gameMap.getLevel())
+                                        .detailText("")
+                                        .detailInt(0)
+                                        .build();
+
+                                playerLogRepository.save(playerLog);
+                            }
+                        }
+                );
+
+        return gameMap;
     }
 
     // Todo: 나중에 삭제 테스트용

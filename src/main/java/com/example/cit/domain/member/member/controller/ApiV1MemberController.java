@@ -183,4 +183,19 @@ public class ApiV1MemberController {
     }
 
 
+    //Todo: remove
+    public record IdListTestResponseBody(@NonNull List<Long> idList) {}
+
+    @GetMapping(value = "/test", consumes = ALL_VALUE)
+    @Operation(summary = "테스트")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<IdListTestResponseBody> test() {
+        return RsData.of(
+                new IdListTestResponseBody(
+                        rq.getMember().getIdList()
+                )
+        );
+    }
+
+
 }

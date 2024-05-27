@@ -1672,7 +1672,7 @@ public class Dev {
                                 "go(2)\n" +
                                 "turnRight()\n" +
                                 "set(\"액체연료\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"액체연료\")",
                         0,
                         0,
                         21

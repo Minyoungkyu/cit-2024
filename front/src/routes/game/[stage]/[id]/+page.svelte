@@ -263,13 +263,17 @@
     }
 
     async function batchPlayLog(playerScore:number) {
-        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
+        const { response } = await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
             body: {
                 gameMapDto: gameMapDto,
                 playerScore: playerScore,
                 result: "clear"
             }
         });
+
+        if (!response.ok) {
+            rq.msgError('서버 오류 발생');
+        }
     }
     
     let i = 0;
@@ -363,7 +367,6 @@
     }
 
     onMount(() => {
-        console.log('killCOunt', killCount)
         audio = document.getElementById("myAudio") as HTMLAudioElement;
         audio.volume = 0.4;
 
@@ -756,18 +759,23 @@
         }, 1000 / frameRate);
     }
 
-    function doComplete() {
-        batchPlayLog(playerScore);
+    async function doComplete() {
+        try {
+            await batchPlayLog(playerScore);
 
-        if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            if ( currentGameLog && currentGameLog.detailInt === 0) {
-                rq.member.player.gems += gameMapDto.rewardJewel;
-                rq.member.player.exp += gameMapDto.rewardExp;
-                showClearPopup = true;
-                return;
+            if ((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+                if (currentGameLog && currentGameLog.detailInt === 0) {
+                    rq.member.player.gems += gameMapDto.rewardJewel;
+                    rq.member.player.exp += gameMapDto.rewardExp;
+                    showClearPopup = true;
+                    return;
+                }
             }
+
+            routeToNext();
+        } catch (error) {
+            console.error("Error completing the action:", error);
         }
-        routeToNext();
     }
 
     function routeToNext() {
@@ -974,7 +982,8 @@
                 style="transform:scale({scaleMultiplier2});transform-origin:left top;{showBtnGuide && btnGuideArray[7] ? 'box-shadow:0 0px 20px 20px rgb(255, 255, 255, 0.5);z-index:999;' : ''}">
                 {#each data as switchLog, index}
                     {#if switchLog}
-                    <div class="switchBtn w-[55px] h-[55px] cursor-pointer" on:click={() => window.location.href = `/game/${switchLog.gameMapStage}/${switchLog.gameMapId}`}
+                    <div class="switchBtn w-[55px] h-[55px] cursor-pointer" 
+                        on:click={() => window.location.href = `/game/${switchLog.gameMapStage}/${switchLog.gameMapId}`}
                         style="background-image:url('/img/inGame/btn_{switchLog?.gameMapLevel}_on.png');background-size:contain;{switchLog.gameMapId == gameMapDto.id ? 'pointer-events:none;' : ''}"></div>
                     {:else}
                     <div class="w-[55px] h-[55px]" style="background-image:url('/img/inGame/btn_{index + 1}_off.png');background-size:contain;"></div>

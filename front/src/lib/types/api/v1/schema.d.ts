@@ -121,6 +121,10 @@ export interface paths {
     /** 레벨이동 확인 */
     get: operations["getSwitchLog"];
   };
+  "/api/v1/playerLogs/stageLog/{stage}": {
+    /** 플레이어 스테이지 모든 로그 */
+    get: operations["getStageLog"];
+  };
   "/api/v1/playerLogs/highest": {
     /** 플레이어의 최고기록 로그 */
     get: operations["getHighestLog"];
@@ -132,6 +136,10 @@ export interface paths {
   "/api/v1/playerLogs/clearLog/{stage}": {
     /** 스테이지 클리어 로그 */
     get: operations["getClearLog"];
+  };
+  "/api/v1/members/test": {
+    /** 테스트 */
+    get: operations["test_1"];
   };
   "/api/v1/members/program": {
     /** 사업관리자 이상 조회 */
@@ -736,6 +744,16 @@ export interface components {
     SwitchResponseBody: {
       switchLogList: components["schemas"]["PlayerLogDto"][];
     };
+    RsDataStageLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["StageLogResponseBody"];
+    };
+    StageLogResponseBody: {
+      playerLogDtoList: components["schemas"]["PlayerLogDto"][];
+    };
     GamesHighestLogResponseBody: {
       playerLogDto?: components["schemas"]["PlayerLogDto"];
     };
@@ -765,6 +783,16 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["ClearLogResponseBody"];
+    };
+    IdListTestResponseBody: {
+      idList: number[];
+    };
+    RsDataIdListTestResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["IdListTestResponseBody"];
     };
     ProgramMembersResponseBody: {
       members?: components["schemas"]["MemberInputListDto"][];
@@ -1543,6 +1571,28 @@ export interface operations {
       };
     };
   };
+  /** 플레이어 스테이지 모든 로그 */
+  getStageLog: {
+    parameters: {
+      path: {
+        stage: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataStageLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 플레이어의 최고기록 로그 */
   getHighestLog: {
     responses: {
@@ -1594,6 +1644,23 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataClearLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 테스트 */
+  test_1: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataIdListTestResponseBody"];
         };
       };
       /** @description Bad Request */

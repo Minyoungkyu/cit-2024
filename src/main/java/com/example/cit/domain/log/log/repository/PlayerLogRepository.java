@@ -13,6 +13,8 @@ public interface PlayerLogRepository extends JpaRepository<PlayerLog, Long> {
 
     Optional<PlayerLog> findByUserIdAndGameMapIdAndLogType(Long userId, Long gameMapId, String logType);
 
+    List<PlayerLog> findByUserIdAndGameMapStageAndLogType(Long userId, String stage, String logType);
+
     List<PlayerLog> findByUserIdAndGameMapStageAndLogTypeAndDetailIntGreaterThanEqual(Long userId, String stage, String logType, Integer detailINT);
 
     Optional<PlayerLog> findTop1ByLogTypeAndUserIdAndGameMapStageAndGameMapStepAndGameMapDifficultyOrderByModifyDateDesc(String logType, Long userId, String stage, String step, String difficulty);

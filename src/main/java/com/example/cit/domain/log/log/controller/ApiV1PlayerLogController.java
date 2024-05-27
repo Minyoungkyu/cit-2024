@@ -56,6 +56,24 @@ public class ApiV1PlayerLogController {
                 )
         );
     }
+    public record StageLogResponseBody(@NonNull List<PlayerLogDto> playerLogDtoList) {}
+
+    @GetMapping(value = "/stageLog/{stage}", consumes = ALL_VALUE)
+    @Operation(summary = "플레이어 스테이지 모든 로그")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<StageLogResponseBody> getStageLog(
+            @PathVariable("stage") String stage
+    ) {
+
+        return RsData.of(
+                new StageLogResponseBody(
+                        playerLogService.getStageLog(rq.getMember().getId(), stage)
+                                .stream().map(PlayerLogDto::new).toList()
+                )
+        );
+    }
 
     public record GamesLastLogResponseBody(PlayerLogDto playerLogDto) {}
 
@@ -122,7 +140,7 @@ public class ApiV1PlayerLogController {
     ) {
         return RsData.of(
                 new SwitchResponseBody(
-                        playerLogService.getSwitchLog(rq.getMember(), step, diff)
+                        playerLogService.getSwitchLog(rq.getMember().getId(), step, diff)
                 )
         );
     }

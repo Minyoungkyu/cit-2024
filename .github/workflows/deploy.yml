@@ -13,6 +13,7 @@ on:
       - main
 jobs:
   makeTagAndRelease:
+    if: "!contains(github.event.head_commit.message, '[skip actions]')"
     runs-on: ubuntu-latest
     outputs:
       tag_name: ${{ steps.create_tag.outputs.new_tag }}
@@ -35,6 +36,7 @@ jobs:
           draft: false
           prerelease: false
   buildImageAndPush:
+    if: "!contains(github.event.head_commit.message, '[skip actions]')"
     name: 도커 이미지 빌드와 푸시
     needs: makeTagAndRelease
     runs-on: ubuntu-latest

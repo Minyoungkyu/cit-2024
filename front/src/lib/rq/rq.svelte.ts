@@ -399,6 +399,14 @@ class Rq {
     }
   }
 
+  public async test() {
+    const { data } = await this.apiEndPoints().GET('/api/v1/members/test');
+
+    if (data) {
+      return data.data.idList;
+    }
+  }
+
 
 }
 

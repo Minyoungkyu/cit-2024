@@ -8,6 +8,7 @@ import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.player.player.entity.Player;
 import com.example.cit.domain.player.player.service.PlayerService;
 import com.querydsl.core.group.GroupBy;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,25 @@ public class PlayerLogService {
         return playerLogList;
     }
 
+    public List<PlayerLog> getStageLog(Long id, String stage) {
+
+        List<PlayerLog> playerLogList = playerLogRepository.findByUserIdAndGameMapStageAndLogType(id, stage, "STAGECLEAR");
+
+        Stream<Optional<PlayerLog>> additionalLogsStream = Stream.of(
+                stage.equals("2") ? playerLogRepository.findByUserIdAndGameMapIdAndLogType(id, 30L, "STAGECLEAR") : Optional.empty(),
+                stage.equals("3") ? playerLogRepository.findByUserIdAndGameMapIdAndLogType(id, 58L, "STAGECLEAR") : Optional.empty()
+        );
+
+        List<PlayerLog> additionalLogs = additionalLogsStream
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        playerLogList.addAll(additionalLogs);
+
+        return playerLogList;
+    }
+
     public Optional<PlayerLog> getHighestLog(Long id) {
         return playerLogRepository.findFirstByUserIdAndDetailIntGreaterThanEqualOrderByGameMapIdDesc(id, 1);
     }
@@ -96,8 +116,8 @@ public class PlayerLogService {
                 "", 0);
     }
 
-    public List<PlayerLogDto> getSwitchLog(Member member, String step, String diff) {
-        return playerLogRepository.findByUserIdAndGameMapStepAndGameMapDifficulty(member.getId(), step, diff)
+    public List<PlayerLogDto> getSwitchLog(long memberId, String step, String diff) {
+        return playerLogRepository.findByUserIdAndGameMapStepAndGameMapDifficulty(memberId, step, diff)
                 .stream().map(PlayerLogDto::new).toList();
     }
 
@@ -109,7 +129,7 @@ public class PlayerLogService {
             if (currentGameLog != null && currentGameLog.getDetailInt() == 0) {
                 currentGameLog.setDetailInt(1);
                 playerLogRepository.save(currentGameLog);
-                makeNextGameLog(member, gameMapDto);
+                makeNextGameLog(member, gameMapDto.id());
 
                 playerAchievementService.checkStageClearAchievement(member, gameMapDto); // 업적달성 조회 및 추가
 
@@ -143,7 +163,7 @@ public class PlayerLogService {
                 else playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
 
                 if (gameMapDto.level() != 3) {
-                    makeNextGameLog(member, gameMapDto); // level 3 아니면 다음게임로그 생성
+                    makeNextGameLog(member, gameMapDto.id()); // level 3 아니면 다음게임로그 생성
 
                 } else {
                     
@@ -151,34 +171,70 @@ public class PlayerLogService {
 
                     switch (gameMapDto.difficulty()) {
                         case "Easy":
-                            makeNextStepGameLog(member, gameMapDto);
-                            makeNextGameLog(member, gameMapDto);
+                            makeNextStepGameLog(member, gameMapDto.id());
+                            makeNextGameLog(member, gameMapDto.id());
                             break;
                         case "Normal":
-                            makeNextGameLog(member, gameMapDto);
+                            makeNextStepGameLog(member, gameMapDto.id() - 3);
+                            makeNextGameLog(member, gameMapDto.id());
                             break;
                         case "Hard":
+                            makeNextStepGameLog(member, gameMapDto.id() - 6);
                             return;
                     }
                 }
             }
         } else {
             // currentGameLog 가 없는 경우. (있으면 안되는 경우)
+            // Todo: test
+            createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                    gameMapDto.id(), gameMapDto.stage(), gameMapDto.step(), gameMapDto.difficulty(), gameMapDto.level(),
+                    "", playerScore);
+
+            if ( gameMapDto.rewardItem() != null) playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel(), gameMapDto.rewardItem());
+            else playerService.addRewardToPlayer(gameMapDto.rewardExp(), gameMapDto.rewardJewel());
+
+            if (gameMapDto.level() != 3) {
+                makeNextGameLog(member, gameMapDto.id()); // level 3 아니면 다음게임로그 생성
+
+            } else {
+
+                playerAchievementService.checkStageClearAchievement(member, gameMapDto); // level 3 클리어시 업적달성 조회 및 추가작업
+
+                switch (gameMapDto.difficulty()) {
+                    case "Easy":
+                        makeNextStepGameLog(member, gameMapDto.id());
+                        makeNextGameLog(member, gameMapDto.id());
+                        break;
+                    case "Normal":
+                        makeNextStepGameLog(member, gameMapDto.id() - 3);
+                        makeNextGameLog(member, gameMapDto.id());
+                        break;
+                    case "Hard":
+                        makeNextStepGameLog(member, gameMapDto.id() - 6);
+                        return;
+                }
+            }
+            // Todo: test
         }
     }
 
-    private void makeNextGameLog(Member member, GameMapDto gameMapDto) {
-        GameMap nextGame = gameMapService.findGameMapById(gameMapDto.id() + 1).get();
+    private void makeNextGameLog(Member member, long gameMapId) {
+        GameMap nextGame = gameMapService.findGameMapById(gameMapId + 1).get();
+
+        if ( findByUserIdAndGameMapId(member.getId(), nextGame.getId()).isPresent() ) return;
 
         createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
                 nextGame.getId(), nextGame.getStage(), nextGame.getStep(), nextGame.getDifficulty(), nextGame.getLevel(),
                 "", 0);
     }
 
-    private void makeNextStepGameLog(Member member, GameMapDto gameMapDto) {
-        if (gameMapDto.id() == 88) return;
+    private void makeNextStepGameLog(Member member, long gameMapId) {
+        if (gameMapId >= 88) return;
 
-        GameMap nextStepGame = gameMapService.findGameMapById(gameMapDto.id() + 7).get();
+        GameMap nextStepGame = gameMapService.findGameMapById(gameMapId + 7).get();
+
+        if ( findByUserIdAndGameMapId(member.getId(), nextStepGame.getId()).isPresent() ) return;
 
         createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
                 nextStepGame.getId(), nextStepGame.getStage(), nextStepGame.getStep(), nextStepGame.getDifficulty(), nextStepGame.getLevel(),
