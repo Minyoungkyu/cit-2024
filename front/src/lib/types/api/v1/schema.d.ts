@@ -21,17 +21,21 @@ export interface paths {
     /** 사업 수정 */
     put: operations["modify_2"];
   };
+  "/api/v1/profileInventory/update/inventory": {
+    /** 플레이어 인벤토리 업데이트 */
+    put: operations["updateProfileInventory"];
+  };
   "/api/v1/players/{id}/name": {
     /** 별명등록, 초회 이벤트 별명등록 */
     put: operations["setName"];
   };
-  "/api/v1/members/system/modify": {
-    /** 사업관리자 수정 */
-    put: operations["modify_3"];
+  "/api/v1/players/setting": {
+    /** 플레이어 설정 변경 */
+    put: operations["updatePlayerSetting"];
   };
-  "/api/v1/members/student/modify": {
-    /** 학생 수정 */
-    put: operations["modify_4"];
+  "/api/v1/players/getReward": {
+    /** 업적 보상 획득 */
+    put: operations["getRewardFromAchievement"];
   };
   "/api/v1/members/modify": {
     /** 관리자정보 수정 */
@@ -109,6 +113,10 @@ export interface paths {
     /** 학생 삭제 */
     post: operations["studentDelete"];
   };
+  "/api/v1/playerAchievement/ency": {
+    /** 플레이어 도감확인 업적 */
+    post: operations["postPlayerAchievement"];
+  };
   "/api/v1/members/logout": {
     /** 로그아웃 */
     post: operations["logout"];
@@ -144,6 +152,10 @@ export interface paths {
   "/api/v1/gameMaps/gameMap/test2": {
     /** 특정 게임 테스트용2 */
     post: operations["getGameMapTest2"];
+  };
+  "/api/v1/gameLogs/batchGameLog": {
+    /** 게임 로그 일괄 처리 */
+    post: operations["batchPlayLog_2"];
   };
   "/api/v1/test/test": {
     /** 플레이어 인벤토리 조회 */
@@ -214,8 +226,20 @@ export interface paths {
     get: operations["getMyInventory"];
   };
   "/api/v1/profile/profiles": {
-    /** 전체 프로필아이콘 목록 조회 */
+    /** 전체 상점 프로필아이콘 목록 조회 */
     get: operations["getProfiles"];
+  };
+  "/api/v1/profile/all": {
+    /** 전체 프로필아이콘 목록 조회 */
+    get: operations["getAllProfile"];
+  };
+  "/api/v1/playerLogs/switch": {
+    /** 레벨이동 확인 */
+    get: operations["getSwitchLog"];
+  };
+  "/api/v1/playerLogs/stageLog/{stage}": {
+    /** 플레이어 스테이지 모든 로그 */
+    get: operations["getStageLog"];
   };
   "/api/v1/playerLogs/highest": {
     /** 플레이어의 최고기록 로그 */
@@ -229,25 +253,9 @@ export interface paths {
     /** 스테이지 클리어 로그 */
     get: operations["getClearLog"];
   };
-  "/api/v1/members/{id}": {
-    /** 계정 단건 조회 */
-    get: operations["getSchoolClass_1"];
-  };
-  "/api/v1/members/system": {
-    /** 사업관리자 목록 조회 */
-    get: operations["getSystemAdminListPage"];
-  };
-  "/api/v1/members/system/download/csv": {
-    /** 사업관리자 엑셀 다운로드 */
-    get: operations["downloadCsv_3"];
-  };
-  "/api/v1/members/student": {
-    /** 학생 목록 조회 */
-    get: operations["getStudentListPage"];
-  };
-  "/api/v1/members/student/download/csv": {
-    /** 학생 엑셀 다운로드 */
-    get: operations["downloadCsvStudent"];
+  "/api/v1/members/test": {
+    /** 테스트 */
+    get: operations["test_1"];
   };
   "/api/v1/members/program": {
     /** 사업관리자 이상 조회 */
@@ -268,6 +276,14 @@ export interface paths {
   "/api/v1/members/adm/me": {
     /** 관리자 마이페이지 */
     get: operations["getAdminMe"];
+  };
+  "/api/v1/logs/profile": {
+    /** 학습정보 로그정보 조회 */
+    get: operations["getProfileMainLog"];
+  };
+  "/api/v1/logs/detail": {
+    /** 학습정보 스테이지 상세로그 조회 */
+    get: operations["getProfileDetailLog"];
   };
   "/api/v1/item/items": {
     /** 전체 아이템 목록 조회 */
@@ -292,6 +308,10 @@ export interface paths {
   "/api/v1/ads": {
     /** 행정구역 조회 */
     get: operations["getAds"];
+  };
+  "/api/v1/achievements": {
+    /** 업적 목록 조회 */
+    get: operations["getAchievements"];
   };
 }
 
@@ -450,47 +470,32 @@ export interface components {
       msg: string;
       data: components["schemas"]["ModifyProgramResponseBody"];
     };
-    SetNickNameRequestBody: {
-      nickname: string;
-    };
-    PlayerDto: {
+    ProfileDto: {
       /** Format: int64 */
       id: number;
       /** Format: date-time */
       createDate: string;
       /** Format: date-time */
-      modifyDate: string;
-      nickname: string;
+      updateDate: string;
+      name: string;
+      description: string;
+      sourcePath: string;
       /** Format: int32 */
-      exp: number;
-      /** Format: int32 */
-      gems: number;
+      price: number;
+      achievementName?: string;
     };
-    RsDataSetNickNameResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["SetNickNameResponseBody"];
-    };
-    SetNickNameResponseBody: {
-      item: components["schemas"]["PlayerDto"];
-    };
-    ModifySystemAdminRequestBody: {
+    ProfileInventoryDto: {
       /** Format: int64 */
       id: number;
-      password: string;
-      name: string;
-      department: string;
-      position: string;
-      extensionNo: string;
-      cellphoneNo: string;
-      programs: components["schemas"]["ProgramInputDto"][];
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      updateDate: string;
+      profileIcon: components["schemas"]["ProfileDto"];
+      isEquipped: boolean;
     };
-    ProgramInputDto: {
-      /** Format: int64 */
-      id: number;
-      name: string;
+    UpdateProfileInventoryRequestBody: {
+      profileInventoryDtoList: components["schemas"]["ProfileInventoryDto"][];
     };
     MemberDto: {
       /** Format: int64 */
@@ -539,6 +544,95 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["ModifyStudentResponseBody"];
+    };
+    ModifyRequestBody: {
+      newPassword?: string;
+      realName: string;
+      cellphoneNo: string;
+      department: string;
+      position: string;
+      extensionNo: string;
+    };
+    PlayerDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      nickname: string;
+      /** Format: int32 */
+      exp: number;
+      /** Format: int32 */
+      gems: number;
+      /** Format: int32 */
+      characterType: number;
+      /** Format: int32 */
+      backgroundVolume: number;
+      /** Format: int32 */
+      effectVolume: number;
+      /** Format: int32 */
+      editorAutoComplete: number;
+      /** Format: int32 */
+      editorAutoClose: number;
+    };
+    RsDataUpdateProfileInventoryResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["UpdateProfileInventoryResponseBody"];
+    };
+    UpdateProfileInventoryResponseBody: {
+      memberDto: components["schemas"]["MemberDto"];
+    };
+    SetNickNameRequestBody: {
+      nickname: string;
+      /** Format: int32 */
+      characterType: number;
+    };
+    RsDataSetNickNameResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SetNickNameResponseBody"];
+    };
+    SetNickNameResponseBody: {
+      item: components["schemas"]["PlayerDto"];
+    };
+    UpdatePlayerSetting: {
+      playerDto: components["schemas"]["PlayerDto"];
+    };
+    AchievementDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate?: string;
+      name: string;
+      description: string;
+      /** Format: int32 */
+      rewardExp: number;
+      /** Format: int32 */
+      rewardJewel: number;
+      rewardIcon?: components["schemas"]["ProfileDto"];
+      /** Format: int32 */
+      getReward?: number;
+      /** Format: int32 */
+      isAchieved?: number;
+    };
+    GetRewardFromAchievementRequestBody: {
+      achievement: components["schemas"]["AchievementDto"];
+    };
+    GetRewardFromAchievementResponseBody: {
+      profileInventoryDto?: components["schemas"]["ProfileInventoryDto"];
+    };
+    RsDataGetRewardFromAchievementResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetRewardFromAchievementResponseBody"];
     };
     ModifyRequestBody: {
       newPassword?: string;
@@ -757,44 +851,6 @@ export interface components {
       /** Format: int64 */
       profileId: number;
     };
-    AchievementDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      name: string;
-      description: string;
-      logType: string;
-      detail1: string;
-      /** Format: int32 */
-      detail2: number;
-    };
-    ProfileDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      name: string;
-      description: string;
-      sourcePath: string;
-      /** Format: int32 */
-      price: number;
-      achievement?: components["schemas"]["AchievementDto"];
-    };
-    ProfileInventoryDto: {
-      /** Format: int64 */
-      id: number;
-      /** Format: date-time */
-      createDate: string;
-      /** Format: date-time */
-      updateDate: string;
-      profileIcon: components["schemas"]["ProfileDto"];
-      isEquipped: boolean;
-    };
     RsDataAddProfileInventoryResponseBody: {
       resultCode: string;
       /** Format: int32 */
@@ -807,6 +863,8 @@ export interface components {
     };
     BatchPlayLogRequestBody: {
       gameMapDto: components["schemas"]["GameMapDto"];
+      /** Format: int32 */
+      playerScore: number;
       result: string;
     };
     GameMapDto: {
@@ -832,6 +890,8 @@ export interface components {
       rewardExp: number;
       /** Format: int32 */
       rewardJewel: number;
+      /** Format: int32 */
+      maxBonusCriteria: number;
       rewardItem?: components["schemas"]["ItemDto"];
     };
     createSystemAdminRequestBody: {
@@ -962,6 +1022,17 @@ export interface components {
       statusCode: number;
       msg: string;
       data: Record<string, never>;
+    };
+    BatchGameLogRequestBody: {
+      gameMapDto: components["schemas"]["GameMapDto"];
+      /** Format: int32 */
+      result: number;
+      /** Format: int32 */
+      editorAutoComplete: number;
+      /** Format: int32 */
+      editorAutoClose: number;
+      /** Format: int32 */
+      killCount: number;
     };
     RsDataTestResponseBody: {
       resultCode: string;
@@ -1155,8 +1226,15 @@ export interface components {
       msg: string;
       data: components["schemas"]["ProfilesResponseBody"];
     };
-    GamesHighestLogResponseBody: {
-      playerLogDto?: components["schemas"]["PlayerLogDto"];
+    GetAllProfileResponseBody: {
+      profileDtoList: components["schemas"]["ProfileDto"][];
+    };
+    RsDataGetAllProfileResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetAllProfileResponseBody"];
     };
     PlayerLogDto: {
       /** Format: int64 */
@@ -1177,6 +1255,29 @@ export interface components {
       detailText?: string;
       /** Format: int32 */
       detailInt?: number;
+    };
+    RsDataSwitchResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SwitchResponseBody"];
+    };
+    SwitchResponseBody: {
+      switchLogList: components["schemas"]["PlayerLogDto"][];
+    };
+    RsDataStageLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["StageLogResponseBody"];
+    };
+    StageLogResponseBody: {
+      playerLogDtoList: components["schemas"]["PlayerLogDto"][];
+    };
+    GamesHighestLogResponseBody: {
+      playerLogDto?: components["schemas"]["PlayerLogDto"];
     };
     RsDataGamesHighestLogResponseBody: {
       resultCode: string;
@@ -1205,46 +1306,15 @@ export interface components {
       msg: string;
       data: components["schemas"]["ClearLogResponseBody"];
     };
-    MemberDetailResponseBody: {
-      item: components["schemas"]["MemberDto"];
+    IdListTestResponseBody: {
+      idList: number[];
     };
-    RsDataMemberDetailResponseBody: {
+    RsDataIdListTestResponseBody: {
       resultCode: string;
       /** Format: int32 */
       statusCode: number;
       msg: string;
-      data: components["schemas"]["MemberDetailResponseBody"];
-    };
-    GetSystemAdminResponseBody: {
-      itemPage: components["schemas"]["PageDtoMemberDto"];
-    };
-    PageDtoMemberDto: {
-      /** Format: int64 */
-      totalElementsCount: number;
-      /** Format: int64 */
-      pageElementsCount: number;
-      /** Format: int64 */
-      totalPagesCount: number;
-      /** Format: int32 */
-      number: number;
-      content: components["schemas"]["MemberDto"][];
-    };
-    RsDataGetSystemAdminResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["GetSystemAdminResponseBody"];
-    };
-    GetStudentResponseBody: {
-      itemPage: components["schemas"]["PageDtoMemberDto"];
-    };
-    RsDataGetStudentResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["GetStudentResponseBody"];
+      data: components["schemas"]["IdListTestResponseBody"];
     };
     ProgramMembersResponseBody: {
       members?: components["schemas"]["MemberInputListDto"][];
@@ -1291,6 +1361,41 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["AdminMeResponseBody"];
+    };
+    GetProfileLogResponseBody: {
+      profileLogDto: components["schemas"]["ProfileLogDto"];
+    };
+    ProfileClearRateDto: {
+      difficulty: string;
+      /** Format: int64 */
+      clearCount: number;
+    };
+    ProfileLogDto: {
+      playerLogDto?: components["schemas"]["PlayerLogDto"];
+      profileClearRateDtoList: components["schemas"]["ProfileClearRateDto"][];
+    };
+    RsDataGetProfileLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetProfileLogResponseBody"];
+    };
+    GetDetailLogResponseBody: {
+      profileDetailLogDto: components["schemas"]["ProfileDetailLogDto"];
+    };
+    ProfileDetailLogDto: {
+      /** Format: int64 */
+      clearCount: number;
+      /** Format: int64 */
+      executionCount: number;
+    };
+    RsDataGetDetailLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetDetailLogResponseBody"];
     };
     ItemsResponseBody: {
       itemDtoList: components["schemas"]["ItemDto"][];
@@ -1365,6 +1470,16 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["AdsResponseBody"];
+    };
+    GetAchievementResponseBody: {
+      achievementDtoList: components["schemas"]["AchievementDto"][];
+    };
+    RsDataGetAchievementResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetAchievementResponseBody"];
     };
   };
   responses: never;
@@ -1468,6 +1583,28 @@ export interface operations {
       };
     };
   };
+  /** 플레이어 인벤토리 업데이트 */
+  updateProfileInventory: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["UpdateProfileInventoryRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataUpdateProfileInventoryResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 별명등록, 초회 이벤트 별명등록 */
   setName: {
     parameters: {
@@ -1495,19 +1632,17 @@ export interface operations {
       };
     };
   };
-  /** 사업관리자 수정 */
-  modify_3: {
+  /** 플레이어 설정 변경 */
+  updatePlayerSetting: {
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModifySystemAdminRequestBody"];
+        "application/json": components["schemas"]["UpdatePlayerSetting"];
       };
     };
     responses: {
       /** @description OK */
       200: {
-        content: {
-          "application/json": components["schemas"]["RsDataModifySystemAdminResponseBody"];
-        };
+        content: never;
       };
       /** @description Bad Request */
       400: {
@@ -1517,18 +1652,18 @@ export interface operations {
       };
     };
   };
-  /** 학생 수정 */
-  modify_4: {
+  /** 업적 보상 획득 */
+  getRewardFromAchievement: {
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModifyStudentRequestBody"];
+        "application/json": components["schemas"]["GetRewardFromAchievementRequestBody"];
       };
     };
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataModifyStudentResponseBody"];
+          "application/json": components["schemas"]["RsDataGetRewardFromAchievementResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -1867,85 +2002,12 @@ export interface operations {
       };
     };
   };
-  /** 사업관리자 생성 */
-  batchPlayLog_3: {
-    requestBody: {
-      content: {
-        "*/*": components["schemas"]["createSystemAdminRequestBody"];
-      };
-    };
+  /** 플레이어 도감확인 업적 */
+  postPlayerAchievement: {
     responses: {
       /** @description OK */
       200: {
-        content: {
-          "application/json": components["schemas"]["RsDataCreateSystemAdminResponseBody"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-    };
-  };
-  /** 사업관리자 삭제 */
-  systemAdminDelete: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["SystemAdminDeleteRequestBody"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-    };
-  };
-  /** 학생 생성 */
-  batchPlayLog_4: {
-    requestBody: {
-      content: {
-        "*/*": components["schemas"]["createStudentRequestBody"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RsDataCreateStudentResponseBody"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-    };
-  };
-  /** 학생 삭제 */
-  studentDelete: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["DeleteStudentRequestBody"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
+        content: never;
       };
       /** @description Bad Request */
       400: {
@@ -2139,6 +2201,26 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["RsDataObject"];
         };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 게임 로그 일괄 처리 */
+  batchPlayLog_2: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["BatchGameLogRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
       };
       /** @description Bad Request */
       400: {
@@ -2480,13 +2562,75 @@ export interface operations {
       };
     };
   };
-  /** 전체 프로필아이콘 목록 조회 */
+  /** 전체 상점 프로필아이콘 목록 조회 */
   getProfiles: {
     responses: {
       /** @description OK */
       200: {
         content: {
           "application/json": components["schemas"]["RsDataProfilesResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 전체 프로필아이콘 목록 조회 */
+  getAllProfile: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetAllProfileResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 레벨이동 확인 */
+  getSwitchLog: {
+    parameters: {
+      query: {
+        step: string;
+        diff: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataSwitchResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 플레이어 스테이지 모든 로그 */
+  getStageLog: {
+    parameters: {
+      path: {
+        stage: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataStageLogResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -2558,100 +2702,13 @@ export interface operations {
       };
     };
   };
-  /** 계정 단건 조회 */
-  getSchoolClass_1: {
-    parameters: {
-      path: {
-        id: number;
-      };
-    };
+  /** 테스트 */
+  test_1: {
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataMemberDetailResponseBody"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-    };
-  };
-  /** 사업관리자 목록 조회 */
-  getSystemAdminListPage: {
-    parameters: {
-      query?: {
-        page?: number;
-        kw?: string;
-        kwType?: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RsDataGetSystemAdminResponseBody"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-    };
-  };
-  /** 사업관리자 엑셀 다운로드 */
-  downloadCsv_3: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": string[];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-    };
-  };
-  /** 학생 목록 조회 */
-  getStudentListPage: {
-    parameters: {
-      query?: {
-        page?: number;
-        kw?: string;
-        kwType?: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RsDataGetStudentResponseBody"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["RsDataEmpty"];
-        };
-      };
-    };
-  };
-  /** 학생 엑셀 다운로드 */
-  downloadCsvStudent: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": string[];
+          "application/json": components["schemas"]["RsDataIdListTestResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -2744,6 +2801,46 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataAdminMeResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학습정보 로그정보 조회 */
+  getProfileMainLog: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetProfileLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학습정보 스테이지 상세로그 조회 */
+  getProfileDetailLog: {
+    parameters: {
+      query: {
+        diff: string;
+        step: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetDetailLogResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -2867,6 +2964,23 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataAdsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 업적 목록 조회 */
+  getAchievements: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetAchievementResponseBody"];
         };
       };
       /** @description Bad Request */

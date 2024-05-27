@@ -6,6 +6,8 @@ import com.example.cit.domain.member.member.dto.MemberInputListDto;
 import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.repository.MemberRepository;
+import com.example.cit.domain.player.inventroy.entity.ProfileInventory;
+import com.example.cit.domain.player.inventroy.service.ProfileInventoryService;
 import com.example.cit.domain.player.player.entity.Player;
 import com.example.cit.domain.program.program.dto.ProgramDto;
 import com.example.cit.domain.program.program.dto.ProgramInputDto;
@@ -58,7 +60,15 @@ public class MemberService {
                 .refreshToken(authTokenService.genRefreshToken())
                 .roleLevel(roleLevel)
                 .build();
+
         memberRepository.save(member);
+
+        Player player = Player.builder()
+                .member(member)
+                .nickname("")
+                .exp(0)
+                .gems(0)
+                .build();
 
         member.setPlayer(
                 Player
@@ -69,6 +79,7 @@ public class MemberService {
                         .gems(0)
                         .build()
         );
+
 
         playerLogService.setFirstGame(member);
 
@@ -91,6 +102,7 @@ public class MemberService {
                 .position(position)
                 .extensionNo(extensionNo)
                 .build();
+
         memberRepository.save(member);
 
         member.setPlayer(

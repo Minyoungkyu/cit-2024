@@ -24,8 +24,20 @@ public class QPlayer extends EntityPathBase<Player> {
 
     public final com.example.cit.global.jpa.base.QBaseTime _super = new com.example.cit.global.jpa.base.QBaseTime(this);
 
+    public final SetPath<com.example.cit.domain.achievement.playerAchievement.entity.PlayerAchievement, com.example.cit.domain.achievement.playerAchievement.entity.QPlayerAchievement> achievements = this.<com.example.cit.domain.achievement.playerAchievement.entity.PlayerAchievement, com.example.cit.domain.achievement.playerAchievement.entity.QPlayerAchievement>createSet("achievements", com.example.cit.domain.achievement.playerAchievement.entity.PlayerAchievement.class, com.example.cit.domain.achievement.playerAchievement.entity.QPlayerAchievement.class, PathInits.DIRECT2);
+
+    public final NumberPath<Integer> backgroundVolume = createNumber("backgroundVolume", Integer.class);
+
+    public final NumberPath<Integer> characterType = createNumber("characterType", Integer.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+
+    public final NumberPath<Integer> editorAutoClose = createNumber("editorAutoClose", Integer.class);
+
+    public final NumberPath<Integer> editorAutoComplete = createNumber("editorAutoComplete", Integer.class);
+
+    public final NumberPath<Integer> effectVolume = createNumber("effectVolume", Integer.class);
 
     public final NumberPath<Integer> exp = createNumber("exp", Integer.class);
 

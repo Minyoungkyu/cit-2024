@@ -1,17 +1,21 @@
 package com.example.cit.domain.log.log.controller;
 
+import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
 import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.service.PlayerLogService;
+import com.example.cit.domain.player.player.service.PlayerService;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,6 +52,24 @@ public class ApiV1PlayerLogController {
         return RsData.of(
                 new ClearLogResponseBody(
                         playerLogService.getStageClearLog(rq.getMember().getId(), stage)
+                                .stream().map(PlayerLogDto::new).toList()
+                )
+        );
+    }
+    public record StageLogResponseBody(@NonNull List<PlayerLogDto> playerLogDtoList) {}
+
+    @GetMapping(value = "/stageLog/{stage}", consumes = ALL_VALUE)
+    @Operation(summary = "플레이어 스테이지 모든 로그")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<StageLogResponseBody> getStageLog(
+            @PathVariable("stage") String stage
+    ) {
+
+        return RsData.of(
+                new StageLogResponseBody(
+                        playerLogService.getStageLog(rq.getMember().getId(), stage)
                                 .stream().map(PlayerLogDto::new).toList()
                 )
         );
@@ -92,7 +114,7 @@ public class ApiV1PlayerLogController {
         );
     }
 
-    public record BatchPlayLogRequestBody(@NonNull GameMapDto gameMapDto, @NonNull String result) {}
+    public record BatchPlayLogRequestBody(@NonNull GameMapDto gameMapDto, @NonNull int playerScore, @NonNull String result) {}
 //    public record BatchPlayLogResponseBody(PlayerLogDto playerLogDto) {}
 
     @PostMapping(value = "/batchPlayLog", consumes = ALL_VALUE)
@@ -103,6 +125,23 @@ public class ApiV1PlayerLogController {
     public void batchPlayLog(
             @RequestBody BatchPlayLogRequestBody body
     ) {
-        playerLogService.batchPlayLogV2(rq.getMember(), body.gameMapDto, body.result);
+        playerLogService.batchPlayLogV2(rq.getMember(), body.gameMapDto, body.playerScore, body.result);
+    }
+
+    public record SwitchResponseBody(@NonNull List<PlayerLogDto> switchLogList) {}
+
+    @GetMapping(value = "/switch", consumes = ALL_VALUE)
+    @Operation(summary = "레벨이동 확인")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<SwitchResponseBody> getSwitchLog(
+            @RequestParam(name = "step") @NotBlank String step,
+            @RequestParam(name = "diff") @NotBlank String diff
+    ) {
+        return RsData.of(
+                new SwitchResponseBody(
+                        playerLogService.getSwitchLog(rq.getMember().getId(), step, diff)
+                )
+        );
     }
 }

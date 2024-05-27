@@ -155,7 +155,7 @@
                 <div class="mt-[40px] flex flex-col relative">
                     <div class="w-[203px] h-[203px] cursor-pointer" on:click={() => currentItem = item} 
                         style="background-image:{currentItem == item ? 'url("/img/shop/ui_itemframe2.png");' : 'url("/img/shop/ui_itemframe.png");'}">
-                        <div class="w-[203px] h-[203px] mt-[-5px]" style="background-image:url('{item.sourcePath}');"></div>
+                        <div class="w-[203px] h-[203px] mt-[-5px]" style="background-image:url('/img/item/0/{item.sourcePath}.png');"></div>
                     </div>
                     <div class="w-[310px] h-[76px] mt-[-1px] cursor-pointer" on:click={() => currentItem = item}
                         style="background-image:{currentItem == item ? 'url("/img/inventory/btn_item_etc2.jpg");' : 'url("/img/inventory/btn_item_etc.jpg");'} 
@@ -167,7 +167,7 @@
                         {:else}
                             <div class="flex flex-row items-center justify-start ml-8">
                                 <div class="w-[68px] h-[68px]" style="background-image:url('/img/shop/icon_gem2.png');background-size:cover;"></div>
-                                <div class="text-[35px] font-bold italic ml-[30px] {isPurchasable2(item.price) ? 'text-white' : 'text-red-500'}"> {item.price} </div>
+                                <div class="text-[35px] font-bold italic ml-[5px] {isPurchasable2(item.price) ? 'text-white' : 'text-red-500'}"> {item.price} </div>
                             </div>
                         {/if}
                     </div>
@@ -190,7 +190,7 @@
                 {#each profileList as profile}
                 <div class="mt-[40px] flex flex-col cursor-pointer">
                     <div class="w-[180px] h-[180px] z-[10] ml-[15px] mb-[2px]" on:click={() => currentProfile = profile}
-                        style="background-image:{currentProfile == profile ? 'url("/img/shop/icon_frame_glow.png"),' : ''} url('{profile.sourcePath}');">
+                        style="background-image:{currentProfile == profile ? 'url("/img/shop/icon_frame_glow.png"),' : ''} url('/img/icon/{profile.sourcePath}.png');background-size:contain;">
                     </div>
                     <div class="w-[310px] h-[76px] mt-[20px]" on:click={() => currentProfile = profile} 
                         style="background-image:url('/img/inventory/btn_item_etc.jpg');transform-origin:top left;transform:scale(0.655);">
@@ -214,18 +214,18 @@
     <!-- equipment -->
     <div class="w-[460px] h-[819px] ml-[30px] {currentTab == "equipment" ? '' : 'hidden'}" style="background-image:url('/img/shop/ui_store_bg2.png');">
         <div class="absolute top-[16px] right-[85px] w-[330px] h-[74px] flex items-center justify-start" style="background-image:url('/img/shop/ui_itemname.png');">
-            <div class="text-[40px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentItem?.name}</div>
+            <div class="text-[30px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentItem?.name}</div>
         </div>
         <div class="absolute top-[132px] right-[30px] w-[404px] h-[637px] flex flex-col items-center" style="background-image:url('/img/shop/ui_store_inupbg2.png');">
             <div class="w-[203px] h-[203px] mt-[20px]" style="background-image:url('/img/shop/ui_itemframe2.png');">
-                <div class="w-[203px] h-[203px] mt-[-5px]" style="background-image:url('{currentItem?.sourcePath}');"></div>
+                <div class="w-[203px] h-[203px] mt-[-5px]" style="background-image:url('/img/item/0/{currentItem?.sourcePath}.png');"></div>
             </div>
             <div class="w-[404px] h-[22px] mt-[20px]" style="background-image:url('/img/shop/window_1.png');"></div>
-            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[25px] font-bold italic" style="color:rgb(28 211 216);">
+            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[20px] font-bold italic whitespace-pre-wrap" style="color:rgb(28 211 216);">
                 {currentItem?.description}
             </div>
             {#if !rq.inventories.isItemOwned(currentItem?.id)}
-            <div class="flex flex-row items-center justify-center ml-[-50px] mt-[40px]">
+            <div class="flex flex-row items-center justify-center ml-[-50px] mt-[60px]">
                 <div class="w-[90px] h-[90px]" style="background-image:url('/img/shop/icon_gem2.png');background-size:cover;"></div>
                 <div class="text-[35px] italic {isPurchasable2(currentItem?.price) ? 'text-white' : 'text-red-500'} font-[900]"> {currentItem?.price} </div>
             </div>
@@ -243,12 +243,14 @@
     <!-- profile -->
     <div class="w-[460px] h-[819px] ml-[30px] {currentTab == "equipment" ? 'hidden' : ''}" style="background-image:url('/img/shop/ui_store_bg2.png');">
         <div class="absolute top-[16px] right-[85px] w-[330px] h-[74px] flex items-center justify-start" style="background-image:url('/img/shop/ui_itemname.png');">
-            <div class="text-[40px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentProfile?.name}</div>
+            <div class="text-[30px] font-bold text-white ml-[40px] italic mt-[5px]" style="color:rgb(64 226 255)">{currentProfile?.name}</div>
         </div>
         <div class="absolute top-[132px] right-[30px] w-[404px] h-[637px] flex flex-col items-center" style="background-image:url('/img/shop/ui_store_inupbg2.png');">
-            <div class="w-[180px] h-[180px] z-[10] mt-[31.5px]" style="background-image:url('/img/shop/icon_frame_glow.png'), url('{currentProfile?.sourcePath}');"></div>
+            <div class="w-[180px] h-[180px] z-[10] mt-[31.5px]" 
+                style="background-image:url('/img/shop/icon_frame_glow.png'), url('/img/icon/{currentProfile?.sourcePath}.png');background-size:contain;">
+            </div>
             <div class="w-[404px] h-[22px] mt-[31.5px]" style="background-image:url('/img/shop/window_1.png');"></div>
-            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[25px] font-bold italic" style="color:rgb(28 211 216);">
+            <div class="w-[404px] h-[100px] mt-[20px] px-8 text-white text-[20px] font-bold italic whitespace-pre-wrap" style="color:rgb(28 211 216);">
                 {currentProfile?.description}
             </div>
             {#if !rq.profileInventories.isProfileOwned(currentProfile?.id)}

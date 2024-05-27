@@ -255,10 +255,13 @@ public class Dev {
                         "이동방법을 배웁니다.\n" +
                                 "\n" +
                                 "go() 함수를 사용하면 플레이어가 바라보고 있는 방향으로 이동합니다.",
-                        "go()",
+                        "go()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        2
+                );
 
                 GameMap gameMapTutorial2 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 2,
@@ -303,15 +306,19 @@ public class Dev {
                                 "turnRight() 함수를 사용하게 되면 플레이어가 오른쪽 방향으로 돌게됩니다.",
                         "go()\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        3
+                );
 
                 GameMap gameMap11e1 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 1,
                         "go(),turnLeft(),turnRight()",
-                        "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표 지점에 도달하세요.\n",
+                        "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표지점에 도달하세요.\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -354,16 +361,21 @@ public class Dev {
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        6
+                );
 
                 GameMap gameMap11e2 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 2,
                         "go(),turnLeft(),turnRight()",
-                        "# 더 멀리 이동하기 위해  다음과 같이 이동 명령문의 괄호 안에 숫자를 넣어보세요.\n" +
-                                "# go(2)\n",
+                        "# 더 멀리 이동하기 위해 이동 명령문의 괄호 안에 숫자를 넣어보세요\n" +
+                                "\n" +
+                                "go(2)",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -402,19 +414,19 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go에 인수 사용\n" +
-                                "\n" +
-                                "go()\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        5
+                );
 
                 GameMap gameMap11e3 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 3,
                         "go(),turnLeft(),turnRight()",
-                        "# 바닥에 있는 폭탄을 피해서 보급품을 획득하세요.\n",
+                        "# 이동명령문을 사용하여 폭탄을 피해 식량을 획득하고 목표지점으로 이동하세요.\n",
                         "목표지점에 도달하기\n" +
                                 "보급품 3개 획득하기",
                         "stage = {\n" +
@@ -473,13 +485,14 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        6,
+                        92,
+                        9
+                );
 
                 GameMap gameMap11n1 = gameMapService.createGameMap(
                         "1", "1-1", "Normal", 1,
@@ -532,10 +545,14 @@ public class Dev {
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        11
+                );
 
                 GameMap gameMap11n2 = gameMapService.createGameMap(
                         "1", "1-1", "Normal", 2,
@@ -586,14 +603,14 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go에 인수 사용\n" +
-                                "\n" +
-                                "go()\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap11n3 = gameMapService.createGameMap(
                         "1", "1-1", "Normal", 3,
@@ -653,13 +670,14 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        29,
+                        288,
+                        21
+                );
 
                 GameMap gameMap11h1 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 1,
@@ -715,15 +733,19 @@ public class Dev {
                                 "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
                         "go()\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go()",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        21
+                );
 
                 GameMap gameMap11h2 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 2,
                         "go(),turnLeft(),turnRight()",
-                        "",
+                        "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
                         "목표지점에 도달하기\n" +
                                 "보급품 3개 획득하기",
                         "stage = {\n" +
@@ -770,19 +792,19 @@ public class Dev {
                                 "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
                                 "\n" +
                                 "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
-                        "go에 인수 사용\n" +
-                                "\n" +
-                                "go()\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        11
+                );
 
                 GameMap gameMap11h3 = gameMapService.createGameMap(
                         "1", "1-1", "Hard", 3,
                         "go(),turnLeft(),turnRight()",
-                        "",
+                        "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
                         "목표지점에 도달하기\n" +
                                 "보급품 4개 획득하기",
                         "stage = {\n" +
@@ -834,19 +856,27 @@ public class Dev {
                                 "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
                                 "\n" +
                                 "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
+                        "go(2)\n" +
                                 "turnLeft()\n" +
-                                "turnRight()",
+                                "go(3)",
                         "go(),turnLeft(),turnRight()",
-                        1,
-                        1);
+                        345,
+                        2070,
+                        31
+                );
 
                 GameMap gameMap12e1 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
+                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "for i in range(3):\n" +
+                                "    # for 명령어 아래에 들여쓰기 된 이곳부터 반복됩니다.\n" +
+                                "    # 이곳에 이동 명령어를 사용해 가까운 식량까지 이동하세요.\n" +
+                                "    go()\n" +
+                                "    \n" +
+                                "    \n" +
+                                "    # 식량을 획득한 뒤에 다음 반복을 위해 회전 명령어를 사용해 원래 바라보던 곳을 바라봐야합니다.\n" +
+                                "    ",
                         "목표지점에 도달하기\n" +
                                 "로켓부품 2개 획득하기\n" +
                                 "코드 5줄 이하로 작성하기",
@@ -892,26 +922,33 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수\n" +
+                        "부품회수-1\n" +
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        0,
+                        0,
+                        5
+                );
 
                 GameMap gameMap12e2 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
-                                "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n",
-                        "로켓부품 6개 획득하기\n" +
-                                "코드 40줄 이하로 작성하기",
+                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "for i in range(2):\n" +
+                                "    # 이곳에 이동 명령어를 사용하여 식량을 획득하세요.\n" +
+                                "    go(3)\n" +
+                                "    \n" +
+                                "    \n" +
+                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하고 오른쪽을 보게하면 다음 식량은 반복으로 획득할 수 있습니다.\n" +
+                                "    ",
+                        "로켓부품 2개 획득하기\n" +
+                                "코드 14줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -932,25 +969,11 @@ public class Dev {
                                 "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
-                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [19,1], \"status\": 1},\n" +
-                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [9,9], \"status\": 1},\n" +
-                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,9], \"status\": 1},\n" +
-                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,9], \"status\": 1},\n" +
-                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
-                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
-                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
-                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1}\n" +
+                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 2},\n" +
                                 "            {\"goal\": \"line\", \"count\": 40}\n" +
                                 "        ]\n" +
                                 "    },\n" +
@@ -965,33 +988,33 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-1\n" +
+                        "부품회수-2\n" +
                                 "\n" +
-                                "앞에 보이는 레이저를 조심하세요!!\n" +
-                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n" +
-                                "최소 코드작성",
+                                "로켓을 만들기위해 로켓 부품을 찾아야 합니다. \n" +
+                                "방 구석 구석을 잘 찾아보세요.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap12e3 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
-                                "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n",
-                        "로켓부품 8개 획득하기\n" +
-                                "코드 60줄 이하로 작성하기",
+                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "for i in range(2):\n" +
+                                "    # 이곳에 이동 명령어를 사용하여 가까운 위쪽 방과 아래 방의 식량을 획득하세요.\n" +
+                                "    go(3)\n" +
+                                "    \n" +
+                                "    \n" +
+                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하고 오른쪽을 보게하면 다음 식량은 반복으로 획득할 수 있습니다.\n" +
+                                "    ",
+                        "로켓부품 4개 획득하기\n" +
+                                "코드 18줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1014,27 +1037,11 @@ public class Dev {
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
                                 "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [27,1], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [23,9], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":17, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1}\n" +
+                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 4},\n" +
                                 "            {\"goal\": \"line\", \"count\": 60}\n" +
                                 "        ]\n" +
                                 "    },\n" +
@@ -1049,22 +1056,18 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-2\n" +
+                        "부품회수-3\n" +
                                 "\n" +
-                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        12,
+                        184,
+                        9
+                );
 
                 GameMap gameMap12n1 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 1,
@@ -1122,17 +1125,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수\n" +
+                        "부품회수-1\n" +
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap12n2 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 2,
@@ -1142,7 +1147,7 @@ public class Dev {
                                 "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
                                 "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
                         "로켓부품 6개 획득하기\n" +
-                                "코드 60줄 이하로 작성하기",
+                                "코드 40줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1163,26 +1168,26 @@ public class Dev {
                                 "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [4,5,6], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [7,8,9], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "        {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "        {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "        {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [19,1], \"status\": 1},\n" +
+                                "        {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [9,9], \"status\": 1},\n" +
+                                "        {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [15,9], \"status\": 1},\n" +
+                                "        {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [21,9], \"status\": 1},\n" +
+                                "        {\"id\":6, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
+                                "        {\"id\":7, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":8, \"type\": \"laser_switch\", \"pos\": [23,3], \"laser_id\": [10,11,12], \"status\": 1},\n" +
+                                "        {\"id\":9, \"type\": \"laser_switch\", \"pos\": [23,7], \"laser_id\": [13,14,15], \"status\": 1},\n" +
+                                "        {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "        {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "        {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "        {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "        {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "        {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
-                                "            {\"goal\": \"line\", \"count\": 60}\n" +
+                                "            {\"goal\": \"line\", \"count\": 40}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1196,24 +1201,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-1\n" +
+                        "부품회수-2\n" +
                                 "\n" +
-                                "앞에 보이는 레이저를 조심하세요!!\n" +
-                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n" +
-                                "최소 코드작성",
+                                "로켓을 만들기위해 로켓 부품을 찾아야 합니다. \n" +
+                                "방 구석 구석을 잘 찾아보세요.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        0,
+                        0,
+                        28
+                );
 
                 GameMap gameMap12n3 = gameMapService.createGameMap(
                         "1", "1-2", "Normal", 3,
@@ -1223,7 +1223,7 @@ public class Dev {
                                 "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
                                 "# 스위치가 있는 방은 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
                         "로켓부품 8개 획득하기\n" +
-                                "코드 100줄 이하로 작성하기",
+                                "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1244,30 +1244,30 @@ public class Dev {
                                 "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
-                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
-                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
-                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
-                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [5,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [25,3], \"pos_drop\": [27,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [9,9], \"pos_drop\": [5,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [25,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":0, \"type\": \"rocket_parts\", \"pos\": [7,1], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"rocket_parts\", \"pos\": [27,1], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"rocket_parts\", \"pos\": [7,9], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"rocket_parts\", \"pos\": [23,9], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [12,13,16,17], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [14,15,18,19], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":13, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":14, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":15, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":16, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":17, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":18, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":19, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
-                                "            {\"goal\": \"line\", \"count\": 100}\n" +
+                                "            {\"goal\": \"line\", \"count\": 60}\n" +
                                 "        ]\n" +
                                 "    },\n" +
                                 "    \"player\" : {\n" +
@@ -1281,22 +1281,18 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-2\n" +
+                        "부품회수-3\n" +
                                 "\n" +
-                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        58,
+                        575,
+                        36
+                );
 
                 GameMap gameMap12h1 = gameMapService.createGameMap(
                         "1", "1-2", "Hard", 1,
@@ -1383,17 +1379,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수\n" +
+                        "부품회수-1\n" +
                                 "\n" +
                                 "로켓을 만들어야합니다.\n" +
                                 "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
-                        "for 문 사용\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        0,
+                        0,
+                        23
+                );
 
                 GameMap gameMap12h2 = gameMapService.createGameMap(
                         "1", "1-2", "Hard", 2,
@@ -1402,8 +1400,8 @@ public class Dev {
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
                                 "# 위의 스위치는 위쪽 방과 연결되어있고 아래의 스위치는 아래쪽 방들과 연결되어있습니다.\n" +
                                 "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어집니다.\n",
-                        "로켓부품 18개 획득하기\n" +
-                                "코드 100줄 이하로 작성하기",
+                        "로켓부품 6개 획득하기\n" +
+                                "코드 60줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -1434,15 +1432,95 @@ public class Dev {
                                 "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
                                 "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
                                 "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "            {\"id\":10, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [7,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":11, \"type\": \"drop_switch\", \"pos\": [15,3], \"pos_drop\": [15,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [21,3], \"pos_drop\": [17,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [5,9], \"pos_drop\": [9,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [11,9], \"pos_drop\": [13,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [21,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 18},\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 6},\n" +
+                                "            {\"goal\": \"line\", \"count\": 60}\n" +
+                                "        ]\n" +
+                                "    },\n" +
+                                "    \"player\" : {\n" +
+                                "        \"pos\" : [1,5],\n" +
+                                "        \"dir\" : \"right\", \n" +
+                                "        \"hp\" : 100,\n" +
+                                "        \"status\" : 0,\n" +
+                                "        \"food_count\" : 0,\n" +
+                                "        \"rocket_parts_count\" : 0\n" +
+                                "    },\n" +
+                                "    \"item_list\" : [\n" +
+                                "    ]\n" +
+                                "}",
+                        "부품회수-2\n" +
+                                "\n" +
+                                "로켓을 만들기위해 로켓 부품을 찾아야 합니다. \n" +
+                                "방 구석 구석을 잘 찾아보세요.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):",
+                        0,
+                        0,
+                        38
+                );
+
+                GameMap gameMap12h3 = gameMapService.createGameMap(
+                        "1", "1-2", "Hard", 3,
+                        "go(),turnLeft(),turnRight(),for i in range():",
+                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
+                                "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
+                                "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어지고 각 스위치는 세번씩 작동합니다.\n",
+                        "로켓부품 8개 획득하기\n" +
+                                "코드 100줄 이하로 작성하기",
+                        "stage = {\n" +
+                                "    \"stage\" : {\n" +
+                                "        \"map\" : 1,\n" +
+                                "        \"step\" : \"1-2\",\n" +
+                                "        \"diff\" : \"Hard\",\n" +
+                                "        \"level\" : 3,\n" +
+                                "        \"tile\" : [\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0],\n" +
+                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0],\n" +
+                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0]\n" +
+                                "        ],\n" +
+                                "        \"init_item_list\" : [\n" +
+                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,3], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,7], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,3], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,7], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,4], \"pos_end\": [8,4], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,4], \"pos_end\": [14,4], \"status\": 1},\n" +
+                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,4], \"pos_end\": [20,4], \"status\": 1},\n" +
+                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,4], \"pos_end\": [26,4], \"status\": 1},\n" +
+                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
+                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
+                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
+                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
+                                "            {\"id\":12, \"type\": \"rocket_parts\", \"pos\": [13,1], \"status\": 1},\n" +
+                                "            {\"id\":13, \"type\": \"rocket_parts\", \"pos\": [21,1], \"status\": 1},\n" +
+                                "            {\"id\":14, \"type\": \"rocket_parts\", \"pos\": [13,9], \"status\": 1},\n" +
+                                "            {\"id\":15, \"type\": \"rocket_parts\", \"pos\": [17,9], \"status\": 1},\n" +
+                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [9,3], \"pos_drop\": [5,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [25,3], \"pos_drop\": [27,1], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [9,9], \"pos_drop\": [5,9], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
+                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,7], \"pos_drop\": [25,7], \"count\": 1, \"drop_type\": \"rocket_parts\", \"status\": 3}\n" +
+                                "        ],\n" +
+                                "        \"goal_list\" : [\n" +
+                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 8},\n" +
                                 "            {\"goal\": \"line\", \"count\": 100}\n" +
                                 "        ]\n" +
                                 "    },\n" +
@@ -1457,119 +1535,25 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "레이저 주의-1\n" +
+                        "부품회수-3\n" +
                                 "\n" +
-                                "앞에 보이는 레이저를 조심하세요!!\n" +
-                                "레이저는  레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()\n" +
-                                "최소 코드작성",
+                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다.",
+                        "for i in range(3):\n" +
+                                "   go(2)\n" +
+                                "   turnLeft()\n" +
+                                "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
-
-                GameMap gameMap12h3 = gameMapService.createGameMap(
-                        "1", "1-2", "Hard", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for i in range(3): 명령어는 여러 줄의 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
-                                "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n" +
-                                "# 왼쪽 스위치는 왼쪽 방 4개와 연결되어있고 오른쪽 스위치는 오른쪽 방 4개와 연결되어있습니다.\n" +
-                                "# 각 방의 스위치를 밟으면 로켓 부품이 노란색 마커 위에 떨어지고 각 스위치는 세번씩 작동합니다.\n",
-                        "로켓부품 24개 획득하기\n" +
-                                "코드 200줄 이하로 작성하기",
-                        "stage = {\n" +
-                                "    \"stage\" : {\n" +
-                                "        \"map\" : 1,\n" +
-                                "        \"step\" : \"1-2\",\n" +
-                                "        \"diff\" : \"Hard\",\n" +
-                                "        \"level\" : 3,\n" +
-                                "        \"tile\" : [\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,2,0,0],\n" +
-                                "            [0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0,1,0,1,2,1,0],\n" +
-                                "            [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0],\n" +
-                                "            [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],\n" +
-                                "            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n" +
-                                "        ],\n" +
-                                "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"laser_switch\", \"pos\": [3,5], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":1, \"type\": \"laser_switch\", \"pos\": [3,9], \"laser_id\": [4,5,8,9], \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"laser_switch\", \"pos\": [29,5], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"laser_switch\", \"pos\": [29,9], \"laser_id\": [6,7,10,11], \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,6], \"pos_end\": [8,6], \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,6], \"pos_end\": [14,6], \"status\": 1},\n" +
-                                "            {\"id\":6, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,6], \"pos_end\": [20,6], \"status\": 1},\n" +
-                                "            {\"id\":7, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,6], \"pos_end\": [26,6], \"status\": 1},\n" +
-                                "            {\"id\":8, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [6,8], \"pos_end\": [8,8], \"status\": 1},\n" +
-                                "            {\"id\":9, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [12,8], \"pos_end\": [14,8], \"status\": 1},\n" +
-                                "            {\"id\":10, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [18,8], \"pos_end\": [20,8], \"status\": 1},\n" +
-                                "            {\"id\":11, \"type\": \"laser\", \"dir\": \"h\", \"pos_start\": [24,8], \"pos_end\": [26,8], \"status\": 1},\n" +
-                                "            {\"id\":12, \"type\": \"drop_switch\", \"pos\": [7,5], \"pos_drop\": [9,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":13, \"type\": \"drop_switch\", \"pos\": [15,5], \"pos_drop\": [13,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":14, \"type\": \"drop_switch\", \"pos\": [21,5], \"pos_drop\": [21,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":15, \"type\": \"drop_switch\", \"pos\": [23,5], \"pos_drop\": [23,3], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":16, \"type\": \"drop_switch\", \"pos\": [7,11], \"pos_drop\": [7,9], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":17, \"type\": \"drop_switch\", \"pos\": [11,11], \"pos_drop\": [13,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":18, \"type\": \"drop_switch\", \"pos\": [17,9], \"pos_drop\": [19,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":19, \"type\": \"drop_switch\", \"pos\": [23,9], \"pos_drop\": [23,11], \"count\": 3, \"drop_type\": \"rocket_parts\", \"status\": 3},\n" +
-                                "            {\"id\":20, \"type\": \"bomb\", \"pos\": [27,4], \"status\": 1},\n" +
-                                "            {\"id\":21, \"type\": \"bomb\", \"pos\": [17,10], \"status\": 1}\n" +
-                                "        ],\n" +
-                                "        \"goal_list\" : [\n" +
-                                "            {\"goal\": \"item\", \"type\": \"rocket_parts\", \"count\": 24},\n" +
-                                "            {\"goal\": \"line\", \"count\": 200}\n" +
-                                "        ]\n" +
-                                "    },\n" +
-                                "    \"player\" : {\n" +
-                                "        \"pos\" : [1,7],\n" +
-                                "        \"dir\" : \"right\", \n" +
-                                "        \"hp\" : 100,\n" +
-                                "        \"status\" : 0,\n" +
-                                "        \"food_count\" : 0,\n" +
-                                "        \"rocket_parts_count\" : 0\n" +
-                                "    },\n" +
-                                "    \"item_list\" : [\n" +
-                                "    ]\n" +
-                                "}",
-                        "레이저 주의-2\n" +
-                                "\n" +
-                                "레이저 스위치를 동작시켜 레이저를 꺼야합니다!\n" +
-                                "\n" +
-                                "절대 레이저가 켜져있는 상태로 접근하지 마세요 \n" +
-                                "\n" +
-                                "\n" +
-                                "레이저스위치를 작동시켜\n" +
-                                "로켓을 만들기위해 필요한 로켓 부품을 획득하세요!",
-                        "이중 for\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):",
-                        1,
-                        1);
+                        230,
+                        1380,
+                        56
+                );
 
                 GameMap gameMap13e1 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
-                                "# 노란색 마커에서 장착이 가능합니다.\n",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(4): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
                         "고체추진제 4개 장착하기\n" +
                                 "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1618,19 +1602,20 @@ public class Dev {
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "set(\"고체추진제\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go(2)\n" +
+                                "set(\"고체추진제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        0,
+                        0,
+                        9
+                );
 
                 GameMap gameMap13e2 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘액체연료’)를 작성하여로켓 재료를 장착합니다. \n" +
-                                "# 노란색 마커에서 장착이 가능합니다.\n",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(3): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
                         "액체연료 5개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1683,21 +1668,22 @@ public class Dev {
                                 "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "최소코드작성\n" +
-                                "set(\"액체연료\")\n" +
-                                "for\n" +
-                                "go()\n" +
+                        "turnRight()\n" +
+                                "go(2)\n" +
                                 "turnRight()\n" +
-                                "turnLeft()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                                "set(\"액체연료\")",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"액체연료\")",
+                        0,
+                        0,
+                        21
+                );
 
                 GameMap gameMap13e3 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
-                                "# 노란색 마커에서 장착이 가능합니다.\n",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(3): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
                         "추가엔진 6개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1755,15 +1741,14 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "for\n" +
-                                "최소코드작성\n" +
-                                "set(\"추가엔진\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "set(\"추가엔진\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        17,
+                        276,
+                        17
+                );
 
                 GameMap gameMap13n1 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 1,
@@ -1821,13 +1806,13 @@ public class Dev {
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "set(\"고체추진제\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go(2)\n" +
+                                "set(\"고체추진제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        0,
+                        0,
+                        17
+                );
 
                 GameMap gameMap13n2 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 2,
@@ -1896,15 +1881,15 @@ public class Dev {
                                 "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "최소코드작성\n" +
-                                "set(\"액체연료\")\n" +
-                                "for\n" +
-                                "go()\n" +
+                        "turnRight()\n" +
+                                "go(2)\n" +
                                 "turnRight()\n" +
-                                "turnLeft()",
+                                "set(\"액체연료\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        0,
+                        0,
+                        23
+                );
 
                 GameMap gameMap13n3 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 3,
@@ -1970,15 +1955,14 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "for\n" +
-                                "최소코드작성\n" +
-                                "set(\"추가엔진\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "set(\"추가엔진\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        86,
+                        863,
+                        29
+                );
 
                 GameMap gameMap13h1 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 1,
@@ -2039,13 +2023,13 @@ public class Dev {
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "set(\"고체추진제\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go(2)\n" +
+                                "set(\"고체추진제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        0,
+                        0,
+                        20
+                );
 
                 GameMap gameMap13h2 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 2,
@@ -2122,15 +2106,15 @@ public class Dev {
                                 "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "최소코드작성\n" +
-                                "set(\"액체연료\")\n" +
-                                "for\n" +
-                                "go()\n" +
+                        "turnRight()\n" +
+                                "go(2)\n" +
                                 "turnRight()\n" +
-                                "turnLeft()",
+                                "set(\"액체연료\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        0,
+                        0,
+                        25
+                );
 
                 GameMap gameMap13h3 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 3,
@@ -2208,61 +2192,73 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "for\n" +
-                                "최소코드작성\n" +
-                                "set(\"추가엔진\")\n" +
-                                "go()\n" +
-                                "turnLeft()\n" +
-                                "turnRight()",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "set(\"추가엔진\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
-                        1,
-                        1);
+                        345,
+                        2070,
+                        31
+                );
 
                 Member memberUser2 = memberService.join("hadle", "1234", 1).getData();
                 memberUser2.setRefreshToken("hadle");
 
-                Member memberUser3 = memberService.join("testUser1", "tmd0405", 1).getData();
+                Member test1 = memberService.join("hadeul1", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul1");
+                Member test2 = memberService.join("hadeul2", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul2");
+                Member test3 = memberService.join("hadeul3", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul3");
+                Member test4 = memberService.join("hadeul4", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul4");
+                Member test5 = memberService.join("hadeul5", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul5");
+                Member test6 = memberService.join("hadeul6", "1234", 1).getData();
+                memberUser2.setRefreshToken("hadeul6");
+
+                Member memberUser3 = memberService.join("testUser1", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser1");
 
-                Member memberUser4 = memberService.join("testUser2", "tmd0405", 1).getData();
+                Member memberUser4 = memberService.join("testUser2", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser2");
 
-                Member memberUser5 = memberService.join("testUser3", "tmd0405", 1).getData();
+                Member memberUser5 = memberService.join("testUser3", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser3");
 
-                Member memberUser11 = memberService.join("testUser4", "tmd0405", 1).getData();
+                Member memberUser11 = memberService.join("testUser4", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser4");
-                Member memberUser12 = memberService.join("testUser5", "tmd0405", 1).getData();
+                Member memberUser12 = memberService.join("testUser5", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser5");
-                Member memberUser13 = memberService.join("testUser6", "tmd0405", 1).getData();
+                Member memberUser13 = memberService.join("testUser6", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser6");
-                Member memberUser14 = memberService.join("testUser7", "tmd0405", 1).getData();
+                Member memberUser14 = memberService.join("testUser7", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser7");
-                Member memberUser15 = memberService.join("testUser8", "tmd0405", 1).getData();
+                Member memberUser15 = memberService.join("testUser8", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser8");
-                Member memberUser16 = memberService.join("testUser9", "tmd0405", 1).getData();
+                Member memberUser16 = memberService.join("testUser9", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser9");
-                Member memberUser17 = memberService.join("testUser10", "tmd0405", 1).getData();
+                Member memberUser17 = memberService.join("testUser10", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser10");
-                Member memberUser18 = memberService.join("testUser11", "tmd0405", 1).getData();
+                Member memberUser18 = memberService.join("testUser11", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser11");
-                Member memberUser19 = memberService.join("testUser12", "tmd0405", 1).getData();
+                Member memberUser19 = memberService.join("testUser12", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser12");
-                Member memberUser20 = memberService.join("testUser13", "tmd0405", 1).getData();
+                Member memberUser20 = memberService.join("testUser13", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser13");
-                Member memberUser21 = memberService.join("testUser14", "tmd0405", 1).getData();
+                Member memberUser21 = memberService.join("testUser14", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser14");
-                Member memberUser22 = memberService.join("testUser15", "tmd0405", 1).getData();
+                Member memberUser22 = memberService.join("testUser15", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser15");
-                Member memberUser23 = memberService.join("testUser16", "tmd0405", 1).getData();
+                Member memberUser23 = memberService.join("testUser16", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser16");
-                Member memberUser24 = memberService.join("testUser17", "tmd0405", 1).getData();
+                Member memberUser24 = memberService.join("testUser17", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser17");
-                Member memberUser25 = memberService.join("testUser18", "tmd0405", 1).getData();
+                Member memberUser25 = memberService.join("testUser18", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser18");
-                Member memberUser26 = memberService.join("testUser19", "tmd0405", 1).getData();
+                Member memberUser26 = memberService.join("testUser19", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser19");
-                Member memberUser27 = memberService.join("testUser20", "tmd0405", 1).getData();
+                Member memberUser27 = memberService.join("testUser20", "tmd0523", 1).getData();
                 memberUser2.setRefreshToken("testUser20");
 
                 Member memberUser6 = memberService.join("test4", "1234", 1).getData();
@@ -2271,7 +2267,7 @@ public class Dev {
                 Member memberClassAdmin = memberService.join("class", "1234", "학급관리자", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
                 memberClassAdmin.setRefreshToken("class");
 
-                Member memberUser7 = memberService.join("testAdmin", "tmd0405", "테스트어드민", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
+                Member memberUser7 = memberService.join("testAdmin", "tmd0523", "테스트어드민", "010-1234-1234", 2, "부서1", "직급1", "123-456-7890").getData();
                 memberUser7.setRefreshToken("testAdmin");
 
                 Member memberProgramAdmin = memberService.join("program", "1234", "사업관리자", "010-1234-1234", 3, "부서1", "직급1", "123-456-7890").getData();
@@ -2287,22 +2283,26 @@ public class Dev {
                 ItemParts itemParts5 = itemPartsService.createItemParts("헬멧");
                 ItemParts itemParts6 = itemPartsService.createItemParts("총");
 
-                Item item1 = itemService.createItem(itemParts1, "우주용 신발",
-                        "이동과 회전 명령어를 사용할 수 있게 하는 장비.\n" +
-                                "go() : 플레이어를 바라보고 있는 방향으로 이동시킨다.\n" +
-                                "turnLeft() : 플레이어를 왼쪽으로 회전시킨다.\n" +
-                                "turnRight() : 플레이어를 오른쪽으로 회전시킨다.",
-                        "", "/img/inventory/icon_space_boots.png", 0);
+                Item item1 = itemService.createItem(itemParts1,
+                        "스페이스 부츠",
+                        "보급품으로 남아있던 스페이스 부츠\n이동에 자유로움을 준다",
+                        "icon_chariter_space_boots",
+                        "icon_space_boots",
+                        0);
 
-                Item item2 = itemService.createItem(itemParts2, "Lv1 모듈",
-                        "반복 명령어 for를 사용할 수 있게 하는 장비.",
-                        "", "/img/inventory/icon_module.png", 0);
-
-                Item item3 = itemService.createItem(itemParts3, "우주용 장갑",
-                        "장착 명령어를 사용할 수 있게 하는 장비.\n" +
-                                "set() : 입력된 아이템을 플레이어가 바라보고 있는 곳에 장착시킨다.",
+                Item item2 = itemService.createItem(itemParts2,
+                        "Lv1 모듈",
+                        "가장 기본적인 성능의 모듈이다",
                         "",
-                        "/img/inventory/icon_space_gloves.png", 0);
+                        "icon_module",
+                        0);
+
+                Item item3 = itemService.createItem(itemParts3,
+                        "스페이스 글러브",
+                        "보급품으로 남아있던 스페이스 글러브\n안정성이 뛰어나 험한 작업에도 문제없다",
+                        "icon_chariter_space_gloves",
+                        "icon_space_gloves",
+                        0);
 
                 gameMapTutorial2.setRewardItem(item1);
                 gameMap11e3.setRewardItem(item2);
@@ -2311,97 +2311,97 @@ public class Dev {
                 gameMapRepository.save(gameMap11e3);
                 gameMapRepository.save(gameMap12e3);
 
-                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser3.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser3.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser3.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser4.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser4.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser4.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser5.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser5.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser5.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser6.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser6.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser6.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser7.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser7.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser7.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser11.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser11.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser11.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser12.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser12.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser12.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser13.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser13.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser13.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser14.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser14.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser14.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser15.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser15.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser15.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser16.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser16.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser16.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser17.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser17.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser17.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser18.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser18.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser18.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser19.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser19.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser19.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser20.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser20.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser20.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser21.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser21.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser21.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser22.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser22.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser22.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser23.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser23.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser23.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser24.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser24.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser24.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser25.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser25.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser25.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser26.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser26.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser26.getPlayer(), item3, false);
-
-                inventoryService.createInventory(memberUser27.getPlayer(), item1, false);
-                inventoryService.createInventory(memberUser27.getPlayer(), item2, false);
-                inventoryService.createInventory(memberUser27.getPlayer(), item3, false);
+//                inventoryService.createInventory(memberUser2.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser2.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser2.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser3.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser3.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser3.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser4.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser4.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser4.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser5.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser5.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser5.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser6.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser6.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser6.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser7.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser7.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser7.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser11.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser11.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser11.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser12.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser12.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser12.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser13.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser13.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser13.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser14.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser14.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser14.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser15.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser15.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser15.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser16.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser16.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser16.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser17.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser17.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser17.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser18.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser18.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser18.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser19.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser19.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser19.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser20.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser20.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser20.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser21.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser21.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser21.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser22.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser22.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser22.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser23.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser23.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser23.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser24.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser24.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser24.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser25.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser25.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser25.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser26.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser26.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser26.getPlayer(), item3, false);
+//
+//                inventoryService.createInventory(memberUser27.getPlayer(), item1, false);
+//                inventoryService.createInventory(memberUser27.getPlayer(), item2, false);
+//                inventoryService.createInventory(memberUser27.getPlayer(), item3, false);
 
                 // 1-1 itemParts1
                 requirePartsService.addRequireParts(gameMap11e1, itemParts1);
@@ -2598,31 +2598,127 @@ public class Dev {
     @Order(6)
     ApplicationRunner initItemAndProfile() {
         return args -> {
-            if (profileService.getProfileList().isEmpty()) {
-                profileService.createProfile("테스트1", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 100, null);
-                profileService.createProfile("테스트2", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 200, null);
-                profileService.createProfile("테스트3", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 300, null);
-                profileService.createProfile("테스트4", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 400, null);
-                profileService.createProfile("테스트5", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 500, null);
-                profileService.createProfile("테스트6", "테스트 테스트, 테스트 테스트!", "/img/shop/icon_soon.png", 600, null);
-            }
-
             if(itemService.getItemList().isEmpty()) {
-                itemService.createItem(itemPartsService.getItemParts(1), "테스트신발1", "테스트 아이템1", "", "/img/shop/icon_space_boots.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(1), "테스트신발2", "테스트 아이템1", "", "/img/shop/icon_space_boots.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(3), "테스트장갑1", "테스트 아이템1", "", "/img/shop/icon_space_gloves.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(3), "테스트장갑2", "테스트 아이템1", "", "/img/shop/icon_space_gloves.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(4), "테스트우주복1", "테스트 아이템1", "", "/img/shop/icon_space_suit.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(4), "테스트우주복2", "테스트 아이템1", "", "/img/shop/icon_space_suit.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(5), "테스트헬멧1", "테스트 아이템1", "", "/img/shop/icon_helmet.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(5), "테스트헬멧2", "테스트 아이템1", "", "/img/shop/icon_helmet.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(6), "테스트총1", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 100);
-                itemService.createItem(itemPartsService.getItemParts(6), "테스트총2", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 200);
-                itemService.createItem(itemPartsService.getItemParts(2), "보상모듈Lv2", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(2), "보상모듈Lv3", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(4), "보상우주복", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(5), "보상헬멧", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
-                itemService.createItem(itemPartsService.getItemParts(6), "보상총", "테스트 아이템1", "", "/img/shop/icon_gun1.png", 0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(1),
+                        "네온 고양이 부츠",
+                        "발목의 안전을 위해 두꺼운 보호대가 있는 부츠\n키가 작아 보이는 단점이 있다",
+                        "icon_chariter_carbon_boots",
+                        "icon_carbon_boots",
+                        2000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(1),
+                        "우주해적 부츠",
+                        "우주해적단의 보스를 본딴 부츠\n정작 세세한 디자인은 다른데 이상하게 아무도 트집을 잡지 않는다",
+                        "icon_chariter_pirate_boots",
+                        "icon_pirate_boots",
+                        3500);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(3),
+                        "네온 고양이 글러브",
+                        "손바닥 전면과 손등의 네온 빛으로 어둠 속에서 작업의 정확성을 높혀주는 글러브\n손만 빛나면 무슨 소용이지?",
+                        "icon_chariter_carbon_gloves",
+                        "icon_carbon_gloves",
+                        2000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(3),
+                        "우주해적 글러브",
+                        "우주해적단의 보스를 본딴 글러브\n원본의 촉수 고증을 위해 한가닥 한가닥 둘러야해서 착용감이 안좋다",
+                        "icon_chariter_pirate_gloves",
+                        "icon_pirate_gloves",
+                        4000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(4),
+                        "네온 고양이 슈트",
+                        "신축성 소재로, 어둠 속에서 착용자를 확인할 수 있는 노란 네온빛이 특징인 슈트\n어둠속의 세로로 된 빛은 키를 더 커보이게 한다.",
+                        "icon_chariter_carbon_suit",
+                        "icon_carbon_suit",
+                        4000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(4),
+                        "우주해적 슈트",
+                        "우주해적단의 보스를 본딴 슈트\n편한 바지와 푸른색의 상의가 일부 종족들에게 인기가 많다",
+                        "icon_chariter_pirate_suit",
+                        "icon_pirate_suit",
+                        6000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(5),
+                        "네온 고양이 헬멧",
+                        "어두운 후드 안을 들여다보면 야광 고양이가 있는 헬멧\non/off 버튼이 있지만, 찾지 못해서 끄지 못하고 있다",
+                        "icon_chariter_carbon_helmet",
+                        "icon_carbon_helmet",
+                        3000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(5),
+                        "우주해적 헬멧",
+                        "우주해적단의 보스를 본딴 헬멧\n다른 헬멧보다 유리가 어두워 가시성은 안좋지만 멋때문에 찾는 종족이 많다",
+                        "icon_chariter_pirate_helmet",
+                        "icon_pirate_helmet",
+                        4500);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(6),
+                        "카본 레일건",
+                        "카본소재의 본체에 노란 네온빛이 특징인 레일건\n레일건은 아니지만 멋있다는 이유로 이름이 결정됐다",
+                        "",
+                        "Icon_gun2",
+                        10000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(6),
+                        "골든 샤크 대포",
+                        "황금빛으로 빛나는 상어 모양의 대포\n그 날카로운 입에선 무엇이든 빨아들이는 블랙홀을 발사한다는 설정을 가지고 있다",
+                        "",
+                        "Icon_gun3",
+                        13000);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(2),
+                        "Lv2 모듈",
+                        "성능이 한층 강화된 형태의 모듈이다",
+                        "",
+                        "icon_module2",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(2),
+                        "Lv3 모듈",
+                        "최고의 성능을 자랑하는 모듈이다",
+                        "",
+                        "icon_module3",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(4),
+                        "스페이스 슈트",
+                        "보급품으로 남아있던 스페이스 슈트\n몸에 착 달라붙는 슈트는 마치 맨몸인 것 같은 편안함을 준다",
+                        "icon_chariter_space_suit",
+                        "icon_space_suit",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(5),
+                        "스페이스 헬멧",
+                        "보급품으로 남아있던 스페이스 헬멧\n우주에서 활동하기 위해선 필수품이다",
+                        "icon_chariter_helmet",
+                        "icon_helmet",
+                        0);
+
+                itemService.createItem(
+                        itemPartsService.getItemParts(6),
+                        "스페이스 건",
+                        "보급품으로 남아있던 스페이스 건\n보통의 공격력을 가진 평범한 우주용 총이다",
+                        "",
+                        "Icon_gun1",
+                        0);
             }
         };
     }
@@ -2633,7 +2729,7 @@ public class Dev {
         return args -> {
             if (gameMapService.findGameMapById(35L).isEmpty()) {
                 GameMap gameMap14e1 = gameMapService.createGameMap(
-                        "1", "1-4", "Easy", 1,
+                        "1", "1-4", "0", 1,
                         "",
                         "",
                         "로켓 발사하기",
@@ -2648,8 +2744,10 @@ public class Dev {
                         "",
                         "",
                         "",
-                        1,
-                        1);
+                        50,
+                        564,
+                        0
+                );
 
                 GameMap gameMap21e1 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 1,
@@ -2707,8 +2805,10 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "  print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap21e2 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 2,
@@ -2768,8 +2868,10 @@ public class Dev {
                                 "info = getInfo()\n" +
                                 "print(info)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        14
+                );
 
                 GameMap gameMap21e3 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 3,
@@ -2834,8 +2936,10 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        12,
+                        184,
+                        18
+                );
 
                 GameMap gameMap21n1 = gameMapService.createGameMap(
                         "2", "2-1", "Normal", 1,
@@ -2891,8 +2995,10 @@ public class Dev {
                                 "for i in range(2, 6):\n" +
                                 "   print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap21n2 = gameMapService.createGameMap(
                         "2", "2-1", "Normal", 2,
@@ -2966,8 +3072,10 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        22
+                );
 
                 GameMap gameMap21n3 = gameMapService.createGameMap(
                         "2", "2-1", "Normal", 3,
@@ -3031,8 +3139,10 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        58,
+                        575,
+                        17
+                );
 
                 GameMap gameMap21h1 = gameMapService.createGameMap(
                         "2", "2-1", "Hard", 1,
@@ -3086,8 +3196,10 @@ public class Dev {
                         "for i in range(4, 12, 2):\n" +
                                 "  print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap21h2 = gameMapService.createGameMap(
                         "2", "2-1", "Hard", 2,
@@ -3169,8 +3281,10 @@ public class Dev {
                                 "\n" +
                                 "print(sum)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        18
+                );
 
                 GameMap gameMap21h3 = gameMapService.createGameMap(
                         "2", "2-1", "Hard", 3,
@@ -3231,8 +3345,10 @@ public class Dev {
                                 "for i in range(num, 1, -1):\n" +
                                 "    print(i)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        230,
+                        1380,
+                        15
+                );
 
                 GameMap gameMap22e1 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 1,
@@ -3307,8 +3423,10 @@ public class Dev {
                         "if checkFront() == \"폭탄\":\n" +
                                 "   jump()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        4
+                );
 
                 GameMap gameMap22e2 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 2,
@@ -3370,8 +3488,10 @@ public class Dev {
                                 "  else :\n" +
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        4
+                );
 
                 GameMap gameMap22e3 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 3,
@@ -3482,8 +3602,10 @@ public class Dev {
                                 "     else :\n" +
                                 "       turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1);
+                        23,
+                        368,
+                        7
+                );
 
                 GameMap gameMap22n1 = gameMapService.createGameMap(
                         "2", "2-2", "Normal", 1,
@@ -3564,8 +3686,10 @@ public class Dev {
                                 "  for i in range(15):\n" +
                                 "     go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        10
+                );
 
                 GameMap gameMap22n2 = gameMapService.createGameMap(
                         "2", "2-2", "Normal", 2,
@@ -3652,8 +3776,10 @@ public class Dev {
                                 "   turnRight()\n" +
                                 "    go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        8
+                );
 
                 GameMap gameMap22n3 = gameMapService.createGameMap(
                         "2", "2-2", "Normal", 3,
@@ -3768,8 +3894,10 @@ public class Dev {
                                 "elif checkFront() == \"보급품\":\n" +
                                 "  go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        1,
-                        1);
+                        115,
+                        1150,
+                        7
+                );
 
                 GameMap gameMap22h1 = gameMapService.createGameMap(
                         "2", "2-2", "Hard", 1,
@@ -3848,8 +3976,10 @@ public class Dev {
                                 "else:\n" +
                                 "   go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        18
+                );
 
                 GameMap gameMap22h2 = gameMapService.createGameMap(
                         "2", "2-2", "Hard", 2,
@@ -3921,8 +4051,10 @@ public class Dev {
                                 "      turnRight()\n" +
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        4
+                );
 
                 GameMap gameMap22h3 = gameMapService.createGameMap(
                         "2", "2-2", "Hard", 3,
@@ -4030,8 +4162,10 @@ public class Dev {
                                 "   else:\n" +
                                 "      go()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
-                        1,
-                        1);
+                        460,
+                        2760,
+                        9
+                );
 
                 GameMap gameMap23e1 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 1,
@@ -4092,8 +4226,10 @@ public class Dev {
                         "while getHp() < 100 : \n" +
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        3
+                );
 
                 GameMap gameMap23e2 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 2,
@@ -4176,8 +4312,10 @@ public class Dev {
                                 "   else:\n" +
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        4
+                );
 
                 GameMap gameMap23e3 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 3,
@@ -4248,8 +4386,10 @@ public class Dev {
                                 "        print(i)\n" +
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        35,
+                        552,
+                        14
+                );
 
                 GameMap gameMap23n1 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 1,
@@ -4311,8 +4451,10 @@ public class Dev {
                         "while getHp() < 100 : \n" +
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        17
+                );
 
                 GameMap gameMap23n2 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 2,
@@ -4386,8 +4528,10 @@ public class Dev {
                                 "   else:\n" +
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        11
+                );
 
                 GameMap gameMap23n3 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 3,
@@ -4451,8 +4595,10 @@ public class Dev {
                                 "        print(i)\n" +
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        173,
+                        1725,
+                        13
+                );
 
                 GameMap gameMap23h1 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 1,
@@ -4518,8 +4664,10 @@ public class Dev {
                         "while getHp() < 100 : \n" +
                                 "    use(\"응급치료제\")",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        26
+                );
 
                 GameMap gameMap23h2 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 2,
@@ -4597,8 +4745,10 @@ public class Dev {
                                 "   else:\n" +
                                 "       go(2)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        10
+                );
 
                 GameMap gameMap23h3 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 3,
@@ -4662,14 +4812,16 @@ public class Dev {
                                 "        print(i)\n" +
                                 "        i +=1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        690,
+                        4140,
+                        13
+                );
 
                 GameMap gameMap24e1 = gameMapService.createGameMap(
-                        "1", "2-4", "Easy", 1,
+                        "2", "2-4", "0", 1,
                         "",
                         "",
-                        "",
+                        "퀴즈 모두 해결하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -4681,8 +4833,10 @@ public class Dev {
                         "",
                         "",
                         "",
-                        1,
-                        1);
+                        50,
+                        600,
+                        0
+                );
 
                 ItemParts shoes = itemPartsService.getItemParts(1);
                 ItemParts module = itemPartsService.getItemParts(2);
@@ -4740,6 +4894,131 @@ public class Dev {
                 requirePartsService.addRequireParts(gameMap23h1, List.of(shoes, module, gloves, suit, helmet));
                 requirePartsService.addRequireParts(gameMap23h2, List.of(shoes, module, gloves, suit, helmet));
                 requirePartsService.addRequireParts(gameMap23h3, List.of(shoes, module, gloves, suit, helmet));
+
+
+                Member member = memberService.findByUsername("testAdmin").get();
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap14e1.getId(), gameMap14e1.getStage(), gameMap14e1.getStep(), gameMap14e1.getDifficulty(), gameMap14e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21e1.getId(), gameMap21e1.getStage(), gameMap21e1.getStep(), gameMap21e1.getDifficulty(), gameMap21e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21e2.getId(), gameMap21e2.getStage(), gameMap21e2.getStep(), gameMap21e2.getDifficulty(), gameMap21e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21e3.getId(), gameMap21e3.getStage(), gameMap21e3.getStep(), gameMap21e3.getDifficulty(), gameMap21e3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21n1.getId(), gameMap21n1.getStage(), gameMap21n1.getStep(), gameMap21n1.getDifficulty(), gameMap21n1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21n2.getId(), gameMap21n2.getStage(), gameMap21n2.getStep(), gameMap21n2.getDifficulty(), gameMap21n2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21n3.getId(), gameMap21n3.getStage(), gameMap21n3.getStep(), gameMap21n3.getDifficulty(), gameMap21n3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21h1.getId(), gameMap21h1.getStage(), gameMap21h1.getStep(), gameMap21h1.getDifficulty(), gameMap21h1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21h2.getId(), gameMap21h2.getStage(), gameMap21h2.getStep(), gameMap21h2.getDifficulty(), gameMap21h2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap21h3.getId(), gameMap21h3.getStage(), gameMap21h3.getStep(), gameMap21h3.getDifficulty(), gameMap21h3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22e1.getId(), gameMap22e1.getStage(), gameMap22e1.getStep(), gameMap22e1.getDifficulty(), gameMap22e1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22e2.getId(), gameMap22e2.getStage(), gameMap22e2.getStep(), gameMap22e2.getDifficulty(), gameMap22e2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22e3.getId(), gameMap22e3.getStage(), gameMap22e3.getStep(), gameMap22e3.getDifficulty(), gameMap22e3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22n1.getId(), gameMap22n1.getStage(), gameMap22n1.getStep(), gameMap22n1.getDifficulty(), gameMap22n1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22n2.getId(), gameMap22n2.getStage(), gameMap22n2.getStep(), gameMap22n2.getDifficulty(), gameMap22n2.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22n3.getId(), gameMap22n3.getStage(), gameMap22n3.getStep(), gameMap22n3.getDifficulty(), gameMap22n3.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22h1.getId(), gameMap22h1.getStage(), gameMap22h1.getStep(), gameMap22h1.getDifficulty(), gameMap22h1.getLevel(),
+                        "", 1);
+
+               playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22h2.getId(), gameMap22h2.getStage(), gameMap22h2.getStep(), gameMap22h2.getDifficulty(), gameMap22h2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap22h3.getId(), gameMap22h3.getStage(), gameMap22h3.getStep(), gameMap22h3.getDifficulty(), gameMap22h3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23e1.getId(), gameMap23e1.getStage(), gameMap23e1.getStep(), gameMap23e1.getDifficulty(), gameMap23e1.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23e2.getId(), gameMap23e2.getStage(), gameMap23e2.getStep(), gameMap23e2.getDifficulty(), gameMap23e2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23e3.getId(), gameMap23e3.getStage(), gameMap23e3.getStep(), gameMap23e3.getDifficulty(), gameMap23e3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23n1.getId(), gameMap23n1.getStage(), gameMap23n1.getStep(), gameMap23n1.getDifficulty(), gameMap23n1.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23n2.getId(), gameMap23n2.getStage(), gameMap23n2.getStep(), gameMap23n2.getDifficulty(), gameMap23n2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23n3.getId(), gameMap23n3.getStage(), gameMap23n3.getStep(), gameMap23n3.getDifficulty(), gameMap23n3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23h1.getId(), gameMap23h1.getStage(), gameMap23h1.getStep(), gameMap23h1.getDifficulty(), gameMap23h1.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23h2.getId(), gameMap23h2.getStage(), gameMap23h2.getStep(), gameMap23h2.getDifficulty(), gameMap23h2.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap23h3.getId(), gameMap23h3.getStage(), gameMap23h3.getStep(), gameMap23h3.getDifficulty(), gameMap23h3.getLevel(),
+                        "", 1);
+
+              playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap24e1.getId(), gameMap24e1.getStage(), gameMap24e1.getStep(), gameMap24e1.getDifficulty(), gameMap24e1.getLevel(),
+                        "", 1);
+
+
+
+
+
+
             }
 
 
@@ -4820,8 +5099,10 @@ public class Dev {
                                 "target = enemy.upper()\n" +
                                 "attack(target)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        6
+                );
 
                 GameMap gameMap31e2 = gameMapService.createGameMap(
                         "3", "3-1", "Easy", 2,
@@ -4887,8 +5168,10 @@ public class Dev {
                                 "ch = info[2]\n" +
                                 "print(ch)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        8
+                );
 
                 GameMap gameMap31e3 = gameMapService.createGameMap(
                         "3", "3-1", "Easy", 3,
@@ -4917,7 +5200,7 @@ public class Dev {
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"aria\"],[\"unct\"],[\"bjec\"]], \n" +
                                 "            \"print_count\": [[\"aria\"],[\"unct\"],[\"bjec\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"variable\",\"function\",\"object\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -4957,8 +5240,10 @@ public class Dev {
                                 "ch = info[2: 5]\n" +
                                 "print(ch)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        17,
+                        276,
+                        6
+                );
 
                 GameMap gameMap31n1 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 1,
@@ -5029,8 +5314,10 @@ public class Dev {
                                 "   target = enemy.upper()\n" +
                                 "   attack(target)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        10
+                );
 
                 GameMap gameMap31n2 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 2,
@@ -5100,8 +5387,10 @@ public class Dev {
                                 "for ch in  range(len(info)):\n" +
                                 "   print(ch[2:5])",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        8
+                );
 
                 GameMap gameMap31n3 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 3,
@@ -5130,7 +5419,7 @@ public class Dev {
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"css\"],[\"sql\"],[\"cmd\"]], \n" +
                                 "            \"print_count\": [[\"css\"],[\"sql\"],[\"cmd\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"hfsesvc\",\"leqcs\",\"playdomac\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5169,8 +5458,10 @@ public class Dev {
                                 "for i in range(len(ch)):\n" +
                                 "    print(i[-1])",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        86,
+                        863,
+                        7
+                );
 
                 GameMap gameMap31h1 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 1,
@@ -5240,8 +5531,10 @@ public class Dev {
                                 "    if char.isupper(): \n" +
                                 "       attack(char)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        12
+                );
 
                 GameMap gameMap31h2 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 2,
@@ -5312,8 +5605,10 @@ public class Dev {
                                 "for i in range(len(ch)):\n" +
                                 "  index = int(number)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        0,
+                        0,
+                        11
+                );
 
                 GameMap gameMap31h3 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 3,
@@ -5343,7 +5638,7 @@ public class Dev {
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"constructor\"],[\"inheritance\"],[\"interface\"]],\n" +
                                 "            \"print_count\": [[\"constructor\"],[\"inheritance\"],[\"interface\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"cconsssttrrructtorrr\",\"iinnheeerrrriiitaaannncce\",\"iiiinttttteerrffffaaceee\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5383,8 +5678,10 @@ public class Dev {
                                 "    if char.isupper(): \n" +
                                 "       attack(char)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
-                        1,
-                        1);
+                        345,
+                        2070,
+                        10
+                );
 
                 GameMap gameMap32e1 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 1,
@@ -5459,8 +5756,10 @@ public class Dev {
                                 "turnLeft()\n" +
                                 "itemLsit[1] = getItem()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        12
+                );
 
                 GameMap gameMap32e2 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 2,
@@ -5536,8 +5835,10 @@ public class Dev {
                                 "turnLeft()\n" +
                                 "itemList.append(getItem())",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        11
+                );
 
                 GameMap gameMap32e3 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 3,
@@ -5621,8 +5922,10 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        35,
+                        552,
+                        15
+                );
 
                 GameMap gameMap32n1 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 1,
@@ -5707,8 +6010,10 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        12
+                );
 
                 GameMap gameMap32n2 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 2,
@@ -5805,8 +6110,10 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        14
+                );
 
                 GameMap gameMap32n3 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 3,
@@ -5895,8 +6202,10 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        173,
+                        1725,
+                        17
+                );
 
                 GameMap gameMap32h1 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 1,
@@ -5975,8 +6284,10 @@ public class Dev {
                                 "if items != \"고장난 폭탄\":\n" +
                                 "    itemList.append(items)  ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        13
+                );
 
                 GameMap gameMap32h2 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 2,
@@ -6068,8 +6379,10 @@ public class Dev {
                                 "turnLeft()\n" +
                                 "itemList.append(getItem())",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        20
+                );
 
                 GameMap gameMap32h3 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 3,
@@ -6153,8 +6466,10 @@ public class Dev {
                                 "\n" +
                                 "itemListAll = itemList1 + itemList2",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        690,
+                        4140,
+                        18
+                );
 
                 GameMap gameMap33e1 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 1,
@@ -6245,8 +6560,10 @@ public class Dev {
                                 "    go() \n" +
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        8
+                );
 
                 GameMap gameMap33e2 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 2,
@@ -6342,8 +6659,10 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        8
+                );
 
                 GameMap gameMap33e3 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 3,
@@ -6460,8 +6779,10 @@ public class Dev {
                                 "for i in range(len(totalNum)):\n" +
                                 "     setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        52,
+                        828,
+                        18
+                );
 
                 GameMap gameMap33n1 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 1,
@@ -6543,8 +6864,10 @@ public class Dev {
                                 "    go() \n" +
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        16
+                );
 
                 GameMap gameMap33n2 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 2,
@@ -6656,8 +6979,10 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        22
+                );
 
                 GameMap gameMap33n3 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 3,
@@ -6783,8 +7108,10 @@ public class Dev {
                                 "for i in range(len(totalNum)):\n" +
                                 "     setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        259,
+                        2588,
+                        29
+                );
 
                 GameMap gameMap33h1 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 1,
@@ -6886,8 +7213,10 @@ public class Dev {
                                 "    go() \n" +
                                 "    turnRight(2) ",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        22
+                );
 
                 GameMap gameMap33h2 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 2,
@@ -6995,8 +7324,10 @@ public class Dev {
                                 "for i in range(3):\n" +
                                 "    setBombAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        24
+                );
 
                 GameMap gameMap33h3 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 3,
@@ -7117,8 +7448,10 @@ public class Dev {
                                 "for i in range(len(totalNum)):\n" +
                                 "     setTrapAndGoBack()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
-                        1,
-                        1);
+                        1109,
+                        6210,
+                        30
+                );
 
                 GameMap gameMap34e1 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 1,
@@ -7172,8 +7505,10 @@ public class Dev {
                         "for j in range(3):\n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        4
+                );
 
                 GameMap gameMap34e2 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 2,
@@ -7234,8 +7569,10 @@ public class Dev {
                                 "for j in range(3):\n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        4
+                );
 
                 GameMap gameMap34e3 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 3,
@@ -7328,8 +7665,10 @@ public class Dev {
                                 "       get(\"폭탄\")\n" +
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1);
+                        69,
+                        1104,
+                        10
+                );
 
                 GameMap gameMap34n1 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 1,
@@ -7386,8 +7725,10 @@ public class Dev {
                                 "if  getHp(enemy) > 0: \n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        5
+                );
 
                 GameMap gameMap34n2 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 2,
@@ -7448,8 +7789,10 @@ public class Dev {
                                 " f  getHp(enemy) > 0: \n" +
                                 "   attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        5
+                );
 
                 GameMap gameMap34n3 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 3,
@@ -7537,8 +7880,10 @@ public class Dev {
                                 "       get(\"폭탄\")\n" +
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1);
+                        345,
+                        3450,
+                        11
+                );
 
                 GameMap gameMap34h1 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 1,
@@ -7597,8 +7942,10 @@ public class Dev {
                                 "     else : \n" +
                                 "     attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap34h2 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 2,
@@ -7672,8 +8019,10 @@ public class Dev {
                                 "  for j in range(3):\n" +
                                 "     attack(enemy)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1);
+                        0,
+                        0,
+                        7
+                );
 
                 GameMap gameMap34h3 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 3,
@@ -7760,8 +8109,10 @@ public class Dev {
                                 "       get(\"폭탄\")\n" +
                                 "       chargeShot()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
-                        1,
-                        1);
+                        1380,
+                        8280,
+                        15
+                );
 
 
                 ItemParts shoes = itemPartsService.getItemParts(1);
@@ -7825,6 +8176,153 @@ public class Dev {
 
                 gameMap33e3.setRewardItem(rewardGun);
                 gameMapRepository.save(gameMap33e3);
+
+
+                Member member = memberService.findByUsername("testAdmin").get();
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31e1.getId(), gameMap31e1.getStage(), gameMap31e1.getStep(), gameMap31e1.getDifficulty(), gameMap31e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31e2.getId(), gameMap31e2.getStage(), gameMap31e2.getStep(), gameMap31e2.getDifficulty(), gameMap31e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31e3.getId(), gameMap31e3.getStage(), gameMap31e3.getStep(), gameMap31e3.getDifficulty(), gameMap31e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31n1.getId(), gameMap31n1.getStage(), gameMap31n1.getStep(), gameMap31n1.getDifficulty(), gameMap31n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31n2.getId(), gameMap31n2.getStage(), gameMap31n2.getStep(), gameMap31n2.getDifficulty(), gameMap31n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31n3.getId(), gameMap31n3.getStage(), gameMap31n3.getStep(), gameMap31n3.getDifficulty(), gameMap31n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31h1.getId(), gameMap31h1.getStage(), gameMap31h1.getStep(), gameMap31h1.getDifficulty(), gameMap31h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31h2.getId(), gameMap31h2.getStage(), gameMap31h2.getStep(), gameMap31h2.getDifficulty(), gameMap31h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap31h3.getId(), gameMap31h3.getStage(), gameMap31h3.getStep(), gameMap31h3.getDifficulty(), gameMap31h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32e1.getId(), gameMap32e1.getStage(), gameMap32e1.getStep(), gameMap32e1.getDifficulty(), gameMap32e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32e2.getId(), gameMap32e2.getStage(), gameMap32e2.getStep(), gameMap32e2.getDifficulty(), gameMap32e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32e3.getId(), gameMap32e3.getStage(), gameMap32e3.getStep(), gameMap32e3.getDifficulty(), gameMap32e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32n1.getId(), gameMap32n1.getStage(), gameMap32n1.getStep(), gameMap32n1.getDifficulty(), gameMap32n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32n2.getId(), gameMap32n2.getStage(), gameMap32n2.getStep(), gameMap32n2.getDifficulty(), gameMap32n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32n3.getId(), gameMap32n3.getStage(), gameMap32n3.getStep(), gameMap32n3.getDifficulty(), gameMap32n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32h1.getId(), gameMap32h1.getStage(), gameMap32h1.getStep(), gameMap32h1.getDifficulty(), gameMap32h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32h2.getId(), gameMap32h2.getStage(), gameMap32h2.getStep(), gameMap32h2.getDifficulty(), gameMap32h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap32h3.getId(), gameMap32h3.getStage(), gameMap32h3.getStep(), gameMap32h3.getDifficulty(), gameMap32h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33e1.getId(), gameMap33e1.getStage(), gameMap33e1.getStep(), gameMap33e1.getDifficulty(), gameMap33e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33e2.getId(), gameMap33e2.getStage(), gameMap33e2.getStep(), gameMap33e2.getDifficulty(), gameMap33e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33e3.getId(), gameMap33e3.getStage(), gameMap33e3.getStep(), gameMap33e3.getDifficulty(), gameMap33e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33n1.getId(), gameMap33n1.getStage(), gameMap33n1.getStep(), gameMap33n1.getDifficulty(), gameMap33n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33n2.getId(), gameMap33n2.getStage(), gameMap33n2.getStep(), gameMap33n2.getDifficulty(), gameMap33n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33n3.getId(), gameMap33n3.getStage(), gameMap33n3.getStep(), gameMap33n3.getDifficulty(), gameMap33n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33h1.getId(), gameMap33h1.getStage(), gameMap33h1.getStep(), gameMap33h1.getDifficulty(), gameMap33h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33h2.getId(), gameMap33h2.getStage(), gameMap33h2.getStep(), gameMap33h2.getDifficulty(), gameMap33h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap33h3.getId(), gameMap33h3.getStage(), gameMap33h3.getStep(), gameMap33h3.getDifficulty(), gameMap33h3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34e1.getId(), gameMap34e1.getStage(), gameMap34e1.getStep(), gameMap34e1.getDifficulty(), gameMap34e1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34e2.getId(), gameMap34e2.getStage(), gameMap34e2.getStep(), gameMap34e2.getDifficulty(), gameMap34e2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34e3.getId(), gameMap34e3.getStage(), gameMap34e3.getStep(), gameMap34e3.getDifficulty(), gameMap34e3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34n1.getId(), gameMap34n1.getStage(), gameMap34n1.getStep(), gameMap34n1.getDifficulty(), gameMap34n1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34n2.getId(), gameMap34n2.getStage(), gameMap34n2.getStep(), gameMap34n2.getDifficulty(), gameMap34n2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34n3.getId(), gameMap34n3.getStage(), gameMap34n3.getStep(), gameMap34n3.getDifficulty(), gameMap34n3.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34h1.getId(), gameMap34h1.getStage(), gameMap34h1.getStep(), gameMap34h1.getDifficulty(), gameMap34h1.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34h2.getId(), gameMap34h2.getStage(), gameMap34h2.getStep(), gameMap34h2.getDifficulty(), gameMap34h2.getLevel(),
+                        "", 1);
+
+                playerLogService.createPlayerLog("STAGECLEAR", member.getUsername(), member.getId(),
+                        gameMap34h3.getId(), gameMap34h3.getStage(), gameMap34h3.getStep(), gameMap34h3.getDifficulty(), gameMap34h3.getLevel(),
+                        "", 1);
 
             }
         };

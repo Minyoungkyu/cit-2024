@@ -14,18 +14,22 @@
 <script lang="ts">
     export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
-    import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup';
+    import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup.svelte';
     import Cocos from '$lib/cocos/cocos.svelte';
     import { runPythonCode2 } from '$lib/pyodide/pyodide';
     import './page.css';
     import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
-	import { scale } from 'svelte/transition';
+ 
+    import Setting from '$lib/game/topMenu/setting/Setting.svelte';
 
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'], guideItems: string[] } }>();
     const { gameMapDto } = data;
     const { guideItems } = data;
+
+    const usingMedicineStage = [49,52,55]
+    const usingKitStage = [50,53,56,91,92,93,94]
 
     let audio: HTMLAudioElement;
     let editor: any;
@@ -51,10 +55,16 @@
     let hasFrameData: boolean = $state(false);
     let isReplay: boolean = $state(false);
     let checkLineCount: boolean = $state(true);
+    let openSetting: boolean = $state(false);
 
     let showBtnGuide: boolean = $state(false);
     let currentGuideIndex: number = $state(0);
-    let btnGuideArray = $state(Array.from({length: 7}, () => false));
+    let btnGuideArray = $state(Array.from({length: 8}, () => false));
+
+    let baseScore = 0;
+    let playerScore = 1;
+
+    let currentGameLog: any = $state(null);
 
     function isFirstStep() {
         return gameMapDto.step === 'tutorial' && gameMapDto.level === 1;
@@ -63,12 +73,17 @@
     const stageString = gameMapDto.cocosInfo;
     const jsonObjectString = stageString.trim().substring("stage = ".length);
     const stageObject = JSON.parse(jsonObjectString);
+    const killCount = stageObject.stage.init_item_list.filter((item: any) => item.type.includes('monster') || item.type.includes('boss')).length;
+
+    let medicine = $state(stageObject.player.medicine_count);
+    let advancedMedicine = $state(stageObject.player.advanced_medicine_count);
 
     let clearGoalList = gameMapDto.clearGoal.split('\n');
     let clearGoalColorArray = $state(Array.from({length: clearGoalList.length}, () => 'rgb(64 226 255)'));
 
     $effect(() => {
         if (isCoReady) {
+            editorSetVal();
             setInterval(() => {
                 if((window as any).IsCocosGameLoad()) {
                     setTimeout(() => {
@@ -81,7 +96,11 @@
         }
     });
 
-    const explanation: String = gameMapDto.editorMessage;
+    function editorSetVal() {
+       if(editor.getValue() === '') {
+            editor.setValue(localStorage.getItem(rq.member.username + '_' + gameMapDto.id) || gameMapDto.editorMessage, 1);
+       }
+    }
 
     const customCompletions = gameMapDto.editorAutoComplete.split(',')
         .filter(command => command.trim() !== '') 
@@ -92,19 +111,48 @@
     }));
 
     function calculateWidthPercentage(scaleMultiplier: number): number {
-        // 1. 1222 x scaleMultiplier (소수점 두 자리까지만 계산)
         const product = Math.floor(1222 * scaleMultiplier * 100) / 100;
-
-        // 2. 1222 / (1의 결과) -> 소수점 두 자리까지만 계산
         const division = Math.floor((1222 / product) * 100) / 100;
-
-        // 3. 2의 결과에 x 100
         const percentage = division * 100;
-
-        // 4. 3의 결과 - 3의 5%
         const finalPercentage = percentage - (percentage * 0.05);
 
         return finalPercentage;
+    }
+
+    async function loadSwitchLog() {
+        const { data } = await rq.apiEndPointsWithFetch(fetch).GET(`/api/v1/playerLogs/switch`, {
+            params: {
+                query: {
+                    step: gameMapDto.step,
+                    diff: gameMapDto.difficulty,
+                }
+            }
+        });
+
+        let maxLevel = 0;
+
+        if (gameMapDto.step == 'tutorial') maxLevel = 2;
+        else maxLevel = 3;
+
+        let newList = [];
+        let level = 1;
+        let switchLogList = data!.data.switchLogList;
+
+        currentGameLog = switchLogList.find(log => log.gameMapId === gameMapDto.id);
+
+        while (level <= maxLevel) {
+            const matchingLog = switchLogList.find(log => log.gameMapLevel == level);
+            
+            if (matchingLog) {
+                newList.push(matchingLog);
+            } else {
+                newList.push(null);
+            }
+
+            level++;
+        }
+
+        return newList;
     }
 
     async function executePython(): Promise<void> {
@@ -121,7 +169,7 @@
 
         const editorContent = editor.getValue();
         const cleanedContent = editorContent.split('\n').filter((line: string) => {
-        return line.trim() !== '' && !line.trim().startsWith('#');
+            return line.trim() !== '' && !line.trim().startsWith('#');
         }).join('\n');
 
         const lineCounter = cleanedContent.split('\n').length; // 실제 에디터에서 코드가 차지하는 라인 수, 로그 수집시 활용
@@ -142,9 +190,14 @@
             }
 
             if (lastNumber) {
-                updateErrorHighlight(Number(lastNumber - 2004 - cocosInfoLength));
+                updateErrorHighlight(Number(lastNumber - 2067 - cocosInfoLength));
             } 
-            rq.msgError(longText);
+            const errorPattern = /\b\w+Error\b:.*/;
+            const errorMessage = longText.split('\n').find((line: string) => errorPattern.test(line));
+
+            let errorText = '에러발생! 에러코드를 참고하여 에디터를 수정하세요<br>' + errorMessage;
+
+            rq.msgError(errorText);
             return;
         } 
 
@@ -157,28 +210,70 @@
             framesData = JSON.parse(result.result);
         } catch (e) {
             if(!result.error) {
-                rq.msgError('프레임 데이터를 파싱하는 중 오류가 발생했습니다.'); // ToDo: 무한반복 처리 and 다른 오류 발생가능성 검토
+                rq.msgError('실행 시간이 초과되었습니다. 빠져나오지 못한 반복문이 없는지 확인하세요'); // ToDo: 무한반복 처리 and 다른 오류 발생가능성 검토
                 return;
             }
         }
+
         const wrappedData = {
             data: framesData
         };
 
-        (window as any).SendStreamData?.(wrappedData);
+        if (gameMapDto.difficulty != '0') {
+            baseScore = gameMapDto.difficulty === "Easy" ? 100 : gameMapDto.difficulty === "Normal" ? 200 : 500;
+            playerScore = calculateBonus(gameMapDto.maxBonusCriteria, lineCounter);
+        } 
+
+        (window as any).SendStreamData?.(wrappedData, baseScore, playerScore, gameMapDto.maxBonusCriteria);
         progressController.max = (framesData.length - 1).toString();
         updateFrame(framesData, 0, lineCounter);
 
         console.timeEnd('executePython')
+
+        const parsedData = JSON.parse(result.result);
+        const lastItem = parsedData[parsedData.length - 1];
+        let resultCode = lastItem.status === 1 ? 1 : 0;
+
+        batchGameLog(resultCode);
     }
 
-    async function batchPlayLog() {
-        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
+    function calculateBonus(shortestLength: number, userLength:number) {
+        let excessLength = userLength - shortestLength;
+        let bonusPoints;
+
+        if (excessLength > 0) {
+            bonusPoints = Math.round(baseScore * (1 - excessLength / (shortestLength + excessLength)));
+        } else {
+            bonusPoints = baseScore;
+        }
+
+        return baseScore + bonusPoints;
+    }
+
+    async function batchGameLog(result: number) {
+        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/gameLogs/batchGameLog`, {
             body: {
                 gameMapDto: gameMapDto,
+                result: result,
+                editorAutoComplete: rq.member.player.editorAutoComplete,
+                editorAutoClose: rq.member.player.editorAutoClose,
+                killCount: killCount
+            }
+        });
+    }
+
+    async function batchPlayLog(playerScore:number) {
+        const { response } = await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
+            body: {
+                gameMapDto: gameMapDto,
+                playerScore: playerScore,
                 result: "clear"
             }
         });
+
+        if (!response.ok) {
+            rq.msgError('서버 오류 발생');
+        }
     }
     
     let i = 0;
@@ -209,8 +304,14 @@
             typeWriter();
         }
     });
+
+    async function saveEditorState(event: any) {
+        localStorage.setItem(rq.member.username + '_' + gameMapDto.id, editor.getValue());
+    }
     
     onMount(async () => {
+        rq.fetchAndInitializeInventories();
+        window.addEventListener('beforeunload', saveEditorState);
         runPythonCode2("", "");
     });
 
@@ -219,6 +320,51 @@
     let scaleMultiplier2 = $state(0);
     let widthMultiplier = $state(1920);
     let userDevice = $state('');
+    let adjustResolution = $state(0);
+
+    function toggleFullScreenMode() {
+        const doc = document as Document & {
+            mozFullScreenElement?: Element;
+            msFullscreenElement?: Element;
+            webkitFullscreenElement?: Element;
+            mozCancelFullScreen?: () => Promise<void>;
+            webkitExitFullscreen?: () => Promise<void>;
+            msExitFullscreen?: () => Promise<void>;
+        };
+
+        const docElem = document.documentElement as HTMLElement & {
+            mozRequestFullScreen?: () => Promise<void>;
+            webkitRequestFullscreen?: () => Promise<void>;
+            msRequestFullscreen?: () => Promise<void>;
+        };
+
+        if (
+            doc.fullscreenElement ||
+            doc.mozFullScreenElement ||
+            doc.webkitFullscreenElement ||
+            doc.msFullscreenElement
+        ) {
+            if (doc.exitFullscreen) {
+                doc.exitFullscreen();
+            } else if (doc.mozCancelFullScreen) {
+                doc.mozCancelFullScreen();
+            } else if (doc.webkitExitFullscreen) {
+                doc.webkitExitFullscreen();
+            } else if (doc.msExitFullscreen) {
+                doc.msExitFullscreen();
+            }
+        } else {
+            if (docElem.requestFullscreen) {
+                docElem.requestFullscreen();
+            } else if (docElem.mozRequestFullScreen) {
+                docElem.mozRequestFullScreen();
+            } else if (docElem.webkitRequestFullscreen) {
+                docElem.webkitRequestFullscreen();
+            } else if (docElem.msRequestFullscreen) {
+                docElem.msRequestFullscreen();
+            }
+        }
+    }
 
     onMount(() => {
         audio = document.getElementById("myAudio") as HTMLAudioElement;
@@ -240,6 +386,7 @@
                 return 'Desktop';
             }
         }
+
 
         userDevice = detectDeviceType();
 
@@ -284,6 +431,7 @@
             // guideContainer.style.height = `${contentHeight}px`;
             }
             
+            adjustResolution = resolution;
             scaleMultiplier2 = (backgroundContainer.offsetWidth/1920);
             scaleMultiplier = (backgroundContainer.offsetHeight / originalHeight);
             widthMultiplier = backgroundContainer.offsetWidth - (633 * scaleMultiplier);
@@ -339,7 +487,7 @@
         updateScale();
         
         editor = setupAceEditor('editor', customCompletions);
-        editor.setValue(explanation, 1); 
+        // editor.setValue(explanation, 1); 
 
         editor.on('focus', function(e:any) {
             if(frameUpdateIntervalId) {
@@ -435,8 +583,8 @@
     let playCanPause = $state(false);
     let volumeCanMute = $state(true);
 
-    let mainHp = $state(100);
-    let hpBackLayer = $state(100);
+    let mainHp = $state(stageObject.player.hp);
+    let hpBackLayer = $state(stageObject.player.hp);
 
     function updateHpBar(hp: number) {
         mainHp = hp;
@@ -507,6 +655,11 @@
                 }
             }else if(clearGoalList[i].includes('줄 이하')) {
                 checkLineCount = false;
+                if (gameMapDto.difficulty !== 'Hard') {
+                    checkLineCount = true;
+                    return;
+                }
+
                 let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
                 if (lineCounter <= codeLineGoals[0].count) {
                     checkLineCount = true;
@@ -532,6 +685,10 @@
                 if(count >= setCountGoals[0].count) {
                     clearGoalColorArray[i] = 'rgb(255 210 87)';
                 } 
+            } else {
+                if (frame.status === 1) {
+                    clearGoalColorArray[i] = 'rgb(255 210 87)';
+                }
             }
         }
 
@@ -586,6 +743,8 @@
                 if (!isReplay) updateHighlight(frame.line_num + 1);
                 updateClearGoal(frame, lineCounter);
                 updateHpBar(frame.player.hp);
+                medicine = frame.player.medicine_count;
+                advancedMedicine = frame.player.advanced_medicine_count;
                 currentFrameIndex++;
             } else {
                 playCanPause = false;
@@ -600,19 +759,32 @@
         }, 1000 / frameRate);
     }
 
-    function doComplete() {
-        batchPlayLog();
-        if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            showClearPopup = true;
-            return;
+    async function doComplete() {
+        try {
+            await batchPlayLog(playerScore);
+
+            if ((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+                if (currentGameLog && currentGameLog.detailInt === 0) {
+                    rq.member.player.gems += gameMapDto.rewardJewel;
+                    rq.member.player.exp += gameMapDto.rewardExp;
+                    showClearPopup = true;
+                    return;
+                }
+            }
+
+            routeToNext();
+        } catch (error) {
+            console.error("Error completing the action:", error);
         }
-        routeToNext();
     }
 
     function routeToNext() {
         const nextLevel = gameMapDto.id + 1;
         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
-            return;
+            openLayer = true;
+            setTimeout(() => {
+                window.location.href = `/game/${gameMapDto.stage}`;
+            }, 500);
         } else if (gameMapDto.difficulty === "0") {
             openLayer = true;
             setTimeout(() => {
@@ -701,12 +873,24 @@
 
         btnGuideArray[currentGuideIndex] = true;
     }
+
+    function closeSetting() {
+        openSetting = false;
+    }
 </script>
 
 <audio id="myAudio">
     <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container flex flex-col items-center justify-center overflow-hidden bg-gray-700">
+
+    {#if openSetting}
+    <div class="w-screen h-screen absolute bg-black opacity-50 z-[60]" style=""></div>
+    <div class="h-full mt-[-10%] absolute flex items-center justify-center z-[61]" style="width:{widthMultiplier}px;pointer-events:none;" >
+        <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={closeSetting}/>
+    </div>
+    {/if}
+
     <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden">
 
         {#if showBtnGuide}
@@ -742,22 +926,28 @@
 
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - scaleMultiplier*0.15});">
-            <div class="text-[43px] font-[900] italic absolute top-[14px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
+            <div class="text-[43px] font-[900] italic absolute top-[14px] left-[165px]" style="color:rgb(64 226 255)">미션 성공</div>
             <div class="w-[46px] h-[46px] absolute right-[20px] top-[65px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_popup_close.png');" on:click={() => showClearPopup = false}></div>
             <div class="w-[1030px] h-[446px] absolute top-[165px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_clear_background2.png');">
                 <div class="absolute w-full top-[55px] left-[-145px]" style="transform:scale(0.7)">
                     <div class="text-[50px] font-[900] italic absolute top-[50px] left-[50px]" style="color:rgb(64 226 255)">획득 보상</div>
+                    {#if gameMapDto.rewardExp > 0}
                     <div id="star1" class="w-[203px] h-[203px] absolute top-[175px] left-[50px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[124px] h-[58px] absolute top-[50px] left-[40px]" style="background-image:url('/img/inGame/clearPop/icon_exp.png');transform:scale(1.7);"></div>
                         <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:1px 0 black, -1px 0 black, 0 1px black, 0 -1px black;">{gameMapDto.rewardExp}</div>
                     </div>
+                    {/if}
+                    {#if gameMapDto.rewardJewel > 0}
                     <div id="star2" class="w-[203px] h-[203px] absolute top-[175px] left-[300px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
                         <div class="w-[102px] h-[110px] absolute top-[30px] left-[55px]" style="background-image:url('/img/inGame/clearPop/icon_gem.png');transform:scale(1.6)"></div>
                         <div class="text-[60px] text-white font-[900] absolute top-[110px] w-full text-center" style="text-shadow:">{gameMapDto.rewardJewel}</div>
                     </div>
+                    {/if}
                     {#if gameMapDto.rewardItem}
-                    <div id="star3" class="w-[203px] h-[203px] absolute top-[175px] left-[550px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
-                        <div class="w-[203px] h-[203px] absolute" style="background-image:url('{gameMapDto.rewardItem?.sourcePath}');background-size:contain;background-repeat:no-repeat;"></div>
+                    <div id="{gameMapDto.rewardExp == 0 && gameMapDto.rewardJewel == 0 ? 'star1' : 'star3'}" 
+                        class="w-[203px] h-[203px] absolute top-[175px] left-[{gameMapDto.rewardExp == 0 && gameMapDto.rewardJewel == 0 ? '50px' : '550px'}]" 
+                        style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
+                        <div class="w-[195px] h-[195px] absolute top-[3px] left-[4px]" style="background-image:url('/img/item/{rq.member.player.characterType}/{gameMapDto.rewardItem?.sourcePath}.png');background-size:contain;background-repeat:no-repeat;"></div>
                     </div>
                     {/if}
                 </div>
@@ -786,6 +976,23 @@
             <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
                 style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"></div>
 
+            {#await loadSwitchLog()}
+            {:then data}
+            <div class="flex flex-row gap-4 absolute top-[2%] left-[10%]" 
+                style="transform:scale({scaleMultiplier2});transform-origin:left top;{showBtnGuide && btnGuideArray[7] ? 'box-shadow:0 0px 20px 20px rgb(255, 255, 255, 0.5);z-index:999;' : ''}">
+                {#each data as switchLog, index}
+                    {#if switchLog}
+                    <div class="switchBtn w-[55px] h-[55px] cursor-pointer" 
+                        on:click={() => window.location.href = `/game/${switchLog.gameMapStage}/${switchLog.gameMapId}`}
+                        style="background-image:url('/img/inGame/btn_{switchLog?.gameMapLevel}_on.png');background-size:contain;{switchLog.gameMapId == gameMapDto.id ? 'pointer-events:none;' : ''}"></div>
+                    {:else}
+                    <div class="w-[55px] h-[55px]" style="background-image:url('/img/inGame/btn_{index + 1}_off.png');background-size:contain;"></div>
+                    {/if}
+                {/each}
+            </div>
+            {/await}
+
+
             <div class="w-[401px] h-[150px] flex flex-col absolute top-[15%] left-[0] gap-2" 
                 style="background-image:url('/img/inGame/ui_player_status.png');transform-origin:left top;transform:scale(0.6) scale({scaleMultiplier2});">
                 <div class="w-full h-[54px]"></div> 
@@ -796,6 +1003,18 @@
                         <div class="bar foreground-bar absolute w-[{mainHp}%] {mainHp <= 50 ? mainHp <= 30 ? 'yellow-bar' : 'green-bar' : ''}" style="width:{mainHp}%"></div> 
                     </div>
                 </div> 
+                {#if usingMedicineStage.includes(gameMapDto.id)}
+                <div class="flex flex-row absolute top-[150px]">
+                    <div class="ml-6 w-[80px] h-[80px]" style="background-image:url('/img/inGame/medicine.png');background-size:contain;"></div>
+                    <div class="text-[50px] text-white font-bold"> X {medicine}</div>
+                </div>
+                {/if}
+                {#if usingKitStage.includes(gameMapDto.id)}
+                <div class="flex flex-row absolute top-[150px]">
+                    <div class="ml-6 w-[80px] h-[80px]" style="background-image:url('/img/inGame/kit.png');background-size:contain;"></div>
+                    <div class="text-[50px] text-white font-bold"> X {advancedMedicine}</div>
+                </div>
+                {/if}
             </div>
 
             <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" 
@@ -817,7 +1036,7 @@
                     <div class="w-[506px] h-[134px] flex justify-center items-center italic" style="background-image:url('/img/inGame/ui_stage_title.png')">
                         <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} {#if gameMapDto.difficulty !== "0"} {gameMapDto.difficulty} {/if}</div>
                     </div>
-                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_off.png')"></div>
+                    <div class="w-[134px] h-[134px] cursor-pointer btn_setting" style="background-image:url('/img/map/btn_settomg_off.png')" on:click={() => openSetting = !openSetting}></div>
                   </div>
                   <div class="flex flex-col" style="transform-origin:top right;transform:scale(1.03);
                         {showBtnGuide && btnGuideArray[0] ? 'box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
@@ -831,6 +1050,9 @@
                     <div class="w-[547px] pl-4" style="background-image:url('/img/inGame/ui_goal_middle.png');">
                         {#each clearGoalList as goal, index}
                             <div class="text-[30px] font-[900] flex flex-row ml-[30px]" style="color:{clearGoalColorArray[index]};">
+                                {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
+                                <div class="w-[40px] h-[20px]"></div>
+                                {:else}
                                 <div class="w-[40px] h-[20px]">
                                     {#if clearGoalColorArray[index] === 'rgb(255 210 87)'}
                                         ◆
@@ -838,11 +1060,28 @@
                                         ◇
                                     {/if}
                                 </div> 
-                                <div>{goal}</div>   
+                                {/if}
+                                {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
+                                <!-- <div class="mt-[20px]">
+                                    {goal} (권장)
+                                </div> -->
+                                {:else}
+                                <div>
+                                    {goal}
+                                </div>
+                                {/if}
                             </div>
                         {/each}
                     </div>
-                    <div class="w-[547px] h-[71px]" style="background-image:url('/img/inGame/ui_goal_end.png');"></div>
+                    <div class="w-[547px] h-[71px]" style="background-image:url('/img/inGame/ui_goal_end.png');">
+                        {#each clearGoalList as goal, index}
+                        {#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
+                        <div class="text-[30px] font-[900] flex flex-row ml-[85px]" style="color:rgb(64 226 255);">
+                            {goal} (권장)
+                        </div>
+                        {/if}
+                        {/each}
+                    </div>
                   </div>
             </div>
             
@@ -858,9 +1097,9 @@
 
                 <div class="flex flex-row justify-between h-[52px] w-full">
                     <div class="flex flex-row gap-2">
-                        <div class="w-[52px] h-[52px] cursor-pointer" 
+                        <!-- <div class="w-[52px] h-[52px] cursor-pointer" 
                             style="background-image:{volumeCanMute ? 'url("/img/inGame/btn_Volume_on.png");' : 'url("/img/inGame/btn_Volume_mute.png");' }"
-                            on:click={() => volumeCanMute = !volumeCanMute}></div>
+                            on:click={() => volumeCanMute = !volumeCanMute}></div> -->
                         <div class="w-[52px] h-[52px] cursor-pointer" 
                             style="background-image:{playCanPause ? 'url("/img/inGame/btn_Control_Pause.png");' : 
                             isPause ? 'url("/img/inGame/btn_Control_Play.png");' : 
@@ -870,7 +1109,9 @@
                     </div>
                     <div class="flex justify-end w-full">
                         <div class="flex items-center w-[98%]" style="transform:scale(1)">
-                            <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%]" style="transform-origin:left;" bind:this={progressController} on:change={handleProgressChange}/>
+                            <!-- <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%] custom-slider" style="transform-origin:left;" bind:this={progressController} on:change={handleProgressChange}/> -->
+                            <input id="progressController" type="range" min="0" max="0" value="0" class="w-[98%] range range-xs range-info" 
+                                style="transform-origin:left;" bind:this={progressController} on:change={handleProgressChange}/>
                         </div>
                     </div>
                 </div>
@@ -885,20 +1126,25 @@
                     <!-- editor control -->
                     <div class="flex flex-row gap-[2rem] mr-10 mt-[-10px]"
                         style="{showBtnGuide && btnGuideArray[4] ? 'z-index:999;box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">
-                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8]" style="background-image:url('/img/inGame/btn_expand.png')"></div>
+                        <div class="w-[34px] h-[34px] z-[50] scale-[0.8] cursor-pointer" 
+                            style="background-image:url('/img/inGame/btn_expand.png')" 
+                            on:click={() => toggleFullScreenMode()}></div>
                         <div class="cursor-pointer w-[34px] h-[34px] scale-[0.8]" style="background-image:url('/img/inGame/btn_help.png')" on:click={showModal}></div>
                             <div bind:this={hintModal} class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute z-[99] top-0 right-0 origin-top-right {showGuide ? '' : ''}" 
                                 style="background-image:url('/img/inGame/ui_help_background.png');">
-                                <div class="absolute text-[35px] top-[630px] left-[90px] text-white">핵심내용</div>
+                                <div class="absolute text-[35px] top-[630px] left-[90px] text-white">예제코드</div>
                                 <div class="flex flex-col items-center justify-center ml-[73px]">
                                     <div class="font-[900] text-[50px] absolute top-[12px] left-[200px]" style="color:rgb(64 226 255)">가이드</div>
                                     <div class="w-[46px] h-[46px] absolute top-[70px] right-[10px] cursor-pointer" style="background-image:url('/img/inGame/btn_popup_close.png')" on:click={() => closeModal()}></div>
                                     <div id="typing" class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left element" style="white-space:pre-wrap;">
                                         {gameMapDto.guideText}
                                     </div>
-                                    <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left" 
-                                        style="background-image:url('/img/inGame/ui_editor_background4.png');transform:scale(0.8)">
-                                        <div class="w-full h-full flex items-start justify-start ml-10 mt-[30px]" style="white-space:pre-wrap;">
+                                    <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left flex items-center justify-center" 
+                                        style="background-image:url('/img/inGame/ui_editor_background4.png');transform:scale(0.8);">
+                                        <!-- <div class="w-[481.6px] h-[200px] flex items-start justify-start ml-10 mt-[30px]" style="white-space:pre-wrap;">
+                                            {gameMapDto.guideImage}
+                                        </div> -->
+                                        <div class="stageInfo w-[573px] h-[200px] pl-2 flex items-start justify-start overflow-y-scroll" style="white-space:pre-wrap;">
                                             {gameMapDto.guideImage}
                                         </div>
                                     </div>
@@ -910,7 +1156,8 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="w-[34px] h-[34px]" style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> 
+                        <div class="w-[34px] h-[34px] cursor-pointer" on:click={() => {editor.setValue(gameMapDto.editorMessage, 1); editor.focus();}}
+                            style="background-image:url('/img/inGame/btn_reset.png');transform:scale(0.8);"></div> 
                     </div>
 
                     <!-- btn Guide 6 -->
@@ -980,4 +1227,4 @@
 </div>
 
 
-<!-- <TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/> -->
+<TransitioningOpenLayer isCoReady={showStart} openLayer={openLayer}/>

@@ -1,0 +1,52 @@
+package com.example.cit.domain.log.gameLog.controller;
+
+import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
+import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
+import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
+import com.example.cit.domain.log.gameLog.service.GameLogService;
+import com.example.cit.domain.log.log.dto.PlayerLogDto;
+import com.example.cit.domain.log.log.service.PlayerLogService;
+import com.example.cit.global.rq.Rq;
+import com.example.cit.global.rsData.RsData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
+
+@RestController
+@RequestMapping(value = "/api/v1/gameLogs", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@Tag(name = "ApiV1GameLogController", description = "게임 로그 컨트롤러")
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class ApiV1GameLogController {
+
+    private final GameLogService gameLogService;
+    private final Rq rq;
+    public record BatchGameLogRequestBody(
+            @NonNull GameMapDto gameMapDto,
+            @NonNull int result,
+            @NonNull int editorAutoComplete,
+            @NonNull int editorAutoClose,
+            @NonNull int killCount
+    ) {}
+
+    @PostMapping(value = "/batchGameLog", consumes = ALL_VALUE)
+    @Operation(summary = "게임 로그 일괄 처리")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public void batchPlayLog(
+            @RequestBody BatchGameLogRequestBody body
+    ) {
+        gameLogService.batchGameLog(rq.getMember(), body.gameMapDto, body.result, body.editorAutoComplete, body.editorAutoClose, body.killCount);
+    }
+}

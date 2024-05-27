@@ -1,3 +1,7 @@
+<svelte:head>
+  <link rel="icon" href="/favicon.png" />
+</svelte:head>
+
 <script  lang="ts">
 	import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';
@@ -24,4 +28,6 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- <header on:click={() => rq.replace('/')}>헤더</header> -->
-<main class="flex-1 flex flex-col">{@render children()}</main>
+<main class="flex-1 flex flex-col">
+	<slot />
+</main>

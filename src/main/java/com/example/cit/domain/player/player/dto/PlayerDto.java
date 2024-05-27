@@ -10,10 +10,25 @@ public record PlayerDto(
         @NonNull LocalDateTime modifyDate,
         @NonNull String nickname,
         @NonNull int exp,
-        @NonNull int gems
-
+        @NonNull int gems,
+        @NonNull int characterType,
+        @NonNull int backgroundVolume,
+        @NonNull int effectVolume,
+        @NonNull int editorAutoComplete,
+        @NonNull int editorAutoClose
 ) {
     public PlayerDto(Player player) {
-        this(player.getId(), player.getCreateDate(), player.getModifyDate(), player.getNickname(), player.getExp(), player.getGems());
+        this(
+                player.getId(),
+                player.getCreateDate(),
+                player.getModifyDate(),
+                player.getNickname(),
+                player.getExp(),
+                player.getGems(),
+                player.getCharacterType(),
+                player.getBackgroundVolume(),
+                player.getEffectVolume(),
+                player.getEditorAutoComplete(),
+                player.getEditorAutoClose());
     }
 }

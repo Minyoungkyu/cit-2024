@@ -88,6 +88,12 @@
     transform-origin: bottom;
 }
 
+.btn_profile:hover {
+    background-image: url('/img/map/ui_user_inf_on.png') !important;
+    transform: scale(1.05) !important;
+    transform-origin: bottom right;
+}
+
 .btn_setting:hover {
     background-image: url('/img/map/btn_settomg_on.png') !important;
     transform: scale(1.05) !important;
@@ -105,8 +111,7 @@
     transform: scale(1.1);
 }
 
-.shop-container::-webkit-scrollbar, .encyclopedia-container::-webkit-scrollbar {
-    /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+/* .shop-container::-webkit-scrollbar, .encyclopedia-container::-webkit-scrollbar {
     background-color: unset;
     border-radius: 0px;
 }
@@ -118,6 +123,23 @@
 
 .shop-container::-webkit-scrollbar-thumb, .encyclopedia-container::-webkit-scrollbar-thumb {
     border-radius: 0;
+    background-color: rgb(64 226 255);
+} */
+
+::-webkit-scrollbar {
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+    background-color: unset;
+    border-radius: 0px;
+    width:10px;
+}
+
+::-webkit-scrollbar-track {
+    width: 10px;
+    background-color: unset;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
     /* background-image: -webkit-gradient(linear,
                     left bottom,
                     left top,
@@ -126,3 +148,4 @@
                     color-stop(0.86, rgb(28,58,148))); */
     background-color: rgb(64 226 255);
 }
+

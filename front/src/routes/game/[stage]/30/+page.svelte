@@ -21,6 +21,8 @@
     import './page.css';
     import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
 
+    import Setting from '$lib/game/topMenu/setting/Setting.svelte';
+
     const { data } = $props<{ data: { gameMapDto: components['schemas']['GameMapDto'], guideItems: string[] } }>();
     const { gameMapDto } = data;
     const { guideItems } = data;
@@ -35,6 +37,9 @@
     let startTyping: boolean = $state(false);
     let element: HTMLElement;
     let text: string;
+    let adjustResolution = $state(0);
+    let openSetting: boolean = $state(false);
+    let widthValue = $state(0);
 
     let showBtnGuide: boolean = $state(false);
     let btnGuideArray = $state(Array.from({length: 7}, () => false));
@@ -74,6 +79,7 @@
         await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
             body: {
                 gameMapDto: gameMapDto,
+                playerScore: 1,
                 result: "clear"
             }
         });
@@ -143,6 +149,7 @@
             backgroundContainer.style.marginRight = `0`;
             // guideContainer.style.width = `${contentWidth}px`;
             // guideContainer.style.height = `${targetHeight}px`;
+            widthValue = contentWidth;
             } else {
             const targetWidth = contentHeight * resolution;
             backgroundContainer.style.width = `${targetWidth}px`;
@@ -153,8 +160,10 @@
             backgroundContainer.style.marginRight = `${(contentWidth - targetWidth) / 2}px`;
             // guideContainer.style.width = `${targetWidth}px`;
             // guideContainer.style.height = `${contentHeight}px`;
+            widthValue = targetWidth;
             }
             
+            adjustResolution = resolution;
             scaleMultiplier2 = (backgroundContainer.offsetWidth/1920);
             scaleMultiplier = (backgroundContainer.offsetHeight / originalHeight);
             widthMultiplier = backgroundContainer.offsetWidth - (633 * scaleMultiplier);
@@ -204,8 +213,15 @@
     });
 
     function routeToSage() {
-        //Todo: batchPlayLog
-        window.location.href = `/game/${gameMapDto.stage}`;
+        let routeStage = parseInt(gameMapDto.stage, 10) + 1;
+
+        batchPlayLog();
+
+        window.location.href = `/game/${routeStage}`;
+    }
+
+    function closeSetting() {
+        openSetting = false;
     }
 </script>
 
@@ -215,9 +231,15 @@
 <div class="content-container flex flex-col items-center justify-center overflow-hidden bg-gray-700">
     <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden">
 
+        {#if openSetting}
+        <div class="h-full absolute flex items-center justify-center z-[61] mt-[-5%]" style="width:{widthValue}px;pointer-events:none;">
+            <Setting scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={closeSetting}/>
+        </div>
+        {/if}
+
         {#if showClearPopup}
         <div class="absolute top-[50%] left-[50%] w-[1172px] h-[871px] z-[80]" style="background-image:url('/img/inGame/clearPop/ui_popup_clear_background.png');transform:translate(-50%, -50%) scale({scaleMultiplier - scaleMultiplier*0.15});">
-            <div class="text-[43px] font-[900] italic absolute top-[14px] left-[165px]" style="color:rgb(64 226 255)">미션 승리</div>
+            <div class="text-[43px] font-[900] italic absolute top-[14px] left-[165px]" style="color:rgb(64 226 255)">미션 성공</div>
             <div class="w-[46px] h-[46px] absolute right-[20px] top-[65px] cursor-pointer" style="background-image:url('/img/inGame/clearPop/btn_popup_close.png');" on:click={() => showClearPopup = false}></div>
             <div class="w-[1030px] h-[446px] absolute top-[165px] left-[110px]" style="background-image:url('/img/inGame/clearPop/ui_clear_background2.png');">
                 <div class="absolute w-full top-[55px] left-[-145px]" style="transform:scale(0.7)">
@@ -232,7 +254,9 @@
                     </div>
                     {#if gameMapDto.rewardItem}
                     <div id="star3" class="w-[203px] h-[203px] absolute top-[175px] left-[550px]" style="background-image:url('/img/inGame/clearPop/ui_itemframe.png');transform:scale(1);">
-                        <div class="w-[203px] h-[203px] absolute" style="background-image:url('{gameMapDto.rewardItem?.sourcePath}');background-size:contain;background-repeat:no-repeat;"></div>
+                        <div class="w-[203px] h-[203px] absolute" 
+                            style="background-image:url('/img/item/{rq.member.player.characterType}/{gameMapDto.rewardItem?.sourcePath}.png');
+                            background-size:contain;background-repeat:no-repeat;"></div>
                     </div>
                     {/if}
                 </div>
@@ -259,8 +283,9 @@
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
 
-            <a href="/game/{gameMapDto.stage}" class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10]" 
-                style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"></a>
+            <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
+                style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;">
+            </div>
 
             <div class="w-[1044px] h-[445px] absolute top-[0] right-[0]" 
                 style="background-image:url('/img/inGame/ui_background_R.png');transform-origin:top right;transform:scale(0.45) scale({scaleMultiplier2});">
@@ -281,7 +306,8 @@
                     <div class="w-[506px] h-[134px] flex justify-center items-center italic" style="background-image:url('/img/inGame/ui_stage_title.png')">
                         <div class="text-[50px] font-[900]" style="color:rgb(64 226 255)">{gameMapDto.step} stage</div>
                     </div>
-                    <div class="w-[134px] h-[134px]" style="background-image:url('/img/map/btn_settomg_off.png')"></div>
+                    <div class="w-[134px] h-[134px] cursor-pointer" on:click={() => openSetting = true} 
+                        style="background-image:url('/img/map/btn_settomg_off.png')"></div>
                   </div>
                   <div class="flex flex-col" style="transform-origin:top right;transform:scale(1.03);
                         {showBtnGuide && btnGuideArray[0] ? 'box-shadow:0 0 20px 20px rgb(255, 255, 255, 0.5);' : ''}">

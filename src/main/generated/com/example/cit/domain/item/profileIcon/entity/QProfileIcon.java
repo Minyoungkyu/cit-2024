@@ -24,7 +24,7 @@ public class QProfileIcon extends EntityPathBase<ProfileIcon> {
 
     public final com.example.cit.global.jpa.base.QBaseTime _super = new com.example.cit.global.jpa.base.QBaseTime(this);
 
-    public final com.example.cit.domain.achievement.entity.QAchievement achievement;
+    public final com.example.cit.domain.achievement.achievement.entity.QAchievement achievement;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
@@ -61,7 +61,7 @@ public class QProfileIcon extends EntityPathBase<ProfileIcon> {
 
     public QProfileIcon(Class<? extends ProfileIcon> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.achievement = inits.isInitialized("achievement") ? new com.example.cit.domain.achievement.entity.QAchievement(forProperty("achievement")) : null;
+        this.achievement = inits.isInitialized("achievement") ? new com.example.cit.domain.achievement.achievement.entity.QAchievement(forProperty("achievement"), inits.get("achievement")) : null;
     }
 
 }

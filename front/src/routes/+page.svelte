@@ -13,6 +13,10 @@
     let scaleMultiplier2 = $state(1);
     let video: HTMLVideoElement;
     let showBgThumb = $state(true);
+    let selectType = $state(0);
+
+    let myAudio: HTMLAudioElement;
+    let muted = $state(true);
 
     onMount(() => {
 
@@ -179,7 +183,7 @@
 
     const { data, error } = await rq.apiEndPoints().PUT('/api/v1/players/{id}/name', {
       params: { path: { id: rq.member.id } },
-      body: { nickname: form.nickname.value }
+      body: { nickname: form.nickname.value, characterType: selectType}
     });
 
     if (error) rq.msgError(error.msg);
@@ -191,10 +195,8 @@
     }
   }
 
-  
 </script>
-<iframe src="/sound/silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
-<audio class="myAudio" autoplay>
+<audio id="myAudio" bind:this={myAudio} >
   <source src="/sound/login_sound.mp3" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-500">
@@ -206,9 +208,14 @@
       <div id="logoContainer" class="absolute w-[903px] h-[300px] left-[20px] top-[20px]" 
         style="background-image:url('/img/login/title.png');background-repeat:no-repeat;background-size:contain;transform-origin:top left;transform:scale({scaleMultiplier});">
       </div> <!-- Todo: 에니메이션 작업-->
+
+      <div class="w-[52px] h-[52px] z-[99] absolute bottom-0 right-0 cursor-pointer" on:click={() => {myAudio.paused ? myAudio.play() : myAudio.pause(); muted = !muted;}}
+        style="background-image:url('/img/inGame/btn_Volume_{muted? 'mute' : 'on'}.png');transform:scale({scaleMultiplier});transform-origin:bottom right;">
+      </div>
+
       <div class="absolute top-[0] right-[0] {setNameCondition ? 'slide-out-right' : ''} {setLoginCondition ? 'slide-out-right' : ''}" 
           style="transform-origin:top right;transform:scale({scaleMultiplier}); --scaleMultiplier: {scaleMultiplier};">
-        <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-[953px] w-[459px] z-[99]"
+        <div id="side_bar_1" class="flex justify-center items-start pt-44 right-[0] h-[953px] w-[459px] z-[98]"
             style="background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');transform-origin:top right;">
             <form class="flex flex-col gap-12" method="POST" on:submit|preventDefault={submitLoginForm}>
                 <div class="flex items-center gap-4">
@@ -249,28 +256,37 @@
         </div>
       </div>
       {#if setNameCondition && !setLoginCondition}
-      <div transition:fly="{{ x: 200, duration: 500}}" class="absolute top-[0] right-[0] z-[99]"
+      <div transition:fly="{{ x: 200, duration: 500}}" class="absolute top-[0] right-[0] z-[98]"
           style="transform-origin:top right; --scaleMultiplier: {scaleMultiplier};transform:scale({scaleMultiplier});">
-        <div id="side_bar_2" class="flex flex-col items-center justify-start pt-60 gap-10 h-[953px] w-[459px] absolute right-[0]" 
+        <div id="side_bar_2" class="flex flex-col items-center justify-start pt-[75px] gap-10 h-[953px] w-[459px] absolute right-[0]" 
             style=" background-image:url('/img/login/loginbox_frame.png'), url('/img/login/loginbox.jpg');">
           <div class="w-[420px] h-[22px] flex justify-center items-center" style="background-image:url('/img/login/window_1.png')"></div>
+          <div class="w-full text-left ml-10 text-[18px] italic font-bold" style="color:rgb(28 211 216);">캐릭터를 선택해 주세요.</div>
           <form class="flex flex-col items-center gap-[6.5rem] w-[80%]" method="POST" on:submit|preventDefault={submitSetNickNameForm}>
-            <div class="form-control">
+            <div class="w-full flex flex-row">
+              <div class="w-[260.8px] h-[427.2px] cursor-pointer" on:click={() => selectType = 0}
+                style="background-image:{ selectType == 0 ? 'url("/img/login/frame_Selecte.png"), ' : ''}url('/img/login/img_man.png'); background-size:contain;background-repeat:no-repeat;"></div>
+              <div class="w-[260.8px] h-[427.2px] cursor-pointer" on:click={() => selectType = 1}
+                style="background-image:{ selectType == 1 ? 'url("/img/login/frame_Selecte.png"), ' : ''}url('/img/login/img_woman.png');background-size:contain;background-repeat:no-repeat;"></div>
+            </div>
+            <div class="form-control mt-[-200px]">
               <label class="label">
                   <span class="label-text text-white text-lg">닉네임</span>
               </label>
               <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
                       name="nickname" type="text" autocomplete="off">
               <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 4자 이상 입력해주세요</span>
+              <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 변경이 불가능합니다.</span>
             </div>
 
-            <div class="flex justify-center">
+            <div class="flex justify-center mt-[-50px]">
               <button class="w-[333px] h-[116px]" style="background-image:url('/img/login/btn_action.png')"></button>
             </div>
           </form>      
         </div>
       </div>
       {/if}
+
     </div>
 </div>
 

@@ -5,6 +5,7 @@ import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.global.jpa.base.BaseTime;
+import com.example.cit.standard.base.LongListStringConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,6 +43,10 @@ public class Member extends BaseTime {
 
     @OneToOne(fetch = LAZY, cascade = ALL)
     private Player player;
+
+    @Convert(converter = LongListStringConverter.class)
+    @Builder.Default
+    private List<Long> idList = new ArrayList<>();
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     @ToString.Exclude

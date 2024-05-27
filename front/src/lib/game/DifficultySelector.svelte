@@ -15,23 +15,50 @@
     let routeGameMapDto: components['schemas']['GameMapDto'] | undefined = $state();
     let routeGameRequiredPartsList: components['schemas']['RequirePartsDto'][] | undefined = $state();
 
+    const easyDifficultyThreshold = [gameMapId - 1, gameMapId - 1 - 3, gameMapId - 1 - 6]; // 이지 입장 조건
     const normalDifficultyThreshold = gameMapId - 1 + stepsLevelCount; // 노말 입장 조건
     const hardDifficultyThreshold = gameMapId - 1 + 2 * stepsLevelCount; // 하드 입장 조건
 
-    const hasClearedNormal = playerLogList.some(log => log.gameMapId === normalDifficultyThreshold);
-    const hasClearedHard = playerLogList.some(log => log.gameMapId === hardDifficultyThreshold);
+    let ress: number[] | undefined = $state([])
+    let isUnLockEasy: boolean = $state(false);
+    let isUnLockNormal: boolean = $state(false);
+    let isUnLockHard: boolean = $state(false);
 
-    let difficulties = ['Easy']; // 난이도 선택 배열
-    if (hasClearedNormal) {
-        difficulties.push('Normal');
-    } else {
-        difficulties.push('Normal (잠김)')
-    }
-    if (hasClearedHard) {
-        difficulties.push('Hard');
-    } else {
-        difficulties.push('Hard (잠김)')
-    } 
+    rq.test().then((res) => {
+        ress = res;
+        isUnLockEasy = ress!.some((log: number) => log >= gameMapId && log < gameMapId + stepsLevelCount);
+        isUnLockNormal = ress!.some((log: number) => log >= normalDifficultyThreshold + 1 && log < hardDifficultyThreshold + 1);
+        isUnLockHard = ress!.some((log: number) => log >= hardDifficultyThreshold + 1 && log < hardDifficultyThreshold + 1 + stepsLevelCount);
+    });
+    
+    const hasClearedEasy = playerLogList.filter(log => log.detailInt! >= 1).some(log => easyDifficultyThreshold.includes(log.gameMapId));
+    const hasClearedNormal = playerLogList.filter(log => log.detailInt! >= 1).some(log => log.gameMapId >= normalDifficultyThreshold && log.gameMapId < hardDifficultyThreshold);
+    const hasClearedHard = playerLogList.filter(log => log.detailInt! >= 1).some(log => log.gameMapId >= hardDifficultyThreshold && log.gameMapId < hardDifficultyThreshold + stepsLevelCount);
+
+    let difficulties = $state(['Easy (잠김)', 'Normal (잠김)', 'Hard (잠김)']); // 난이도 선택 배열
+    
+    // if (hasClearedNormal || hasClearedNormal2) {
+    //     difficulties.push('Normal');
+    // } else {
+    //     difficulties.push('Normal (잠김)')
+    // }
+    // if (hasClearedHard) {
+    //     difficulties.push('Hard');
+    // } else {
+    //     difficulties.push('Hard (잠김)')
+    // } 
+
+    $effect(() => {
+        if (hasClearedEasy || isUnLockEasy) {
+            difficulties[0] = 'Easy';
+        }
+        if (hasClearedNormal || isUnLockNormal) {
+            difficulties[1] = 'Normal';
+        } 
+        if (hasClearedHard || isUnLockHard) {
+            difficulties[2] = 'Hard';
+        } 
+    });
 
     let difficultiesGameMapId: number[] = [gameMapId, gameMapId + stepsLevelCount, gameMapId + 2 * stepsLevelCount]; // 각 난이도 첫 맵 아이디
 
@@ -77,7 +104,7 @@
                 if (playerLog == undefined) {
                     routeGameMapId = difficultiesGameMapId[currentIndex];
                 } else {
-                    if (playerLog.detailInt === 1) {
+                    if (playerLog.detailInt! >= 1) {
                         if (playerLog.gameMapId + 1 > difficultiesGameMapId[currentIndex] - 1 + stepsLevelCount) {
                             routeGameMapId = difficultiesGameMapId[currentIndex];
                         } else {
