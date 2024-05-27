@@ -37,6 +37,14 @@ export interface paths {
     /** 업적 보상 획득 */
     put: operations["getRewardFromAchievement"];
   };
+  "/api/v1/members/system/modify": {
+    /** 사업관리자 수정 */
+    put: operations["modify_3"];
+  };
+  "/api/v1/members/student/modify": {
+    /** 학생 수정 */
+    put: operations["modify_4"];
+  };
   "/api/v1/members/modify": {
     /** 관리자정보 수정 */
     put: operations["modify_5"];
@@ -97,6 +105,10 @@ export interface paths {
     /** 게임결과 로그 일괄처리 */
     post: operations["batchPlayLog_2"];
   };
+  "/api/v1/playerAchievement/ency": {
+    /** 플레이어 도감확인 업적 */
+    post: operations["postPlayerAchievement"];
+  };
   "/api/v1/members/system/new": {
     /** 사업관리자 생성 */
     post: operations["batchPlayLog_3"];
@@ -112,10 +124,6 @@ export interface paths {
   "/api/v1/members/student/delete": {
     /** 학생 삭제 */
     post: operations["studentDelete"];
-  };
-  "/api/v1/playerAchievement/ency": {
-    /** 플레이어 도감확인 업적 */
-    post: operations["postPlayerAchievement"];
   };
   "/api/v1/members/logout": {
     /** 로그아웃 */
@@ -155,7 +163,7 @@ export interface paths {
   };
   "/api/v1/gameLogs/batchGameLog": {
     /** 게임 로그 일괄 처리 */
-    post: operations["batchPlayLog_2"];
+    post: operations["batchPlayLog_6"];
   };
   "/api/v1/test/test": {
     /** 플레이어 인벤토리 조회 */
@@ -253,9 +261,29 @@ export interface paths {
     /** 스테이지 클리어 로그 */
     get: operations["getClearLog"];
   };
+  "/api/v1/members/{id}": {
+    /** 계정 단건 조회 */
+    get: operations["getSchoolClass_1"];
+  };
   "/api/v1/members/test": {
     /** 테스트 */
     get: operations["test_1"];
+  };
+  "/api/v1/members/system": {
+    /** 사업관리자 목록 조회 */
+    get: operations["getSystemAdminListPage"];
+  };
+  "/api/v1/members/system/download/csv": {
+    /** 사업관리자 엑셀 다운로드 */
+    get: operations["downloadCsv_3"];
+  };
+  "/api/v1/members/student": {
+    /** 학생 목록 조회 */
+    get: operations["getStudentListPage"];
+  };
+  "/api/v1/members/student/download/csv": {
+    /** 학생 엑셀 다운로드 */
+    get: operations["downloadCsvStudent"];
   };
   "/api/v1/members/program": {
     /** 사업관리자 이상 조회 */
@@ -519,40 +547,6 @@ export interface components {
       studentNickName: string;
       studentClass: string;
     };
-    ModifySystemAdminResponseBody: {
-      memberDto: components["schemas"]["MemberDto"];
-    };
-    RsDataModifySystemAdminResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["ModifySystemAdminResponseBody"];
-    };
-    ModifyStudentRequestBody: {
-      /** Format: int64 */
-      id: number;
-      password: string;
-      nickname: string;
-    };
-    ModifyStudentResponseBody: {
-      memberDto: components["schemas"]["MemberDto"];
-    };
-    RsDataModifyStudentResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["ModifyStudentResponseBody"];
-    };
-    ModifyRequestBody: {
-      newPassword?: string;
-      realName: string;
-      cellphoneNo: string;
-      department: string;
-      position: string;
-      extensionNo: string;
-    };
     PlayerDto: {
       /** Format: int64 */
       id: number;
@@ -575,6 +569,11 @@ export interface components {
       editorAutoComplete: number;
       /** Format: int32 */
       editorAutoClose: number;
+    };
+    ProgramInputDto: {
+      /** Format: int64 */
+      id: number;
+      name: string;
     };
     RsDataUpdateProfileInventoryResponseBody: {
       resultCode: string;
@@ -633,6 +632,43 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["GetRewardFromAchievementResponseBody"];
+    };
+    ModifySystemAdminRequestBody: {
+      /** Format: int64 */
+      id: number;
+      password: string;
+      name: string;
+      department: string;
+      position: string;
+      extensionNo: string;
+      cellphoneNo: string;
+      programs: components["schemas"]["ProgramInputDto"][];
+    };
+    ModifySystemAdminResponseBody: {
+      memberDto: components["schemas"]["MemberDto"];
+    };
+    RsDataModifySystemAdminResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ModifySystemAdminResponseBody"];
+    };
+    ModifyStudentRequestBody: {
+      /** Format: int64 */
+      id: number;
+      password: string;
+      nickname: string;
+    };
+    ModifyStudentResponseBody: {
+      memberDto: components["schemas"]["MemberDto"];
+    };
+    RsDataModifyStudentResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ModifyStudentResponseBody"];
     };
     ModifyRequestBody: {
       newPassword?: string;
@@ -1306,6 +1342,16 @@ export interface components {
       msg: string;
       data: components["schemas"]["ClearLogResponseBody"];
     };
+    MemberDetailResponseBody: {
+      item: components["schemas"]["MemberDto"];
+    };
+    RsDataMemberDetailResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["MemberDetailResponseBody"];
+    };
     IdListTestResponseBody: {
       idList: number[];
     };
@@ -1315,6 +1361,37 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["IdListTestResponseBody"];
+    };
+    GetSystemAdminResponseBody: {
+      itemPage: components["schemas"]["PageDtoMemberDto"];
+    };
+    PageDtoMemberDto: {
+      /** Format: int64 */
+      totalElementsCount: number;
+      /** Format: int64 */
+      pageElementsCount: number;
+      /** Format: int64 */
+      totalPagesCount: number;
+      /** Format: int32 */
+      number: number;
+      content: components["schemas"]["MemberDto"][];
+    };
+    RsDataGetSystemAdminResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetSystemAdminResponseBody"];
+    };
+    GetStudentResponseBody: {
+      itemPage: components["schemas"]["PageDtoMemberDto"];
+    };
+    RsDataGetStudentResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetStudentResponseBody"];
     };
     ProgramMembersResponseBody: {
       members?: components["schemas"]["MemberInputListDto"][];
@@ -1674,6 +1751,50 @@ export interface operations {
       };
     };
   };
+  /** 사업관리자 수정 */
+  modify_3: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifySystemAdminRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataModifySystemAdminResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학생 수정 */
+  modify_4: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifyStudentRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataModifyStudentResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 관리자정보 수정 */
   modify_5: {
     requestBody: {
@@ -2017,6 +2138,94 @@ export interface operations {
       };
     };
   };
+  /** 사업관리자 생성 */
+  batchPlayLog_3: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["createSystemAdminRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataCreateSystemAdminResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업관리자 삭제 */
+  systemAdminDelete: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SystemAdminDeleteRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학생 생성 */
+  batchPlayLog_4: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["createStudentRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataCreateStudentResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학생 삭제 */
+  studentDelete: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DeleteStudentRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 로그아웃 */
   logout: {
     responses: {
@@ -2211,7 +2420,7 @@ export interface operations {
     };
   };
   /** 게임 로그 일괄 처리 */
-  batchPlayLog_2: {
+  batchPlayLog_6: {
     requestBody: {
       content: {
         "*/*": components["schemas"]["BatchGameLogRequestBody"];
@@ -2702,6 +2911,28 @@ export interface operations {
       };
     };
   };
+  /** 계정 단건 조회 */
+  getSchoolClass_1: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataMemberDetailResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 테스트 */
   test_1: {
     responses: {
@@ -2709,6 +2940,88 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataIdListTestResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업관리자 목록 조회 */
+  getSystemAdminListPage: {
+    parameters: {
+      query?: {
+        page?: number;
+        kw?: string;
+        kwType?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetSystemAdminResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업관리자 엑셀 다운로드 */
+  downloadCsv_3: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": string[];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학생 목록 조회 */
+  getStudentListPage: {
+    parameters: {
+      query?: {
+        page?: number;
+        kw?: string;
+        kwType?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetStudentResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학생 엑셀 다운로드 */
+  downloadCsvStudent: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": string[];
         };
       };
       /** @description Bad Request */
