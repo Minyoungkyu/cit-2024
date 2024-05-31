@@ -181,8 +181,96 @@
     }
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
-    통계
+<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
+  통계
+</div>
+
+<div class="w-[95%] h-screen flex justify-center">
+  <form class="flex flex-col gap-4 w-full h-full">
+      <div class="overflow-x-auto h-full">
+          <table class="table">
+            <tbody>
+              <tr>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업 명</td>
+                  <td class="border-b p-3">
+                      <div class="flex flex-row items-center gap-2">
+                        <div>
+                          <input name="program" type="search" placeholder="사업 명" class="input input-bordered w-[500px] text-center" 
+                              bind:value={programInputText}
+                              on:focus={() => loadProgram()}
+                              on:input={(event) => event.target && updateProgram((event.target as HTMLInputElement).value)}
+                              on:blur={() => setTimeout(() => { focusProgram = false; }, 100)}
+                              />
+                              {#if focusProgram}
+                              <div bind:this={programBox} class="w-[500px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                  {#each filteredPrograms as program}
+                                      <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                      on:click={() => {programInputText = program.name; programInputId = program.id;}}>
+                                          {program.name}
+                                      </div>
+                                  {/each}
+                              </div>
+                              {/if}
+                      </div>
+                      </div>
+                  </td>
+                </tr>
+                  <tr>
+                      <td class="border-b p-1 text-[15px] w-[150px] font-bold">학교 명</td>
+                      <td class="border-b p-3">
+                          <div class="flex flex-col">
+                            <div>
+                              <input name="school" type="search" placeholder="학급 명" class="input input-bordered w-[500px] text-center" 
+                                  bind:value={schoolInputText}
+                                  on:focus={() => loadSchool()}
+                                  on:input={(event) => event.target && updateSchool((event.target as HTMLInputElement).value)}
+                                  on:blur={() => setTimeout(() => { focusSchool = false; }, 100)}
+                                  />
+                                  {#if focusSchool}
+                                  <div bind:this={schoolBox} class="w-[500px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                      {#each filteredSchools as school}
+                                          <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                          on:click={() => {schoolInputText = school.schoolName!; schoolInputId = school.id!;}}>
+                                          {school.schoolName} {#if school.region} ({school.region}/{school.administrativeDistrict}) {/if}
+                                          </div>
+                                      {/each}
+                                  </div>
+                                  {/if}
+                          </div>
+                          </div>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="border-b p-1 text-[15px] w-[150px] font-bold">학년</td>
+                      <td class="border-b p-3">
+                        <select name="school" bind:this={gradeInput} class="select select-bordered w-[200px] text-center">
+                          <option value=0 selected>전체</option>
+                          <option value=1>1 학년</option>
+                          <option value=2>2 학년</option>
+                          <option value=3>3 학년</option>
+                          <option value=4>4 학년</option>
+                          <option value=5>5 학년</option>
+                          <option value=6>6 학년</option>
+                        </select>
+                      </td>
+                    </tr>
+                  <tr>
+                      <td class="border-b p-1 text-[15px] w-[150px] font-bold">기간</td>
+                      <td class="border-b p-3">
+                        <div>
+                          <input name="school" type="datetime-local" placeholder="시작날짜" bind:value={startDateTimeInput} class="input input-bordered w-[300px] text-center">
+
+                          <span class="text-[25px] mx-10">~</span>
+            
+                          <input name="school" type="datetime-local" placeholder="끝날짜" bind:value={endDateTimeInput} class="input input-bordered w-[300px] text-center">
+                        </div>
+                      </td>
+                  </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-lg btn-outline rounded-md border-gray-400">생성</button>
+        </div>
+  </form>
 </div>
 
 <div class="flex flex-col w-full h-full items-center">
@@ -286,7 +374,7 @@
         </thead>
         <tbody>
           {#each statisticsData as data }
-          <tr class="border-2 text-[16px] bg-base-200">
+          <tr class="border-2 text-[16px]">
             <td class="border-2 border-gray-300  w-[250px] text-center bg-base-200">{data.username}</td>
             <td class="border-2 border-gray-300 w-[250px] text-center">{formatJavaLocalDateTime(data.createDate)}</td>
             <td class="border-2 border-gray-300 w-[250px] text-center">{data.gameMapStage}</td>

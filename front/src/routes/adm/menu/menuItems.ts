@@ -7,6 +7,6 @@ export const menuItems = [
     { label: '사업관리자 계정', path: '/adm/menu/member/system' },
     { label: '학급관리자 계정', path: '/adm/menu/member/class' },
     { label: '학생 계정', path: '/adm/menu/member/student' },
-    { label: '통계', path: '#' },
-    { label: '환경설정', path: '#' },
+    { label: '통계', path: '/adm/menu/stat' },
+    { label: '환경설정', path: '/adm/menu/env' },
 ];
