@@ -149,4 +149,8 @@ public class SchoolService {
     public SchoolClass getSchoolClassById(long schoolClassId) {
         return schoolRepository.findSchoolClassById(schoolClassId);
     }
+
+    public SchoolClass getSchoolClassByCode(String schoolClassCode) {
+        return schoolRepository.findSchoolClassByCode(schoolClassCode);
+    }
 }

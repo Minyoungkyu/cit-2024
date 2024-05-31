@@ -40,29 +40,21 @@
             return;
         }
 
-        if (form.number.value.trim().length === 0) {
+        if (form.studentNumberMultiple.value.trim().length === 0) {
             rq.msgError('번호를 입력해주세요.');
             return;
         }
 
-        if (!duplicateChecked) {
-            rq.msgError('아이디 중복확인을 해주세요.');
+        if (!validateClassNo(form.studentNumberMultiple.value)) {
+            rq.msgError('번호는 1-5,8-10 과 같은 형식으로 입력해주세요.');
             return;
         }
 
-        if (form.password.value.trim().length === 0) {
-            rq.msgError('비밀번호를 입력해주세요.');
-            return;
-        }
-
-        const { data, error } = await rq.apiEndPoints().POST('/api/v1/members/student/new', {
+        const { data, error } = await rq.apiEndPoints().POST('/api/v1/members/student/multiple', {
             body: {
                 schoolClassCode: (document.getElementsByName('class')[0] as HTMLSelectElement).value,
                 studentYear: form.year.value,
-                studentNumber: form.number.value,
-                username: form.username.value,
-                password: form.password.value,
-                nickname: form.nickname.value
+                studentNumberMultiple: form.studentNumberMultiple.value,
             }
         });
 
@@ -71,6 +63,29 @@
         } else {
             rq.msgError(data?.msg??'오류가 발생했습니다.');
         }
+    }
+
+    function validateClassNo(classNo: string) {
+        // 정규식으로 형식 검사
+        const pattern = /^(\d+-\d+,)*(\d+-\d+)$/;
+        if (!pattern.test(classNo)) {
+            return false;
+        }
+
+        // 쉼표로 구분하여 각 범위를 분리
+        const ranges = classNo.split(',');
+
+        // 각 범위를 검사
+        for (const range of ranges) {
+            const [left, right] = range.split('-').map(Number);
+
+            // 범위의 오른쪽 숫자가 왼쪽 숫자보다 큰지 검사
+            if (right <= left) {
+            return false;
+            }
+        }
+
+        return true;
     }
 
     function duplicateCheck() {
@@ -99,36 +114,16 @@
         });
     }
 
-    function updateId() {
-        duplicateChecked = false;
-
-        if((document.getElementsByName('class')[0] as HTMLSelectElement).value == 'NONE') {
-            idInputText = '';
-            return;
-        }
-
-        let yearSelectValue = (document.getElementsByName('year')[0] as HTMLSelectElement).value;
-        let lastTwoDigitsOfYear = yearSelectValue.slice(-2);
-        let numberSelectValue = (document.getElementsByName('number')[0] as HTMLSelectElement).value;
-        let paddedNumber = numberSelectValue.padStart(3, '0');
-        idInputText = (document.getElementsByName('class')[0] as HTMLSelectElement).value + lastTwoDigitsOfYear + paddedNumber;
-    
-    }
 
     function validateInput(event: any) {
-        const value = event.target.value;
-        const isValid = /^\d{1,3}$/.test(value);
-        if (!isValid) {
-        event.target.value = value.slice(0, -1);
-        }
-
-        updateId()
+        // 숫자, "-", "," 만 입력 가능
+        event.target.value = event.target.value.replace(/[^0-9,-]/g, '');
     }
 
 </script>
 
 <div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
-    학생 개별 생성
+    학생 일괄 생성
 </div>
 <div class="w-[95%] h-screen flex justify-center">
     <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
@@ -142,7 +137,7 @@
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
-                                <select name="class" class="ml-3 p-2" on:change={updateId}>
+                                <select name="class" class="ml-3 p-2">
                                     <option value="NONE">선택</option>
                                     {#each classes as school}
                                         <option value={school.code}>{school.className}</option>
@@ -156,7 +151,7 @@
                   <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">연도</td>
                     <td class="border-b p-3">
-                        <select name="year" on:change={updateId}>
+                        <select name="year">
                             <!-- 최소 2024년부터 현재년도의 다음년도까지-->
                             {#each Array.from({length: new Date().getFullYear() + 2 - 2024}, (_, i) => 2024 + i) as year}
                                 <option value={year}>{year}</option>
@@ -168,49 +163,9 @@
                   <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">번호</td>
                     <td class="border-b p-3">
-                        <input name="number" type="text" placeholder="번호" value="1" class="input input-bordered w-[200px] text-center" on:input={validateInput}/>
+                        <input name="studentNumberMultiple" type="text" placeholder="번호" value="1-10" class="input input-bordered w-[200px] text-center" on:input={validateInput}/>
                         </td>
                   </tr>
-
-
-                <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디</td>
-                    <td class="border-b p-3">
-                        <div class="flex flex-row items-center gap-2">
-                            <input name="username" type="text" placeholder="아이디" value="{idInputText}" class="input input-bordered w-[200px] text-center" readonly />
-                            {#if duplicateChecked}
-                                <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
-                            {/if}
-                            {#if !duplicateChecked}
-                            <button class="btn btn-sm btn-error btn-outline ml-3" on:click={duplicateCheck} type="button">
-                                중복확인
-                            </button>
-                            {/if}
-                        </div>
-                    </td>
-                  </tr>
-                    <tr>
-                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">비밀번호</td>
-                        <td class="border-b p-3">
-                            <div class="flex flex-col">
-                                <div>
-                                    <input name="password" type="text" placeholder="비밀번호" class="input input-bordered w-[200px] text-center" />
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">닉네임</td>
-                        <td class="border-b p-3">
-                            <div class="flex flex-col">
-                                <div>
-                                    <input name="nickname" type="text" placeholder="닉네임" class="input input-bordered w-[200px] text-center" />
-                                </div>
-                            </div>
-                        </td>
-                      </tr>
-                    
-
 
                 
               </tbody>
@@ -221,7 +176,7 @@
                     <span>목록</span>
                 </button>
                 <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" type="submit">
-                    <span>생성</span>
+                    <span>일괄 생성</span>
                 </button>
             </div>
           </div>

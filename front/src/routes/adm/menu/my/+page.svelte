@@ -89,78 +89,82 @@
     }
 </script>
 
-<div>
-    <form class="flex flex-col gap-4 w-[500px]" method="Post" on:submit|preventDefault={submitInfoForm}>
-        <div class="overflow-x-auto">
+
+<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
+  마이 페이지
+</div>
+<div class="w-[95%] h-full flex justify-center">
+    <form class="flex flex-col gap-4 w-full h-full" method="Post" on:submit|preventDefault={submitInfoForm}>
+        <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">아이디</td>
-                  <td class="border-2 p-1">
-                    <div class="w-full h-[48px] flex items-center px-[1rem] text-[1rem] font-[500]">{memberDto.username}</div>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디</td>
+                  <td class="border-b p-3">
+                    <div class="w-full h-[48px] flex items-center px-[1rem] text-[1.1rem] font-[500]">{memberDto.username}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">새 비밀번호</td>
-                  <td class="border-2 p-1">
-                    <input name="newPassword" type="password" placeholder="" class="input w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">새 비밀번호</td>
+                  <td class="border-b p-3">
+                    <input name="newPassword" type="password" placeholder="" class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">새 비밀번호 확인</td>
-                  <td class="border-2 p-1">
-                    <input name="newPasswordCheck" type="password" placeholder="" class="input w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">새 비밀번호 확인</td>
+                  <td class="border-b p-3">
+                    <input name="newPasswordCheck" type="password" placeholder="" class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">이름</td>
-                  <td class="border-2 p-1">
-                    <input name="realName" type="text" placeholder="" value={memberDto.name} class="input w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">이름</td>
+                  <td class="border-b p-3">
+                    <input name="realName" type="text" placeholder="" value={memberDto.name} class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">권한</td>
-                  <td class="border-2 p-1">
-                    <div class="w-full h-[48px] flex items-center px-[1rem] text-[1rem] font-[500]">{rq.getAuthToString()[0]}</div>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">권한</td>
+                  <td class="border-b p-3">
+                    <div class="w-full h-[48px] flex items-center px-[1rem] text-[1.1rem] font-[500]">{rq.getAuthToString()[0]}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">담당 사업</td>
-                  <td class="border-2 p-1">
-                    {#each memberDto.responsibilities as item }
-                        <div class="w-full h-[48px] flex items-center px-[1rem] text-[1rem] font-[500]">{memberDto.responsibilities[0].name}</div>
-                    {/each}
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당 사업</td>
+                  <td class="border-b p-3">
+                    <div class="w-full flex items-center px-[1rem] text-[1rem] font-[500]">
+                      {memberDto.responsibilities.map(item => item.name).join(', ')}
+                    </div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">전화번호</td>
-                  <td class="border-2 p-1">
-                    <input name="cellphoneNo" type="tel" placeholder="" value={memberDto.cellphoneNo} class="input w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">전화번호</td>
+                  <td class="border-b p-3">
+                    <input name="cellphoneNo" type="tel" placeholder="" value={memberDto.cellphoneNo} class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">부서</td>
-                  <td class="border-2 p-1">
-                    <input name="department" type="text" placeholder="" value={memberDto.department} class="input w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">부서</td>
+                  <td class="border-b p-3">
+                    <input name="department" type="text" placeholder="" value={memberDto.department} class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">직급</td>
-                  <td class="border-2 p-1">
-                    <input name="position" type="text" placeholder="" value={memberDto.position} class="input w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">직급</td>
+                  <td class="border-b p-3">
+                    <input name="position" type="text" placeholder="" value={memberDto.position} class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px]">내선번호</td>
-                  <td class="border-2 p-1">
-                    <input name="extensionNo" type="tel" placeholder="" value={memberDto.extensionNo} class="input w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">내선번호</td>
+                  <td class="border-b p-3">
+                    <input name="extensionNo" type="tel" placeholder="" value={memberDto.extensionNo} class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
               </tbody>
             </table>
 
-            <div class="flex flex-col my-4">
-                <button class="btn btn-block btn-primary gap-1">
+            <div class="flex mt-10 mb-10 justify-center">
+                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]">
                     <span>저장</span>
                 </button>
             </div>

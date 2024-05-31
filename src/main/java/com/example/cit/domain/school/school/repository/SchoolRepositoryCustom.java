@@ -14,4 +14,6 @@ public interface SchoolRepositoryCustom {
     List<School> findByInstituteType(String instituteType);
 
     SchoolClass findSchoolClassById(long schoolClassId);
+
+    SchoolClass findSchoolClassByCode(String schoolClassCode);
 }

@@ -65,6 +65,11 @@ public class Member extends BaseTime {
     private List<School> schools = new ArrayList<>();
 
     @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "member_schoolClass",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "schoolClass_id")
+    )
     @ToString.Exclude
     @Builder.Default
     private List<SchoolClass> schoolClasses = new ArrayList<>();

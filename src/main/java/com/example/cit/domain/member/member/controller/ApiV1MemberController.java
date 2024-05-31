@@ -12,6 +12,7 @@ import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.schoolClass.controller.ApiV1SchoolClassController;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassDto;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassInputDto;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassMultipleDto;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.global.app.AppConfig;
@@ -46,6 +47,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -202,6 +204,20 @@ public class ApiV1MemberController {
         return RsData.of(
                 new ProgramMembersResponseBody(
                         memberService.getProgramMembers()
+                )
+        );
+    }
+
+    public record ClassMembersResponseBody(List<MemberInputListDto> members) {}
+
+    @GetMapping(value = "/input/class", consumes = ALL_VALUE)
+    @Operation(summary = "학급관리자 조회")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<ClassMembersResponseBody> getClassAdmins(
+    ) {
+        return RsData.of(
+                new ClassMembersResponseBody(
+                        memberService.getClassMembers()
                 )
         );
     }
@@ -400,7 +416,7 @@ public class ApiV1MemberController {
     @GetMapping(value = "/class", consumes = ALL_VALUE)
     @Operation(summary = "학급관리자 목록 조회")
     @SecurityRequirement(name = "bearerAuth")
-    public RsData<GetSystemAdminResponseBody> getClassAdminListPage(
+    public RsData<GetClassAdminResponseBody> getClassAdminListPage(
             @RequestParam(defaultValue = "1", name = "page") int page,
             @RequestParam(defaultValue = "", name = "kw") String kw,
             @RequestParam(defaultValue = "ALL", name = "kwType") String kwType
@@ -413,7 +429,7 @@ public class ApiV1MemberController {
         Page<MemberDto> _itemPage = itemPage.map(MemberDto::new);
 
         return RsData.of(
-                new ApiV1MemberController.GetSystemAdminResponseBody(
+                new ApiV1MemberController.GetClassAdminResponseBody(
                         new PageDto<>(_itemPage)
                 )
         );
@@ -424,33 +440,31 @@ public class ApiV1MemberController {
             @NonNull String password,
             @NonNull String name,
             @NonNull String cellphoneNo,
-            @NonNull List<SchoolInputListDto> schools
+            @NonNull List<SchoolClassInputDto> schoolClasses
     ) {}
-
-    public record createClassAdminResponseBody(@NonNull int resultCode) {}
 
     @PostMapping(value = "/class/new", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "학급관리자 생성")
     @PreAuthorize("hasRole('SYSTEMADMIN')")
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public RsData<createClassAdminResponseBody> batchPlayLog(
+    public RsData<Empty> batchPlayLog(
             @RequestBody createClassAdminRequestBody body
     ) {
-        memberService.joinClassAdmin(
+        return memberService.joinClassAdmin(
                 body.username,
                 body.password,
                 body.name,
                 body.cellphoneNo,
-                body.schools,
+                body.schoolClasses,
                 2
         );
 
-        return RsData.of("학급관리자 계정이 생성되었습니다.",
-                new createClassAdminResponseBody(
-                        1
-                )
-        );
+//        return RsData.of("학급관리자 계정이 생성되었습니다.",
+//                new createClassAdminResponseBody(
+//                        1
+//                )
+//        );
     }
 
     public record ModifyClassAdminRequestBody(
@@ -458,26 +472,19 @@ public class ApiV1MemberController {
             @NonNull String password,
             @NonNull String name,
             @NonNull String cellphoneNo,
-            @NonNull List<SchoolInputListDto> schools
+            @NonNull List<SchoolClassInputDto> schoolClasses
     ) {}
-    public record ModifyClassAdminResponseBody(@NonNull MemberDto memberDto) {}
 
     @PutMapping("/class/modify")
     @Operation(summary = "학급관리자 수정")
     @PreAuthorize("hasRole('SYSTEMADMIN')")
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public RsData<ModifyClassAdminResponseBody> modify(
+    public RsData<Empty> modify(
             @Valid @RequestBody ModifyClassAdminRequestBody body
     ) {
-        return RsData.of( "정보가 수정되었습니다.",
-                new ModifyClassAdminResponseBody(
-                        new MemberDto(
-                                memberService.modifyClassAdminMember(
-                                        body
-                                )
-                        )
-                )
+        return memberService.modifyClassAdminMember(
+                body
         );
     }
 
@@ -586,33 +593,50 @@ public class ApiV1MemberController {
     }
 
     public record createStudentRequestBody(
-            @NonNull long schoolClassId,
+            @NonNull String schoolClassCode,
             @NonNull int studentYear,
             @NonNull int studentNumber,
-            @NonNull String password
+            @NonNull String username,
+            @NonNull String password,
+            @NonNull String nickname
     ) {}
-
-    public record createStudentResponseBody(@NonNull int resultCode) {}
 
     @PostMapping(value = "/student/new", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "학생 생성")
     @PreAuthorize("hasRole('SYSTEMADMIN')")
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public RsData<createStudentResponseBody> batchPlayLog(
+    public RsData<Empty> batchPlayLog(
             @RequestBody createStudentRequestBody body
     ) {
-        memberService.joinStudent(
-                body.schoolClassId,
+        return memberService.joinStudent(
+                body.schoolClassCode,
                 body.studentYear,
                 body.studentNumber,
-                body.password
+                body.username,
+                body.password,
+                body.nickname
         );
+    }
 
-        return RsData.of("학생 계정이 생성되었습니다.",
-                new createStudentResponseBody(
-                        1
-                )
+    public record createStudentMultipleRequestBody(
+            @NonNull String schoolClassCode,
+            @NonNull int studentYear,
+            @NonNull String studentNumberMultiple
+    ) {}
+
+    @PostMapping(value = "/student/multiple", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "학생 일괄 생성")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<Empty> batchPlayLog(
+            @RequestBody createStudentMultipleRequestBody body
+    ) {
+        return memberService.joinStudentMultiple(
+                body.schoolClassCode,
+                body.studentYear,
+                body.studentNumberMultiple
         );
     }
 
@@ -621,25 +645,16 @@ public class ApiV1MemberController {
             @NonNull String password,
             @NonNull String nickname
     ) {}
-    public record ModifyStudentResponseBody(@NonNull MemberDto memberDto) {}
 
     @PutMapping("/student/modify")
     @Operation(summary = "학생 수정")
     @PreAuthorize("hasRole('SYSTEMADMIN')")
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public RsData<ModifyStudentResponseBody> modify(
+    public RsData<Empty> modify(
             @Valid @RequestBody ModifyStudentRequestBody body
     ) {
-        return RsData.of( "정보가 수정되었습니다.",
-                new ModifyStudentResponseBody(
-                        new MemberDto(
-                                memberService.modifyStudentMember(
-                                        body
-                                )
-                        )
-                )
-        );
+        return memberService.modifyStudentMember(body);
     }
 
     public record DeleteStudentRequestBody(@NonNull List<Long> studentIds) {}
@@ -665,34 +680,35 @@ public class ApiV1MemberController {
         List<String[]> resultList = new ArrayList<>();
         // 컬럼명을 정의하는 배열 추가
         resultList.add(new String[]{
+                "학교명",
+                "학급명",
                 "아이디",
-                "이름",
-                "휴대폰",
-                "담당사업",
-                "생성일",
+                "비밀번호",
+                "닉네임",
+                "생성일"
         });
 
-        // 학교 정보를 가져와서 리스트에 추가
-        List<Member> memberList = memberService.getMemberDetail(2);
-
+        // 학생 정보를 가져와서 리스트에 추가
+        List<Member> memberList = memberService.getMemberDetail(1);
 
         for(Member member : memberList) {
-            List<String> programNames = member.getPrograms().stream()
-                    .map(Program::getName)
-                    .collect(Collectors.toList());
-            String programs = String.join(", ", programNames);
-
-            List<String> schoolNames = member.getSchools().stream()
+            String schoolName = Optional.ofNullable(member.getStudentClass())
+                    .map(SchoolClass::getSchool)
                     .map(School::getSchoolName)
-                    .collect(Collectors.toList());
-            String schools = String.join(", ", schoolNames);
+                    .orElse("");
+
+            String className = "";
+            if(member.getStudentClass()!=null) {
+                className = new SchoolClassDto(member.getStudentClass()).getClassName();
+            }
 
             resultList.add(new String[]{
+                    schoolName,
+                    className,
                     member.getUsername(),
-                    member.getName(),
-                    member.getCellphoneNo(),
-                    schools,
-                    member.getCreateDate().toString(),
+                    member.getPassword(),
+                    member.getPlayer().getNickname(),
+                    member.getCreateDate().toString()
             });
         }
 
@@ -713,7 +729,7 @@ public class ApiV1MemberController {
 
         // 파일 다운로드를 위한 헤더 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"classAdmin.csv\"");
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"students.csv\"");
         headers.add(HttpHeaders.CONTENT_TYPE, "text/csv; charset=utf-8");
 
         return ResponseEntity.ok()
@@ -723,19 +739,19 @@ public class ApiV1MemberController {
 
 
 
-    public record DuplicateRequestBody(@NonNull String username) {}
-    public record DuplicateResponseBody(@NonNull boolean canUse) {}
+    public record MemberDuplicateRequestBody(@NonNull String username) {}
+    public record MemberDuplicateResponseBody(@NonNull boolean canUse) {}
 
     @PostMapping("/duplicate")
     @Operation(summary = "아이디 중복 확인")
     @Transactional
-    public RsData<DuplicateResponseBody> duplicate(
-            @Valid @RequestBody DuplicateRequestBody body
+    public RsData<ApiV1MemberController.MemberDuplicateResponseBody> duplicate(
+            @Valid @RequestBody ApiV1MemberController.MemberDuplicateRequestBody body
     ) {
         boolean canUse = !memberService.duplicate(body.username);
 
         return RsData.of(
-                new DuplicateResponseBody(canUse)
+                new ApiV1MemberController.MemberDuplicateResponseBody(canUse)
         );
     }
 

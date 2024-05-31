@@ -21,9 +21,11 @@ public class SchoolClassInputDto {
         this.id = schoolClass.getId();
         this.code = schoolClass.getCode();
         if(schoolClass.isSpecial()) {
-            this.className = schoolClass.getSpecialName() + " (" + schoolClass.getSchool().getSchoolName() + ")";
+//            this.className = schoolClass.getSpecialName() + " (" + schoolClass.getSchool().getSchoolName() + ")";
+            this.className = schoolClass.getSchool().getSchoolName() + " " + schoolClass.getSpecialName();
         } else {
-            this.className = schoolClass.getGrade() + "학년 " + schoolClass.getClassNo() + "반" + " (" + schoolClass.getSchool().getSchoolName() + ")";
+//            this.className = schoolClass.getGrade() + "학년 " + schoolClass.getClassNo() + "반" + " (" + schoolClass.getSchool().getSchoolName() + ")";
+            this.className = schoolClass.getSchool().getSchoolName() + " " + schoolClass.getGrade() + "학년 " + schoolClass.getClassNo() + "반";
         }
     }
 

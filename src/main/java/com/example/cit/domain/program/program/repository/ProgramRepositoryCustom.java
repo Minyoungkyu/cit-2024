@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ProgramRepositoryCustom {
 
     Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable);
+
+    boolean existsByName(String programName);
 }

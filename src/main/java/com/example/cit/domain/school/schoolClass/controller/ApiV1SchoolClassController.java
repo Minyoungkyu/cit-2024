@@ -119,17 +119,15 @@ public class ApiV1SchoolClassController {
             @NonNull List<MemberInputListDto> member
     ) {}
 
-    public record createSchoolClassResponseBody(@NonNull int resultCode) {}
-
     @PostMapping(value = "/new", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "학급 생성")
     @PreAuthorize("hasRole('SYSTEMADMIN')")
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public RsData<ApiV1SchoolClassController.createSchoolClassResponseBody> batchPlayLog(
+    public RsData<Empty> batchPlayLog(
             @RequestBody ApiV1SchoolClassController.createSchoolClassRequestBody body
     ) {
-        SchoolClass schoolClass = schoolClassService.createSchoolClass(
+        return schoolClassService.createSchoolClass(
                 body.agency().id(),
                 body.grade(),
                 body.classNo(),
@@ -140,20 +138,20 @@ public class ApiV1SchoolClassController {
                         .collect(Collectors.toList())
         );
 
-        if(schoolClass==null) {
-            return RsData.of("학급이 중복되어 생성되지 않았습니다.",
-                    new ApiV1SchoolClassController.createSchoolClassResponseBody(
-                            -1
-                    )
-            );
-        } else {
-            return RsData.of("학급이 생성되었습니다.",
-                    new ApiV1SchoolClassController.createSchoolClassResponseBody(
-                            1
-                    )
-            );
-
-        }
+//        if(schoolClass==null) {
+//            return RsData.of("학급이 중복되어 생성되지 않았습니다.",
+//                    new ApiV1SchoolClassController.createSchoolClassResponseBody(
+//                            -1
+//                    )
+//            );
+//        } else {
+//            return RsData.of("학급이 생성되었습니다.",
+//                    new ApiV1SchoolClassController.createSchoolClassResponseBody(
+//                            1
+//                    )
+//            );
+//
+//        }
 //        return RsData.of( "학급이 생성되었습니다.",
 //                new ApiV1SchoolClassController.createSchoolClassResponseBody(
 //                        new SchoolClassDto(
@@ -251,17 +249,17 @@ public class ApiV1SchoolClassController {
     @PreAuthorize("hasRole('SYSTEMADMIN')")
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
-    public RsData<MultipleSchoolClassResponseBody> createMultiple(
+    public RsData<Empty> createMultiple(
             @Valid @RequestBody ApiV1SchoolClassController.SchoolClassMultipleRequestBody body
     ) {
-        int resultCode = schoolClassService.createMultipleSchoolClasses(body.agencyId, body.rows);
+        return schoolClassService.createMultipleSchoolClasses(body.agencyId, body.rows);
 
-        if(resultCode == -1)
-            return RsData.of("학급이 중복되어 생성되지 않았습니다.", new MultipleSchoolClassResponseBody(-1));
-        else if(resultCode == 0)
-            return RsData.of("학급이 일괄 생성시 에러가 발생하였습니다.", new MultipleSchoolClassResponseBody(0));
-        else
-            return RsData.of("학급이 일괄 생성되었습니다.", new MultipleSchoolClassResponseBody(1));
+//        if(resultCode == -1)
+//            return RsData.of("학급이 중복되어 생성되지 않았습니다.", new MultipleSchoolClassResponseBody(-1));
+//        else if(resultCode == 0)
+//            return RsData.of("학급이 일괄 생성시 에러가 발생하였습니다.", new MultipleSchoolClassResponseBody(0));
+//        else
+//            return RsData.of("학급이 일괄 생성되었습니다.", new MultipleSchoolClassResponseBody(1));
     }
 
     @GetMapping(value="/download/csv", consumes = MimeTypeUtils.ALL_VALUE, produces = MimeTypeUtils.ALL_VALUE)
@@ -345,7 +343,8 @@ public class ApiV1SchoolClassController {
         } else if(rq.getMember().getRoleLevel() == 3) {
             return RsData.of(
                     new SchoolClassInputResponseBody(
-                            schoolClassService.findByProgramList(rq.getMember().getPrograms()).stream()
+//                            schoolClassService.findByProgramList(rq.getMember().getPrograms()).stream()
+                            schoolClassService.getSchoolClassDetail().stream()
                                     .map(SchoolClassInputDto::new)
                                     .collect(Collectors.toList()
                                     )
@@ -353,7 +352,7 @@ public class ApiV1SchoolClassController {
         } else if(rq.getMember().getRoleLevel() == 2) {
             return RsData.of(
                     new SchoolClassInputResponseBody(
-                            schoolClassService.findBySchoolList(rq.getMember().getSchools()).stream()
+                            schoolClassService.findBySchoolList(rq.getMember().getSchoolClasses()).stream()
                                     .map(SchoolClassInputDto::new)
                                     .collect(Collectors.toList()
                                     )

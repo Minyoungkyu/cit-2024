@@ -78,13 +78,17 @@
 
 </script>
 
-<div class="w-full h-full flex flex-col">
-    <div class="flex flex-row w-full my-4 justify-around">
-        <div class="flex flex-row gap-4">
-            <button class="btn btn-sm" on:click={() => window.location.href="/adm/menu/member/student/new"}>생성</button>
-            <button class="btn btn-sm" on:click={() => handleCheckedPrograms()}>삭제</button>
+<div class="w-[95%] h-full flex flex-col mt-[-60px]">
+    <div class="flex flex-row w-full justify-between border-b pb-[14px] mb-1">
+        <div class="flex flex-row gap-4 items-center">
+            <div class="text-[22px] mr-4 font-bold">
+                학생 계정
+            </div>
+            <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/member/student/multiple"}>일괄 생성</button>
+            <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/member/student/new"}>개별 생성</button>
+            <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => handleCheckedPrograms()}>삭제</button>
             <!-- <button class="btn btn-sm">엑셀 다운로드</button> -->
-            <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/student/download/csv" class="btn btn-sm">엑셀 다운로드</a>
+            <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/student/download/csv" class="btn btn-sm btn-outline rounded-md border-gray-400">엑셀 다운로드</a>
         </div>
         <div class="flex flex-row gap-2 items-center">
             {#if $page.url.searchParams.get('kw')}
@@ -92,21 +96,23 @@
                     <i class="fa-solid fa-xmark"></i> 전체보기
                 </a>
             {/if}
-            <div class="searching-box border-2 rounded-md bg-white border-gray-700 flex items-center">
+            <div class="searching-box border rounded-md bg-white border-gray-400 flex items-center">
                 <form class="flex w-full" action={$page.url.pathname}>
-                  <select name="kwType" class="ml-3 p-2 outline-none" value={$page.url.searchParams.get('kwType') ?? 'ALL'}>
+                  <select name="kwType" class="ml-3 p-2 outline-none text-gray-500" value={$page.url.searchParams.get('kwType') ?? 'ALL'}>
                     <option value="ALL">전체</option>
+                    <option value="학교명">학교명</option>
+                    <option value="학년">학년</option>
+                    <option value="반">반</option>
+                    <option value="특수반명">특수반명</option>
                     <option value="아이디">아이디</option>
-                    <option value="이름">이름</option>
-                    <option value="휴대폰">휴대폰</option>
-                    <option value="담당기관">담당기관</option>
+                    <option value="닉네임">닉네임</option>
                   </select>
                   <div class="search whitespace-nowrap w-full">
-                    <input class="outline-none border-gray-400 w-full h-full ml-2" name="kw" type="search" value={$page.url.searchParams.get('kw') ?? ''}>
+                    <input class="outline-none border-gray-500 w-full h-full ml-2" name="kw" type="search" value={$page.url.searchParams.get('kw') ?? ''}>
                   </div>
                   <div class="flex flex-row justify-end items-center w-1/2">
                     <button class="">
-                      <i class="fa-solid fa-magnifying-glass mr-5"></i>
+                      <i class="fa-solid fa-magnifying-glass mr-5 text-gray-500"></i>
                     </button>
                   </div>
                 </form>
@@ -115,20 +121,21 @@
     </div>
     {#await load()}
     {:then {data: {itemPage}}}
-        <table cellpadding="15" cellspacing="15" width="80%" class="mx-auto">
+        <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
             <thead>
-                <tr class="border-b-2 border-t-2 border-gray-200 whitespace-nowrap text-sm lg:text-md">
-                    <th>
-                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-sm"
+                <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                    <th class="w-[50px]">
+                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-sm rounded-md"
                             bind:checked={allChecked}
                             on:change={toggleAllChecks}>
                     </th>
+                    <th>학교명</th>
+                    <th>학급명</th>
                     <th>아이디</th>
                     <th>비밀번호</th>
                     <th>닉네임</th>
-                    <th>학급명</th>
                     <th>생성일</th>
-                    <th>관리</th>
+                    <th class="w-[100px]">관리</th>
                 </tr>
             </thead>
 
@@ -141,19 +148,25 @@
                             on:change={updateAllChecked}>
                     </td>
                     <!-- <td >{program.id}</td> -->
+                    <td >{member.studentClassSchool}</td>
+                    <td >{member.studentClass}</td>
                     <td >{member.username}</td>
                     <td >{member.studentPassword}</td>
                     <td >{member.studentNickName}</td>
-                    <td >{member.studentClass}</td>
                     <td >{member.createDate}</td>
                     <td>
-                        <a href="/adm/menu/member/student/{member.id}" class="btn btn-xs">수정</a>
+                        <a href="/adm/menu/member/student/{member.id}" class="btn btn-xs btn-outline rounded-md border-gray-400">수정</a>
                     </td>
                 </tr>
                 {/each}
+                {#if memberList.length === 0}
+                    <tr>
+                        <td colspan="7" class="text-center pt-[70px] pb-[70px] border-b">데이터가 없습니다.</td>
+                    </tr>
+                {/if}
             </tbody>
         </table>
-        <div class="mt-4 mb-4">
+        <div class="mt-6 mb-6">
             <Pagination page={itemPage} />
         </div>
     {/await}

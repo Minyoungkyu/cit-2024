@@ -193,23 +193,23 @@
     }
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
-    학교 정보
+<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
+    학교 생성
 </div>
-<div class="w-full h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-[900px] h-full" method="POST" on:submit|preventDefault={submitNewSchoolForm}>
+<div class="w-[95%] h-screen flex justify-center">
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitNewSchoolForm}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">학교명</td>
-                  <td class="border-2 p-1">
-                    <input name="schoolName" type="text" placeholder="학교명" class="input input-bordered w-full"/>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">학교명</td>
+                  <td class="border-b p-3">
+                    <input name="schoolName" type="text" placeholder="학교명" class="input input-bordered w-[250px]"/>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">지역</td>
-                  <td class="border-2 p-1">
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역</td>
+                  <td class="border-b p-3">
                     <div class="flex flex-row gap-6">
                         <div>
                             <input name="region" type="text" placeholder="시도" class="input input-bordered w-[150px] text-center" 
@@ -252,45 +252,45 @@
                   </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">지역규모</td>
-                    <td class="border-2 p-1">
-                        <input name="areaType" type="text" placeholder="지역규모" class="input input-bordered w-full"/>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역규모</td>
+                    <td class="border-b p-3">
+                        <input name="areaType" type="text" placeholder="지역규모" class="input input-bordered w-[150px]"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">학교급</td>
-                    <td class="border-2 p-1">
-                        <input name="schoolLevel" type="text" placeholder="학교급" class="input input-bordered w-full"/>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">학교급</td>
+                    <td class="border-b p-3">
+                        <input name="schoolLevel" type="text" placeholder="학교급" class="input input-bordered w-[150px]"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">전화번호</td>
-                    <td class="border-2 p-1">
-                        <input name="phoneNumber" type="text" placeholder="전화번호" class="input input-bordered w-full"/>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">전화번호</td>
+                    <td class="border-b p-3">
+                        <input name="phoneNumber" type="text" placeholder="전화번호" class="input input-bordered w-[150px]"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">고등학교 유형</td>
-                    <td class="border-2 p-1">
-                        <input name="highSchoolType" type="text" placeholder="고등학교 유형" class="input input-bordered w-full"/>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">고등학교 유형</td>
+                    <td class="border-b p-3">
+                        <input name="highSchoolType" type="text" placeholder="고등학교 유형" class="input input-bordered w-[150px]"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">설립유형</td>
-                    <td class="border-2 p-1">
-                        <input name="establishmentType" type="text" placeholder="설립유형" class="input input-bordered w-full"/>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">설립유형</td>
+                    <td class="border-b p-3">
+                        <input name="establishmentType" type="text" placeholder="설립유형" class="input input-bordered w-[150px]"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">남여공학</td>
-                    <td class="border-2 p-1">
-                        <input name="coeducationType" type="text" placeholder="남여공학" class="input input-bordered w-full"/>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">남여공학</td>
+                    <td class="border-b p-3">
+                        <input name="coeducationType" type="text" placeholder="남여공학" class="input input-bordered w-[150px]"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">주소</td>
-                    <td class="border-2 p-1">
-                        <input name="address" type="text" placeholder="주소" class="input input-bordered w-full"/>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">주소</td>
+                    <td class="border-b p-3">
+                        <input name="address" type="text" placeholder="주소" class="input input-bordered w-[250px]"/>
                     </td>
                 </tr>
                 
@@ -298,11 +298,11 @@
               </tbody>
             </table>
 
-            <div class="flex flex-row mt-40 justify-between gap-2">
-                <div class="btn btn-block btn-error gap-1 w-[100px]" on:click={() => rq.goTo('/adm/menu/school')}>
+            <div class="flex flex-row mt-10 mb-10 justify-center gap-2">
+                <button class="btn btn-block btn-outline border-gray-400 gap-1 w-[100px]" type="button" on:click={() => rq.goTo('/adm/menu/school')}>
                     <span>목록</span>
-                </div>
-                <button class="btn btn-block btn-primary gap-1 w-[100px]" type="submit">
+                </button>
+                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" type="submit">
                     <span>저장</span>
                 </button>
             </div>

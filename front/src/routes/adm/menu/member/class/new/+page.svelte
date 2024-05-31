@@ -3,16 +3,8 @@
 	import { onMount } from "svelte";
     import type { components } from '$lib/types/api/v1/schema';
 
-    let regions = $state([]) as components['schemas']['Region'][];
-    let filteredRegions = $state([]) as components['schemas']['Region'][];
-    let ads = $state([]) as components['schemas']['AdministrativeDistrict'][];
-    let filteredAds = $state([]) as components['schemas']['AdministrativeDistrict'][];
-    let schools = $state([]) as components['schemas']['SchoolInputListDto'][];
-    let filteredSchools = $state([]) as components['schemas']['SchoolInputListDto'][];
-    let members = $state([]) as components['schemas']['MemberInputListDto'][];
-    let filteredMembers = $state([]) as components['schemas']['MemberInputListDto'][];
-    let programs = $state([]) as components['schemas']['SchoolInputListDto'][];
-    let filteredPrograms = $state([]) as components['schemas']['SchoolInputListDto'][];
+    let programs = $state([]) as components['schemas']['SchoolClassInputDto'][];
+    let filteredPrograms = $state([]) as components['schemas']['SchoolClassInputDto'][];
 
     let regionsBox: HTMLDivElement | null = null;
     let adsBox: HTMLDivElement | null = null;
@@ -21,26 +13,10 @@
 
     let focusProgram = $state(false);
     
-    let memberInput = $state([]) as components['schemas']['MemberInputListDto'][];
-    let memberInputText = $state('');
-    let programInput = $state([]) as components['schemas']['SchoolInputListDto'][];
+    let programInput = $state([]) as components['schemas']['SchoolClassInputDto'][];
     let programInputText = $state('');
 
     let duplicateChecked = $state(false);
-
-    async function loadMember() {
-        if (members.length > 0) {
-            focusProgram = true;
-            return;
-        }
-
-        const { data } = await rq.apiEndPoints().GET('/api/v1/members/program', {
-        });
-
-        members = data?.data.members || [];
-        filteredMembers = members;
-        focusProgram = true;
-    }
 
     async function loadProgram() {
         // console.log('loadProgram');
@@ -50,7 +26,7 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().GET('/api/v1/schools/input', {
+        const { data } = await rq.apiEndPoints().GET('/api/v1/school/class/input', {
         });
 
         programs = data?.data.schools || [];
@@ -58,23 +34,12 @@
         focusProgram = true;
     }
 
-    function updateMembers(searchText: string) {
-        const searchLower = searchText.toLowerCase();
-        filteredMembers = [...members].sort((a, b) => {
-            const scoreA = similarityScore(a.name ?? '', searchLower);
-            const scoreB = similarityScore(b.name ?? '', searchLower);
-            return scoreB - scoreA; 
-        });
-
-        if (membersBox) membersBox.scrollTop = 0;
-    }
-
     function updateProgram(searchText: string) {
         console.log('updateProgram');
         const searchLower = searchText.toLowerCase();
         filteredPrograms = [...programs].sort((a, b) => {
-            const scoreA = similarityScore(a.schoolName ?? '', searchLower);
-            const scoreB = similarityScore(b.schoolName ?? '', searchLower);
+            const scoreA = similarityScore(a.className ?? '', searchLower);
+            const scoreB = similarityScore(b.className ?? '', searchLower);
             return scoreB - scoreA; 
         });
 
@@ -167,11 +132,11 @@
                 password: form.password.value,
                 name: form.membername.value,
                 cellphoneNo: form.cellphoneNo.value,
-                schools: programInput
+                schoolClasses: programInput
             }
         });
 
-        if (data?.data.resultCode == 1) {
+        if (data?.resultCode == "200") {
             rq.msgAndRedirect(data, undefined, '/adm/menu/member/class');
         } else {
             rq.msgError(data?.msg??'오류가 발생했습니다.');
@@ -201,37 +166,34 @@
 
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
+<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학급관리자 생성
 </div>
-<div class="w-full h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-[900px] h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
+<div class="w-[95%] h-screen flex justify-center">
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">아이디</td>
-                    <td class="border-2 p-1">
-                        <div class="flex flex-col">
-                            <div>
-                                <input name="username" type="text" placeholder="아이디" class="input input-bordered w-[200px] text-center" on:change={()=>{duplicateChecked=false;}}/>
-                            </div>
-                            <div class="flex flex-row gap-2 mt-2">
-                                {#if duplicateChecked}
-                                    <i class="fa-solid fa-check text-green-500">사용가능</i>
-                                {/if}
-                                {#if !duplicateChecked}
-                                <button class="btn btn-sm btn-primary" on:click={duplicateCheck} type="button">
-                                    중복확인
-                                </button>
-                                {/if}
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디</td>
+                    <td class="border-b p-3">
+                        <div class="flex flex-row items-center gap-2">
+                            <input name="username" type="text" placeholder="아이디" class="input input-bordered w-[200px] text-center" on:change={()=>{duplicateChecked=false;}}/>
+                            {#if duplicateChecked}
+                                <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
+                            {/if}
+                            {#if !duplicateChecked}
+                            <button class="btn btn-sm btn-error btn-outline ml-3" on:click={duplicateCheck} type="button">
+                                중복확인
+                            </button>
+                            {/if}
                         </div>
                     </td>
                   </tr>
                     <tr>
-                        <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">비밀번호</td>
-                        <td class="border-2 p-1">
+                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">비밀번호</td>
+                        <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
                                     <input name="password" type="password" placeholder="비밀번호" class="input input-bordered w-[200px] text-center" />
@@ -240,8 +202,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">이름</td>
-                        <td class="border-2 p-1">
+                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">이름</td>
+                        <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
                                     <input name="membername" type="text" placeholder="이름" class="input input-bordered w-[200px] text-center" />
@@ -252,8 +214,8 @@
                       
                       
                     <tr>
-                        <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">휴대폰</td>
-                        <td class="border-2 p-1">
+                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">휴대폰</td>
+                        <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
                                     <input name="cellphoneNo" type="text" placeholder="휴대폰" class="input input-bordered w-[200px] text-center" />
@@ -265,11 +227,11 @@
 
 
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">담당기관</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당학급</td>
+                    <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
-                                <input name="program" type="search" placeholder="담당기관" class="input input-bordered w-[200px] text-center" 
+                                <input name="program" type="search" placeholder="담당학급" class="input input-bordered w-[200px] text-center" 
                                     bind:value={programInputText}
                                     on:focus={() => loadProgram()}
                                     on:input={(event) => event.target && updateProgram((event.target as HTMLInputElement).value)}
@@ -283,7 +245,7 @@
                                                 if (!programInput.some(m => m.id === program.id)) {
                                                     programInput.push(program);
                                                 }}}>
-                                                {program.schoolName}
+                                                {program.className}
                                             </div>
                                         {/each}
                                     </div>
@@ -292,10 +254,10 @@
                             {#each programInput as program}
                                 <div class="flex flex-row gap-2 text-[15px] ml-4 mt-2">
                                     <div class="w-full text-left">
-                                        {program.schoolName}
+                                        {program.className}
                                         <span class="ml-2 cursor-pointer" 
                                         on:click={() => programInput.splice(programInput.indexOf(program), 1)}>
-                                            <i class="fa-solid fa-x"></i>
+                                            <i class="fa-regular fa-trash-can text-red-500"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -306,11 +268,11 @@
               </tbody>
             </table>
 
-            <div class="flex flex-row mt-40 justify-between gap-2">
-                <div class="btn btn-block btn-error gap-1 w-[100px]" on:click={() => rq.goTo('/adm/menu/member/class')}>
+            <div class="flex flex-row mt-10 mb-10 justify-center gap-2">
+                <button class="btn btn-block btn-outline border-gray-400 gap-1 w-[100px]" type="button" on:click={() => rq.goTo('/adm/menu/member/class')}>
                     <span>목록</span>
-                </div>
-                <button class="btn btn-block btn-primary gap-1 w-[100px]" type="submit">
+                </button>
+                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" type="submit">
                     <span>저장</span>
                 </button>
             </div>

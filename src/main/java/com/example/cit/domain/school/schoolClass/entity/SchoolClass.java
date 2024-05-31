@@ -36,7 +36,7 @@ public class SchoolClass extends BaseTime {
     @ManyToOne(fetch = LAZY)
     private School school;
 
-    @ManyToMany(fetch = LAZY)
+    @ManyToMany(fetch = LAZY, mappedBy = "schoolClasses")
     @ToString.Exclude
     @Builder.Default
     private List<Member> members = new ArrayList<>();

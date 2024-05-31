@@ -40,8 +40,8 @@
     {#if !isMobile}
         <SideMenu />
     {/if}
-    <div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-800">
-        <div class="flex flex-row {isMobile ? 'justify-between' : 'justify-end'} items-center pr-4 gap-4 bg-gray-800 text-gray-200 w-full h-[80px]">
+    <div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
+        <div class="flex flex-row {isMobile ? 'justify-between' : 'justify-end'} items-center pr-4 gap-4 bg-gray-100 text-gray-800 w-full h-[80px]">
             <div class="{isMobile ? '' : 'hidden'}">
                 <MobileSideMenu />
             </div>

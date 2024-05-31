@@ -71,58 +71,61 @@
 
 </script>
 
-<div class="w-full h-full flex flex-col">
-    <div class="flex flex-row w-full my-4 justify-around">
-        <div class="flex flex-row gap-4">
-            <button class="btn btn-sm" on:click={() => window.location.href="/adm/menu/program/new"}>생성</button>
-            <button class="btn btn-sm" on:click={() => handleCheckedPrograms()}>삭제</button>
+<div class="w-[95%] h-full flex flex-col mt-[-60px]">
+    <div class="flex flex-row w-full justify-between border-b pb-[14px] mb-1">
+        <div class="flex flex-row gap-4 items-center">
+            <div class="text-[22px] mr-4 font-bold">
+                사업 관리
+            </div>
+            <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/program/new"}>생성</button>
+            <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => handleCheckedPrograms()}>삭제</button>
             <!-- <button class="btn btn-sm">엑셀 다운로드</button> -->
-            <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/programs/download/csv" class="btn btn-sm">엑셀 다운로드</a>
+            <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/programs/download/csv" class="btn btn-sm btn-outline rounded-md border-gray-400">엑셀 다운로드</a>
         </div>
         <div class="flex flex-row gap-2 items-center">
             {#if $page.url.searchParams.get('kw')}
-                <a class="btn btn-sm" href={$page.url.pathname}>
+                <a class="btn btn-sm rounded-md" href={$page.url.pathname}>
                     <i class="fa-solid fa-xmark"></i> 전체보기
                 </a>
             {/if}
-            <div class="searching-box border-2 rounded-md bg-white border-gray-700 flex items-center">
+            <div class="searching-box border rounded-md bg-white border-gray-400 flex items-center">
                 <form class="flex w-full" action={$page.url.pathname}>
-                  <select name="kwType" class="ml-3 p-2 outline-none" value={$page.url.searchParams.get('kwType') ?? 'ALL'}>
+                <select name="kwType" class="ml-3 p-2 outline-none text-gray-500" value={$page.url.searchParams.get('kwType') ?? 'ALL'}>
                     <option value="ALL">전체</option>
                     <option value="TITLE">사업명</option>
                     <option value="REGION">지역</option>
                     <option value="INCHARGENAME">담당자</option>
                     <option value="AGENCY">사용기관</option>
-                  </select>
-                  <div class="search whitespace-nowrap w-full">
-                    <input class="outline-none border-gray-400 w-full h-full ml-2" name="kw" type="search" value={$page.url.searchParams.get('kw') ?? ''}>
-                  </div>
-                  <div class="flex flex-row justify-end items-center w-1/2">
+                </select>
+                <div class="search whitespace-nowrap w-full">
+                    <input class="outline-none border-gray-500 w-full h-full ml-2" name="kw" type="search" value={$page.url.searchParams.get('kw') ?? ''}>
+                </div>
+                <div class="flex flex-row justify-end items-center w-1/2">
                     <button class="">
-                      <i class="fa-solid fa-magnifying-glass mr-5"></i>
+                        <i class="fa-solid fa-magnifying-glass mr-5 text-gray-500"></i>
                     </button>
-                  </div>
+                </div>
                 </form>
             </div>
         </div>
     </div>
     {#await load()}
     {:then {data: {itemPage}}}
-        <table cellpadding="15" cellspacing="15" width="80%" class="mx-auto">
+        <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
             <thead>
-                <tr class="border-b-2 border-t-2 border-gray-200 whitespace-nowrap text-sm lg:text-md">
-                    <th>
-                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-sm"
+                <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                    <th class="w-[50px]">
+                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-sm rounded-md"
                             bind:checked={allChecked}
                             on:change={toggleAllChecks}>
                     </th>
                     <!-- <th>사업번호</th> -->
                     <th>사업명</th>
-                    <th>사업 기간</th>
+                    <th  class="w-[250px]">사업 기간</th>
                     <th class="min-w-[150px]">지역</th>
                     <th>담당자</th>
                     <th>사용 기관</th>
-                    <th>관리</th>
+                    <th class="w-[100px]">관리</th>
                 </tr>
             </thead>
 
@@ -130,7 +133,7 @@
                 {#each programs as program, index}
                 <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
                     <td>
-                        <input type="checkbox" class="orderItemCheckbox checkbox checkbox-sm"
+                        <input type="checkbox" class="orderItemCheckbox checkbox checkbox-sm rounded-md"
                             bind:checked={individualChecks[index]}
                             on:change={updateAllChecked}>
                     </td>
@@ -138,16 +141,21 @@
                     <td >{program.name}</td>
                     <td >{program.startDate} ~ {program.endDate}</td>
                     <td >{program.city}&nbsp;{program.administrativeDistrict}</td>
-                    <td >{program.responsibleMemberNames}</td>
+                    <td >{program.responsibleMemberNames.map(item => item).join(', ')}</td>
                     <td >{program.schoolsNames}</td>
                     <td>
-                        <a href="/adm/menu/program/{program.id}" class="btn btn-xs">수정</a>
+                        <a href="/adm/menu/program/{program.id}" class="btn btn-xs btn-outline rounded-md border-gray-400">수정</a>
                     </td>
                 </tr>
                 {/each}
+                {#if programs.length === 0}
+                    <tr>
+                        <td colspan="7" class="text-center pt-[70px] pb-[70px] border-b">데이터가 없습니다.</td>
+                    </tr>
+                {/if}
             </tbody>
         </table>
-        <div class="mt-4 mb-4">
+        <div class="mt-6 mb-6">
             <Pagination page={itemPage} />
         </div>
     {/await}

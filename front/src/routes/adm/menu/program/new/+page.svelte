@@ -29,6 +29,8 @@
     let memberInput = $state([]) as components['schemas']['MemberInputListDto'][];
     let memberInputText = $state('');
 
+    let duplicateChecked = $state(false);
+
     async function loadRegion() {
         if (regions.length > 0) {
             focusRegion = true;
@@ -152,34 +154,39 @@
             return;
         }
 
+        if (!duplicateChecked) {
+            rq.msgError('사업명 중복확인을 해주세요.');
+            return;
+        }
+
         if (form.startDate.value === '' || form.endDate.value === '') {
             rq.msgError('사업기간을 입력해주세요.');
             return;
         }
 
-        if (regionInput.trim().length === 0) {
-            rq.msgError('지역을 입력해주세요.');
-            form.region.focus();
-            return;
-        }
+        // if (regionInput.trim().length === 0) {
+        //     rq.msgError('지역을 입력해주세요.');
+        //     form.region.focus();
+        //     return;
+        // }
 
-        if (adInput.trim().length === 0) {
-            rq.msgError('행정구를 입력해주세요.');
-            form.ad.focus();
-            return;
-        }
+        // if (adInput.trim().length === 0) {
+        //     rq.msgError('행정구를 입력해주세요.');
+        //     form.ad.focus();
+        //     return;
+        // }
 
-        if (agencyInput.length === 0) {
-            rq.msgError('사용 기관을 입력해주세요.');
-            form.agency.focus();
-            return;
-        }
+        // if (agencyInput.length === 0) {
+        //     rq.msgError('사용 기관을 입력해주세요.');
+        //     form.agency.focus();
+        //     return;
+        // }
 
-        if (memberInput.length === 0) {
-            rq.msgError('담당자를 입력해주세요.');
-            form.member.focus();
-            return;
-        }
+        // if (memberInput.length === 0) {
+        //     rq.msgError('담당자를 입력해주세요.');
+        //     form.member.focus();
+        //     return;
+        // }
 
         const { data, error } = await rq.apiEndPoints().POST('/api/v1/programs/new', {
             body: {
@@ -198,33 +205,64 @@
         }
     }
 
+    function duplicateCheck() {
+        const programName = (document.getElementsByName('programName')[0] as HTMLInputElement).value;
+        if (programName.trim().length === 0) {
+            rq.msgError('사업명을 입력해주세요.');
+            return;
+        }
+        rq.apiEndPoints().POST('/api/v1/programs/duplicate', {
+            body: {
+                programName: programName
+            }
+        }).then(({ data }) => {
+            if (data?.resultCode == '200') {
+                duplicateChecked = true;
+                rq.msgInfo('사용 가능한 사업명입니다.');
+            } else {
+                duplicateChecked = false;
+                rq.msgError('이미 사용중인 사업명입니다.');
+            }
+        });
+    }
+
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
+<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     사업 생성
 </div>
-<div class="w-full h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-[900px] h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
+<div class="w-[95%] h-screen flex justify-center">
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">사업명</td>
-                  <td class="border-2 p-1">
-                    <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-full" />
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업명</td>
+                  <td class="border-b p-3">
+                    <div class="flex flex-row items-center gap-2">
+                        <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-[250px]" on:input={()=>{duplicateChecked=false;}} />
+                        {#if duplicateChecked}
+                            <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
+                        {/if}
+                        {#if !duplicateChecked}
+                        <button class="btn btn-sm btn-error btn-outline ml-3" on:click={duplicateCheck} type="button">
+                            중복확인
+                        </button>
+                        {/if}
+                    </div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">사업기간</td>
-                  <td class="border-2 p-1">
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업기간</td>
+                  <td class="border-b p-3">
                     <input name="startDate" type="date" placeholder="사업명" class="input input-bordered w-[200px]" />
                     <span class="text-[20px]">&nbsp; ~ &nbsp;</span>
                     <input name="endDate" type="date" placeholder="사업명" class="input input-bordered w-[200px]" />
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">지역</td>
-                  <td class="border-2 p-1">
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역</td>
+                  <td class="border-b p-3">
                     <div class="flex flex-row gap-6">
                         <div>
                             <input name="region" type="text" placeholder="시도" class="input input-bordered w-[150px] text-center" 
@@ -269,8 +307,8 @@
                   </td>
                 </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">사용 기관</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">사용 기관</td>
+                    <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <input name="agency" type="search" placeholder="사용 기관" class="input input-bordered w-[300px] text-center" 
@@ -299,7 +337,7 @@
                                         {agency.schoolName} ({agency.region} / {agency.administrativeDistrict})
                                         <span class="ml-2 cursor-pointer" 
                                         on:click={() => agencyInput.splice(agencyInput.indexOf(agency), 1)}>
-                                            <i class="fa-solid fa-x"></i>
+                                            <i class="fa-regular fa-trash-can text-red-500"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -308,8 +346,8 @@
                     </td>
                   </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">담당자</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당자</td>
+                    <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <input name="member" type="search" placeholder="담당자" class="input input-bordered w-[200px] text-center" 
@@ -338,7 +376,7 @@
                                         {member.name} ({member.username})
                                         <span class="ml-2 cursor-pointer" 
                                         on:click={() => memberInput.splice(memberInput.indexOf(member), 1)}>
-                                            <i class="fa-solid fa-x"></i>
+                                            <i class="fa-regular fa-trash-can text-red-500"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -349,11 +387,11 @@
               </tbody>
             </table>
 
-            <div class="flex flex-row mt-40 justify-between gap-2">
-                <div class="btn btn-block btn-error gap-1 w-[100px]" on:click={() => rq.goTo('/adm/menu/program')}>
+            <div class="flex flex-row mt-10 mb-10 justify-center gap-2">
+                <button class="btn btn-block btn-outline border-gray-300 gap-1 w-[100px]" type="button" on:click={() => rq.goTo('/adm/menu/program')}>
                     <span>목록</span>
-                </div>
-                <button class="btn btn-block btn-primary gap-1 w-[100px]" type="submit">
+                </button>
+                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" type="submit">
                     <span>저장</span>
                 </button>
             </div>

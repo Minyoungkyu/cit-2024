@@ -93,6 +93,10 @@ export interface paths {
     /** 사업 생성 */
     post: operations["batchPlayLog_1"];
   };
+  "/api/v1/programs/duplicate": {
+    /** 사업명 중복 확인 */
+    post: operations["duplicate"];
+  };
   "/api/v1/programs/delete": {
     /** 사업 삭제 */
     post: operations["delete_2"];
@@ -121,6 +125,10 @@ export interface paths {
     /** 학생 생성 */
     post: operations["batchPlayLog_4"];
   };
+  "/api/v1/members/student/multiple": {
+    /** 학생 일괄 생성 */
+    post: operations["batchPlayLog_5"];
+  };
   "/api/v1/members/student/delete": {
     /** 학생 삭제 */
     post: operations["studentDelete"];
@@ -135,11 +143,11 @@ export interface paths {
   };
   "/api/v1/members/duplicate": {
     /** 아이디 중복 확인 */
-    post: operations["duplicate"];
+    post: operations["duplicate_1"];
   };
   "/api/v1/members/class/new": {
     /** 학급관리자 생성 */
-    post: operations["batchPlayLog_5"];
+    post: operations["batchPlayLog_6"];
   };
   "/api/v1/members/class/delete": {
     /** 학급관리자 삭제 */
@@ -163,7 +171,7 @@ export interface paths {
   };
   "/api/v1/gameLogs/batchGameLog": {
     /** 게임 로그 일괄 처리 */
-    post: operations["batchPlayLog_6"];
+    post: operations["batchPlayLog_7"];
   };
   "/api/v1/test/test": {
     /** 플레이어 인벤토리 조회 */
@@ -292,6 +300,10 @@ export interface paths {
   "/api/v1/members/me": {
     /** 내 정보 */
     get: operations["getMe"];
+  };
+  "/api/v1/members/input/class": {
+    /** 학급관리자 조회 */
+    get: operations["getClassAdmins"];
   };
   "/api/v1/members/class": {
     /** 학급관리자 목록 조회 */
@@ -454,7 +466,6 @@ export interface components {
     ModifyProgramRequestBody: {
       /** Format: int64 */
       id: number;
-      name: string;
       /** Format: date */
       startDate: string;
       /** Format: date */
@@ -543,9 +554,13 @@ export interface components {
       programs: components["schemas"]["ProgramInputDto"][];
       schoolName: string;
       schools: components["schemas"]["SchoolInputListDto"][];
+      schoolClassName: string;
+      schoolClasses: components["schemas"]["SchoolClassInputDto"][];
       studentPassword: string;
       studentNickName: string;
       studentClass: string;
+      studentClassSchool: string;
+      studentClassCode: string;
     };
     PlayerDto: {
       /** Format: int64 */
@@ -581,6 +596,12 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["UpdateProfileInventoryResponseBody"];
+    };
+    SchoolClassInputDto: {
+      /** Format: int64 */
+      id: number;
+      className: string;
+      code: string;
     };
     UpdateProfileInventoryResponseBody: {
       memberDto: components["schemas"]["MemberDto"];
@@ -660,16 +681,6 @@ export interface components {
       password: string;
       nickname: string;
     };
-    ModifyStudentResponseBody: {
-      memberDto: components["schemas"]["MemberDto"];
-    };
-    RsDataModifyStudentResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["ModifyStudentResponseBody"];
-    };
     ModifyRequestBody: {
       newPassword?: string;
       realName: string;
@@ -694,17 +705,7 @@ export interface components {
       password: string;
       name: string;
       cellphoneNo: string;
-      schools: components["schemas"]["SchoolInputListDto"][];
-    };
-    ModifyClassAdminResponseBody: {
-      memberDto: components["schemas"]["MemberDto"];
-    };
-    RsDataModifyClassAdminResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["ModifyClassAdminResponseBody"];
+      schoolClasses: components["schemas"]["SchoolClassInputDto"][];
     };
     InventoryDto: {
       /** Format: int64 */
@@ -820,17 +821,6 @@ export interface components {
       specialName: string;
       member: components["schemas"]["MemberInputListDto"][];
     };
-    RsDataCreateSchoolClassResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["createSchoolClassResponseBody"];
-    };
-    createSchoolClassResponseBody: {
-      /** Format: int32 */
-      resultCode: number;
-    };
     SchoolClassMultipleDto: {
       /** Format: int64 */
       id: number;
@@ -844,17 +834,6 @@ export interface components {
       /** Format: int64 */
       agencyId: number;
       rows: components["schemas"]["SchoolClassMultipleDto"][];
-    };
-    MultipleSchoolClassResponseBody: {
-      /** Format: int32 */
-      resultCode: number;
-    };
-    RsDataMultipleSchoolClassResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["MultipleSchoolClassResponseBody"];
     };
     SchoolClassDeleteRequestBody: {
       schoolClassIds: number[];
@@ -879,6 +858,9 @@ export interface components {
     };
     createProgramResponseBody: {
       program: components["schemas"]["ProgramDto"];
+    };
+    DuplicateRequestBody: {
+      programName: string;
     };
     ProgramDeleteRequestBody: {
       programIds: number[];
@@ -955,24 +937,20 @@ export interface components {
       systemAdminIds: number[];
     };
     createStudentRequestBody: {
-      /** Format: int64 */
-      schoolClassId: number;
+      schoolClassCode: string;
       /** Format: int32 */
       studentYear: number;
       /** Format: int32 */
       studentNumber: number;
+      username: string;
       password: string;
+      nickname: string;
     };
-    RsDataCreateStudentResponseBody: {
-      resultCode: string;
+    createStudentMultipleRequestBody: {
+      schoolClassCode: string;
       /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["createStudentResponseBody"];
-    };
-    createStudentResponseBody: {
-      /** Format: int32 */
-      resultCode: number;
+      studentYear: number;
+      studentNumberMultiple: string;
     };
     DeleteStudentRequestBody: {
       studentIds: number[];
@@ -993,36 +971,25 @@ export interface components {
       msg: string;
       data: components["schemas"]["LoginResponseBody"];
     };
-    DuplicateRequestBody: {
+    MemberDuplicateRequestBody: {
       username: string;
     };
-    DuplicateResponseBody: {
+    MemberDuplicateResponseBody: {
       canUse: boolean;
     };
-    RsDataDuplicateResponseBody: {
+    RsDataMemberDuplicateResponseBody: {
       resultCode: string;
       /** Format: int32 */
       statusCode: number;
       msg: string;
-      data: components["schemas"]["DuplicateResponseBody"];
+      data: components["schemas"]["MemberDuplicateResponseBody"];
     };
     createClassAdminRequestBody: {
       username: string;
       password: string;
       name: string;
       cellphoneNo: string;
-      schools: components["schemas"]["SchoolInputListDto"][];
-    };
-    RsDataCreateClassAdminResponseBody: {
-      resultCode: string;
-      /** Format: int32 */
-      statusCode: number;
-      msg: string;
-      data: components["schemas"]["createClassAdminResponseBody"];
-    };
-    createClassAdminResponseBody: {
-      /** Format: int32 */
-      resultCode: number;
+      schoolClasses: components["schemas"]["SchoolClassInputDto"][];
     };
     ClassAdminDeleteRequestBody: {
       classAdminIds: number[];
@@ -1159,12 +1126,6 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["SchoolClassInputResponseBody"];
-    };
-    SchoolClassInputDto: {
-      /** Format: int64 */
-      id: number;
-      className: string;
-      code: string;
     };
     SchoolClassInputResponseBody: {
       schools?: components["schemas"]["SchoolClassInputDto"][];
@@ -1412,6 +1373,26 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["MeResponseBody"];
+    };
+    ClassMembersResponseBody: {
+      members?: components["schemas"]["MemberInputListDto"][];
+    };
+    RsDataClassMembersResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ClassMembersResponseBody"];
+    };
+    GetClassAdminResponseBody: {
+      itemPage: components["schemas"]["PageDtoMemberDto"];
+    };
+    RsDataGetClassAdminResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetClassAdminResponseBody"];
     };
     AdminMeResponseBody: {
       item: components["schemas"]["MemberProgramAdmDto"];
@@ -1784,7 +1765,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataModifyStudentResponseBody"];
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -1828,7 +1809,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataModifyClassAdminResponseBody"];
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -1982,7 +1963,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataCreateSchoolClassResponseBody"];
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -2004,7 +1985,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataMultipleSchoolClassResponseBody"];
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -2049,6 +2030,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataCreateProgramResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업명 중복 확인 */
+  duplicate: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DuplicateRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -2193,7 +2196,29 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataCreateStudentResponseBody"];
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학생 일괄 생성 */
+  batchPlayLog_5: {
+    requestBody: {
+      content: {
+        "*/*": components["schemas"]["createStudentMultipleRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -2266,17 +2291,17 @@ export interface operations {
     };
   };
   /** 아이디 중복 확인 */
-  duplicate: {
+  duplicate_1: {
     requestBody: {
       content: {
-        "application/json": components["schemas"]["DuplicateRequestBody"];
+        "application/json": components["schemas"]["MemberDuplicateRequestBody"];
       };
     };
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataDuplicateResponseBody"];
+          "application/json": components["schemas"]["RsDataMemberDuplicateResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -2288,7 +2313,7 @@ export interface operations {
     };
   };
   /** 학급관리자 생성 */
-  batchPlayLog_5: {
+  batchPlayLog_6: {
     requestBody: {
       content: {
         "*/*": components["schemas"]["createClassAdminRequestBody"];
@@ -2298,7 +2323,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataCreateClassAdminResponseBody"];
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -2420,7 +2445,7 @@ export interface operations {
     };
   };
   /** 게임 로그 일괄 처리 */
-  batchPlayLog_6: {
+  batchPlayLog_7: {
     requestBody: {
       content: {
         "*/*": components["schemas"]["BatchGameLogRequestBody"];
@@ -3066,6 +3091,23 @@ export interface operations {
       };
     };
   };
+  /** 학급관리자 조회 */
+  getClassAdmins: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataClassMembersResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 학급관리자 목록 조회 */
   getClassAdminListPage: {
     parameters: {
@@ -3079,7 +3121,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataGetSystemAdminResponseBody"];
+          "application/json": components["schemas"]["RsDataGetClassAdminResponseBody"];
         };
       };
       /** @description Bad Request */

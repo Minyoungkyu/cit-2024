@@ -17,5 +17,5 @@ public interface SchoolClassRepositoryCustom {
 
     List<SchoolClass> findByProgramsIn(List<Program> programs);
 
-    List<SchoolClass> findBySchoolsIn(List<School> schools);
+    List<SchoolClass> findBySchoolsIn(List<SchoolClass> schoolClasses);
 }

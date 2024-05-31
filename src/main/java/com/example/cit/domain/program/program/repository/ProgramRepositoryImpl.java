@@ -3,6 +3,7 @@ package com.example.cit.domain.program.program.repository;
 import com.example.cit.domain.member.member.entity.QMember;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.entity.QSchool;
+import com.example.cit.global.rq.Rq;
 import com.example.cit.standard.base.KwTypeV1;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
@@ -24,6 +25,8 @@ import static com.example.cit.domain.program.program.entity.QProgram.program;
 public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
     private final EntityManager entityManager;
+    private final Rq rq;
+
     @Override
     public Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
@@ -31,6 +34,11 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
         if (kw != null && !kw.isBlank()) {
             applyKeywordFilter(kwType, kw, builder);
         }
+
+        // 권한에 따라 프로그램 목록 필터링
+//        if(rq.getMember().getRoleLevel()==3) {
+//            builder.and(program.members.any().id.eq(rq.getMember().getId()));
+//        }
 
         JPAQuery<Program> programQuery = createProgramQuery(builder);
         applySorting(pageable, programQuery);
@@ -40,6 +48,15 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
         JPAQuery<Long> totalQuery = createTotalQuery(builder);
 
         return PageableExecutionUtils.getPage(programQuery.fetch(), pageable, totalQuery::fetchOne);
+    }
+
+    @Override
+    public boolean existsByName(String programName) {
+        return jpaQueryFactory
+                .selectOne()
+                .from(program)
+                .where(program.name.eq(programName))
+                .fetchFirst() != null;
     }
 
     private void applyKeywordFilter(KwTypeV1 kwType, String kw, BooleanBuilder builder) {

@@ -208,7 +208,7 @@
             }
         });
 
-        if (data?.data.resultCode == 1) {
+        if (data?.resultCode == "200") {
             rq.msgAndRedirect(data, undefined, '/adm/menu/schoolClass');
         } else {
             rq.msgError(data?.msg??'오류가 발생했습니다.');
@@ -229,18 +229,18 @@
 
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
+<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학급 개별 생성
 </div>
-<div class="w-full h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-[900px] h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
+<div class="w-[95%] h-screen flex justify-center">
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">기관</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">기관</td>
+                    <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <select name="agency" class="ml-3 p-2" >
@@ -255,8 +255,8 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">학급명</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급명</td>
+                    <td class="border-b p-3">
                         <div id="normalClass">
                         <input name="grade" type="text" placeholder="학년" class="input input-bordered w-[200px] text-center" />
                         <input name="classNo" type="text" placeholder="반" class="input input-bordered w-[200px] text-center" />
@@ -269,8 +269,8 @@
                     </td>
                   </tr>
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">담당자</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당자</td>
+                    <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <input name="member" type="search" placeholder="담당자" class="input input-bordered w-[200px] text-center" 
@@ -299,7 +299,7 @@
                                         {member.name} ({member.username})
                                         <span class="ml-2 cursor-pointer" 
                                         on:click={() => memberInput.splice(memberInput.indexOf(member), 1)}>
-                                            <i class="fa-solid fa-x"></i>
+                                            <i class="fa-regular fa-trash-can text-red-500"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -310,12 +310,12 @@
               </tbody>
             </table>
 
-            <div class="flex flex-row mt-40 justify-between gap-2">
-                <div class="btn btn-block btn-error gap-1 w-[100px]" on:click={() => rq.goTo('/adm/menu/schoolClass')}>
+            <div class="flex flex-row mt-10 mb-10 justify-center gap-2">
+                <button class="btn btn-block btn-outline border-gray-400 gap-1 w-[100px]" type="button" on:click={() => rq.goTo('/adm/menu/schoolClass')}>
                     <span>목록</span>
-                </div>
-                <button class="btn btn-block btn-primary gap-1 w-[100px]" type="submit">
-                    <span>저장</span>
+                </button>
+                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" type="submit">
+                    <span>생성</span>
                 </button>
             </div>
           </div>

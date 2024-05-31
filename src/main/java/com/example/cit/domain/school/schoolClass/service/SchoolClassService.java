@@ -4,15 +4,13 @@ import com.example.cit.domain.member.member.dto.MemberInputListDto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.repository.MemberRepository;
 import com.example.cit.domain.program.program.entity.Program;
-import com.example.cit.domain.school.school.dto.SchoolDto;
-import com.example.cit.domain.school.school.dto.SchoolInputListDto;
-import com.example.cit.domain.school.school.repository.SchoolRepository;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassMultipleDto;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.domain.school.schoolClass.repository.SchoolClassRepository;
-import com.example.cit.standard.base.KwTypeV1;
+import com.example.cit.global.rsData.RsData;
+import com.example.cit.standard.base.Empty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sqids.Sqids;
 
-import java.io.Writer;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,16 +31,13 @@ public class SchoolClassService {
     private final SchoolService schoolService;
 
     @Transactional
-    public SchoolClass createSchoolClass(long agencyId, int grade, int classNo, boolean isSpecial, String specialName, List<Long> members) {
+    public RsData<Empty> createSchoolClass(long agencyId, int grade, int classNo, boolean isSpecial, String specialName, List<Long> members) {
 
         //if schoolClass with same agencyId, same grade, same classNo and schoolClass that isSpecial is false already exists, throw exception
         if (schoolClassRepository.existsBySchoolIdAndGradeAndClassNoAndIsSpecial(agencyId, grade, classNo, isSpecial, specialName )) {
 //            throw new IllegalStateException("SchoolClass with same agencyId, same grade, same classNo and isSpecial is false already exists");
-            return null;
+            return RsData.of("400-2", "이미 존재하는 학급입니다.");
         }
-
-
-
 
         SchoolClass schoolClass = SchoolClass.builder()
                 .school(schoolService.getSchoolById(agencyId))
@@ -58,8 +51,8 @@ public class SchoolClassService {
 
         schoolClassRepository.save(schoolClass);
 
-        System.out.println("==============================");
-        System.out.println("schoolClass.getId() = " + schoolClass.getId());
+//        System.out.println("==============================");
+//        System.out.println("schoolClass.getId() = " + schoolClass.getId());
 
         Sqids sqids=Sqids.builder()
             .alphabet("GOIAHWUJDNVQKPCLSRZBMYXTFE")
@@ -67,38 +60,46 @@ public class SchoolClassService {
             .build();
         String code=sqids.encode(Collections.singletonList(schoolClass.getId())); // "XRKUdQ"
 
-        System.out.println("code = " + code);
-        System.out.println("==============================");
+//        System.out.println("code = " + code);
+//        System.out.println("==============================");
 
         schoolClass.setCode(code);
         schoolClassRepository.save(schoolClass);
 
-        return schoolClass;
+        return RsData.of("200", "학급이 생성되었습니다.");
     }
 
     @Transactional
-    public int createMultipleSchoolClasses(long agencyId, List<SchoolClassMultipleDto> schoolClassMultipleDtos) {
+    public RsData<Empty> createMultipleSchoolClasses(long agencyId, List<SchoolClassMultipleDto> schoolClassMultipleDtos) {
         try {
+            String duplicateMessage = "";
+            List<String> duplicateClasses = new ArrayList<>();
+
             for (SchoolClassMultipleDto schoolClassMultipleDto : schoolClassMultipleDtos) {
                 // schoolClassMultipleDto.getClassNoMultiple()의 스트링을 파싱하여 1-5,6-10 반 생성
                 String[] classNoMultiple = schoolClassMultipleDto.getClassNoMultiple().split(",");
                 for (String classNo : classNoMultiple) {
+                    classNo = classNo.trim();
                     String[] classNoRange = classNo.split("-");
                     for (int i = Integer.parseInt(classNoRange[0]); i <= Integer.parseInt(classNoRange[1]); i++) {
                         List<Long> members = new ArrayList<>();
                         members.add(schoolClassMultipleDto.getMemberId());
-                        SchoolClass schoolClass = createSchoolClass(agencyId, schoolClassMultipleDto.getGrade(), i, false, "", members);
-                        if (schoolClass == null) {
-                            return -1;
+                        RsData<Empty> result = createSchoolClass(agencyId, schoolClassMultipleDto.getGrade(), i, false, "", members);
+                        if (result.getResultCode().equals("400-2")) {
+                            duplicateClasses.add(schoolClassMultipleDto.getGrade() + "학년 " + i + "반");
                         }
                     }
                 }
             }
 
-            return 1;
+            if(duplicateClasses.size() > 0) {
+                duplicateMessage = " 이미 존재하는 학급이 있습니다. (" + String.join(", ", duplicateClasses) + ")";
+            }
+
+            return RsData.of("200", "학급이 일괄 생성되었습니다."+duplicateMessage);
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return RsData.of("400", "학급 생성 중 오류가 발생했습니다.");
         }
     }
 
@@ -187,7 +188,7 @@ public class SchoolClassService {
         return schoolClassRepository.findById(id).orElseThrow();
     }
 
-    public List<SchoolClass> findBySchoolList(List<School> schools) {
-        return schoolClassRepository.findBySchoolsIn(schools);
+    public List<SchoolClass> findBySchoolList(List<SchoolClass> schoolClasses) {
+        return schoolClassRepository.findBySchoolsIn(schoolClasses);
     }
 }

@@ -11,6 +11,8 @@ import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.school.repository.SchoolRepository;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
+import com.example.cit.global.rsData.RsData;
+import com.example.cit.standard.base.Empty;
 import com.example.cit.standard.base.KwTypeV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.MergedAnnotation;
@@ -73,10 +75,10 @@ public class ProgramService {
     }
 
     @Transactional
-    public Program modifyProgram(Long id, String name, LocalDate startDate, LocalDate endDate, String city, String administrativeDistrict, List<SchoolInputListDto> schools, List<MemberInputListDto> members) {
+    public Program modifyProgram(Long id, /*String name, */ LocalDate startDate, LocalDate endDate, String city, String administrativeDistrict, List<SchoolInputListDto> schools, List<MemberInputListDto> members) {
         Program program = programRepository.findById(id).orElseThrow();
 
-        program.setName(name);
+//        program.setName(name);
         program.setStartDate(startDate);
         program.setEndDate(endDate);
         program.setCity(city);
@@ -195,4 +197,17 @@ public class ProgramService {
         return programRepository.findById(id).orElseThrow();
     }
 
+    public List<Program> removeProgramsByMemberId(long memberId) {
+        List<Program> programs = programRepository.findAllByMembers_Id(memberId);
+        programs.forEach(program -> program.getMembers().removeIf(member -> member.getId() == memberId));
+        programRepository.saveAll(programs);
+        return programs;
+    }
+
+    public RsData<Empty> duplicate(String programName) {
+        if (programRepository.existsByName(programName)) {
+            return RsData.of("400-2","이미 존재하는 프로그램명입니다.");
+        }
+        return RsData.of("200", "사용 가능한 프로그램명입니다.");
+    }
 }

@@ -6,6 +6,8 @@ import com.example.cit.domain.program.program.dto.ProgramInputDto;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassDto;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassInputDto;
+import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,11 +53,19 @@ public class MemberDto {
     @NonNull
     private List<SchoolInputListDto> schools;
     @NonNull
+    private String schoolClassName;
+    @NonNull
+    private List<SchoolClassInputDto> schoolClasses;
+    @NonNull
     private String studentPassword;
     @NonNull
     private String studentNickName;
     @NonNull
     private String studentClass;
+    @NonNull
+    private String studentClassSchool;
+    @NonNull
+    private String studentClassCode;
 
     public MemberDto(Member member) {
         this.id = member.getId();
@@ -84,9 +94,18 @@ public class MemberDto {
         this.schools = member.getSchools().stream()
                 .map(SchoolInputListDto::new)
                 .toList();
+        this.schoolClassName = member.getSchoolClasses().stream()
+                .map(SchoolClassDto::new)
+                .map(SchoolClassDto::getClassName)
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("");
+        this.schoolClasses = member.getSchoolClasses().stream()
+                .map(SchoolClassInputDto::new)
+                .toList();
         this.studentPassword = member.getPassword();
         this.studentNickName = member.getPlayer().getNickname();
         this.studentClass = member.getStudentClass() == null ? "" : new SchoolClassDto(member.getStudentClass()).getClassName();
-
+        this.studentClassSchool = member.getStudentClass() == null ? "" : member.getStudentClass().getSchool().getSchoolName();
+        this.studentClassCode = member.getStudentClass() == null ? "" : member.getStudentClass().getCode();
     }
 }

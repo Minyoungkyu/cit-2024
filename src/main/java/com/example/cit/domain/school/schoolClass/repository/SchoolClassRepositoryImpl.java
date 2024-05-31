@@ -22,6 +22,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.util.Collection;
 import java.util.List;
 
+import static com.example.cit.domain.member.member.entity.QMember.member;
 import static com.example.cit.domain.school.school.entity.QSchool.school;
 import static com.example.cit.domain.school.schoolClass.entity.QSchoolClass.schoolClass;
 
@@ -87,12 +88,12 @@ public class SchoolClassRepositoryImpl implements SchoolClassRepositoryCustom {
     }
 
     @Override
-    public List<SchoolClass> findBySchoolsIn(List<School> schools) {
+    public List<SchoolClass> findBySchoolsIn(List<SchoolClass> schoolClasses) {
         return jpaQueryFactory
-                .select(schoolClass)
-                .from(schoolClass)
-                .where(schoolClass.school.in(schools))
-                .fetch();
+            .select(schoolClass)
+            .from(schoolClass)
+            .where(schoolClass.in(schoolClasses))
+            .fetch();
     }
 
     private void applyKeywordFilter(String kwType, String kw, BooleanBuilder builder) {
@@ -100,8 +101,8 @@ public class SchoolClassRepositoryImpl implements SchoolClassRepositoryCustom {
 
         switch (kwType) {
             case "학교명" -> builder.and(school.schoolName.containsIgnoreCase(kw));
-            case "학년" -> builder.and(schoolClass.grade.eq(Integer.parseInt(kw)));
-            case "반" -> builder.and(schoolClass.classNo.eq(Integer.parseInt(kw)));
+            case "학년" -> builder.and(schoolClass.grade.eq(Integer.parseInt(kw))).and(schoolClass.isSpecial.eq(false));
+            case "반" -> builder.and(schoolClass.classNo.eq(Integer.parseInt(kw))).and(schoolClass.isSpecial.eq(false));
             case "특수반명" -> builder.and(schoolClass.specialName.containsIgnoreCase(kw)).and(schoolClass.isSpecial.eq(true));
             case "학급코드" -> builder.and(schoolClass.code.containsIgnoreCase(kw));
             case "담당자" -> builder.and(

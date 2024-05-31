@@ -237,7 +237,7 @@
 
         const { data, error } = await rq.apiEndPoints().POST('/api/v1/school/class/multiple', {
             body: {
-                agencyId: agencyInput.id,
+                agencyId: agencyInput.id!,
                 rows: get(subTableRows).map(row => {
                     return {
                         id: row.id,
@@ -249,7 +249,7 @@
             }
         });
 
-        if (data?.data.resultCode == 1) {
+        if (data?.resultCode == "200") {
             rq.msgAndRedirect(data, undefined, '/adm/menu/schoolClass');
         } else {
             rq.msgError(data?.msg??'오류가 발생했습니다.');
@@ -257,26 +257,31 @@
     }
 
     function validateClassNo(classNo: string) {
-    // 정규식으로 형식 검사
-    const pattern = /^(\d+-\d+,)*(\d+-\d+)$/;
-    if (!pattern.test(classNo)) {
-        return false;
-    }
-
-    // 쉼표로 구분하여 각 범위를 분리
-    const ranges = classNo.split(',');
-
-    // 각 범위를 검사
-    for (const range of ranges) {
-        const [left, right] = range.split('-').map(Number);
-
-        // 범위의 오른쪽 숫자가 왼쪽 숫자보다 큰지 검사
-        if (right <= left) {
-        return false;
+        // 정규식으로 형식 검사
+        const pattern = /^(\d+-\d+,)*(\d+-\d+)$/;
+        if (!pattern.test(classNo)) {
+            return false;
         }
+
+        // 쉼표로 구분하여 각 범위를 분리
+        const ranges = classNo.split(',');
+
+        // 각 범위를 검사
+        for (const range of ranges) {
+            const [left, right] = range.split('-').map(Number);
+
+            // 범위의 오른쪽 숫자가 왼쪽 숫자보다 큰지 검사
+            if (right <= left) {
+            return false;
+            }
+        }
+
+        return true;
     }
 
-    return true;
+    function validateInput(event: any) {
+        // 숫자, "-", "," 만 입력 가능
+        event.target.value = event.target.value.replace(/[^0-9,-]/g, '');
     }
 
     function isSpecialClick(){
@@ -344,18 +349,18 @@
 
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
+<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학급 일괄 생성
 </div>
-<div class="w-full h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-[900px] h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
+<div class="w-[95%] h-screen flex justify-center">
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 
                 <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">기관</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">기관</td>
+                    <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <select name="agency" class="ml-3 p-2"  >
@@ -370,8 +375,8 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="border-2 p-1 text-center font-bold text-[15px] w-[200px]">학급명</td>
-                    <td class="border-2 p-1">
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급명</td>
+                    <td class="border-b p-3">
                         
                        <!-- 서브 테이블 -->
         <table class="sub-table">
@@ -387,9 +392,9 @@
               {#each $subTableRows as row, index (row.id)}
                 <tr>
                   <td>
-                    <input type="text" bind:value={row.grade} />
+                    <input type="number" bind:value={row.grade} />
                   </td>
-                  <td><input type="text" bind:value={row.classNoMultiple} /></td>
+                  <td><input type="text" bind:value={row.classNoMultiple} on:input={validateInput}/></td>
                   <td>
                     <select bind:value={row.memberId} >
                       <option value="-1" >선택</option>
@@ -400,25 +405,25 @@
                   </td>
                   <td>
                     {#if index !== 0}
-                    <button type="button" on:click={() => deleteSubTableRow(row.id)}>삭제</button>
+                    <button type="button" on:click={() => deleteSubTableRow(row.id)}><i class="fa-regular fa-trash-can text-red-500"></i></button>
                     {/if}
                   </td>
                 </tr>
               {/each}
             </tbody>
           </table>
-          <button type="button" on:click={addSubTableRow}>추가</button>
+          <button type="button" class="btn btn-outline btn-primary btn-sm mt-3" on:click={addSubTableRow}><i class="fa-solid fa-plus"></i>학년 추가</button>
                     </td>
                   </tr>
                 
               </tbody>
             </table>
 
-            <div class="flex flex-row mt-40 justify-between gap-2">
-                <div class="btn btn-block btn-error gap-1 w-[100px]" on:click={() => rq.goTo('/adm/menu/schoolClass')}>
+            <div class="flex flex-row mt-10 mb-10 justify-center gap-2">
+                <button class="btn btn-block btn-outline border-gray-400 gap-1 w-[100px]" type="button" on:click={() => rq.goTo('/adm/menu/schoolClass')}>
                     <span>목록</span>
-                </div>
-                <button class="btn btn-block btn-primary gap-1 w-[100px]" type="submit">
+                </button>
+                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" type="submit">
                     <span>일괄 생성</span>
                 </button>
             </div>

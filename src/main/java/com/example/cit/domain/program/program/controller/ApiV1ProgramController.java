@@ -143,7 +143,7 @@ public class ApiV1ProgramController {
 
     public record ModifyProgramRequestBody(
             @NonNull Long id,
-            @NonNull String name,
+//            @NonNull String name,
             @NonNull LocalDate startDate,
             @NonNull LocalDate endDate,
             @NonNull String region,
@@ -166,7 +166,7 @@ public class ApiV1ProgramController {
                         new ProgramDto(
                                 programService.modifyProgram(
                                         body.id,
-                                        body.name(),
+//                                        body.name(),
                                         body.startDate(),
                                         body.endDate(),
                                         body.region(),
@@ -276,6 +276,16 @@ public class ApiV1ProgramController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(bytes);
+    }
+
+    public record DuplicateRequestBody(@NonNull String programName) {}
+    @PostMapping("/duplicate")
+    @Operation(summary = "사업명 중복 확인")
+    @Transactional
+    public RsData<Empty> duplicate(
+            @Valid @RequestBody DuplicateRequestBody body
+    ) {
+        return programService.duplicate(body.programName);
     }
 
 }

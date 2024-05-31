@@ -16,10 +16,12 @@ import com.example.cit.domain.program.program.repository.ProgramRepository;
 import com.example.cit.domain.program.program.service.ProgramService;
 import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.school.service.SchoolService;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassInputDto;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.global.security.SecurityUser;
+import com.example.cit.standard.base.Empty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,11 +32,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sqids.Sqids;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.example.cit.domain.school.schoolClass.entity.QSchoolClass.schoolClass;
 
 @Service
 @RequiredArgsConstructor
@@ -165,7 +166,7 @@ public class MemberService {
     }
 
     @Transactional
-    public RsData<Member> joinClassAdmin(String username, String password, String name, String cellphoneNo, List<SchoolInputListDto> schools, int roleLevel) {
+    public RsData<Empty> joinClassAdmin(String username, String password, String name, String cellphoneNo, List<SchoolClassInputDto> schoolClasses, int roleLevel) {
         if (findByUsername(username).isPresent()) {
             return RsData.of("400-2", "이미 존재하는 아이디입니다.");
         }
@@ -178,9 +179,9 @@ public class MemberService {
                 .cellphoneNo(cellphoneNo)
                 .roleLevel(roleLevel)
 
-                .schools(
-                        schools.stream()
-                                .map(school_ -> schoolService.getSchoolById(school_.id()))
+                .schoolClasses(
+                        schoolClasses.stream()
+                                .map(schoolClass_ -> schoolService.getSchoolClassById(schoolClass_.getId()))
                                 .collect(Collectors.toList())
                 )
                 .build();
@@ -203,25 +204,27 @@ public class MemberService {
 
         playerLogService.setFirstGame(member);
 
-        return RsData.of("회원가입이 완료되었습니다.".formatted(member.getUsername()), member);
+        return RsData.of("200","학급 관리자가 생성되었습니다.");
     }
 
-    public RsData<Member> joinStudent(long schoolClassId, int studentYear, int studentNumber, String password) {
-        SchoolClass schoolClass = schoolService.getSchoolClassById(schoolClassId);
-        String yearLastTwo = String.valueOf(studentYear).substring(2);
-        String formattedNumber = String.format("%03d", studentNumber);
-        String username = "%s%s%s".formatted(schoolClass.getCode(), yearLastTwo, formattedNumber);
+    public RsData<Empty> joinStudent(String schoolClassCode, int studentYear, int studentNumber, String username, String password, String nickname) {
+        SchoolClass schoolClass = schoolService.getSchoolClassByCode(schoolClassCode);
+//        String yearLastTwo = String.valueOf(studentYear).substring(2);
+//        String formattedNumber = String.format("%03d", studentNumber);
+//        String username = "%s%s%s".formatted(schoolClass.getCode(), yearLastTwo, formattedNumber);
 
         if (findByUsername(username).isPresent()) {
             return RsData.of("400-2", "이미 존재하는 아이디입니다.");
         }
 
         Member member = Member.builder()
+                .studentClass(schoolClass)
+                .studentYear(studentYear)
+                .studentNumber(studentNumber)
                 .username(username)
                 .password(password)
                 .refreshToken(authTokenService.genRefreshToken())
                 .roleLevel(1)
-                .studentClass(schoolClass)
                 .build();
 
 //        schools.stream()
@@ -234,7 +237,7 @@ public class MemberService {
                 Player
                         .builder()
                         .member(member)
-                        .nickname("")
+                        .nickname(nickname)
                         .exp(0)
                         .gems(0)
                         .build()
@@ -242,7 +245,42 @@ public class MemberService {
 
         playerLogService.setFirstGame(member);
 
-        return RsData.of("회원가입이 완료되었습니다.".formatted(member.getUsername()), member);
+        return RsData.of("200","학생 생성이 완료되었습니다.");
+    }
+
+    public RsData<Empty> joinStudentMultiple(String schoolClassCode, int studentYear, String studentNumberMultiple_) {
+        try {
+            String duplicateMessage = "";
+            List<String> duplicateUserName = new ArrayList<>();
+
+            String[] studentNumberMultiple = studentNumberMultiple_.split(",");
+            for (String studentNumber : studentNumberMultiple) {
+                studentNumber = studentNumber.trim();
+                String[] studentNumberRange = studentNumber.split("-");
+                for (int i = Integer.parseInt(studentNumberRange[0]); i <= Integer.parseInt(studentNumberRange[1]); i++) {
+                    String yearLastTwo = String.valueOf(studentYear).substring(2);
+                    String formattedNumber = String.format("%03d", i);
+                    String username = "%s%s%s".formatted(schoolClassCode, yearLastTwo, formattedNumber);
+                    // create password string random 4-digit number
+                    String password = String.valueOf((int) (Math.random() * 9000) + 1000);
+                    RsData<Empty> result = joinStudent(schoolClassCode, studentYear, i, username, password, "");
+                    if (result.getResultCode().equals("400-2")) {
+                        duplicateUserName.add(username);
+//                        return RsData.of("400-2", "학생 일괄 생성에 실패하였습니다. 이미 존재하는 학생 번호가 포함되어 있습니다.");
+                    }
+                }
+            }
+
+            if(duplicateUserName.size() > 0) {
+                duplicateMessage = "이미 존재하는 학생 아이디가 포함되어 있습니다. (" + String.join(", ",duplicateUserName) +")";
+            }
+
+            return RsData.of("200","학생 일괄 생성이 완료되었습니다. "+duplicateMessage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return RsData.of("400-1", "학생 일괄 생성에 실패하였습니다.");
+        }
     }
 
     private String encodePasswordForAdmin(int roleLevel, String password) {
@@ -344,6 +382,10 @@ public class MemberService {
 
     public List<MemberInputListDto> getProgramMembers() {
         return memberRepository.findByRoleLevelGreaterThanEqual(3);
+    }
+
+    public List<MemberInputListDto> getClassMembers() {
+        return memberRepository.findByRoleLevel(2).stream().map(MemberInputListDto::new).toList();
     }
 
     public boolean duplicate(String username) {
@@ -488,6 +530,7 @@ public class MemberService {
         member.setPosition(body.position());
         member.setExtensionNo(body.extensionNo());
 
+        programService.removeProgramsByMemberId(member.getId());
         body.programs().stream()
                 .map(program_ -> programService.getProgramById(program_.getId()))
                 .forEach(program -> program.getMembers().add(member));
@@ -498,7 +541,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member modifyClassAdminMember(ApiV1MemberController.ModifyClassAdminRequestBody body) {
+    public RsData<Empty> modifyClassAdminMember(ApiV1MemberController.ModifyClassAdminRequestBody body) {
         Member member = memberRepository.findById(body.id()).orElseThrow();
 
 //        if (memberRepository.existsBySchoolIdAndGradeAndClassNoAndIsSpecial(member.getSchool().getId(), grade, classNo, isSpecial, specialName )) {
@@ -511,16 +554,22 @@ public class MemberService {
         member.setName(body.name());
         member.setCellphoneNo(body.cellphoneNo());
 
-        body.schools().stream()
-                .map(school_ -> schoolService.getSchoolById(school_.id()))
-                .forEach(school_ -> member.getSchools().add(school_));
+        member.getSchoolClasses().clear();
+        body.schoolClasses().stream()
+                .map(schoolClass_ -> schoolService.getSchoolClassById(schoolClass_.getId()))
+                .forEach(schoolClass ->
+                        member.getSchoolClasses().add(schoolClass));
+
+//        body.schools().stream()
+//                .map(school_ -> schoolService.getSchoolById(school_.id()))
+//                .forEach(school_ -> member.getSchools().add(school_));
 
         memberRepository.save(member);
 
-        return member;
+        return RsData.of("200","학급 관리자 정보가 수정되었습니다.");
     }
 
-    public Member modifyStudentMember(ApiV1MemberController.ModifyStudentRequestBody body) {
+    public RsData<Empty> modifyStudentMember(ApiV1MemberController.ModifyStudentRequestBody body) {
         Member member = memberRepository.findById(body.id()).orElseThrow();
 
 //        if (memberRepository.existsBySchoolIdAndGradeAndClassNoAndIsSpecial(member.getSchool().getId(), grade, classNo, isSpecial, specialName )) {
@@ -531,9 +580,11 @@ public class MemberService {
         if(body.password() != null && !body.password().isEmpty())
             member.setPassword(body.password());
 
+        member.getPlayer().setNickname(body.nickname());
+
         memberRepository.save(member);
 
-        return member;
+        return RsData.of("200","학생 정보가 수정되었습니다.");
     }
 
     @Transactional

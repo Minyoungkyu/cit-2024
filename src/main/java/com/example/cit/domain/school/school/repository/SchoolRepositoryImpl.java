@@ -66,6 +66,14 @@ public class SchoolRepositoryImpl implements SchoolRepositoryCustom {
                 .fetchOne();
     }
 
+    @Override
+    public SchoolClass findSchoolClassByCode(String schoolClassCode) {
+        return jpaQueryFactory
+                .selectFrom(schoolClass)
+                .where(schoolClass.code.eq(schoolClassCode))
+                .fetchOne();
+    }
+
     private void applyKeywordFilter(KwTypeV1 kwType, String kw, BooleanBuilder builder) {
         QMember member = QMember.member;
 
