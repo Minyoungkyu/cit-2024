@@ -5,6 +5,7 @@ import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.repository.MemberRepository;
 import com.example.cit.domain.member.member.service.MemberService;
 import com.example.cit.domain.program.program.dto.ProgramDto;
+import com.example.cit.domain.program.program.dto.ProgramProgressDto;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.program.program.repository.ProgramRepository;
 import com.example.cit.domain.school.school.dto.SchoolInputListDto;
@@ -169,6 +170,10 @@ public class ProgramService {
         programRepository.save(program);
 
         return program;
+    }
+
+    public List<ProgramProgressDto> getProgressRate(Member member) {
+        return programRepository.findProgramProgress(member);
     }
 
     @Transactional

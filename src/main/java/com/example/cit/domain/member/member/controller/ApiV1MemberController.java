@@ -1,6 +1,7 @@
 package com.example.cit.domain.member.member.controller;
 
 import com.example.cit.domain.member.member.dto.MemberInputListDto;
+import com.example.cit.domain.member.member.dto.MemberMeDto;
 import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
 import com.example.cit.domain.member.member.dto.MemberDto;
 import com.example.cit.domain.member.member.entity.Member;
@@ -46,6 +47,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -118,7 +120,7 @@ public class ApiV1MemberController {
         );
     }
 
-    public record MeResponseBody(@NonNull MemberDto item) {}
+    public record MeResponseBody(@NonNull MemberMeDto item) {}
 
     @GetMapping(value = "/me", consumes = ALL_VALUE)
     @Operation(summary = "내 정보")
@@ -126,7 +128,7 @@ public class ApiV1MemberController {
     public RsData<MeResponseBody> getMe() {
         return RsData.of(
                 new MeResponseBody(
-                        new MemberDto(rq.getMember())
+                        new MemberMeDto(rq.getMember())
                 )
         );
     }
@@ -228,11 +230,11 @@ public class ApiV1MemberController {
     @Operation(summary = "테스트")
     @SecurityRequirement(name = "bearerAuth")
     public RsData<IdListTestResponseBody> test() {
-        return RsData.of(
-                new IdListTestResponseBody(
-                        rq.getMember().getIdList()
-                )
-        );
+        List<Long> unLockMapIds = Optional.ofNullable(rq.getMember().getStudentClass())
+                .map(SchoolClass::getUnLockMapIds)
+                .orElse(Collections.emptyList());
+
+        return RsData.of(new IdListTestResponseBody(unLockMapIds));
     }
     public record GetSystemAdminResponseBody(@NonNull PageDto<MemberDto> itemPage) {}
 

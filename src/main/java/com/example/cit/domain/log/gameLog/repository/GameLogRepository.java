@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface GameLogRepository extends JpaRepository<GameLog, Long> {
+public interface GameLogRepository extends JpaRepository<GameLog, Long>, GameLogCustom {
     Optional<GameLog> findByLogTypeAndUserIdAndGameMapIdAndClearCountLog_Result(String logType, Long userId, long gameMapId, int result);
 
     Optional<GameLog> findGameLogByLogTypeAndUserId(String logType, Long userId);

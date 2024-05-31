@@ -1,5 +1,6 @@
 package com.example.cit.domain.school.schoolClass.repository;
 
+import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.entity.QMember;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.entity.School;
@@ -32,19 +33,21 @@ public class SchoolClassRepositoryImpl implements SchoolClassRepositoryCustom {
     private final EntityManager entityManager;
 
     @Override
-    public Page<SchoolClass> findByKw(String kwType, String kw, Pageable pageable) {
+    public Page<SchoolClass> findByKw(String kwType, String kw, Pageable pageable, Member member) {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (kw != null && !kw.isBlank()) {
             applyKeywordFilter(kwType, kw, builder);
         }
 
-        JPAQuery<SchoolClass> programQuery = createSchoolQuery(builder);
+        int roleLevel = member.getRoleLevel();
+
+        JPAQuery<SchoolClass> programQuery = createSchoolQuery(builder, member, roleLevel);
         applySorting(pageable, programQuery);
 
         programQuery.offset(pageable.getOffset()).limit(pageable.getPageSize());
 
-        JPAQuery<Long> totalQuery = createTotalQuery(builder);
+        JPAQuery<Long> totalQuery = createTotalQuery(builder, member, roleLevel);
 
         return PageableExecutionUtils.getPage(programQuery.fetch(), pageable, totalQuery::fetchOne);
     }
@@ -120,10 +123,11 @@ public class SchoolClassRepositoryImpl implements SchoolClassRepositoryCustom {
         }
     }
 
-    private JPAQuery<SchoolClass> createSchoolQuery(BooleanBuilder builder) {
+    private JPAQuery<SchoolClass> createSchoolQuery(BooleanBuilder builder, Member member, int roleLevel) {
         return jpaQueryFactory
                 .select(schoolClass)
                 .from(schoolClass)
+                .where(getRoleLevelCondition(member, roleLevel))
                 .where(builder);
     }
 
@@ -134,10 +138,31 @@ public class SchoolClassRepositoryImpl implements SchoolClassRepositoryCustom {
         }
     }
 
-    private JPAQuery<Long> createTotalQuery(BooleanBuilder builder) {
+    private JPAQuery<Long> createTotalQuery(BooleanBuilder builder, Member member, int roleLevel) {
         return jpaQueryFactory
                 .select(schoolClass.count())
                 .from(schoolClass)
+                .where(getRoleLevelCondition(member, roleLevel))
                 .where(builder);
+    }
+
+    private BooleanBuilder getRoleLevelCondition(Member member, int roleLevel) {
+        BooleanBuilder roleLevelCondition = new BooleanBuilder();
+
+        switch (roleLevel) {
+            case 3:
+                List<Program> programs = member.getPrograms();
+                roleLevelCondition.and(schoolClass.school.programs.any().in(programs));
+                break;
+            case 2:
+                List<SchoolClass> schoolClasses = member.getSchoolClasses();
+
+                roleLevelCondition.and(schoolClass.in(schoolClasses));
+                break;
+            default:
+                break;
+        }
+
+        return roleLevelCondition;
     }
 }

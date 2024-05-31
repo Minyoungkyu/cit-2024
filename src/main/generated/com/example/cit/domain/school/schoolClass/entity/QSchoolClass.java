@@ -51,6 +51,8 @@ public class QSchoolClass extends EntityPathBase<SchoolClass> {
 
     public final SetPath<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember> students = this.<com.example.cit.domain.member.member.entity.Member, com.example.cit.domain.member.member.entity.QMember>createSet("students", com.example.cit.domain.member.member.entity.Member.class, com.example.cit.domain.member.member.entity.QMember.class, PathInits.DIRECT2);
 
+    public final ListPath<Long, NumberPath<Long>> unLockMapIds = this.<Long, NumberPath<Long>>createList("unLockMapIds", Long.class, NumberPath.class, PathInits.DIRECT2);
+
     public QSchoolClass(String variable) {
         this(SchoolClass.class, forVariable(variable), INITS);
     }

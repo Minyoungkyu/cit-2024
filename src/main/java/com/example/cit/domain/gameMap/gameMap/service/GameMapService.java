@@ -8,6 +8,7 @@ import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.log.log.service.PlayerLogService;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rq.Rq;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,11 +71,15 @@ public class GameMapService {
         GameMap gameMap = gameMapRepository.findById(gameMapId)
                 .orElseThrow(() -> new GlobalException("404-1", "잘못된 접근입니다."));
 
+        List<Long> unLockMapIds = Optional.ofNullable(member.getStudentClass())
+                .map(SchoolClass::getUnLockMapIds)
+                .orElse(Collections.emptyList());
+
         playerLogRepository.findByUserIdAndGameMapIdAndLogType(member.getId(), gameMapId, "STAGECLEAR")
                 .ifPresentOrElse(
                         log -> {},
                         () -> {
-                            if (!rq.getMember().getIdList().contains(gameMapId)) {
+                            if (!unLockMapIds.contains(gameMapId)) {
                                 throw new GlobalException("403-1", "잘못된 접근입니다.");
                             } else {
                                 PlayerLog playerLog = PlayerLog.builder()

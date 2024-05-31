@@ -153,4 +153,9 @@ public class SchoolService {
     public SchoolClass getSchoolClassByCode(String schoolClassCode) {
         return schoolRepository.findSchoolClassByCode(schoolClassCode);
     }
+
+    public List<SchoolInputListDto> getSchoolsByPrograms(Long programId) {
+        if (programId == 0) return this.getSchools();
+        else return schoolRepository.findByPrograms_Id(programId);
+    }
 }

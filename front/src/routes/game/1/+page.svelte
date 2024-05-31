@@ -316,9 +316,11 @@
                 <div class="{topMenuArray[3] ? '' : 'btn_challenge'} cursor-pointer" 
                     style="background-image:{topMenuArray[3] ? 'url("/img/map/btn_challenge_off.png");width:160px;height:160px;' : 'url("/img/map/btn_challenge_on.png");width:134px;height:134px;' }
                     transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(3)}></div>
+                {#if rq.member.authorities.length == 1}
                 <div class="{topMenuArray[4] ? '' : 'btn_rank'} cursor-pointer" 
                     style="background-image:{topMenuArray[4] ? 'url("/img/map/btn_ranking_off.png");width:160px;height:160px;' : 'url("/img/map/btn_ranking_on.png");width:134px;height:134px;' }
                     transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(4)}></div>
+                {/if}
             </div>
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black;pointer-events:none;">{topMenuArrayText[currentMenuIndex]}</div>
         </div>

@@ -32,11 +32,24 @@
 
     // let shopGemsModalOpen = $state(false);
 
+    //// test
+    let ress: number[] | undefined = $state([])
+
+    rq.test().then((res) => {
+        ress = res;
+    });
+
+    function isUnLock(stageId: number) {
+        return ress?.some(num => num >= stageId && num < stageId + 9);
+    }
+    /////
+
     const { data } = $props<{ data: { playerLogList: components['schemas']['PlayerLogDto'][] } }>();
     const { playerLogList } = data;
 
-    const clearedgameMapIds = playerLogList.map(log => log.gameMapId);
-    const highestClearedgameMapId = Math.max(...clearedgameMapIds);
+    const gameMapIds = playerLogList.map(log => log.gameMapId);
+    const clearedgameMapIds = playerLogList.filter(log => log.detailInt! >= 1).map(log => log.gameMapId);
+    const highestClearedgameMapId = Math.max(...gameMapIds);
 
     const difficultySelectorMsgs = [ // 셀렉터 메시지
         '새로운 행성\n\n새로운 행성에 성공적으로 착륙했습니다.\n우주복을 착용하고 이 미지의 행성을 탐사하세요.\n복잡한 암호를 해독하여\n행성의 비밀을 밝혀내는 것이 당신의 임무입니다.',
@@ -66,9 +79,12 @@
     }
 
     function isOpen(stageId: number) { // 스테이지 해금 여부 확인 함수
-            if (stageId === 58) { // 미니게임 맵 id
-                return clearedgameMapIds.includes(51); // map-3 Easy Level 3 맵의 id
-            }
+        if (stageId === 58) { // 미니게임 맵 id
+            return clearedgameMapIds.includes(58); // map-3 Easy Level 3 맵의 id
+        }
+
+        return gameMapIds.some(id => id >= stageId && id < stageId + 9);
+
         return clearedgameMapIds.includes(stageId) || clearedgameMapIds.includes(stageNeedIds[stageStartIds.indexOf(stageId)]);
     }
 
@@ -115,6 +131,28 @@
     let adjustResolution = $state(0);
 
     onMount(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedParam = urlParams.get('err');
+
+        if (encodedParam) {
+            try {
+                const decodedParam = atob(encodedParam); 
+                const match = /^(.*)_(\d+)$/.exec(decodedParam);
+
+                if (match) {
+                const errorMessage = match[1];
+                const errorTimestamp = parseInt(match[2], 10);
+                const currentTime = Date.now();
+
+                if (currentTime - errorTimestamp <= 1000) {
+                    rq.msgError('잘못된 접근입니다.');
+                }
+                }
+            } catch (e) {
+                console.error('Invalid error parameter format:', e);
+            }
+        }
+
         rq.fetchAndInitializeInventories();
         rq.fetchAndInitializeProfileInventories();
 
@@ -430,9 +468,9 @@
             style="width:{185 * scaleMultiplier2}px;height:{161 * scaleMultiplier2}px;background-image:url('/img/map/ui_aim.png');background-size:contain;pointer-events:none;background-repeat:no-repeat;bottom:{highlighterBottom - 3}%;left:{highlighterLeft - 2.5}%;"></div>
 
 
-        {#if isOpen(31)} <!--step 의 easy, 1레벨 맵 아이디-->
+        {#if isOpen(31) || isUnLock(31)} <!--step 의 easy, 1레벨 맵 아이디-->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[15%] left-[25%] cursor-pointer" on:click={() => toggleDropdown(1)} data-gameMapId="31"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(33) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [33,36,39].includes(value)) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
             <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 1</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TWO - ONE</div>
         </div>
@@ -450,10 +488,10 @@
         </div>
         {/if}
 
-        {#if isOpen(40)}
+        {#if isOpen(40) || isUnLock(40)}
         <!-- <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[30%] cursor-pointer" on:click={() => toggleDropdown(2)} data-gameMapId="40"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(42) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [42,45,48].includes(value)) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 2</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TWO - TWO</div>
         </div>
@@ -469,9 +507,9 @@
         </div>
         {/if}
 
-        {#if isOpen(49)}
+        {#if isOpen(49) || isUnLock(49)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[43%] cursor-pointer" on:click={() => toggleDropdown(3)} data-gameMapId="49"
-            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(51) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [51,54,57].includes(value)) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 3</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="">TWO - THREE</div>
         </div>
@@ -488,7 +526,7 @@
         </div>
         {/if}
 
-        {#if isOpen(58)}
+        {#if isOpen(58) || isUnLock(58)}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[75%] left-[50%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="58"
             style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(58) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">2 - 4</div>

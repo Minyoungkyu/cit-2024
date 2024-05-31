@@ -4,6 +4,8 @@ import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
 import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
+import com.example.cit.domain.log.dto.RankingDto;
+import com.example.cit.domain.log.log.dto.LearningProgressDto;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.service.PlayerLogService;
@@ -16,6 +18,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -141,6 +144,38 @@ public class ApiV1PlayerLogController {
         return RsData.of(
                 new SwitchResponseBody(
                         playerLogService.getSwitchLog(rq.getMember().getId(), step, diff)
+                )
+        );
+    }
+
+    public record GetLearningProgressResponseBody(@NonNull List<LearningProgressDto> learningProgressData) {}
+
+    @GetMapping(value = "/learningProgress", consumes = ALL_VALUE)
+    @Operation(summary = "진도관리 데이터 조회")
+    @PreAuthorize("hasRole('CLASSADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GetLearningProgressResponseBody> getLearningProgress(
+            @RequestParam(name = "schoolClassId") @NotNull long schoolClassId,
+            @RequestParam(name = "stageValue") @NotBlank String stageValue
+    ) {
+        return RsData.of(
+                new GetLearningProgressResponseBody(
+                        playerLogService.getLearningProgress(schoolClassId, stageValue)
+                )
+        );
+    }
+
+    public record GetRankingResponseBody(@NonNull List<RankingDto> rankingDtoList) {}
+
+    @GetMapping(value = "/ranking", consumes = ALL_VALUE)
+    @Operation(summary = "랭킹 조회")
+    @PreAuthorize("hasRole('MEMBER')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GetRankingResponseBody> getRanking(
+    ) {
+        return RsData.of(
+                new GetRankingResponseBody(
+                        playerLogService.getRanking(rq.getMember())
                 )
         );
     }
