@@ -24,7 +24,7 @@ class Rq {
   public SITE_NAME: String = "코드이썬";
 
   constructor() {
-    this.initSiteName();
+    // this.initSiteName();
     this.member = this.makeReactivityMember();
     this.inventories = this.makeReactivityInventories();
     this.profileInventories = this.makeReactivityProfileInventories();
@@ -34,13 +34,13 @@ class Rq {
     $effect(fn);
   }
 
-  public async initSiteName() {
-    const { data } = await this.apiEndPoints().GET('/api/v1/envs/siteName');
+  // public async initSiteName() {
+  //   const { data } = await this.apiEndPoints().GET('/api/v1/envs/siteName');
 
-    if (data) {
-      this.SITE_NAME = data!.data.siteName || '코드이썬';
-    }
-  }
+  //   if (data) {
+  //     this.SITE_NAME = data!.data.siteName || '코드이썬';
+  //   }
+  // }
 
   public isAdmin() {
     if (this.isLogout()) return false;
