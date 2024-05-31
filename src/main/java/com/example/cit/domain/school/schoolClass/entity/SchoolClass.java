@@ -37,7 +37,7 @@ public class SchoolClass extends BaseTime {
     @ManyToOne(fetch = LAZY)
     private School school;
 
-    @ManyToMany(fetch = LAZY, mappedBy = "schoolClasses")
+    @ManyToMany(fetch = LAZY)
     @JoinTable(
             name = "schoolClass_member",
             joinColumns = @JoinColumn(name = "school_id"),
