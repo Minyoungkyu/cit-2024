@@ -3,6 +3,7 @@ package com.example.cit.domain.school.schoolClass.entity;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.global.jpa.base.BaseTime;
+import com.example.cit.standard.base.LongListStringConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +38,11 @@ public class SchoolClass extends BaseTime {
     private School school;
 
     @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "schoolClass_member",
+            joinColumns = @JoinColumn(name = "school_id"),
+            inverseJoinColumns = @JoinColumn(name = "member_id")
+    )
     @ToString.Exclude
     @Builder.Default
     private List<Member> members = new ArrayList<>();
@@ -50,4 +56,8 @@ public class SchoolClass extends BaseTime {
     @ToString.Exclude
     @Builder.Default
     private Set<Member> students = new HashSet<>();
+
+    @Convert(converter = LongListStringConverter.class)
+    @Builder.Default
+    private List<Long> unLockMapIds = new ArrayList<>();
 }

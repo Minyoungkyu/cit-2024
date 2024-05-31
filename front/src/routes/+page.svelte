@@ -180,7 +180,7 @@
 
         return;
     }
-
+    
     const { data, error } = await rq.apiEndPoints().PUT('/api/v1/players/{id}/name', {
       params: { path: { id: rq.member.id } },
       body: { nickname: form.nickname.value, characterType: selectType}

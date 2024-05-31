@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface SchoolRepository extends JpaRepository<School, Long>, SchoolRepositoryCustom {
     List<SchoolInputListDto> findAllProjectedBy();
 
+    List<SchoolInputListDto> findByPrograms_Id(Long programId);
+
 //    Optional<School> findByName(String name);
 }

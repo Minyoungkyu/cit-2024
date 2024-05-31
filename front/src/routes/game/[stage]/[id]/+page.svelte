@@ -387,7 +387,6 @@
             }
         }
 
-
         userDevice = detectDeviceType();
 
         function adjustBackgroundContainer() { 

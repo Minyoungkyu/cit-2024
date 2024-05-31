@@ -114,6 +114,21 @@ public class ApiV1SchoolController {
         );
     }
 
+    public record SchoolsByProgramResponseBody(List<SchoolInputListDto> schools) {}
+
+    @GetMapping(value = "/byProgram", consumes = ALL_VALUE)
+    @Operation(summary = "사업으로 학교 조회")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<SchoolsByProgramResponseBody> getSchoolsByPrograms(
+            @RequestParam(name="programId") Long programId
+    ) {
+        return RsData.of(
+                new SchoolsByProgramResponseBody(
+                        schoolService.getSchoolsByPrograms(programId)
+                )
+        );
+    }
+
     public record GetSchoolsResponseBody(@NonNull PageDto<SchoolDto> itemPage) {}
 
     @GetMapping(value = "", consumes = ALL_VALUE)

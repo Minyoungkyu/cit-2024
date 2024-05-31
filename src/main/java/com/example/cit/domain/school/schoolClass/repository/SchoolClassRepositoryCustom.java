@@ -1,5 +1,6 @@
 package com.example.cit.domain.school.schoolClass.repository;
 
+import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
@@ -11,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface SchoolClassRepositoryCustom {
-    Page<SchoolClass> findByKw(String kwType, String kw, Pageable pageable);
+    Page<SchoolClass> findByKw(String kwType, String kw, Pageable pageable, Member member);
 
     boolean existsBySchoolIdAndGradeAndClassNoAndIsSpecial(long agencyId, int grade, int classNo, boolean isSpecial, String specialName);
 

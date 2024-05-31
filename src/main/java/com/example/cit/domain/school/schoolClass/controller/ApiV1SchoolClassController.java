@@ -16,6 +16,7 @@ import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassDto;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassInputDto;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassLearningDto;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassMultipleDto;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.domain.school.schoolClass.service.SchoolClassService;
@@ -79,6 +80,22 @@ public class ApiV1SchoolClassController {
         return RsData.of(
                 new GetSchoolClassDetailResponseBody(
                         new SchoolClassDto(
+                                schoolClassService.getSchoolClassById(id)
+                        )
+                )
+        );
+    }
+
+    public record GetSchoolClassLearningResponseBody(@NonNull SchoolClassLearningDto item) {}
+
+    @GetMapping(value = "/learning/{id}", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "학급 단건 조회")
+    public RsData<GetSchoolClassLearningResponseBody> getSchoolClassLearning(
+            @PathVariable("id") Long id
+    ) {
+        return RsData.of(
+                new GetSchoolClassLearningResponseBody(
+                        new SchoolClassLearningDto(
                                 schoolClassService.getSchoolClassById(id)
                         )
                 )
@@ -362,4 +379,26 @@ public class ApiV1SchoolClassController {
 
         return RsData.of(new SchoolClassInputResponseBody(new ArrayList<>()));
     }
+
+    public record UnLockMapIdsUpdateRequestBody(@NonNull List<Long> unLockList, @NonNull long schoolId) {}
+    public record UnLockMapIdsUpdateResponseBody(@NonNull SchoolClassLearningDto schoolClassLearningDto) {}
+
+    @PutMapping("/update/unLocks")
+    @Operation(summary = "학급 맵 잠금 업데이트")
+    @PreAuthorize("hasRole('CLASSADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<UnLockMapIdsUpdateResponseBody> updateUnLockMapIds(
+            @Valid @RequestBody UnLockMapIdsUpdateRequestBody body
+    ) {
+        return RsData.of(
+                new UnLockMapIdsUpdateResponseBody(
+                        new SchoolClassLearningDto(
+                                schoolClassService.updateUnLockMapIds(body.unLockList, body.schoolId)
+                        )
+                )
+        );
+    }
+
+
 }

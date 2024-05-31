@@ -44,10 +44,6 @@ public class Member extends BaseTime {
     @OneToOne(fetch = LAZY, cascade = ALL)
     private Player player;
 
-    @Convert(converter = LongListStringConverter.class)
-    @Builder.Default
-    private List<Long> idList = new ArrayList<>();
-
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
@@ -65,6 +61,11 @@ public class Member extends BaseTime {
     private List<School> schools = new ArrayList<>();
 
     @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "schoolClass_member",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "school_id")
+    )
     @ToString.Exclude
     @Builder.Default
     private List<SchoolClass> schoolClasses = new ArrayList<>();

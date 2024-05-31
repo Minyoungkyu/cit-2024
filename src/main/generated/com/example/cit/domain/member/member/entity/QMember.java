@@ -38,8 +38,6 @@ public class QMember extends EntityPathBase<Member> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final ListPath<Long, NumberPath<Long>> idList = this.<Long, NumberPath<Long>>createList("idList", Long.class, NumberPath.class, PathInits.DIRECT2);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifyDate = _super.modifyDate;
 

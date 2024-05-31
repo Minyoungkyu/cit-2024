@@ -4,6 +4,8 @@ import com.example.cit.domain.achievement.achievement.entity.Achievement;
 import com.example.cit.domain.achievement.achievement.service.AchievementService;
 import com.example.cit.domain.areaCode.administrativeDistrict.service.AdministrativeDistrictService;
 import com.example.cit.domain.areaCode.region.service.RegionService;
+import com.example.cit.domain.env.env.entity.Env;
+import com.example.cit.domain.env.env.repository.EnvRepository;
 import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
 import com.example.cit.domain.item.profileIcon.service.ProfileService;
 import com.example.cit.domain.member.member.entity.Member;
@@ -32,6 +34,7 @@ public class DevInit2 {
     private final ProfileService profileService;
     private final AchievementService achievementService;
     private final AdministrativeDistrictService administrativeDistrictService;
+    private final EnvRepository envRepository;
 
 
     @Bean
@@ -792,6 +795,16 @@ public class DevInit2 {
                 profileService.setAchievement(icon3, ac3);
                 profileService.setAchievement(icon4, ac4);
                 profileService.setAchievement(icon5, ac5);
+            }
+
+            if ( envRepository.findById(1L).isEmpty() ) {
+
+                Env env = Env.builder()
+                        .SiteName("코드이썬")
+                        .forbiddenWords("")
+                        .build();
+
+                envRepository.save(env);
             }
         };
 

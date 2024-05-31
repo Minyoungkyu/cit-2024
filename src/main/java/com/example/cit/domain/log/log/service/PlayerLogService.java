@@ -4,21 +4,24 @@ import com.example.cit.domain.achievement.playerAchievement.service.PlayerAchiev
 import com.example.cit.domain.gameMap.gameMap.dto.GameMapDto;
 import com.example.cit.domain.gameMap.gameMap.entity.GameMap;
 import com.example.cit.domain.gameMap.gameMap.service.GameMapService;
+import com.example.cit.domain.log.dto.RankingDto;
+import com.example.cit.domain.log.log.dto.LearningProgressDto;
 import com.example.cit.domain.log.log.dto.PlayerLogDto;
 import com.example.cit.domain.log.log.entity.PlayerLog;
 import com.example.cit.domain.log.log.repository.PlayerLogRepository;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.player.player.entity.Player;
 import com.example.cit.domain.player.player.service.PlayerService;
+import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
+import com.example.cit.domain.school.schoolClass.service.SchoolClassService;
+import com.example.cit.global.jpa.base.BaseEntity;
 import com.querydsl.core.group.GroupBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,6 +34,7 @@ public class PlayerLogService {
     private final GameMapService gameMapService;
     private final PlayerAchievementService playerAchievementService;
     private final PlayerService playerService;
+    private final SchoolClassService schoolClassService;
 
     @Transactional
     public void createPlayerLog(String logType, String username, Long userId,
@@ -119,6 +123,10 @@ public class PlayerLogService {
     public List<PlayerLogDto> getSwitchLog(long memberId, String step, String diff) {
         return playerLogRepository.findByUserIdAndGameMapStepAndGameMapDifficulty(memberId, step, diff)
                 .stream().map(PlayerLogDto::new).toList();
+    }
+
+    public List<LearningProgressDto> getLearningProgressByMember(Member member, String stageValue) {
+        return playerLogRepository.getLearningProgressByUser(member.getId(), stageValue, 3, "0");
     }
 
     @Transactional
@@ -307,5 +315,38 @@ public class PlayerLogService {
                 currentGameLog.setDetailInt(0);
             }
         }
+    }
+
+    public List<LearningProgressDto> getLearningProgress(long schoolClassId, String stageValue) {
+        SchoolClass schoolClass = schoolClassService.findById(schoolClassId).orElseThrow(() -> new NoSuchElementException("SchoolClass not found"));
+
+        List<String> stageList = switch (stageValue) {
+            case "1" ->
+                    Arrays.asList("1-1 E", "1-1 N", "1-1 H", "1-2 E", "1-2 N", "1-2 H", "1-3 E", "1-3 N", "1-3 H", "1-4");
+            case "2" ->
+                    Arrays.asList("2-1 E", "2-1 N", "2-1 H", "2-2 E", "2-2 N", "2-2 H", "2-3 E", "2-3 N", "2-3 H", "2-4");
+            case "3" ->
+                    Arrays.asList("3-1 E", "3-1 N", "3-1 H", "3-2 E", "3-2 N", "3-2 H", "3-3 E", "3-3 N", "3-3 H", "3-4 E", "3-4 N", "3-4 H");
+            default -> throw new IllegalArgumentException("Invalid stage value: " + stageValue);
+        };
+
+        List<Long> studentIds = schoolClass.getStudents().stream()
+                .map(BaseEntity::getId)
+                .collect(Collectors.toList());
+
+        List<String> studentNames = schoolClass.getStudents().stream()
+                .map(Member::getUsername)
+                .collect(Collectors.toList());
+
+        return playerLogRepository.getLearningProgress(studentIds, studentNames, stageList);
+    }
+
+    public List<RankingDto> getRanking(Member member) {
+        SchoolClass schoolClass = schoolClassService.findById(member.getStudentClass().getId()).orElseThrow(() -> new NoSuchElementException("SchoolClass not found"));
+        Set<Member> members = schoolClass.getStudents();
+        for (Member m : members) {
+            System.out.println("요기요" + m.getId());
+        }
+        return playerLogRepository.getRankings(schoolClass.getStudents());
     }
 }

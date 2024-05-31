@@ -15,7 +15,7 @@ toastr.options = {
 };
 
 class Rq {
-  public member: components['schemas']['MemberDto'];
+  public member: components['schemas']['MemberMeDto'];
   public inventories: ReturnType<typeof this.makeReactivityInventories>;
   public profileInventories: ReturnType<typeof this.makeReactivityProfileInventories>;
 
@@ -24,6 +24,7 @@ class Rq {
   public SITE_NAME: String = "코드이썬";
 
   constructor() {
+    this.initSiteName();
     this.member = this.makeReactivityMember();
     this.inventories = this.makeReactivityInventories();
     this.profileInventories = this.makeReactivityProfileInventories();
@@ -31,6 +32,14 @@ class Rq {
 
   public effect(fn: () => void) {
     $effect(fn);
+  }
+
+  public async initSiteName() {
+    const { data } = await this.apiEndPoints().GET('/api/v1/envs/siteName');
+
+    if (data) {
+      this.SITE_NAME = data!.data.siteName || '코드이썬';
+    }
   }
 
   public isAdmin() {
@@ -333,7 +342,7 @@ class Rq {
   }
   
 
-  public setLogined(member: components['schemas']['MemberDto']) {
+  public setLogined(member: components['schemas']['MemberMeDto']) {
     Object.assign(this.member, member);
   }
 

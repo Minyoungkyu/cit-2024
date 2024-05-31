@@ -8,6 +8,7 @@ import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.program.program.dto.ProgramDetailDto;
 import com.example.cit.domain.program.program.dto.ProgramDto;
 import com.example.cit.domain.program.program.dto.ProgramInputDto;
+import com.example.cit.domain.program.program.dto.ProgramProgressDto;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.program.program.service.ProgramService;
 import com.example.cit.domain.school.school.controller.ApiV1SchoolController;
@@ -209,6 +210,20 @@ public class ApiV1ProgramController {
         ));
     }
 
+    public record GetProgressRateResponseBody(@NonNull List<ProgramProgressDto> progressRateList) {}
+
+    @GetMapping(value = "/progressRate", consumes = ALL_VALUE)
+    @Operation(summary = "사업 진행률 조회")
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GetProgressRateResponseBody> getProgressRate() {
+        return RsData.of(
+                new GetProgressRateResponseBody(
+                        programService.getProgressRate(rq.getMember())
+                )
+        );
+    }
+
     @GetMapping(value="/download/csv", consumes = MimeTypeUtils.ALL_VALUE, produces = MimeTypeUtils.ALL_VALUE)
     @Operation(summary = "사업 엑셀 다운로드")
     @Transactional
@@ -277,5 +292,4 @@ public class ApiV1ProgramController {
                 .headers(headers)
                 .body(bytes);
     }
-
 }

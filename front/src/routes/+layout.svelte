@@ -1,5 +1,7 @@
 <svelte:head>
   <link rel="icon" href="/favicon.png" />
+
+  <title>{rq.initSiteName()}</title>
 </svelte:head>
 
 <script  lang="ts">

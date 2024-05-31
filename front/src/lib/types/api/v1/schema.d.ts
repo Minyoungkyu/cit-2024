@@ -13,6 +13,10 @@ export interface paths {
     /** 기관 수정 */
     put: operations["instituteModify"];
   };
+  "/api/v1/school/class/update/unLocks": {
+    /** 학급 맵 잠금 업데이트 */
+    put: operations["updateUnLockMapIds"];
+  };
   "/api/v1/school/class/modify": {
     /** 학급 수정 */
     put: operations["modify_1"];
@@ -56,6 +60,18 @@ export interface paths {
   "/api/v1/inventory/update/inventory": {
     /** 플레이어 인벤토리 업데이트 */
     put: operations["updateInventory"];
+  };
+  "/api/v1/envs/siteName": {
+    /** 사이트 이름 조회 */
+    get: operations["getSiteName"];
+    /** 사이트 이름 수정 */
+    put: operations["setSiteName"];
+  };
+  "/api/v1/envs/ForbiddenWords": {
+    /** 금지어 조회 */
+    get: operations["getForbiddenWords"];
+    /** 금지어 변경 */
+    put: operations["addForbiddenWord"];
   };
   "/api/v1/schools/new": {
     /** 학교 생성 */
@@ -193,6 +209,10 @@ export interface paths {
     /** 학교 엑셀 다운로드 */
     get: operations["downloadCsv"];
   };
+  "/api/v1/schools/byProgram": {
+    /** 사업으로 학교 조회 */
+    get: operations["getSchoolsByPrograms"];
+  };
   "/api/v1/school/class": {
     /** 학급 목록 조회 */
     get: operations["getSchoolClassListPage"];
@@ -200,6 +220,10 @@ export interface paths {
   "/api/v1/school/class/{id}": {
     /** 학급 단건 조회 */
     get: operations["getSchoolClass"];
+  };
+  "/api/v1/school/class/learning/{id}": {
+    /** 학급 단건 조회 */
+    get: operations["getSchoolClassLearning"];
   };
   "/api/v1/school/class/input": {
     /** 학급 전체 조회 */
@@ -220,6 +244,10 @@ export interface paths {
   "/api/v1/programs/{id}": {
     /** 사업 단건 조회 */
     get: operations["getProgram"];
+  };
+  "/api/v1/programs/progressRate": {
+    /** 사업 진행률 조회 */
+    get: operations["getProgressRate"];
   };
   "/api/v1/programs/input": {
     /** 사업 전체 조회 */
@@ -248,6 +276,14 @@ export interface paths {
   "/api/v1/playerLogs/stageLog/{stage}": {
     /** 플레이어 스테이지 모든 로그 */
     get: operations["getStageLog"];
+  };
+  "/api/v1/playerLogs/ranking": {
+    /** 랭킹 조회 */
+    get: operations["getRanking"];
+  };
+  "/api/v1/playerLogs/learningProgress": {
+    /** 진도관리 데이터 조회 */
+    get: operations["getLearningProgress"];
   };
   "/api/v1/playerLogs/highest": {
     /** 플레이어의 최고기록 로그 */
@@ -333,6 +369,10 @@ export interface paths {
     /** 특정 게임 테스트용 */
     get: operations["getGameMapTest"];
   };
+  "/api/v1/gameLogs/stat": {
+    /** 통계 조회 */
+    get: operations["getStatLog"];
+  };
   "/api/v1/ads": {
     /** 행정구역 조회 */
     get: operations["getAds"];
@@ -412,6 +452,29 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["ModifyInstituteResponseBody"];
+    };
+    UnLockMapIdsUpdateRequestBody: {
+      unLockList: number[];
+      /** Format: int64 */
+      schoolId: number;
+    };
+    RsDataUnLockMapIdsUpdateResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["UnLockMapIdsUpdateResponseBody"];
+    };
+    SchoolClassLearningDto: {
+      /** Format: int64 */
+      id: number;
+      schoolName: string;
+      className: string;
+      unLockMapIds: number[];
+      responsibleMemberNames: string[];
+    };
+    UnLockMapIdsUpdateResponseBody: {
+      schoolClassLearningDto: components["schemas"]["SchoolClassLearningDto"];
     };
     MemberInputListDto: {
       /** Format: int64 */
@@ -744,6 +807,22 @@ export interface components {
     };
     UpdateInventoryResponseBody: {
       memberDto: components["schemas"]["MemberDto"];
+    };
+    ModifySiteNameRequestBody: {
+      siteName?: string;
+    };
+    ModifySiteNameResponseBody: {
+      siteName?: string;
+    };
+    RsDataModifySiteNameResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["ModifySiteNameResponseBody"];
+    };
+    ModifyForbiddenWordRequestBody: {
+      word?: string;
     };
     NewSchoolRequestBody: {
       region: string;
@@ -1122,6 +1201,16 @@ export interface components {
     SchoolsResponseBody: {
       schools?: components["schemas"]["SchoolInputListDto"][];
     };
+    RsDataSchoolsByProgramResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SchoolsByProgramResponseBody"];
+    };
+    SchoolsByProgramResponseBody: {
+      schools?: components["schemas"]["SchoolInputListDto"][];
+    };
     GetSchoolClassResponseBody: {
       itemPage: components["schemas"]["PageDtoSchoolClassDto"];
     };
@@ -1152,6 +1241,16 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["GetSchoolClassDetailResponseBody"];
+    };
+    GetSchoolClassLearningResponseBody: {
+      item: components["schemas"]["SchoolClassLearningDto"];
+    };
+    RsDataGetSchoolClassLearningResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetSchoolClassLearningResponseBody"];
     };
     RsDataSchoolClassInputResponseBody: {
       resultCode: string;
@@ -1232,6 +1331,37 @@ export interface components {
       msg: string;
       data: components["schemas"]["GetProgramResponseBody"];
     };
+    GetProgressRateResponseBody: {
+      progressRateList: components["schemas"]["ProgramProgressDto"][];
+    };
+    ProgramProgressDto: {
+      /** Format: int64 */
+      id?: number;
+      programName?: string;
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      schoolProgressDtoList?: components["schemas"]["SchoolProgressDto"][];
+    };
+    RsDataGetProgressRateResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetProgressRateResponseBody"];
+    };
+    SchoolProgressDto: {
+      /** Format: int64 */
+      id?: number;
+      region?: string;
+      administrativeDistrict?: string;
+      schoolName?: string;
+      /** Format: int32 */
+      studentCount?: number;
+      /** Format: int32 */
+      clearRate?: number;
+    };
     ProgramInputResponseBody: {
       programs?: components["schemas"]["ProgramInputDto"][];
     };
@@ -1311,6 +1441,38 @@ export interface components {
     };
     StageLogResponseBody: {
       playerLogDtoList: components["schemas"]["PlayerLogDto"][];
+    };
+    GetRankingResponseBody: {
+      rankingDtoList: components["schemas"]["RankingDto"][];
+    };
+    RankingDto: {
+      /** Format: int64 */
+      id?: number;
+      nickname?: string;
+      sourcePath?: string;
+      /** Format: int32 */
+      score?: number;
+    };
+    RsDataGetRankingResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetRankingResponseBody"];
+    };
+    GetLearningProgressResponseBody: {
+      learningProgressData: components["schemas"]["LearningProgressDto"][];
+    };
+    LearningProgressDto: {
+      userName?: string;
+      progressList?: number[];
+    };
+    RsDataGetLearningProgressResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetLearningProgressResponseBody"];
     };
     GamesHighestLogResponseBody: {
       playerLogDto?: components["schemas"]["PlayerLogDto"];
@@ -1404,7 +1566,20 @@ export interface components {
       data: components["schemas"]["ProgramMembersResponseBody"];
     };
     MeResponseBody: {
-      item: components["schemas"]["MemberDto"];
+      item: components["schemas"]["MemberMeDto"];
+    };
+    MemberMeDto: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      username: string;
+      name: string;
+      cellphoneNo: string;
+      authorities: string[];
+      player: components["schemas"]["PlayerDto"];
     };
     RsDataMeResponseBody: {
       resultCode: string;
@@ -1531,6 +1706,67 @@ export interface components {
       msg: string;
       data: components["schemas"]["GameMapTestResponseBody"];
     };
+    GameLogDto: {
+      /** Format: int64 */
+      id: number;
+      username: string;
+      /** Format: date-time */
+      createDate: string;
+      /** Format: int64 */
+      gameMapId: number;
+      gameMapStage: string;
+      gameMapStep: string;
+      gameMapDifficulty: string;
+      /** Format: int32 */
+      gameMapLevel: number;
+      /** Format: int32 */
+      editorAutoComplete: number;
+      /** Format: int32 */
+      editorAutoClose: number;
+      /** Format: int32 */
+      result: number;
+    };
+    GetStatLogResponseBody: {
+      itemPage: components["schemas"]["PageDtoGameLogDto"];
+    };
+    PageDtoGameLogDto: {
+      /** Format: int64 */
+      totalElementsCount: number;
+      /** Format: int64 */
+      pageElementsCount: number;
+      /** Format: int64 */
+      totalPagesCount: number;
+      /** Format: int32 */
+      number: number;
+      content: components["schemas"]["GameLogDto"][];
+    };
+    RsDataGetStatLogResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetStatLogResponseBody"];
+    };
+    GetSiteNameResponseBody: {
+      siteName?: string;
+    };
+    RsDataGetSiteNameResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetSiteNameResponseBody"];
+    };
+    GetForbiddenWordsResponseBody: {
+      forbiddenWords?: string;
+    };
+    RsDataGetForbiddenWordsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetForbiddenWordsResponseBody"];
+    };
     AdministrativeDistrict: {
       /** Format: int64 */
       code?: number;
@@ -1606,6 +1842,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataModifyInstituteResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학급 맵 잠금 업데이트 */
+  updateUnLockMapIds: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UnLockMapIdsUpdateRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataUnLockMapIdsUpdateResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -1852,6 +2110,82 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["RsDataUpdateInventoryResponseBody"];
         };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사이트 이름 조회 */
+  getSiteName: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetSiteNameResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사이트 이름 수정 */
+  setSiteName: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifySiteNameRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataModifySiteNameResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 금지어 조회 */
+  getForbiddenWords: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetForbiddenWordsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 금지어 변경 */
+  addForbiddenWord: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifyForbiddenWordRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
       };
       /** @description Bad Request */
       400: {
@@ -2577,6 +2911,28 @@ export interface operations {
       };
     };
   };
+  /** 사업으로 학교 조회 */
+  getSchoolsByPrograms: {
+    parameters: {
+      query: {
+        programId: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataSchoolsByProgramResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 학급 목록 조회 */
   getSchoolClassListPage: {
     parameters: {
@@ -2613,6 +2969,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGetSchoolClassDetailResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학급 단건 조회 */
+  getSchoolClassLearning: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetSchoolClassLearningResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -2710,6 +3088,23 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGetProgramResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사업 진행률 조회 */
+  getProgressRate: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetProgressRateResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -2840,6 +3235,46 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataStageLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 랭킹 조회 */
+  getRanking: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetRankingResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 진도관리 데이터 조회 */
+  getLearningProgress: {
+    parameters: {
+      query: {
+        schoolClassId: number;
+        stageValue: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetLearningProgressResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -3255,6 +3690,33 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGameMapTestResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 통계 조회 */
+  getStatLog: {
+    parameters: {
+      query: {
+        page?: number;
+        programId: number;
+        schoolId: number;
+        grade: number;
+        startDateTime: string;
+        endDateTime: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetStatLogResponseBody"];
         };
       };
       /** @description Bad Request */

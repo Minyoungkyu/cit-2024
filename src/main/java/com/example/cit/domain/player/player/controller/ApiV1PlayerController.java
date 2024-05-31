@@ -47,14 +47,14 @@ public class ApiV1PlayerController {
     @PutMapping("/{id}/name")
     @Operation(summary = "별명등록, 초회 이벤트 별명등록")
     @Transactional
-    public RsData<ApiV1PlayerController.SetNickNameResponseBody> setName(
+    public RsData<SetNickNameResponseBody> setName(
             @PathVariable("id") long id,
             @Valid @RequestBody SetNickNameRequestBody body
     ) {
         Player player = playerService.setNickName(id, body.nickname, body.characterType);
 
         return RsData.of(
-                "환영합니다 %s님".formatted(body.nickname),
+                body.nickname + "님 환영합니다.",
                 new ApiV1PlayerController.SetNickNameResponseBody(
                         new PlayerDto(player)
                 )

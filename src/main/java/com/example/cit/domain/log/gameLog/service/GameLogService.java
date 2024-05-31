@@ -14,9 +14,12 @@ import com.example.cit.domain.log.gameLog.entity.GameLog;
 import com.example.cit.domain.log.gameLog.repository.GameLogRepository;
 import com.example.cit.domain.member.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -147,5 +150,9 @@ public class GameLogService {
         killCountLogRepository.save(killCountLog);
 
         return killCountLog;
+    }
+
+    public Page<GameLog> getStatLogs(long programId, long schoolId, int grade, LocalDateTime startDateTime, LocalDateTime endDateTime, Pageable pageable) {
+        return gameLogRepository.findStatLogs(programId, schoolId, grade, startDateTime, endDateTime, pageable);
     }
 }

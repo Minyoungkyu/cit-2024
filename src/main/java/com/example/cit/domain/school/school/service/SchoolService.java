@@ -149,4 +149,9 @@ public class SchoolService {
     public SchoolClass getSchoolClassById(long schoolClassId) {
         return schoolRepository.findSchoolClassById(schoolClassId);
     }
+
+    public List<SchoolInputListDto> getSchoolsByPrograms(Long programId) {
+        if (programId == 0) return this.getSchools();
+        else return schoolRepository.findByPrograms_Id(programId);
+    }
 }

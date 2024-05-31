@@ -2,6 +2,7 @@ package com.example.cit.domain.player.player.service;
 
 import com.example.cit.domain.achievement.achievement.dto.AchievementDto;
 import com.example.cit.domain.achievement.playerAchievement.service.PlayerAchievementService;
+import com.example.cit.domain.env.env.repository.EnvRepository;
 import com.example.cit.domain.item.item.dto.ItemDto;
 import com.example.cit.domain.item.item.entity.Item;
 import com.example.cit.domain.item.profileIcon.dto.ProfileDto;
@@ -21,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +35,7 @@ public class PlayerService {
     private final InventoryService inventoryService;
     private final ProfileInventoryService profileInventoryService;
     private final PlayerAchievementService playerAchievementService;
+    private final EnvRepository envRepository;
     private final Rq rq;
 
 
@@ -40,6 +44,14 @@ public class PlayerService {
 
         Player player = findPlayerByMemberId(id)
             .orElseThrow(() -> new GlobalException("400-1", "존재하지 않는 플레이어입니다."));
+
+        String forbiddenWords = envRepository.findById(1L).get().getForbiddenWords();
+        List<String> forbiddenWordList = Arrays.stream(forbiddenWords.split(","))
+                .map(String::trim)
+                .toList();
+
+        if (forbiddenWordList.stream().anyMatch(nickname::contains))
+            throw new GlobalException("400-2", "닉네임에 금지어가 포함되어 있습니다.");
 
         player.setNickname(nickname);
         player.setCharacterType(characterType);

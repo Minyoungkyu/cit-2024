@@ -7,7 +7,7 @@ export const menuItems = [
     { label: '학교 관리', path: '/adm/menu/school' },
     { label: '기타 기관 관리', path: '/adm/menu/institute' },
     { label: '학급 관리', path: '/adm/menu/schoolClass' },
-    { label: '진도 관리', path: '#' },
+    { label: '진도 관리', path: '/adm/menu/learning' },
     { label: '통계', path: '#' },
     { label: '환경설정', path: '#' },
 ];

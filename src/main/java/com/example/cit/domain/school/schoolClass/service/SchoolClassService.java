@@ -9,9 +9,11 @@ import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.school.repository.SchoolRepository;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassLearningDto;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassMultipleDto;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.domain.school.schoolClass.repository.SchoolClassRepository;
+import com.example.cit.global.rq.Rq;
 import com.example.cit.standard.base.KwTypeV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,8 @@ public class SchoolClassService {
     private final SchoolClassRepository schoolClassRepository;
     private final MemberRepository memberRepository;
     private final SchoolService schoolService;
+
+    private final Rq rq;
 
     @Transactional
     public SchoolClass createSchoolClass(long agencyId, int grade, int classNo, boolean isSpecial, String specialName, List<Long> members) {
@@ -171,8 +175,17 @@ public class SchoolClassService {
         return schoolClass;
     }
 
+    @Transactional
+    public SchoolClass updateUnLockMapIds(List<Long> unLockList, Long schoolId) {
+        SchoolClass schoolClass = schoolClassRepository.findById(schoolId).orElseThrow();
+        schoolClass.setUnLockMapIds(new ArrayList<>(unLockList));
+        schoolClassRepository.save(schoolClass);
+
+        return schoolClass;
+    }
+
     public Page<SchoolClass> findByKw(String kwType, String kw, Pageable pageable) {
-        return schoolClassRepository.findByKw(kwType, kw, pageable);
+        return schoolClassRepository.findByKw(kwType, kw, pageable, rq.getMember());
     }
 
     public List<SchoolClass> getSchoolClassDetail() {
@@ -189,5 +202,9 @@ public class SchoolClassService {
 
     public List<SchoolClass> findBySchoolList(List<School> schools) {
         return schoolClassRepository.findBySchoolsIn(schools);
+    }
+
+    public Optional<SchoolClass> findById(long id) {
+        return schoolClassRepository.findById(id);
     }
 }

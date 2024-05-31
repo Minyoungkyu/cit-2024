@@ -237,7 +237,7 @@
 
         const { data, error } = await rq.apiEndPoints().POST('/api/v1/school/class/multiple', {
             body: {
-                agencyId: agencyInput.id,
+                agencyId: agencyInput.id!,
                 rows: get(subTableRows).map(row => {
                     return {
                         id: row.id,
