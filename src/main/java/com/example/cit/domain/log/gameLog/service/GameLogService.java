@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -154,5 +155,9 @@ public class GameLogService {
 
     public Page<GameLog> getStatLogs(long programId, long schoolId, int grade, LocalDateTime startDateTime, LocalDateTime endDateTime, Pageable pageable) {
         return gameLogRepository.findStatLogs(programId, schoolId, grade, startDateTime, endDateTime, pageable);
+    }
+
+    public List<GameLog> getStatLogs(long programId, long schoolId, int grade, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return gameLogRepository.findStatLogs(programId, schoolId, grade, startDateTime, endDateTime);
     }
 }

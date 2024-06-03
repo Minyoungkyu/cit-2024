@@ -317,6 +317,21 @@
             </div>
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black;pointer-events:none;">{topMenuArrayText[currentMenuIndex]}</div>
         </div>
+
+        {#if rq.member.authorities.length >= 2}
+        <div class="btn_adm w-[330px] h-[74px] absolute right-[0] top-[20px] z-[60] mr-4 text-white text-[30px] font-bold flex justif-center items-center cursor-pointer" 
+            style="background-image:url('/img/shop/ui_store_menutab.png');transform-origin:top right;--scaleMultiplier2:{scaleMultiplier2}"
+            on:click={() => {
+                if (rq.member.authorities.length >= 3) rq.goTo('/adm/menu/dashBoard');
+                else if (rq.member.authorities.length === 2) rq.goTo('/adm/menu/learning');
+            }}
+            >
+            <div class="w-full flex items-center justify-center">
+                <i class="fa-solid fa-user"></i> &nbsp; 관리자 모드
+            </div>
+        </div>
+        {/if}
+
         <div class=" flex flex-col items-end absolute top-[4%] right-[0] z-[60]" style="transform-origin:top right;transform:scale({scaleMultiplier2});pointer-events:none;"> <!-- 우상단 -->
             <div class="flex flex-row gap-3 mr-4 h-[160px] items-end" style="transform-origin:right;transform:scale(0.67);">
                 <div class="w-[506px] h-[134px] {topMenuArray[5] ? '' : 'btn_profile'} cursor-pointer" 

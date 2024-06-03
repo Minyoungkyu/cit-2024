@@ -43,7 +43,7 @@
         color: white;
     }
     
-    @media (max-width: 1306px) {
+    /* @media (max-width: 1306px) {
         .topMenuContainerF {
             display: none;
         }
@@ -57,5 +57,5 @@
         .topMenuContainerS {
             display: none;
         }
-    }
+    } */
 </style>

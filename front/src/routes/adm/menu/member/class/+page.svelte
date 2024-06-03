@@ -84,10 +84,16 @@
             <div class="text-[22px] mr-4 font-bold">
                 학급관리자 계정
             </div>
+            {#if rq.member.authorities.length >= 3}
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/member/class/new"}>생성</button>
+            {/if}
+            {#if rq.member.authorities.length >= 4}
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => handleCheckedPrograms()}>삭제</button>
+            {/if}
             <!-- <button class="btn btn-sm">엑셀 다운로드</button> -->
+            {#if rq.member.authorities.length >= 3}
             <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/class/download/csv" class="btn btn-sm btn-outline rounded-md border-gray-400">엑셀 다운로드</a>
+            {/if}
         </div>
         <div class="flex flex-row gap-2 items-center">
             {#if $page.url.searchParams.get('kw')}
@@ -95,6 +101,7 @@
                     <i class="fa-solid fa-xmark"></i> 전체보기
                 </a>
             {/if}
+            {#if rq.member.authorities.length >= 3}
             <div class="searching-box border rounded-md bg-white border-gray-400 flex items-center">
                 <form class="flex w-full" action={$page.url.pathname}>
                   <select name="kwType" class="ml-3 p-2 outline-none text-gray-500" value={$page.url.searchParams.get('kwType') ?? 'ALL'}>
@@ -114,6 +121,7 @@
                   </div>
                 </form>
             </div>
+            {/if}
         </div>
     </div>
     {#await load()}
@@ -150,7 +158,9 @@
                     <td >{truncateProgramName(member.schoolClassName)}</td>
                     <td >{member.createDate}</td>
                     <td>
+                        {#if rq.member.authorities.length >= 3}
                         <a href="/adm/menu/member/class/{member.id}" class="btn btn-xs btn-outline rounded-md border-gray-400">수정</a>
+                        {/if}
                     </td>
                 </tr>
                 {/each}

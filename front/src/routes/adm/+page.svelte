@@ -51,7 +51,11 @@
 
         if (error) rq.msgError(error.msg);
         if(data) {
-            rq.msgAndRedirect(data, undefined, '/adm/menu', () => rq.setLogined(data.data.item))
+            if (data.data.item.authorities.length >= 3) {
+                rq.msgAndRedirect(data, undefined, '/adm/menu/dashBoard', () => rq.setLogined(data.data.item))
+            } else if (data.data.item.authorities.length === 2) {
+                rq.msgAndRedirect(data, undefined, '/adm/menu/learning', () => rq.setLogined(data.data.item))
+            }
         }
     }
 </script>

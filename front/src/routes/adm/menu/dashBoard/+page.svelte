@@ -6,62 +6,55 @@
 
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
-    대시보드
+<div class="w-[95%] flex flex-row justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
+    대시 보드
 </div>
 
-<div class="w-[95%] flex flex-col items-center">
-    {#each progressRateList as progressRate}
-    {#if progressRate.schoolProgressDtoList}
-    <div class="w-[80%] flex flex-col justify-start items-start">
-        <div class="mr-5 text-left text-[30px] font-bold">{progressRate.programName}</div>
-        <div class="w-full">
-            <progress class="progress progress-primary h-[15px]" 
-                value={progressRate.schoolProgressDtoList
-                    .reduce((sum, dto) => sum + dto.clearRate!, 0)} 
-                max={progressRate.schoolProgressDtoList
-                    .reduce((sum, dto) => sum + dto.studentCount!, 0) * 94}></progress>
-        </div>
-        <div class="w-full flex justify-end">
-            <div class="text-[15px]">{progressRate.startDate} ~ {progressRate.endDate}</div>
-        </div>
-        <div class="w-full flex flex-col items-end">
-            {#if progressRate.schoolProgressDtoList}
-                {#each progressRate.schoolProgressDtoList as schoolProgressRate}
-                    {#if schoolProgressRate.id != 0}
-                    <div class="w-[80%] flex flex-col justify-start items-start">
-                        <div class="mr-5 text-left text-[30px]">{schoolProgressRate.schoolName}</div>
+<div class="w-full flex justfiy-start">
+    <div class="w-[70%] h-full flex justify-center">
+        <div class="flex flex-col gap-4 w-full h-full">
+            <div class="overflow-x-auto h-full flex flex-col">
+                
+                {#each progressRateList as progressRate}
+                {#if progressRate.schoolProgressDtoList}
+                <div class="flex flex-col pl-[42px] mt-5">
+                    <div class="flex flex-row items-center w-full">
+                        <div class="p-1 text-[20px] w-[200px] font-bold text-right truncate">{progressRate.programName}</div>
                         <div class="w-full">
-                            <progress class="progress progress-error h-[15px]" 
-                                value={schoolProgressRate.clearRate!} 
-                                max={schoolProgressRate.studentCount! * 94}></progress>
+                            <div class="w-full h-[48px] flex items-center px-[1rem] text-[15PX] font-bold relative">
+                                <progress class="progress progress-primary h-[10px]" 
+                                value={progressRate.schoolProgressDtoList
+                                    .reduce((sum, dto) => sum + dto.clearRate!, 0)} 
+                                max={progressRate.schoolProgressDtoList
+                                    .reduce((sum, dto) => sum + dto.studentCount!, 0) * 94}></progress>
+                                <div class="absolute bottom-[-5px] right-5 text-[15px]">{progressRate.startDate} ~ {progressRate.endDate}</div>
+                            </div>
                         </div>
                     </div>
+                    {#if progressRate.schoolProgressDtoList}
+                        {#each progressRate.schoolProgressDtoList as schoolProgressRate}
+                            {#if schoolProgressRate.id != 0}
+                            <div class="flex flex-row items-center w-full pl-10 mb-[-15px]">
+                                <div class="p-1 text-[18px] w-[200px] font-bold text-right ">{schoolProgressRate.schoolName}</div>
+                                <div class="w-full">
+                                    <div class="w-full h-[48px] flex items-center px-[1rem] text-[15PX] font-bold relative">
+                                        <progress class="progress progress-error h-[10px]"
+                                            value={schoolProgressRate.clearRate!} 
+                                            max={schoolProgressRate.studentCount! * 94}
+                                            >
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                            {/if}
+                        {/each}
                     {/if}
-                {/each}
-            {/if}
-        </div>
-    </div>
-    {/if}
-    {/each}
-</div>
-
-<!-- <div class="w-[95%] flex flex-col items-center">
-    <div class="w-[80%] flex flex-col justify-start items-start">
-        <div class="mr-5 text-left text-[30px] font-bold">무슨무슨 사업</div>
-        <div class="w-full">
-            <progress class="progress progress-primary h-[15px]" value="60" max="100"></progress>
-        </div>
-        <div class="w-full flex justify-end">
-            <div class="text-[15px]">2024-05-30 ~ 2024-05-30</div>
-        </div>
-        <div class="w-full flex flex-col items-end">
-            <div class="w-[80%] flex flex-col justify-start items-start">
-                <div class="mr-5 text-left text-[30px]">무슨무슨 학교</div>
-                <div class="w-full">
-                    <progress class="progress progress-error h-[15px]" value="60" max="100"></progress>
+                    <div class="w-full border-b my-6"></div>
                 </div>
+                {/if}
+                {/each}
+    
             </div>
         </div>
     </div>
-</div> -->
+</div>

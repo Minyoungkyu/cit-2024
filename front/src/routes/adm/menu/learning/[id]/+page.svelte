@@ -116,7 +116,7 @@
     }
 
     function lockStage(value:number) {
-        if(confirm('해당 스테이지를 잠금 처리하시겠습니까?')) {
+        if(confirm('해당 스테이지의 잠금 해제를 취소하시겠습니까?')) {
             unLockList.delete(value);
 
             updateUnLockGameMapIds(unLockList);
@@ -140,11 +140,169 @@
     }
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[40px] font-bold border-b mb-10">
+<div class="w-[95%] flex flex-row justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     진도 관리
 </div>
 
-<div class="flex flex-col w-full h-full items-center">
+<div class="w-[95%] h-full flex justify-center">
+    <div class="flex flex-col gap-4 w-full h-full">
+        <div class="overflow-x-auto h-full">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">학교명</td>
+                  <td class="border-b p-3">
+                    <div class="w-full h-[48px] flex items-center px-[1rem] text-[15PX] font-bold">
+                        가락고등학교
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급명</td>
+                  <td class="border-b p-3">
+                    <div class="w-full h-[48px] flex items-center px-[1rem] text-[15PX] font-bold">
+                        1학년 5반
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당자</td>
+                  <td class="border-b p-3">
+                    <div class="w-[800px] h-[48px] flex items-center px-[1rem] text-[15PX] font-bold truncate">
+                        담당자김씨
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="w-[95%] mt-5 flex flex-row gap-16 justify-start items-center">
+                <select bind:value={selectedValue} name="스테이지" id="select" class="border-2 border-black rounded w-[150px] h-[30px] text-center ">
+                    <option value={0}>스테이지 1</option>
+                    <option value={1}>스테이지 2</option>
+                    <option value={2}>스테이지 3</option>
+                </select>
+        
+                <div class="flex flex-row gap-4 items-center font-bold">
+                    <i class="fa-solid fa-circle text-[35px]" style="color: #63E6BE;"></i>
+                    <span>완료</span>
+                </div>
+        
+                <div class="flex flex-row gap-4 items-center font-bold">
+                    <i class="fa-solid fa-play fa-rotate-270 text-[40px]" style="color: #74C0FC;"></i>
+                    <span>진행중</span>
+                </div>
+            </div>
+
+            <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
+                <thead>
+                    <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                        <th class="w-[250px]">&nbsp;</th>
+                        <th colspan="{stageName[selectedValue].length}">
+                            <div class="flex flex-row justify-between">
+                                <div class="w-full h-[50px] flex flex-row items-cetner gap-8">
+                                    <div class="flex flex-row items-center ml-8 gap-2">
+                                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-base" 
+                                            bind:checked={totalChecked}
+                                            on:change={(e: Event) => handleSelectAll((e.target as HTMLInputElement).checked)}>
+                                        <label for="checkbox">전체선택</label>
+                                    </div>
+                                    <div class="flex flex-row items-center gap-2">
+                                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-base" 
+                                            bind:checked={easyChecked}
+                                            on:change={e => handleCheckboxChange('Easy', (e.target as HTMLInputElement).checked)}>
+                                        <label for="checkbox">Easy</label>
+                                    </div>
+                                    <div class="flex flex-row items-center gap-2">
+                                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-base"
+                                            bind:checked={normalChecked}
+                                            on:change={e => handleCheckboxChange('Normal', (e.target as HTMLInputElement).checked)}>
+                                        <label for="checkbox">Normal</label>
+                                    </div>
+                                    <div class="flex flex-row items-center gap-2">
+                                        <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-base"
+                                            bind:checked={hardChecked}
+                                            on:change={e => handleCheckboxChange('Hard', (e.target as HTMLInputElement).checked)}>
+                                        <label for="checkbox">Hard</label>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mr-40">
+                                    <div class="btn btn-sm btn-outline rounded-md border-gray-400"
+                                        on:click={() => unLockStage()}
+                                    >
+                                    잠금 해제
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                        <th>&nbsp;</th>
+                        {#each stageValue[selectedValue] as item, index}
+                            <th class="" id="clothes">
+                                <div class="flex items-center justify-center h-[30px]">
+                                    {#if unLockMapIds.includes(item)}
+                                        <i class="fa-solid fa-unlock text-[20px] cursor-pointer" style="color: #63E6BE;" on:click={() => lockStage(item)}></i>
+                                    {:else}
+                                        {#if stageName[selectedValue][index].includes('E')}
+                                            <input type="checkbox" value={item} 
+                                            class="stageValueCheckEasy stageValueCheck checkbox checkbox-base" 
+                                            on:change={handleStageCheckboxChange}>
+                                        {:else if stageName[selectedValue][index].includes('N')}
+                                            <input type="checkbox" value={item} 
+                                            class="stageValueCheckNormal stageValueCheck checkbox checkbox-base"
+                                            on:change={handleStageCheckboxChange}>
+                                        {:else if stageName[selectedValue][index].includes('H')}
+                                            <input type="checkbox" value={item} 
+                                            class="stageValueCheckHard stageValueCheck checkbox checkbox-base" 
+                                            on:change={handleStageCheckboxChange}>
+                                        {:else}
+                                            <input type="checkbox" value={item} 
+                                            class="stageValueCheck checkbox checkbox-base"
+                                            on:change={handleStageCheckboxChange}>
+                                        {/if}
+                                    {/if}
+                                </div>
+                            </th>
+                        {/each}
+                    </tr>
+                    <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                        <th>&nbsp;</th>
+                        {#each stageName[selectedValue] as item}
+                        <th class="w-[130px] text-center" id="trousers">
+                            {item}
+                        </th>
+                        {/each}
+                    </tr>
+                </thead>
+                <tbody>
+                    {#await loadLearningProgressData()}
+                    {:then data}
+                    {#each data as student}
+                        <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                            <th class="">{student.userName}</th>
+                            {#each student.progressList! as progress}
+                                <td class="text-center leading-[1px]">
+                                    {#if progress === 3}
+                                    <i class="fa-solid fa-circle text-[35px]" style="color: #37a987;"></i>
+                                    {:else if progress === 2}
+                                    <i class="fa-solid fa-play fa-rotate-270 text-[40px]" style="color: #50a3e2;"></i>
+                                    {:else}
+                                    <div class="min-h-[44px]"></div>
+                                    {/if}
+                                </td>
+                            {/each}
+                        </tr>
+                    {/each}
+            
+                    {/await}
+                    </tbody>
+            </table>
+          </div>
+    </div>
+</div>
+
+<!-- <div class="flex flex-col w-full h-full items-center">
     <table class="table w-[95%]">
         <tbody>
           <tr>
@@ -292,5 +450,5 @@
         {/await}
         </tbody>
       </table>
-</div>
+</div> -->
 

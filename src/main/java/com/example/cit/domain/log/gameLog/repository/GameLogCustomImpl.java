@@ -24,6 +24,33 @@ public class GameLogCustomImpl implements GameLogCustom {
 
     private final JPAQueryFactory queryFactory;
     private final EntityManager entityManager;
+
+    @Override
+    public List<GameLog> findStatLogs(long programId, long schoolId, int grade, LocalDateTime startDate, LocalDateTime endDate) {
+        QGameLog gameLog = QGameLog.gameLog;
+        QMember member = QMember.member;
+        QSchoolClass schoolClass = QSchoolClass.schoolClass;
+        QSchool school = QSchool.school;
+        QProgram program = QProgram.program;
+
+        BooleanBuilder whereClause = new BooleanBuilder();
+        whereClause.and(programIdCondition(programId, program))
+                .and(schoolIdCondition(schoolId, schoolClass))
+                .and(gradeAndClassNoCondition(grade, schoolClass))
+                .and(dateCondition(startDate, endDate, gameLog))
+                .and(gameLog.executionLog.isNotNull());
+
+        return queryFactory
+                .selectDistinct(gameLog)
+                .from(gameLog)
+                .join(member).on(gameLog.userId.eq(member.id))
+                .leftJoin(member.studentClass, schoolClass)
+                .leftJoin(schoolClass.school, school)
+                .leftJoin(school.programs, program)
+                .where(whereClause)
+                .fetch();
+    }
+
     @Override
     public Page<GameLog> findStatLogs(long programId, long schoolId, int grade, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
         QGameLog gameLog = QGameLog.gameLog;

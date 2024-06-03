@@ -84,11 +84,17 @@
             <div class="text-[22px] mr-4 font-bold">
                 학생 계정
             </div>
+            {#if rq.member.authorities.length >= 2}
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/member/student/multiple"}>일괄 생성</button>
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/member/student/new"}>개별 생성</button>
+            {/if}
+            {#if rq.member.authorities.length >= 3}
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => handleCheckedPrograms()}>삭제</button>
+            {/if}
+            {#if rq.member.authorities.length >= 2}
             <!-- <button class="btn btn-sm">엑셀 다운로드</button> -->
             <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/student/download/csv" class="btn btn-sm btn-outline rounded-md border-gray-400">엑셀 다운로드</a>
+            {/if}
         </div>
         <div class="flex flex-row gap-2 items-center">
             {#if $page.url.searchParams.get('kw')}
