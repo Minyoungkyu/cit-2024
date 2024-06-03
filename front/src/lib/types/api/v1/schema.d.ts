@@ -385,6 +385,10 @@ export interface paths {
     /** 통계 조회 */
     get: operations["getStatLog"];
   };
+  "/api/v1/gameLogs/stat/csv": {
+    /** 통계 엑셀 다운로드 */
+    get: operations["downloadCsv_4"];
+  };
   "/api/v1/ads": {
     /** 행정구역 조회 */
     get: operations["getAds"];
@@ -3759,6 +3763,32 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGetStatLogResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 통계 엑셀 다운로드 */
+  downloadCsv_4: {
+    parameters: {
+      query: {
+        programId: number;
+        schoolId: number;
+        grade: number;
+        startDateTime: string;
+        endDateTime: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": string[];
         };
       };
       /** @description Bad Request */

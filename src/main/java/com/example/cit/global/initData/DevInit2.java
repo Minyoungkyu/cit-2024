@@ -801,7 +801,7 @@ public class DevInit2 {
 
                 Env env = Env.builder()
                         .SiteName("코드이썬")
-                        .forbiddenWords("")
+                        .forbiddenWords("금칙어")
                         .build();
 
                 envRepository.save(env);

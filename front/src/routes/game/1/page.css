@@ -106,6 +106,15 @@
     transform-origin: bottom;
 }
 
+.btn_adm {
+    transform: scale(0.6) scale(var(--scaleMultiplier2));
+}
+
+.btn_adm:hover {
+    background-image:url('/img/shop/ui_itemname2.png') !important;
+    transform: scale(0.67) scale(var(--scaleMultiplier2));
+}
+
 .hovering:hover {
     cursor: pointer;
     transform: scale(1.1);

@@ -16,14 +16,13 @@
     }
 </script>
 
-<ul class="menu sideMenuContainer bg-gray-100 text-gray-800 min-w-[170px] w-[270px] h-screen relative p-0 overflow-hidden">
+<ul class="menu sideMenuContainer bg-gray-100 text-gray-800 min-w-[170px] w-[250px] h-screen relative p-0 overflow-hidden">
     <li class="text-[30px] font-bold mt-6 mb-[6vh] items-center"><a href="/game/1">CODE-YTHON</a></li>
-    {#each menuItems as { label, path }}
-        <li class="{isActive(path) ? 'active' : ''} sideMenuContent text-base w-[230px]"><a href="{path}" class="btn-ghost rounded-full">{label}</a></li>
+    {#each menuItems as { label, path, role }}
+        {#if rq.member.authorities.length >= role}
+            <li class="{isActive(path) ? 'active' : ''} sideMenuContent text-base w-[230px]"><a href="{path}" class="btn-ghost rounded-full">{label}</a></li>
+        {/if}
     {/each}
-    {#if rq.isSuperAdmin()}
-        <li class="{isActive('/adm/me') ? 'active' : ''} sideMenuContent active w-[270px]"><a href="#">마이 페이지</a></li>
-    {/if}
 </ul>
 
 <style>

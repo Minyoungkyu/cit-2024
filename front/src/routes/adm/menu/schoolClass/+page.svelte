@@ -77,11 +77,17 @@
             <div class="text-[22px] mr-4 font-bold">
                 학급 관리
             </div>
+            {#if rq.member.authorities.length >= 3}
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/schoolClass/multiple"}>일괄 생성</button>
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => window.location.href="/adm/menu/schoolClass/new"}>개별 생성</button>
+            {/if}
+            {#if rq.member.authorities.length >= 4}
             <button class="btn btn-sm btn-outline rounded-md border-gray-400" on:click={() => handleCheckedPrograms()}>삭제</button>
+            {/if}
+            {#if rq.member.authorities.length >= 3}
             <!-- <button class="btn btn-sm">엑셀 다운로드</button> -->
             <a href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/school/class/download/csv" class="btn btn-sm btn-outline rounded-md border-gray-400">엑셀 다운로드</a>
+            {/if}
         </div>
         <div class="flex flex-row gap-2 items-center">
             {#if $page.url.searchParams.get('kw')}
@@ -147,7 +153,9 @@
                     <td >{schoolClass.code}</td>
                     <td >{schoolClass.responsibleMemberNames}</td>
                     <td>
+                        {#if rq.member.authorities.length >= 3}
                         <a href="/adm/menu/schoolClass/{schoolClass.id}" class="btn btn-xs btn-outline rounded-md border-gray-400">수정</a>
+                        {/if}
                     </td>
                 </tr>
                 {/each}

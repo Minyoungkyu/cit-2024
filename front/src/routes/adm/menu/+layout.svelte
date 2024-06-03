@@ -37,14 +37,14 @@
 </script>
 
 <div class="flex flex-row adm-area">
-    {#if !isMobile}
+    <div class="w-[250px]">
         <SideMenu />
-    {/if}
+    </div>
     <div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
-        <div class="flex flex-row {isMobile ? 'justify-between' : 'justify-end'} items-center pr-4 gap-4 bg-gray-100 text-gray-800 w-full h-[80px]">
-            <div class="{isMobile ? '' : 'hidden'}">
+        <div class="flex flex-row {isMobile ? 'justify-end' : 'justify-end'} items-center pr-4 gap-4 bg-gray-100 text-gray-800 w-full h-[80px]">
+            <!-- <div class="{isMobile ? '' : 'hidden'}">
                 <MobileSideMenu />
-            </div>
+            </div> -->
             <div class="flex flex-row items-center gap-8 mr-4">
                 <div class="top-content cursor-pointer {isActiveMyPage ? 'active' : ''}"><a href="/adm/menu/checkPass">마이페이지</a></div>
                 <div class="top-content cursor-pointer">로그아웃</div>
