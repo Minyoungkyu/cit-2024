@@ -39,16 +39,16 @@
         <div class="h-full">
             <table class="table">
               <tbody>
-                <tr>
+                <!-- <tr>
                   <td class="border-b p-1 text-[15px] w-[150px] font-bold">사이트 제목</td>
                   <td class="border-b p-3">
                     <input name="realName" type="text" placeholder="" value={rq.SITE_NAME} class="input input-bordered w-[150px]" />
                   </td>
-                </tr>
+                </tr> -->
                 <tr>
                   <td class="border-b p-1 text-[15px] w-[150px] font-bold">사이트 제목</td>
                   <td class="border-b p-3">
-                    <textarea class="textarea textarea-bordered w-full h-[600px] resize-none" bind:value={inputWord} placeholder="금지어"></textarea>
+                    <textarea class="textarea textarea-bordered w-full h-[300px] resize-none" bind:value={inputWord} placeholder="금지어"></textarea>
                   </td>
                 </tr>
               </tbody>

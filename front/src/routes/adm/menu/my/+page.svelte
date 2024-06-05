@@ -6,6 +6,8 @@
     const { data } = $props<{ data: { memberDto: components['schemas']['MemberProgramAdmDto'] } }>();
     const { memberDto } = data;
 
+    console.log(memberDto);
+
     // onMount(() => {
     //     if(!rq.verifiedPassword) {
     //         rq.goTo('/adm/menu/checkPass');
@@ -95,7 +97,7 @@
 </div>
 <div class="w-[95%] h-full flex justify-center">
     <form class="flex flex-col gap-4 w-full h-full" method="Post" on:submit|preventDefault={submitInfoForm}>
-        <div class="overflow-x-auto h-full">
+        <div class="h-full">
             <table class="table">
               <tbody>
                 <tr>
@@ -128,20 +130,41 @@
                     <div class="w-full h-[48px] flex items-center px-[1rem] text-[1.1rem] font-[500]">{rq.getAuthToString()[0]}</div>
                   </td>
                 </tr>
+                {#if rq.member.authorities.length == 3}
                 <tr>
                   <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당 사업</td>
                   <td class="border-b p-3">
                     <div class="w-full flex items-center px-[1rem] text-[1rem] font-[500]">
+                      {#if memberDto.responsibilities && memberDto.responsibilities.length > 0}
                       {memberDto.responsibilities.map(item => item.name).join(', ')}
+                      {:else}
+                      담당 사업이 없습니다.
+                      {/if}
                     </div>
                   </td>
                 </tr>
+                {/if}
+                {#if rq.member.authorities.length == 2}
+                <tr>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당 학급</td>
+                  <td class="border-b p-3">
+                    <div class="w-full flex items-center px-[1rem] text-[1rem] font-[500]">
+                      {#if memberDto.responsibleSchools && memberDto.responsibleSchools.length > 0}
+                      {memberDto.responsibleSchools.map(item => item.className).join(', ')}
+                      {:else}
+                      담당 학급이 없습니다.
+                      {/if}
+                    </div>
+                  </td>
+                </tr>
+                {/if}
                 <tr>
                   <td class="border-b p-1 text-[15px] w-[150px] font-bold">전화번호</td>
                   <td class="border-b p-3">
                     <input name="cellphoneNo" type="tel" placeholder="" value={memberDto.cellphoneNo} class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
+                {#if rq.member.authorities.length >= 3}
                 <tr>
                   <td class="border-b p-1 text-[15px] w-[150px] font-bold">부서</td>
                   <td class="border-b p-3">
@@ -160,6 +183,7 @@
                     <input name="extensionNo" type="tel" placeholder="" value={memberDto.extensionNo} class="input input-bordered w-[150px]" />
                   </td>
                 </tr>
+                {/if}
               </tbody>
             </table>
 

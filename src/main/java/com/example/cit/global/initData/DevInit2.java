@@ -9,6 +9,7 @@ import com.example.cit.domain.env.env.repository.EnvRepository;
 import com.example.cit.domain.item.profileIcon.entity.ProfileIcon;
 import com.example.cit.domain.item.profileIcon.service.ProfileService;
 import com.example.cit.domain.member.member.entity.Member;
+import com.example.cit.domain.member.member.repository.MemberRepository;
 import com.example.cit.domain.member.member.service.MemberService;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.program.program.service.ProgramService;
@@ -35,6 +36,7 @@ public class DevInit2 {
     private final AchievementService achievementService;
     private final AdministrativeDistrictService administrativeDistrictService;
     private final EnvRepository envRepository;
+    private final MemberRepository memberRepository;
 
 
     @Bean
@@ -56,32 +58,32 @@ public class DevInit2 {
                 });
 
 
-
             }
         };
     }
+
     @Bean
     @Order(10)
     ApplicationRunner initAreaCode() {
         return args -> {
             if (regionService.findByName("서울특별시").isEmpty()) {
-                regionService.createRegion(11, "서울특별시");
-                regionService.createRegion(21, "부산광역시");
-                regionService.createRegion(22, "대구광역시");
-                regionService.createRegion(23, "인천광역시");
-                regionService.createRegion(24, "광주광역시");
-                regionService.createRegion(25, "대전광역시");
-                regionService.createRegion(26, "울산광역시");
-                regionService.createRegion(29, "세종특별자치도");
-                regionService.createRegion(31, "경기도");
-                regionService.createRegion(32, "강원도");
-                regionService.createRegion(33, "충청북도");
-                regionService.createRegion(34, "충청남도");
-                regionService.createRegion(35, "전라북도");
-                regionService.createRegion(36, "전라남도");
-                regionService.createRegion(37, "경상북도");
-                regionService.createRegion(38, "경상남도");
-                regionService.createRegion(39, "제주특별자치도");
+                regionService.createRegion(11, "서울");
+                regionService.createRegion(21, "부산");
+                regionService.createRegion(22, "대구");
+                regionService.createRegion(23, "인천");
+                regionService.createRegion(24, "광주");
+                regionService.createRegion(25, "대전");
+                regionService.createRegion(26, "울산");
+                regionService.createRegion(29, "세종");
+                regionService.createRegion(31, "경기");
+                regionService.createRegion(32, "강원");
+                regionService.createRegion(33, "충북");
+                regionService.createRegion(34, "충남");
+                regionService.createRegion(35, "전북");
+                regionService.createRegion(36, "전남");
+                regionService.createRegion(37, "경북");
+                regionService.createRegion(38, "경남");
+                regionService.createRegion(39, "제주");
 
                 administrativeDistrictService.createAdministrativeDistrict(11010, "종로구", 11);
                 administrativeDistrictService.createAdministrativeDistrict(11020, "중구", 11);
@@ -797,7 +799,7 @@ public class DevInit2 {
                 profileService.setAchievement(icon5, ac5);
             }
 
-            if ( envRepository.findById(1L).isEmpty() ) {
+            if (envRepository.findById(1L).isEmpty()) {
 
                 Env env = Env.builder()
                         .SiteName("코드이썬")
@@ -808,6 +810,27 @@ public class DevInit2 {
             }
         };
 
+
     }
 
+    @Bean
+    @Order(12)
+    ApplicationRunner initUser() {
+        return args -> {
+            if (memberRepository.findByUsername("system").isEmpty()) {
+                Member memberSystemAdmin1 = memberService.join("system", "tmd0605", "시스템관리자", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                memberSystemAdmin1.setRefreshToken("system");
+                Member memberSystemAdmin2 = memberService.join("system2", "tmd0605", "시스템관리자2", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                memberSystemAdmin2.setRefreshToken("system2");
+                Member memberSystemAdmin3 = memberService.join("system3", "tmd0605", "시스템관리자3", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                memberSystemAdmin3.setRefreshToken("system3");
+                Member memberSystemAdmin4 = memberService.join("system4", "tmd0605", "시스템관리자4", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                memberSystemAdmin4.setRefreshToken("system4");
+                Member memberSystemAdmin5 = memberService.join("system5", "tmd0605", "시스템관리자5", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                memberSystemAdmin5.setRefreshToken("system5");
+            }
+        };
+    }
 }
+
+

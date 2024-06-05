@@ -32,6 +32,7 @@
     let memberInputText = $state('');
     let programInput = $state(memberDto.programs) as components['schemas']['ProgramInputDto'][];
     let programInputText = $state('');
+    let activeOptionIndexProgram = $state(0);
 
     async function loadProgram() {
         // console.log('loadProgram');
@@ -50,7 +51,7 @@
     }
 
     function updateProgram(searchText: string) {
-        console.log('updateProgram');
+        focusProgram = true;
         const searchLower = searchText.toLowerCase();
         filteredPrograms = [...programs].sort((a, b) => {
             const scoreA = similarityScore(a.name ?? '', searchLower);
@@ -73,6 +74,10 @@
     async function submitModifyProgramForm(this: HTMLFormElement) {
         const form: HTMLFormElement = this;
         
+        if (form.membername.value.trim().length === 0) {
+            rq.msgError('이름을 입력해주세요.');
+            return;
+        }
 
         const { data, error } = await rq.apiEndPoints().PUT('/api/v1/members/system/modify', {
             body: {
@@ -96,6 +101,39 @@
         if (data?.data) {
             rq.msgAndRedirect(data, undefined, '/adm/menu/member/system');
         }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexProgram = (activeOptionIndexProgram + 1) % filteredPrograms.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+            activeOptionIndexProgram = (activeOptionIndexProgram - 1 + filteredPrograms.length) % filteredPrograms.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexProgram >= 0) {
+            const selectedProgram = filteredPrograms[activeOptionIndexProgram];
+            if (selectedProgram && !programInput.some(a => a.id === selectedProgram.id)) {
+                programInput.push(selectedProgram);
+            }
+            focusProgram = false;
+        }
+    }
+
+    function scrollToActiveOption() {
+        if (membersBox) {
+            const activeOption = membersBox.children[activeOptionIndexProgram] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+    }
+
+    function preventFormSubmit(event: KeyboardEvent) {
+        const submitButton = document.querySelector('button[type="submit"]');
+		const duplicateCheckButton = document.querySelector('button[name="duplicateCheck"]');
+		if (event.key === "Enter" && event.target !== submitButton && event.target !== duplicateCheckButton) {
+			event.preventDefault();
+		}
     }
 
 </script>
@@ -125,7 +163,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">이름</td>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">이름<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <input name="membername" type="text" placeholder="이름" class="input input-bordered w-[200px] text-center" value={memberDto.name} />
@@ -170,16 +208,18 @@
                         <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
-                                    <input name="program" type="search" placeholder="담당 사업" class="input input-bordered w-[200px] text-center" 
+                                    <input name="program" type="search" placeholder="담당 사업" class="input input-bordered w-[500px] text-center" 
+                                        autocomplete="off"
                                         bind:value={programInputText}
                                         on:focus={() => loadProgram()}
                                         on:input={(event) => event.target && updateProgram((event.target as HTMLInputElement).value)}
                                         on:blur={() => setTimeout(() => { focusProgram = false; }, 100)}
+                                        on:keydown={handleKeyDown}
                                         />
                                         {#if focusProgram}
-                                        <div bind:this={membersBox} class="w-[200px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                            {#each filteredPrograms as program}
-                                                <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                        <div bind:this={membersBox} class="w-[500px] max-h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                            {#each filteredPrograms as program, index}
+                                                <div class="options w-full h-[48px] text-center p-1 cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexProgram ? 'active' : ''}" 
                                                 on:click={() => {
                                                     if (!programInput.some(m => m.id === program.id)) {
                                                         programInput.push(program);
@@ -220,7 +260,11 @@
 </div>
 
 <style>
-    .options:hover {
-        border-bottom: 2px solid gray;
+    .options:hover, .options.active {
+        background-color: #cbdceb;
+    }
+
+    .options {
+        height: 48px;
     }
 </style>

@@ -6,14 +6,18 @@ import com.example.cit.domain.member.member.repository.MemberRepository;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassDto;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassInputDto;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassLearningDto;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassMultipleDto;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.domain.school.schoolClass.repository.SchoolClassRepository;
+import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.standard.base.KwTypeV1;
+import com.example.cit.standard.base.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -88,7 +92,7 @@ public class SchoolClassService {
                     String[] classNoRange = classNo.split("-");
                     for (int i = Integer.parseInt(classNoRange[0]); i <= Integer.parseInt(classNoRange[1]); i++) {
                         List<Long> members = new ArrayList<>();
-                        members.add(schoolClassMultipleDto.getMemberId());
+                        if(schoolClassMultipleDto.getMemberId() != -1) members.add(schoolClassMultipleDto.getMemberId());
                         RsData<Empty> result = createSchoolClass(agencyId, schoolClassMultipleDto.getGrade(), i, false, "", members);
                         if (result.getResultCode().equals("400-2")) {
                             duplicateClasses.add(schoolClassMultipleDto.getGrade() + "학년 " + i + "반");
@@ -132,7 +136,17 @@ public class SchoolClassService {
 
     @Transactional
     public void deleteSchoolClasses(List<Long> schoolClassIds) {
-        schoolClassIds.forEach(schoolClassId -> this.deleteSchoolClass(schoolClassRepository.findById(schoolClassId).orElseThrow()));
+        schoolClassIds.stream()
+                .map(schoolClassRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(
+                        schoolClass -> {
+                            if(!schoolClass.getStudents().isEmpty()) {
+                                throw new GlobalException("학급에 학생이 존재합니다. 학생계정을 먼저 삭제하세요.");
+                            }
+                            deleteSchoolClass(schoolClass);
+                        });
     }
 
     @Transactional
@@ -208,5 +222,27 @@ public class SchoolClassService {
 
     public Optional<SchoolClass> findById(long id) {
         return schoolClassRepository.findById(id);
+    }
+
+    public List<SchoolClassInputDto> getSchoolCLassByMemberRole(Member member) {
+        return switch (member.getRoleLevel()) {
+            case 4 -> this.getSchoolClassDetail().stream()
+                    .map(SchoolClassInputDto::new)
+                    .collect(Collectors.toList());
+
+            case 3 -> member.getPrograms().stream()
+                    .flatMap(program -> program.getSchools().stream())
+                    .distinct()
+                    .flatMap(school -> school.getSchoolClasses().stream()
+                                    .map(SchoolClassInputDto::new)
+                    )
+                    .collect(Collectors.toList());
+
+            case 2 -> member.getSchoolClasses().stream()
+                    .map(SchoolClassInputDto::new)
+                    .collect(Collectors.toList());
+
+            default -> Collections.emptyList();
+        };
     }
 }

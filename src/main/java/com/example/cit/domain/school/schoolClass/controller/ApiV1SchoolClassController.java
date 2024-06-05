@@ -267,7 +267,7 @@ public class ApiV1SchoolClassController {
     @SecurityRequirement(name = "bearerAuth")
     @Transactional
     public RsData<Empty> createMultiple(
-            @Valid @RequestBody ApiV1SchoolClassController.SchoolClassMultipleRequestBody body
+            @Valid @RequestBody SchoolClassMultipleRequestBody body
     ) {
         return schoolClassService.createMultipleSchoolClasses(body.agencyId, body.rows);
 
@@ -342,6 +342,22 @@ public class ApiV1SchoolClassController {
                 .headers(headers)
                 .body(bytes);
     }
+
+    public record GetSchoolClassByMemberRoleResponseBody(@NonNull List<SchoolClassInputDto> schools) {}
+
+    @GetMapping(value = "/memberRole", consumes = ALL_VALUE)
+    @Operation(summary = "회원 권한에 따른 학급 목록 조회")
+    @PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<GetSchoolClassByMemberRoleResponseBody> getSchoolClassListByMemberRole(
+    ) {
+        return RsData.of(
+                new GetSchoolClassByMemberRoleResponseBody(
+                        schoolClassService.getSchoolCLassByMemberRole(rq.getMember())
+                )
+        );
+    }
+
 
     public record SchoolClassInputResponseBody(List<SchoolClassInputDto> schools) {}
 

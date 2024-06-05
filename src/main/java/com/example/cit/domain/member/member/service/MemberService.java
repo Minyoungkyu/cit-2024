@@ -14,7 +14,9 @@ import com.example.cit.domain.program.program.dto.ProgramInputDto;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.program.program.repository.ProgramRepository;
 import com.example.cit.domain.program.program.service.ProgramService;
+import com.example.cit.domain.school.school.dto.SchoolDto;
 import com.example.cit.domain.school.school.dto.SchoolInputListDto;
+import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
 import com.example.cit.domain.school.schoolClass.dto.SchoolClassInputDto;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
@@ -372,12 +374,32 @@ public class MemberService {
         return member;
     }
 
-    public MemberProgramAdmDto makeProgramAdmDto(Member member) {
-        List<ProgramDto> programDtoList = programService.getPrograms(member).stream()
-                .map(ProgramDto::new)
-                .toList();
+    public MemberProgramAdmDto makeProgramAdmDto(long memberId) {
 
-        return new MemberProgramAdmDto(member, programDtoList);
+        Member member = this.getMemberById(memberId);
+
+        if ( member.getRoleLevel() == 3) {
+
+            List<ProgramDto> programDtoList = programService.getPrograms(member).stream()
+                    .map(ProgramDto::new)
+                    .toList();
+
+            return new MemberProgramAdmDto(member, programDtoList, new ArrayList<>());
+
+        }
+
+        if ( member.getRoleLevel() == 2) {
+
+            List<SchoolClassInputDto> schoolClassInputDtoList = member.getSchoolClasses().stream()
+                    .map(SchoolClassInputDto::new)
+                    .toList();
+
+            return new MemberProgramAdmDto(member, new ArrayList<>(), schoolClassInputDtoList);
+
+        }
+
+        return new MemberProgramAdmDto(member, new ArrayList<>(), new ArrayList<>());
+
     }
 
     public List<MemberInputListDto> getProgramMembers() {
@@ -589,7 +611,15 @@ public class MemberService {
 
     @Transactional
     public void deleteMembers(List<Long> memberIds) {
-        memberIds.forEach(memberId -> this.deleteMember(memberRepository.findById(memberId).orElseThrow()));
+        memberIds.stream()
+                .map(this::getMemberById)
+                .forEach(
+                        member -> {
+                            member.getPrograms().forEach(program -> program.getMembers().remove(member));
+                            member.getPrograms().clear();
+                            deleteMember(member);
+                        }
+                );
     }
 
     @Transactional

@@ -25,6 +25,9 @@
     let focusAgency = $state(false);
     let focusMember = $state(false);
 
+    let activeOptionIndexAgency = $state(0);
+    let activeOptionIndexMember = $state(0);
+
     // let regionInput = $state(programDto.city);
     // let adInput = $state(programDto.administrativeDistrict);
     // let agencyInput = $state(programDto.schoolsNames) as components['schemas']['SchoolInputListDto'][];
@@ -32,7 +35,6 @@
     let memberInput = $state(schoolClassDto.responsibleMemberList) as components['schemas']['MemberInputListDto'][];
     let memberInputText = $state('');
 
-    loadSchool();
     async function loadSchool() {
         if (schools.length > 0) {
             focusAgency = true;
@@ -61,7 +63,22 @@
         focusMember = true;
     }
 
+    function updateSchools(searchText: string) {
+        focusAgency = true;
+        activeOptionIndexAgency = 0;
+        const searchLower = searchText.toLowerCase();
+        filteredSchools = [...schools].sort((a, b) => {
+            const scoreA = similarityScore(a.schoolName ?? '', searchLower);
+            const scoreB = similarityScore(b.schoolName ?? '', searchLower);
+            return scoreB - scoreA; 
+        });
+
+        if (schoolsBox) schoolsBox.scrollTop = 0;
+    }
+
     function updateMembers(searchText: string) {
+        focusMember = true;
+        activeOptionIndexMember = 0;
         const searchLower = searchText.toLowerCase();
         filteredMembers = [...members].sort((a, b) => {
             const scoreA = similarityScore(a.name ?? '', searchLower);
@@ -113,11 +130,11 @@
         //     return;
         // }
 
-        if (memberInput.length === 0) {
-            rq.msgError('담당자를 입력해주세요.');
-            form.member.focus();
-            return;
-        }
+        // if (memberInput.length === 0) {
+        //     rq.msgError('담당자를 입력해주세요.');
+        //     form.member.focus();
+        //     return;
+        // }
 
         // const agencyInput = schools.find(school => school.id == form.agency.value);
 
@@ -156,34 +173,64 @@
         }
     
     }
+
+    function handleKeyDown2(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexMember = (activeOptionIndexMember + 1) % filteredMembers.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+            activeOptionIndexMember = (activeOptionIndexMember - 1 + filteredMembers.length) % filteredMembers.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexMember >= 0) {
+            const selectedMember = filteredMembers[activeOptionIndexMember];
+            if (selectedMember && !memberInput.some(a => a.id === selectedMember.id)) {
+                memberInput.push(selectedMember);
+            }
+            focusMember = false;
+        }
+    }
+
+    function scrollToActiveOption() {
+        if (schoolsBox) {
+            const activeOption = schoolsBox.children[activeOptionIndexAgency] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        if (membersBox) {
+            const activeOption = membersBox.children[activeOptionIndexMember] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+    }
+
+    function preventFormSubmit(event: KeyboardEvent) {
+        const submitButton = document.querySelector('button[type="submit"]');
+		if (event.key === "Enter" && event.target !== submitButton) {
+			event.preventDefault();
+		}
+    }
 </script>
 
 <div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학급 정보
 </div>
 <div class="w-[95%] h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitModifyProgramForm}>
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitModifyProgramForm} on:keydown={preventFormSubmit}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">기관</td>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">사용 기관</td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             {schoolClassDto.schoolName}
-                            <!-- <div>
-                                <select name="agency" class="ml-3 p-2" bind:value={schoolClassDto.schoolId} >
-                                    <option value="NONE">선택</option>
-                                    {#each schools as school}
-                                        <option value={school.id}>{school.schoolName} ({school.region} / {school.administrativeDistrict})</option>
-                                    {/each}
-                                  </select>
-                                
-                            </div> -->
                         </div>
                     </td>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급코드</td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
@@ -205,22 +252,24 @@
                         <input name="isSpecial" type="checkbox" class="checkbox checkbox-sm" bind:checked={schoolClassDto.special} on:click={()=>isSpecialClick()}/>
                         <label for="isSpecial">특수반</label> -->
                     </td>
-                  </tr>
+                </tr>
                 <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당자</td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <input name="member" type="search" placeholder="담당자" class="input input-bordered w-[200px] text-center" 
+                                    autocomplete="off"
                                     bind:value={memberInputText}
                                     on:focus={() => loadMember()}
                                     on:input={(event) => event.target && updateMembers((event.target as HTMLInputElement).value)}
                                     on:blur={() => setTimeout(() => { focusMember = false; }, 100)}
+                                    on:keydown={handleKeyDown2}
                                     />
                                     {#if focusMember}
-                                    <div bind:this={membersBox} class="w-[200px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                        {#each filteredMembers as member}
-                                            <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                    <div bind:this={membersBox} class="w-[200px] max-h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredMembers as member, index}
+                                            <div class="options w-full h-[48px] text-center p-1 cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexMember ? 'active' : ''}" 
                                             on:click={() => {
                                                 if (!memberInput.some(m => m.id === member.id)) {
                                                     memberInput.push(member);
@@ -244,7 +293,7 @@
                             {/each}
                         </div>
                     </td>
-                  </tr>
+                </tr>
               </tbody>
             </table>
 
@@ -261,7 +310,11 @@
 </div>
 
 <style>
-    .options:hover {
-        border-bottom: 2px solid gray;
+    .options:hover, .options.active {
+        background-color: #cbdceb;
+    }
+
+    .options {
+        height: 48px;
     }
 </style>

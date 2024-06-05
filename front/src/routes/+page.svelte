@@ -19,12 +19,11 @@
     let muted = $state(true);
 
     onMount(() => {
-
-    video = document.getElementById('backgroundVideo') as HTMLVideoElement;
-    video.addEventListener('canplay', function() {
-      showBgThumb = false;
-      video.play();
-    });
+      video = document.getElementById('backgroundVideo') as HTMLVideoElement;
+      video.addEventListener('canplay', function() {
+        showBgThumb = false;
+        video.play();
+      });
 
     // const updateScale = () => {
     //   const currentHeight = window.innerHeight;
@@ -130,7 +129,7 @@
 
     if (error) rq.msgError(error.msg);
     else {
-      if(data.data.item.player.nickname.length === 0) {
+      if(data.data.isFirstLogin) {
         setNameCondition = true;
         rq.setLogined(data.data.item)
         // rq.msgAndRedirect(data, undefined, '/member/setName', () => rq.setLogined(data.data.item))

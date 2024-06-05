@@ -57,11 +57,15 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().POST('/api/v1/school/class/delete', {
+        const { data, error } = await rq.apiEndPoints().POST('/api/v1/school/class/delete', {
             body: {
                 schoolClassIds: checkedIds
             }
         });
+
+        if(error) {
+            rq.msgError(error.msg);
+        }
 
         if(data?.data) {
             rq.msgInfo(data.msg);
@@ -151,7 +155,7 @@
                     <td >{schoolClass.schoolName}</td>
                     <td >{schoolClass.className}</td>
                     <td >{schoolClass.code}</td>
-                    <td >{schoolClass.responsibleMemberNames}</td>
+                    <td class="overflow-hidden whitespace-nowrap truncate max-w-xs">{schoolClass.responsibleMemberNames.join(', ')}</td>
                     <td>
                         {#if rq.member.authorities.length >= 3}
                         <a href="/adm/menu/schoolClass/{schoolClass.id}" class="btn btn-xs btn-outline rounded-md border-gray-400">수정</a>

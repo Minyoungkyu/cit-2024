@@ -57,11 +57,16 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().POST('/api/v1/schools/delete', {
+        const { data, error } = await rq.apiEndPoints().POST('/api/v1/schools/delete', {
             body: {
                 schoolIds: checkedIds
             }
         });
+
+        if(error) {
+            rq.msgError(error.msg);
+            return;
+        }
 
         if(data?.data) {
             rq.msgInfo(data.msg);

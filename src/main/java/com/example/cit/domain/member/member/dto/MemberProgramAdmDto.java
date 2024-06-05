@@ -3,6 +3,9 @@ package com.example.cit.domain.member.member.dto;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.program.program.dto.ProgramDto;
 import com.example.cit.domain.program.program.entity.Program;
+import com.example.cit.domain.school.school.dto.SchoolDto;
+import com.example.cit.domain.school.school.dto.SchoolInputListDto;
+import com.example.cit.domain.school.schoolClass.dto.SchoolClassInputDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,10 +39,11 @@ public class MemberProgramAdmDto {
     private String position;
     @NotNull
     private String extensionNo;
-    @NotNull
-    private List<ProgramDto> responsibilities;
 
-    public MemberProgramAdmDto(Member member, List<ProgramDto> responsibilities) {
+    private List<ProgramDto> responsibilities;
+    private List<SchoolClassInputDto> responsibleSchools;
+
+    public MemberProgramAdmDto(Member member, List<ProgramDto> responsibilities, List<SchoolClassInputDto> responsibleSchools) {
         this.id = member.getId();
         this.createDate = member.getCreateDate();
         this.modifyDate = member.getModifyDate();
@@ -51,5 +55,6 @@ public class MemberProgramAdmDto {
         this.position = member.getPosition();
         this.extensionNo = member.getExtensionNo();
         this.responsibilities = responsibilities;
+        this.responsibleSchools = responsibleSchools;
     }
 }

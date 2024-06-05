@@ -220,14 +220,14 @@
         console.timeEnd('executePython')
     }
 
-    async function batchPlayLog() {
-        await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
-            body: {
-                gameMapDto: gameMapDto,
-                result: "clear"
-            }
-        });
-    }
+    // async function batchPlayLog() {
+    //     await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/playerLogs/batchPlayLog`, {
+    //         body: {
+    //             gameMapDto: gameMapDto,
+    //             result: "clear"
+    //         }
+    //     });
+    // }
     
     let i = 0;
     // function typeWriter() {
@@ -630,7 +630,7 @@
     }
 
     function doComplete() {
-        batchPlayLog();
+        // batchPlayLog();
         if((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
             showClearPopup = true;
         }

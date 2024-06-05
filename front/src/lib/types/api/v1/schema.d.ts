@@ -201,6 +201,10 @@ export interface paths {
     /** 학교 단건 조회 */
     get: operations["getSchool"];
   };
+  "/api/v1/schools/memberRole": {
+    /** 사용자 권한으로 학교 조회 */
+    get: operations["getSchoolsByMemberRole"];
+  };
   "/api/v1/schools/instituteList": {
     /** 기관 목록 조회 */
     get: operations["getInstituteListPage"];
@@ -228,6 +232,10 @@ export interface paths {
   "/api/v1/school/class/{id}": {
     /** 학급 단건 조회 */
     get: operations["getSchoolClass"];
+  };
+  "/api/v1/school/class/memberRole": {
+    /** 회원 권한에 따른 학급 목록 조회 */
+    get: operations["getSchoolClassListByMemberRole"];
   };
   "/api/v1/school/class/learning/{id}": {
     /** 학급 단건 조회 */
@@ -526,6 +534,7 @@ export interface components {
       /** Format: int64 */
       schoolId: number;
       className: string;
+      classNameAddSchool: string;
       responsibleMemberNames: string[];
       responsibleMemberList: components["schemas"]["MemberInputListDto"][];
       special: boolean;
@@ -1046,6 +1055,7 @@ export interface components {
     };
     LoginResponseBody: {
       item: components["schemas"]["MemberDto"];
+      isFirstLogin: boolean;
     };
     RsDataLoginResponseBody: {
       resultCode: string;
@@ -1162,6 +1172,16 @@ export interface components {
       msg: string;
       data: components["schemas"]["GetSchoolResponseBody"];
     };
+    RsDataSchoolsByMemberRoleResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["SchoolsByMemberRoleResponseBody"];
+    };
+    SchoolsByMemberRoleResponseBody: {
+      schools?: components["schemas"]["SchoolInputListDto"][];
+    };
     RsDataSchoolsResponseBody: {
       resultCode: string;
       /** Format: int32 */
@@ -1212,6 +1232,16 @@ export interface components {
       statusCode: number;
       msg: string;
       data: components["schemas"]["GetSchoolClassDetailResponseBody"];
+    };
+    GetSchoolClassByMemberRoleResponseBody: {
+      schools: components["schemas"]["SchoolClassInputDto"][];
+    };
+    RsDataGetSchoolClassByMemberRoleResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["GetSchoolClassByMemberRoleResponseBody"];
     };
     GetSchoolClassLearningResponseBody: {
       item: components["schemas"]["SchoolClassLearningDto"];
@@ -1563,8 +1593,45 @@ export interface components {
       msg: string;
       data: components["schemas"]["ClassMembersResponseBody"];
     };
+    ClassMemberDto: {
+      /** Format: int64 */
+      id: number;
+      createDate: string;
+      /** Format: date-time */
+      modifyDate: string;
+      username: string;
+      name: string;
+      cellphoneNo: string;
+      authorities: string[];
+      player: components["schemas"]["PlayerDto"];
+      department: string;
+      position: string;
+      extensionNo: string;
+      programName: string;
+      programs: components["schemas"]["ProgramInputDto"][];
+      schoolName: string;
+      schools: components["schemas"]["SchoolInputListDto"][];
+      schoolClassName: string;
+      schoolClasses: components["schemas"]["SchoolClassInputDto"][];
+      studentPassword: string;
+      studentNickName: string;
+      studentClass: string;
+      studentClassSchool: string;
+      studentClassCode: string;
+    };
     GetClassAdminResponseBody: {
-      itemPage: components["schemas"]["PageDtoMemberDto"];
+      itemPage: components["schemas"]["PageDtoClassMemberDto"];
+    };
+    PageDtoClassMemberDto: {
+      /** Format: int64 */
+      totalElementsCount: number;
+      /** Format: int64 */
+      pageElementsCount: number;
+      /** Format: int64 */
+      totalPagesCount: number;
+      /** Format: int32 */
+      number: number;
+      content: components["schemas"]["ClassMemberDto"][];
     };
     RsDataGetClassAdminResponseBody: {
       resultCode: string;
@@ -1590,7 +1657,8 @@ export interface components {
       department: string;
       position: string;
       extensionNo: string;
-      responsibilities: components["schemas"]["ProgramDto"][];
+      responsibilities?: components["schemas"]["ProgramDto"][];
+      responsibleSchools?: components["schemas"]["SchoolClassInputDto"][];
     };
     RsDataAdminMeResponseBody: {
       resultCode: string;
@@ -2865,6 +2933,23 @@ export interface operations {
       };
     };
   };
+  /** 사용자 권한으로 학교 조회 */
+  getSchoolsByMemberRole: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataSchoolsByMemberRoleResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 기관 목록 조회 */
   getInstituteListPage: {
     parameters: {
@@ -2998,6 +3083,23 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataGetSchoolClassDetailResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 회원 권한에 따른 학급 목록 조회 */
+  getSchoolClassListByMemberRole: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetSchoolClassByMemberRoleResponseBody"];
         };
       };
       /** @description Bad Request */

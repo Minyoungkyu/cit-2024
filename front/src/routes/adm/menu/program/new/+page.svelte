@@ -22,14 +22,17 @@
     let focusAgency = $state(false);
     let focusMember = $state(false);
 
-    let regionInput = $state('');
-    let adInput = $state('');
+    let regionInput = $state('시도');
+    let adInput = $state('행정구');
     let agencyInput = $state([]) as components['schemas']['SchoolInputListDto'][];
     let agencyInputText = $state('');
     let memberInput = $state([]) as components['schemas']['MemberInputListDto'][];
     let memberInputText = $state('');
 
     let duplicateChecked = $state(false);
+
+    let activeOptionIndexAgency = $state(0);
+    let activeOptionIndexMember = $state(0);
 
     async function loadRegion() {
         if (regions.length > 0) {
@@ -105,6 +108,8 @@
     }
 
     function updateSchools(searchText: string) {
+        focusAgency = true;
+        activeOptionIndexAgency = 0;
         const searchLower = searchText.toLowerCase();
         filteredSchools = [...schools].sort((a, b) => {
             const scoreA = similarityScore(a.schoolName ?? '', searchLower);
@@ -116,6 +121,8 @@
     }
 
     function updateMembers(searchText: string) {
+        focusMember = true;
+        activeOptionIndexMember = 0;
         const searchLower = searchText.toLowerCase();
         filteredMembers = [...members].sort((a, b) => {
             const scoreA = similarityScore(a.name ?? '', searchLower);
@@ -188,6 +195,11 @@
         //     return;
         // }
 
+        if(regionInput === '시도' || adInput === '행정구') {
+            rq.msgError('지역을 입력해주세요.');
+            return;
+        }
+
         const { data, error } = await rq.apiEndPoints().POST('/api/v1/programs/new', {
             body: {
                 name: form.programName.value,
@@ -226,18 +238,82 @@
         });
     }
 
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexAgency = (activeOptionIndexAgency + 1) % filteredSchools.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+            activeOptionIndexAgency = (activeOptionIndexAgency - 1 + filteredSchools.length) % filteredSchools.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexAgency >= 0) {
+            const selectedSchool = filteredSchools[activeOptionIndexAgency];
+            if (selectedSchool && !agencyInput.some(a => a.id === selectedSchool.id)) {
+                agencyInput.push(selectedSchool);
+            }
+            focusAgency = false;
+        }
+    }
+
+    function handleKeyDown2(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexMember = (activeOptionIndexMember + 1) % filteredMembers.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+            activeOptionIndexMember = (activeOptionIndexMember - 1 + filteredMembers.length) % filteredMembers.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexMember >= 0) {
+            const selectedMember = filteredMembers[activeOptionIndexMember];
+            if (selectedMember && !memberInput.some(a => a.id === selectedMember.id)) {
+                memberInput.push(selectedMember);
+            }
+            focusMember = false;
+        }
+    }
+
+    function scrollToActiveOption() {
+        if (schoolsBox) {
+            const activeOption = schoolsBox.children[activeOptionIndexAgency] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        if (membersBox) {
+            const activeOption = membersBox.children[activeOptionIndexMember] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+    }
+
+    function preventFormSubmit(event: KeyboardEvent) {
+        const submitButton = document.querySelector('button[type="submit"]');
+		const duplicateCheckButton = document.querySelector('button[name="duplicateCheck"]');
+		if (event.key === "Enter" && event.target !== submitButton && event.target !== duplicateCheckButton) {
+			event.preventDefault();
+		}
+    }
+
+    function adInputReset() {
+        adInput = '행정구';
+    }
+
+  
+  onMount(() => {
+      loadRegion();
+  });
 </script>
 
 <div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     사업 생성
 </div>
 <div class="w-[95%] h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
+    <form id="myForm" class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm} on:keydown={preventFormSubmit}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업명</td>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업명<span class="ml-1 text-red-500">*</span></td>
                   <td class="border-b p-3">
                     <div class="flex flex-row items-center gap-2">
                         <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-[250px]" on:input={()=>{duplicateChecked=false;}} />
@@ -245,7 +321,7 @@
                             <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
                         {/if}
                         {#if !duplicateChecked}
-                        <button class="btn btn-sm btn-error btn-outline ml-3" on:click={duplicateCheck} type="button">
+                        <button class="btn btn-sm btn-error btn-outline ml-3" on:click={duplicateCheck} type="button" name="duplicateCheck">
                             중복확인
                         </button>
                         {/if}
@@ -253,7 +329,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업기간</td>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업기간<span class="ml-1 text-red-500">*</span></td>
                   <td class="border-b p-3">
                     <input name="startDate" type="date" placeholder="사업명" class="input input-bordered w-[200px]" />
                     <span class="text-[20px]">&nbsp; ~ &nbsp;</span>
@@ -261,45 +337,28 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역</td>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역<span class="ml-1 text-red-500">*</span></td>
                   <td class="border-b p-3">
                     <div class="flex flex-row gap-6">
                         <div>
-                            <input name="region" type="text" placeholder="시도" class="input input-bordered w-[150px] text-center" 
-                                bind:value={regionInput}
-                                on:focus={() => loadRegion()}
-                                on:input={(event) => event.target && updateRegions((event.target as HTMLInputElement).value)}
-                                on:blur={() => setTimeout(() => { focusRegion = false; }, 100)}
-                                />
-                            {#if focusRegion}
-                            <div bind:this={regionsBox} class="w-[150px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto bg-white">
-                                {#each filteredRegions as region}
-                                    <div class="options w-[80%] text-center p-1 cursor-pointer" 
-                                        on:click={() => regionInput = (region.name ?? '')}>
-                                        {region.name}
-                                    </div>
+                            <select class="select select-bordered w-[150px] text-center" placeholder="시도" 
+                                on:change={adInputReset}
+                                bind:value={regionInput}>
+                                <option disabled selected={regionInput == '시도'}>시도</option>
+                                {#each regions as region}
+                                    <option value={region.name}>{region.name}</option>
                                 {/each}
-                            </div>
-                            {/if}
+                            </select>
                         </div>
                         <div>
                             {#if isValidRegionInput()}
-                            <input name="ad" type="text" placeholder="행정구" class="input input-bordered w-[150px] text-center" 
-                                bind:value={adInput}
-                                on:focus={() => loadAd()}
-                                on:input={(event) => event.target && updateAds((event.target as HTMLInputElement).value)}
-                                on:blur={() => setTimeout(() => { focusAd = false; }, 150)}
-                                />
-                            {#if focusAd}
-                            <div bind:this={adsBox} class="w-[150px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto bg-white">
-                                {#each filteredAds as ad}
-                                    <div class="options w-[80%] text-center p-1 cursor-pointer" 
-                                        on:click={() => adInput = (ad.name ?? '')}>
-                                        {ad.name}
-                                    </div>
+                            <select class="select select-bordered w-[150px] text-center" on:focus={loadAd} placeholder="시도" 
+                                bind:value={adInput}>
+                                <option disabled selected={adInput == '행정구'}>행정구</option>
+                                {#each ads as ad}
+                                    <option value={ad.name}>{ad.name}</option>
                                 {/each}
-                            </div>
-                            {/if}
+                            </select>
                             {/if}
                         </div>
                     </div>
@@ -311,25 +370,29 @@
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
-                                <input name="agency" type="search" placeholder="사용 기관" class="input input-bordered w-[300px] text-center" 
+                                <input name="agency" type="search" placeholder="사용 기관" class="input input-bordered w-[400px] text-center" 
+                                    autocomplete="off"
                                     bind:value={agencyInputText}
                                     on:focus={() => loadSchool()}
                                     on:input={(event) => event.target && updateSchools((event.target as HTMLInputElement).value)}
                                     on:blur={() => setTimeout(() => { focusAgency = false; }, 100)}
-                                    />
-                                    {#if focusAgency}
-                                    <div bind:this={schoolsBox} class="w-[330px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                        {#each filteredSchools as school}
-                                            <div class="options w-[80%] text-center p-1 cursor-pointer" 
-                                            on:click={() => {
-                                                if (!agencyInput.some(a => a.id === school.id)) {
-                                                    agencyInput.push(school);
-                                                }}}>
+                                    on:keydown={handleKeyDown}
+                                />
+
+                                {#if focusAgency}
+                                    <div bind:this={schoolsBox} class="w-[400px] max-h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredSchools as school, index}
+                                            <div class="options w-full h-[48px] text-center cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexAgency ? 'active' : ''}"
+                                                on:click={() => {
+                                                    if (!agencyInput.some(a => a.id === school.id)) {
+                                                        agencyInput.push(school);
+                                                    }
+                                                }}>
                                                 {school.schoolName} ({school.region} / {school.administrativeDistrict})
                                             </div>
                                         {/each}
                                     </div>
-                                    {/if}
+                                {/if}
                             </div>
                             {#each agencyInput as agency}
                                 <div class="flex flex-row gap-2 text-[15px] ml-4 mt-2">
@@ -344,22 +407,24 @@
                             {/each}
                         </div>
                     </td>
-                  </tr>
+                </tr>
                 <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당자</td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <input name="member" type="search" placeholder="담당자" class="input input-bordered w-[200px] text-center" 
+                                    autocomplete="off"
                                     bind:value={memberInputText}
                                     on:focus={() => loadMember()}
                                     on:input={(event) => event.target && updateMembers((event.target as HTMLInputElement).value)}
                                     on:blur={() => setTimeout(() => { focusMember = false; }, 100)}
+                                    on:keydown={handleKeyDown2}
                                     />
                                     {#if focusMember}
-                                    <div bind:this={membersBox} class="w-[200px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                        {#each filteredMembers as member}
-                                            <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                    <div bind:this={membersBox} class="w-[200px] max-h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredMembers as member, index}
+                                            <div class="options w-full h-[48px] text-center p-1 cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexMember ? 'active' : ''}" 
                                             on:click={() => {
                                                 if (!memberInput.some(m => m.id === member.id)) {
                                                     memberInput.push(member);
@@ -400,7 +465,11 @@
 </div>
 
 <style>
-    .options:hover {
-        border-bottom: 2px solid gray;
+    .options:hover, .options.active {
+        background-color: #cbdceb;
+    }
+
+    .options {
+        height: 48px;
     }
 </style>

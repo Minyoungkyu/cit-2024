@@ -2,6 +2,7 @@
 	import rq from "$lib/rq/rq.svelte";
 	import { onMount } from "svelte";
     import type { components } from '$lib/types/api/v1/schema';
+	import { load } from "../[id]/+page";
 
     // const { data } = $props<{ data: { schoolDto: components['schemas']['SchoolDto'] } }>();
     // const { schoolDto } = data;
@@ -25,8 +26,8 @@
     // let focusAgency = $state(false);
     // let focusMember = $state(false);
 
-    let regionInput = $state('');
-    let adInput = $state('');
+    let regionInput = $state('시도');
+    let adInput = $state('행정구');
     // let agencyInput = $state(schoolDto.schoolsNames) as components['schemas']['SchoolInputListDto'][];
     // let agencyInputText = $state('');
     // let memberInput = $state(schoolDto.responsibleMemberNames) as components['schemas']['MemberInputListDto'][];
@@ -149,26 +150,19 @@
     async function submitNewSchoolForm(this: HTMLFormElement) {
         const form: HTMLFormElement = this;
 
-        // if (form.schoolName.value.trim().length === 0) {
-        //     rq.msgError('학교명을 입력해주세요.');
-        //     form.schoolName.focus();
-        //     return;
-        // }
+        if (form.schoolName.value.trim().length === 0) {
+            rq.msgError('학교명을 입력해주세요.');
+            form.schoolName.focus();
+            return;
+        }
 
         // if (form.startDate.value === '' || form.endDate.value === '') {
         //     rq.msgError('학교기간을 입력해주세요.');
         //     return;
         // }
 
-        if (regionInput.trim().length === 0) {
-            rq.msgError('지역을 입력해주세요.');
-            form.region.focus();
-            return;
-        }
-
-        if (adInput.trim().length === 0) {
-            rq.msgError('행정구를 입력해주세요.');
-            form.ad.focus();
+        if (regionInput === '시도' || adInput === '행정구') {
+            rq.msgError('지역을 선택해주세요.');
             return;
         }
 
@@ -191,66 +185,63 @@
             rq.msgAndRedirect(data, undefined, '/adm/menu/school');
         }
     }
+
+    function preventFormSubmit(event: KeyboardEvent) {
+        const submitButton = document.querySelector('button[type="submit"]');
+		if (event.key === "Enter" && event.target !== submitButton) {
+			event.preventDefault();
+		}
+    }
+
+    function adInputReset() {
+        adInput = '행정구';
+    }
+
+    loadRegion();
 </script>
 
 <div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학교 생성
 </div>
 <div class="w-[95%] h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitNewSchoolForm}>
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitNewSchoolForm} on:keydown={preventFormSubmit}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">학교명</td>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">학교명<span class="ml-1 text-red-500">*</span></td>
                   <td class="border-b p-3">
                     <input name="schoolName" type="text" placeholder="학교명" class="input input-bordered w-[250px]"/>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역</td>
-                  <td class="border-b p-3">
-                    <div class="flex flex-row gap-6">
-                        <div>
-                            <input name="region" type="text" placeholder="시도" class="input input-bordered w-[150px] text-center" 
-                                bind:value={regionInput}
-                                on:focus={() => loadRegion()}
-                                on:input={(event) => event.target && updateRegions((event.target as HTMLInputElement).value)}
-                                on:blur={() => setTimeout(() => { focusRegion = false; }, 100)}
-                                />
-                            {#if focusRegion}
-                            <div bind:this={regionsBox} class="w-[150px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto bg-white">
-                                {#each filteredRegions as region}
-                                    <div class="options w-[80%] text-center p-1 cursor-pointer" 
-                                        on:click={() => regionInput = (region.name ?? '')}>
-                                        {region.name}
-                                    </div>
-                                {/each}
-                            </div>
-                            {/if}
-                        </div>
-                        <div>
-                            <input name="ad" type="text" placeholder="행정구" class="input input-bordered w-[150px] text-center" 
-                                bind:value={adInput}
-                                on:focus={() => loadAd()}
-                                on:input={(event) => event.target && updateAds((event.target as HTMLInputElement).value)}
-                                on:blur={() => setTimeout(() => { focusAd = false; }, 150)}
-                                />
-                            {#if focusAd}
-                            <div bind:this={adsBox} class="w-[150px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto bg-white">
-                                {#each filteredAds as ad}
-                                    <div class="options w-[80%] text-center p-1 cursor-pointer" 
-                                        on:click={() => adInput = (ad.name ?? '')}>
-                                        {ad.name}
-                                    </div>
-                                {/each}
-                            </div>
-                            {/if}
-                        </div>
-                    </div>
-
-                  </td>
-                </tr>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역<span class="ml-1 text-red-500">*</span></td>
+                    <td class="border-b p-3">
+                      <div class="flex flex-row gap-6">
+                          <div>
+                              <select class="select select-bordered w-[150px] text-center" placeholder="시도" 
+                                on:change={adInputReset}
+                                bind:value={regionInput}>
+                                  <option disabled selected={regionInput == '시도'}>시도</option>
+                                  {#each regions as region}
+                                      <option value={region.name}>{region.name}</option>
+                                  {/each}
+                              </select>
+                          </div>
+                          <div>
+                              {#if isValidRegionInput()}
+                              <select class="select select-bordered w-[150px] text-center" on:focus={loadAd} placeholder="시도" bind:value={adInput}>
+                                  <option disabled selected={adInput == '행정구'}>행정구</option>
+                                  {#each ads as ad}
+                                      <option value={ad.name}>{ad.name}</option>
+                                  {/each}
+                              </select>
+                              {/if}
+                          </div>
+                      </div>
+  
+                    </td>
+                  </tr>
                 <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역규모</td>
                     <td class="border-b p-3">

@@ -8,7 +8,7 @@
 	import { onMount } from 'svelte';
 
 
-    let memberList: components['schemas']['MemberDto'][] = $state([]);
+    let memberList: components['schemas']['ClassMemberDto'][] = $state([]);
     let allChecked = $state(false);
     let individualChecks: boolean[] = $state([]);
 
@@ -70,8 +70,8 @@
     }
 
     function truncateProgramName(name: string) {
-        if (name.length > 30) {
-            return name.slice(0, 30) + '...';
+        if (name.length > 80) {
+            return name.slice(0, 80) + '...';
         }
         return name;
     }
@@ -155,7 +155,9 @@
                     <td >{member.username}</td>
                     <td >{member.name}</td>
                     <td >{member.cellphoneNo}</td>
-                    <td >{truncateProgramName(member.schoolClassName)}</td>
+                    <td class="overflow-hidden whitespace-nowrap truncate max-w-xs">
+                        {member.schoolClassName}
+                    </td>
                     <td >{member.createDate}</td>
                     <td>
                         {#if rq.member.authorities.length >= 3}

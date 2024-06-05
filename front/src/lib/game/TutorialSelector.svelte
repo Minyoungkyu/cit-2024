@@ -58,7 +58,7 @@
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
             <div class="w-[450px] h-[500px] flex justify-start">
                 <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">
-                    {'지구의 환경이 심하게 오염되었다\n\n기본적인 이동방법을익히고\n우주로 떠나기위한 준비를하자'}
+                    {'지구의 환경이 심각하게 오염되어 더 이상 살 수 없는 상태가 되었습니다.\n이제 여러분은 인류의 미래를 위해 우주로 떠나 미지의 행성을 개척해야 합니다. \n우주 탐사를 위해 기본적인 이동 방법을 배워봅시다.'}
                 </div>
             </div>
         </div>

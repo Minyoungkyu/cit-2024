@@ -143,7 +143,7 @@
                     <td >{program.startDate} ~ {program.endDate}</td>
                     <td >{program.city}&nbsp;{program.administrativeDistrict}</td>
                     <td >{program.responsibleMemberNames.map(item => item).join(', ')}</td>
-                    <td >{program.schoolsNames}</td>
+                    <td class="overflow-hidden whitespace-nowrap truncate max-w-xs">{program.schoolsNames.join(', ')}</td>
                     <td>
                         {#if rq.member.authorities.length >= 3}
                         <a href="/adm/menu/program/{program.id}" class="btn btn-xs btn-outline rounded-md border-gray-400">수정</a>

@@ -1135,7 +1135,7 @@
                                 <div class="flex flex-col items-center justify-center ml-[73px]">
                                     <div class="font-[900] text-[50px] absolute top-[12px] left-[200px]" style="color:rgb(64 226 255)">가이드</div>
                                     <div class="w-[46px] h-[46px] absolute top-[70px] right-[10px] cursor-pointer" style="background-image:url('/img/inGame/btn_popup_close.png')" on:click={() => closeModal()}></div>
-                                    <div id="typing" class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left element" style="white-space:pre-wrap;">
+                                    <div id="typing" class="h-[600px] w-[602px] pt-[150px] ml-[50px] text-[25px] mr-[35px] font-bold text-white text-left element overflow-y-scroll" style="white-space:pre-wrap;">
                                         {gameMapDto.guideText}
                                     </div>
                                     <div class="w-[602px] h-[250px] text-[22px] font-bold text-white text-left flex items-center justify-center" 

@@ -1,9 +1,6 @@
 package com.example.cit.domain.member.member.controller;
 
-import com.example.cit.domain.member.member.dto.MemberInputListDto;
-import com.example.cit.domain.member.member.dto.MemberMeDto;
-import com.example.cit.domain.member.member.dto.MemberProgramAdmDto;
-import com.example.cit.domain.member.member.dto.MemberDto;
+import com.example.cit.domain.member.member.dto.*;
 import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.member.member.service.MemberService;
 import com.example.cit.domain.program.program.dto.ProgramDto;
@@ -68,7 +65,7 @@ public class ApiV1MemberController {
     public record LoginRequestBody(@NotNull int roleLevel, @NotBlank String username, @NotBlank String password) {
     }
 
-    public record LoginResponseBody(@NonNull MemberDto item) {
+    public record LoginResponseBody(@NonNull MemberDto item, @NonNull boolean isFirstLogin) {
     }
 
     @PostMapping(value = "/login")
@@ -93,9 +90,11 @@ public class ApiV1MemberController {
         rq.setCrossDomainCookie("refreshToken", authAndMakeTokensRs.getData().refreshToken());
         rq.setCrossDomainCookie("accessToken", authAndMakeTokensRs.getData().accessToken());
 
+        Member member = authAndMakeTokensRs.getData().member();
+
         return authAndMakeTokensRs.newDataOf(
                 new LoginResponseBody(
-                        new MemberDto(authAndMakeTokensRs.getData().member())
+                        new MemberDto(member), member.getPlayer().getProfileInventories().isEmpty()
                 )
         );
     }
@@ -113,9 +112,11 @@ public class ApiV1MemberController {
         rq.setCrossDomainCookie("refreshToken", authAndMakeTokensRs.getData().refreshToken());
         rq.setCrossDomainCookie("accessToken", authAndMakeTokensRs.getData().accessToken());
 
+        Member member = authAndMakeTokensRs.getData().member();
+
         return authAndMakeTokensRs.newDataOf(
                 new LoginResponseBody(
-                        new MemberDto(authAndMakeTokensRs.getData().member())
+                        new MemberDto(member), member.getPlayer().getProfileInventories().isEmpty()
                 )
         );
     }
@@ -142,7 +143,7 @@ public class ApiV1MemberController {
     public RsData<AdminMeResponseBody> getAdminMe() {
         return RsData.of(
                 new AdminMeResponseBody(
-                        memberService.makeProgramAdmDto(rq.getMember())
+                        memberService.makeProgramAdmDto(rq.getMember().getId())
                 )
         );
     }
@@ -154,7 +155,7 @@ public class ApiV1MemberController {
     public RsData<LoginResponseBody> adminCheckPassword(@Valid @RequestBody AdminCheckPasswordRequestBody body) {
         return RsData.of(
                 new LoginResponseBody(
-                        new MemberDto(memberService.checkPassword(rq.getMember().getId(), body.password))
+                        new MemberDto(memberService.checkPassword(rq.getMember().getId(), body.password)), false
                 )
         );
     }
@@ -413,7 +414,7 @@ public class ApiV1MemberController {
     }
 
 
-    public record GetClassAdminResponseBody(@NonNull PageDto<MemberDto> itemPage) {}
+    public record GetClassAdminResponseBody(@NonNull PageDto<ClassMemberDto> itemPage) {}
 
     @GetMapping(value = "/class", consumes = ALL_VALUE)
     @Operation(summary = "학급관리자 목록 조회")
@@ -428,7 +429,7 @@ public class ApiV1MemberController {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
         Page<Member> itemPage = memberService.findByKw(kwType, kw, pageable, 2);
 
-        Page<MemberDto> _itemPage = itemPage.map(MemberDto::new);
+        Page<ClassMemberDto> _itemPage = itemPage.map(ClassMemberDto::new);
 
         return RsData.of(
                 new ApiV1MemberController.GetClassAdminResponseBody(

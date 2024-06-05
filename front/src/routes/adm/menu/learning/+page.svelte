@@ -144,7 +144,7 @@
                     <td >{schoolClass.schoolName}</td>
                     <td >{schoolClass.className}</td>
                     <td >{schoolClass.code}</td>
-                    <td >{schoolClass.responsibleMemberNames}</td>
+                    <td class="overflow-hidden whitespace-nowrap truncate max-w-xs">{schoolClass.responsibleMemberNames.join(', ')}</td>
                     <td>
                         <a href="/adm/menu/learning/{schoolClass.id}" class="btn btn-xs">진도 관리</a>
                     </td>

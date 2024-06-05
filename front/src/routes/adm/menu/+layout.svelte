@@ -11,6 +11,10 @@
 
     let isMobile = $state(false);
 
+    function logout() {
+        if(confirm('로그아웃 하시겠습니까?')) rq.logoutAndRedirect('/adm');
+    }
+
     onMount(() => {
         const query = window.matchMedia('(max-width: 1466px)');
 
@@ -46,8 +50,16 @@
                 <MobileSideMenu />
             </div> -->
             <div class="flex flex-row items-center gap-8 mr-4">
-                <div class="top-content cursor-pointer {isActiveMyPage ? 'active' : ''}"><a href="/adm/menu/checkPass">마이페이지</a></div>
-                <div class="top-content cursor-pointer">로그아웃</div>
+                <div class="top-content cursor-pointer {isActiveMyPage ? 'active' : ''}">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <a href="/adm/menu/checkPass">
+                        {rq.member.name} 님
+                    </a>
+                </div>
+                <div class="top-content cursor-pointer" on:click={() => logout()}>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    로그아웃
+                </div>
             </div>
         </div>
         <div class="w-full h-full contentBody bg-gray-800 flex flex-col items-center bg-white {isMobile ? '' : 'rounded-l-xl'} overflow-auto pt-20">

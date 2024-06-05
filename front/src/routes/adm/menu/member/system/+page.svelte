@@ -161,7 +161,7 @@
                     <td >{member.position}</td>
                     <td >{member.extensionNo}</td>
                     <td >{member.cellphoneNo}</td>
-                    <td >{truncateProgramName(member.programName)}</td>
+                    <td class="overflow-hidden whitespace-nowrap truncate max-w-xs">{member.programName}</td>
                     <td >{member.createDate}</td>
                     <td>
                         {#if rq.member.authorities.length >= 4}

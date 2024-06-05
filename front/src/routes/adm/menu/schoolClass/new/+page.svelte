@@ -24,10 +24,13 @@
 
     let regionInput = $state('');
     let adInput = $state('');
-    let agencyInput: components['schemas']['SchoolInputListDto'] | 'NONE' = $state('NONE');
+    let agencyInput: components['schemas']['SchoolInputListDto'] | null;
     let agencyInputText = $state('');
     let memberInput = $state([]) as components['schemas']['MemberInputListDto'][];
     let memberInputText = $state('');
+
+    let activeOptionIndexAgency = $state(0);
+    let activeOptionIndexMember = $state(0);
 
     async function loadRegion() {
         if (regions.length > 0) {
@@ -59,14 +62,13 @@
         focusAd = true;
     }
 
-    loadSchool();
     async function loadSchool() {
         if (schools.length > 0) {
             focusAgency = true;
             return;
         }
 
-        const { data } = await rq.apiEndPoints().GET('/api/v1/schools/input', {
+        const { data } = await rq.apiEndPoints().GET('/api/v1/schools/memberRole', {
         });
 
         schools = data?.data.schools || [];
@@ -80,7 +82,7 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().GET('/api/v1/members/program', {
+        const { data } = await rq.apiEndPoints().GET('/api/v1/members/input/class', {
         });
 
         members = data?.data.members || [];
@@ -104,6 +106,14 @@
     }
 
     function updateSchools(searchText: string) {
+
+        if(agencyInput != null) {
+            agencyInput = null
+            agencyInputText = '';
+        }
+
+        focusAgency = true;
+        activeOptionIndexAgency = 0;
         const searchLower = searchText.toLowerCase();
         filteredSchools = [...schools].sort((a, b) => {
             const scoreA = similarityScore(a.schoolName ?? '', searchLower);
@@ -115,6 +125,8 @@
     }
 
     function updateMembers(searchText: string) {
+        focusMember = true;
+        activeOptionIndexMember = 0;
         const searchLower = searchText.toLowerCase();
         filteredMembers = [...members].sort((a, b) => {
             const scoreA = similarityScore(a.name ?? '', searchLower);
@@ -147,10 +159,8 @@
     async function submitCreateProgramForm(this: HTMLFormElement) {
         const form: HTMLFormElement = this;
 
-
-        const agencyInput = schools.find(school => school.id == form.agency.value);
         // if agencyInput is not found
-        if (!agencyInput) {
+        if (!agencyInput || agencyInput == null) {
             rq.msgError('기관을 선택해주세요.');
             return;
         }
@@ -186,10 +196,11 @@
         }
 
         // if member is null
-        if (memberInput.length === 0) {
-            rq.msgError('담당자를 입력해주세요.');
-            return;
-        }
+
+        // if (memberInput.length === 0) {
+        //     rq.msgError('담당자를 입력해주세요.');
+        //     return;
+        // }
         
         // rq.msgError('done.');
         // return;
@@ -227,62 +238,139 @@
     
     }
 
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexAgency = (activeOptionIndexAgency + 1) % filteredSchools.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+            activeOptionIndexAgency = (activeOptionIndexAgency - 1 + filteredSchools.length) % filteredSchools.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexAgency >= 0) {
+            agencyInput = filteredSchools[activeOptionIndexAgency];
+            agencyInputText = filteredSchools[activeOptionIndexAgency].schoolName ?? '';
+            focusAgency = false;
+        }
+    }
+
+    function handleKeyDown2(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexMember = (activeOptionIndexMember + 1) % filteredMembers.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+            activeOptionIndexMember = (activeOptionIndexMember - 1 + filteredMembers.length) % filteredMembers.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexMember >= 0) {
+            const selectedMember = filteredMembers[activeOptionIndexMember];
+            if (selectedMember && !memberInput.some(a => a.id === selectedMember.id)) {
+                memberInput.push(selectedMember);
+            }
+            focusMember = false;
+        }
+    }
+
+    function scrollToActiveOption() {
+        if (schoolsBox) {
+            const activeOption = schoolsBox.children[activeOptionIndexAgency] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        if (membersBox) {
+            const activeOption = membersBox.children[activeOptionIndexMember] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+    }
+
+    function preventFormSubmit(event: KeyboardEvent) {
+        const submitButton = document.querySelector('button[type="submit"]');
+		if (event.key === "Enter" && event.target !== submitButton) {
+			event.preventDefault();
+		}
+    }
+
 </script>
 
 <div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학급 개별 생성
 </div>
 <div class="w-[95%] h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm} on:keydown={preventFormSubmit}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">기관</td>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">사용 기관<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
-                                <select name="agency" class="ml-3 p-2" >
-                                    <option value="NONE">선택</option>
-                                    {#each schools as school}
-                                        <option value={school.id}>{school.schoolName} ({school.region} / {school.administrativeDistrict})</option>
-                                    {/each}
-                                  </select>
-                                
+                                <input name="agency" type="search" placeholder="사용 기관" class="input input-bordered w-[400px] text-center" 
+                                    autocomplete="off"
+                                    bind:value={agencyInputText}
+                                    on:focus={() => loadSchool()}
+                                    on:input={(event) => event.target && updateSchools((event.target as HTMLInputElement).value)}
+                                    on:blur={() => {
+                                        if(agencyInput == null) {
+                                            agencyInputText = '';
+                                        }
+                                        setTimeout(() => { focusAgency = false; }, 100);
+                                        }}
+                                    on:keydown={handleKeyDown}
+                                />
+
+                                {#if focusAgency}
+                                    <div bind:this={schoolsBox} class="w-[400px] max-h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredSchools as school, index}
+                                            <div class="options w-full h-[48px] text-center cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexAgency ? 'active' : ''}"
+                                                on:click={() => {
+                                                    agencyInput = school;
+                                                    agencyInputText = school.schoolName ?? '';
+                                                }}>
+                                                {school.schoolName} ({school.region} / {school.administrativeDistrict})
+                                            </div>
+                                        {/each}
+                                    </div>
+                                {/if}
                             </div>
                         </div>
                     </td>
-                  </tr>
+                </tr>
                   <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급명</td>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급명<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
                         <div id="normalClass">
-                        <input name="grade" type="text" placeholder="학년" class="input input-bordered w-[200px] text-center" />
-                        <input name="classNo" type="text" placeholder="반" class="input input-bordered w-[200px] text-center" />
+                        <input name="grade" type="number" min="1" max="6" step="1" placeholder="학년" class="input input-bordered w-[200px] text-center" />
+                        <input name="classNo" type="number" min="1" step="1" placeholder="반" class="input input-bordered w-[200px] text-center" />
                     </div>
                     <div id="specialClass" style="display: none;">
                         <input name="specialName" type="text" placeholder="특수반명" class="input input-bordered w-[200px] text-center" />
-                        </div>
+                    </div>
+                    <div class="flex items-cetner mt-2">
                         <input name="isSpecial" type="checkbox" class="checkbox checkbox-sm" on:click={()=>isSpecialClick()}/>
-                        <label for="isSpecial">특수반</label>
+                        <label for="isSpecial" class="ml-2">특수반</label>
+                    </div>
                     </td>
                   </tr>
-                <tr>
+                  <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">담당자</td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
                                 <input name="member" type="search" placeholder="담당자" class="input input-bordered w-[200px] text-center" 
+                                    autocomplete="off"
                                     bind:value={memberInputText}
                                     on:focus={() => loadMember()}
                                     on:input={(event) => event.target && updateMembers((event.target as HTMLInputElement).value)}
                                     on:blur={() => setTimeout(() => { focusMember = false; }, 100)}
+                                    on:keydown={handleKeyDown2}
                                     />
                                     {#if focusMember}
-                                    <div bind:this={membersBox} class="w-[200px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                        {#each filteredMembers as member}
-                                            <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                    <div bind:this={membersBox} class="w-[200px] max-h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredMembers as member, index}
+                                            <div class="options w-full h-[48px] text-center p-1 cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexMember ? 'active' : ''}" 
                                             on:click={() => {
                                                 if (!memberInput.some(m => m.id === member.id)) {
                                                     memberInput.push(member);
@@ -323,7 +411,11 @@
 </div>
 
 <style>
-    .options:hover {
-        border-bottom: 2px solid gray;
+    .options:hover, .options.active {
+        background-color: #cbdceb;
+    }
+
+    .options {
+        height: 48px;
     }
 </style>

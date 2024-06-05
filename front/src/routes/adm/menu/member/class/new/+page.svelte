@@ -18,6 +18,8 @@
 
     let duplicateChecked = $state(false);
 
+    let activeOptionIndexSchoolClass = $state(0);
+
     async function loadProgram() {
         // console.log('loadProgram');
         if (programs.length > 0) {
@@ -26,7 +28,7 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().GET('/api/v1/school/class/input', {
+        const { data } = await rq.apiEndPoints().GET('/api/v1/school/class/memberRole', {
         });
 
         programs = data?.data.schools || [];
@@ -35,7 +37,7 @@
     }
 
     function updateProgram(searchText: string) {
-        console.log('updateProgram');
+        focusProgram = true;
         const searchLower = searchText.toLowerCase();
         filteredPrograms = [...programs].sort((a, b) => {
             const scoreA = similarityScore(a.className ?? '', searchLower);
@@ -149,6 +151,12 @@
             rq.msgError('아이디를 입력해주세요.');
             return;
         }
+
+        if (/[A-Z]/.test(username)) {
+            rq.msgError('아이디에 대문자를 포함할 수 없습니다.');
+            return;
+        }
+
         rq.apiEndPoints().POST('/api/v1/members/duplicate', {
             body: {
                 username: username
@@ -164,19 +172,52 @@
         });
     }
 
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexSchoolClass = (activeOptionIndexSchoolClass + 1) % filteredPrograms.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+            activeOptionIndexSchoolClass = (activeOptionIndexSchoolClass - 1 + filteredPrograms.length) % filteredPrograms.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexSchoolClass >= 0) {
+            const selectedMember = filteredPrograms[activeOptionIndexSchoolClass];
+            if (selectedMember && !programInput.some(a => a.id === selectedMember.id)) {
+                programInput.push(selectedMember);
+            }
+            focusProgram = false;
+        }
+    }
+
+    function scrollToActiveOption() {
+        if (membersBox) {
+            const activeOption = membersBox.children[activeOptionIndexSchoolClass] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+    }
+
+    function preventFormSubmit(event: KeyboardEvent) {
+        const submitButton = document.querySelector('button[type="submit"]');
+		const duplicateCheckButton = document.querySelector('button[name="duplicateCheck"]');
+		if (event.key === "Enter" && event.target !== submitButton && event.target !== duplicateCheckButton) {
+			event.preventDefault();
+		}
+    }
+
 </script>
 
 <div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학급관리자 생성
 </div>
 <div class="w-[95%] h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
+    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm} on:keydown={preventFormSubmit}>
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
                 
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디</td>
+                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
                         <div class="flex flex-row items-center gap-2">
                             <input name="username" type="text" placeholder="아이디" class="input input-bordered w-[200px] text-center" on:change={()=>{duplicateChecked=false;}}/>
@@ -184,7 +225,7 @@
                                 <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
                             {/if}
                             {#if !duplicateChecked}
-                            <button class="btn btn-sm btn-error btn-outline ml-3" on:click={duplicateCheck} type="button">
+                            <button class="btn btn-sm btn-error btn-outline ml-3" on:click={duplicateCheck} type="button" name="duplicateCheck">
                                 중복확인
                             </button>
                             {/if}
@@ -192,7 +233,7 @@
                     </td>
                   </tr>
                     <tr>
-                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">비밀번호</td>
+                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">비밀번호<span class="ml-1 text-red-500">*</span></td>
                         <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
@@ -202,7 +243,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">이름</td>
+                        <td class="border-b p-1 text-[15px] w-[150px] font-bold">이름<span class="ml-1 text-red-500">*</span></td>
                         <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
@@ -231,16 +272,18 @@
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>
-                                <input name="program" type="search" placeholder="담당학급" class="input input-bordered w-[200px] text-center" 
+                                <input name="program" type="search" placeholder="담당학급" class="input input-bordered w-[400px] text-center" 
+                                    autocomplete="off"
                                     bind:value={programInputText}
                                     on:focus={() => loadProgram()}
                                     on:input={(event) => event.target && updateProgram((event.target as HTMLInputElement).value)}
                                     on:blur={() => setTimeout(() => { focusProgram = false; }, 100)}
+                                    on:keydown={handleKeyDown}
                                     />
                                     {#if focusProgram}
-                                    <div bind:this={membersBox} class="w-[200px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                        {#each filteredPrograms as program}
-                                            <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                    <div bind:this={membersBox} class="w-[400px] max-h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                        {#each filteredPrograms as program, index}
+                                            <div class="options w-full h-[48px] text-center p-1 cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexSchoolClass ? 'active' : ''}" 
                                             on:click={() => {
                                                 if (!programInput.some(m => m.id === program.id)) {
                                                     programInput.push(program);
@@ -281,7 +324,11 @@
 </div>
 
 <style>
-    .options:hover {
-        border-bottom: 2px solid gray;
+    .options:hover, .options.active {
+        background-color: #cbdceb;
+    }
+
+    .options {
+        height: 48px;
     }
 </style>

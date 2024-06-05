@@ -12,6 +12,7 @@ import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
 import com.example.cit.global.app.AppConfig;
+import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
 import com.example.cit.standard.base.KwTypeV1;
@@ -58,6 +59,8 @@ import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 public class ApiV1SchoolController {
 
     private final SchoolService schoolService;
+
+    private final Rq rq;
 
     public record CreateSchoolRequestBody(
             String region,
@@ -113,6 +116,22 @@ public class ApiV1SchoolController {
                 )
         );
     }
+
+    public record SchoolsByMemberRoleResponseBody(List<SchoolInputListDto> schools) {}
+
+    @GetMapping(value = "/memberRole", consumes = ALL_VALUE)
+    @Operation(summary = "사용자 권한으로 학교 조회")
+    @PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    public RsData<SchoolsByMemberRoleResponseBody> getSchoolsByMemberRole(
+    ) {
+        return RsData.of(
+                new SchoolsByMemberRoleResponseBody(
+                        schoolService.getSchoolsByMemberRole(rq.getMember())
+                )
+        );
+    }
+
 
     public record SchoolsByProgramResponseBody(List<SchoolInputListDto> schools) {}
 

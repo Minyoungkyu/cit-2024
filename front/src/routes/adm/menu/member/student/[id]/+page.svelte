@@ -11,14 +11,13 @@
 
     let focusClass = $state(false);
 
-    let classInput = $state([]) as components['schemas']['SchoolClassInputDto'][];
-    let classInputText = $state('');
+    let classInput = $state() as components['schemas']['SchoolClassInputDto'];
+    let classInputText = $state((memberDto.studentClassSchool + ' ' +  memberDto.studentClass) ?? '');
 
     let duplicateChecked = $state(false);
 
     let idInputText = $state('');
 
-    loadProgram();
     async function loadProgram() {
         // console.log('loadProgram');
         if (classes.length > 0) {
@@ -27,7 +26,7 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().GET('/api/v1/school/class/input', {
+        const { data } = await rq.apiEndPoints().GET('/api/v1/school/class/memberRole', {
         });
 
         classes = data?.data.schools || [];
@@ -68,6 +67,7 @@
         <div class="overflow-x-auto h-full">
             <table class="table">
               <tbody>
+
                 <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급</td>
                     <td class="border-b p-3">
@@ -75,7 +75,7 @@
                             {memberDto.studentClassSchool} {memberDto.studentClass}
                         </div>
                     </td>
-                  </tr>
+                </tr>
 
                 <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디</td>
@@ -120,7 +120,11 @@
 </div>
 
 <style>
-    .options:hover {
-        border-bottom: 2px solid gray;
+    .options:hover, .options.active {
+        background-color: #cbdceb;
+    }
+
+    .options {
+        height: 48px;
     }
 </style>

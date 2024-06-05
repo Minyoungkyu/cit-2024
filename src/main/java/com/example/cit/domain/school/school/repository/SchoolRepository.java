@@ -12,6 +12,5 @@ public interface SchoolRepository extends JpaRepository<School, Long>, SchoolRep
     List<SchoolInputListDto> findAllProjectedBy();
 
     List<SchoolInputListDto> findByPrograms_Id(Long programId);
-
 //    Optional<School> findByName(String name);
 }

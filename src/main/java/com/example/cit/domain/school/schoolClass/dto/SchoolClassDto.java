@@ -37,6 +37,8 @@ public class SchoolClassDto {
     @NonNull
     private String className;
     @NonNull
+    private String classNameAddSchool;
+    @NonNull
     private List<String> responsibleMemberNames;
     @NonNull
     private List<MemberInputListDto> responsibleMemberList;
@@ -54,6 +56,11 @@ public class SchoolClassDto {
             this.className = schoolClass.getSpecialName();
         } else {
             this.className = schoolClass.getGrade() + "학년 " + schoolClass.getClassNo() + "반";
+        }
+        if(schoolClass.isSpecial()) {
+            this.classNameAddSchool = schoolClass.getSchool().getSchoolName() + " " + schoolClass.getSpecialName();
+        } else {
+            this.classNameAddSchool = schoolClass.getSchool().getSchoolName() + " " + schoolClass.getGrade() + "학년 " + schoolClass.getClassNo() + "반";
         }
         this.responsibleMemberNames = schoolClass.getMembers().stream()
                 .map(Member::getName)

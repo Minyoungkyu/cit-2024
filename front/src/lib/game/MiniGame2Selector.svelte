@@ -19,7 +19,7 @@
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
             <div class="w-[450px] h-[500px] flex justify-start">
                 <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">
-                    {'선봉대와의 조우\n\n이곳은 우주 해적들이 노리고 있던 행성입니다.\n우주해적 선봉대와의 결투에서 승리하세요.'}
+                    {'이곳은 우주 해적들이 노리고 있던 행성입니다. \n퀴즈를 풀어 우주 해적 선봉대와의 결투에서 승리하세요.'}
                 </div>
             </div>
         </div>

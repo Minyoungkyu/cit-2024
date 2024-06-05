@@ -26,6 +26,9 @@
 
   let gradeInput:HTMLSelectElement;
 
+  let activeOptionIndexProgram = $state(0);
+  let activeOptionIndexSchool = $state(0);
+
   const now = new Date();
   const threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(now.getMonth() - 3);
@@ -66,11 +69,21 @@
   }
 
   function updateProgram(searchText: string) {
-      if (searchText === '') {
-        programInputText = '전체';
-        programInputId = 0;
-        return;
+
+      if (programInputId != -1) {
+          programInputText = '';
+          programInputId = -1;
       }
+
+
+      focusProgram = true;
+      activeOptionIndexProgram = 0;
+
+      // if (searchText === '') {
+      //   programInputText = '전체';
+      //   programInputId = 0;
+      //   return;
+      // }
 
       const searchLower = searchText.toLowerCase();
       filteredPrograms = [...programs].sort((a, b) => {
@@ -83,11 +96,20 @@
   }
 
   function updateSchool(searchText: string) {
-      if (searchText === '') {
-        schoolInputText = '전체';
-        schoolInputId = 0;
-        return;
+
+      if (schoolInputId != -1) {
+          schoolInputText = '';
+          schoolInputId = -1;
       }
+
+      focusSchool = true;
+      activeOptionIndexSchool = 0;
+
+      // if (searchText === '') {
+      //   schoolInputText = '전체';
+      //   schoolInputId = 0;
+      //   return;
+      // }
 
       const searchLower = searchText.toLowerCase();
       filteredSchools = [...schools].sort((a, b) => {
@@ -109,6 +131,9 @@
 
   async function loadStatisticsData() {
 
+    if(programInputId == -1) programInputId = 0;
+    if(schoolInputId == -1) schoolInputId = 0;
+
     const { data } = await rq.apiEndPoints().GET('/api/v1/gameLogs/stat', {
       params: {
         query: {
@@ -125,6 +150,8 @@
     itemPage = data!.data.itemPage;
     currentPage = itemPage.number;
     statisticsData = data!.data.itemPage.content;
+
+    if (data) rq.msgInfo('데이터 조회 완료')
 
     pageValue = 1;
   }
@@ -179,13 +206,56 @@
   
       return range;
     }
+
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexProgram = (activeOptionIndexProgram + 1) % filteredPrograms.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+          activeOptionIndexProgram = (activeOptionIndexProgram - 1 + filteredPrograms.length) % filteredPrograms.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexProgram >= 0) {
+            const selectedProgram = filteredPrograms[activeOptionIndexProgram];
+            programInputId = selectedProgram.id;
+            programInputText = selectedProgram.name;
+            focusProgram = false;
+        }
+    }
+
+    function handleKeyDown2(event: KeyboardEvent) {
+        if (event.key === "ArrowDown") {
+            activeOptionIndexSchool = (activeOptionIndexSchool + 1) % filteredSchools.length;
+            scrollToActiveOption();
+        } else if (event.key === "ArrowUp") {
+          activeOptionIndexSchool = (activeOptionIndexSchool - 1 + filteredSchools.length) % filteredSchools.length;
+            scrollToActiveOption();
+        } else if (event.key === "Enter" && activeOptionIndexSchool >= 0) {
+            const selectedSchool = filteredSchools[activeOptionIndexSchool];
+            schoolInputId = selectedSchool.id!;
+            schoolInputText = selectedSchool.schoolName!;
+            focusSchool = false;
+        }
+    }
+
+    function scrollToActiveOption() {
+        if (schoolBox) {
+            const activeOption = schoolBox.children[activeOptionIndexSchool] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        if (programBox) {
+            const activeOption = programBox.children[activeOptionIndexProgram] as HTMLDivElement;
+            if (activeOption) {
+                activeOption.scrollIntoView({ block: 'nearest' });
+            }
+        }
+    }
 </script>
 
 <div class="w-[95%] flex flex-row justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
   통계
-  <div>
-    <button class="btn btn-sm btn-outline rounded-md border-gray-400 ml-8" on:click={() => loadStatisticsData()}>액셀 다운로드</button>
-  </div>
 </div>
 
 <div class="w-[95%] flex justify-center">
@@ -198,16 +268,22 @@
                   <td class="border-b p-3">
                       <div class="flex flex-row items-center gap-2">
                         <div>
-                          <input name="program" type="search" placeholder="사업 명" class="input input-bordered w-[500px] text-center" 
+                          <input name="program" type="search" placeholder="전체" class="input input-bordered w-[500px] text-center" 
                               bind:value={programInputText}
                               on:focus={() => loadProgram()}
                               on:input={(event) => event.target && updateProgram((event.target as HTMLInputElement).value)}
-                              on:blur={() => setTimeout(() => { focusProgram = false; }, 100)}
+                              on:blur={() => {
+                                if(programInputId == -1) {
+                                  programInputText = '전체';
+                                }
+                                setTimeout(() => { focusProgram = false; }, 100)
+                              }}
+                              on:keydown={handleKeyDown}
                               />
                               {#if focusProgram}
-                              <div bind:this={programBox} class="w-[500px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                  {#each filteredPrograms as program}
-                                      <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                              <div bind:this={programBox} class="w-[500px] h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                  {#each filteredPrograms as program, index}
+                                      <div class="options w-full h-[48px] text-center p-1 cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexProgram ? 'active' : ''}" 
                                       on:click={() => {programInputText = program.name; programInputId = program.id;}}>
                                           {program.name}
                                       </div>
@@ -223,16 +299,22 @@
                       <td class="border-b p-3">
                           <div class="flex flex-col">
                             <div>
-                              <input name="school" type="search" placeholder="학급 명" class="input input-bordered w-[500px] text-center" 
+                              <input name="school" type="search" placeholder="전체" class="input input-bordered w-[500px] text-center" 
                                   bind:value={schoolInputText}
                                   on:focus={() => loadSchool()}
                                   on:input={(event) => event.target && updateSchool((event.target as HTMLInputElement).value)}
-                                  on:blur={() => setTimeout(() => { focusSchool = false; }, 100)}
+                                  on:blur={() => {
+                                    if(schoolInputId == -1) {
+                                      schoolInputText = '전체';
+                                    }
+                                    setTimeout(() => { focusSchool = false; }, 100)
+                                  }}
+                                  on:keydown={handleKeyDown2}
                                   />
                                   {#if focusSchool}
-                                  <div bind:this={schoolBox} class="w-[500px] h-[200px] mt-[-2px] absolute z-[99] rounded-xl border-2 flex flex-col items-center overflow-y-auto whitespace-pre-wrap bg-white">
-                                      {#each filteredSchools as school}
-                                          <div class="options w-[80%] text-center p-1 cursor-pointer" 
+                                  <div bind:this={schoolBox} class="w-[500px] h-[200px] mt-[4px] absolute z-[99] rounded-xl border-2 grid grid-cols items-center overflow-y-auto whitespace-pre-wrap bg-white">
+                                      {#each filteredSchools as school, index}
+                                          <div class="options w-full h-[48px] text-center p-1 cursor-pointer rounded flex items-center justify-center {index === activeOptionIndexSchool ? 'active' : ''}" 
                                           on:click={() => {schoolInputText = school.schoolName!; schoolInputId = school.id!;}}>
                                           {school.schoolName} {#if school.region} ({school.region}/{school.administrativeDistrict}) {/if}
                                           </div>
@@ -271,9 +353,11 @@
                   </tr>
             </tbody>
           </table>
-          <button class="btn btn-sm btn-outline rounded-md border-gray-400 my-5" on:click={() => loadStatisticsData()}>생성</button>
-          <a class="btn btn-sm btn-outline rounded-md border-gray-400 ml-8" 
-            href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/gameLogs/stat/csv?programId={programInputId}&schoolId={schoolInputId}&grade={parseInt(gradeInput.value)}&startDateTime={startDateTimeInput}&endDateTime={endDateTimeInput}">액셀 다운로드</a>
+          <div class="flex flex-row justify-center items-center">
+            <button class="btn btn-sm btn-outline rounded-md border-gray-400 my-5" on:click={() => loadStatisticsData()}>조회</button>
+            <a class="btn btn-sm btn-outline rounded-md border-gray-400 ml-8" 
+              href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/gameLogs/stat/csv?programId={programInputId}&schoolId={schoolInputId}&grade={parseInt(gradeInput.value)}&startDateTime={startDateTimeInput}&endDateTime={endDateTimeInput}">액셀 다운로드</a>
+          </div>
         </div>
     </div>
 </div>
@@ -362,7 +446,7 @@
         <div class="btn btn-wide ml-10" on:click={() => loadStatisticsData()}>검색 시작</div>
       </div> -->
 
-      <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
+      <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto mt-10">
         <thead>
             <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
                 <th>학생ID</th>
@@ -401,7 +485,7 @@
     </table>
     
     {#if statisticsData.length > 0}
-    <div class="flex justify-center mt-5">
+    <div class="flex justify-center mt-5 mb-5">
       <div class="join">
         {#each calculatePaginationRange(itemPage.number, itemPage.totalPagesCount, pageDelta) as pageNumber}
           <button
@@ -465,3 +549,12 @@
       
 </div>
 
+<style>
+  .options:hover, .options.active {
+      background-color: #cbdceb;
+  }
+
+  .options {
+      height: 48px;
+  }
+</style>

@@ -1,11 +1,13 @@
 package com.example.cit.domain.school.school.service;
 
+import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.dto.SchoolDto;
 import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.school.repository.SchoolRepository;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
+import com.example.cit.global.exceptions.GlobalException;
 import com.example.cit.standard.base.KwTypeV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Writer;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -114,7 +116,22 @@ public class SchoolService {
 
     @Transactional
     public void deleteSchools(List<Long> schoolIds) {
-        schoolIds.forEach(schoolId -> this.deleteSchool(schoolRepository.findById(schoolId).orElseThrow()));
+        schoolIds.stream()
+                .map(schoolRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(
+                        school -> {
+                            school.getSchoolClasses().forEach(
+                                    schoolClass -> {
+                                        if (!schoolClass.getStudents().isEmpty()) {
+                                            throw new GlobalException("해당 학교에 속한 학생이 존재합니다. 학생을 먼저 삭제해주세요.");
+                                    }
+
+                            });
+                            deleteSchool(school);
+                        }
+                );
     }
 
     @Transactional
@@ -157,5 +174,17 @@ public class SchoolService {
     public List<SchoolInputListDto> getSchoolsByPrograms(Long programId) {
         if (programId == 0) return this.getSchools();
         else return schoolRepository.findByPrograms_Id(programId);
+    }
+
+    public List<SchoolInputListDto> getSchoolsByMemberRole(Member member) {
+        return switch (member.getRoleLevel()) {
+            case 4 -> this.getSchools();
+            case 3 -> member.getPrograms().stream()
+                    .flatMap(program -> program.getSchools().stream())
+                    .distinct()
+                    .map(SchoolInputListDto::new)
+                    .collect(Collectors.toList());
+            default -> Collections.emptyList();
+        };
     }
 }
