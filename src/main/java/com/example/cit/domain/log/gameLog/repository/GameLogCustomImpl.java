@@ -73,7 +73,8 @@ public class GameLogCustomImpl implements GameLogCustom {
                 (schoolId != 0 ? "AND sc.school.id = :schoolId " : "") +
                 (grade != 0 ? "AND sc.grade = :grade " : "") +
                 (startDate != null ? "AND gl.createDate >= :startDate " : "") +
-                (endDate != null ? "AND gl.createDate <= :endDate " : "");
+                (endDate != null ? "AND gl.createDate <= :endDate " : "") +
+                "ORDER BY gl.id DESC";
 
         TypedQuery<GameLog> query = entityManager.createQuery(jpql, GameLog.class);
 
