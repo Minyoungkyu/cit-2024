@@ -260,11 +260,11 @@
 
 <div class="w-[95%] flex justify-center">
   <div class="flex flex-col gap-4 w-full">
-      <div class="overflow-x-auto">
-          <table class="table">
+      <div>
+          <table class="table min-w-[900px]">
             <tbody>
               <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업 명</td>
+                  <td class="border-b p-1 text-[15px] min-w-[60px] w-[150px] font-bold">사업 명</td>
                   <td class="border-b p-3">
                       <div class="flex flex-row items-center gap-2">
                         <div>
@@ -446,7 +446,7 @@
         <div class="btn btn-wide ml-10" on:click={() => loadStatisticsData()}>검색 시작</div>
       </div> -->
 
-      <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto mt-10">
+      <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto mt-10 min-w-[900px]">
         <thead>
             <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
                 <th>학생ID</th>

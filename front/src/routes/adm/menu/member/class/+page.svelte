@@ -57,16 +57,19 @@
             return;
         }
 
-        const { data } = await rq.apiEndPoints().POST('/api/v1/members/class/delete', {
-            body: {
-                classAdminIds: checkedIds
-            }
-        });
+        if (confirm('선택된 학급관리자 계정을 삭제하시겠습니까?')) {
+            const { data } = await rq.apiEndPoints().POST('/api/v1/members/class/delete', {
+                body: {
+                    classAdminIds: checkedIds
+                }
+            });
 
-        if(data?.data) {
-            rq.msgInfo(data.msg);
-            load();
+            if(data?.data) {
+                rq.msgInfo(data.msg);
+                load();
+            }
         }
+
     }
 
     function truncateProgramName(name: string) {
@@ -79,7 +82,7 @@
 </script>
 
 <div class="w-[95%] h-full flex flex-col mt-[-60px]">
-    <div class="flex flex-row w-full justify-between border-b pb-[14px] mb-1">
+    <div class="flex flex-row min-w-[950px] w-full justify-between border-b pb-[14px] mb-1">
         <div class="flex flex-row gap-4 items-center">
             <div class="text-[22px] mr-4 font-bold">
                 학급관리자 계정

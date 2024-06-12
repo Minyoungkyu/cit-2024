@@ -1,438 +1,145 @@
 <script lang="ts">
-	import rq from "$lib/rq/rq.svelte";
-	import { onMount } from "svelte";
-    import type { components } from '$lib/types/api/v1/schema';
-    // import { subTableRows, teacherOptions, addSubTableRow, deleteSubTableRow, updateTeacher, fetchTeacherOptions } from './store.js';
-    import { get } from 'svelte/store';
+    import { fly } from 'svelte/transition';
+    import { onMount } from 'svelte';
 
+    let { isCoReady, openLayer } = $props<{ isCoReady: boolean, openLayer: boolean }>();
 
-    let regions = $state([]) as components['schemas']['Region'][];
-    let filteredRegions = $state([]) as components['schemas']['Region'][];
-    let ads = $state([]) as components['schemas']['AdministrativeDistrict'][];
-    let filteredAds = $state([]) as components['schemas']['AdministrativeDistrict'][];
-    let schools = $state([]) as components['schemas']['SchoolInputListDto'][];
-    let filteredSchools = $state([]) as components['schemas']['SchoolInputListDto'][];
-    let members = $state([]) as components['schemas']['MemberInputListDto'][];
-    let filteredMembers = $state([]) as components['schemas']['MemberInputListDto'][];
-
-    let regionsBox: HTMLDivElement | null = null;
-    let adsBox: HTMLDivElement | null = null;
-    let schoolsBox: HTMLDivElement | null = null;
-    let membersBox: HTMLDivElement | null = null;
-
-    let focusRegion = $state(false);
-    let focusAd = $state(false);
-    let focusAgency = $state(false);
-    let focusMember = $state(false);
-
-    let regionInput = $state('');
-    let adInput = $state('');
-    let agencyInput: components['schemas']['SchoolInputListDto'] | 'NONE' = $state('NONE');
-    let agencyInputText = $state('');
-    let memberInput = $state([]) as components['schemas']['MemberInputListDto'][];
-    let memberInputText = $state('');
-
-    async function loadRegion() {
-        if (regions.length > 0) {
-            focusRegion = true;
-            return;
-        }
-
-        const { data } = await rq.apiEndPoints().GET('/api/v1/regions', {
-        });
-
-        regions = data?.data.regions || [];
-        filteredRegions = regions;
-        focusRegion = true;
-    }
-
-    async function loadAd() {
-        if (!isValidRegionInput()) return
-
-        const { data } = await rq.apiEndPointsWithFetch(fetch).GET('/api/v1/ads', {
-            params: {
-                query: {
-                    regionCode: regions.find(region => region.name === regionInput)?.code
-                }
-            }
-        });
-
-        ads = data?.data.ads || [];
-        filteredAds = ads;
-        focusAd = true;
-    }
-
-    loadSchool();
-    async function loadSchool() {
-        if (schools.length > 0) {
-            focusAgency = true;
-            return;
-        }
-
-        const { data } = await rq.apiEndPoints().GET('/api/v1/schools/input', {
-        });
-
-        schools = data?.data.schools || [];
-        filteredSchools = schools;
-        focusAgency = true;
-    }
-
-    initMember();
-    async function initMember() {
-        const { data } = await rq.apiEndPoints().GET('/api/v1/members/program', {
-          });
-
-        members = data?.data.members || [];
-        filteredMembers = members;
-
-        subTableRows.update(rows => {
-            return rows.map(row => {
-                return { ...row, teacher: members[0].id };
-            });
-        });
-    }
-
-    async function loadMember() {
-        if (members.length > 0) {
-            focusMember = true;
-            return;
-        }
-
-        initMember();
-
-        focusMember = true;
-    }
-
-    function isValidRegionInput(): boolean {
-        return regions.some(region => region.name === regionInput);
-    }
-
-    function updateRegions(searchText: string) {
-        const searchLower = searchText.toLowerCase();
-        filteredRegions = [...regions].sort((a, b) => {
-            const scoreA = similarityScore(a.name ?? '', searchLower);
-            const scoreB = similarityScore(b.name ?? '', searchLower);
-            return scoreB - scoreA; 
-        });
-
-        if (regionsBox) regionsBox.scrollTop = 0;
-    }
-
-    function updateSchools(searchText: string) {
-        const searchLower = searchText.toLowerCase();
-        filteredSchools = [...schools].sort((a, b) => {
-            const scoreA = similarityScore(a.schoolName ?? '', searchLower);
-            const scoreB = similarityScore(b.schoolName ?? '', searchLower);
-            return scoreB - scoreA; 
-        });
-
-        if (schoolsBox) schoolsBox.scrollTop = 0;
-    }
-
-    function updateMembers(searchText: string) {
-        const searchLower = searchText.toLowerCase();
-        filteredMembers = [...members].sort((a, b) => {
-            const scoreA = similarityScore(a.name ?? '', searchLower);
-            const scoreB = similarityScore(b.name ?? '', searchLower);
-            return scoreB - scoreA; 
-        });
-
-        if (membersBox) membersBox.scrollTop = 0;
-    }
-
-    function updateAds(searchText: string) {
-        const searchLower = searchText.toLowerCase();
-        filteredAds = [...ads].sort((a, b) => {
-            const scoreA = similarityScore(a.name ?? '', searchLower);
-            const scoreB = similarityScore(b.name ?? '', searchLower);
-            return scoreB - scoreA; 
-        });
-
-        if (adsBox) adsBox.scrollTop = 0;
-    }
-
-    function similarityScore(regionName: string, searchText: string): number {
-        const nameLower = regionName.toLowerCase();
-        if (nameLower.startsWith(searchText)) return 100; 
-        if (nameLower.includes(searchText)) return searchText.length; 
-        return 0; 
-    }
-
-
-    async function submitCreateProgramForm(this: HTMLFormElement) {
-        const form: HTMLFormElement = this;
-
-        // if (form.programName.value.trim().length === 0) {
-        //     rq.msgError('사업명을 입력해주세요.');
-        //     form.programName.focus();
-        //     return;
-        // }
-
-        // if (form.startDate.value === '' || form.endDate.value === '') {
-        //     rq.msgError('사업기간을 입력해주세요.');
-        //     return;
-        // }
-
-        // if (regionInput.trim().length === 0) {
-        //     rq.msgError('지역을 입력해주세요.');
-        //     form.region.focus();
-        //     return;
-        // }
-
-        // if (adInput.trim().length === 0) {
-        //     rq.msgError('행정구를 입력해주세요.');
-        //     form.ad.focus();
-        //     return;
-        // }
-
-        // if (agencyInput.length === 0) {
-        //     rq.msgError('사용 기관을 입력해주세요.');
-        //     form.agency.focus();
-        //     return;
-        // }
-
-        // if (memberInput.length === 0) {
-        //     rq.msgError('담당자를 입력해주세요.');
-        //     form.member.focus();
-        //     return;
-        // }
-
-        const agencyInput = schools.find(school => school.id == form.agency.value);
-        // if agencyInput is not found
-        if (!agencyInput) {
-            rq.msgError('기관을 선택해주세요.');
-            return;
-        }
-
-        // if grade is not number
-        if (get(subTableRows).some(row => isNaN(row.grade))) {
-            rq.msgError('학년은 숫자로 입력해주세요.');
-            return;
-        }
-
-        // classNo should be in the format of "1-5,8-10,13-35"
-        // dash right number should be less than left number
-        if (get(subTableRows).some(row => !validateClassNo(row.classNoMultiple))) {
-            rq.msgError('반은 1-5,8-10 과 같은 형식으로 입력해주세요.');
-            return;
-        }
-
-        // if (get(subTableRows).some(row => !/^\d+-\d+(,\d+-\d+)*$/.test(row.classNoMultiple))) {
-        //     rq.msgError('반은 1-5,8-10 과 같은 형식으로 입력해주세요.');
-        //     return;
-        // }
-
-        // if row memberId is -1
-        if (get(subTableRows).some(row => row.memberId == "-1")) {
-            rq.msgError('담당자를 입력해주세요.');
-            return;
-        }
-
-        // rq.msgError('done.');
-        // return;
-        
-
-        // console.log(agencyInput, form.grade.value, form.classNo.value, (document.getElementsByName('isSpecial')[0] as HTMLInputElement).checked, form.specialName.value, memberInput);
-        
-
-        const { data, error } = await rq.apiEndPoints().POST('/api/v1/school/class/multiple', {
-            body: {
-                agencyId: agencyInput.id!,
-                rows: get(subTableRows).map(row => {
-                    return {
-                        id: row.id,
-                        grade: row.grade,
-                        classNoMultiple: row.classNoMultiple,
-                        memberId: parseInt(row.memberId)
-                    }
-                })
-            }
-        });
-
-        if (data?.resultCode == "200") {
-            rq.msgAndRedirect(data, undefined, '/adm/menu/schoolClass');
-        } else {
-            rq.msgError(data?.msg??'오류가 발생했습니다.');
-        }
-    }
-
-    function validateClassNo(classNo: string) {
-        // 정규식으로 형식 검사
-        const pattern = /^(\d+-\d+,)*(\d+-\d+)$/;
-        if (!pattern.test(classNo)) {
-            return false;
-        }
-
-        // 쉼표로 구분하여 각 범위를 분리
-        const ranges = classNo.split(',');
-
-        // 각 범위를 검사
-        for (const range of ranges) {
-            const [left, right] = range.split('-').map(Number);
-
-            // 범위의 오른쪽 숫자가 왼쪽 숫자보다 큰지 검사
-            if (right <= left) {
-            return false;
-            }
-        }
-
-        return true;
-    }
-
-    function validateInput(event: any) {
-        // 숫자, "-", "," 만 입력 가능
-        event.target.value = event.target.value.replace(/[^0-9,-]/g, '');
-    }
-
-    function isSpecialClick(){
-        // if isSpecial is checked
-        if((document.getElementsByName('isSpecial')[0] as HTMLInputElement).checked){
-            (document.getElementById('normalClass') as HTMLDivElement).style.display = 'none';
-            (document.getElementById('specialClass') as HTMLDivElement).style.display = 'block';
-        } else {
-            (document.getElementById('normalClass') as HTMLDivElement).style.display = 'block';
-            (document.getElementById('specialClass') as HTMLDivElement).style.display = 'none';
-        }
+    let visible = $state(false);
     
+    const order = [7, 14, 3, 10, 6, 13, 1, 11, 2, 15, 5, 9, 4, 12, 8];
+
+    const tipArray = [
+        'Tip. 파이썬은 다른 언어와 다르게 들여쓰기가 중요합니다.',
+        'Tip. 장비 아이콘을 더블 클릭하면 장착/해제가 가능합니다.',
+        'Tip. 특별한 프로필 초상화를 주는 업적도 존재합니다.',
+        'Tip. 총 아이템은 장착하면 애니메이션에서도 적용 됩니다.',
+        'Tip. 같은 종류의 장비들을 장착하면 세트장비가 생깁니다.',
+        'Tip. 상점에서 다양한 프로필 초상화를 구매 가능합니다.',
+        'Tip. 프로필 메뉴에서 프로필 초상화를 변경 가능합니다.',
+        'Tip. "#" 으로 시작하는 문장은 코드에 영향을 주지 않는 주석(설명) 입니다.',
+        'Tip. 반복적으로 사용되는 코드는 반복문으로 변경할수 있습니다.',
+        'Tip. for 문은 while 문으로 변경되어 작성할수 있습니다.',
+        'Tip. 반복문이나 함수를 사용해 코드 라인수를 줄일수 있습니다.',
+        'Tip. 하단 퀵 코드를 활용하면 쉽게 코드를 작성할수 있습니다.',
+        'Tip. 파이썬에서 변수, 리스트, 함수  선언시 데이터 타입이 없습니다.',
+        'Tip. 작은 따옴표로 시작하면 작은 따옴표로 끝나야합니다. ex) name = \'이름\'',
+        'Tip. 큰 따옴표로 시작하면 큰 따옴표로 끝나야 합니다. ex) myid = \"아이디\"',
+        'Tip. 수학에서 곱하기 문자와 코딩 에서 사용되는 곱하기 문자는 다릅니다.',
+        'Tip. 파이썬은 현재 인기 있는 언어 입니다.',
+        'Tip. 파이썬에서 논리결과는 True / False 입니다.',
+        'Tip. 변수에 값을 대입 하기 위해  \'=\'  사용합니다.',
+        'Tip. \' : \' 는 콜롬이라 불릅니다.',
+        'Tip. 파이썬은 \' ; \' (세미콜론)을 사용하지 않습니다.',
+        'Tip. 모듈러 연산자(%) 를 사용하면 짝수/ 홀수 구분하기 쉽습니다.',
+        'Tip. 파이썬은  "귀도 반로섬" 이 1991년 만들었습니다.',
+        'Tip. 코드의 줄수를 줄여 최적화 할수 있습니다.',
+        'Tip. 극단적으로 짧은 코드는 가독성을 해칠수 있습니다.',
+        'Tip. 함수를 이용하면 반복적인 코드를 줄일수 있습니다.',
+        'Tip. 변수명을 정하는건 모든 프로그래머의 고민거리입니다.',
+        'Tip. 현재 플레이어가 바라보는 방향을 기준으로 회전합니다. ',
+        'Tip. 플레이어가 바라보고 있는 방향에 집중하세요.',
+        'Tip. 클리어한 업적을 클릭하여 보상을 얻을수 있습니다.',
+        'Tip. 설정 버튼에서 게임 사운드를 조정할수 있습니다.',
+        'Tip. 코드사전에서 코드 사용방법을 확인할수 있습니다.',
+        'Tip. 설정에서 자동완성 기능을 끄고 플레이 할수 있습니다.',
+        'Tip. 이미 클리어한 곳은 다시 도전할수 있습니다.',
+        'Tip. 최대화 버튼을 눌러 더 큰 화면으로 게임을 즐길 수 있습니다.',
+        'Tip. 초기화 버튼을 클릭하면 모든 코드를 편하게 지울 수 있습니다.',
+        'Tip. 플레이어가 죽지 않도록 체력관리는 중요합니다.',
+        'Tip. 미션 클리어 점수로 랭킹이 결정됩니다.',
+        'Tip. 미션 클리어 점수는 클리어 점수와 라인 보너스 점수가 합산된 점수입니다.',
+        'Tip. 코드이썬은 코드와 파이썬의 합성어라는것을 알고 계셨나요?'
+    ]
+
+    let currentTip = $state(getRandomTip());
+    
+    let elements = order.map((id, index) => ({
+        id: id,
+        delay: index * 50 + 2000
+    }));
+
+    $effect(() => {
+        visible = !isCoReady;
+    });
+
+    onMount(() => {
+        visible = !isCoReady;
+    });
+
+    function getRandomTip() {
+        return tipArray[Math.floor(Math.random() * tipArray.length)];
     }
 
-  import { writable } from 'svelte/store';
+    function changeTip() {
+        let newTip;
+        do {
+            newTip = getRandomTip();
+        } while (newTip === currentTip);
+        currentTip = newTip;
+    }
 
-  // 서버에서 가져온 DTO 데이터 예시
-  let teacherOptions = [];
+    function handleOutroEnd(id: number) {
+        elements = elements.filter(el => el.id !== id);
+    }
 
-  // subTableRows를 위한 writable 스토어 생성
-  export const subTableRows = writable([
-    { id: 1, grade: 1, classNoMultiple: "1-5", memberId: "-1"}
-  ]);
-
-  let nextId = 2; // 다음 행에 사용할 ID
-
-  // 행을 추가하는 함수
-  function addSubTableRow() {
-    subTableRows.update(rows => {
-      // 마지막 행을 가져와서 복사
-      const lastRow = rows[rows.length - 1] || { grade: 1, classNoMultiple: "1-5", memberId: 0 };
-      const newRow = { id: nextId, grade: lastRow.grade+1, classNoMultiple: lastRow.classNoMultiple, memberId: lastRow.memberId };
-      nextId += 1;
-      return [...rows, newRow];
-    });
-
-    // console.log(get(subTableRows));
-
-    // subTableRows.update(rows => {
-    //   return [...rows, { id: nextId, grade: "", class: "", teacher: "" }];
-    // });
-    // nextId += 1;
+    function handleOutroStart(elementId: number, elementDelay: number) {
+    setTimeout(() => {
+      document.getElementById(`element-${elementId}`)!.classList.add('rounded-3xl');
+    }, elementDelay + 100); 
   }
-
-  // 행을 삭제하는 함수
-  function deleteSubTableRow(id: number) {
-    subTableRows.update(rows => {
-      return rows.filter(row => row.id !== id);
-    });
-  }
-
-  // 담당자 값을 업데이트하는 함수
-  function updateTeacher(id: number, newTeacher: string) {
-    console.log(id, newTeacher);
-    subTableRows.update(rows => {
-      console.log(rows);
-      return rows.map(row => row.id == id ? { ...row, teacher: newTeacher } : row);
-    });
-  }
-
-  // 컴포넌트가 마운트된 후 서버에서 데이터 로드
-  onMount(() => {
-    console.log('Component has been loaded.');
-  });
-
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
-    학급 일괄 생성
-</div>
-<div class="w-[95%] h-screen flex justify-center">
-    <form class="flex flex-col gap-4 w-full h-full" method="POST" on:submit|preventDefault={submitCreateProgramForm}>
-        <div class="overflow-x-auto h-full">
-            <table class="table">
-              <tbody>
-                
-                <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">기관</td>
-                    <td class="border-b p-3">
-                        <div class="flex flex-col">
-                            <div>
-                                <select name="agency" class="ml-3 p-2"  >
-                                    <option value="NONE">선택</option>
-                                    {#each schools as school}
-                                        <option value={school.id}>{school.schoolName} ({school.region} / {school.administrativeDistrict})</option>
-                                    {/each}
-                                  </select>
-                                
-                            </div>
-                        </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급명</td>
-                    <td class="border-b p-3">
-                        
-                       <!-- 서브 테이블 -->
-        <table class="sub-table">
-            <thead>
-              <tr>
-                <th>학년</th>
-                <th>반</th>
-                <th>담당자</th>
-                <th>삭제</th>
-              </tr>
-            </thead>
-            <tbody>
-              {#each $subTableRows as row, index (row.id)}
-                <tr>
-                  <td>
-                    <input type="number" bind:value={row.grade} />
-                  </td>
-                  <td><input type="text" bind:value={row.classNoMultiple} on:input={validateInput}/></td>
-                  <td>
-                    <select bind:value={row.memberId} >
-                      <option value="-1" >선택</option>
-                      {#each filteredMembers as member}
-                        <option value={member.id}>{member.name}</option>
-                      {/each}
-                    </select>
-                  </td>
-                  <td>
-                    {#if index !== 0}
-                    <button type="button" on:click={() => deleteSubTableRow(row.id)}><i class="fa-regular fa-trash-can text-red-500"></i></button>
-                    {/if}
-                  </td>
-                </tr>
-              {/each}
-            </tbody>
-          </table>
-          <button type="button" class="btn btn-outline btn-primary btn-sm mt-3" on:click={addSubTableRow}><i class="fa-solid fa-plus"></i>학년 추가</button>
-                    </td>
-                  </tr>
-                
-              </tbody>
-            </table>
+<div class="overLayout charactorStatus w-screen h-screen absolute overflow-hidden z-[99] flex flex-col items-center justify-end" on:click={changeTip}
+    style="{visible ? 'pointer-events:auto;' : 'pointer-events:none;'}">
+    {#if visible}
+    <div 
+        in:fly="{{ x: -5000, duration: 2000 }}" 
+        out:fly="{{ x: 5000, duration: 2000 }}"
+        class="w-full h-full absolute z-[99]" 
+        style="background-image:url('/img/setting/ani.gif');background-size:contain;background-repeat:no-repeat;transform:scale(0.3);">
+    </div>
+    <div 
+        out:fly={{ duration: 2000 }}
+        class="loader z-[99] mb-[12vh] ml-[4vw] w-full text-center">
+    </div>
+    <div 
+        out:fly={{ duration: 2000 }}
+        class="z-[99] text-[2vw] text-white mb-[8vh]">
+        {currentTip}
+    </div>
+    {/if}
 
-            <div class="flex flex-row mt-10 mb-10 justify-center gap-2">
-                <button class="btn btn-block btn-outline border-gray-400 gap-1 w-[100px]" type="button" on:click={() => rq.goTo('/adm/menu/schoolClass')}>
-                    <span>목록</span>
-                </button>
-                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" type="submit">
-                    <span>일괄 생성</span>
-                </button>
+    {#each elements as element (element.id)}
+        {#if visible}
+            <div
+                out:fly={{ x: 5000, duration: 500, delay: element.delay }}
+                on:outroend={() => handleOutroEnd(element.id)}
+                on:outrostart={() => handleOutroStart(element.id, element.delay)}
+                id={`element-${element.id}`}
+                class="w-full h-[7vh] absolute bg-black element"
+                style="bottom: {(element.id - 1) * 6.7}vh;">
             </div>
-          </div>
-    </form>
+        {/if}
+    {/each}
 </div>
 
 <style>
-    .options:hover {
-        border-bottom: 2px solid gray;
+/* 
+    .element {
+        transition: border-radius 2s;
+    } */
+    /* HTML: <div class="loader"></div> */
+    .loader {
+      width: fit-content;
+      font-weight: bold;
+      /* font-family: monospace; */
+      font-size: 3vw;
+      clip-path: inset(0 2ch 0 0);
+      animation: l4 1s steps(4) infinite;
+      color:#fff;
     }
-</style>
+    .loader:before {
+      content:"Loading . . ."
+    } 
+    @keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
+    </style>

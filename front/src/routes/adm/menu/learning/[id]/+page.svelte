@@ -40,8 +40,6 @@
             }
         });
 
-        console.log(data!.data.learningProgressData);
-
         return data!.data.learningProgressData;
     }
 
@@ -58,6 +56,32 @@
         };
     }
 
+    async function addUnLockGameMapIds(targetList: Set<number>) {
+        await rq.apiEndPoints().PUT('/api/v1/school/class/add/unLocks', {
+            body: {
+                unLockList: Array.from(targetList),
+                schoolId: parseInt($page.params.id)
+            }
+        });
+
+        if(data) {
+            window.location.href = `/adm/menu/learning/${$page.params.id}?suc=${Date.now()}&sec=${selectedValue}`;
+        };
+    }
+
+    async function removeUnLockGameMapIds(targetList: Set<number>) {
+        await rq.apiEndPoints().PUT('/api/v1/school/class/remove/unLocks', {
+            body: {
+                unLockList: Array.from(targetList),
+                schoolId: parseInt($page.params.id)
+            }
+        });
+
+        if(data) {
+            window.location.href = `/adm/menu/learning/${$page.params.id}?suc=${Date.now()}&sec=${selectedValue}`;
+        };
+    }
+ 
     function handleCheckboxChange(stageType: string, isChecked: boolean) {
         document.querySelectorAll(`.stageValueCheck${stageType}`).forEach((checkbox : any) => {
             checkbox.checked = isChecked;
@@ -111,21 +135,32 @@
                 }
             });
 
-            updateUnLockGameMapIds(unLockList);
+            addUnLockGameMapIds(unLockList);
         }
     }
 
-    function lockStage(value:number) {
-        if(confirm('해당 스테이지의 잠금 해제를 취소하시겠습니까?')) {
-            unLockList.delete(value);
+    function lockStage() {
+        if(confirm('선택한 스테이지의 잠금 해제를 취소 하시겠습니까?')) {
+            document.querySelectorAll('.stageValueCheck').forEach((checkbox: any) => {
+                if(checkbox.checked) {
+                    unLockList.add(parseInt(checkbox.value));
+                } else {
+                    unLockList.delete(parseInt(checkbox.value));
+                }
+            });
 
-            updateUnLockGameMapIds(unLockList);
+            removeUnLockGameMapIds(unLockList);
         }
     }
 
     onMount(() => {
         const params = new URLSearchParams(window.location.search);
         const suc = params.get('suc');
+        const sec = params.get('sec');
+
+        selectedValue = sec ? parseInt(sec) : 0;
+
+        console.log(sec);
         checkAndDisplayMessage(suc);
     });
 
@@ -137,6 +172,17 @@
             rq.msgInfo('업데이트가 완료되었습니다.');
         }
         }
+    }
+
+    function uncheckAllCheckboxes() {
+        document.querySelectorAll('.stageValueCheck').forEach((checkbox: any) => {
+            checkbox.checked = false;
+        });
+
+        easyChecked = false;
+        normalChecked = false;
+        hardChecked = false;
+        totalChecked = false;
     }
 </script>
 
@@ -178,8 +224,9 @@
               </tbody>
             </table>
 
-            <div class="w-[100%] mt-10 flex flex-row gap-16 justify-start items-center border-b pb-5">
-                <select bind:value={selectedValue} name="스테이지" id="select" class="border-2 border-black rounded w-[150px] h-[30px] text-center ">
+            <div class="w-[100%] mt-10 flex flex-row gap-16 justify-start items-center border-b pb-5 min-w-[880px]">
+                <select bind:value={selectedValue} name="스테이지" id="select" class="border-2 border-black rounded w-[150px] h-[30px] text-center "
+                    on:change={uncheckAllCheckboxes}>
                     <option value={0}>스테이지 1</option>
                     <option value={1}>스테이지 2</option>
                     <option value={2}>스테이지 3</option>
@@ -194,13 +241,23 @@
                     <i class="fa-solid fa-play fa-rotate-270 text-[25px]" style="color: #74C0FC;"></i>
                     <span>진행중</span>
                 </div>
+
+                <!-- <div class="flex flex-row gap-4 items-center font-bold">
+                    <i class="fa-solid fa-lock" style="color: #63E6BE;"></i>
+                    <span class="text-[12px]">이전 스테이지를 클리어해야 입장 가능한 상태</span>
+                </div>
+
+                <div class="flex flex-row gap-4 items-center font-bold">
+                    <i class="fa-solid fa-lock-open" style="color: #63E6BE;"></i>
+                    <span class="text-[12px]">이전 스테이지를 클리어하지 않아도 입장 가능한 상태</span>
+                </div> -->
             </div>
 
             <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
                 <thead>
                     <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
                         <th class="w-[250px]">&nbsp;</th>
-                        <th colspan="{stageName[selectedValue].length}" class="m-0 p-0 h-[50px]">
+                        <th colspan="{stageName[selectedValue].length}" class="m-0 p-0 h-[50px] min-w-[880px]">
                             <div class="flex flex-row justify-between">
                                 <div class="w-full flex flex-row items-cetner gap-8">
                                     <div class="flex flex-row items-center ml-8 gap-2">
@@ -228,11 +285,16 @@
                                         <label for="checkbox">Hard</label>
                                     </div>
                                 </div>
-                                <div class="flex items-center mr-7">
+                                <div class="flex items-center mr-7 gap-4">
                                     <div class="btn btn-sm btn-outline rounded-md border-gray-400"
                                         on:click={() => unLockStage()}
                                     >
                                     잠금 해제
+                                    </div>
+                                    <div class="btn btn-sm btn-outline rounded-md border-gray-400"
+                                        on:click={() => lockStage()}
+                                    >
+                                    잠금 해제 취소
                                     </div>
                                 </div>
                             </div>
@@ -243,11 +305,11 @@
                         {#each stageValue[selectedValue] as item, index}
                             <th class="m-0 p-0 h-[50px]" id="clothes">
                                 <div class="flex items-center justify-center">
-                                    {#if unLockMapIds.includes(item)}
+                                    <!-- {#if unLockMapIds.includes(item)}
                                         <i class="fa-solid fa-unlock cursor-pointer" style="color: #63E6BE;" on:click={() => lockStage(item)}></i>
-                                    {:else}
+                                    {:else} -->
                                         {#if stageName[selectedValue][index].includes('E')}
-                                            <input type="checkbox" value={item} 
+                                            <input type="checkbox" value={item}
                                             class="stageValueCheckEasy stageValueCheck checkbox checkbox-base" 
                                             on:change={handleStageCheckboxChange}>
                                         {:else if stageName[selectedValue][index].includes('N')}
@@ -263,16 +325,19 @@
                                             class="stageValueCheck checkbox checkbox-base"
                                             on:change={handleStageCheckboxChange}>
                                         {/if}
-                                    {/if}
+                                    <!-- {/if} -->
                                 </div>
                             </th>
                         {/each}
                     </tr>
                     <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
                         <th>&nbsp;</th>
-                        {#each stageName[selectedValue] as item}
+                        {#each stageName[selectedValue] as item, index}
                         <th class="w-[130px] m-0 p-0 h-[50px] text-center" id="trousers">
-                            {item}
+                            {item} &nbsp;
+                            {#if unLockMapIds.includes(stageValue[selectedValue][index])}
+                            <i class="fa-solid fa-lock-open" style="color: #63E6BE;"></i>
+                            {/if}
                         </th>
                         {/each}
                     </tr>
@@ -280,6 +345,13 @@
                 <tbody>
                     {#await loadLearningProgressData()}
                     {:then data}
+                    {#if data.length === 0}
+                        <tr>
+                            <td class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md text-center h-[400px]" colspan="{stageName[selectedValue].length + 1}">
+                                학급에 속한 학생이 없습니다.
+                            </td>
+                        </tr>
+                    {/if}
                     {#each data as student}
                         <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md ">
                             <th class="m-0 p-0 h-[50px]">{student.userName}</th>

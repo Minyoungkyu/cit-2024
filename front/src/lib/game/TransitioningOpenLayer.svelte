@@ -132,14 +132,13 @@
     .loader {
       width: fit-content;
       font-weight: bold;
-      font-family: monospace;
       font-size: 3vw;
-      clip-path: inset(0 3ch 0 0);
+      clip-path: inset(0 2ch 0 0);
       animation: l4 1s steps(4) infinite;
       color:#fff;
     }
     .loader:before {
-      content:"Loading..."
+      content:"Loading . . ."
     }
     @keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
     </style>

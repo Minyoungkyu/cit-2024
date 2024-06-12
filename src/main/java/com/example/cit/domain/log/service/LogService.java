@@ -15,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -52,5 +54,19 @@ public class LogService {
                 member.getId(), "STAGE EXECUTION", diff, step);
 
         return new ProfileDetailLogDto(clearCount, executionCount);
+    }
+
+    public List<ProfileDetailLogDto> getProfileDetailLogList(Member member, String diff, String step) {
+        return IntStream.rangeClosed(1, 3)
+                .mapToObj(i -> {
+                    long clearCount = clearCountLogRepository.countByGameLogUserIdAndGameLogLogTypeAndGameLogGameMapDifficultyAndGameLogGameMapStepAndGameLogGameMapLevelAndResult(
+                            member.getId(), "STAGE REPEAT COUNT", diff, step, i, 1);
+
+                    long executionCount = executionLogRepository.countByGameLogUserIdAndGameLogLogTypeAndGameLogGameMapDifficultyAndGameLogGameMapStepAndGameLogGameMapLevel(
+                            member.getId(), "STAGE EXECUTION", diff, step, i);
+
+                    return new ProfileDetailLogDto(clearCount, executionCount);
+                })
+                .collect(Collectors.toList());
     }
 }

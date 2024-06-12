@@ -12,6 +12,7 @@ import com.example.cit.domain.school.school.dto.SchoolInputListDto;
 import com.example.cit.domain.school.school.repository.SchoolRepository;
 import com.example.cit.domain.school.school.entity.School;
 import com.example.cit.domain.school.school.service.SchoolService;
+import com.example.cit.global.rq.Rq;
 import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
 import com.example.cit.standard.base.KwTypeV1;
@@ -39,6 +40,8 @@ public class ProgramService {
     private final MemberRepository memberRepository;
     private final SchoolRepository schoolRepository;
     private final SchoolService schoolService;
+
+    private final Rq rq;
 
     @Transactional
     public Program createProgram(String name, LocalDate startDate, LocalDate endDate, String city, String administrativeDistrict) {
@@ -191,7 +194,7 @@ public class ProgramService {
     }
 
     public Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable) {
-        return programRepository.findByKw(kwType, kw, pageable);
+        return programRepository.findByKw(kwType, kw, pageable, rq.getMember());
     }
 
     public Optional<Program> findByName(String name) {

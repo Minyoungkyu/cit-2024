@@ -15,7 +15,7 @@
     {#if progressRateList.length > 0}
     <div class="w-[70%] h-full flex justify-center">
         <div class="flex flex-col gap-4 w-full h-full">
-            <div class="overflow-x-auto h-full flex flex-col">
+            <div class="h-full flex flex-col min-w-[900px]">
             
                 {#each progressRateList as progressRate}
                 {#if progressRate.schoolProgressDtoList}

@@ -1,7 +1,7 @@
 <svelte:head>
   <link rel="icon" href="/favicon.png" />
 
-  <title>{rq.SITE_NAME}</title>
+  <title>{$siteName}</title>
 </svelte:head>
 
 <script  lang="ts">
@@ -10,12 +10,18 @@
 	import '../app.pcss';
 	import "tailwindcss/tailwind.css";
 	import { page } from '$app/stores';	
+	import { siteName, fetchSiteName } from '../stores/siteName';
 
 	const { children } = $props();
 
 	onMount(() => {
 		(async () => {
+			if ($siteName === null) {
+				await fetchSiteName();
+			}
+
 			await rq.initAuth();
+			
 			if(rq.isAdmPage($page)) {
 				if(rq.isLogout()) rq.goTo('/adm');
 				else if (!rq.isAdmin()) {

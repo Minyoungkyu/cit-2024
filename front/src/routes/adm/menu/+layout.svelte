@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>{rq.SITE_NAME} | 관리자페이지</title>
+    <title>{$siteName} | 관리자</title>
 </svelte:head>
 
 <script lang="ts">
@@ -7,7 +7,9 @@
     import rq from '$lib/rq/rq.svelte';
 	import { onMount } from 'svelte';
     import SideMenu from './sideMenu.svelte';
+    import { siteName, fetchSiteName } from '../../../stores/siteName';
     import MobileSideMenu from './mobileSideMenu.svelte';
+
 
     let isMobile = $state(false);
 
@@ -16,6 +18,12 @@
     }
 
     onMount(() => {
+        (async () => {
+			if ($siteName === null) {
+				await fetchSiteName();
+			}
+		})();
+
         const query = window.matchMedia('(max-width: 1466px)');
 
         function checkMatch() {
@@ -41,20 +49,26 @@
 </script>
 
 <div class="flex flex-row adm-area">
-    <div class="w-[250px]">
+    <div class="w-[250px] sideMenuContainer">
         <SideMenu />
     </div>
     <div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-100">
-        <div class="flex flex-row {isMobile ? 'justify-end' : 'justify-end'} items-center pr-4 gap-4 bg-gray-100 text-gray-800 w-full h-[80px]">
-            <!-- <div class="{isMobile ? '' : 'hidden'}">
-                <MobileSideMenu />
-            </div> -->
+        <div class="flex flex-row {isMobile ? 'justify-between' : 'justify-end'} items-center pr-4 gap-4 bg-gray-100 text-gray-800 w-full h-[80px]">
+            <div class="{isMobile ? '' : 'hidden'}">
+                <div>
+                    <MobileSideMenu />
+                </div>
+            </div>
             <div class="flex flex-row items-center gap-8 mr-4">
                 <div class="top-content cursor-pointer {isActiveMyPage ? 'active' : ''}">
                     <i class="fa-solid fa-circle-user"></i>
                     <a href="/adm/menu/checkPass">
                         {rq.member.name} 님
                     </a>
+                </div>
+                <div class="top-content cursor-pointer" on:click={() => rq.goTo('/game/1')}>
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>게임으로 이동</span>
                 </div>
                 <div class="top-content cursor-pointer" on:click={() => logout()}>
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -81,9 +95,23 @@
         width: 10px; 
     }
 
-    .contentBody::-webkit-scrollbar-button {
-        display: none; 
+    .contentBody::-webkit-scrollbar-track:horizontal {
+        background-color: #f0f0f0; 
     }
+
+    .contentBody::-webkit-scrollbar-thumb:horizontal {
+        background-color: #888;
+    }
+
+    .contentBody::-webkit-scrollbar:horizontal {
+        height: 10px; 
+    }
+
+    /* .contentBody::-webkit-scrollbar-button {
+        display: none; 
+        height: 10px;
+        width:10px;
+    } */
 
     .top-content:hover {
         border-bottom: 2px solid rgb(92, 115, 165);;
@@ -91,5 +119,17 @@
 
     .top-content.active {
         border-bottom: 2px solid rgb(92, 115, 165); 
+    }
+
+    @media (max-width: 1466px) {
+        .sideMenuContainer {
+            display: none;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .top-content {
+            font-size: 10px;
+        }
     }
 </style>

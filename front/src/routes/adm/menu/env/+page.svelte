@@ -1,10 +1,28 @@
 <script lang="ts">
-    import rq from "$lib/rq/rq.svelte";
+  import rq from "$lib/rq/rq.svelte";
 	import { onMount } from "svelte";
 	import { load } from "../dashBoard/+page";
+  import { siteName, fetchSiteName } from '../../../../stores/siteName';
 
     let bolen:boolean = $state(false);
     let inputWord:string = $state('');
+
+    let oldSiteName:string = $state('');
+
+    async function saveEnvs() {
+
+      const { data } = await rq.apiEndPoints().PUT("/api/v1/envs/modify", {
+        body: {
+          siteName: oldSiteName,
+          forbiddenWords: inputWord
+        }
+      });
+
+      if ( data ) {
+        fetchSiteName();
+        rq.msgAndRedirect({msg: data.msg}, undefined, "/adm/menu/env");
+      }
+    }
 
     async function loadForbiddenWord() {
         const { data } = await rq.apiEndPoints().GET("/api/v1/envs/ForbiddenWords", {});
@@ -14,19 +32,32 @@
         }
     }
 
+    async function loadSiteName() {
+        const { data } = await rq.apiEndPoints().GET("/api/v1/envs/siteName", {});
+
+        if (data) {
+            oldSiteName = data!.data.siteName!
+        }
+    }
+
+    async function updateSiteName() {
+        const { data } = await rq.apiEndPoints().PUT("/api/v1/envs/modify/siteName", {
+            body: {
+                siteName: oldSiteName
+            }
+        });
+    }
+
     async function addForbiddenWord() {
         const { data } = await rq.apiEndPoints().PUT("/api/v1/envs/ForbiddenWords", {
             body: {
                 word: inputWord
             }
         });
-
-        rq.msgInfo('저장 성공')
-
-        loadForbiddenWord();
     }
 
     onMount(() => {
+        loadSiteName();
         loadForbiddenWord();
     });
 </script>
@@ -39,14 +70,14 @@
         <div class="h-full">
             <table class="table">
               <tbody>
-                <!-- <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사이트 제목</td>
-                  <td class="border-b p-3">
-                    <input name="realName" type="text" placeholder="" value={rq.SITE_NAME} class="input input-bordered w-[150px]" />
-                  </td>
-                </tr> -->
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사이트 제목</td>
+                  <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">사이트 제목</td>
+                  <td class="border-b p-3 min-w-[600px]">
+                    <input name="realName" type="text" placeholder="" bind:value={oldSiteName} class="input input-bordered w-[150px]" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">금칙어</td>
                   <td class="border-b p-3">
                     <textarea class="textarea textarea-bordered w-full h-[300px] resize-none" bind:value={inputWord} placeholder="금지어"></textarea>
                   </td>
@@ -55,7 +86,7 @@
             </table>
 
             <div class="flex mt-10 mb-10 justify-center">
-                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" on:click={() => addForbiddenWord()}>
+                <button class="btn btn-block btn-success btn-outline gap-1 w-[100px]" on:click={() => saveEnvs()}>
                     <span>저장</span>
                 </button>
             </div>

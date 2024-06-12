@@ -1,7 +1,3 @@
-<svelte:head>
-    <title>{rq.SITE_NAME} | 관리자 로그인</title>
-</svelte:head>
-
 <script lang="ts">
 
     import rq from '$lib/rq/rq.svelte';
@@ -62,36 +58,42 @@
 
 
 
-<div class="flex flex-col items-center justify-center p-8 h-screen adm-area">
-    <div class="w-1/4 px-4">
+<div class="flex flex-col items-center justify-center p-8 h-screen adm-area min-w-[500px]">
+    <div class="mb-16 text-center text-[35px] font-bold mt-[-150px] min-w-[432px]">
+        CODE-YTHON 관리자
+    </div>
+
+    <div class="min-w-[432px] flex justify-start">
         <h1 class="mb-4">
             <i class="fa-solid fa-arrow-right-to-bracket"></i>
             로그인
         </h1>
-
-        <form class="flex flex-col gap-6" method="POST" on:submit|preventDefault={submitLoginForm}>
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">아이디</span>
-                </label>
-                <input class="input input-bordered" maxlength="30"
-                       name="username" placeholder="아이디" type="text">
-            </div>
-
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">비밀번호</span>
-                </label>
-                <input class="input input-bordered" maxlength="30"
-                       name="password" placeholder="비밀번호" type="password">
-            </div>
-
-            <div class="flex flex-col gap-2">
-                <button class="btn btn-block btn-primary gap-1">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                    <span>로그인</span>
-                </button>
-            </div>
-        </form>
     </div>
+
+    <form class="flex flex-col gap-6 min-w-[432px]" method="POST" on:submit|preventDefault={submitLoginForm}>
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">아이디</span>
+            </label>
+            <input class="input input-bordered" maxlength="30"
+                   name="username" placeholder="아이디" type="text" autocomplete="off">
+        </div>
+
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">비밀번호</span>
+            </label>
+            <input class="input input-bordered" maxlength="30"
+                   name="password" placeholder="비밀번호" type="password" autocomplete="">
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <button class="btn btn-block btn-primary gap-1">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                <span>로그인</span>
+            </button>
+        </div>
+    </form>
+    <!-- <div class="w-1/4 px-4">
+    </div> -->
 </div>

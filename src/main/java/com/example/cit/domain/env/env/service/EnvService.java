@@ -37,4 +37,10 @@ public class EnvService {
         envRepository.findById(1L).get().setForbiddenWords(word);
 
     }
+
+    @Transactional
+    public void modifySiteEnv(String siteName, String forbiddenWords) {
+        this.modifySiteName(siteName);
+        this.addForbiddenWord(forbiddenWords);
+    }
 }

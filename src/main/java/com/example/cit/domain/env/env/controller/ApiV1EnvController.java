@@ -41,10 +41,11 @@ public class ApiV1EnvController {
     public record ModifySiteNameRequestBody(@NonNull String siteName) {}
     public record ModifySiteNameResponseBody(String siteName) {}
 
-    @PutMapping(value = "/siteName")
+    @PutMapping(value = "/modify/siteName")
     @Operation(summary = "사이트 이름 수정")
     @PreAuthorize("hasRole('SUPERADMIN')")
     @SecurityRequirement(name = "bearerAuth")
+    @Transactional
     public RsData<ModifySiteNameResponseBody> setSiteName(
             @RequestBody ModifySiteNameRequestBody body
     ) {
@@ -81,6 +82,24 @@ public class ApiV1EnvController {
             @RequestBody ModifyForbiddenWordRequestBody body
     ) {
         envService.addForbiddenWord(body.word());
+    }
+
+    public record ModifyEnvRequestBody(
+            @NonNull String siteName,
+            @NonNull String forbiddenWords
+    ) {}
+
+    @PutMapping(value = "/modify")
+    @Operation(summary = "환경설정 변경")
+    @PreAuthorize("hasRole('SUPERADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<Empty> modifyEnv(
+            @RequestBody ModifyEnvRequestBody body
+    ) {
+        envService.modifySiteEnv(body.siteName(), body.forbiddenWords());
+
+        return RsData.of("환경설정이 변경되었습니다.");
     }
 
 

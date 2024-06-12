@@ -303,8 +303,8 @@
               <tbody>
                 
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">사용 기관<span class="ml-1 text-red-500">*</span></td>
-                    <td class="border-b p-3">
+                    <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">사용 기관<span class="ml-1 text-red-500">*</span></td>
+                    <td class="border-b p-3 min-w-[500px]">
                         <div class="flex flex-col">
                             <div>
                                 <input name="agency" type="search" placeholder="사용 기관" class="input input-bordered w-[400px] text-center" 

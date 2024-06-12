@@ -1,7 +1,3 @@
-<svelte:head>
-    <title>{rq.SITE_NAME}</title>
-</svelte:head>
-
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
     import { onMount } from 'svelte';
@@ -155,10 +151,10 @@
   }
 
   function filterInput() {
-    if(username.match(/[^a-zA-Z0-9]/g)) {
-      throttledMsgError('아이디는 영문, 숫자만 입력 가능합니다.');
+    if(username.match(/[^a-zA-Z0-9_]/g)) {
+      throttledMsgError('아이디는 영문, 숫자, 언더바(_)만 입력 가능합니다.');
     }
-    username = username.replace(/[^a-zA-Z0-9]/g, '');
+    username = username.replace(/[^a-zA-Z0-9_]/g, '');
   }
 
   async function submitSetNickNameForm(this: HTMLFormElement) {
@@ -173,11 +169,18 @@
       return;
     }
 
-    if (form.nickname.value.length < 4) {
-        rq.msgError('별명을 4자 이상 입력해주세요.')
+    if (form.nickname.value.length < 2) {
+        rq.msgError('별명을 2자 이상 입력해주세요.')
         form.nickname.focus();
 
         return;
+    }
+
+    if (form.nickname.value.length > 7) {
+      rq.msgError('별명은 7자 이하로 입력해주세요.')
+      form.nickname.focus();
+
+      return;
     }
     
     const { data, error } = await rq.apiEndPoints().PUT('/api/v1/players/{id}/name', {
@@ -196,7 +199,7 @@
 
 </script>
 <audio id="myAudio" bind:this={myAudio} >
-  <source src="/sound/login_sound.mp3" type="audio/mpeg">
+  <source src="/sound/login_sound.wav" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-500">
   <div class="background-container w-screen h-screen flex justify-center relative">
@@ -230,20 +233,24 @@
                   </div>
                 </div>
                 <div>
-                  <div class="form-control">
+                  <div class="form-control relative">
                       <label class="label">
                           <span class="label-text text-white text-lg">아이디</span>
                       </label>
-                      <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
-                              name="username" type="text" autocomplete="off" bind:value={username} on:input={filterInput}>
+                      <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px] z-[11]" style="background-color:unset" maxlength="30"
+                      name="username" type="text" autocomplete="off" bind:value={username} on:input={filterInput}>
+                      <div class="absolute w-[412px] h-[79px] top-[45px] z-[10]" style="background-image:url('/img/login/login.png');">
+                      </div>
                   </div>
       
-                  <div class="form-control">
+                  <div class="form-control relative">
                       <label class="label">
                           <span class="label-text text-white text-lg">비밀번호</span>
                       </label>
-                      <input class="input inP w-[412px] h-[79px] text-white text-lg pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" 
-                            type="password" maxlength="30" name="password" >
+                      <input class="input inP w-[412px] h-[79px] text-white text-lg pl-[35px] z-[11]" style="background-color:unset" 
+                            type="password" maxlength="30" name="password" autocomplete="">
+                      <div class="absolute w-[412px] h-[79px] top-[45px] z-[10]" style="background-image:url('/img/login/login.png');">
+                      </div>
                   </div>
                 </div>
     
@@ -274,7 +281,7 @@
               </label>
               <input class="input w-[412px] h-[79px] text-white text-[25px] pl-[35px]" style="background-image:url('/img/login/login.png');background-color:unset" maxlength="30"
                       name="nickname" type="text" autocomplete="off">
-              <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 4자 이상 입력해주세요</span>
+              <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 2자 이상 7자 이하로 입력해주세요</span>
               <span class="label-text text-white text-sm mt-[15px] text-center">※ 닉네임은 변경이 불가능합니다.</span>
             </div>
 
@@ -375,4 +382,16 @@
   font-family: 'Raleway', sans-serif; 
 }
 
+input:-webkit-autofill {
+  font-size:25px !important;
+  background-color: unset !important;
+  color: white !important;
+  border: unset !important;
+  -webkit-text-fill-color: white !important;
+  background-image: url('/img/login/login.png') !important;
+  background-repeat: no-repeat;
+  background-size: contain; /* 또는 contain, 원하는 크기로 설정 */
+  background-position: center; /* 중앙에 배치 */
+  transition: background-color 5000s ease-in-out 0s, background-image 5000s ease-in-out 0s;
+}
 </style>

@@ -72,7 +72,7 @@
 </script>
 
 <div class="w-[95%] h-full flex flex-col mt-[-60px]">
-    <div class="flex flex-row w-full justify-between border-b pb-[14px] mb-1">
+    <div class="flex flex-row min-w-[800px] w-full justify-between border-b pb-[14px] mb-1">
         <div class="flex flex-row gap-4 items-center">
             <div class="text-[22px] mr-4 font-bold">
                 진도 관리
@@ -113,14 +113,14 @@
     </div>
     {#await load()}
     {:then {data: {itemPage}}}
-        <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
+        <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto min-w-[800px]">
             <thead>
                 <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
-                    <th class="w-[50px]">
+                    <!-- <th class="w-[50px]">
                         <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-sm"
                             bind:checked={allChecked}
                             on:change={toggleAllChecks}>
-                    </th>
+                    </th> -->
                     <!-- <th>사업번호</th> -->
                     <th>기관명</th>
                     <th>학급명</th>
@@ -135,11 +135,11 @@
             <tbody>
                 {#each schoolClasses as schoolClass, index}
                 <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
-                    <td>
+                    <!-- <td>
                         <input type="checkbox" class="orderItemCheckbox checkbox checkbox-sm"
                             bind:checked={individualChecks[index]}
                             on:change={updateAllChecked}>
-                    </td>
+                    </td> -->
                     <!-- <td >{program.id}</td> -->
                     <td >{schoolClass.schoolName}</td>
                     <td >{schoolClass.className}</td>

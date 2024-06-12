@@ -423,7 +423,7 @@
 
 </script>
 
-<div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
+<div class="w-[95%]  flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
     학급 일괄 생성
 </div>
 <div class="w-[95%] h-screen flex justify-center">
@@ -433,7 +433,7 @@
               <tbody>
                 
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">사용 기관</td>
+                    <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">사용 기관</td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>

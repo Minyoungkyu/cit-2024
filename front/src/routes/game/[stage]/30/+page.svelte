@@ -1,8 +1,6 @@
 <svelte:head>
     <script type="text/javascript" src="/brython-runner.bundle.js"></script>
 
-    <title>{rq.SITE_NAME}</title>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -111,8 +109,6 @@
     let userDevice = $state('');
 
     onMount(() => {
-        audio = document.getElementById("myAudio") as HTMLAudioElement;
-        audio.volume = 0.4;
 
         document.body.style.width = '100vw';
         document.body.style.height = '100vh';
@@ -225,9 +221,6 @@
     }
 </script>
 
-<audio id="myAudio">
-    <source src="/sound/inGame_sound.mp3" type="audio/mpeg">
-</audio>
 <div class="content-container flex flex-col items-center justify-center overflow-hidden bg-gray-700">
     <div class="background-container w-screen h-screen relative flex flex-row overflow-hidden">
 

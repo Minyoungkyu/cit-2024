@@ -284,8 +284,8 @@
             <table class="table">
               <tbody>
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업명</td>
-                  <td class="border-b p-3">
+                  <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">사업명</td>
+                  <td class="border-b p-3 min-w-[500px]">
                     <!-- <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-full" value={programDto.name}/> -->
                     {programDto.name}
                   </td>

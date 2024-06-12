@@ -8,7 +8,11 @@
 
     // 메뉴 항목의 경로와 현재 페이지 경로가 일치하는지 확인하는 함수
     function isActive(path: string) {
-        return currentPagePath === path;
+        if(path === '/adm/menu/school' && currentPagePath.startsWith('/adm/menu/schoolClass')) {
+            return false;
+        }
+        // console.log(currentPagePath, path);
+        return currentPagePath.startsWith(path);
     }
 </script>
 
@@ -21,19 +25,25 @@
     </div> 
     <div class="drawer-side flex flex-col overflow-hidden">
         <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-        <ul class="menu w-full h-full bg-gray-800 text-gray-200 flex flex-col overflow-hidden">
-        <div class="flex flex-row justify-between items-center w-full">
-            <div class="text-[30px]" on:click={() => window.location.href="/adm/menu"}>관리자페이지</div>
-            <label for="my-drawer" class="btn btn-square btn-ghost flex justify-end">
+        <ul class="menu w-full h-full bg-white text-black flex flex-col overflow-hidden m-0 p-0">
+        <div class="h-[70.41px] flex flex-row text-black justify-between items-center w-full bg-gray-300">
+            <div class="text-[30px]  m-4" on:click={() => {
+                if (rq.member.authorities.length >= 3) window.location.href = '/adm/menu/dashBoard'
+                else if (rq.member.authorities.length === 2) window.location.href = '/adm/menu/learning'
+            }}>
+                ADMIN
+            </div>
+            <label for="my-drawer" class="btn btn-square btn-ghost flex justify-end mr-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M18 6L6 18M6 6l12 12"></path></svg>
             </label>
         </div>
-        {#each menuItems as { label, path }}
-            <li class="{isActive(path) ? 'active' : ''} sideMenuContent text-base"><a href="{path}" on:click={() => (document.getElementById('my-drawer') as HTMLInputElement).checked = false}>{label}</a></li>
+        {#each menuItems as { label, path, icon }}
+            <li class="{isActive(path) ? 'active' : ''} sideMenuContent text-base">
+                <a href="{path}" on:click={() => (document.getElementById('my-drawer') as HTMLInputElement).checked = false}>
+                    {#if icon}{@html icon}{/if}{label} 
+                </a>
+            </li>
         {/each}
-        {#if rq.isSuperAdmin()}
-            <li class="{isActive('/adm/me') ? 'active' : ''} sideMenuContent active"><a href="#">마이 페이지</a></li>
-        {/if}
         </ul>
     </div>
 </div>
@@ -43,7 +53,6 @@
         background-color: rgb(92, 115, 165);
         border-radius: 0 20px 20px 0; 
         margin-right: 10px;
-        border-left: 4px solid white;
         color: white;
     }
 
@@ -55,9 +64,9 @@
         color: white;
     }
 
-    /* @media (max-width: 1466px) {
+    @media (max-width: 1466px) {
         .sideMenuContainer {
             display: none;
         }
-    } */
+    }
 </style>

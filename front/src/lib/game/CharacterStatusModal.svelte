@@ -353,7 +353,7 @@
                                 style="background-image:url('/img/item/{rq.member.player.characterType}/{currentItem?.item.sourcePath}.png');background-repeat:no-repeat;background-size:contain;"></div>
                         </div>
                         <div class="w-[420px] h-[22px] absolute top-[270px]" style="background-image:url('/img/inventory/window_1.png');"></div>
-                        <div class="w-[410px] h-[240px] absolute top-[314px] text-[20px] font-[900] italic" style="color:rgb(64 226 255)">
+                        <div class="w-[410px] h-[240px] absolute top-[314px] text-[20px] font-[900] italic" style="color:rgb(28 211 216)">
                             {#each (currentItem?.item.description?.split('\n') || []) as desc}
                             <div class="pl-[20px]">
                                 {desc}

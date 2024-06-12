@@ -26,7 +26,7 @@ let pyodideWorker:any = null;
 
 function getPyodideWorker() {
     if (pyodideWorker === null) {
-        pyodideWorker = new Worker('/pyodideWorker.js');
+        pyodideWorker = new Worker('/pyodideWorker.obfuscated.js');
 
         pyodideWorker.onmessage = (event:any) => {
             if (pyodideWorker.callback) {

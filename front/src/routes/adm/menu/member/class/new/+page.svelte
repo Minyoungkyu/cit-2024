@@ -217,10 +217,10 @@
               <tbody>
                 
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디<span class="ml-1 text-red-500">*</span></td>
+                    <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">아이디<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
                         <div class="flex flex-row items-center gap-2">
-                            <input name="username" type="text" placeholder="아이디" class="input input-bordered w-[200px] text-center" on:change={()=>{duplicateChecked=false;}}/>
+                            <input name="username" type="text" placeholder="아이디" class="input input-bordered w-[200px] text-center" autocomplete="off" on:change={()=>{duplicateChecked=false;}}/>
                             {#if duplicateChecked}
                                 <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
                             {/if}
@@ -237,7 +237,7 @@
                         <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
-                                    <input name="password" type="password" placeholder="비밀번호" class="input input-bordered w-[200px] text-center" />
+                                    <input name="password" type="password" placeholder="비밀번호" class="input input-bordered w-[200px] text-center" autocomplete="new-password"/>
                                 </div>
                             </div>
                         </td>

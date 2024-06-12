@@ -7,4 +7,7 @@ public interface ExecutionLogRepository extends JpaRepository<ExecutionLog, Long
 
     long countByGameLogUserIdAndGameLogLogTypeAndGameLogGameMapDifficultyAndGameLogGameMapStep(
             Long userId, String logType, String gameMapDifficulty, String gameMapStep);
+
+    long countByGameLogUserIdAndGameLogLogTypeAndGameLogGameMapDifficultyAndGameLogGameMapStepAndGameLogGameMapLevel(
+            Long userId, String logType, String gameMapDifficulty, String gameMapStep, int gameMapLevel);
 }

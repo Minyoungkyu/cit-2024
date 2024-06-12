@@ -129,7 +129,7 @@ export const codeArray = [
     {
         'id' : 5,
         'stage' : '스테이지1',
-        'code' : 'set()',
+        'code' : 'setItem()',
         'type' : '설치코드',
         'description' : dedent 
         `
@@ -140,14 +140,14 @@ export const codeArray = [
         'example' : dedent
         `
         고체추진제 장착하기
-        set("고체추진제")
+        setItem("고체추진제")
         
         액체연료 장착하기
-        set("액체연료")
+        setItem("액체연료")
         
         
         추가엔진 장착하기
-        set("추가엔진")
+        setItem("추가엔진")
         `
         
     },
@@ -831,7 +831,7 @@ export const codeArray = [
         'example' : dedent
         `
         def  setTrapAndGoBack():
-            set("폭탄")
+            setItem("폭탄")
             turnLeft(2)
             go()
             turnLeft(2)

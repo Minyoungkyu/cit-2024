@@ -8,6 +8,7 @@ import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.program.program.entity.QProgram;
 import com.example.cit.domain.school.school.dto.SchoolProgressDto;
 import com.example.cit.domain.school.school.entity.QSchool;
+import com.example.cit.domain.school.schoolClass.entity.SchoolClass;
 import com.example.cit.global.rq.Rq;
 import com.example.cit.domain.school.schoolClass.entity.QSchoolClass;
 import com.example.cit.standard.base.KwTypeV1;
@@ -33,6 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.cit.domain.program.program.entity.QProgram.program;
+import static com.example.cit.domain.school.schoolClass.entity.QSchoolClass.schoolClass;
 
 @RequiredArgsConstructor
 public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
@@ -41,24 +43,26 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
     private final Rq rq;
 
     @Override
-    public Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable) {
+    public Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable, Member member) {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (kw != null && !kw.isBlank()) {
             applyKeywordFilter(kwType, kw, builder);
         }
 
+        int roleLevel = member.getRoleLevel();
+
         // 권한에 따라 프로그램 목록 필터링
 //        if(rq.getMember().getRoleLevel()==3) {
 //            builder.and(program.members.any().id.eq(rq.getMember().getId()));
 //        }
 
-        JPAQuery<Program> programQuery = createProgramQuery(builder);
+        JPAQuery<Program> programQuery = createProgramQuery(builder, member, roleLevel);
         applySorting(pageable, programQuery);
 
         programQuery.offset(pageable.getOffset()).limit(pageable.getPageSize());
 
-        JPAQuery<Long> totalQuery = createTotalQuery(builder);
+        JPAQuery<Long> totalQuery = createTotalQuery(builder, member, roleLevel);
 
         return PageableExecutionUtils.getPage(programQuery.fetch(), pageable, totalQuery::fetchOne);
     }
@@ -122,10 +126,11 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
         }
     }
 
-    private JPAQuery<Program> createProgramQuery(BooleanBuilder builder) {
+    private JPAQuery<Program> createProgramQuery(BooleanBuilder builder, Member member, int roleLevel) {
         return jpaQueryFactory
                 .select(program)
                 .from(program)
+                .where(getRoleLevelCondition(member, roleLevel))
                 .where(builder);
     }
 
@@ -136,10 +141,11 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
         }
     }
 
-    private JPAQuery<Long> createTotalQuery(BooleanBuilder builder) {
+    private JPAQuery<Long> createTotalQuery(BooleanBuilder builder, Member member, int roleLevel) {
         return jpaQueryFactory
                 .select(program.count())
                 .from(program)
+                .where(getRoleLevelCondition(member, roleLevel))
                 .where(builder);
     }
 
@@ -236,4 +242,17 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
 
         return List.of(); // 해당 롤레벨에 맞는 프로그램이 없을 경우 빈 리스트 반환
     }
+
+    private BooleanBuilder getRoleLevelCondition(Member member, int roleLevel) {
+        BooleanBuilder roleLevelCondition = new BooleanBuilder();
+
+        if (roleLevel == 3) {
+            List<Program> programs = member.getPrograms();
+
+            roleLevelCondition.and(program.in(programs));
+        }
+
+        return roleLevelCondition;
+    }
+
 }

@@ -57,26 +57,31 @@
             return;
         }
 
-        const { data, error } = await rq.apiEndPoints().POST('/api/v1/school/class/delete', {
-            body: {
-                schoolClassIds: checkedIds
+        if (confirm('선택된 학급을 삭제하시겠습니까?')) {
+            
+            const { data, error } = await rq.apiEndPoints().POST('/api/v1/school/class/delete', {
+                body: {
+                    schoolClassIds: checkedIds
+                }
+            });
+    
+            if(error) {
+                rq.msgError(error.msg);
             }
-        });
-
-        if(error) {
-            rq.msgError(error.msg);
+    
+            if(data?.data) {
+                rq.msgInfo(data.msg);
+                load();
+            }
+            
         }
 
-        if(data?.data) {
-            rq.msgInfo(data.msg);
-            load();
-        }
     }
 
 </script>
 
 <div class="w-[95%] h-full flex flex-col mt-[-60px]">
-    <div class="flex flex-row w-full justify-between border-b pb-[14px] mb-1">
+    <div class="flex flex-row min-w-[1000px] w-full justify-between border-b pb-[14px] mb-1">
         <div class="flex flex-row gap-4 items-center">
             <div class="text-[22px] mr-4 font-bold">
                 학급 관리
@@ -124,7 +129,7 @@
     </div>
     {#await load()}
     {:then {data: {itemPage}}}
-        <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
+        <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto min-w-[1000px]">
             <thead>
                 <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
                     <th class="w-[50px]">

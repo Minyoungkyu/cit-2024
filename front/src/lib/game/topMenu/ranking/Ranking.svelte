@@ -61,13 +61,22 @@
                     <div class="text-[40px] front-bold italic" style="color:rgb(64 226 255);">{rq.member.player.nickname}</div>
                 </div>
             </div>
+            {#if rq.member.authorities.length == 1}
             <div class="w-[404.8px] h-[107.2px] flex items-center justify-center" style="background-image:url('/img/map/ui_user_inf_off.png');background-size:contain;">
                 <div class="text-[40px] front-bold italic" style="color:rgb(64 226 255);">내 순위 &nbsp; {myRanking + 1}위</div>
             </div>
+            {/if}
         </div>
 
         <div class="w-[10px] h-[757px]" style="background-image:url('/img/ranking/ui_itme_window6.png');"></div>
 
+        {#if rq.member.authorities.length >= 2}
+        <div class="w-full h-full flex items-center justify-center pt-10 text-[35px]" style="color:rgb(28 211 216);">
+            <div>
+                선생님 계정은 랭킹정보가 없습니다.
+            </div>
+        </div>
+        {:else}
         <div class="w-[60%] h-[94%] grid grid-col gap-6 justify-center overflow-y-scroll pt-10 content-start">
             {#each rankingList as ranking, index}
             {#if index === 0}
@@ -77,7 +86,16 @@
                     <div class="w-[90px] h-[90px] absolute" style="background-image:url('/img/icon/{ranking.sourcePath}.png');background-size:contain;"></div>
                     <div class="w-[180px] h-[180px] absolute" style="background-image:url('/img/ranking/icon_frame_1.png');background-size:contain;"></div>
                 </div>
-                <div class="h-full ml-10 text-[40px] font-[500] italic leading-[125px]" style="color:rgb(255 210 87);">{ranking.nickname}</div>
+                <div class="flex flex-col w-[470px]">
+                    <div class="text-[50px] font-[500] italic text-white mt-4 flex justify-start ml-10" style="color:rgb(255 210 87);">
+                        {ranking.nickname}
+                    </div>
+                    <div class="text-[35px] font-[500] italic text-white flex justify-end mt-[-16px] tracking-[1.2px]" style="color:rgb(255 210 87);">
+                        <span class="text-[20px] flex items-end mb-2">SCORE</span> &nbsp; {ranking.score}P
+                    </div>
+                </div>
+
+                <!-- <div class="h-full ml-10 text-[40px] font-[500] italic leading-[125px]" style="color:rgb(255 210 87);">{ranking.nickname} {ranking.score}</div> -->
             </div>
             {:else if index === 1}
             <div class="w-[785px] h-[126px] flex flex-row" style="background-image:url('/img/ranking/frame_Rank_s.png');">
@@ -86,32 +104,62 @@
                     <div class="w-[90px] h-[90px] absolute" style="background-image:url('/img/icon/{ranking.sourcePath}.png');background-size:contain;"></div>
                     <div class="w-[180px] h-[180px] absolute" style="background-image:url('/img/ranking/icon_frame_2.png');background-size:contain;"></div>
                 </div>
-                <div class="h-full ml-10 text-[40px] font-[500] italic leading-[125px]" style="color:rgb(180 235 255);">{ranking.nickname}</div>
+                <!-- <div class="h-full ml-10 text-[40px] font-[500] italic leading-[125px]" style="color:rgb(180 235 255);">{ranking.nickname} {ranking.score}</div> -->
+
+                <div class="flex flex-col w-[470px]" style="color:rgb(180 235 255);">
+                    <div class="text-[50px] font-[500] italic mt-4 flex justify-start ml-10">
+                        {ranking.nickname}
+                    </div>
+                    <div class="text-[35px] font-[500] italic flex justify-end mt-[-16px] tracking-[1.2px]">
+                        <span class="text-[20px] flex items-end mb-2">SCORE</span> &nbsp; {ranking.score}P
+                    </div>
+                </div>
             </div>
             {:else if index === 2}
             <div class="w-[785px] h-[126px] flex flex-row" style="background-image:url('/img/ranking/frame_Rank_b.png');">
-                <div class="w-[110px] h-full text-[50px] font-[500] italic leading-[100px] ml-4" style="color:rgb(161 125 91)">3위</div>
+                <div class="w-[110px] h-full text-[50px] font-[500] italic leading-[100px] ml-4" style="color:rgb(213 166 121)">3위</div>
                 <div class="w-[170px] h-[170px] mt-[-22px] flex items-center justify-center relative">
                     <div class="w-[90px] h-[90px] absolute" style="background-image:url('/img/icon/{ranking.sourcePath}.png');background-size:contain;"></div>
                     <div class="w-[180px] h-[180px] absolute" style="background-image:url('/img/ranking/icon_frame_3.png');background-size:contain;"></div>
                 </div>
-                <div class="h-full ml-10 text-[40px] font-[500] italic leading-[125px]" style="color:rgb(161 125 91);">{ranking.nickname}</div>
+                <!-- <div class="h-full ml-10 text-[40px] font-[500] italic leading-[125px]" style="color:rgb(161 125 91);">{ranking.nickname}</div> -->
+
+                <div class="flex flex-col w-[470px]" style="color:rgb(213 166 121);">
+                    <div class="text-[50px] font-[500] italic mt-4 flex justify-start ml-10">
+                        {ranking.nickname}
+                    </div>
+                    <div class="text-[35px] font-[500] italic flex justify-end mt-[-16px] tracking-[1.2px]">
+                        <span class="text-[20px] flex items-end mb-2">SCORE</span> &nbsp; {ranking.score}P
+                    </div>
+                </div>
             </div>
             {:else}
             <div class="w-[785px] h-[126px] flex flex-row" style="background-image:url('/img/ranking/frame_Rank_n.png');">
-                <div class="w-[110px] h-full text-[50px] font-[500] italic leading-[100px] ml-4" style="color:rgb(64 226 255)">{index + 1}위</div>
+                <div class="w-[110px] h-full text-[50px] font-[500] italic leading-[100px] ml-4" style="color:rgb(213 166)">{index + 1}위</div>
                 <div class="w-[170px] h-[170px] mt-[-22px] flex items-center justify-center relative">
                     <div class="w-[90px] h-[90px] absolute" style="background-image:url('/img/icon/{ranking.sourcePath}.png');background-size:contain;"></div>
                     <div class="w-[170px] h-[170px] absolute" style="background-image:url('/img/ranking/icon_frame_n.png');background-size:contain;"></div>
                 </div>
-                <div class="h-full ml-10 text-[40px] font-[500] italic leading-[125px]" style="color:rgb(64 226 255);">{ranking.nickname}</div>
+
+                <div class="flex flex-col w-[470px]" style="color:rgb(28 211 216);">
+                    <div class="text-[50px] font-[500] italic mt-4 flex justify-start ml-10">
+                        {ranking.nickname}
+                    </div>
+                    <div class="text-[35px] font-[500] italic flex justify-end mt-[-16px] tracking-[1.2px]">
+                        <span class="text-[20px] flex items-end mb-2">SCORE</span> &nbsp; {ranking.score}P
+                    </div>
+                </div>
             </div>
             {/if}
             {/each}
-
-
         </div>
+        {/if}
     
     </div>
 </div>
 
+<style>
+    .test {
+        color:rgb(177, 140, 106);
+    }
+</style>

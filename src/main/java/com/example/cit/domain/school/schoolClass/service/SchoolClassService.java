@@ -200,6 +200,36 @@ public class SchoolClassService {
         return schoolClass;
     }
 
+    @Transactional
+    public SchoolClass addUnLockMapIds(List<Long> unLockList, Long schoolId) {
+        SchoolClass schoolClass = schoolClassRepository.findById(schoolId).orElseThrow();
+
+        List<Long> currentUnLockMapIds = schoolClass.getUnLockMapIds();
+
+        unLockList.stream()
+                .filter(id -> !currentUnLockMapIds.contains(id))
+                .forEach(currentUnLockMapIds::add);
+
+        schoolClassRepository.save(schoolClass);
+
+        return schoolClass;
+    }
+
+    @Transactional
+    public SchoolClass removeUnLockMapIds(List<Long> unLockList, Long schoolId) {
+        SchoolClass schoolClass = schoolClassRepository.findById(schoolId).orElseThrow();
+
+        List<Long> currentUnLockMapIds = schoolClass.getUnLockMapIds();
+
+        unLockList.stream()
+                .filter(currentUnLockMapIds::contains)
+                .forEach(currentUnLockMapIds::remove);
+
+        schoolClassRepository.save(schoolClass);
+
+        return schoolClass;
+    }
+
     public Page<SchoolClass> findByKw(String kwType, String kw, Pageable pageable) {
         return schoolClassRepository.findByKw(kwType, kw, pageable, rq.getMember());
     }

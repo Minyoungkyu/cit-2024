@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
     import { codeArray } from './codeArray';
 
-    let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
+    let { scaleMultiplier, resolution, closeFc } = $props<{ scaleMultiplier:number, resolution:number, closeFc:() => void }>();
     let adjustScale = $state(0);
     
     const stageArray = [
@@ -36,6 +36,7 @@
 
 <div class="flex justify-center items-end mt-[10%] relative" style="transform:scale(0.8) scale({adjustScale});pointer-events:auto;">
     <div class="w-[270px] h-[819px] flex flex-col justify-start pt-[110px] relative">
+
         {#each stageArray as stage, index}
         <div class="absolute w-[330px] h-[74px] z-[10] flex items-center cursor-pointer" on:click={() => currentTab = stage} 
             style="{currentTab == stage ? 'background-image:url("/img/shop/ui_itemname2.png");color:rgb(255 210 87);' 
@@ -59,7 +60,13 @@
         </div>
     </div>
 
-    <div class="w-[962px] h-[819px] ml-[30px]" style="background-image:url('/img/shop/ui_store_bg.png');">
+    <div class="w-[962px] h-[819px] ml-[30px] relative" style="background-image:url('/img/shop/ui_store_bg.png');">
+
+        <div class="absolute w-[46px] h-[46px] top-[20px] right-[20px] cursor-pointer" 
+            style="background-image:url('/img/inGame/btn_popup_close.png');transform-origin:top right;transform:scale(1);"
+            on:click={() => closeFc()}>
+        </div>
+
         <div class="absolute top-[110px] right-[57px] w-[878px] h-[658px]" style="background-image:url('/img/shop/ui_store_inupbg.png');">
             <div class="encyclopedia-container w-[878px] h-[608px] grid grid-cols-1 gap-6 pl-[30px] overflow-y-scroll">
                 <div class="text-[50px] mt-4 font-bold" style="color:rgb(28 211 216);">{codeArray[currentCodeId].code}</div>

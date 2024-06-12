@@ -1,8 +1,6 @@
 <svelte:head>
     <script type="text/javascript" src="/brython-runner.bundle.js"></script>
 
-    <title>{rq.SITE_NAME}</title>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 

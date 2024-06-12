@@ -192,7 +192,7 @@
 
 
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">학급<span class="ml-1 text-red-500">*</span></td>
+                    <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">학급<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
                         <div class="flex flex-col">
                             <div>

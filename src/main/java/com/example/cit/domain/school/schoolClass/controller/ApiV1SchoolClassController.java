@@ -415,5 +415,44 @@ public class ApiV1SchoolClassController {
         );
     }
 
+    public record AddUnLockMapIdsRequestBody(@NonNull List<Long> unLockList, @NonNull long schoolId) {}
+    public record AddUnLockMapIdsResponseBody(@NonNull SchoolClassLearningDto schoolClassLearningDto) {}
+
+    @PutMapping("/add/unLocks")
+    @Operation(summary = "학급 맵 잠금 업데이트")
+    @PreAuthorize("hasRole('CLASSADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<AddUnLockMapIdsResponseBody> updateUnLockMapIds(
+            @Valid @RequestBody AddUnLockMapIdsRequestBody body
+    ) {
+        return RsData.of(
+                new AddUnLockMapIdsResponseBody(
+                        new SchoolClassLearningDto(
+                                schoolClassService.addUnLockMapIds(body.unLockList, body.schoolId)
+                        )
+                )
+        );
+    }
+    public record RemoveUnLockMapIdsRequestBody(@NonNull List<Long> unLockList, @NonNull long schoolId) {}
+    public record RemoveUnLockMapIdsResponseBody(@NonNull SchoolClassLearningDto schoolClassLearningDto) {}
+
+    @PutMapping("/remove/unLocks")
+    @Operation(summary = "학급 맵 잠금 업데이트")
+    @PreAuthorize("hasRole('CLASSADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @Transactional
+    public RsData<RemoveUnLockMapIdsResponseBody> updateUnLockMapIds(
+            @Valid @RequestBody RemoveUnLockMapIdsRequestBody body
+    ) {
+        return RsData.of(
+                new RemoveUnLockMapIdsResponseBody(
+                        new SchoolClassLearningDto(
+                                schoolClassService.removeUnLockMapIds(body.unLockList, body.schoolId)
+                        )
+                )
+        );
+    }
+
 
 }

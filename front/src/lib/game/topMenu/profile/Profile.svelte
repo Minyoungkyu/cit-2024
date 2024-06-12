@@ -57,7 +57,7 @@
             }
         });
 
-        return data!.data.profileDetailLogDto;
+        return data!.data.profileDetailLogDtoList;
     }
 
     async function loadLearningInfo() {
@@ -172,25 +172,60 @@
 
         <div class="w-[60%] h-[94%]">
             <div class="text-[40px] font-bold mt-4 mb-20 ml-10" style="color:rgb(64 226 255);">세부 정보</div>
-            <div class="h-[75%] grid grid-col gap-16 justify-center overflow-y-scroll content-start">
+            <div class="h-[75%] grid grid-col gap-16 justify-center overflow-y-scroll content-start relative">
                 {#each stepList as step, index}
                 <div class="w-[800px] flex flex-col justify-end items-end gap-2 italic">
                     <div class="w-[800px] flex flex-row justify-between items-center border-b-2 cursor-pointer" 
                         style="border-color:rgb(64 226 255);" on:click={() => toggleDetail(index)}>
-                        <div class="text-[50px] font-bold ml-2" style="color:rgb(28 211 216);">{step}</div>
+                        <div class="flex flex-row">
+                            <div class="text-[50px] font-bold ml-2" style="color:rgb(28 211 216);">{step}</div>
+                            <!-- <div class="text-[25px] ml-4 font-bold flex items-end mb-[9px]" style="color:rgb(28 211 216);"><span>COMPLETE</span></div> -->
+                        </div>
                         <div class="w-[25px] h-[22px] mr-2" style="background-image:{openDetailIds.has(index) ? 'url("/img/profile/btn_up.png");' : 'url("/img/profile/btn_down.png");'}"></div>
                     </div>
                     {#if openDetailIds.has(index)}
                     {#await loadProfileDetail(step, currentDiff)}
                     {:then data}
-                    <div class="w-[760px] flex flex-row justify-between items-center border-b mt-6" style="border-color:rgb(28 211 216);">
-                        <div class="text-[20px] font-bold ml-2" style="color:rgb(28 211 216);">클리어 횟수</div>
-                        <div class="text-[20px] font-bold mr-4" style="color:rgb(28 211 216);">{data.clearCount}</div>
-                    </div>
-                    <div class="w-[760px] flex flex-row justify-between items-center border-b mt-6" style="border-color:rgb(28 211 216);">
-                        <div class="text-[20px] font-bold ml-2" style="color:rgb(28 211 216);">코드 입력 횟수</div>
-                        <div class="text-[20px] font-bold mr-4" style="color:rgb(28 211 216);">{data.executionCount}</div>
-                    </div>
+                        <!-- {#each data as detail, index}
+                        <div class="w-[100px] flex flex-row justify-end items-center border-b mt-6" style="border-color:rgb(28 211 216);">
+                            <div class="text-[40px] font-bold ml-2" style="color:rgb(28 211 216);">미션 {index + 1}</div>
+                        </div>
+                        <div class="w-[760px] flex flex-row justify-between items-center border-b mt-6" style="border-color:rgb(28 211 216);">
+                            <div class="text-[20px] font-bold ml-2" style="color:rgb(28 211 216);">클리어 횟수</div>
+                            <div class="text-[20px] font-bold mr-4" style="color:rgb(28 211 216);">{detail.clearCount}</div>
+                        </div>
+                        <div class="w-[760px] flex flex-row justify-between items-center border-b mt-6" style="border-color:rgb(28 211 216);">
+                            <div class="text-[20px] font-bold ml-2" style="color:rgb(28 211 216);">코드 입력 횟수</div>
+                            <div class="text-[20px] font-bold mr-4" style="color:rgb(28 211 216);">{detail.executionCount}</div>
+                        </div>
+                        {/each} -->
+
+                        <div class="flex flex-col w-[85%] justify-end">
+                            <div class="flex flex-row text-[23px] text-center border-b" style="color:rgb(28 211 216);border-color:rgb(28 211 216);">
+                                <div class="w-[150px] mb-[4px]">
+                                    
+                                </div>
+                                <div class="w-[200px] mb-[4px] ml-[55px]">
+                                    클리어 횟수
+                                </div>
+                                <div class="w-[200px] mb-[4px] ml-[55px]">
+                                    코드 입력 횟수
+                                </div>
+                            </div>
+                            {#each data as detail, index}
+                            <div class="flex flex-row text-[23px] text-center border-b" style="color:rgb(28 211 216);border-color:rgb(28 211 216);">
+                                <div class="w-[150px] my-[4px]">
+                                    미션 {index + 1}
+                                </div>
+                                <div class="w-[200px] my-[4px] ml-[55px]">
+                                    {detail.clearCount}
+                                </div>
+                                <div class="w-[200px] my-[4px] ml-[55px]">
+                                    {detail.executionCount}
+                                </div>
+                            </div>
+                            {/each}
+                        </div>
                     {/await}
                     {/if}
                 </div>

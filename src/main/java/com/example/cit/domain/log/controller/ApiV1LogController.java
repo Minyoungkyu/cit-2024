@@ -18,6 +18,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
@@ -48,7 +50,7 @@ public class ApiV1LogController {
         );
     }
 
-    public record GetDetailLogResponseBody(@NonNull ProfileDetailLogDto profileDetailLogDto) {}
+    public record GetDetailLogResponseBody(@NonNull List<ProfileDetailLogDto> profileDetailLogDtoList) {}
 
     @GetMapping(value = "/detail", consumes = ALL_VALUE)
     @Operation(summary = "학습정보 스테이지 상세로그 조회")
@@ -61,7 +63,7 @@ public class ApiV1LogController {
     ) {
         return RsData.of(
                 new GetDetailLogResponseBody(
-                        logService.getProfileDetailLog(rq.getMember(), diff, step)
+                        logService.getProfileDetailLogList(rq.getMember(), diff, step)
                 )
         );
     }

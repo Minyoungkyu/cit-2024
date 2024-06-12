@@ -79,7 +79,7 @@ public class GameMapService {
                 .ifPresentOrElse(
                         log -> {},
                         () -> {
-                            if (!unLockMapIds.contains(gameMapId)) {
+                            if (!unLockMapIds.contains(gameMapId) && member.getRoleLevel() < 2) {
                                 throw new GlobalException("403-1", "잘못된 접근입니다.");
                             } else {
                                 PlayerLog playerLog = PlayerLog.builder()

@@ -17,9 +17,17 @@ export interface paths {
     /** 학급 맵 잠금 업데이트 */
     put: operations["updateUnLockMapIds"];
   };
+  "/api/v1/school/class/remove/unLocks": {
+    /** 학급 맵 잠금 업데이트 */
+    put: operations["updateUnLockMapIds_1"];
+  };
   "/api/v1/school/class/modify": {
     /** 학급 수정 */
     put: operations["modify_1"];
+  };
+  "/api/v1/school/class/add/unLocks": {
+    /** 학급 맵 잠금 업데이트 */
+    put: operations["updateUnLockMapIds_2"];
   };
   "/api/v1/programs/modify": {
     /** 사업 수정 */
@@ -61,9 +69,11 @@ export interface paths {
     /** 플레이어 인벤토리 업데이트 */
     put: operations["updateInventory"];
   };
-  "/api/v1/envs/siteName": {
-    /** 사이트 이름 조회 */
-    get: operations["getSiteName"];
+  "/api/v1/envs/modify": {
+    /** 환경설정 변경 */
+    put: operations["modifyEnv"];
+  };
+  "/api/v1/envs/modify/siteName": {
     /** 사이트 이름 수정 */
     put: operations["setSiteName"];
   };
@@ -397,6 +407,10 @@ export interface paths {
     /** 통계 엑셀 다운로드 */
     get: operations["downloadCsv_4"];
   };
+  "/api/v1/envs/siteName": {
+    /** 사이트 이름 조회 */
+    get: operations["getSiteName"];
+  };
   "/api/v1/ads": {
     /** 행정구역 조회 */
     get: operations["getAds"];
@@ -500,6 +514,21 @@ export interface components {
     UnLockMapIdsUpdateResponseBody: {
       schoolClassLearningDto: components["schemas"]["SchoolClassLearningDto"];
     };
+    RemoveUnLockMapIdsRequestBody: {
+      unLockList: number[];
+      /** Format: int64 */
+      schoolId: number;
+    };
+    RemoveUnLockMapIdsResponseBody: {
+      schoolClassLearningDto: components["schemas"]["SchoolClassLearningDto"];
+    };
+    RsDataRemoveUnLockMapIdsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["RemoveUnLockMapIdsResponseBody"];
+    };
     MemberInputListDto: {
       /** Format: int64 */
       id?: number;
@@ -538,6 +567,21 @@ export interface components {
       responsibleMemberNames: string[];
       responsibleMemberList: components["schemas"]["MemberInputListDto"][];
       special: boolean;
+    };
+    AddUnLockMapIdsRequestBody: {
+      unLockList: number[];
+      /** Format: int64 */
+      schoolId: number;
+    };
+    AddUnLockMapIdsResponseBody: {
+      schoolClassLearningDto: components["schemas"]["SchoolClassLearningDto"];
+    };
+    RsDataAddUnLockMapIdsResponseBody: {
+      resultCode: string;
+      /** Format: int32 */
+      statusCode: number;
+      msg: string;
+      data: components["schemas"]["AddUnLockMapIdsResponseBody"];
     };
     ModifyProgramRequestBody: {
       /** Format: int64 */
@@ -821,6 +865,10 @@ export interface components {
     };
     UpdateInventoryResponseBody: {
       memberDto: components["schemas"]["MemberDto"];
+    };
+    ModifyEnvRequestBody: {
+      siteName?: string;
+      forbiddenWords?: string;
     };
     ModifySiteNameRequestBody: {
       siteName?: string;
@@ -1687,7 +1735,7 @@ export interface components {
       data: components["schemas"]["GetProfileLogResponseBody"];
     };
     GetDetailLogResponseBody: {
-      profileDetailLogDto: components["schemas"]["ProfileDetailLogDto"];
+      profileDetailLogDtoList: components["schemas"]["ProfileDetailLogDto"][];
     };
     ProfileDetailLogDto: {
       /** Format: int64 */
@@ -1927,6 +1975,28 @@ export interface operations {
       };
     };
   };
+  /** 학급 맵 잠금 업데이트 */
+  updateUnLockMapIds_1: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RemoveUnLockMapIdsRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataRemoveUnLockMapIdsResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
   /** 학급 수정 */
   modify_1: {
     requestBody: {
@@ -1939,6 +2009,28 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["RsDataModifySchoolClassResponseBody"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 학급 맵 잠금 업데이트 */
+  updateUnLockMapIds_2: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AddUnLockMapIdsRequestBody"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataAddUnLockMapIdsResponseBody"];
         };
       };
       /** @description Bad Request */
@@ -2172,13 +2264,18 @@ export interface operations {
       };
     };
   };
-  /** 사이트 이름 조회 */
-  getSiteName: {
+  /** 환경설정 변경 */
+  modifyEnv: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifyEnvRequestBody"];
+      };
+    };
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataGetSiteNameResponseBody"];
+          "application/json": components["schemas"]["RsDataEmpty"];
         };
       };
       /** @description Bad Request */
@@ -3891,6 +3988,23 @@ export interface operations {
       200: {
         content: {
           "*/*": string[];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["RsDataEmpty"];
+        };
+      };
+    };
+  };
+  /** 사이트 이름 조회 */
+  getSiteName: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RsDataGetSiteNameResponseBody"];
         };
       };
       /** @description Bad Request */

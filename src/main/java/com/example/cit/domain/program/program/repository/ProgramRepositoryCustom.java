@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface ProgramRepositoryCustom {
 
-    Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable);
+    Page<Program> findByKw(KwTypeV1 kwType, String kw, Pageable pageable, Member member);
 
     boolean existsByName(String programName);
 

@@ -1,6 +1,8 @@
 package com.example.cit.domain.log.gameLog.repository;
 
+import com.example.cit.domain.log.gameLog.detail.clearCountLog.entity.QClearCountLog;
 import com.example.cit.domain.log.gameLog.detail.executionLog.entity.QExecutionLog;
+import com.example.cit.domain.log.gameLog.detail.killCountLog.entity.QKillCountLog;
 import com.example.cit.domain.log.gameLog.entity.GameLog;
 import com.example.cit.domain.log.gameLog.entity.QGameLog;
 import com.example.cit.domain.member.member.entity.QMember;
@@ -11,6 +13,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,66 +30,89 @@ public class GameLogCustomImpl implements GameLogCustom {
 
     @Override
     public List<GameLog> findStatLogs(long programId, long schoolId, int grade, LocalDateTime startDate, LocalDateTime endDate) {
-        QGameLog gameLog = QGameLog.gameLog;
-        QMember member = QMember.member;
-        QSchoolClass schoolClass = QSchoolClass.schoolClass;
-        QSchool school = QSchool.school;
-        QProgram program = QProgram.program;
 
-        BooleanBuilder whereClause = new BooleanBuilder();
-        whereClause.and(programIdCondition(programId, program))
-                .and(schoolIdCondition(schoolId, schoolClass))
-                .and(gradeAndClassNoCondition(grade, schoolClass))
-                .and(dateCondition(startDate, endDate, gameLog))
-                .and(gameLog.executionLog.isNotNull());
+        String jpql = "SELECT DISTINCT gl FROM GameLog gl " +
+                "JOIN FETCH gl.executionLog el " +
+                "LEFT JOIN FETCH gl.clearCountLog ccl " +
+                "LEFT JOIN FETCH gl.killCountLog kcl " +
+                "JOIN Member m ON gl.userId = m.id " +
+                "LEFT JOIN m.studentClass sc " +
+                "LEFT JOIN sc.school s " +
+                "LEFT JOIN s.programs p " +
+                "WHERE el IS NOT NULL " +
+                (programId != 0 ? "AND p.id = :programId " : "") +
+                (schoolId != 0 ? "AND sc.school.id = :schoolId " : "") +
+                (grade != 0 ? "AND sc.grade = :grade " : "") +
+                (startDate != null ? "AND gl.createDate >= :startDate " : "") +
+                (endDate != null ? "AND gl.createDate <= :endDate " : "");
 
-        return queryFactory
-                .selectDistinct(gameLog)
-                .from(gameLog)
-                .join(member).on(gameLog.userId.eq(member.id))
-                .leftJoin(member.studentClass, schoolClass)
-                .leftJoin(schoolClass.school, school)
-                .leftJoin(school.programs, program)
-                .where(whereClause)
-                .fetch();
+        TypedQuery<GameLog> query = entityManager.createQuery(jpql, GameLog.class);
+
+        if (programId != 0) query.setParameter("programId", programId);
+        if (schoolId != 0) query.setParameter("schoolId", schoolId);
+        if (grade != 0) query.setParameter("grade", grade);
+        if (startDate != null) query.setParameter("startDate", startDate);
+        if (endDate != null) query.setParameter("endDate", endDate);
+
+        return query.getResultList();
     }
 
     @Override
     public Page<GameLog> findStatLogs(long programId, long schoolId, int grade, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        QGameLog gameLog = QGameLog.gameLog;
-        QMember member = QMember.member;
-        QSchoolClass schoolClass = QSchoolClass.schoolClass;
-        QSchool school = QSchool.school;
-        QProgram program = QProgram.program;
 
-        BooleanBuilder whereClause = new BooleanBuilder();
-        whereClause.and(programIdCondition(programId, program))
-                .and(schoolIdCondition(schoolId, schoolClass))
-                .and(gradeAndClassNoCondition(grade, schoolClass))
-                .and(dateCondition(startDate, endDate, gameLog))
-                .and(gameLog.executionLog.isNotNull());
+        String jpql = "SELECT DISTINCT gl FROM GameLog gl " +
+                "JOIN FETCH gl.executionLog el " +
+                "LEFT JOIN FETCH gl.clearCountLog ccl " +
+                "LEFT JOIN FETCH gl.killCountLog kcl " +
+                "JOIN Member m ON gl.userId = m.id " +
+                "LEFT JOIN m.studentClass sc " +
+                "LEFT JOIN sc.school s " +
+                "LEFT JOIN s.programs p " +
+                "WHERE el IS NOT NULL " +
+                (programId != 0 ? "AND p.id = :programId " : "") +
+                (schoolId != 0 ? "AND sc.school.id = :schoolId " : "") +
+                (grade != 0 ? "AND sc.grade = :grade " : "") +
+                (startDate != null ? "AND gl.createDate >= :startDate " : "") +
+                (endDate != null ? "AND gl.createDate <= :endDate " : "");
 
-        List<GameLog> content = queryFactory
-                .selectDistinct(gameLog)
-                .from(gameLog)
-                .join(member).on(gameLog.userId.eq(member.id))
-                .leftJoin(member.studentClass, schoolClass)
-                .leftJoin(schoolClass.school, school)
-                .leftJoin(school.programs, program)
-                .where(whereClause)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+        TypedQuery<GameLog> query = entityManager.createQuery(jpql, GameLog.class);
 
-        long total = queryFactory
-                .selectDistinct(gameLog)
-                .from(gameLog)
-                .join(member).on(gameLog.userId.eq(member.id))
-                .leftJoin(member.studentClass, schoolClass)
-                .leftJoin(schoolClass.school, school)
-                .leftJoin(school.programs, program)
-                .where(whereClause)
-                .fetch().size();
+        if (programId != 0) query.setParameter("programId", programId);
+        if (schoolId != 0) query.setParameter("schoolId", schoolId);
+        if (grade != 0) query.setParameter("grade", grade);
+        if (startDate != null) query.setParameter("startDate", startDate);
+        if (endDate != null) query.setParameter("endDate", endDate);
+
+        query.setFirstResult((int) pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<GameLog> content = query.getResultList();
+
+        // Count Query
+        String countJpql = "SELECT COUNT(DISTINCT gl) FROM GameLog gl " +
+                "JOIN gl.executionLog el " +
+                "LEFT JOIN gl.clearCountLog ccl " +
+                "LEFT JOIN gl.killCountLog kcl " +
+                "JOIN Member m ON gl.userId = m.id " +
+                "LEFT JOIN m.studentClass sc " +
+                "LEFT JOIN sc.school s " +
+                "LEFT JOIN s.programs p " +
+                "WHERE el IS NOT NULL " +
+                (programId != 0 ? "AND p.id = :programId " : "") +
+                (schoolId != 0 ? "AND sc.school.id = :schoolId " : "") +
+                (grade != 0 ? "AND sc.grade = :grade " : "") +
+                (startDate != null ? "AND gl.createDate >= :startDate " : "") +
+                (endDate != null ? "AND gl.createDate <= :endDate " : "");
+
+        TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class);
+
+        if (programId != 0) countQuery.setParameter("programId", programId);
+        if (schoolId != 0) countQuery.setParameter("schoolId", schoolId);
+        if (grade != 0) countQuery.setParameter("grade", grade);
+        if (startDate != null) countQuery.setParameter("startDate", startDate);
+        if (endDate != null) countQuery.setParameter("endDate", endDate);
+
+        long total = countQuery.getSingleResult();
 
         return new PageImpl<>(content, pageable, total);
     }
@@ -114,4 +140,80 @@ public class GameLogCustomImpl implements GameLogCustom {
             return gameLog.createDate.before(endDate);
         }
     }
+
+
+
+
+//    @Override
+//    public List<GameLog> findStatLogs(long programId, long schoolId, int grade, LocalDateTime startDate, LocalDateTime endDate) {
+//        QGameLog gameLog = QGameLog.gameLog;
+//        QMember member = QMember.member;
+//        QSchoolClass schoolClass = QSchoolClass.schoolClass;
+//        QSchool school = QSchool.school;
+//        QProgram program = QProgram.program;
+//
+//        BooleanBuilder whereClause = new BooleanBuilder();
+//        whereClause.and(programIdCondition(programId, program))
+//                .and(schoolIdCondition(schoolId, schoolClass))
+//                .and(gradeAndClassNoCondition(grade, schoolClass))
+//                .and(dateCondition(startDate, endDate, gameLog))
+//                .and(gameLog.executionLog.isNotNull());
+//
+//        return queryFactory
+//                .selectDistinct(gameLog)
+//                .from(gameLog)
+//                .join(member).on(gameLog.userId.eq(member.id))
+//                .leftJoin(member.studentClass, schoolClass)
+//                .leftJoin(schoolClass.school, school)
+//                .leftJoin(school.programs, program)
+//                .where(whereClause)
+//                .fetch();
+//    }
+
+
+//    @Override
+//    public Page<GameLog> findStatLogs(long programId, long schoolId, int grade, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+//        QGameLog gameLog = QGameLog.gameLog;
+//        QMember member = QMember.member;
+//        QSchoolClass schoolClass = QSchoolClass.schoolClass;
+//        QSchool school = QSchool.school;
+//        QProgram program = QProgram.program;
+//
+//        BooleanBuilder whereClause = new BooleanBuilder();
+//        whereClause.and(programIdCondition(programId, program))
+//                .and(schoolIdCondition(schoolId, schoolClass))
+//                .and(gradeAndClassNoCondition(grade, schoolClass))
+//                .and(dateCondition(startDate, endDate, gameLog))
+//                .and(gameLog.executionLog.isNotNull());
+//
+//        List<GameLog> content = queryFactory
+//                .selectDistinct(gameLog)
+//                .from(gameLog)
+//                .join(gameLog.executionLog, QExecutionLog.executionLog).fetchJoin() // Fetch join to avoid N + 1 problem
+//                .leftJoin(gameLog.clearCountLog, QClearCountLog.clearCountLog) // Prevent unnecessary additional queries
+//                .leftJoin(gameLog.killCountLog, QKillCountLog.killCountLog)
+//                .join(member).on(gameLog.userId.eq(member.id))
+//                .leftJoin(member.studentClass, schoolClass)
+//                .leftJoin(schoolClass.school, school)
+//                .leftJoin(school.programs, program)
+//                .where(whereClause)
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
+//
+//        long total = queryFactory
+//                .selectDistinct(gameLog)
+//                .from(gameLog)
+//                .join(gameLog.executionLog, QExecutionLog.executionLog) // Ensure count query joins executionLog
+//                .leftJoin(gameLog.clearCountLog, QClearCountLog.clearCountLog) // Prevent unnecessary additional queries
+//                .leftJoin(gameLog.killCountLog, QKillCountLog.killCountLog)
+//                .join(member).on(gameLog.userId.eq(member.id))
+//                .leftJoin(member.studentClass, schoolClass)
+//                .leftJoin(schoolClass.school, school)
+//                .leftJoin(school.programs, program)
+//                .where(whereClause)
+//                .fetch().size();
+//
+//        return new PageImpl<>(content, pageable, total);
+//    }
 }

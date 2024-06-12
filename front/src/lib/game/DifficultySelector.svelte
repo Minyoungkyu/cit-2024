@@ -35,6 +35,10 @@
     const hasClearedNormal = playerLogList.filter(log => log.detailInt! >= 1).some(log => log.gameMapId >= normalDifficultyThreshold && log.gameMapId < hardDifficultyThreshold);
     const hasClearedHard = playerLogList.filter(log => log.detailInt! >= 1).some(log => log.gameMapId >= hardDifficultyThreshold && log.gameMapId < hardDifficultyThreshold + stepsLevelCount);
 
+    function isAdmin() {
+        return rq.member.authorities.length >= 2;
+    }
+
     let difficulties = $state(['Easy (잠김)', 'Normal (잠김)', 'Hard (잠김)']); // 난이도 선택 배열
     
     // if (hasClearedNormal || hasClearedNormal2) {
@@ -49,13 +53,13 @@
     // } 
 
     $effect(() => {
-        if (hasClearedEasy || isUnLockEasy) {
+        if (hasClearedEasy || isUnLockEasy || isAdmin()) {
             difficulties[0] = 'Easy';
         }
-        if (hasClearedNormal || isUnLockNormal) {
+        if (hasClearedNormal || isUnLockNormal || isAdmin()) {
             difficulties[1] = 'Normal';
         } 
-        if (hasClearedHard || isUnLockHard) {
+        if (hasClearedHard || isUnLockHard || isAdmin()) {
             difficulties[2] = 'Hard';
         } 
     });
@@ -144,7 +148,9 @@
         <div class="flex flex-col items-end w-full">
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png')"></div>
             <div class="w-[450px] h-[500px] flex justify-start">
-                <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">{difficultySelectorMsg}</div>
+                <div class="text-[25px] font-bold text-white mt-12 mr-[18px]" style="white-space:pre-wrap;">
+                    {@html difficultySelectorMsg.replace(/\n\n/g, '<div class="my-[15px]"></div>')}
+                </div>
             </div>
         </div>
         <div class="flex flex-col gap-2 items-center p-2">

@@ -1,7 +1,3 @@
-<svelte:head>
-    <title>{rq.SITE_NAME}</title>
-</svelte:head>
-
 <script lang="ts">
     export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
@@ -43,6 +39,10 @@
     function isUnLock(stageId: number) {
         return ress?.some(num => num >= stageId && num < stageId + 9);
     }
+
+    function isAdmin() {
+        return rq.member.authorities.length >= 2;
+    }
     /////
 
     const { data } = $props<{ data: { playerLogList: components['schemas']['PlayerLogDto'][] } }>();
@@ -70,6 +70,8 @@
     const stageNeedIds = [58, 61, 70, 79]; // Todo: 각 step, easy 난이도 마지막 레벨 맵의 id를 입력
 
     function findHighestStageStartId(highestClearedId: number): number { // 클리어한 최고 gameMapId 로 해금 스테이지 구하기 함수
+        if (highestClearedId > 88) return 999;
+
         for (let i = stageNeedIds.length - 1; i >= 0; i--) {
             if (highestClearedId >= stageNeedIds[i]) {
                 return stageStartIds[i]; 
@@ -301,25 +303,30 @@
             <div class="flex flex-row items-end gap-5 h-[160px]" style="transform:scale(0.67) rotateZ(3deg) rotateY(5deg);transform-origin:left;">
                 <div class="{topMenuArray[0] ? '' : 'btn_stage'} cursor-pointer" 
                     style="background-image:{topMenuArray[0] ? 'url("/img/map/btn_stage_off.png");width:160px;height:160px;' : 'url("/img/map/btn_stage_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(0)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(0)}>
+                </div>
                 <div class="{topMenuArray[1] ? '' : 'btn_shop'} cursor-pointer" 
                     style="background-image:{topMenuArray[1] ? 'url("/img/map/btn_shop_off.png");width:160px;height:160px;' : 'url("/img/map/btn_shop_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(1)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(1)}>
+                </div>
                 <div class="{topMenuArray[2] ? '' : 'btn_codebook'} cursor-pointer" 
                     style="background-image:{topMenuArray[2] ? 'url("/img/map/btn_coodbook_off.png");width:160px;height:160px;' : 'url("/img/map/btn_coodbook_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(2)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(2)}>
+                </div>
                 <div class="{topMenuArray[3] ? '' : 'btn_challenge'} cursor-pointer" 
                     style="background-image:{topMenuArray[3] ? 'url("/img/map/btn_challenge_off.png");width:160px;height:160px;' : 'url("/img/map/btn_challenge_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(3)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(3)}>
+                </div>
                 <div class="{topMenuArray[4] ? '' : 'btn_rank'} cursor-pointer" 
                     style="background-image:{topMenuArray[4] ? 'url("/img/map/btn_ranking_off.png");width:160px;height:160px;' : 'url("/img/map/btn_ranking_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(4)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(4)}>
+                </div>
             </div>
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black;pointer-events:none;">{topMenuArrayText[currentMenuIndex]}</div>
         </div>
 
         {#if rq.member.authorities.length >= 2}
-        <div class="btn_adm w-[330px] h-[74px] absolute right-[0] top-[20px] z-[60] mr-4 text-white text-[30px] font-bold flex justif-center items-center cursor-pointer" 
+        <div class="btn_adm w-[330px] h-[74px] absolute right-[1%] top-[2%] z-[60] text-white text-[30px] font-bold flex justif-center items-center cursor-pointer" 
             style="background-image:url('/img/shop/ui_store_menutab.png');transform-origin:top right;--scaleMultiplier2:{scaleMultiplier2}"
             on:click={() => {
                 if (rq.member.authorities.length >= 3) rq.goTo('/adm/menu/dashBoard');
@@ -402,7 +409,7 @@
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Encyclopedia scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+                <Encyclopedia scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={onClickTopMenuWithZero}/>
             </div>
         {/if}
 
@@ -458,8 +465,8 @@
                             정말 로그아웃 하시겠습니까?
                         </div>
                         <div class="flex flex-row w-full justify-around gap-12 text-[100px] mt-[30px]">
-                            <div class="hovering text-red-500" on:click={() => showLogoutModal=false}>취소</div>
                             <div class="hovering" on:click={() => rq.logoutAndRedirect('/')}>로그아웃</div>
+                            <div class="hovering text-red-500" on:click={() => showLogoutModal=false}>취소</div>
                         </div>
                     </div>
                 </div>
@@ -470,12 +477,13 @@
         </div>
         {/if}
 
-
-
+        {#if rq.member.authorities.length < 2}
         <div id="stageHighlighter" class=" stage-highlighter absolute z-[10] {animationStart ? 'animatedHighlighter' : 'invisible'}" 
-            style="width:{185 * scaleMultiplier2}px;height:{161 * scaleMultiplier2}px;background-image:url('/img/map/ui_aim.png');background-size:contain;pointer-events:none;background-repeat:no-repeat;bottom:{highlighterBottom - 3}%;left:{highlighterLeft - 2.5}%;"></div>
+            style="width:{185 * scaleMultiplier2}px;height:{161 * scaleMultiplier2}px;background-image:url('/img/map/ui_aim.png');background-size:contain;pointer-events:none;background-repeat:no-repeat;bottom:{highlighterBottom - 3}%;left:{highlighterLeft - 2.5}%;">
+        </div>
+        {/if}
 
-        {#if isOpen(59) || isUnLock(59)} <!--step 의 easy, 1레벨 맵 아이디-->
+        {#if isOpen(59) || isUnLock(59) || isAdmin()} <!--step 의 easy, 1레벨 맵 아이디-->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[15%] left-[48%] cursor-pointer" on:click={() => toggleDropdown(1)} data-gameMapId="59"
             style="bottom:15%;left:48%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [61,64,67].includes(value)) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
             <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 1</div>
@@ -495,7 +503,7 @@
         </div>
         {/if}
 
-        {#if isOpen(68) || isUnLock(68)}
+        {#if isOpen(68) || isUnLock(68) || isAdmin()}
         <!-- <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[60%] cursor-pointer" on:click={() => toggleDropdown(2)} data-gameMapId="68"
             style="bottom:40%;left:60%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [70,73,76].includes(value)) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
@@ -514,7 +522,7 @@
         </div>
         {/if}
 
-        {#if isOpen(77) || isUnLock(77)}
+        {#if isOpen(77) || isUnLock(77) || isAdmin()}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[60%] left-[55%] cursor-pointer" on:click={() => toggleDropdown(3)} data-gameMapId="77"
             style="bottom:60%;left:55%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [79,82,85].includes(value)) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 3</div>
@@ -533,7 +541,7 @@
         </div>
         {/if}
 
-        {#if isOpen(86) || isUnLock(86)}
+        {#if isOpen(86) || isUnLock(86) || isAdmin()}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[55%] left-[40%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="86"
             style="bottom:55%;left:40%;background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [88,91,94].includes(value)) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">3 - 4</div>
@@ -541,7 +549,7 @@
         </div>
             {#if isDropdownOpen[4]}
                 <DifficultySelector widthValue={widthValue} scaleMultiplier={scaleMultiplier} gameMapId={86} stepsLevelCount={3} playerLogList={playerLogList} 
-                difficultySelectorMsg={difficultySelectorMsgs[2]} difficultySelectorName={difficultySelectorNames[3]} activeTransitionAnimation={activeTransitionAnimation}/>
+                difficultySelectorMsg={difficultySelectorMsgs[3]} difficultySelectorName={difficultySelectorNames[3]} activeTransitionAnimation={activeTransitionAnimation}/>
             {/if}
         {:else}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[55%] left-[40%] cursor-pointer"

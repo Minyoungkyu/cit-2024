@@ -1,11 +1,7 @@
-<svelte:head>
-    <title>{rq.SITE_NAME}</title>
-</svelte:head>
-
 <script lang="ts">
     export const ssr = false; 
     import rq from '$lib/rq/rq.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
     import './page.css'
 
@@ -43,6 +39,10 @@
     function isUnLock(stageId: number) {
         return ress?.some(num => num >= stageId && num < stageId + 9);
     }
+
+    function isAdmin() {
+        return rq.member.authorities.length >= 2;
+    }
     /////
 
     const { data } = $props<{ data: { playerLogList: components['schemas']['PlayerLogDto'][] } }>();
@@ -53,9 +53,9 @@
     const highestClearedgameMapId = Math.max(...gameMapIds);
 
     const difficultySelectorMsgs = [ // 셀렉터 메시지
-        '이제 여러분은 인류의 미래를 위해 우주로 떠나 미지의 행성을 개척해야 합니다. \n우주 탐사를 위해 기본적인 이동 방법을 배워봅시다.\n이제 순차구조를 이용하여 로켓 발사장으로 이동하고 로켓에 실을 보급품을 획득해봅시다.',
+        '축하합니다. 기본 이동 방법을 배웠습니다. \n\n기본 이동 방법과 같이 순차적으로 명령어가 실행되는 알고리즘 구조를 순차구조라고 합니다. \n\n이제 순차구조를 이용하여 로켓 발사장으로 이동하고 로켓에 실을 보급품을 획득해봅시다.',
         '본격적으로 우주로 나가기 위해 로켓을 수리해야 합니다. \n로켓을 제대로 수리하기 위해 로켓 부품을 모두 획득하세요. \n코드를 작성할 때 for문을 사용한 반복구조를 활용해보세요! \n\n*반복구조 : 조건에 따라 명령어를 반복하는 알고리즘 구조',
-        '로켓을 고치기 위한 재료가 모두 모였습니다. \n이제 로켓을 수리해봅시다. \n로켓을 수리하기 위하여 setItem() 명령어를 사용해봅시다.'
+        '로켓을 고치기 위한 재료가 모두 모였습니다. \n이제 로켓을 수리해봅시다. \n\n로켓을 수리하기 위하여 setItem() 명령어를 사용해봅시다.'
     ]
 
     const difficultySelectorNames = [ // 셀렉터 이름
@@ -68,8 +68,8 @@
     const stageNeedIds = [2, 5, 14]; // Todo: 각 step, easy 난이도 마지막 레벨 맵의 id를 입력
 
     function findHighestStageStartId(highestClearedId: number): number { // 클리어한 최고 gameMapId 로 해금 스테이지 구하기 함수
+        if (highestClearedId == 30) return 999 // 미니 게임의 맵 id
         if (highestClearedId >= 23) return 30 // 각 stage 의 마지막 step 의 easy 난이도 3레벨 맵의 id
-        else if (highestClearedId == 30) return 999 // 미니 게임의 맵 id
 
         for (let i = stageNeedIds.length - 1; i >= 0; i--) {
             if (highestClearedId >= stageNeedIds[i]) {
@@ -152,6 +152,18 @@
                 console.error('Invalid error parameter format:', e);
             }
         }
+
+        // now on test
+        const handlePopState = (event: PopStateEvent) => {
+            location.reload(); // 페이지를 새로 고침
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        onDestroy(() => {
+            window.removeEventListener('popstate', handlePopState);
+        });
+        // 
 
         rq.fetchAndInitializeInventories();
         rq.fetchAndInitializeProfileInventories();
@@ -281,7 +293,7 @@
 </script>
 
 <audio loop bind:this={myAudio}>
-    <source src="/sound/map_sound.mp3" type="audio/mpeg">
+    <source src="/sound/map_sound.wav" type="audio/mpeg">
 </audio>
 <div class="content-container w-screen h-screen flex flex-col items-center justify-center bg-gray-500 overflow-hidden">
     <div class="background-container w-screen h-screen relative overflow-hidden" style="background-image:url('/background_1.png');background-position:center;background-size:cover;background-repeat:no-repeat;">
@@ -306,27 +318,30 @@
             <div class="flex flex-row items-end gap-5 h-[160px]" style="transform:scale(0.67) rotateZ(3deg) rotateY(5deg);transform-origin:left;">
                 <div class="{topMenuArray[0] ? '' : 'btn_stage'} cursor-pointer" 
                     style="background-image:{topMenuArray[0] ? 'url("/img/map/btn_stage_off.png");width:160px;height:160px;' : 'url("/img/map/btn_stage_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(0)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(0)}>
+                </div>
                 <div class="{topMenuArray[1] ? '' : 'btn_shop'} cursor-pointer" 
                     style="background-image:{topMenuArray[1] ? 'url("/img/map/btn_shop_off.png");width:160px;height:160px;' : 'url("/img/map/btn_shop_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(1)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(1)}>
+                </div>
                 <div class="{topMenuArray[2] ? '' : 'btn_codebook'} cursor-pointer" 
                     style="background-image:{topMenuArray[2] ? 'url("/img/map/btn_coodbook_off.png");width:160px;height:160px;' : 'url("/img/map/btn_coodbook_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(2)}></div>
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(2)}>
+                </div>
                 <div class="{topMenuArray[3] ? '' : 'btn_challenge'} cursor-pointer" 
                     style="background-image:{topMenuArray[3] ? 'url("/img/map/btn_challenge_off.png");width:160px;height:160px;' : 'url("/img/map/btn_challenge_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(3)}></div>
-                {#if rq.member.authorities.length == 1}
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(3)}>
+                </div>
                 <div class="{topMenuArray[4] ? '' : 'btn_rank'} cursor-pointer" 
                     style="background-image:{topMenuArray[4] ? 'url("/img/map/btn_ranking_off.png");width:160px;height:160px;' : 'url("/img/map/btn_ranking_on.png");width:134px;height:134px;' }
-                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(4)}></div>
-                {/if}
+                    transform:scale(1);background-repeat:no-repeat;background-size:contain;pointer-events:auto;" on:click={() => onClickTopMenu(4)}>
+                </div>
             </div>
             <div class="test font-bold text-white text-[50px] mt-2" style="text-shadow:-5px 5px black;pointer-events:none;">{topMenuArrayText[currentMenuIndex]}</div>
         </div>
 
         {#if rq.member.authorities.length >= 2}
-        <div class="btn_adm w-[330px] h-[74px] absolute right-[0] top-[20px] z-[60] mr-4 text-white text-[30px] font-bold flex justif-center items-center cursor-pointer" 
+        <div class="btn_adm w-[330px] h-[74px] absolute right-[1%] top-[2%] z-[60] text-white text-[30px] font-bold flex justif-center items-center cursor-pointer" 
             style="background-image:url('/img/shop/ui_store_menutab.png');transform-origin:top right;--scaleMultiplier2:{scaleMultiplier2}"
             on:click={() => {
                 if (rq.member.authorities.length >= 3) rq.goTo('/adm/menu/dashBoard');
@@ -409,7 +424,7 @@
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Encyclopedia scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+                <Encyclopedia scaleMultiplier={scaleMultiplier} resolution={adjustResolution} closeFc={onClickTopMenuWithZero}/>
             </div>
         {/if}
 
@@ -465,8 +480,8 @@
                             정말 로그아웃 하시겠습니까?
                         </div>
                         <div class="flex flex-row w-full justify-around gap-12 text-[100px] mt-[30px]">
-                            <div class="hovering text-red-500" on:click={() => showLogoutModal=false}>취소</div>
                             <div class="hovering" on:click={() => rq.logoutAndRedirect('/')}>로그아웃</div>
+                            <div class="hovering text-red-500" on:click={() => showLogoutModal=false}>취소</div>
                         </div>
                     </div>
                 </div>
@@ -477,10 +492,11 @@
         </div>
         {/if}
 
-
-
+        {#if rq.member.authorities.length < 2}
         <div id="stageHighlighter" class=" stage-highlighter absolute z-[10] {animationStart ? 'animatedHighlighter' : 'invisible'}" 
-            style="width:{185 * scaleMultiplier2}px;height:{161 * scaleMultiplier2}px;background-image:url('/img/map/ui_aim.png');background-size:contain;pointer-events:none;background-repeat:no-repeat;bottom:{highlighterBottom - 3}%;left:{highlighterLeft - 2.5}%;"></div>
+            style="width:{185 * scaleMultiplier2}px;height:{161 * scaleMultiplier2}px;background-image:url('/img/map/ui_aim.png');background-size:contain;pointer-events:none;background-repeat:no-repeat;bottom:{highlighterBottom - 3}%;left:{highlighterLeft - 2.5}%;">
+        </div>
+        {/if}
 
 
         <!-- <div class="btn absolute bottom-[8%] left-[4%]" data-gameMapId="1" on:click={() => toggleDropdown(0)}>튜토리얼(열림)</div> -->
@@ -494,7 +510,7 @@
                 <TutorialSelector activeTransitionAnimation={activeTransitionAnimation}/>
             </div>
         {/if}
-        {#if isOpen(3) || isUnLock(3)} <!--step 의 easy, 1레벨 맵 아이디-->
+        {#if isOpen(3) || isUnLock(3) || isAdmin()} <!--step 의 easy, 1레벨 맵 아이디-->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[40%] left-[20%] cursor-pointer" on:click={() => toggleDropdown(1)} data-gameMapId="3"
             style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [5,8,11].includes(value)) ? (isDropdownOpen[1] ? '3' : '2') : (isDropdownOpen[1] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">
             <div class="stage-text absolute right-[1%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 1</div>
@@ -514,7 +530,7 @@
         </div>
         {/if}
 
-        {#if isOpen(12) || isUnLock(12)}
+        {#if isOpen(12) || isUnLock(12) || isAdmin()}
         <!-- <div class="btn absolute bottom-[8%] left-[24%] w-[6vw]" data-gameMapId="12" on:click={() => toggleDropdown(2)}>1-2(열림)</div> -->
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[10%] left-[35%] cursor-pointer" on:click={() => toggleDropdown(2)} data-gameMapId="12"
             style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [14,17,20].includes(value)) ? (isDropdownOpen[2] ? '3' : '2') : (isDropdownOpen[2] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
@@ -533,7 +549,7 @@
         </div>
         {/if}
 
-        {#if isOpen(21) || isUnLock(21)}
+        {#if isOpen(21) || isUnLock(21) || isAdmin()}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[45%] left-[52%] cursor-pointer" on:click={() => toggleDropdown(3)} data-gameMapId="21"
             style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.some(value => [23,26,29].includes(value)) ? (isDropdownOpen[3] ? '3' : '2') : (isDropdownOpen[3] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 3</div>
@@ -552,7 +568,7 @@
         </div>
         {/if}
 
-        {#if isOpen(30) || isUnLock(30)}
+        {#if isOpen(30) || isUnLock(30) || isAdmin()}
         <div class="stage_btn absolute w-[406px] h-[219px] bottom-[65%] left-[52%] cursor-pointer" on:click={() => toggleDropdown(4)} data-gameMapId="30"
             style="background-image: url(/img/map/ui_stage_{clearedgameMapIds.includes(30) ? (isDropdownOpen[4] ? '3' : '2') : (isDropdownOpen[4] ? '3' : '1')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="">1 - 4</div>

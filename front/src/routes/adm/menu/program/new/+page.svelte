@@ -313,8 +313,8 @@
             <table class="table">
               <tbody>
                 <tr>
-                  <td class="border-b p-1 text-[15px] w-[150px] font-bold">사업명<span class="ml-1 text-red-500">*</span></td>
-                  <td class="border-b p-3">
+                  <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">사업명<span class="ml-1 text-red-500">*</span></td>
+                  <td class="border-b p-3 min-w-[500px]">
                     <div class="flex flex-row items-center gap-2">
                         <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-[250px]" on:input={()=>{duplicateChecked=false;}} />
                         {#if duplicateChecked}
@@ -472,4 +472,5 @@
     .options {
         height: 48px;
     }
+
 </style>

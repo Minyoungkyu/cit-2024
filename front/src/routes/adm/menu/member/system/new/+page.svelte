@@ -185,13 +185,19 @@
 
     function duplicateCheck() {
         const username = (document.getElementsByName('username')[0] as HTMLInputElement).value;
-        if (username.trim().length === 0) {
-            rq.msgError('아이디를 입력해주세요.');
+
+        if (username.trim().length < 4) {
+            rq.msgError('아이디를 4자 이상 입력해주세요.');
             return;
         }
 
-        if (/[A-Z]/.test(username)) {
-            rq.msgError('아이디에 대문자를 포함할 수 없습니다.');
+        // if (/[A-Z]/.test(username)) {
+        //     rq.msgError('아이디에 대문자를 포함할 수 없습니다.');
+        //     return;
+        // }
+
+        if (!/^[a-z0-9_]+$/.test(username)) {
+            rq.msgError('아이디는 소문자, 숫자, 언더바(_)만 포함할 수 있습니다.');
             return;
         }
 
@@ -255,10 +261,10 @@
               <tbody>
                 
                 <tr>
-                    <td class="border-b p-1 text-[15px] w-[150px] font-bold">아이디<span class="ml-1 text-red-500">*</span></td>
+                    <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">아이디<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
                         <div class="flex flex-row items-center gap-2">
-                            <input name="username" type="text" placeholder="아이디" class="input input-bordered w-[200px] text-center" on:change={()=>{duplicateChecked=false;}}/>
+                            <input name="username" type="text" placeholder="아이디" class="input input-bordered w-[200px] text-center" autocomplete="off" on:change={()=>{duplicateChecked=false;}}/>
                             {#if duplicateChecked}
                                 <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
                             {/if}
@@ -275,7 +281,7 @@
                         <td class="border-b p-3">
                             <div class="flex flex-col">
                                 <div>
-                                    <input name="password" type="password" placeholder="비밀번호" class="input input-bordered w-[200px] text-center" />
+                                    <input name="password" type="password" placeholder="비밀번호" class="input input-bordered w-[200px] text-center" autocomplete="new-password"/>
                                 </div>
                             </div>
                         </td>
