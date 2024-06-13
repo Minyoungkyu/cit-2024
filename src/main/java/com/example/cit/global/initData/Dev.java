@@ -5137,12 +5137,12 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"passive_monster\", \"pos\": [8,1], \"dir\": \"right\", \"require_dir\": \"right\", \"info\": [\"apple\",\"banana\",\"orange\"], \n" +
-                                "            \"require_print\": [[\"APPLE\"],[\"BANANA\"],[\"ORANGE\"]], \"print_count\": [[\"APPLE\"],[\"BANANA\"],[\"ORANGE\"]], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"passive_monster\", \"pos\": [1,0], \"dir\": \"left\", \"require_dir\": \"up\", \"info\": [\"pear\",\"grape\",\"strawberry\"], \n" +
-                                "            \"require_print\": [[\"PEAR\"],[\"GRAPE\"],[\"STRAWBERRY\"]], \"print_count\": [[\"PEAR\"],[\"GRAPE\"],[\"STRAWBERRY\"]], \"status\": -1},\n" +
-                                "            {\"id\": 2, \"type\": \"passive_monster\", \"pos\": [0,7], \"dir\": \"left\", \"require_dir\": \"left\", \"info\": [\"mango\",\"pineapple\",\"watermelon\"], \n" +
-                                "            \"require_print\": [[\"MANGO\"],[\"PINEAPPLE\"],[\"WATERMELON\"]], \"print_count\": [[\"MANGO\"],[\"PINEAPPLE\"],[\"WATERMELON\"]], \"status\": -1}\n" +
+                                "            {\"id\": 0, \"type\": \"passive_monster\", \"pos\": [8,1], \"dir\": \"right\", \"require_dir\": \"right\", \"info\": [\"dictionary\",\"package\",\"memory\"], \n" +
+                                "            \"require_print\": [[\"DICTIONARY\"],[\"PACKAGE\"],[\"MEMORY\"]], \"print_count\": [[\"DICTIONARY\"],[\"PACKAGE\"],[\"MEMORY\"]], \"status\": -1},\n" +
+                                "            {\"id\": 1, \"type\": \"passive_monster\", \"pos\": [1,0], \"dir\": \"left\", \"require_dir\": \"up\", \"info\": [\"method\",\"module\",\"library\"], \n" +
+                                "            \"require_print\": [[\"METHOD\"],[\"MODULE\"],[\"LIBRARY\"]], \"print_count\": [[\"METHOD\"],[\"MODULE\"],[\"LIBRARY\"]], \"status\": -1},\n" +
+                                "            {\"id\": 2, \"type\": \"passive_monster\", \"pos\": [0,7], \"dir\": \"left\", \"require_dir\": \"left\", \"info\": [\"input\",\"output\",\"slicing\"], \n" +
+                                "            \"require_print\": [[\"INPUT\"],[\"OUTPUT\"],[\"SLICING\"]], \"print_count\": [[\"INPUT\"],[\"OUTPUT\"],[\"SLICING\"]], \"status\": -1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"enemy\"}\n" +
@@ -5159,15 +5159,15 @@ public class Dev {
                                 "        \"advanced_medicine_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"apple\",\n" +
-                                "        \"banana\",\n" +
-                                "        \"orange\",\n" +
-                                "        \"pear\",\n" +
-                                "        \"grape\",\n" +
-                                "        \"strawberry\",\n" +
-                                "        \"mango\",\n" +
-                                "        \"pineapple\",\n" +
-                                "        \"watermelon\"\n" +
+                                "        \"dictionary\",\n" +
+                                "        \"package\",\n" +
+                                "        \"memory\",\n" +
+                                "        \"method\",\n" +
+                                "        \"module\",\n" +
+                                "        \"library\",\n" +
+                                "        \"input\",\n" +
+                                "        \"output\",\n" +
+                                "        \"slicing\"\n" +
                                 "    ]\n" +
                                 "}",
                         "우주해적과 조우 - 1\n" +
@@ -5355,12 +5355,12 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"passive_monster\", \"pos\": [8,1], \"dir\": \"right\", \"require_dir\": \"right\", \"info\": [\"one\",\"two\",\"three\"], \n" +
-                                "            \"require_print\": [[\"ooonnneee\"],[\"tttwwwooo\"],[\"ttthhhrrreeeeee\"]], \"print_count\": [[\"ooonnneee\"],[\"tttwwwooo\"],[\"ttthhhrrreeeeee\"]], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"passive_monster\", \"pos\": [1,0], \"dir\": \"left\", \"require_dir\": \"up\", \"info\": [\"four\",\"five\",\"six\"], \n" +
-                                "            \"require_print\": [[\"fffooouuurrr\"],[\"fffiiivvveee\"],[\"sssiiixxx\"]], \"print_count\": [[\"fffooouuurrr\"],[\"fffiiivvveee\"],[\"sssiiixxx\"]], \"status\": -1},\n" +
-                                "            {\"id\": 2, \"type\": \"passive_monster\", \"pos\": [0,7], \"dir\": \"left\", \"require_dir\": \"left\", \"info\": [\"seven\",\"nine\",\"ten\"], \n" +
-                                "            \"require_print\": [[\"ssseeevvveeennn\"],[\"nnniiinnneee\"],[\"ttteeennn\"]], \"print_count\": [[\"ssseeevvveeennn\"],[\"nnniiinnneee\"],[\"ttteeennn\"]], \"status\": -1}\n" +
+                                "            {\"id\": 0, \"type\": \"passive_monster\", \"pos\": [8,1], \"dir\": \"right\", \"require_dir\": \"right\", \"info\": [\"list\",\"index\",\"test\"], \n" +
+                                "            \"require_print\": [[\"llliiisssttt\"],[\"iiinnndddeeexxx\"],[\"ttteeessstt\"]], \"print_count\": [[\"llliiisssttt\"],[\"iiinnndddeeexxx\"],[\"ttteeessstt\"]], \"status\": -1},\n" +
+                                "            {\"id\": 1, \"type\": \"passive_monster\", \"pos\": [1,0], \"dir\": \"left\", \"require_dir\": \"up\", \"info\": [\"tuple\",\"class\",\"object\"], \n" +
+                                "            \"require_print\": [[\"tttuuupppllleee\"],[\"ccclllaaasss\"],[\"ooobbbjjjeeecccttt\"]], \"print_count\": [[\"tttuuupppllleee\"],[\"ccclllaaasss\"],[\"ooobbbjjjeeecccttt\"]], \"status\": -1},\n" +
+                                "            {\"id\": 2, \"type\": \"passive_monster\", \"pos\": [0,7], \"dir\": \"left\", \"require_dir\": \"left\", \"info\": [\"return\",\"scope\",\"debug\"], \n" +
+                                "            \"require_print\": [[\"rrreeetttuuurrrnnn\"],[\"ssscccooopppeee\"],[\"dddeeebbbuuuggg\"]], \"print_count\": [[\"rrreeetttuuurrrnnn\"],[\"ssscccooopppeee\"],[\"dddeeebbbuuuggg\"]], \"status\": -1},\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"enemy\"}\n" +
@@ -5377,15 +5377,15 @@ public class Dev {
                                 "        \"advanced_medicine_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"one\",\n" +
-                                "        \"two\",\n" +
-                                "        \"three\",\n" +
-                                "        \"four\",\n" +
-                                "        \"five\",\n" +
-                                "        \"six\",\n" +
-                                "        \"seven\",\n" +
-                                "        \"nine\",\n" +
-                                "        \"ten\"\n" +
+                                "        \"list\",\n" +
+                                "        \"index\",\n" +
+                                "        \"test\",\n" +
+                                "        \"tuple\",\n" +
+                                "        \"class\",\n" +
+                                "        \"object\",\n" +
+                                "        \"return\",\n" +
+                                "        \"scope\",\n" +
+                                "        \"debug\"\n" +
                                 "    ]\n" +
                                 "}",
                         "우주해적과 조우 - 2\n" +

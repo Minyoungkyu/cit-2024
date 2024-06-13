@@ -11,7 +11,7 @@
 </div>
 <div class="mb-6"></div>
 
-<div class="w-full flex justfiy-start">
+<!-- <div class="w-full flex justfiy-start">
     {#if progressRateList.length > 0}
     <div class="w-[70%] h-full flex justify-center">
         <div class="flex flex-col gap-4 w-full h-full">
@@ -64,4 +64,4 @@
         <div class="text-[16px]">현재 진행중인 사업이 없습니다.</div>
     </div>
     {/if}
-</div>
+</div> -->

@@ -66,7 +66,7 @@ public class DevInit2 {
     @Order(10)
     ApplicationRunner initAreaCode() {
         return args -> {
-            if (regionService.findByName("서울").isEmpty()) {
+            if (regionService.findByName("서울특별시").isEmpty()) {
                 regionService.createRegion(11, "서울");
                 regionService.createRegion(21, "부산");
                 regionService.createRegion(22, "대구");
