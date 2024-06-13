@@ -11,9 +11,9 @@
 </div>
 <div class="mb-6"></div>
 
-<table class="table">
+<!-- <table class="table w-[95%]">
     <thead>
-        <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+        <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md text-center">
             <th>이름</th>
             <th>담당자</th>
             <th>시작일</th>
@@ -21,10 +21,20 @@
             <th>달성률</th>
         </tr>
     </thead>
-</table>
+
+    <tbody>
+        <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
+            <td>프로젝트이름</td>
+            <td>담당자</td>
+            <td>시작일</td>
+            <td>마감일</td>
+            <td><progress class="progress progress-primary h-[10px]"></progress></td>
+        </tr>
+    </tbody>
+</table> -->
 
 
-<!-- <div class="w-full flex justfiy-start">
+<div class="w-full flex justfiy-start">
     {#if progressRateList.length > 0}
     <div class="w-[70%] h-full flex justify-center">
         <div class="flex flex-col gap-4 w-full h-full">
@@ -77,4 +87,4 @@
         <div class="text-[16px]">현재 진행중인 사업이 없습니다.</div>
     </div>
     {/if}
-</div> -->
+</div>
