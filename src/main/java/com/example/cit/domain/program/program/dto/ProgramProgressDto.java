@@ -1,5 +1,6 @@
 package com.example.cit.domain.program.program.dto;
 
+import com.example.cit.domain.member.member.entity.Member;
 import com.example.cit.domain.program.program.entity.Program;
 import com.example.cit.domain.school.school.dto.SchoolProgressDto;
 import com.example.cit.domain.school.school.entity.School;
@@ -7,6 +8,7 @@ import com.example.cit.domain.school.school.entity.School;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record ProgramProgressDto (
         long id,

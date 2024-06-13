@@ -2915,7 +2915,7 @@ public class Dev {
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [11,2], \"require_print\": [[\"String \"],[\"Integer \"],[\"Float \"],[\"Boolean \"]], \n" +
                                 "             \"print_count\": [[\"String \"],[\"Integer \"],[\"Float \"],[\"Boolean \"]], \"require_dir\": \"up\", \"action_type\": \"door\", \"action_id\": [2], \"status\": -1},\n" +
-                                "            {\"id\":1, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"Atmosphere \",\"Civilization \",\"Ecosystem \"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":1, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"String \",\"Integer \",\"Float \",\"Boolean \"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\":2, \"type\": \"door\", \"dir\": \"h\", \"pos\": [13,2], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
@@ -2934,7 +2934,7 @@ public class Dev {
                                 "        \"String \",\n" +
                                 "        \"Integer \",\n" +
                                 "        \"Float \",\n" +
-                                "        \"Boolean \",\n" +
+                                "        \"Boolean \"\n" +
                                 "    ]\n" +
                                 "}",
                         "정보획득-2\n" +
@@ -3319,15 +3319,15 @@ public class Dev {
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [11,2], \n" +
                                 "             \"require_print\": [[\"input print type \", \"input print type \"],\n" +
-                                "                               [\"len upper lower \",\"len upper lower \",\"len upper lower \",\"len upper lower \", ]],\n" +
+                                "                               [\"len upper lower \",\"len upper lower \",\"len upper lower \",\"len upper lower \"]],\n" +
                                 "            \"print_count\": [[\"input print type \", \"input print type \"],\n" +
-                                "                               [\"len upper lower \",\"len upper lower \",\"len upper lower \",\"len upper lower \", ]],\n" +
+                                "                               [\"len upper lower \",\"len upper lower \",\"len upper lower \",\"len upper lower \"]],\n" +
                                 "             \"require_dir\": \"up\", \"action_type\": \"door\", \"action_id\": [5], \"status\": -1},\n" +
                                 "            {\"id\":1, \"type\": \"info_point\", \"pos\": [5,6], \"info\": [\"input \",\"len \"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\":2, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"print \",\"upper \"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\":3, \"type\": \"info_point\", \"pos\": [9,6], \"info\": [\"type \",\"lower \"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\":4, \"type\": \"number_point\", \"pos\": [3,6], \"info\": [2,4], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"door\", \"dir\": \"h\", \"pos\": [13,2], \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"door\", \"dir\": \"h\", \"pos\": [13,2], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,1]}\n" +

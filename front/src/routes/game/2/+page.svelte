@@ -80,7 +80,7 @@
 
     function isOpen(stageId: number) { // 스테이지 해금 여부 확인 함수
         if (stageId === 58) { // 미니게임 맵 id
-            return clearedgameMapIds.includes(58); // map-3 Easy Level 3 맵의 id
+            return gameMapIds.includes(58); // map-3 Easy Level 3 맵의 id
         }
 
         return gameMapIds.some(id => id >= stageId && id < stageId + 9);
