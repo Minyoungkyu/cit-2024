@@ -11,6 +11,19 @@
 </div>
 <div class="mb-6"></div>
 
+<table class="table">
+    <thead>
+        <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+            <th>이름</th>
+            <th>담당자</th>
+            <th>시작일</th>
+            <th>마감일</th>
+            <th>달성률</th>
+        </tr>
+    </thead>
+</table>
+
+
 <!-- <div class="w-full flex justfiy-start">
     {#if progressRateList.length > 0}
     <div class="w-[70%] h-full flex justify-center">
