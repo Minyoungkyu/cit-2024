@@ -182,11 +182,15 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
 
         for (Tuple tuple : tuples) {
             Long programId = tuple.get(program.id);
+            List<Member> members = jpaQueryFactory.selectFrom(member)
+                    .where(member.programs.any().id.eq(programId))
+                    .fetch();
             ProgramProgressDto programDto = programMap.get(programId);
             if (programDto == null) {
                 programDto = new ProgramProgressDto(
                         programId,
                         tuple.get(program.name),
+                        members.stream().map(Member::getName).collect(Collectors.joining(", ")),
                         tuple.get(program.startDate),
                         tuple.get(program.endDate),
                         new ArrayList<>()

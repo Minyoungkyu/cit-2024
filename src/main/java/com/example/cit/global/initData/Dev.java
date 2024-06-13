@@ -5208,8 +5208,8 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [['i','e','t'],['a','e','d'],['r','o','e'],['e','e','d']], \n" +
-                                "            \"print_count\": [['i','e','t'],['a','e','d'],['r','o','e'],['e','e','d']], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
+                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [[\"i\",\"e\",\"t\"],[\"a\",\"e\",\"d\"],[\"r\",\"o\",\"e\"],[\"r\",\"e\",\"s\"],[\"e\",\"e\",\"d\"]], \n" +
+                                "            \"print_count\": [[\"i\",\"e\",\"t\"],[\"a\",\"e\",\"d\"],[\"r\",\"o\",\"e\"],[\"r\",\"e\",\"s\"],[\"e\",\"e\",\"d\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [9,4], \"info\": [\"insert\",\"append\",\"remove\",\"reverse\",\"extend\"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\": 2, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"bomb\", \"pos\": [21,1], \"status\": 0},\n" +
@@ -5240,7 +5240,7 @@ public class Dev {
                                 "        \"reverse\",\n" +
                                 "        \"extend\"\n" +
                                 "    ]\n" +
-                                "}",
+                                "}\n",
                         "폭탄받아라\n" +
                                 "우주 해적이 이동하는 길목을 발견했습니다. \n" +
                                 "우주 해적 길목에 폭탄을 미리 설치하여 폭탄으로 적을 처치하세요. \n" +
@@ -5309,9 +5309,9 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        'variable',\n" +
-                                "        'function',\n" +
-                                "        'object'\n" +
+                                "        \"variable\",\n" +
+                                "        \"function\",\n" +
+                                "        \"object\"\n" +
                                 "    ]\n" +
                                 "}",
                         "발각된 탐사대\n" +
@@ -5360,7 +5360,7 @@ public class Dev {
                                 "            {\"id\": 1, \"type\": \"passive_monster\", \"pos\": [1,0], \"dir\": \"left\", \"require_dir\": \"up\", \"info\": [\"tuple\",\"class\",\"object\"], \n" +
                                 "            \"require_print\": [[\"tttuuupppllleee\"],[\"ccclllaaasss\"],[\"ooobbbjjjeeecccttt\"]], \"print_count\": [[\"tttuuupppllleee\"],[\"ccclllaaasss\"],[\"ooobbbjjjeeecccttt\"]], \"status\": -1},\n" +
                                 "            {\"id\": 2, \"type\": \"passive_monster\", \"pos\": [0,7], \"dir\": \"left\", \"require_dir\": \"left\", \"info\": [\"return\",\"scope\",\"debug\"], \n" +
-                                "            \"require_print\": [[\"rrreeetttuuurrrnnn\"],[\"ssscccooopppeee\"],[\"dddeeebbbuuuggg\"]], \"print_count\": [[\"rrreeetttuuurrrnnn\"],[\"ssscccooopppeee\"],[\"dddeeebbbuuuggg\"]], \"status\": -1},\n" +
+                                "            \"require_print\": [[\"rrreeetttuuurrrnnn\"],[\"ssscccooopppeee\"],[\"dddeeebbbuuuggg\"]], \"print_count\": [[\"rrreeetttuuurrrnnn\"],[\"ssscccooopppeee\"],[\"dddeeebbbuuuggg\"]], \"status\": -1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"enemy\"}\n" +
@@ -5429,9 +5429,9 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [[16,'port','number'],[18,'main','function'],[13,'data','type']], \n" +
-                                "            \"print_count\": [[16,'port','number'],[18,'main','function'],[13,'data','type']], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [9,4], \"info\": [\"qgdaportxdnumber\",\"hqnamainlcfunction\",\"znxdataqxtype\"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [[16,\"port\",\"number\"],[18,\"main\",\"function\"],[14,\"data\",\"type\"]], \n" +
+                                "            \"print_count\": [[16,\"port\",\"number\"],[18,\"main\",\"function\"],[14,\"data\",\"type\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
+                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [9,4], \"info\": [\"qgdaportxdnumber\",\"hqnamainlcfunction\",\"znxadataqxtype\"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\": 2, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"bomb\", \"pos\": [21,1], \"status\": 0},\n" +
                                 "            {\"id\": 4, \"type\": \"bomb\", \"pos\": [21,7], \"status\": 0},\n" +
@@ -5457,7 +5457,7 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "        \"qgdaportxdnumber\",\n" +
                                 "        \"hqnamainlcfunction\",\n" +
-                                "        \"znxdataqxtype\"\n" +
+                                "        \"znxadataqxtype\"\n" +
                                 "    ]\n" +
                                 "}",
                         "예술은 폭탄이다.\n" +
@@ -5500,7 +5500,7 @@ public class Dev {
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"sum\"],[\"def\"],[\"set\"]], \n" +
                                 "            \"print_count\": [[\"sum\"],[\"def\"],[\"set\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"dfmeuxcs\",\"qferad\",\"aetcesds\"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"afemnuns\",\"fwefd\",\"qdctqeas\"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5527,9 +5527,9 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        'dfmeuxcs',\n" +
-                                "        'qferad',\n" +
-                                "        'aetcesds'\n" +
+                                "        \"afemnuns\",\n" +
+                                "        \"fwefd\",\n" +
+                                "        \"qdctqeas\"\n" +
                                 "    ]\n" +
                                 "}",
                         "위기의 탐사태\n" +
@@ -5720,7 +5720,7 @@ public class Dev {
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"algorithm\"],[\"computing\"],[\"network\"]],\n" +
                                 "            \"print_count\": [[\"algorithm\"],[\"computing\"],[\"network\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"aallggggorittthhhmmmm\",\"cccommmppuutte\",\"nettwworrrrrkk\"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"aallggggorittthhhmmmm\",\"cccommmppuuttiinnnggg\",\"nettwworrrrrkk\"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5747,9 +5747,9 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        'aallggggorittthhhmmmm',\n" +
-                                "        'cccommmppuutte',\n" +
-                                "        'nettwworrrrrkk'\n" +
+                                "        \"aallggggorittthhhmmmm\",\n" +
+                                "        \"cccommmppuuttiinnnggg\",\n" +
+                                "        \"nettwworrrrrkk\"\n" +
                                 "    ]\n" +
                                 "}",
                         "우주 해적소탕\n" +

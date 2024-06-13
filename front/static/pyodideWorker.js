@@ -2040,7 +2040,7 @@ def getHp(name=None):
 def getBomb():
     if(hero.check_game_status('get')):
         return
-    return hero.get('폭탄', inspect.currentframe().f_back.f_lineno)
+    return hero.getBomb('폭탄', inspect.currentframe().f_back.f_lineno)
 
 def use(args):
     if(hero.check_game_status('use')):

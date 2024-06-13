@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public record ProgramProgressDto (
         long id,
         String programName,
+        String memberNames,
         LocalDate startDate,
         LocalDate endDate,
         List<SchoolProgressDto> schoolProgressDtoList
@@ -21,6 +22,7 @@ public record ProgramProgressDto (
         this(
                 program.getId(),
                 program.getName(),
+                program.getMembers().stream().map(Member::getName).collect(Collectors.joining(", ")),
                 program.getStartDate(),
                 program.getEndDate(),
                 (schoolProgressDtoList == null || schoolProgressDtoList.isEmpty()) ? null : schoolProgressDtoList

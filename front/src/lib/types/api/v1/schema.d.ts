@@ -1381,6 +1381,7 @@ export interface components {
       /** Format: int64 */
       id?: number;
       programName?: string;
+      memberNames?: string;
       /** Format: date */
       startDate?: string;
       /** Format: date */

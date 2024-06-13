@@ -13,7 +13,7 @@
     style="background-image:url('/img/map/ui_stage_Gradation.png');">
     <div class="flex flex-col w-[501px]">
         <div class="w-full mr-16">
-            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:5px 10px gray">1-4</div>
+            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:5px 10px gray">2-4</div>
         </div>
         <div class="flex flex-col items-end w-full">
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
