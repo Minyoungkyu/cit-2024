@@ -969,7 +969,7 @@ export const codeArray = [
     {
         'id' : 39,
         'stage' : '스테이지3',
-        'code' : 'get()',
+        'code' : 'getBomb()',
         'type' : '탐지코드',
         'description' : dedent 
         `

@@ -117,11 +117,13 @@
         <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto">
             <thead>
                 <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                    {#if rq.member.authorities.length >= 4}
                     <th class="w-[50px]">
                         <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-sm rounded-md"
                             bind:checked={allChecked}
                             on:change={toggleAllChecks}>
                     </th>
+                    {/if}
                     <!-- <th>사업번호</th> -->
                     <th>사업명</th>
                     <th  class="w-[250px]">사업 기간</th>
@@ -135,11 +137,13 @@
             <tbody>
                 {#each programs as program, index}
                 <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
+                    {#if rq.member.authorities.length >= 4}
                     <td>
                         <input type="checkbox" class="orderItemCheckbox checkbox checkbox-sm rounded-md"
                             bind:checked={individualChecks[index]}
                             on:change={updateAllChecked}>
                     </td>
+                    {/if}
                     <!-- <td >{program.id}</td> -->
                     <td >{program.name}</td>
                     <td >{program.startDate} ~ {program.endDate}</td>

@@ -137,7 +137,7 @@ public class ApiV1GameLogController {
                     gameLog.getUsername(),
                     gameLog.getCreateDate().toString(),
                     gameLog.getGameMapStage(),
-                    gameLog.getGameMapStep(),
+                    gameLog.getGameMapStep().replaceAll("^\\d+-", ""),
                     gameLog.getGameMapLevel().toString(),
                     gameLog.getGameMapDifficulty(),
                     gameLog.getExecutionLog().getEditorAutoComplete() == 1 ? "사용" : "미사용",

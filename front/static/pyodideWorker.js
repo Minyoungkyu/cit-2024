@@ -892,7 +892,7 @@ class Character:
         directions = ["right", "up", "left", "down"] 
         self.do_turn(line_num, directions)
 
-    def set(self, item, line_num):
+    def setItem(self, item, line_num):
         dir_offsets = {
             'up': (0, -2),
             'down': (0, 2),
@@ -1537,7 +1537,7 @@ class Character:
                 
         return -1
     
-    def get(self, arg, line_num):
+    def getBomb(self, arg, line_num):
         if not self.is_boss_stage():
             return 
 
@@ -1994,11 +1994,11 @@ def check(item_list):
         return
     return hero.check(item_list, inspect.currentframe().f_back.f_lineno)
 
-def set(item):
+def setItem(item):
     # print("set("+item+")")
     if(hero.check_game_status('set')):
         return
-    hero.set(item, inspect.currentframe().f_back.f_lineno)
+    hero.setItem(item, inspect.currentframe().f_back.f_lineno)
     hero.check_goal(inspect.currentframe().f_back.f_lineno)
 
 def print(args):
@@ -2037,10 +2037,10 @@ def getHp(name=None):
         return -1
     return hero.getHp(name)
 
-def get(arg):
+def getBomb():
     if(hero.check_game_status('get')):
         return
-    return hero.get(arg, inspect.currentframe().f_back.f_lineno)
+    return hero.get('폭탄', inspect.currentframe().f_back.f_lineno)
 
 def use(args):
     if(hero.check_game_status('use')):

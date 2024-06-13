@@ -2,6 +2,7 @@
 	import rq from "$lib/rq/rq.svelte";
 	import { onMount } from "svelte";
     import type { components } from '$lib/types/api/v1/schema';
+	import type { H } from "vitest/dist/reporters-1evA5lom.js";
 
     let regions = $state([]) as components['schemas']['Region'][];
     let filteredRegions = $state([]) as components['schemas']['Region'][];
@@ -50,6 +51,10 @@
 
     async function loadAd() {
         if (!isValidRegionInput()) return
+
+        if (regionInput === '전국') {
+            return;
+        }
 
         const { data } = await rq.apiEndPointsWithFetch(fetch).GET('/api/v1/ads', {
             params: {
@@ -195,9 +200,13 @@
         //     return;
         // }
 
-        if(regionInput === '시도' || adInput === '행정구') {
+        if(regionInput === '시도' || (regionInput !== '전국' && adInput === '행정구')) {
             rq.msgError('지역을 입력해주세요.');
             return;
+        }
+
+        if(regionInput === '전국') {
+            adInput = '';
         }
 
         const { data, error } = await rq.apiEndPoints().POST('/api/v1/programs/new', {
@@ -298,10 +307,28 @@
         adInput = '행정구';
     }
 
-  
-  onMount(() => {
-      loadRegion();
-  });
+    onMount(() => {
+        loadRegion();
+    });
+
+    let selectElementRg: HTMLSelectElement;
+    let selectElementAd: HTMLSelectElement;
+
+    const handleFocusRg = () => {
+        selectElementRg.classList.add('outline','outline-[2px]','outline-offset-[2px]'); 
+    }
+
+    const handleFocusAd = () => {
+        selectElementAd.classList.add('outline','outline-[2px]','outline-offset-[2px]'); 
+    }
+
+    const handleBlurRg = () => {
+        selectElementRg.classList.remove('outline','outline-[2px]','outline-offset-[2px]');
+    };
+
+    const handleBlurAd = () => {
+        selectElementAd.classList.remove('outline','outline-[2px]','outline-offset-[2px]');
+    };
 </script>
 
 <div class="w-[95%] flex justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
@@ -316,7 +343,7 @@
                   <td class="border-b p-1 text-[15px] min-w-[90px] w-[150px] font-bold">사업명<span class="ml-1 text-red-500">*</span></td>
                   <td class="border-b p-3 min-w-[500px]">
                     <div class="flex flex-row items-center gap-2">
-                        <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-[250px]" on:input={()=>{duplicateChecked=false;}} />
+                        <input name="programName" type="text" placeholder="사업명" class="input input-bordered w-[250px] text-center qqq" on:input={()=>{duplicateChecked=false;}}/>
                         {#if duplicateChecked}
                             <i class="fa-solid fa-check text-green-500 ml-3"></i><span class="text-green-500">사용가능</span>
                         {/if}
@@ -341,20 +368,30 @@
                   <td class="border-b p-3">
                     <div class="flex flex-row gap-6">
                         <div>
-                            <select class="select select-bordered w-[150px] text-center" placeholder="시도" 
+                            <select class="border-[1px] rounded-lg w-[150px] h-[48px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" placeholder="시도" 
+                                bind:this={selectElementRg}
                                 on:change={adInputReset}
-                                bind:value={regionInput}>
-                                <option disabled selected={regionInput == '시도'}>시도</option>
+                                bind:value={regionInput}
+                                on:focus={handleFocusRg}
+                                on:blur={handleBlurRg}
+                                >
+                                <option class="test" disabled selected={regionInput == '시도'}>시도</option>
+                                <option class="test" value="전국">전국</option>
                                 {#each regions as region}
-                                    <option value={region.name}>{region.name}</option>
+                                    <option class="test" value={region.name}>{region.name}</option>
                                 {/each}
                             </select>
                         </div>
                         <div>
                             {#if isValidRegionInput()}
-                            <select class="select select-bordered w-[150px] text-center" on:focus={loadAd} placeholder="시도" 
-                                bind:value={adInput}>
+                            <select class="border-[1px] rounded-lg w-[150px] h-[48px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" 
+                                on:focus={() => {loadAd(); handleFocusAd();}} placeholder="시도" 
+                                bind:this={selectElementAd}
+                                bind:value={adInput}
+                                on:blur={handleBlurAd}
+                                >
                                 <option disabled selected={adInput == '행정구'}>행정구</option>
+                                <option value="전체">전체</option>
                                 {#each ads as ad}
                                     <option value={ad.name}>{ad.name}</option>
                                 {/each}
@@ -472,5 +509,4 @@
     .options {
         height: 48px;
     }
-
 </style>

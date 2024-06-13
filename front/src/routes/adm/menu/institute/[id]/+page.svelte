@@ -191,6 +191,25 @@
         adInput = '행정구';
     }
 
+    let selectElementRg: HTMLSelectElement;
+    let selectElementAd: HTMLSelectElement;
+
+    const handleFocusRg = () => {
+        selectElementRg.classList.add('outline','outline-[2px]','outline-offset-[2px]'); 
+    }
+
+    const handleFocusAd = () => {
+        selectElementAd.classList.add('outline','outline-[2px]','outline-offset-[2px]'); 
+    }
+
+    const handleBlurRg = () => {
+        selectElementRg.classList.remove('outline','outline-[2px]','outline-offset-[2px]');
+    };
+
+    const handleBlurAd = () => {
+        selectElementAd.classList.remove('outline','outline-[2px]','outline-offset-[2px]');
+    };
+
     loadRegion();
     loadAd();
 </script>
@@ -214,7 +233,10 @@
                     <td class="border-b p-3">
                       <div class="flex flex-row gap-6">
                           <div>
-                              <select class="select select-bordered w-[150px] text-center" placeholder="시도" 
+                              <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 216);outline-color:rgb(210 212 216);" placeholder="시도" 
+                                bind:this={selectElementRg}
+                                on:blur={handleBlurRg}
+                                on:focus={handleFocusRg}
                                 on:change={adInputReset}
                                 bind:value={regionInput}>
                                   <option disabled selected={regionInput == '시도'}>시도</option>
@@ -225,7 +247,11 @@
                           </div>
                           <div>
                               {#if isValidRegionInput()}
-                              <select class="select select-bordered w-[150px] text-center" on:focus={loadAd} placeholder="시도" bind:value={adInput}>
+                              <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 216);outline-color:rgb(210 212 216);" placeholder="시도" 
+                                bind:this={selectElementAd}
+                                on:blur={handleBlurAd}
+                                on:focus={() => {loadAd(); handleFocusAd();}} 
+                                bind:value={adInput}>
                                   <option disabled selected={adInput == '행정구'}>행정구</option>
                                   {#each ads as ad}
                                       <option value={ad.name}>{ad.name}</option>

@@ -252,6 +252,14 @@
             }
         }
     }
+
+    const handleFocusRg = () => {
+      gradeInput.classList.add('outline','outline-[2px]','outline-offset-[2px]'); 
+    }
+
+    const handleBlurRg = () => {
+      gradeInput.classList.remove('outline','outline-[2px]','outline-offset-[2px]');
+    };
 </script>
 
 <div class="w-[95%] flex flex-row justify-start mt-[-60px] text-[22px] border-b mb-1 pb-[14px] font-bold">
@@ -328,7 +336,11 @@
                   <tr>
                       <td class="border-b p-1 text-[15px] w-[150px] font-bold">학년</td>
                       <td class="border-b p-3">
-                        <select name="school" bind:this={gradeInput} class="select select-bordered w-[200px] text-center">
+                        <select name="school" bind:this={gradeInput} 
+                          class="border-[1px] rounded-lg h-[48px] w-[200px] text-center" style="border-color:rgb(210 212 216);outline-color:rgb(210 212 216);"
+                            on:focus={handleFocusRg}
+                            on:blur={handleBlurRg}
+                            >
                           <option value=0 selected>전체</option>
                           <option value=1>1 학년</option>
                           <option value=2>2 학년</option>
@@ -356,7 +368,7 @@
           <div class="flex flex-row justify-center items-center">
             <button class="btn btn-sm btn-outline rounded-md border-gray-400 my-5" on:click={() => loadStatisticsData()}>조회</button>
             <a class="btn btn-sm btn-outline rounded-md border-gray-400 ml-8" 
-              href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/gameLogs/stat/csv?programId={programInputId}&schoolId={schoolInputId}&grade={parseInt(gradeInput.value)}&startDateTime={startDateTimeInput}&endDateTime={endDateTimeInput}">액셀 다운로드</a>
+              href="{import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/gameLogs/stat/csv?programId={programInputId}&schoolId={schoolInputId}&grade={parseInt(gradeInput.value)}&startDateTime={startDateTimeInput}&endDateTime={endDateTimeInput}">엑셀 다운로드</a>
           </div>
         </div>
     </div>
@@ -446,7 +458,7 @@
         <div class="btn btn-wide ml-10" on:click={() => loadStatisticsData()}>검색 시작</div>
       </div> -->
 
-      <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto mt-10 min-w-[900px]">
+      <table cellpadding="15" cellspacing="15" width="95%" class="mx-auto mt-10 min-w-[900px]">
         <thead>
             <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
                 <th>학생ID</th>
@@ -468,7 +480,7 @@
               <td class="">{data.username}</td>
               <td class="">{formatJavaLocalDateTime(data.createDate)}</td>
               <td class="">{data.gameMapStage}</td>
-              <td class="">{data.gameMapStep}</td>
+              <td class="">{data.gameMapStep.replace(/^\d+-/, '')}</td>
               <td class="">{data.gameMapLevel}</td>
               <td class="">{data.gameMapDifficulty}</td>
               <td class="">{data.editorAutoComplete == 1 ? '사용' : '미사용'}</td>

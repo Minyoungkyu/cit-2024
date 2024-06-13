@@ -485,10 +485,10 @@
             <tbody>
               {#each $subTableRows as row, index (row.id)}
                 <tr>
-                  <td>
+                  <td class="border-b">
                     <input class="w-[182px]" type="number" min="1" max="6" step="1" bind:value={row.grade} />
                   </td>
-                  <td><input type="text" bind:value={row.classNoMultiple} on:input={validateInput}/></td>
+                  <td class="border-b"><input type="text" bind:value={row.classNoMultiple} on:input={validateInput}/></td>
                   <td class="border-b p-3">
                     <div class="flex flex-col">
                         <div>
@@ -516,11 +516,11 @@
                         </div>
                     </div>
                 </td>
-                  <td>
-                    {#if index !== 0}
-                    <button type="button" on:click={() => deleteSubTableRow(row.id)}><i class="fa-regular fa-trash-can text-red-500"></i></button>
-                    {/if}
-                  </td>
+                <td class="border-b">
+                {#if index !== 0}
+                <button type="button" on:click={() => deleteSubTableRow(row.id)}><i class="fa-regular fa-trash-can text-red-500"></i></button>
+                {/if}
+                </td>
                 </tr>
               {/each}
             </tbody>

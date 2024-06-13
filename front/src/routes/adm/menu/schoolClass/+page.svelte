@@ -132,11 +132,13 @@
         <table cellpadding="15" cellspacing="15" width="100%" class="mx-auto min-w-[1000px]">
             <thead>
                 <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md">
+                    {#if rq.member.authorities.length >= 4}
                     <th class="w-[50px]">
                         <input type="checkbox" class="orderItemCheckboxAll checkbox checkbox-sm rounded-md"
                             bind:checked={allChecked}
                             on:change={toggleAllChecks}>
                     </th>
+                    {/if}
                     <!-- <th>사업번호</th> -->
                     <th>기관명</th>
                     <th>학급명</th>
@@ -151,11 +153,13 @@
             <tbody>
                 {#each schoolClasses as schoolClass, index}
                 <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
+                    {#if rq.member.authorities.length >= 4}
                     <td>
                         <input type="checkbox" class="orderItemCheckbox checkbox checkbox-sm"
                             bind:checked={individualChecks[index]}
                             on:change={updateAllChecked}>
                     </td>
+                    {/if}
                     <!-- <td >{program.id}</td> -->
                     <td >{schoolClass.schoolName}</td>
                     <td >{schoolClass.className}</td>

@@ -27,6 +27,8 @@
     let focusAgency = $state(false);
     let focusMember = $state(false);
 
+    let showAd = $state(true);
+
     let regionInput = $state(programDto.city);
     let adInput = $state(programDto.administrativeDistrict);
     let agencyInput = $state(programDto.schoolsNames) as components['schemas']['SchoolInputListDto'][];
@@ -36,6 +38,14 @@
 
     let activeOptionIndexAgency = $state(0);
     let activeOptionIndexMember = $state(0);
+
+    $effect(() => {
+        if (regionInput === '전국') {
+            showAd = false;
+        } else {
+            showAd = true;
+        }
+    });
 
     async function loadRegion() {
         if (regions.length > 0) {
@@ -193,6 +203,15 @@
         //     return;
         // }
 
+        if(regionInput === '시도' || (regionInput !== '전국' && adInput === '행정구')) {
+            rq.msgError('지역을 입력해주세요.');
+            return;
+        }
+
+        if(regionInput === '전국') {
+            adInput = '';
+        }
+
         const { data, error } = await rq.apiEndPoints().PUT('/api/v1/programs/modify', {
             body: {
                 id: programDto.id,
@@ -271,6 +290,31 @@
         adInput = '행정구';
     }
 
+    onMount(() => {
+        if (regionInput === '전국') {
+            showAd = false;
+        }
+    });
+
+    let selectElementRg: HTMLSelectElement;
+    let selectElementAd: HTMLSelectElement;
+
+    const handleFocusRg = () => {
+        selectElementRg.classList.add('outline','outline-[2px]','outline-offset-[2px]'); 
+    }
+
+    const handleFocusAd = () => {
+        selectElementAd.classList.add('outline','outline-[2px]','outline-offset-[2px]'); 
+    }
+
+    const handleBlurRg = () => {
+        selectElementRg.classList.remove('outline','outline-[2px]','outline-offset-[2px]');
+    };
+
+    const handleBlurAd = () => {
+        selectElementAd.classList.remove('outline','outline-[2px]','outline-offset-[2px]');
+    };
+
     loadRegion();
     loadAd();
 </script>
@@ -303,23 +347,35 @@
                     <td class="border-b p-3">
                       <div class="flex flex-row gap-6">
                           <div>
-                              <select class="select select-bordered w-[150px] text-center" 
+                              <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" 
+                                bind:this={selectElementRg}
+                                on:focus={handleFocusRg}
+                                on:blur={handleBlurRg}
                                 on:change={adInputReset}
                                 bind:value={regionInput}>
                                   <option disabled selected={regionInput == '시도'}>시도</option>
+                                  <option value="전국">전국</option>
                                   {#each regions as region}
                                       <option value={region.name}>{region.name}</option>
                                   {/each}
                               </select>
                           </div>
+                          {#if showAd}
                           <div>
-                              <select class="select select-bordered w-[150px] text-center" on:focus={loadAd} bind:value={adInput}>
+                              <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" 
+                                on:focus={() => { loadAd(); handleFocusAd();}} 
+                                bind:value={adInput}
+                                bind:this={selectElementAd}
+                                on:blur={handleBlurAd}
+                                >
                                   <option disabled selected={adInput == '행정구'}>행정구</option>
+                                  <option value="전체">전체</option>
                                   {#each ads as ad}
                                       <option value={ad.name}>{ad.name}</option>
                                   {/each}
                               </select>
                           </div>
+                          {/if}
                       </div>
   
                     </td>
@@ -373,7 +429,7 @@
                         <div class="flex flex-col">
                             <div>
                                 <input name="member" type="search" placeholder="담당자" class="input input-bordered w-[200px] text-center" 
-                                    autocomplete="off"
+                                    autocomplete="off" disabled={disabledInput}
                                     bind:value={memberInputText}
                                     on:focus={() => loadMember()}
                                     on:input={(event) => event.target && updateMembers((event.target as HTMLInputElement).value)}
@@ -398,10 +454,12 @@
                                 <div class="flex flex-row gap-2 text-[15px] ml-4 mt-2">
                                     <div class="w-full text-left">
                                         {member.name} ({member.username})
+                                        {#if !disabledInput}
                                         <span class="ml-2 cursor-pointer" 
                                         on:click={() => memberInput.splice(memberInput.indexOf(member), 1)}>
                                             <i class="fa-regular fa-trash-can text-red-500"></i>
                                         </span>
+                                        {/if}
                                     </div>
                                 </div>
                             {/each}

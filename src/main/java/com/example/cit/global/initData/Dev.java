@@ -220,9 +220,7 @@ public class Dev {
                 GameMap gameMapTutorial1 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 1,
                         "go(),turnLeft(),turnRight()",
-                        "# 이동 명령문 go()를 순차적으로 작성하여 목표지점에 도달하세요.\n" +
-                                "\n" +
-                                "go()\n",
+                        "# go() 명령어를 순차적으로 작성하여 목표지점에 도달하세요.\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -252,9 +250,9 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}\n",
-                        "이동방법을 배웁니다.\n" +
-                                "\n" +
-                                "go() 함수를 사용하면 플레이어가 바라보고 있는 방향으로 이동합니다.",
+                        "이동 연습\n" +
+                                "캐릭터를 움직여봅시다. \n" +
+                                "go() 명령어를 입력하면 캐릭터가 바라보고 있는 방향으로 이동합니다. \n",
                         "go()\n" +
                                 "go()",
                         "go(),turnLeft(),turnRight()",
@@ -266,7 +264,7 @@ public class Dev {
                 GameMap gameMapTutorial2 = gameMapService.createGameMap(
                         "1", "tutorial", "0", 2,
                         "go(),turnLeft(),turnRight()",
-                        "# 이동 명령문 go()와 회전 명령문 turnRight()를 순차적으로 작성하여 목표 지점에 도달하세요.\n",
+                        "# go() 명령어와 turnLeft(), turnRight() 명령어를 순차적으로 작성하여 목표 지점에 도달하세요. \n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -298,12 +296,10 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "플레이어 방향 설정을 배웁니다.\n" +
-                                "\n" +
-                                "\n" +
-                                "turnLeft() 함수를 사용하면 플레이어가 왼쪽방향으로 틀게됩니다.\n" +
-                                "\n" +
-                                "turnRight() 함수를 사용하게 되면 플레이어가 오른쪽 방향으로 돌게됩니다.",
+                        "방향 설정\n" +
+                                "플레이어 캐릭터의 방향을 설정해봅시다. \n" +
+                                "turnLeft() 명령어를 입력하면 플레이어 캐릭터가 왼쪽 방향으로 회전합니다. \n" +
+                                "turnRight() 명령어를 입력하면 플레이어 캐릭터가 오른쪽 방향으로 회전합니다. \n",
                         "go()\n" +
                                 "turnLeft()\n" +
                                 "go()\n" +
@@ -318,7 +314,8 @@ public class Dev {
                 GameMap gameMap11e1 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 1,
                         "go(),turnLeft(),turnRight()",
-                        "# 이동 명령문 go()와 회전 명령문 turnLeft(), turnRight()를 순차적으로 작성하여 목표지점에 도달하세요.\n",
+                        "# 기본 이동 방법과 같이 순차적으로 명령어가 실행되는 알고리즘 구조를 순차구조라고 합니다. \n" +
+                                "# go() 명령어와 turnLeft(), turnRight() 명령어를 순차적으로 작성하여 목표 지점에 도달하세요. \n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -352,13 +349,9 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "로켓발사장으로 이동 -1\n" +
-                                "\n" +
-                                "튜토리얼에서 배운내용을 활용하여\n" +
-                                "\n" +
-                                "목표 지점에 도달해보세요.\n" +
-                                "\n" +
-                                "go() 함수와 turnLeft() , turnRight()함수를 이용해 빠른 경로를 찾아보세요.",
+                        "로켓 발사장으로 이동 – 1 \n" +
+                                "순차구조와 기본 이동 방법을 활용하여 목표 지점에 도달해보세요. \n" +
+                                "go() 명령어와 turnLeft(), turnRight() 명령어를 이용해 빠른 경로를 찾아보세요. \n",
                         "go()\n" +
                                 "turnLeft()\n" +
                                 "go()\n" +
@@ -373,9 +366,10 @@ public class Dev {
                 GameMap gameMap11e2 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 2,
                         "go(),turnLeft(),turnRight()",
-                        "# 더 멀리 이동하기 위해 이동 명령문의 괄호 안에 숫자를 넣어보세요\n" +
+                        "# 명령어 괄호 안에 숫자(인수)를 넣어 이동할 칸 개수를 조정해보세요 \n" +
+                                "# 명령어 괄호 안에 숫자를 넣어 코드 라인 수를 줄여보세요. \n" +
                                 "\n" +
-                                "go(2)",
+                                "go(2)\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -409,11 +403,10 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "로켓 발사장으로 이동 -2\n" +
-                                "\n" +
-                                "인수를 넣어 더멀리 쉽게 이동할수 있습니다!\n" +
-                                "\n" +
-                                "go(2) 를 넣어 목표지점에 더욱 쉽게 이동해보세요!",
+                        "로켓 발사장으로 이동 – 2 \n" +
+                                "인수를 사용하면 코드가 간결해집니다. \n" +
+                                "go() go() go()를 입력해도 좋지만, go(3)으로 작성할 수 있습니다. \n" +
+                                "명령어 괄호 안에 숫자를 넣어 코드 라인 수를 줄여보세요. \n",
                         "go(2)\n" +
                                 "turnLeft()\n" +
                                 "go(3)",
@@ -426,9 +419,9 @@ public class Dev {
                 GameMap gameMap11e3 = gameMapService.createGameMap(
                         "1", "1-1", "Easy", 3,
                         "go(),turnLeft(),turnRight()",
-                        "# 이동명령문을 사용하여 폭탄을 피해 식량을 획득하고 목표지점으로 이동하세요.\n",
-                        "목표지점에 도달하기\n" +
-                                "보급품 3개 획득하기",
+                        "# go() 명령어와 turnLeft(), turnRight() 명령어를 사용하여 폭탄을 피해 식량을 획득하고 목표지점으로 이동하세요. \n",
+                        "보급품 3개 획득하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -478,13 +471,10 @@ public class Dev {
                                 "        {\"status\": 1}\n" +
                                 "    ]\n" +
                                 "}",
-                        "\t\n" +
-                                "발사장앞\n" +
-                                "\n" +
-                                "로켓 발사장까지 거의 다왔습니다.\n" +
-                                "발사장으로 이동하기전 보급품을 충분히 적재해야합니다.\n" +
-                                "\n" +
-                                "폭탄을 피하고 목표에서 요구하는 필요한 보급품을 획득하세요.",
+                        "보급품 적재\n" +
+                                "로켓 발사장까지 거의 다 왔습니다. \n" +
+                                "발사장으로 이동하기 전 보급품을 충분히 적재해야 합니다. \n" +
+                                "순차구조와 인수를 적절히 활용하여 폭탄을 피하고 필요한 보급품을 획득하세요. \n",
                         "go(2)\n" +
                                 "turnLeft()\n" +
                                 "go(3)",
@@ -498,8 +488,8 @@ public class Dev {
                         "1", "1-1", "Normal", 1,
                         "go(),turnLeft(),turnRight()",
                         "",
-                        "목표지점에 도달하기\n" +
-                                "보급품 2개 획득하기",
+                        "보급품 2개 획득하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -558,8 +548,8 @@ public class Dev {
                         "1", "1-1", "Normal", 2,
                         "go(),turnLeft(),turnRight()",
                         "",
-                        "목표지점에 도달하기\n" +
-                                "보급품 2개 획득하기",
+                        "보급품 2개 획득하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -616,8 +606,8 @@ public class Dev {
                         "1", "1-1", "Normal", 3,
                         "go(),turnLeft(),turnRight()",
                         "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
-                        "목표지점에 도달하기\n" +
-                                "보급품 3개 획득하기",
+                        "보급품 3개 획득하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -683,8 +673,8 @@ public class Dev {
                         "1", "1-1", "Hard", 1,
                         "go(),turnLeft(),turnRight()",
                         "",
-                        "목표지점에 도달하기\n" +
-                                "보급품 2개 획득하기",
+                        "보급품 2개 획득하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -746,8 +736,8 @@ public class Dev {
                         "1", "1-1", "Hard", 2,
                         "go(),turnLeft(),turnRight()",
                         "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
-                        "목표지점에 도달하기\n" +
-                                "보급품 3개 획득하기",
+                        "보급품 3개 획득하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -805,8 +795,8 @@ public class Dev {
                         "1", "1-1", "Hard", 3,
                         "go(),turnLeft(),turnRight()",
                         "# 스위치를 밟으면 레이저가 켜지거나 꺼집니다. 레이저에 닿지 않게 조심하세요.\n",
-                        "목표지점에 도달하기\n" +
-                                "보급품 4개 획득하기",
+                        "보급품 4개 획득하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 1,\n" +
@@ -868,17 +858,11 @@ public class Dev {
                 GameMap gameMap12e1 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "for i in range(3):\n" +
-                                "    # for 명령어 아래에 들여쓰기 된 이곳부터 반복됩니다.\n" +
-                                "    # 이곳에 이동 명령어를 사용해 가까운 식량까지 이동하세요.\n" +
-                                "    go()\n" +
-                                "    \n" +
-                                "    \n" +
-                                "    # 식량을 획득한 뒤에 다음 반복을 위해 회전 명령어를 사용해 원래 바라보던 곳을 바라봐야합니다.\n" +
-                                "    ",
-                        "목표지점에 도달하기\n" +
-                                "로켓부품 2개 획득하기\n" +
+                        "# for i in range (3) : 명령어는 여러 줄의 코드블록을 괄호 안의 숫자만큼 반복합니다. \n" +
+                                "# 탭을 사용하여 for 아래의 명령문을 들여쓰기 하세요. \n" +
+                                "# 아이템을 획득한 뒤에 다음 반복을 위해 방향 설정이 필요할 수도 있습니다.\n",
+                        "로켓부품 2개 획득하기\n" +
+                                "목표지점에 도달하기\n" +
                                 "코드 5줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -922,10 +906,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수-1\n" +
+                        "로켓 부품 획득\n" +
+                                "로켓 부품을 모두 획득하고 목표 지점으로 이동하세요. \n" +
+                                "for문을 활용하여 코드를 작성해보세요. \n" +
+                                "반복할 내용은 한 줄이 아니라 여러 줄이 될 수 있어요. 들여쓰기로 범위를 나타내보세요. \n" +
                                 "\n" +
-                                "로켓을 만들어야합니다.\n" +
-                                "로켓을 만들기위해 로켓 부품을 획득해 목표지점으로 이동하세요.",
+                                "for i in range(반복횟수) : \n" +
+                                "   반복할 내용1 \n" +
+                                "   반복할 내용2 \n",
                         "for i in range(3):\n" +
                                 "   go(2)\n" +
                                 "   turnLeft()\n" +
@@ -939,14 +927,8 @@ public class Dev {
                 GameMap gameMap12e2 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "for i in range(2):\n" +
-                                "    # 이곳에 이동 명령어를 사용하여 식량을 획득하세요.\n" +
-                                "    go(3)\n" +
-                                "    \n" +
-                                "    \n" +
-                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하고 오른쪽을 보게하면 다음 식량은 반복으로 획득할 수 있습니다.\n" +
-                                "    ",
+                        "# for i in range (3) : 명령어는 여러 줄의 코드블록을 괄호 안의 숫자만큼 반복합니다. \n" +
+                                "# 반복할 내용은 탭을 사용하여 for 아래의 명령문을 들여쓰기 하세요.\n",
                         "로켓부품 2개 획득하기\n" +
                                 "코드 14줄 이하로 작성하기",
                         "stage = {\n" +
@@ -988,10 +970,14 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수-2\n" +
+                        "발사장 탐색\n" +
+                                "로켓을 만들기 위해 로켓 부품을 찾아야 합니다. \n" +
+                                "목표를 확인하고 구석구석 숨어있는 로켓 부품을 획득하세요. \n" +
+                                "반복할 내용은 들여쓰기 한다는 사실! 잊지 마세요! \n" +
                                 "\n" +
-                                "로켓을 만들기위해 로켓 부품을 찾아야 합니다. \n" +
-                                "방 구석 구석을 잘 찾아보세요.",
+                                "for i in range(반복횟수) : \n" +
+                                "   반복할 내용1 \n" +
+                                "   반복할 내용2 \n",
                         "for i in range(3):\n" +
                                 "   go(2)\n" +
                                 "   turnLeft()\n" +
@@ -1005,14 +991,8 @@ public class Dev {
                 GameMap gameMap12e3 = gameMapService.createGameMap(
                         "1", "1-2", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():",
-                        "# for 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "for i in range(2):\n" +
-                                "    # 이곳에 이동 명령어를 사용하여 가까운 위쪽 방과 아래 방의 식량을 획득하세요.\n" +
-                                "    go(3)\n" +
-                                "    \n" +
-                                "    \n" +
-                                "    # 이곳에 이동 명령어를 사용하여 방 앞까지 이동하고 오른쪽을 보게하면 다음 식량은 반복으로 획득할 수 있습니다.\n" +
-                                "    ",
+                        "# for i in range (3) : 명령어는 여러 줄의 코드블록을 괄호 안의 숫자만큼 반복합니다. \n" +
+                                "# 반복할 내용은 탭을 사용하여 for 아래의 명령문을 들여쓰기 하세요. \n",
                         "로켓부품 4개 획득하기\n" +
                                 "코드 18줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1056,9 +1036,13 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "부품회수-3\n" +
+                        "추가 부품 수집\n" +
+                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다. 제시된 목표를 확인하고, 로켓 부품을 획득하세요. \n" +
+                                "for문을 활용하면 코드가 더욱 간단하니, 꼭 사용해보세요. \n" +
                                 "\n" +
-                                "로켓을 만들기 위해 더 많은 로켓 부품이 필요합니다.",
+                                "for i in range(반복횟수) : \n" +
+                                "   반복할 내용1 \n" +
+                                "   반복할 내용2 \n",
                         "for i in range(3):\n" +
                                 "   go(2)\n" +
                                 "   turnLeft()\n" +
@@ -1074,8 +1058,8 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():",
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
-                        "목표지점에 도달하기\n" +
-                                "로켓부품 5개 획득하기\n" +
+                        "로켓부품 5개 획득하기\n" +
+                                "목표지점에 도달하기\n" +
                                 "코드 8줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -1299,8 +1283,8 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():",
                         "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
                                 "# 탭을 사용하여 for 아래의 이동 명령문을 들여 쓰세요.\n",
-                        "목표지점에 도달하기\n" +
-                                "로켓부품 모두 획득하기\n" +
+                        "로켓부품 모두 획득하기\n" +
+                                "목표지점에 도달하기\n" +
                                 "코드 40줄 이하로 작성하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -1550,10 +1534,10 @@ public class Dev {
 
                 GameMap gameMap13e1 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n" +
-                                "# for i in range(4): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 setItem(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(4) : 구문은 아래의 들여쓰기 된 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해보세요.\n",
                         "고체추진제 4개 장착하기\n" +
                                 "코드 10줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1597,14 +1581,17 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "발사장에서-1\n" +
-                                "\n" +
-                                "발사장에서 로켓을 조립해야합니다.\n" +
-                                "\n" +
-                                "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "go(2)\n" +
-                                "set(\"고체추진제\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                        "로켓 조립\n" +
+                                "발사장에서 로켓을 조립해야 합니다. \n" +
+                                "로켓 조립에는 setItem() 명령어가 사용됩니다. \n" +
+                                "setItem() 명령어 괄호 안에 부품명을 작성하여야 부품을 장착할 수 있습니다. \n" +
+                                "부품명은 문자이므로, 반드시 “”(또는 ‘’)를 사용해야 합니다. \n",
+                        "turnLeft()\n" +
+                                "go(3)\n" +
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "for i in range(4):",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         0,
                         0,
                         9
@@ -1612,10 +1599,10 @@ public class Dev {
 
                 GameMap gameMap13e2 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다.\n" +
-                                "# for i in range(3): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 setItem(‘액체연료’)를 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(4) : 구문은 아래의 들여쓰기 된 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해보세요.\n",
                         "액체연료 5개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1661,18 +1648,24 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "발사장에서 -2\n" +
-                                "\n" +
-                                "이제 연료를 주입해야합니다.\n" +
-                                "\n" +
-                                "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
-                                "\n" +
-                                " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "turnRight()\n" +
-                                "go(2)\n" +
+                        "연료 주입\n" +
+                                "이제 연료를 주입해야 합니다. \n" +
+                                "setItem() 명령어를 사용하여 액체 연료를 주입하세요. \n" +
+                                "for문을 사용하면 더욱 쉽게 작성할 수 있습니다. \n",
+                        "turnLeft()\n" +
+                                "go(3)\n" +
                                 "turnRight()\n" +
-                                "set(\"액체연료\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"액체연료\")",
+                                "go(2)\n" +
+                                "setItem('액체연료')\n" +
+                                "for i in range(2):\n" +
+                                "    turnRight(2)\n" +
+                                "    go()\n" +
+                                "    turnLeft()\n" +
+                                "    go(3)\n" +
+                                "    turnLeft()\n" +
+                                "    go()\n" +
+                                "    setItem('액체연료')\n",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"액체연료\")",
                         0,
                         0,
                         21
@@ -1680,10 +1673,10 @@ public class Dev {
 
                 GameMap gameMap13e3 = gameMapService.createGameMap(
                         "1", "1-3", "Easy", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다.\n" +
-                                "# for i in range(3): 구문은 아래의 들여쓰기된 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# for 구문을 사용해 코드를 최적화해 보세요.\n",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# 노란색 마커가 있는 장착지점으로 이동한 뒤 장착지점을 바라보고 setItem(‘추가엔진’)을 작성하여 로켓 재료를 장착합니다.\n" +
+                                "# for i in range(4) : 구문은 아래의 들여쓰기 된 코드 블록을 괄호 안의 숫자만큼 반복합니다.\n" +
+                                "# for 구문을 사용해 코드를 최적화해보세요.\n",
                         "추가엔진 6개 장착하기\n" +
                                 "코드 30줄 이하로 작성하기",
                         "stage = {\n" +
@@ -1735,16 +1728,21 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "발사 임박\n" +
-                                "\n" +
-                                "마지막입니다! \n" +
-                                "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
-                                "\n" +
-                                "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "go()\n" +
-                                "turnRight()\n" +
-                                "set(\"추가엔진\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                        "엔진 장착\n" +
+                                "마지막입니다!\n" +
+                                "발사추진력을 얻기 위한 추가 엔진을 장착해주세요! \n" +
+                                "for문과 setItem() 명령어를 사용해 작업 능률을 올려야 합니다! \n",
+                        "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "for i in range(3):\n" +
+                                "    go(2)\n" +
+                                "    setItem('추가엔진')\n" +
+                                "    turnRight(2)\n" +
+                                "    go(2)\n" +
+                                "    turnLeft()\n" +
+                                "go(4)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         17,
                         276,
                         17
@@ -1752,8 +1750,8 @@ public class Dev {
 
                 GameMap gameMap13n1 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# setItem(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다. \n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n",
                         "고체추진제 5개 장착하기\n" +
                                 "코드 25줄 이하로 작성하기",
@@ -1801,14 +1799,24 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "발사장에서-1\n" +
+                        "발사장에서 - 1\n" +
                                 "\n" +
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "go(2)\n" +
-                                "set(\"고체추진제\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                        "turnLeft()\n" +
+                                "go(4)\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "for i in range(3):\n" +
+                                "    setItem('고체추진제')\n" +
+                                "    turnLeft(2)\n" +
+                                "    go()\n" +
+                                "    turnLeft()\n" +
+                                "    go(2)\n" +
+                                "    turnLeft()\n" +
+                                "    go()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         0,
                         0,
                         17
@@ -1816,8 +1824,8 @@ public class Dev {
 
                 GameMap gameMap13n2 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# setItem(‘액체연료’)를 작성하여 로켓 재료를 장착합니다. \n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n" +
                                 "# 각 스위치는 위쪽의 레이저와 연결되어 있습니다.\n",
                         "액체연료 5개 장착하기\n" +
@@ -1874,7 +1882,7 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "발사장에서 -2\n" +
+                        "발사장에서 - 2\n" +
                                 "\n" +
                                 "이제 연료를 주입해야합니다.\n" +
                                 "\n" +
@@ -1882,10 +1890,20 @@ public class Dev {
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
                         "turnRight()\n" +
-                                "go(2)\n" +
+                                "go(6)\n" +
                                 "turnRight()\n" +
-                                "set(\"액체연료\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "for i in range(3):\n" +
+                                "    go()\n" +
+                                "    turnRight()\n" +
+                                "    go(3)\n" +
+                                "    setItem('액체연료')\n" +
+                                "    turnRight(2)\n" +
+                                "    go(3)\n" +
+                                "    turnRight()\n" +
+                                "    go()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         0,
                         0,
                         23
@@ -1893,8 +1911,8 @@ public class Dev {
 
                 GameMap gameMap13n3 = gameMapService.createGameMap(
                         "1", "1-3", "Normal", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# setItem(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n",
                         "추가엔진 6개 장착하기\n" +
                                 "코드 45줄 이하로 작성하기",
@@ -1955,10 +1973,25 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "go()\n" +
+                        "for i in range(2):\n" +
+                                "    turnLeft()\n" +
+                                "    go()\n" +
                                 "turnRight()\n" +
-                                "set(\"추가엔진\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "go()\n" +
+                                "for i in range(3):\n" +
+                                "    setItem('추가엔진')\n" +
+                                "    turnLeft(2)\n" +
+                                "    go()\n" +
+                                "    turnLeft()\n" +
+                                "    go()\n" +
+                                "    turnRight()\n" +
+                                "    go()\n" +
+                                "    turnLeft()\n" +
+                                "    go()\n" +
+                                "go()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         86,
                         863,
                         29
@@ -1966,7 +1999,7 @@ public class Dev {
 
                 GameMap gameMap13h1 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
                         "# set(‘고체추진제’)를 작성하여 로켓 재료를 장착합니다.\n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n",
                         "고체추진제 6개 장착하기\n" +
@@ -2018,14 +2051,24 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "발사장에서-1\n" +
+                        "발사장에서 - 1\n" +
                                 "\n" +
                                 "발사장에서 로켓을 조립해야합니다.\n" +
                                 "\n" +
                                 "set 명령어를 사용하여 부품을 장착해야합니다!",
-                        "go(2)\n" +
-                                "set(\"고체추진제\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                        "turnLeft()\n" +
+                                "go(4)\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "for i in range(2):\n" +
+                                "    setItem('고체추진제')\n" +
+                                "    turnRight(2)\n" +
+                                "    go()\n" +
+                                "    turnLeft()\n" +
+                                "    go(2)\n" +
+                                "    turnLeft()\n" +
+                                "    go()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         0,
                         0,
                         20
@@ -2033,8 +2076,8 @@ public class Dev {
 
                 GameMap gameMap13h2 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘액체연료’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# setItem(‘액체연료’)를 작성하여 로켓 재료를 장착합니다. \n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n" +
                                 "# 각 스위치는 위쪽의 레이저와 연결되어 있습니다.\n",
                         "액체연료 13개 장착하기\n" +
@@ -2106,11 +2149,23 @@ public class Dev {
                                 "set 명령어를 사용하여 액체 연료를 주입하세요!\n" +
                                 "\n" +
                                 " for 문을 사용하면 더욱 쉽게 작성할수 있습니다!",
-                        "turnRight()\n" +
-                                "go(2)\n" +
+                        "turnLeft(2)\n" +
+                                "go()\n" +
                                 "turnRight()\n" +
-                                "set(\"액체연료\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                                "go(4)\n" +
+                                "for i in range(3):\n" +
+                                "    go()\n" +
+                                "    turnRight()\n" +
+                                "    go(3)\n" +
+                                "    turnLeft()\n" +
+                                "    for i in range(3):\n" +
+                                "        setItem('액체연료')\n" +
+                                "        turnRight()\n" +
+                                "    go(3)\n" +
+                                "    turnLeft()\n" +
+                                "    go(4)\n" +
+                                "    turnLeft(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         0,
                         0,
                         25
@@ -2118,8 +2173,8 @@ public class Dev {
 
                 GameMap gameMap13h3 = gameMapService.createGameMap(
                         "1", "1-3", "Hard", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,set()",
-                        "# set(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem()",
+                        "# setItem(‘추가엔진’)를 작성하여 로켓 재료를 장착합니다. \n" +
                                 "# 노란색 마커에서 장착이 가능합니다.\n",
                         "추가엔진 18개 장착하기\n" +
                                 "코드 50줄 이하로 작성하기",
@@ -2192,10 +2247,26 @@ public class Dev {
                                 "발사추진력을 얻기 위한 추가 엔진을 장착해주세요!\n" +
                                 "\n" +
                                 "역시나 for문을 사용해 작업 능률을 올려야합니다!",
-                        "go()\n" +
+                        "for i in range(2):\n" +
+                                "    turnLeft()\n" +
+                                "    go()\n" +
                                 "turnRight()\n" +
-                                "set(\"추가엔진\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,set(\"고체추진제\")",
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "go()\n" +
+                                "for i in range(3):\n" +
+                                "    turnRight()\n" +
+                                "    for i in range(3):\n" +
+                                "        setItem('추가엔진')\n" +
+                                "        turnLeft()\n" +
+                                "    go()\n" +
+                                "    turnLeft()\n" +
+                                "    go()\n" +
+                                "    turnRight()\n" +
+                                "    go()\n" +
+                                "    turnLeft()\n" +
+                                "    go()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"고체추진제\")",
                         345,
                         2070,
                         31
@@ -2752,12 +2823,12 @@ public class Dev {
                 GameMap gameMap21e1 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,print()",
-                        "# for i in range(3): 명령어는 여러줄의 코드블록을 괄호안의 숫자만큼 반복합니다.\n" +
-                                "# 여기에서 range는 0부터 괄호안의 숫자 미만의 숫자들을 만들어줍니다.\n" +
-                                "# i는 range에서 만든 각각의 숫자를 반복합니다. 위의 예제에서의 i는 0, 1, 2 가 됩니다.\n" +
+                        "# print() 명령어는 괄호 속 내용을 출력합니다. \n" +
+                                "# for i in range(4) : 구문은 아래의 들여쓰기 된 코드 블록을 괄호 안의 숫자만큼 반복합니다. \n" +
+                                "# range는 0부터 괄호 안의 숫자-1만큼 반복 범위를 설정하고, i는 반복 숫자가 됩니다. 괄호 안의 숫자가 4인 경우, i는 0, 1, 2, 3이 됩니다. \n" +
                                 "# for문과 print(i)를 사용해서 0부터 9까지 프린트해 보세요.\n",
-                        "목표지점에 도달하기\n" +
-                                "0에서 9까지 순차적으로 프린트하기",
+                        "0에서 9까지 순차적으로 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -2796,14 +2867,16 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "정보획득- 1\n" +
-                                "\n" +
-                                "새로운 행성을 발견하여 이동했습니다.\n" +
-                                "새로운 행성에서 생존을 위한 정보를 수집하고, \n" +
-                                "암호를 해독하여 행성의 비밀을 밝혀야합니다.",
+                        "정보획득-1\n" +
+                                "새로운 행성을 발견하여 이동했습니다. \n" +
+                                "새로운 행성에서 생존을 위한 정보를 수집하고, 암호를 해독하여 행성의 비밀을 밝혀야 합니다. \n" +
+                                "print() 명령어를 사용하여 암호를 해독해봅시다. \n" +
+                                "print() 명령어는 괄호 속 내용을 출력해주니, 잘 활용해보세요. \n",
                         "go()\n" +
-                                "for i in range(3):\n" +
-                                "  print(i)",
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "info = getInfo()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print()",
                         0,
                         0,
@@ -2813,10 +2886,13 @@ public class Dev {
                 GameMap gameMap21e2 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo()",
-                        "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다. \n" +
-                                "# 획득한 정보는 print(info)를 사용해서 프린트 할 수 있습니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "획득한 정보 프린트하기",
+                        "# 변수는 객체(프로그램에서 메모리에 저장되는 모든 데이터)를 가리키는 식별자입니다. \n" +
+                                "# 변수가 객체를 가리키게 하기 위해서 객체에 변수명으로 이름표를 붙여야 합니다. 이를 쉽게 변수에 값을 저장한다고 표현합니다. \n" +
+                                "# ‘변수명 = 데이터값’의 형태로 변수에 값을 저장할 수 있습니다. \n" +
+                                "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다. \n" +
+                                "# 획득한 정보는 print(info)를 사용해서 프린트 할 수 있습니다. \n",
+                        "획득한 정보 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -2837,8 +2913,8 @@ public class Dev {
                                 "            [2,0,0,0,0,0,0,0,0,0,0,0,0,0,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [11,2], \"require_print\": [[\"Atmosphere \"],[\"Civilization \"],[\"Ecosystem \"]], \n" +
-                                "             \"print_count\": [[\"Atmosphere \"],[\"Civilization \"],[\"Ecosystem \"]], \"require_dir\": \"up\", \"action_type\": \"door\", \"action_id\": [2], \"status\": -1},\n" +
+                                "            {\"id\":0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [11,2], \"require_print\": [[\"String \"],[\"Integer \"],[\"Float \"],[\"Boolean \"]], \n" +
+                                "             \"print_count\": [[\"String \"],[\"Integer \"],[\"Float \"],[\"Boolean \"]], \"require_dir\": \"up\", \"action_type\": \"door\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\":1, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"Atmosphere \",\"Civilization \",\"Ecosystem \"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\":2, \"type\": \"door\", \"dir\": \"h\", \"pos\": [13,2], \"status\": 1}\n" +
                                 "        ],\n" +
@@ -2855,17 +2931,19 @@ public class Dev {
                                 "        \"rocket_parts_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"Atmosphere \",\n" +
-                                "        \"Civilization \",\n" +
-                                "        \"Ecosystem \"\n" +
+                                "        \"String \",\n" +
+                                "        \"Integer \",\n" +
+                                "        \"Float \",\n" +
+                                "        \"Boolean \",\n" +
                                 "    ]\n" +
                                 "}",
-                        "정보획득- 2\n" +
-                                "\n" +
-                                "우리는 아직 이행성의 정보가 부족합니다.\n" +
-                                "조금 더 정보를 획득하기 위해 탐사해봅시다.\n",
-                        "go(3)\n" +
-                                "info = getInfo()\n" +
+                        "정보획득-2\n" +
+                                "우리는 아직 이 행성의 정보가 부족합니다. 조금 더 정보를 획득하기 위해 탐사해봅시다. \n" +
+                                "정보를 수집한 후, 저장하기 위하여 변수를 사용해야 합니다. \n" +
+                                "변수는 객체(프로그램에서 메모리에 저장되는 모든 데이터)를 가리키는 식별자입니다. 변수가 객체를 가리키게 하기 위해서 객체에 변수명으로 이름표를 붙여야 합니다. 이를 쉽게 변수에 값을 저장한다고 표현합니다. \n" +
+                                "변수명(객체 이름표)을 info로 설정하여 획득한 정보를 저장해보세요. 정보 획득은 getInfo() 명령어를 사용하면 됩니다. \n" +
+                                "info와 getInfo() 명령어를 ‘변수명 = 데이터값’의 형태에 적용한다면 명령어를 쉽게 작성할 수 있을 거에요. \n",
+                        "info = getInfo()\n" +
                                 "print(info)",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo()",
                         0,
@@ -2876,10 +2954,10 @@ public class Dev {
                 GameMap gameMap21e3 = gameMapService.createGameMap(
                         "2", "2-1", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber()",
-                        "# 컴퓨터 앞에서 number = getNumber() 명령어를 사용해 숫자를 획득하고 number라는 변수에 획득한 숫자를 저장합니다.\n" +
-                                "# sum = number1 + number2 와 같이 숫자를 합쳐서 sum이라는 변수에 저장합니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "획득한 숫자의 합 프린트하기",
+                        "# 컴퓨터 앞에서 number = getNumber() 명령어를 사용해 숫자를 획득하고 number라는 변수에 획득한 숫자를 저장합니다. \n" +
+                                "# sum = number1 + number2 와 같이 숫자를 합쳐서 sum이라는 변수에 저장합니다. \n",
+                        "획득한 숫자의 합 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -2925,16 +3003,17 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "아는것이 힘\n" +
-                                "\n" +
-                                "정보는 많을수록 좋습니다.\n" +
-                                "\n" +
-                                "계속해서 탐사하여 고급 정보를 획득해보세요.",
-                        "go(3)\n" +
+                                "정보는 많을수록 좋습니다. 계속해서 탐사하여 고급 정보를 획득해보세요. \n" +
+                                "여러 개의 변수를 선언하여 정보를 저장하고, 값을 연산하여 또 다른 변수에 저장해보세요. \n",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
                                 "number1 = getNumber()\n" +
-                                "number2 = getNumber()\n" +
-                                "sum = number1 + number2\n" +
-                                "\n" +
-                                "print(sum)",
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "number2 = getNumber()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         12,
                         184,
@@ -2946,8 +3025,8 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber()",
                         "# range에 두개의 인자를 사용할 경우 두 인자 사이의 숫자들을 만들어줍니다.\n" +
                                 "# range(2,7) 의 경우 2,3,4,5,6의 숫자들을 만들어줍니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "7에서 20까지 순차적으로 프린트하기",
+                        "7에서 20까지 순차적으로 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -2990,10 +3069,7 @@ public class Dev {
                         "익숙하지만 다른 곳 1\n" +
                                 "\n" +
                                 "어딘가 익숙한 모습이 보입니다. 이곳에서 새로운 정보를 찾아보세요.",
-                        "go(2)\n" +
-                                "\n" +
-                                "for i in range(2, 6):\n" +
-                                "   print(i)",
+                        "go(2)\n",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         0,
                         0,
@@ -3005,8 +3081,8 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber()",
                         "# 컴퓨터 앞에서 info1 = getInfo() 명령어를 사용해 정보를 획득하고 info1라는 변수에 획득한 정보를 저장합니다. \n" +
                                 "# print(info1 + info2) 와 같이 정보를 합쳐서 프린트 할 수 있습니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "획득한 정보 합쳐서 프린트하기",
+                        "획득한 정보 합쳐서 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -3027,11 +3103,11 @@ public class Dev {
                                 "            [2,0,0,0,0,0,0,0,0,0,0,0,0,0,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\":0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [11,2], \"require_print\": [[\"Fossil Glacier Hemisphere \"],[\"Innovation Kinetics Legislation \"],[\"Metabolism Nebula Organism \"]], \n" +
-                                "             \"print_count\": [[\"Fossil Glacier Hemisphere \"],[\"Innovation Kinetics Legislation \"],[\"Metabolism Nebula Organism \"]], \"require_dir\": \"up\", \"action_type\": \"door\", \"action_id\": [4], \"status\": -1},\n" +
-                                "            {\"id\":1, \"type\": \"info_point\", \"pos\": [5,6], \"info\": [\"Fossil \",\"Innovation \",\"Metabolism \"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"Glacier \",\"Kinetics \",\"Nebula \"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"info_point\", \"pos\": [9,6], \"info\": [\"Hemisphere \",\"Legislation \",\"Organism \"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [11,2], \"require_print\": [[\"import syntax indentation \"],[\"comment for while \"],[\"if elif else \"],[\"break continue pass \"]], \n" +
+                                "             \"print_count\": [[\"import syntax indentation \"],[\"comment for while \"],[\"if elif else \"],[\"break continue pass \"]], \"require_dir\": \"up\", \"action_type\": \"door\", \"action_id\": [4], \"status\": -1},\n" +
+                                "            {\"id\":1, \"type\": \"info_point\", \"pos\": [5,6], \"info\": [\"import \",\"comment \",\"if \", \"break \"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"syntax \",\"for \",\"elif \",\"continue \"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"info_point\", \"pos\": [9,6], \"info\": [\"indentation \",\"while \",\"else \",\"pass \"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\":4, \"type\": \"door\", \"dir\": \"h\", \"pos\": [13,2], \"status\": 1}\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
@@ -3047,15 +3123,18 @@ public class Dev {
                                 "        \"rocket_parts_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"Fossil \",\n" +
-                                "        \"Innovation \",\n" +
-                                "        \"Metabolism \",\n" +
-                                "        \"Glacier \",\n" +
-                                "        \"Kinetics \",\n" +
-                                "        \"Nebula \",\n" +
-                                "        \"Hemisphere \",\n" +
-                                "        \"Legislation \",\n" +
-                                "        \"Organism \"\n" +
+                                "        \"import \",\n" +
+                                "        \"syntax \",\n" +
+                                "        \"indentation \",\n" +
+                                "        \"comment \",\n" +
+                                "        \"for \",\n" +
+                                "        \"while \",\n" +
+                                "        \"if \",\n" +
+                                "        \"elif \",\n" +
+                                "        \"else \",\n" +
+                                "        \"break \",\n" +
+                                "        \"continue \",\n" +
+                                "        \"pass \"\n" +
                                 "    ]\n" +
                                 "}",
                         "익숙하지만 다른 곳 2\n" +
@@ -3065,12 +3144,19 @@ public class Dev {
                                 "하지만 풀어나갈 방법은 조금 달라 보이는데요\n" +
                                 "\n" +
                                 "이곳에서 새로운 정보를 획득하기 위해 탐사해보세요.",
-                        "info1 = getInfo()\n" +
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "info1 = getInfo()\n" +
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
                                 "info2 = getInfo()\n" +
-                                "\n" +
-                                "sum = info1 + info2\n" +
-                                "\n" +
-                                "print(sum)",
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "info3 = getInfo()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         0,
                         0,
@@ -3082,8 +3168,8 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber()",
                         "# 컴퓨터 앞에서 number = getNumber() 명령어를 사용해 숫자를 획득하고 number라는 변수에 획득한 숫자를 저장합니다.\n" +
                                 "# sum = number1 + number2 와 같이 숫자를 합쳐서 sum이라는 변수에 저장합니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "0부터 획득한 숫자 사이의 모든 숫자의 합 프린트하기",
+                        "0부터 획득한 숫자 사이의 모든 숫자의 합 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -3132,12 +3218,16 @@ public class Dev {
                                 "우리의 미션은 아직 끝나지 않았습니다.\n" +
                                 "\n" +
                                 "이러한 어려움을 극복하고 계속 전진하는 것이 중요합니다. ",
-                        "info1 = getInfo()\n" +
-                                "info2 = getInfo()\n" +
-                                "\n" +
-                                "sum = info1 + info2\n" +
-                                "\n" +
-                                "print(sum)",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "number = getNumber()\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "answer = 0",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         58,
                         575,
@@ -3149,8 +3239,8 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber()",
                         "# range에 세개의 인자를 사용할 경우 첫 두 인자 사이의 숫자들을 세번째 인자의 간격으로 만들어 줍니다.\n" +
                                 "# range(4,12,2) 의 경우 4,6,8,10의 숫자들을 만들어줍니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "1에서 30까지의 숫자 중 3의 배수를 순차적으로 프린트하기",
+                        "1에서 30까지의 숫자 중 3의 배수를 순차적으로 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -3193,8 +3283,7 @@ public class Dev {
                         "어려운 탐사\n" +
                                 "\n" +
                                 "기존 탐사와 다르게 효율성 있고 빠르게 탐사하고 싶습니다.",
-                        "for i in range(4, 12, 2):\n" +
-                                "  print(i)",
+                        "go(2)\n",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         0,
                         0,
@@ -3206,8 +3295,8 @@ public class Dev {
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber()",
                         "# 컴퓨터 앞에서 info1 = getInfo() 명령어를 사용해 정보를 획득하고 info1라는 변수에 획득한 정보를 저장합니다.\n" +
                                 "# 컴퓨터 앞에서 number = getNumber() 명령어를 사용해 숫자를 획득하고 number라는 변수에 획득한 숫자를 저장합니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "획득 정보를 합쳐서 획득한 숫자만큼 반복하여 프린트하기",
+                        "획득 정보를 합쳐서 획득한 숫자만큼 반복하여 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -3229,18 +3318,16 @@ public class Dev {
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
                                 "            {\"id\":0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [11,2], \n" +
-                                "             \"require_print\": [[\"Battery Forest Insect \", \"Battery Forest Insect \"],\n" +
-                                "                               [\"Continent Galaxy Journal \", \"Continent Galaxy Journal \", \"Continent Galaxy Journal \", \"Continent Galaxy Journal \"],\n" +
-                                "                               [\"Experiment Harbor Nutrient \", \"Experiment Harbor Nutrient \", \"Experiment Harbor Nutrient \"]],\n" +
-                                "            \"print_count\": [[\"Battery Forest Insect \", \"Battery Forest Insect \"],\n" +
-                                "                               [\"Continent Galaxy Journal \", \"Continent Galaxy Journal \", \"Continent Galaxy Journal \", \"Continent Galaxy Journal \"],\n" +
-                                "                               [\"Experiment Harbor Nutrient \", \"Experiment Harbor Nutrient \", \"Experiment Harbor Nutrient \"]],\n" +
+                                "             \"require_print\": [[\"input print type \", \"input print type \"],\n" +
+                                "                               [\"len upper lower \",\"len upper lower \",\"len upper lower \",\"len upper lower \", ]],\n" +
+                                "            \"print_count\": [[\"input print type \", \"input print type \"],\n" +
+                                "                               [\"len upper lower \",\"len upper lower \",\"len upper lower \",\"len upper lower \", ]],\n" +
                                 "             \"require_dir\": \"up\", \"action_type\": \"door\", \"action_id\": [5], \"status\": -1},\n" +
-                                "            {\"id\":1, \"type\": \"info_point\", \"pos\": [5,6], \"info\": [\"Battery \",\"Continent \",\"Experiment \"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\":2, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"Forest \",\"Galaxy \",\"Harbor \"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\":3, \"type\": \"info_point\", \"pos\": [9,6], \"info\": [\"Insect \",\"Journal \",\"Nutrient \"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\":4, \"type\": \"number_point\", \"pos\": [3,6], \"info\": [2,4,3], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\":5, \"type\": \"door\", \"dir\": \"h\", \"pos\": [13,2], \"status\": 1}\n" +
+                                "            {\"id\":1, \"type\": \"info_point\", \"pos\": [5,6], \"info\": [\"input \",\"len \"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":2, \"type\": \"info_point\", \"pos\": [7,6], \"info\": [\"print \",\"upper \"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":3, \"type\": \"info_point\", \"pos\": [9,6], \"info\": [\"type \",\"lower \"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":4, \"type\": \"number_point\", \"pos\": [3,6], \"info\": [2,4], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\":5, \"type\": \"door\", \"dir\": \"h\", \"pos\": [13,2], \"status\": 1},\n" +
                                 "        ],\n" +
                                 "        \"goal_list\" : [\n" +
                                 "            {\"goal\": \"target\", \"pos\": [13,1]}\n" +
@@ -3255,31 +3342,24 @@ public class Dev {
                                 "        \"rocket_parts_count\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"Battery \",\n" +
-                                "        \"Continent \",\n" +
-                                "        \"Experiment \",\n" +
-                                "        \"Forest \",\n" +
-                                "        \"Galaxy \",\n" +
-                                "        \"Harbor \",\n" +
-                                "        \"Insect \",\n" +
-                                "        \"Journal \",\n" +
-                                "        \"Nutrient \",\n" +
+                                "        \"input \",\n" +
+                                "        \"print \",\n" +
+                                "        \"type \",\n" +
+                                "        \"len \",\n" +
+                                "        \"upper \",\n" +
+                                "        \"lower \",\n" +
                                 "        2,\n" +
-                                "        4,\n" +
-                                "        3\n" +
+                                "        4\n" +
                                 "    ]\n" +
                                 "}",
                         "조금더 빠르고 효율성 있게\n" +
                                 "\n" +
                                 "익숙하다고 쉽게 생각해선 안됩니다.\n" +
                                 "정확하고 빠르게 탐사를 이어나가세요.",
-                        "sum;\n" +
-                                "for i in range(3):\n" +
-                                "   go()\n" +
-                                "   turnRight()\n" +
-                                "   sum += getNumber()\n" +
-                                "\n" +
-                                "print(sum)",
+                        "go()\n" +
+                                "number = getNumber()\n" +
+                                "answer = \"\"\n" +
+                                "for i in range(3):",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         0,
                         0,
@@ -3290,8 +3370,8 @@ public class Dev {
                         "2", "2-1", "Hard", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber()",
                         "",
-                        "목표지점에 도달하기\n" +
-                                "획득한 숫자부터 0까지 1씩 감소하는 모든 숫자 순차적으로 프린트하기",
+                        "획득한 숫자부터 0까지 1씩 감소하는 모든 숫자 순차적으로 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -3341,9 +3421,11 @@ public class Dev {
                                 "일반적인 탐사 방법과는 정 반대로, \n" +
                                 "이번에는 함정을 피하고 안전한 길을 찾기 위해 \n" +
                                 "역으로 탐사해보겠습니다.",
-                        "num = 10\n" +
-                                "for i in range(num, 1, -1):\n" +
-                                "    print(i)",
+                        "go()\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "number = getNumber()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         230,
                         1380,
@@ -3353,13 +3435,12 @@ public class Dev {
                 GameMap gameMap22e1 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 1,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        "# 스위치를 밟으면 랜덤한 위치에 폭탄이 떨어집니다.\n" +
-                                "# if문과 checkFront(), jump()를 사용하여 폭탄을 피하세요.\n" +
-                                "# if checkFront() == \"폭탄\": 구문은 앞에 폭탄이 있으면 if문 하단의 구문을 실행합니다.\n" +
+                        "# 스위치를 밟으면 랜덤한 위치에 폭탄이 떨어집니다. \n" +
+                                "# if문과 checkFront(), jump()를 사용하여 폭탄을 피하세요. \n" +
+                                "# if checkFront() == \"폭탄\": 구문은 앞에 폭탄이 있으면 if문 하단의 구문을 실행합니다. \n" +
                                 "\n" +
-                                "for i in range(15):\n" +
-                                "  go()\n" +
-                                "  # 이곳에 if문을 추가하고 jump()를 사용하여 폭탄을 피하세요.\n",
+                                "for i in range(15): \n" +
+                                "   go()\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -3416,12 +3497,15 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "함정 확인 점프\n" +
-                                "\n" +
-                                "이곳은 함정이 많아보입니다. \n" +
+                                "이곳은 함정이 많아 보입니다. \n" +
                                 "정상적인 이동방법으로는 한계가 보입니다. \n" +
-                                "이동하기 전에 꼭 확인하고 이동하세요!",
-                        "if checkFront() == \"폭탄\":\n" +
-                                "   jump()",
+                                "if문이 함정을 피하는데 도움을 줄 수 있으니, 활용해보세요. \n" +
+                                "\n" +
+                                "if 조건 : \n" +
+                                "   조건이 참일 때 실행할 내용 \n",
+                        "for i in range(15):\n" +
+                                "    go()\n" +
+                                "    if checkFront() == \"폭탄\":",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber()",
                         0,
                         0,
@@ -3431,12 +3515,15 @@ public class Dev {
                 GameMap gameMap22e2 = gameMapService.createGameMap(
                         "2", "2-2", "Easy", 2,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump()",
-                        "for i in range(30):\n" +
-                                "  if checkFront()==\"벽\":\n" +
-                                "# 앞에 벽이 있는지 확인하여 벽이 있다면 회전명령어를 사용합니다.\n" +
-                                "    turnRight()\n" +
-                                "  else :\n" +
-                                "# else는 앞의 if문 조건에 해당이 안될 경우 실행합니다. 앞에 벽이 없는 경우에 대한 코드를 작성해주세요.\n",
+                        "# if문의 조건이 참일 때, if문 아래 작성된 코드가 실행됩니다. 들여쓰기로 실행할 내용 범위를 지정하세요. \n" +
+                                "# if문의 조건이 거짓일 때, else 아래의 코드가 실행됩니다. \n" +
+                                "# checkFront()==“벽”이 참일 때, 회전이 필요합니다. 거짓일 때는 어떻게 하면 좋을까요? \n" +
+                                "# for문과 if문은 함께 사용할 수 있습니다. \n" +
+                                "\n" +
+                                "for i in range(30):\n" +
+                                "   if checkFront()==\"벽\":\n" +
+                                "\n" +
+                                "   else :\n",
                         "목표지점에 도달하기\n" +
                                 "코드 8줄 이하로 작성하기",
                         "stage = {\n" +
@@ -3477,16 +3564,18 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "달팽이 딜레마\n" +
-                                "\n" +
-                                "이 곳에서 탈출하기 위해 노력하세요.\n" +
-                                "\n" +
+                                "이곳에서 탈출하기 위해 노력하세요. \n" +
                                 "우선, 우리는 주변을 면밀히 살펴보아야 합니다. \n" +
-                                "물체를 조사하여 우리가 갇힌 곳에서 탈출해야 합니다.",
+                                "물체를 조사하여 우리가 갇힌 곳에서 탈출해야 합니다. \n" +
+                                "if/else 조건문을 활용하여 코드를 작성하세요. \n" +
+                                "\n" +
+                                "if 조건 : \n" +
+                                "   조건이 참일 때 실행할 내용 \n" +
+                                "else : \n" +
+                                "   조건이 거짓일 때 실행할 내용 \n",
                         "for i in range(30):\n" +
-                                "  if checkFront()==\"벽\":\n" +
-                                "    turnRight()\n" +
-                                "  else :\n" +
-                                "      go()",
+                                "    go()\n" +
+                                "    if checkFront() == \"벽\":",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         0,
                         0,
@@ -3497,15 +3586,13 @@ public class Dev {
                         "2", "2-2", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump()",
                         "# 스위치를 밟으면 랜덤한 위치에 폭탄이 떨어집니다.\n" +
-                                "# if문과 checkFront()를 사용하여 폭탄을 피하세요.\n" +
-                                "# if checkFront() == \"없음\": 구문은 앞쪽에 아무것도 없으면 if문 하단의 구문을 실행합니다.\n" +
+                                "# if문과 checkFront()를 사용하여 폭탄을 피하세요. \n" +
+                                "# 플레이어 캐릭터 앞에 무언가 있을 경우, 오른쪽으로 이동한 뒤 다시 앞을 봐야 합니다. \n" +
                                 "\n" +
-                                "for i in range(100):\n" +
-                                "    if checkFront() == \"없음\":\n" +
-                                "    # 이곳에 앞에 아무것도 없는 경우의 코드를 작성하세요.\n" +
+                                "for i in range(100) :\n" +
+                                "   if checkFront() == \"없음\":\n" +
                                 "\n" +
-                                "    else :\n" +
-                                "    # 이곳에 앞에 무언가 있는 경우의 코드를 작성하세요. 오른쪽으로 이동한 뒤 다시 앞을 봐야합니다.\n",
+                                "   else :\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -3592,15 +3679,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "셋중 하나\n" +
+                        "셋 중 하나\n" +
+                                "목표 지점에 도달해야 합니다. \n" +
+                                "checkFront() 명령어를 사용하면 폭탄의 위치를 확인할 수 있으니, 잘 피해가세요. \n" +
                                 "\n" +
-                                "목표지점에 도달 해야합니다.\n" +
-                                "폭탄의 위치를 잘 기억하세요",
+                                "if 조건1 : \n" +
+                                "   조건1이 참일 때 실행할 내용 \n" +
+                                "elif 조건2 :\n" +
+                                "   조건2가 참일 때 실행할 내용 \n" +
+                                "else : \n" +
+                                "   조건이 모두 거짓일 때 실행할 내용 \n",
                         "for i in range(100):\n" +
                                 "    if checkFront() == \"없음\":\n" +
-                                "        go()\n" +
-                                "     else :\n" +
-                                "       turnRight()",
+                                "        go()\n",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         23,
                         368,
@@ -3680,11 +3771,9 @@ public class Dev {
                                 "\n" +
                                 "함정이 많습니다.\n" +
                                 "점프를 이용한 이동 방법을 고려해 이동동선을 생각해보세요.",
-                        "if checkFront() == \"폭탄\":\n" +
-                                "   jump()\n" +
-                                "else :\n" +
-                                "  for i in range(15):\n" +
-                                "     go()",
+                        "for i in range(15):\n" +
+                                "    go()\n" +
+                                "    if checkFront() == \"폭탄\":",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         0,
                         0,
@@ -3767,14 +3856,13 @@ public class Dev {
                                 "\n" +
                                 "이곳은 익숙해 보이지만, 기존의 방식으로는 탈출할 수 없습니다.\n" +
                                 " 좀 더 창의적인 생각이 필요합니다. 이곳을 탈출해 보세요",
-                        "if checkFront() == \"벽\":\n" +
-                                "    turnRight()\n" +
-                                "elif checkFront() == \"없음\":\n" +
-                                "    go()\n" +
+                        "for i in range(30):\n" +
+                                "    info = checkFront()\n" +
+                                "    if info == '없음':\n" +
                                 "\n" +
-                                "elif checkFront() == \"폭탄\":\n" +
-                                "   turnRight()\n" +
-                                "    go()",
+                                "    elif info == '벽':\n" +
+                                "\n" +
+                                "    elif info == '폭탄':",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         0,
                         0,
@@ -3888,11 +3976,8 @@ public class Dev {
                                 "\n" +
                                 "목표지점에 도달 해야합니다.\n" +
                                 "폭탄의 위치와 보급품위치를 기억하세요",
-                        "if checkFront() == \"폭탄\":\n" +
-                                "   turnRight()\n" +
-                                "   go()\n" +
-                                "elif checkFront() == \"보급품\":\n" +
-                                "  go()",
+                        "for i in range(50):\n" +
+                                "    if checkFront() == \"없음\" or checkFront() == \"보급품\":",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump()",
                         115,
                         1150,
@@ -3968,13 +4053,10 @@ public class Dev {
                                 "\n" +
                                 "함정을 피하는고 목표지점으로 이동해주세요.\n" +
                                 "점프를 이용한 이동 방법을 반드시 사용해야합니다.",
-                        "if  checkFront() == \"폭탄\" and checkFar() == \"폭탄\":\n" +
-                                "   turnRgiht()\n" +
-                                "   go()\n" +
-                                "elif checkFront() == \"폭탄\" and checkFar() == \"없음\":\n" +
-                                "   jump()\n" +
-                                "else:\n" +
-                                "   go()",
+                        "for i in range(15):\n" +
+                                "    go()\n" +
+                                "    if checkFront() == \"폭탄\" and checkFar() == \"폭탄\":\n" +
+                                "        turnRight()\n",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
                         0,
                         0,
@@ -4046,10 +4128,8 @@ public class Dev {
                                 "연속적인 폭탄의 문제가 발생합니다.\n" +
                                 "\n" +
                                 "이곳에선 유연한 문제 해결방법이 필요해보입니다.",
-                        "for i in range(30) : \n" +
-                                "   if checkFront() == \"폭탄\" or checkFront() == \"벽\":\n" +
-                                "      turnRight()\n" +
-                                "      go()",
+                        "for i in range(50):\n" +
+                                "    go()\n",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
                         0,
                         0,
@@ -4153,14 +4233,9 @@ public class Dev {
                         "유연한 생각을 가지고\n" +
                                 "\n" +
                                 "수많은 폭탄을 피해 목표지점에 도달하세요 ",
-                        "for i in range(30:\n" +
-                                "  if  checkFront() == \"폭탄\" and checkFar() == \"폭탄\":\n" +
-                                "     turnRgiht()\n" +
-                                "     go()\n" +
-                                "  elif checkFront() == \"폭탄\" and checkFar() == \"없음\":\n" +
-                                "      jump()\n" +
-                                "   else:\n" +
-                                "      go()",
+                        "for i in range(50):\n" +
+                                "    if checkFront() == \"폭탄\" and checkFar() == \"폭탄\":\n" +
+                                "        turnRight()",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar()",
                         460,
                         2760,
@@ -4169,11 +4244,11 @@ public class Dev {
 
                 GameMap gameMap23e1 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(),while True:",
                         "# 현재 중력이 강해서 점프가 불가능합니다. \n" +
                                 "# 불타고 있는 지역을 지나가면 체력이 20씩 감소합니다.\n" +
-                                "# while getHp() < 100: 구문은 체력이 100보다 작다면 아래의 구문을 계속 반복합니다.\n" +
-                                "# use(\"응급치료제\") 구문으로 체력을 모두 회복시킨 후 지나가야 합니다.\n",
+                                "# while getHp() < 100 : 구문은 체력이 100보다 작다면 들여쓰기된 코드 블록을 계속 반복합니다.\n" +
+                                "# use(\"응급치료제\") 구문으로 체력을 모두 회복시킨 후 지나가야 합니다. \n",
                         "목표지점에 도달하기\n" +
                                 "코드 3줄 이하로 작성하기",
                         "stage = {\n" +
@@ -4216,16 +4291,16 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "불타오르는 강력한 중력장-1\n" +
+                                "이곳은 강력한 중력장으로 인해 점프가 불가능합니다. 또한 불타는 지역이 눈앞에 보이는데요. \n" +
+                                "어쩔 수 없이 강행 돌파해야 합니다. \n" +
+                                "불타는 지역을 지나면 체력이 감소합니다. 체력이 100보다 떨어지면 체력 회복 아이템을 사용하세요. \n" +
+                                "while문을 사용하여 이곳을 얼른 탈출하세요. \n" +
                                 "\n" +
-                                "\n" +
-                                "이곳은 강력한 중력장으로 인해 점프가 불가능합니다.\n" +
-                                "또한 바로 앞 불타는 지역이 눈앞에 보이는데요\n" +
-                                "어쩔수 없이 강행 돌파 해야합니다.\n" +
-                                "\n" +
-                                "보유한 체력 회복 아이템을 이용하면서  이곳을 탈출해야 합니다.",
-                        "while getHp() < 100 : \n" +
-                                "    use(\"응급치료제\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
+                                "while 조건 : \n" +
+                                "   반복할 내용1 \n" +
+                                "   반복할 내용2 \n",
+                        "while getHp() < 100:",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         3
@@ -4233,14 +4308,14 @@ public class Dev {
 
                 GameMap gameMap23e2 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(),while True:",
                         "# 현재 중력이 강해서 점프가 불가능합니다.\n" +
                                 "# 불타고 있는 지역을 지나가면 체력이 10씩 감소합니다.\n" +
+                                "# while True: 구문은 코드 블록이 무한정 반복된다는 의미입니다. \n" +
+                                "# if문과 getHp()를 사용하여 체력이 70보다 낮을 경우 use(\"치료키트\") 명령어를 사용하세요. \n" +
                                 "\n" +
                                 "while True: #무한 반복\n" +
-                                "    go()\n" +
-                                "\n" +
-                                "    # 이곳에 if문과 getHp()를 사용하여 체력이 70보다 낮을 경우 use(\"치료키트\") 명령어로 체력을 모두 채우세요.\n",
+                                "   go()\n",
                         "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -4299,19 +4374,13 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "불타오르는 강력한 중력장-2\n" +
-                                "\n" +
-                                "\n" +
-                                "이곳은 강력한 중력장으로 인해 점프가 불가능합니다.\n" +
-                                "또한 바로 앞 불타는 지역이 눈앞에 보이는데요\n" +
-                                "어쩔수 없이 강행 돌파 해야합니다.\n" +
-                                "\n" +
-                                "보유한 체력 회복 아이템을 이용하면서  이곳을 탈출해야 합니다.",
+                                "강력한 중력장이 계속되고 있습니다. 불타는 지역도 많아졌네요. \n" +
+                                "불타는 지역을 지나면 체력이 감소합니다. 체력이 70보다 낮아지면 체력 회복 아이템을 사용하세요. \n" +
+                                "“치료키트”를 사용하면 체력을 모두 채울 수 있습니다. \n" +
+                                "while문과 if문을 사용하여 이곳을 빠르게 탈출하세요. \n",
                         "while True:\n" +
-                                "   if getHp() < 70:\n" +
-                                "      use(\"치료키트\")\n" +
-                                "   else:\n" +
-                                "       go(2)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
+                                "        go(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         4
@@ -4320,18 +4389,16 @@ public class Dev {
                 GameMap gameMap23e3 = gameMapService.createGameMap(
                         "2", "2-3", "Easy", 3,
                         "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:",
-                        "# 통로 왼쪽의 암호입력기까지 이동합니다.\n" +
+                        "# 통로 왼쪽의 암호 입력기까지 이동하세요. \n" +
+                                "# 숫자를 프린트할 때, while문을 사용하세요. \n" +
+                                "# i가 30보다 큰 경우 break를 사용하여 while문을 중단시키세요.\n" +
+                                "# i += 1 을 작성하여 while문이 반복될 때마다 i가 1씩 증가하도록 합니다. \n" +
                                 "\n" +
-                                "i = 1  # i의 초기값\n" +
-                                "while True:\n" +
-                                "  if i > 30:\n" +
-                                "    # 이곳에 break 를 써서 i가 30보다 큰 경우 while문을 중단시키세요.\n" +
-                                "\n" +
-                                "  # 이곳에 i를 프린트하세요.\n" +
-                                "\n" +
-                                "  # 이곳에 i += 1 을 작성하여 반복될때마다 i가 1씩 증가하도록 합니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "1에서 30까지의 숫자 순차적으로 프린트하기",
+                                "i = 1 # i의 초기값\n" +
+                                "while True :\n" +
+                                "   if i > 30 :\n",
+                        "1에서 30까지의 숫자 순차적으로 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -4374,17 +4441,18 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "암호와 반복의 브레이크 -1\n" +
-                                "\n" +
-                                "중력이 강한 지역을 넘어온 후, 이제 암호를 해독해야 합니다.\n" +
-                                " 암호 해독 방법을 잊지 않았다면, 이것을 쉽게 해결할 수 있을 것입니다. \n" +
-                                "어서 탈출해야 합니다.",
-                        "i = 0;\n" +
+                                "중력이 강한 지역을 넘어왔습니다. 이제 암호를 해독해야 합니다. \n" +
+                                "암호 해독 방법을 잊지 않았다면, 이것을 쉽게 해결할 수 있을 것입니다. \n" +
+                                "어서 탈출해야 합니다. \n" +
+                                "*힌트 : 변수, print() 명령어 \n",
+                        "turnLeft()\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go(3)\n" +
+                                "i = 1\n" +
                                 "while True:\n" +
-                                "    if i > 30:\n" +
-                                "        break\n" +
-                                "     else:\n" +
-                                "        print(i)\n" +
-                                "        i +=1",
+                                "    print(i)\n" +
+                                "    i += 1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         35,
                         552,
@@ -4393,7 +4461,7 @@ public class Dev {
 
                 GameMap gameMap23n1 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(),while True:",
                         "# 현재 중력이 강해서 점프가 불가능합니다. \n" +
                                 "# 불타고 있는 지역을 지나가면 체력이 15씩 감소합니다.\n" +
                                 "# while getHp() < 100: 구문은 체력이 100보다 작다면 아래의 구문을 계속 반복합니다.\n" +
@@ -4448,9 +4516,15 @@ public class Dev {
                                 "어쩔수 없이 강행 돌파 해야합니다.\n" +
                                 "\n" +
                                 "보유한 체력 회복 아이템을 이용하면서  이곳을 탈출해야 합니다.",
-                        "while getHp() < 100 : \n" +
-                                "    use(\"응급치료제\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
+                        "go(7)\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "turnRight(2)\n" +
+                                "while getHp() < 91:\n" +
+                                "    go(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         17
@@ -4458,7 +4532,7 @@ public class Dev {
 
                 GameMap gameMap23n2 = gameMapService.createGameMap(
                         "2", "2-3", "Normal", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(),while True:",
                         "# 현재 중력이 강해서 점프가 불가능합니다.\n" +
                                 "# 불타고 있는 지역을 지나가면 체력이 9씩 감소합니다.\n" +
                                 "# if문과 checkFront()를 사용하여 앞에 폭탄이 있는경우 오른쪽으로 피해가야 합니다.\n" +
@@ -4522,12 +4596,13 @@ public class Dev {
                                 "어쩔수 없이 강행 돌파 해야합니다.\n" +
                                 "\n" +
                                 "보유한 체력 회복 아이템을 이용하면서  이곳을 탈출해야 합니다.",
-                        "whiel True:\n" +
-                                "   if getHp() < 70:\n" +
-                                "      use(\"치료키트\")\n" +
-                                "   else:\n" +
-                                "       go(2)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
+                        "for i in range(50):\n" +
+                                "    if getHp() < 21:\n" +
+                                "        use(\"치료키트\")\n" +
+                                "    go()\n" +
+                                "    if checkFront() != \"없음\":\n" +
+                                "        turnRight()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         11
@@ -4539,8 +4614,8 @@ public class Dev {
                         "# while문과 i 변수를 활용하여 반복문을 작성하세요.\n" +
                                 "# if i % 2 == 0: 구문은 i를 2로 나누었을 때 나머지가 0이면, 즉 짝수 일 경우입니다.\n" +
                                 "# if문 안에 continue 를 쓰면 아래 코드를 실행하지 않고 다음 반복으로 건너뜁니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "1에서 50사이의 홀수를 순차적으로 프린트하기",
+                        "1에서 50사이의 홀수를 순차적으로 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -4587,13 +4662,12 @@ public class Dev {
                                 "중력이 강한 지역을 넘어온 후, 이제 암호를 해독해야 합니다.\n" +
                                 " 암호 해독 방법을 잊지 않았다면, 이것을 쉽게 해결할 수 있을 것입니다. \n" +
                                 "어서 탈출해야 합니다.",
-                        "i = 0;\n" +
-                                "while True:\n" +
-                                "    if i > 30:\n" +
-                                "        break\n" +
-                                "     else:\n" +
-                                "        print(i)\n" +
-                                "        i +=1",
+                        "turnLeft()\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go(3)\n" +
+                                "i = 1\n" +
+                                "while i < 51:",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         173,
                         1725,
@@ -4602,7 +4676,7 @@ public class Dev {
 
                 GameMap gameMap23h1 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(),while True:",
                         "# 현재 중력이 강해서 점프가 불가능합니다. \n" +
                                 "# 불타고 있는 지역을 지나가면 체력이 15씩 감소합니다.\n" +
                                 "# while getHp() < 100: 구문은 체력이 100보다 작다면 아래의 구문을 계속 반복합니다.\n" +
@@ -4661,9 +4735,18 @@ public class Dev {
                                 "어쩔수 없이 강행 돌파 해야합니다.\n" +
                                 "\n" +
                                 "보유한 체력 회복 아이템을 이용하면서  이곳을 탈출해야 합니다.",
-                        "while getHp() < 100 : \n" +
-                                "    use(\"응급치료제\")",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
+                        "go()\n" +
+                                "turnLeft()\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "for i in range(3):\n" +
+                                "    go(2)\n" +
+                                "    turnLeft()\n" +
+                                "    go()\n" +
+                                "    turnRight()\n" +
+                                "    go()\n" +
+                                "    turnRight(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         26
@@ -4671,7 +4754,7 @@ public class Dev {
 
                 GameMap gameMap23h2 = gameMapService.createGameMap(
                         "2", "2-3", "Hard", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight()",
                         "# 현재 중력이 강해서 점프가 불가능합니다.\n" +
                                 "# 불타고 있는 지역을 지나가면 체력이 9씩 감소합니다.\n" +
                                 "# if문과 checkFront(), checkLeft(), checkRight()를 사용하여 폭탄을 피해가세요.\n" +
@@ -4739,12 +4822,10 @@ public class Dev {
                                 "어쩔수 없이 강행 돌파 해야합니다.\n" +
                                 "\n" +
                                 "보유한 체력 회복 아이템을 이용하면서  이곳을 탈출해야 합니다.",
-                        "whiel True:\n" +
-                                "   if getHp() < 70:\n" +
-                                "      use(\"치료키트\")\n" +
-                                "   else:\n" +
-                                "       go(2)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                        "for i in range(50):\n" +
+                                "    if getHp() < 10:\n" +
+                                "        use('치료키트')",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         10
@@ -4756,8 +4837,8 @@ public class Dev {
                         "# while문과 i 변수를 활용하여 반복문을 작성하세요.\n" +
                                 "# if i % 2 == 0: 구문은 i를 2로 나누었을 때 나머지가 0일 경우입니다.\n" +
                                 "# if문 안에 continue 를 쓰면 아래 코드를 실행하지 않고 다음 반복으로 건너뜁니다.\n",
-                        "목표지점에 도달하기\n" +
-                                "1에서 87사이의 숫자 중 7로 끝나는 숫자를 순차적으로 프린트하기",
+                        "1에서 87사이의 숫자 중 7로 끝나는 숫자를 순차적으로 프린트하기\n" +
+                                "목표지점에 도달하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
                                 "        \"map\" : 2,\n" +
@@ -4804,13 +4885,11 @@ public class Dev {
                                 "중력이 강한 지역을 넘어온 후, 이제 암호를 해독해야 합니다.\n" +
                                 " 암호 해독 방법을 잊지 않았다면, 이것을 쉽게 해결할 수 있을 것입니다. \n" +
                                 "어서 탈출해야 합니다.",
-                        "i = 0;\n" +
-                                "while True:\n" +
-                                "    if i > 30:\n" +
-                                "        break\n" +
-                                "     else:\n" +
-                                "        print(i)\n" +
-                                "        i +=1",
+                        "turnLeft()\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go(3)\n" +
+                                "i = 1",
                         "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
                         690,
                         4140,
@@ -5036,9 +5115,9 @@ public class Dev {
 
                 GameMap gameMap31e1 = gameMapService.createGameMap(
                         "3", "3-1", "Easy", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper()",
-                        "# 우주해적의 근처로 이동하여 getInfo() 구문으로 우주해적의 문자열 코드를 획득합니다.\n" +
-                                "# 획득한 문자열을 변수에 담은 뒤 upper() 메서드를 사용하여 대문자로 만든뒤 프린트하여 우주해적을 공격하세요.\n",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper()",
+                        "# 우주해적의 근처로 이동하여 getInfo() 구문으로 우주해적의 문자열 코드를 획득합니다. \n" +
+                                "# 획득한 문자열을 변수에 담은 뒤 upper() 메서드를 사용하여 대문자로 만든 뒤, 프린트하여 우주해적을 공격하세요. \n",
                         "문자열을 대문자로 변환한 후 프린트하여 우주해적 3명을 공격하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -5092,13 +5171,14 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "우주해적과 조우 - 1\n" +
-                                "\n" +
-                                "우주해적이 있습니다. 적에게 탐지되기 전에 공격하여 처치하세요",
-                        "enemy  = getInfo()\n" +
-                                "\n" +
-                                "target = enemy.upper()\n" +
-                                "attack(target)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                                "저 멀리 우주 해적이 있습니다. \n" +
+                                "적에게 탐지되기 전에 공격하여 처치하세요. \n" +
+                                "알파벳 소문자를 대문자로 만들어주는 문자열 upper() 명령어를 사용하세요. \n",
+                        "for i in range(3):\n" +
+                                "    go(3)\n" +
+                                "    turnRight()\n" +
+                                "    info = getInfo()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         6
@@ -5106,9 +5186,9 @@ public class Dev {
 
                 GameMap gameMap31e2 = gameMapService.createGameMap(
                         "3", "3-1", "Easy", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper()",
                         "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다. \n" +
-                                "# char = info[2] 구문은 info의 문자열에서 2번 인덱스의 문자를 char 변수에 저장합니다.\n",
+                                "# char = info[2] 구문은 info의 문자열에서 2번 인덱스의 문자를 char 변수에 저장합니다. \n",
                         "획득한 문자열에서 0번 인덱스, 3번 인덱스, 5번 인덱스의 문자를 순차적으로 프린트하여 폭탄 설치하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -5128,9 +5208,9 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [[\"k\",\"l\",\"n\"],[\"p\",\"h\",\"n\"],[\"j\",\"a\",\"c\"]], \n" +
-                                "            \"print_count\": [[\"k\",\"l\",\"n\"],[\"p\",\"h\",\"n\"],[\"j\",\"a\",\"c\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [9,4], \"info\": [\"kotlin\",\"python\",\"javascript\"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [['i','e','t'],['a','e','d'],['r','o','e'],['e','e','d']], \n" +
+                                "            \"print_count\": [['i','e','t'],['a','e','d'],['r','o','e'],['e','e','d']], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
+                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [9,4], \"info\": [\"insert\",\"append\",\"remove\",\"reverse\",\"extend\"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\": 2, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"bomb\", \"pos\": [21,1], \"status\": 0},\n" +
                                 "            {\"id\": 4, \"type\": \"bomb\", \"pos\": [21,7], \"status\": 0},\n" +
@@ -5154,20 +5234,23 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"kotlin\",\n" +
-                                "        \"python\",\n" +
-                                "        \"javascript\"\n" +
+                                "        \"insert\",\n" +
+                                "        \"append\",\n" +
+                                "        \"remove\",\n" +
+                                "        \"reverse\",\n" +
+                                "        \"extend\"\n" +
                                 "    ]\n" +
                                 "}",
                         "폭탄받아라\n" +
-                                "\n" +
-                                "우주해적이 이동하는 길목을 발견했습니다.\n" +
-                                "\n" +
-                                "우주해적 길목에 폭탄을 미리 설치하여 폭탄으로 적을 처치하세요",
+                                "우주 해적이 이동하는 길목을 발견했습니다. \n" +
+                                "우주 해적 길목에 폭탄을 미리 설치하여 폭탄으로 적을 처치하세요. \n" +
+                                "문자열 일부를 저장하여 출력하면 폭탄을 설치할 수 있습니다. \n",
                         "info = getInfo()\n" +
-                                "ch = info[2]\n" +
-                                "print(ch)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "go(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         8
@@ -5175,7 +5258,7 @@ public class Dev {
 
                 GameMap gameMap31e3 = gameMapService.createGameMap(
                         "3", "3-1", "Easy", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper()",
                         "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다. \n" +
                                 "# char = info[2:5] 구문은 info의 문자열에서 2번 인덱스에서 5번 인덱스 전까지의 문자열을 char 변수에 저장합니다.\n",
                         "획득한 문자열의 1번 인덱스부터 4번 인덱스까지의 문자열을 프린트하여 레이저 작동하기",
@@ -5200,7 +5283,7 @@ public class Dev {
                                 "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"aria\"],[\"unct\"],[\"bjec\"]], \n" +
                                 "            \"print_count\": [[\"aria\"],[\"unct\"],[\"bjec\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
                                 "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"variable\",\"function\",\"object\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5226,20 +5309,20 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"variable\",\n" +
-                                "        \"function\",\n" +
-                                "        \"object\"\n" +
+                                "        'variable',\n" +
+                                "        'function',\n" +
+                                "        'object'\n" +
                                 "    ]\n" +
                                 "}",
                         "발각된 탐사대\n" +
-                                "\n" +
-                                "우주해적에게 발각되었습니다. 대규모의 해적군이 다가오고 있습니다. \n" +
-                                "이런 상황에서는 직접 대결하는 것은 위험합니다.\n" +
-                                " 통제 시스템을 사용하여 우주해적의 접근을 차단하세요.",
+                                "우주 해적에게 발각되었습니다. 대규모의 해적군이 다가오고 있습니다. \n" +
+                                "이런 상황에서는 직접 대결하는 것은 위험합니다. \n" +
+                                "통제 시스템을 사용하여 우주 해적의 접근을 차단하세요. \n" +
+                                "문자열 일부 출력을 통해 레이저를 작동시킬 수 있습니다. \n",
                         "info = getInfo()\n" +
-                                "ch = info[2: 5]\n" +
-                                "print(ch)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                                "turnRight()\n" +
+                                "go(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         17,
                         276,
                         6
@@ -5247,7 +5330,7 @@ public class Dev {
 
                 GameMap gameMap31n1 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper()",
                         "# 우주해적의 근처로 이동하여 getInfo() 구문으로 우주해적의 문자열 코드를 획득합니다.\n" +
                                 "# 획득한 문자열 변수를 info라고 했을때 \n" +
                                 "# for char in info: \n" +
@@ -5308,12 +5391,12 @@ public class Dev {
                         "우주해적과 조우 - 2\n" +
                                 "\n" +
                                 "우주해적이 있습니다. 적에게 탐지되기 전에 공격하여 처치하세요",
-                        "enemy  = getInfo()\n" +
-                                "\n" +
-                                "for ch in info:\n" +
-                                "   target = enemy.upper()\n" +
-                                "   attack(target)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                        "for i in range(3):\n" +
+                                "    go(3)\n" +
+                                "    turnRight()\n" +
+                                "    info = getInfo()\n" +
+                                "    answer = \"\"",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         10
@@ -5321,7 +5404,7 @@ public class Dev {
 
                 GameMap gameMap31n2 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper()",
                         "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다.\n" +
                                 "# len(info) 구문은 info의 문자열의 길이를 가져옵니다.\n" +
                                 "# char = info[2:5] 구문은 info의 문자열에서 2번 인덱스에서 5번 인덱스 전까지의 문자열을 char 변수에 저장합니다.\n",
@@ -5346,9 +5429,9 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [[15,\"code\",\"ython\"],[12,\"rust\",\"go\"],[13,\"html\",\"php\"]], \n" +
-                                "            \"print_count\": [[15,\"code\",\"ython\"],[12,\"rust\",\"go\"],[13,\"html\",\"php\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [9,4], \"info\": [\"yzabjavazpswift\",\"linerustyogo\",\"playhtmlsophp\"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [13,0], \"require_print\": [[16,'port','number'],[18,'main','function'],[13,'data','type']], \n" +
+                                "            \"print_count\": [[16,'port','number'],[18,'main','function'],[13,'data','type']], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2,3,4], \"status\": -1},\n" +
+                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [9,4], \"info\": [\"qgdaportxdnumber\",\"hqnamainlcfunction\",\"znxdataqxtype\"], \"require_dir\": \"up\", \"status\": 1},\n" +
                                 "            {\"id\": 2, \"type\": \"bomb\", \"pos\": [5,1], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"bomb\", \"pos\": [21,1], \"status\": 0},\n" +
                                 "            {\"id\": 4, \"type\": \"bomb\", \"pos\": [21,7], \"status\": 0},\n" +
@@ -5372,9 +5455,9 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"yzabjavazpswift\",\n" +
-                                "        \"linerustyogo\",\n" +
-                                "        \"playhtmlsophp\"\n" +
+                                "        \"qgdaportxdnumber\",\n" +
+                                "        \"hqnamainlcfunction\",\n" +
+                                "        \"znxdataqxtype\"\n" +
                                 "    ]\n" +
                                 "}",
                         "예술은 폭탄이다.\n" +
@@ -5383,10 +5466,9 @@ public class Dev {
                                 "\n" +
                                 "우주해적 길목에 폭탄을 미리 설치하여 폭탄으로 적을 처치하세요",
                         "info = getInfo()\n" +
-                                "\n" +
-                                "for ch in  range(len(info)):\n" +
-                                "   print(ch[2:5])",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                                "turnRight()\n" +
+                                "go(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         8
@@ -5394,7 +5476,7 @@ public class Dev {
 
                 GameMap gameMap31n3 = gameMapService.createGameMap(
                         "3", "3-1", "Normal", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper()",
                         "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다. \n" +
                                 "# char = info[-1] 구문은 info의 문자열에서 2번 인덱스에서 5번 인덱스 전까지의 문자열을 char 변수에 저장합니다.\n",
                         "획득한 문자열의 마지막 문자, 뒤에서 3번째 문자, 뒤에서 5번째 문자를 하나의 문자로 프린트하여 레이저 작동하기",
@@ -5416,10 +5498,10 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"css\"],[\"sql\"],[\"cmd\"]], \n" +
-                                "            \"print_count\": [[\"css\"],[\"sql\"],[\"cmd\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"hfsesvc\",\"leqcs\",\"playdomac\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
+                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"sum\"],[\"def\"],[\"set\"]], \n" +
+                                "            \"print_count\": [[\"sum\"],[\"def\"],[\"set\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
+                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"dfmeuxcs\",\"qferad\",\"aetcesds\"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5445,19 +5527,20 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"hfsesvc\",\n" +
-                                "        \"leqcs\",\n" +
-                                "        \"playdomac\"\n" +
+                                "        'dfmeuxcs',\n" +
+                                "        'qferad',\n" +
+                                "        'aetcesds'\n" +
                                 "    ]\n" +
                                 "}",
                         "위기의 탐사태\n" +
                                 "\n" +
                                 "대규모의 해적군이 다가오고 있습니다. \n" +
                                 "통제 시스템을 사용하여 우주해적의 접근을 차단하세요.",
-                        "ch = getInfo()\n" +
-                                "for i in range(len(ch)):\n" +
-                                "    print(i[-1])",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                        "info = getInfo()\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         86,
                         863,
                         7
@@ -5465,7 +5548,7 @@ public class Dev {
 
                 GameMap gameMap31h1 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper()",
                         "# 우주해적의 근처로 이동하여 getInfo() 구문으로 우주해적의 문자열 코드를 획득합니다.\n" +
                                 "# 획득한 문자열 변수를 info라고 했을때 \n" +
                                 "# for char in info: \n" +
@@ -5526,11 +5609,12 @@ public class Dev {
                         "우주해적과 조우 - 3\n" +
                                 "\n" +
                                 "우주해적이 있습니다. 적에게 탐지되기 전에 공격하여 처치하세요",
-                        "info = getInfo()\n" +
-                                "for char in info: \n" +
-                                "    if char.isupper(): \n" +
-                                "       attack(char)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                        "for i in range(3):\n" +
+                                "    go(3)\n" +
+                                "    turnRight()\n" +
+                                "    info = getInfo()\n" +
+                                "    answer = 0",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         12
@@ -5538,7 +5622,7 @@ public class Dev {
 
                 GameMap gameMap31h2 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int()",
                         "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다. \n" +
                                 "# char = info[2:5] 구문은 info의 문자열에서 2번 인덱스에서 5번 인덱스 전까지의 문자열을 char 변수에 저장합니다.\n" +
                                 "# len(info) 구문은 info의 문자열의 길이를 가져옵니다.\n" +
@@ -5599,12 +5683,11 @@ public class Dev {
                                 "\n" +
                                 "우주해적 길목에 폭탄을 미리 설치하여 폭탄으로 적을 처치하세요",
                         "info = getInfo()\n" +
-                                "\n" +
-                                "ch = info[2:5]\n" +
-                                "\n" +
-                                "for i in range(len(ch)):\n" +
-                                "  index = int(number)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "go(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         0,
                         0,
                         11
@@ -5612,7 +5695,7 @@ public class Dev {
 
                 GameMap gameMap31h3 = gameMapService.createGameMap(
                         "3", "3-1", "Hard", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int()",
                         "# 컴퓨터 앞에서 info = getInfo() 명령어를 사용해 정보를 획득하고 info라는 변수에 획득한 정보를 저장합니다. \n" +
                                 "# char = info[-1] 구문은 info의 문자열에서 마지막 문자를 char 변수에 저장합니다.\n" +
                                 "# 만약 문자열이 \"aabbbcccc\"인 경우 \"abc\"를 출력해야 합니다.\n",
@@ -5635,10 +5718,10 @@ public class Dev {
                                 "            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]\n" +
                                 "        ],\n" +
                                 "        \"init_item_list\" : [\n" +
-                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"constructor\"],[\"inheritance\"],[\"interface\"]],\n" +
-                                "            \"print_count\": [[\"constructor\"],[\"inheritance\"],[\"interface\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
-                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"cconsssttrrructtorrr\",\"iinnheeerrrriiitaaannncce\",\"iiiinttttteerrffffaaceee\"], \"require_dir\": \"up\", \"status\": 1},\n" +
-                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,7], \"status\": 0},\n" +
+                                "            {\"id\": 0, \"type\": \"print_point\", \"print_type\": \"string\", \"pos\": [7,0], \"require_print\": [[\"algorithm\"],[\"computing\"],[\"network\"]],\n" +
+                                "            \"print_count\": [[\"algorithm\"],[\"computing\"],[\"network\"]], \"require_dir\": \"up\", \"action_type\": \"bomb\", \"action_id\": [2], \"status\": -1},\n" +
+                                "            {\"id\": 1, \"type\": \"info_point\", \"pos\": [3,4], \"info\": [\"aallggggorittthhhmmmm\",\"cccommmppuutte\",\"nettwworrrrrkk\"], \"require_dir\": \"up\", \"status\": 1},\n" +
+                                "            {\"id\": 2, \"type\": \"laser\", \"dir\": \"v\", \"pos_start\": [11,0], \"pos_end\": [11,8], \"status\": 0},\n" +
                                 "            {\"id\": 3, \"type\": \"aggressive_monster_1\", \"pos\": [15,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 4, \"type\": \"aggressive_monster_1\", \"pos\": [17,1], \"dir\": \"left\", \"goal\": [9,1], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
                                 "            {\"id\": 5, \"type\": \"aggressive_monster_1\", \"pos\": [15,3], \"dir\": \"left\", \"goal\": [9,3], \"visible_time\": 254, \"frame_count\": 0, \"status\": -9},\n" +
@@ -5664,9 +5747,9 @@ public class Dev {
                                 "        \"hit_status\" : 0\n" +
                                 "    },\n" +
                                 "    \"item_list\" : [\n" +
-                                "        \"cconsssttrrructtorrr\",\n" +
-                                "        \"iinnheeerrrriiitaaannncce\",\n" +
-                                "        \"iiiinttttteerrffffaaceee\"\n" +
+                                "        'aallggggorittthhhmmmm',\n" +
+                                "        'cccommmppuutte',\n" +
+                                "        'nettwworrrrrkk'\n" +
                                 "    ]\n" +
                                 "}",
                         "우주 해적소탕\n" +
@@ -5674,10 +5757,9 @@ public class Dev {
                                 "대규모의 해적군이 다가오고 있습니다. \n" +
                                 "통제 시스템을 사용하여 우주해적의 접근을 차단하세요.",
                         "info = getInfo()\n" +
-                                "for char in info: \n" +
-                                "    if char.isupper(): \n" +
-                                "       attack(char)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:",
+                                "turnRight()\n" +
+                                "go(2)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getHp(),use(\"응급치료제\"),while True:",
                         345,
                         2070,
                         10
@@ -5685,14 +5767,14 @@ public class Dev {
 
                 GameMap gameMap32e1 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check()",
-                        "# 리스트는 데이터들을 잘 관리하기 위해서 묶어서 관리할 수 있는 자료형 중의 하나입니다.\n" +
-                                "itemList = [0,0,0]\n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check()",
+                        "# 리스트는 여러 개의 데이터를 하나로 관리할 수 있는 자료형입니다. \n" +
                                 "# 요소가 모두 0이고 길이가 3인 리스트를 생성합니다.\n" +
+                                "# item = getItem() 구문으로 상자 앞에서 아이템을 얻을 수 있습니다.\n" +
+                                "# itemList[0] = item 구문은 얻은 아이템으로 리스트의 0번 인덱스 즉, 첫 번째 값을 교체합니다. \n" +
+                                "# 모든 아이템을 리스트에 넣은 후 check(itemList) 구문으로 획득한 아이템을 확인하세요. \n" +
                                 "\n" +
-                                "# item = getItem() 구문으로 상자앞에서 아이템을 얻을 수 있습니다.\n" +
-                                "# itemList[0] = item 구문은 얻은 아이템으로 리스트의 0번 인덱스 즉, 첫번째 값을 교체합니다.\n" +
-                                "# 모든 아이템을 리스트에 넣은 후 check(itemList) 구문으로 획득한 아이템을 확인하세요.\n",
+                                "itemList = [0,0,0]\n",
                         "상자를 열어 리스트에 담고 확인하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -5745,17 +5827,24 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "보급준비-1\n" +
+                                "우주 해적과 전투를 위해 보급이 필요합니다. \n" +
+                                "보급품을 획득하여 전투 준비를 하세요. \n" +
                                 "\n" +
-                                "우주 해적과 전투를 위해 보급이 필요합니다.\n" +
-                                "보급품을 획득하여 전투 준비를 하세요.",
-                        "itemList = []\n" +
-                                "go()\n" +
-                                "itemList[0] = getItem()\n" +
-                                "turnRight()\n" +
-                                "go(2)\n" +
+                                "리스트에 저장된 각 값들을 요소라고 합니다. \n" +
+                                "itemList = [0, 1, 2]은 요소가 0, 1, 2이고 길이가 3, 이름이 itemList인 리스트를 생성하는 구문입니다. \n" +
+                                "itemList[0]은 리스트의 0번째 인덱스, 즉 첫 번째 요소를 의미합니다. \n" +
+                                "itemList[0]=item 구문은 item변수의 값을 itemList[0]에 저장한다는 의미입니다. \n" +
+                                "\n" +
+                                "아래 예제코드를 적극 활용하여 목표를 달성하세요. \n",
+                        "itemList = [0,0,0]\n" +
                                 "turnLeft()\n" +
-                                "itemLsit[1] = getItem()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "go(2)\n" +
+                                "turnRight()\n" +
+                                "go(3)\n" +
+                                "for i in range(3):\n" +
+                                "    item = getItem()\n" +
+                                "    itemList[i] = item",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         12
@@ -5763,10 +5852,10 @@ public class Dev {
 
                 GameMap gameMap32e2 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check()",
                         "# itemList = [] 구문으로 리스트를 생성할 수 있습니다.\n" +
                                 "# item = getItem() 구문으로 상자앞에서 아이템을 얻을 수 있습니다.\n" +
-                                "# itemList.append(item) 구문은 얻은 아이템을 리스트의 마지막에 넣습니다.\n",
+                                "# itemList.append(item) 구문은 얻은 아이템을 리스트의 마지막에 넣습니다. \n",
                         "상자를 열고 append()를 사용하여 리스트에 담고 프린트하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -5824,17 +5913,21 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "전투준비 -1\n" +
+                                "우주 해적과 전투준비를 해야 합니다. 전투에 필요한 아이템을 더 획득하세요. 리스트를 다루는 방법을 알면 쉽게 획득할 수 있습니다. \n" +
+                                "리스트를 다루는 방법은 아래를 참고하세요. \n" +
                                 "\n" +
-                                "우주해적과 전투준비를 해야합니다.\n" +
-                                "전투에 필요한 아이템을 더 획득하세요",
+                                "List_name.append(값) 리스트 맨 뒤에 값 추가 \n" +
+                                "List_name.insert(인덱스, 값) 해당 인덱스에 값 추가 \n" +
+                                "del List_name[인덱스] 인덱스에 해당하는 값 삭제 \n" +
+                                "List_name.remove(값) 값 삭제 \n" +
+                                "List_name.pop(인덱스) 인덱스에 해당하는 값 삭제 \n",
                         "itemList = []\n" +
-                                "go()\n" +
-                                "itemList.append(getItem())\n" +
-                                "turnRight()\n" +
-                                "go(2)\n" +
-                                "turnLeft()\n" +
-                                "itemList.append(getItem())",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "for i in range(3):\n" +
+                                "    go(2)\n" +
+                                "    turnLeft()\n" +
+                                "    item = getItem()\n" +
+                                "    itemList.append(item)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         11
@@ -5842,10 +5935,10 @@ public class Dev {
 
                 GameMap gameMap32e3 = gameMapService.createGameMap(
                         "3", "3-2", "Easy", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList()",
                         "# itemList1 = getItemList() 구문으로 상자앞에서 아이템 리스트를 얻을 수 있습니다.\n" +
                                 "# itemListAll = itemList1 + itemList2 구문으로 두 리스트를 하나의 리스트로 합칩니다.\n" +
-                                "# 모든 아이템 리스트를 하나로 합친 후 check(itemList) 구문으로 획득한 아이템 리스트를 확인하세요.\n",
+                                "# 모든 아이템 리스트를 하나로 합친 후 check(itemList) 구문으로 획득한 아이템 리스트를 확인하세요. \n",
                         "각 상자를 열어 리스트를 획득하고 하나의 리스트로 합친 후 확인하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -5908,20 +6001,18 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "흩어져있는 보급품 - 1\n" +
-                                "\n" +
-                                "흩어져있는 보급품을 열고, 필요한 부품만 획득하세요",
-                        "itemListAll = []\n" +
-                                "\n" +
-                                "itemList1 = getItemList()\n" +
-                                "check(itemList1)\n" +
-                                "go(3)\n" +
-                                "turnRight(2)\n" +
-                                "go(2)\n" +
-                                "itemList2 = getItemList()\n" +
-                                "check(itemList2)\n" +
-                                "\n" +
-                                "itemListAll = itemList1 + itemList2",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "보급품이 흩어져있습니다. 각 상자의 아이템을 획득하고, 하나로 합쳐야 합니다. \n" +
+                                "각 상자의 아이템은 리스트 형태입니다. 모든 아이템리스트를 획득하여 하나의 리스트로 만들어보세요. \n" +
+                                "itemListAll = itemList1 + itemList2의 형태를 사용하면 쉽게 해결할 수 있을 거에요. \n",
+                        "go()\n" +
+                                "turnLeft()\n" +
+                                "itemListAll = []\n" +
+                                "for i in range(4):\n" +
+                                "    go(3)\n" +
+                                "    turnRight()\n" +
+                                "    go()\n" +
+                                "    itemListAll += getItemList()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         35,
                         552,
                         15
@@ -5929,7 +6020,7 @@ public class Dev {
 
                 GameMap gameMap32n1 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList()",
                         "# 리스트는 데이터들을 잘 관리하기 위해서 묶어서 관리할 수 있는 자료형 중의 하나입니다.\n" +
                                 "itemList = [0,0,0]\n" +
                                 "# 요소가 모두 0이고 길이가 3인 리스트를 생성합니다.\n" +
@@ -6003,13 +6094,13 @@ public class Dev {
                                 "\n" +
                                 "우주 해적과 전투를 위해 보급이 필요합니다.\n" +
                                 "보급품을 획득하여 전투 준비를 하세요.",
-                        "itemListAll = []\n" +
-                                "\n" +
-                                "itemList1 = getItemList()\n" +
-                                "check(itemList1)\n" +
-                                "\n" +
-                                "itemListAll = itemList1",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                        "itemList = [0,0,0,0,0]\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnRight()\n" +
+                                "go(3)\n" +
+                                "for i in range(5):",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         12
@@ -6017,7 +6108,7 @@ public class Dev {
 
                 GameMap gameMap32n2 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove()",
                         "# itemList = [] 구문으로 리스트를 생성하거나 초기화 할 수 있습니다.\n" +
                                 "# item = getItem() 구문으로 상자앞에서 아이템을 얻을 수 있습니다.\n" +
                                 "# itemList.remove(\"고장난 폭탄\") 구문은 리스트에서 \"고장난 폭탄\" 문자열을 삭제합니다.\n",
@@ -6101,15 +6192,13 @@ public class Dev {
                                 "\n" +
                                 "우주해적과 전투준비를 해야합니다.\n" +
                                 "조심하세요 불발되는 폭탄이 들어있으니  전투에 필요한 아이템만 획득하세요.",
-                        "itemListAll = []\n" +
-                                "\n" +
-                                "itemList1 = getItemList()\n" +
-                                "check(itemList1)\n" +
-                                "itemList1.remove(\"고장난 폭탄\")\n" +
-                                "\n" +
-                                "\n" +
-                                "itemListAll = itemList1",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                        "itemList = []\n" +
+                                "for i in range(3):\n" +
+                                "    go(2)\n" +
+                                "    turnLeft()\n" +
+                                "    for j in range(3):\n" +
+                                "        itemList.append(getItem())",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         14
@@ -6117,7 +6206,7 @@ public class Dev {
 
                 GameMap gameMap32n3 = gameMapService.createGameMap(
                         "3", "3-2", "Normal", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove()",
                         "# itemList1 = getItemList() 구문으로 상자앞에서 아이템 리스트를 얻을 수 있습니다.\n" +
                                 "# itemListAll = itemList1 + itemList2 구문으로 두 리스트를 하나의 리스트로 합칩니다.\n" +
                                 "# 모든 아이템 리스트를 하나로 합친 후 check(itemList) 구문으로 획득한 아이템 리스트를 확인하세요.\n",
@@ -6192,16 +6281,17 @@ public class Dev {
                         "흩어져있는 보급품 -2\n" +
                                 "\n" +
                                 "흩어져있는 보급품을 열고, 필요한 부품만 획득하세요",
-                        "itemListAll = []\n" +
-                                "\n" +
-                                "itemList1 = getItemList()\n" +
-                                "go(3)\n" +
-                                "turnRight(2)\n" +
-                                "go(2)\n" +
-                                "itemList2 = getItemList()\n" +
-                                "\n" +
-                                "itemListAll = itemList1 + itemList2",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                        "go()\n" +
+                                "turnLeft()\n" +
+                                "itemListAll = []\n" +
+                                "for i in range(4):\n" +
+                                "    go(3)\n" +
+                                "    turnRight()\n" +
+                                "    go()\n" +
+                                "    itemList = getItemList()\n" +
+                                "    for j in range(3):\n" +
+                                "        itemListAll.append(itemList[j])",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         173,
                         1725,
                         17
@@ -6209,7 +6299,7 @@ public class Dev {
 
                 GameMap gameMap32h1 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove()",
                         "# 리스트는 데이터들을 잘 관리하기 위해서 묶어서 관리할 수 있는 자료형 중의 하나입니다.\n" +
                                 "# itemList = [] 구문으로 리스트를 생성할 수 있습니다.\n" +
                                 "# item = getItem() 구문으로 상자앞에서 아이템을 얻을 수 있습니다.\n" +
@@ -6278,12 +6368,12 @@ public class Dev {
                                 "보급상자에 고장난 폭탄이 들어있는거같습니다.\n" +
                                 "정상적인 보급품만 리스트에 넣어 보급준비를 하세요.",
                         "itemList = []\n" +
-                                "items = getItemList()\n" +
-                                "check(items)\n" +
-                                "\n" +
-                                "if items != \"고장난 폭탄\":\n" +
-                                "    itemList.append(items)  ",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "for i in range(3):\n" +
+                                "    go(2)\n" +
+                                "    turnLeft()\n" +
+                                "    for _ in range(5):\n" +
+                                "        item = getItem()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         13
@@ -6291,7 +6381,7 @@ public class Dev {
 
                 GameMap gameMap32h2 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
                         "# itemList = [] 구문으로 리스트를 생성하거나 초기화 할 수 있습니다.\n" +
                                 "# item = getItem() 구문으로 상자앞에서 아이템을 얻을 수 있습니다.\n" +
                                 "# itemList.insert(index, number) 구문은 리스트에 index의 위치에 number 데이터를 넣습니다.\n",
@@ -6371,14 +6461,11 @@ public class Dev {
                                 "보급품도 정리해 놓는 것이 중요합니다. \n" +
                                 "정리된 보급품은 필요할 때 빠르게 사용할 수 있어요. \n" +
                                 "일상적인 정리 정돈은 중요한 습관입니다",
-                        "itemList = []\n" +
-                                "go()\n" +
-                                "itemList.append(getItem())\n" +
-                                "turnRight()\n" +
-                                "go(2)\n" +
+                        "go()\n" +
                                 "turnLeft()\n" +
-                                "itemList.append(getItem())",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "itemListAll = []\n" +
+                                "for i in range(4):",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         20
@@ -6386,7 +6473,7 @@ public class Dev {
 
                 GameMap gameMap32h3 = gameMapService.createGameMap(
                         "3", "3-2", "Hard", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
                         "# itemList1 = getItemList() 구문으로 상자앞에서 아이템 리스트를 얻을 수 있습니다.\n" +
                                 "# itemListAll = itemList1 + itemList2 구문으로 두 리스트를 하나의 리스트로 합칩니다.\n" +
                                 "# 모든 아이템 리스트를 하나로 합친 후 check(itemList) 구문으로 획득한 아이템 리스트를 확인하세요.\n",
@@ -6456,16 +6543,12 @@ public class Dev {
                                 "\n" +
                                 "고유번호에 해당하는 제품만 넣는 것이 좋을 것 같아요. \n" +
                                 "고유번호에 해당되는 제품만 넣어주세요.",
-                        "itemListAll = []\n" +
+                        "def setBombAndGoBack():\n" +
                                 "\n" +
-                                "itemList1 = getItemList()\n" +
-                                "go(3)\n" +
-                                "turnRight(2)\n" +
-                                "go(2)\n" +
-                                "itemList2 = getItemList()\n" +
-                                "\n" +
-                                "itemListAll = itemList1 + itemList2",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "go(4)\n" +
+                                "for _ in range(3):\n" +
+                                "    setBombAndGoBack()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         690,
                         4140,
                         18
@@ -6473,23 +6556,15 @@ public class Dev {
 
                 GameMap gameMap33e1 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
-                        "# 함수란 특정 용도의 코드를 한곳에 모아 놓은 기능입니다. 한 번만 작성해 놓으면 필요할 때 계속 불러 쓸 수 있습니다.\n" +
-                                "# 아래에 폭탄을 설치하고 뒤로 돌아 한걸음 물러서고 다시 앞을 보는 함수를 작성하겠습니다.\n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
+                        "# 함수는 특정 기능을 실행하는 재사용 가능한 코드블록입니다. 함수는 한 번 작성한 후, 필요할 때 언제든 사용할 수 있습니다. \n" +
+                                "# 폭탄을 설치하고 뒤로 돌아 한걸음 물러서고 다시 앞을 보는 함수를 완성해보세요.\n" +
+                                "# 함수 선언 부분은 실행코드 부분보다 먼저 작성되어야 합니다. \n" +
+                                "# 함수를 사용하기 위해서 함수명을 입력하면 됩니다. 우주 해적의 숫자만큼 폭탄을 설치해보세요. \n" +
+                                "\n" +
+                                "\n" +
                                 "def setTrapAndGoBack():\n" +
-                                "    # 이곳에 set(\"폭탄\") 구문을 작성하여 바닥에 트랩을 설치합니다.\n" +
-                                "    \n" +
-                                "    turnRight(2) # 뒤로 돌기\n" +
-                                "    go() # 한걸음 물러나기\n" +
-                                "    turnRight(2) # 다시 앞보기\n" +
-                                "\n" +
-                                "# 함수 작성이 완료되었습니다. 함수는 실행하는 코드보다 먼저 작성되어야 합니다. \n" +
-                                "go(4) # 첫 폭탄 설치 위치로 이동\n" +
-                                "\n" +
-                                "# 아래와 같이 위에 작성한 함수를 사용합니다.\n" +
-                                "setTrapAndGoBack()\n" +
-                                "\n" +
-                                "# 이곳에 두번 더 함수를 사용해서 폭탄을 설치해 보세요.\n",
+                                "   setItem(\"폭탄\") \n",
                         "함수를 사용하여 폭탄 3개 설치하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -6550,16 +6625,19 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "서막-1\n" +
+                        "서막 - 1\n" +
+                                "우주 해적이 공격해옵니다. 폭탄이 설치되지 않은 곳에 폭탄을 설치하세요. \n" +
+                                "통로에 폭탄을 설치하는 함수를 작성하고, 함수를 필요한 만큼 사용하세요. 함수 선언 부분은 실행코드 부분보다 먼저 작성되어야 한다는 점을 잊지 마세요. \n" +
                                 "\n" +
-                                "우주해적이 공격해옵니다.\n" +
-                                "나머지길목은 폭탄이 설치되어있습니다.\n" +
-                                "아직 폭탄이 설치되지않은 곳에 폭탄을 설치해주세요",
+                                "def 함수명() : \n" +
+                                "   함수 내용 \n",
                         "def setBombAndGoBack():\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) ",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "    setItem(\"폭탄\")\n" +
+                                "\n" +
+                                "go(4)\n" +
+                                "for _ in range(3):\n" +
+                                "    setBombAndGoBack()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         8
@@ -6567,22 +6645,15 @@ public class Dev {
 
                 GameMap gameMap33e2 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
-                        "# 함수를 정의하면서 함수 선언식의 괄호안에 변수명을 써서 매개변수를 만들 수 있습니다.\n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert()",
+                        "# 함수를 정의하면서 함수 선언식의 괄호 안에 변수명을 써서 매개변수를 만들 수 있습니다. \n" +
                                 "# 함수가 호출될 때 값을 전달받으면 매개변수에 값이 정의됩니다.\n" +
-                                "# 아래에 숫자를 인자로 전달받아 매개변수 number를 사용해 폭탄을 여러개 설치하는 함수를 작성하겠습니다.\n" +
-                                "def setTraps(number):    \n" +
-                                "    for i in range(number):\n" +
-                                "        # 이곳에 set(\"폭탄\") 구문을 작성하여 바닥에 트랩을 설치합니다.\n" +
+                                "# 아래에 숫자를 인자로 전달받아 매개변수 number를 사용해 폭탄을 여러 개 설치하는 함수를 완성하세요. \n" +
+                                "# 함수를 호출하여 폭탄을 설치해보세요. \n" +
                                 "\n" +
-                                "        turnRight(2) # 뒤로 돌기\n" +
-                                "        go() # 한걸음 물러나기\n" +
-                                "        turnRight(2) # 다시 앞보기\n" +
-                                "\n" +
-                                "# 함수 작성이 완료되었습니다. 함수는 실행하는 코드보다 먼저 작성되어야 합니다. \n" +
-                                "go(4) # 첫 폭탄 설치 위치로 이동\n" +
-                                "\n" +
-                                "# setTraps(3) 구문을 아래에 작성하여 폭탄을 3개 설치합니다.\n",
+                                "def setTraps(number): \n" +
+                                "   for i in range(number):\n" +
+                                "       setItem(\"폭탄\")\n",
                         "함수를 사용하여 폭탄 3개 설치하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -6643,22 +6714,21 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "서막-2\n" +
+                        "서막 - 2\n" +
                                 "\n" +
-                                "우주해적이 공격해옵니다.\n" +
-                                "나머지길목은 폭탄이 설치되어있습니다.\n" +
-                                "아직 폭탄이 설치되지않은 곳에 폭탄을 설치해주세요\n" +
-                                "우리에겐 쉬운 방법을 배웠으니 빠르게 작성해보세요.",
-                        "def setBombAndGoBack():\n" +
-                                "    set(\"폭탄\")\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) \n" +
-                                "   \n" +
+                                "우주 해적이 공격해옵니다. 폭탄이 설치되지 않은 곳에 폭탄을 설치하세요. \n" +
+                                "통로에 폭탄을 여러 개 설치하는 함수를 작성해보세요. 함수를 여러 번 호출하기보다, 매개변수를 활용하여 설치할 폭탄의 개수를 설정해보세요. \n" +
+                                "*매개변수 : 함수 선언식의 괄호 안에 기입하는 변수로, 함수를 호출할 때 값을 전달할 수 있도록 함 \n" +
                                 "\n" +
-                                "for i in range(3):\n" +
-                                "    setBombAndGoBack()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "def 함수명(매개변수) : \n" +
+                                "   함수 내용 \n",
+                        "def setBombAndGoBack(number):\n" +
+                                "    for i in range(number):\n" +
+                                "        setItem(\"폭탄\")\n" +
+                                "\n" +
+                                "go(4)\n" +
+                                "setBombAndGoBack(3)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         8
@@ -6666,24 +6736,23 @@ public class Dev {
 
                 GameMap gameMap33e3 = gameMapService.createGameMap(
                         "3", "3-3", "Easy", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
                         "# 함수가 호출될 때 생성된 결과를 리턴을 사용해서 반환받을 수 있습니다.\n" +
                                 "# 아래에 모니터를 확인해서 적의 수를 세는 함수를 완성해 보세요.\n" +
-                                "def countEnemy():\n" +
-                                "    count = 0 # 결과값을 저장하기 위한 변수\n" +
-                                "\n" +
-                                "    # 모니터 앞에서 getNumberList() 구문을 작성하여 적의 수를 담은 리스트를 얻습니다.\n" +
-                                "    list = getNumberList()\n" +
-                                "\n" +
-                                "    for number in list:\n" +
-                                "        count += number\n" +
-                                "\n" +
-                                "    # 이곳에 return count 구문을 작성해서 결과값 count를 반환합니다. 들여쓰기에 주의해 주세요.\n" +
-                                "    \n" +
-                                "\n" +
-                                "# 함수는 실행하는 코드보다 먼저 작성되어야 합니다.\n" +
+                                "# 모니터 앞에서 getNumberList() 구문을 작성하여 적의 수를 담은 리스트를 얻습니다. \n" +
+                                "# 결과값 반환으로 return count 구문을 사용할 수 있습니다. \n" +
+                                "# def setTrapAndGoBack() : 함수를 작성하는 것도 잊지 마세요. \n" +
                                 "# totalNumber = countEnemy() 구문으로 위에 작성한 함수의 반환값을 totalNumber 변수에 저장합니다.\n" +
-                                "# totalNumber를 사용하여 폭탄을 설치합니다.\n",
+                                "# totalNumber를 사용하여 폭탄을 설치합니다.\n" +
+                                "\n" +
+                                "def countEnemy():\n" +
+                                "   count = 0 # 결과값을 저장하기 위한 변수\n" +
+                                "\n" +
+                                "   list = getNumberList()\n" +
+                                "   for number in list:\n" +
+                                "       count += number\n" +
+                                "\n" +
+                                "def setTrapAndGoBack(): \n",
                         "함수를 사용하여 폭탄 설치하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -6753,32 +6822,30 @@ public class Dev {
                                 "    ]\n" +
                                 "}",
                         "해킹정보 이용\n" +
-                                "\n" +
                                 "시스템 해킹에 성공했습니다!\n" +
-                                "적정보를 획득하여 폭탄을 미리설치하면 효율적으로 적을 공격해주세요.",
-                        "def countEnemy():\n" +
-                                "     count +=1\n" +
+                                "적의 정보를 획득하여 폭탄을 미리 설치하면 효율적입니다. \n" +
+                                "적의 숫자를 세는 함수를 완성해보세요. \n" +
+                                "함수에서 return을 사용하면 결과값을 변수에 저장할 수 있으니, 사용해보세요. \n" +
                                 "\n" +
-                                "def setBombAndGoBack():\n" +
-                                "    set(\"폭탄\")\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) \n" +
-                                "   \n" +
-                                "def getCount():\n" +
-                                "     return count;\n" +
+                                "def 함수명() : \n" +
+                                "   함수 내용 \n" +
+                                "   return 결과값 \n",
+                        "def setBombAndGoBack(number):\n" +
+                                "    for i in range(number):\n" +
+                                "        setItem(\"폭탄\")\n" +
+                                "        turnRight(2)\n" +
+                                "        go()\n" +
+                                "        turnRight(2)\n" +
+                                "def countEnemy():\n" +
+                                "    count = 0\n" +
                                 "\n" +
-                                "list = getNumberList()\n" +
-                                "\n" +
-                                "for i in list:\n" +
-                                "   countEnemy()\n" +
-                                "\n" +
-                                "\n" +
-                                "totalNum = getCount()\n" +
-                                "\n" +
-                                "for i in range(len(totalNum)):\n" +
-                                "     setBombAndGoBack()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "go(2)\n" +
+                                "turnLeft()\n" +
+                                "enemyCount = countEnemy()\n" +
+                                "turnRight()\n" +
+                                "go(4)\n" +
+                                "setBombAndGoBack(enemyCount)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
                         52,
                         828,
                         18
@@ -6786,7 +6853,7 @@ public class Dev {
 
                 GameMap gameMap33n1 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
                         "# 함수란 특정 용도의 코드를 한곳에 모아 놓은 기능입니다. 한 번만 작성해 놓으면 필요할 때 계속 불러 쓸 수 있습니다.\n" +
                                 "# 아래에 폭탄을 설치하고 뒤로 돌아 한걸음 물러서고 다시 앞을 보는 함수를 완성해 보세요.\n" +
                                 "def setBombAndGoBack():\n" +
@@ -6859,11 +6926,17 @@ public class Dev {
                                 "우주해적이 공격해옵니다.\n" +
                                 "나머지길목은 폭탄이 설치되어있습니다.\n" +
                                 "아직 폭탄이 설치되지않은 곳에 폭탄을 설치해주세요",
-                        "def setBombAndGoBack():\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) ",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                        "def setBombAndGoBack(number):\n" +
+                                "    for i in range(number):\n" +
+                                "        setItem(\"폭탄\")\n" +
+                                "\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "for i in range(3):\n" +
+                                "    go(3)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         16
@@ -6871,7 +6944,7 @@ public class Dev {
 
                 GameMap gameMap33n2 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
                         "# 함수란 특정 용도의 코드를 한곳에 모아 놓은 기능입니다. 한 번만 작성해 놓으면 필요할 때 계속 불러 쓸 수 있습니다.\n" +
                                 "# 아래에 number 매개변수를 활용하여 여러개의 폭탄을 설치하는 함수를 완성해 보세요.\n" +
                                 "def setBombs(number):\n" +
@@ -6966,19 +7039,21 @@ public class Dev {
                                 "나머지길목은 폭탄이 설치되어있습니다.\n" +
                                 "아직 폭탄이 설치되지않은 곳에 폭탄을 설치해주세요\n" +
                                 "우리에겐 쉬운 방법을 배웠으니 빠르게 작성해보세요.",
-                        "def setBombAndGoBack():\n" +
-                                "    set(\"폭탄\")\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) \n" +
+                        "def setBombAndGoBack(number):\n" +
+                                "    for i in range(number):\n" +
+                                "        setItem(\"폭탄\")\n" +
                                 "\n" +
-                                "\n" +
-                                "\n" +
-                                "pass   \n" +
-                                "\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
                                 "for i in range(3):\n" +
-                                "    setBombAndGoBack()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "    turnLeft()\n" +
+                                "    number = getNumber()\n" +
+                                "    turnRight()\n" +
+                                "    go(4)\n" +
+                                "    setBombAndGoBack(number)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         22
@@ -6986,7 +7061,7 @@ public class Dev {
 
                 GameMap gameMap33n3 = gameMapService.createGameMap(
                         "3", "3-3", "Normal", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
                         "# 함수가 호출될 때 생성된 결과를 리턴을 사용해서 반환받을 수 있습니다.\n" +
                                 "# 아래에 모니터를 확인해서 적의 수를 세는 함수를 완성해 보세요.\n" +
                                 "# 모니터 앞에서 getNumberList() 구문으로 적의 숫자 리스트를 받고 모든 수를 더해서 반환해야 합니다.\n" +
@@ -7085,29 +7160,25 @@ public class Dev {
                                 "\n" +
                                 "현재 이곳 시스템을 모두  해킹 성공했습니다!\n" +
                                 "적정보를 획득하여 폭탄을 미리설치하면 효율적으로 적을 공격해주세요.",
-                        "def countEnemy():\n" +
-                                "     count +=1\n" +
+                        "def setBombAndGoBack(number):\n" +
+                                "    for i in range(number):\n" +
+                                "        setItem(\"폭탄\")\n" +
+                                "        turnRight(2)\n" +
+                                "        go()\n" +
+                                "        turnRight(2)\n" +
                                 "\n" +
-                                "def setBombAndGoBack():\n" +
-                                "    set(\"폭탄\")\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) \n" +
-                                "   \n" +
-                                "def getCount():\n" +
-                                "     return count;\n" +
-                                "\n" +
-                                "list = getNumberList()\n" +
-                                "\n" +
-                                "for i in list:\n" +
-                                "   countEnemy()\n" +
-                                "\n" +
-                                "\n" +
-                                "totalNum = getCount()\n" +
-                                "\n" +
-                                "for i in range(len(totalNum)):\n" +
-                                "     setBombAndGoBack()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "def countEnemy():\n" +
+                                "    count = 0\n" +
+                                "    for i in getNumberList():\n" +
+                                "        if i == 0:\n" +
+                                "            return count\n" +
+                                "        count += i\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "for i in range(3):",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         259,
                         2588,
                         29
@@ -7115,7 +7186,7 @@ public class Dev {
 
                 GameMap gameMap33h1 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
                         "# 함수란 특정 용도의 코드를 한곳에 모아 놓은 기능입니다. 한 번만 작성해 놓으면 필요할 때 계속 불러 쓸 수 있습니다.\n" +
                                 "# 아래에 폭탄을 설치하고 뒤로 돌아 한걸음 물러서고 다시 앞을 보는 함수를 완성해 보세요.\n" +
                                 "def setBombAndGoBack():\n" +
@@ -7209,10 +7280,17 @@ public class Dev {
                                 "나머지길목은 폭탄이 설치되어있습니다.\n" +
                                 "아직 폭탄이 설치되지않은 곳에 폭탄을 설치해주세요",
                         "def setBombAndGoBack():\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) ",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "    setItem(\"폭탄\")\n" +
+                                "    turnRight(2)\n" +
+                                "    go()\n" +
+                                "    turnRight(2)\n" +
+                                "\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnRight()\n" +
+                                "go(2)\n" +
+                                "for _ in range(3):",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         22
@@ -7220,7 +7298,7 @@ public class Dev {
 
                 GameMap gameMap33h2 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
                         "# 함수란 특정 용도의 코드를 한곳에 모아 놓은 기능입니다. 한 번만 작성해 놓으면 필요할 때 계속 불러 쓸 수 있습니다.\n" +
                                 "# 아래에 리스트 형태인 numberList 매개변수를 활용하여 여러개의 폭탄을 설치하는 함수를 완성해 보세요.\n" +
                                 "def setBombs(numberList):\n" +
@@ -7311,19 +7389,23 @@ public class Dev {
                                 "나머지길목은 폭탄이 설치되어있습니다.\n" +
                                 "아직 폭탄이 설치되지않은 곳에 폭탄을 설치해주세요\n" +
                                 "우리에겐 쉬운 방법을 배웠으니 빠르게 작성해보세요.",
-                        "def setBombAndGoBack():\n" +
-                                "    set(\"폭탄\")\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) \n" +
+                        "def setBombAndGoBack(numberList, index):\n" +
+                                "    for i in range(numberList[index]):\n" +
+                                "        setItem(\"폭탄\")\n" +
+                                "        turnRight(2)\n" +
+                                "        go()\n" +
+                                "        turnRight(2)\n" +
                                 "\n" +
-                                "\n" +
-                                "\n" +
-                                "pass   \n" +
-                                "\n" +
-                                "for i in range(3):\n" +
-                                "    setBombAndGoBack()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "turnLeft()\n" +
+                                "go()\n" +
+                                "numberList = getNumberList()\n" +
+                                "turnRight()\n" +
+                                "go()\n" +
+                                "turnLeft()\n" +
+                                "go()\n" +
+                                "turnRight()\n" +
+                                "go()\n",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         0,
                         0,
                         24
@@ -7331,7 +7413,7 @@ public class Dev {
 
                 GameMap gameMap33h3 = gameMapService.createGameMap(
                         "3", "3-3", "Hard", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
+                        "go(),turnLeft(),turnRight(),for i in range():,setItem(),print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList()",
                         "# 함수가 호출될 때 생성된 결과를 리턴을 사용해서 반환받을 수 있습니다.\n" +
                                 "# 아래에 모니터를 확인해서 적의 수를 세는 함수를 완성해 보세요.\n" +
                                 "# 모니터 앞에서 getNumber() 구문으로 적의 숫자받고 그 수가 0보다 클경우의 모든 수를 더해서 반환해야 합니다.\n" +
@@ -7425,29 +7507,24 @@ public class Dev {
                                 "\n" +
                                 "현재 이곳 시스템을 모두  해킹 성공했습니다!\n" +
                                 "적정보를 획득하여 폭탄을 미리설치하면 효율적으로 적을 공격해주세요.",
-                        "def countEnemy():\n" +
-                                "     count +=1\n" +
+                        "def setBombAndGoBack(number):\n" +
+                                "    for i in range(number):\n" +
+                                "        setItem(\"폭탄\")\n" +
+                                "        turnRight(2)\n" +
+                                "        go()\n" +
+                                "        turnRight(2)\n" +
                                 "\n" +
-                                "def setBombAndGoBack():\n" +
-                                "    set(\"폭탄\")\n" +
-                                "    turnRight(2) \n" +
-                                "    go() \n" +
-                                "    turnRight(2) \n" +
-                                "   \n" +
-                                "def getCount():\n" +
-                                "     return count;\n" +
-                                "\n" +
-                                "list = getNumberList()\n" +
-                                "\n" +
-                                "for i in list:\n" +
-                                "   countEnemy()\n" +
-                                "\n" +
-                                "\n" +
-                                "totalNum = getCount()\n" +
-                                "\n" +
-                                "for i in range(len(totalNum)):\n" +
-                                "     setTrapAndGoBack()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),checkFront(),jump(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,check()",
+                                "def countEnemy():\n" +
+                                "    count = 0\n" +
+                                "    number = getNumber()\n" +
+                                "    while number > 0:\n" +
+                                "        count += number\n" +
+                                "        number = getNumber()\n" +
+                                "    return count\n" +
+                                "turnLeft()\n" +
+                                "go(2)\n" +
+                                "turnRight()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,setItem(\"폭탄\"),print(),getInfo(),getNumber(),getItem(),getItemList(),getNumberList(),getHp(),use(\"응급치료제\"),while True:,check()",
                         1109,
                         6210,
                         30
@@ -7455,9 +7532,10 @@ public class Dev {
 
                 GameMap gameMap34e1 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack()",
-                        "# attack(\"적 이름\") 구문을 사용하여 적을 공격하세요.\n" +
-                                "# 적 한명당 세번씩 공격해야 합니다.\n",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack()",
+                        "# 앞으로 두 칸 나아가면 공격 사정거리를 좁힐 수 있습니다. \n" +
+                                "# attack(\"적 이름\") 구문을 사용하여 적을 공격하세요. \n" +
+                                "# 적 한명 당 세 번씩 공격해야 합니다. \n",
                         "적 2명 처치하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -7498,13 +7576,13 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "[Easy] 마지막 전투 -1\n" +
-                                "\n" +
-                                "적과의 조우입니다. 이전과는 달리 적의 생김새와는 다르게 체력이 높아 보입니다. \n" +
-                                "이번에는 3번의 공격이 필요해 보입니다.",
-                        "for j in range(3):\n" +
-                                "   attack(enemy)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack()",
+                        "마지막 전투 - 1\n" +
+                                "우주 해적과 만났습니다. 이전과는 달리 체력이 높습니다. \n" +
+                                "적 한명 당 3번의 공격이 필요합니다. \n" +
+                                "명령어 attack(“적 이름”)을 사용하면 적을 공격할 수 있습니다. \n",
+                        "go(2)\n" +
+                                "for i in range(3):",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack()",
                         0,
                         0,
                         4
@@ -7512,11 +7590,11 @@ public class Dev {
 
                 GameMap gameMap34e2 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy()",
                         "# 적의 이름을 알 수 없습니다. \n" +
-                                "# enemy = findEnemy() 구문을 사용하여 가까운 적을 찾아 enemy 변수에 저장합니다.\n" +
+                                "# enemy = findEnemy() 구문을 사용하여 가장 가까운 적을 찾아 enemy 변수에 저장합니다.\n" +
                                 "# attack(enemy) 구문으로 공격합니다.\n" +
-                                "# 적 한 명당 세번씩 공격해야 합니다.\n",
+                                "# 적 한명 당 세 번씩 공격해야 합니다.\n",
                         "적 2명 처치하기",
                         "stage = {\n" +
                                 "    \"stage\" : {\n" +
@@ -7561,14 +7639,12 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "[Easy] 마지막 전투 -2\n" +
-                                "\n" +
-                                "적과의 조우입니다. 이전과는 달리 적의 생김새와는 다르게 체력이 높아 보입니다. \n" +
-                                "이번에는 3번의 공격이 필요해 보입니다.",
-                        "enemy = findEnemy(\"적이름\")\n" +
-                                "for j in range(3):\n" +
-                                "   attack(enemy)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy()",
+                        "마지막 전투 - 2\n" +
+                                "이름을 알 수 없는 우주 해적이 몰려듭니다. \n" +
+                                "enemy = findEnemy()를 사용하면 가장 가까운 적의 이름을 enemy 변수에 저장할 수 있습니다. 명령어 attack(“적 이름”)을 사용하여 적 한명 당 3번 이상 공격하세요. \n",
+                        "for _ in range(9):\n" +
+                                "    enemy = findEnemy()",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy()",
                         0,
                         0,
                         4
@@ -7576,19 +7652,18 @@ public class Dev {
 
                 GameMap gameMap34e3 = gameMapService.createGameMap(
                         "3", "3-4", "Easy", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),get(),chargeShot()",
-                        "# 현재 중력이 강해서 점프가 불가능합니다. \n" +
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),getBomb(),chargeShot()",
+                        "# 현재  중력이 강해서 점프가 불가능합니다. \n" +
+                                "# checkFront()로 플레이어 캐릭터 앞에 폭탄이 있을 경우, 벽이 있을 경우, 아무 것도 없을 경우의 행동을 작성하세요. \n" +
+                                "# get(\"폭탄\")을 작성하면 플레이어 앞의 폭탄을 획득합니다. chargeShot()를 작성해 얻은 폭탄을 보스에게 되돌려 줄 수 있습니다.\n" +
                                 "\n" +
                                 "turnLeft()\n" +
-                                "while True:\n" +
-                                "    if checkFront()==\"\":\n" +
-                                "        # 이곳에 플레이어의 앞에 아무것도 없을 경우의 행동을 작성하세요.\n" +
-                                "        \n" +
-                                "    elif checkFront()==\"벽\":\n" +
-                                "        # 이곳에 플레이어의 앞에 벽이 있을 경우의 행동을 작성하세요.\n" +
-                                "        \n" +
-                                "    else\n" +
-                                "        # 이곳에 플레이어의 앞에 폭탄이 있을 경우의 행동을 작성하세요. get(\"폭탄\")을 작성하면 플레이어 앞의 폭탄을 획득합니다. chargeShot()를 작성해 얻은 폭탄을 보스에게 되돌려 줄 수 있습니다.\n",
+                                "whileTrue:\n" +
+                                "   if checkFront()==\"없음\":\n" +
+                                "       \n" +
+                                "   elif checkFront()==\"벽\":\n" +
+                                "       \n" +
+                                "   else : \n",
                         "보스의 폭탄을 활용하여 3회 공격하기\n" +
                                 "보스 처치하기",
                         "stage = {\n" +
@@ -7650,21 +7725,21 @@ public class Dev {
                                 "    \"item_list\" : [\n" +
                                 "    ]\n" +
                                 "}",
-                        "[Easy] 최후의 보스\n" +
-                                "\n" +
-                                "최후의 보스 우주해적이 나타났습니다.\n" +
+                        "최후의 보스\n" +
+                                "최후의 우주 해적 보스가 나타났습니다. \n" +
                                 "일반적인 공격으로는 상처를 입지 않을 것으로 보입니다. \n" +
-                                "보스가 폭탄을 에너지 체로 사용하여 강화된 차지샷을 날려 공격하세요",
+                                "보스가 날린 폭탄으로 차지샷을 날려 공격하세요. \n" +
+                                "get(“폭탄”) 명령어로 폭탄을 획득한 후 chargeShot()을 사용하면 폭탄을 보스에게 되돌려 줄 수 있습니다. \n",
                         "turnLeft()\n" +
                                 "while True:\n" +
-                                "    if checkFront()==\"\":\n" +
-                                "        go()\n" +
-                                "    elif checkFront()==\"벽\":\n" +
-                                "        turnLeft(2)\n" +
-                                "    else\n" +
-                                "       get(\"폭탄\")\n" +
-                                "       chargeShot()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
+                                "    if checkFront() == \"폭탄\":\n" +
+                                "        getBomb()\n" +
+                                "        chargeShot()\n" +
+                                "      \n" +
+                                "    elif checkFront() == \"벽\":\n" +
+                                "\n" +
+                                "    else:",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),getBomb()",
                         69,
                         1104,
                         10
@@ -7672,7 +7747,7 @@ public class Dev {
 
                 GameMap gameMap34n1 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),get(),chargeShot()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),getBomb(),chargeShot()",
                         "# attack(\"적 이름\") 구문을 사용하여 적을 공격하세요.\n" +
                                 "# 적의 체력을 알 수 없습니다. getHp(\"적 이름\") 구문으로 적의 체력을 확인하여 적의 체력이 0이 될때까지 공격하여 처치합니다.\n",
                         "적 2명 처치하기\n" +
@@ -7721,10 +7796,11 @@ public class Dev {
                                 "\n" +
                                 "적과의 조우입니다. 이전과는 달리 적의 체력을 알 수 없습니다. \n" +
                                 "이번에는 몇번의 공격이 필요할까요?",
-                        "enemy = findEnemy()\n" +
-                                "if  getHp(enemy) > 0: \n" +
-                                "   attack(enemy)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
+                        "go(2)\n" +
+                                "while getHp(\"드라\") > 0:\n" +
+                                "\n" +
+                                "while getHp(\"글링\") > 0:",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),getBomb()",
                         0,
                         0,
                         5
@@ -7732,7 +7808,7 @@ public class Dev {
 
                 GameMap gameMap34n2 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),get(),chargeShot()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),getBomb(),chargeShot()",
                         "# 적의 이름을 알 수 없습니다. \n" +
                                 "# enemy = findEnemy() 구문을 사용하여 가까운 적을 찾아 enemy 변수에 저장합니다.\n" +
                                 "# attack(enemy) 구문으로 공격합니다.\n" +
@@ -7785,10 +7861,9 @@ public class Dev {
                                 "\n" +
                                 "적과의 조우입니다. 적의 생김새로는 정체와 체력을 알 수 없습니다. \n" +
                                 "적은 누구이고 몇번의 공격이 필요할까요?",
-                        "enemy = findEnemy()\n" +
-                                " f  getHp(enemy) > 0: \n" +
-                                "   attack(enemy)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
+                        "go(2)\n" +
+                                "for _ in range(3):",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),getBomb()",
                         0,
                         0,
                         5
@@ -7796,7 +7871,7 @@ public class Dev {
 
                 GameMap gameMap34n3 = gameMapService.createGameMap(
                         "3", "3-4", "Normal", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),get(),chargeShot()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),getBomb(),chargeShot()",
                         "# 현재 중력이 강해서 점프가 불가능합니다.\n" +
                                 "# checkFront() 구문으로 플레이어 앞을 확인합니다.\n" +
                                 "# get(\"폭탄\")을 작성하면 플레이어 앞의 폭탄을 획득합니다. chargeShot()를 작성해 얻은 폭탄을 보스에게 되돌려 줄 수 있습니다.\n" +
@@ -7869,17 +7944,13 @@ public class Dev {
                                 "보스가 폭탄을 에너지 체로 사용하여 강화된 차지샷을 날려 공격하세요",
                         "turnLeft()\n" +
                                 "while True:\n" +
-                                "    if getHp() < 30:\n" +
-                                "       use(\"치료키트\")\n" +
+                                "    if checkFront() == \"폭탄\":\n" +
                                 "\n" +
-                                "    if checkFront()==\"\":\n" +
-                                "        go()\n" +
-                                "    elif checkFront()==\"벽\":\n" +
-                                "        turnLeft(2)\n" +
-                                "    else\n" +
-                                "       get(\"폭탄\")\n" +
-                                "       chargeShot()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
+                                "        chargeShot()\n" +
+                                "    elif checkFront() == \"벽\":\n" +
+                                "\n" +
+                                "    else:",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),getBomb()",
                         345,
                         3450,
                         11
@@ -7887,7 +7958,7 @@ public class Dev {
 
                 GameMap gameMap34h1 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 1,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),get(),chargeShot()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),getBomb(),chargeShot()",
                         "# attack(\"적 이름\") 구문을 사용하여 적을 공격하세요.\n" +
                                 "# 적의 체력을 알 수 없습니다. getHp(\"적 이름\") 구문으로 적의 체력을 확인하여 적의 체력이 0이 될때까지 공격하여 처치합니다.\n" +
                                 "# 적의 공격력이 강합니다. getHp() 구문으로 플레이어의 체력을 확인하고 use(\"치료키트\") 로 체력을 회복하세요. \n",
@@ -7936,12 +8007,10 @@ public class Dev {
                         "[Hard] 마지막 전투 -1\n" +
                                 "적과의 조우입니다. 적의 생김새로는 정체와 체력을 알 수 없습니다. \n" +
                                 "왜인지 적의 공격력이 매우 강해 보입니다.",
-                        "     enemy = findEnemy(\"적이름\")\n" +
-                                "     if  getHp() < 30:\n" +
-                                "        use(\"치료키트\")\n" +
-                                "     else : \n" +
-                                "     attack(enemy)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
+                        "go(2)\n" +
+                                "enemy = findEnemy()\n" +
+                                "while getHp(enemy) > 0:",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),getBomb()",
                         0,
                         0,
                         7
@@ -7949,7 +8018,7 @@ public class Dev {
 
                 GameMap gameMap34h2 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 2,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),get(),chargeShot()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),getBomb(),chargeShot()",
                         "# 적의 숫자를 알 수 없습니다. \n" +
                                 "# enemy = findEnemy() 구문을 사용하여 가까운 적을 찾아 enemy 변수에 저장합니다.\n" +
                                 "# attack(enemy) 구문으로 공격합니다.\n" +
@@ -8015,10 +8084,11 @@ public class Dev {
                                 "\n" +
                                 "..." +
                                 "저 앞엔 얼마나 많은 적이 있는걸까요?",
-                        "enemy = findEnemy(\"적이름\")\n" +
-                                "  for j in range(3):\n" +
-                                "     attack(enemy)",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
+                        "go(2)\n" +
+                                "enemy = findEnemy()\n" +
+                                "while getHp(enemy) > 0:\n" +
+                                "    attack(enemy)",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),getBomb()",
                         0,
                         0,
                         7
@@ -8026,7 +8096,7 @@ public class Dev {
 
                 GameMap gameMap34h3 = gameMapService.createGameMap(
                         "3", "3-4", "Hard", 3,
-                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),checkFront(),jump(),checkFar(),getHp(),use(),while True:,checkLeft(),checkRight(),upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),get(),chargeShot()",
+                        "go(),turnLeft(),turnRight(),for i in range():,print(),getInfo(),getNumber(),getHp(),use(),while True:,upper(),isupper(),len(),int(),getItem(),append(),check(),getItemList(),remove(),insert(),getNumberList(),attack(),findEnemy(),getBomb(),chargeShot()",
                         "# 현재 중력이 강해서 점프가 불가능합니다.\n" +
                                 "# checkFront() 구문으로 플레이어 앞을 확인합니다.\n" +
                                 "# numberList = get(\"폭탄\") 구문을 작성하면 플레이어 앞의  폭탄의 숫자 리스트를 획득합니다. \n" +
@@ -8100,20 +8170,17 @@ public class Dev {
                                 "일반적인 공격으로는 상처를 입지 않을 것으로 보입니다. \n" +
                                 "보스가 폭탄을 에너지 체로 사용하여 강화된 차지샷을 날려 공격하세요",
                         "turnLeft()\n" +
-                                "while True:\n" +
-                                "    if checkFront()==\"\":\n" +
-                                "        go()\n" +
-                                "    elif checkFront()==\"벽\":\n" +
-                                "        turnLeft(2)\n" +
-                                "    else\n" +
-                                "       get(\"폭탄\")\n" +
-                                "       chargeShot()",
-                        "go(),turnLeft(),turnRight(),for i in range(3):,checkFront(),checkFar(),checkLeft(),checkRight(),getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),get()",
+                                "for j in range(1000):\n" +
+                                "    if checkFront() == \"폭탄\":\n" +
+                                "\n" +
+                                "    elif checkFront() == \"벽\":\n" +
+                                "\n" +
+                                "    else:",
+                        "go(),turnLeft(),turnRight(),for i in range(3):,getHp(),use(\"응급치료제\"),while True:,attack(),findEnemy(),chargeShot(),getBomb()",
                         1380,
                         8280,
                         15
                 );
-
 
                 ItemParts shoes = itemPartsService.getItemParts(1);
                 ItemParts module = itemPartsService.getItemParts(2);
