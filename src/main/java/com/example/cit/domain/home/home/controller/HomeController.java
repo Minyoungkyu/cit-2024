@@ -17,6 +17,6 @@ public class HomeController {
     @ResponseBody
     @Operation(summary = "메인화면을 보여주는 역할, 특별한, 특별한 기능은 없음")
     public String showMain() {
-        return "백엔드 서버 입니다.";
+        return "백엔드 서버 입니다!";
     }
 }

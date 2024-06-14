@@ -83,6 +83,7 @@ jobs:
             docker run \
                 -p 8021:8080 \
                 -d \
+                -e TZ=Asia/Seoul \
                 -v /docker_projects/cit_1/volume/gen:/gen \
                 --name cit_1 \
                 ghcr.io/minyoungkyu/cit:latest
@@ -130,5 +131,6 @@ jobs:
                 -p 8022:3000 \
                 -d \
                 --name cit_front_1 \
+                -e TZ=Asia/Seoul \
                 ghcr.io/minyoungkyu/cit_front:latest
             echo 'y' | docker image prune
