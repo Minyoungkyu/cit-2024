@@ -64,6 +64,7 @@ public class ApiV1GameMapController {
     @Operation(summary = "특정 게임 맵 조회와 자격검증")
     @PreAuthorize("hasRole('MEMBER')")
     @SecurityRequirement(name = "bearerAuth")
+    @Transactional
     public RsData<GameMapResponseBody> getGameMap(
             @PathVariable("stage") String stage,
             @PathVariable("id") Long id

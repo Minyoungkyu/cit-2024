@@ -66,6 +66,7 @@ public class GameMapService {
         return gameMapRepository.findById(gameMapId);
     }
 
+    @Transactional
     public GameMap checkAccessAndGetGameMap(Long gameMapId) {
 
         Member member = rq.getMember();
