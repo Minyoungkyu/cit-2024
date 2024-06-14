@@ -12,21 +12,12 @@
 
 		<script>
     		window.addEventListener('popstate', function(event) {
-                // get the current path
-                const path = window.location.pathname;
-                // get the new path
-                const new_path = event.state.path;
-
-                // if the new path pattern is /game/\d+ and the current path is /game/\d+
-                if (new_path.match(/^\/game\/\d+$/) ) {
-                    setTimeout(
-                        function() {
-                            window.location.reload();
-                        },
-                        2000
-                    )
-                }
+                history.pushState(null, null, location.href);
     		});
+
+            window.addEventListener('load', function() {
+                history.pushState(null, null, location.href);
+            });
 		</script>
 
 	</head>
