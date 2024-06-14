@@ -21,7 +21,7 @@ spring:
         use_sql_comments: false
 logging:
   level:
-    com.ll.exam20240205: INFO
+    com.example.cit: INFO
     org.hibernate.SQL: INFO
     org.hibernate.orm.jdbc.bind: INFO
     org.hibernate.orm.jdbc.extract: INFO
