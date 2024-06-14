@@ -12,46 +12,82 @@
 </div>
 <div class="mb-6"></div>
 
-<table class="table w-[95%]">
+{#if progressRateList.length > 0}
+<table class="table w-[95%] mt-[-15px] min-w-[900px]">
     <thead>
         <tr class="border-b border-gray-200 whitespace-nowrap text-sm lg:text-md text-center">
-            <th>사업명 / 학교명</th>
+            <th class="w-[400px]">사업명 / 학교명</th>
             <th>담당자</th>
             <th>시작일</th>
             <th>마감일</th>
             <th>달성률</th>
+            <th class="w-[10px]">%</th>
         </tr>
     </thead>
 
     <tbody>
+        {#each progressRateList as progressRate}
+        {#if progressRate.schoolProgressDtoList}
         <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
-            <td class="text-left pl-[50px] w-[400px]">적당히 긴 프로그램 이름</td>
-            <td>담당자</td>
+            <td class="text-left pl-[50px] max-w-[400px] overflow-hidden whitespace-nowrap truncate">{progressRate.programName}</td>
+            <td class="max-w-[100px] overflow-hidden whitespace-nowrap truncate">
+                {
+                    progressRate.memberNames!.length > 0 ? progressRate.memberNames : "-"
+                }
+            </td>
             <td>2024.06.05</td>
             <td>2024.06.05</td>
-            <td class="w-[400px]"><progress class="progress progress-primary w-[250px]" value="70" max="100"></progress></td>
-        </tr>
-        <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
-            <td class="text-left pl-[50px] w-[400px]"><span class="text-lg ml-4">└</span> 학교이름</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td class="flex flex-row">
-                <div class="lg:tooltip" data-tip="hello">
-                    <progress class="progress progress-primary w-[250px] mr-5" value="70" max="100"></progress>
-                </div>
-                <div class="font-bold">70%</div>
+            <td class="w-[400px]">
+                <progress class="progress progress-primary w-[300px]" 
+                    value={progressRate.schoolProgressDtoList
+                                .reduce((sum, dto) => sum + dto.clearRate!, 0)}  
+                    max={progressRate.schoolProgressDtoList
+                                .reduce((sum, dto) => sum + dto.studentCount!, 0) * 94}>
+                </progress>
+            </td>
+            <td>
+                {
+                  progressRate.schoolProgressDtoList.reduce((sum, dto) => sum + dto.studentCount!, 0) !== 0
+                  ? Math.round(
+                      progressRate.schoolProgressDtoList.reduce((sum, dto) => sum + dto.clearRate!, 0) / 
+                      (progressRate.schoolProgressDtoList.reduce((sum, dto) => sum + dto.studentCount!, 0) * 94) * 100
+                    ) + "%"
+                  : 0 + "%"
+                }
             </td>
         </tr>
-        <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
-            <td class="text-left pl-[50px] w-[400px]"><span class="text-lg ml-4">└</span> 학교이름</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td><progress class="progress progress-error w-[250px]" value="50" max="100"></progress></td>
-        </tr>
+        {#if progressRate.schoolProgressDtoList}
+            {#each progressRate.schoolProgressDtoList as schoolProgressRate}
+                {#if schoolProgressRate.id != 0}
+                <tr class="text-center whitespace-nowrap border-b border-gray-200 text-sm lg:text-md" >
+                    <td class="text-left pl-[50px] w-[400px]"><span class="text-lg ml-4">└</span> {schoolProgressRate.schoolName}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td><progress class="progress progress-primary w-[300px]"
+                        value={schoolProgressRate.clearRate!} 
+                        max={schoolProgressRate.studentCount! * 94}
+                        >
+                    </progress></td>
+                    <td> {
+                        schoolProgressRate.studentCount !== 0 
+                        ? Math.round(schoolProgressRate.clearRate! / (schoolProgressRate.studentCount! * 94) * 100) + "%" 
+                        : 0 + "%"
+                      }
+                    </td>
+                </tr>
+                {/if}
+            {/each}
+        {/if}
+        {/if}
+        {/each}
     </tbody>
 </table>
+{:else}
+<div class="w-full h-full flex justify-center items-center">
+    <div class="text-[16px]">현재 진행중인 사업이 없습니다.</div>
+</div>
+{/if}
 
 
 <!-- <div class="w-full flex justfiy-start">

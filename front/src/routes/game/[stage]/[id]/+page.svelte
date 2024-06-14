@@ -797,7 +797,7 @@
                 clearInterval(frameUpdateIntervalId); // 인터벌 종료, 초기화
                 frameUpdateIntervalId = null; 
                 if (success && checkLineCount) {
-                    showSuccessPop = true;
+                    if (gameMapDto.step !== 'tutorial') showSuccessPop = true;
                     showCompleteBtn = true;
                 } else if (!success || !checkLineCount) {
                     showFailPop = true;
@@ -810,7 +810,7 @@
         try {
             await batchPlayLog(playerScore);
 
-            if ((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2))) {
+            if ((gameMapDto.level === 3 || (gameMapDto.difficulty === "0" && gameMapDto.level === 2) || (gameMapDto.step == 'tutorial' && gameMapDto.level === 2))) {
                 if (currentGameLog && currentGameLog.detailInt === 0) {
                     rq.member.player.gems += gameMapDto.rewardJewel;
                     rq.member.player.exp += gameMapDto.rewardExp;
