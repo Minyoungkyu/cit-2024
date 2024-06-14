@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+// 회원의 게임정보 전체 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

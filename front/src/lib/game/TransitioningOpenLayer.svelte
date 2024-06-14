@@ -2,6 +2,8 @@
     import { fly } from 'svelte/transition';
     import { onMount } from 'svelte';
 
+    //  게임 로딩 화면 레이어 컴포넌트
+
     let { isCoReady, openLayer } = $props<{ isCoReady: boolean, openLayer: boolean }>();
 
     let visible = $state(false);

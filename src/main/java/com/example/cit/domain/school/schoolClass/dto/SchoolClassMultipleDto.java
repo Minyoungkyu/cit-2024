@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 학급 일괄 생성을 위한 dto
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class SchoolClassMultipleDto {

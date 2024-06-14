@@ -6,6 +6,7 @@ import lombok.*;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 플레이어 해금 추적 및 클리어 점수를 관리하는 로그 jpa entity
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

@@ -5,6 +5,8 @@
 	import { load } from "../../../../routes/[stageInfo]/+page";
 	import Achievements from "../achievements/Achievements.svelte";
 
+    // 플레이어 프로필 컴포넌트
+
     let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
     let adjustScale = $state(0);
     

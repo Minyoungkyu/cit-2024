@@ -19,6 +19,7 @@ import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 유저 조회용 dto
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class MemberDto {

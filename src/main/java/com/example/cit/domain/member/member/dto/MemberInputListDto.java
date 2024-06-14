@@ -14,6 +14,7 @@ import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 담당자 list 를 위한 dto
 public record MemberInputListDto(
         long id,
         String username,

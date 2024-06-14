@@ -22,6 +22,8 @@
 	import type { components } from '$lib/types/api/v1/schema';
   import rq from '$lib/rq/rq.svelte';
 
+  // Cocos 게임 로드 컴포넌트
+
   let { gameMapDto, isCoReady } 
     = $props<{ gameMapDto: components['schemas']['GameMapDto'] | undefined, isCoReady:boolean }>();
 

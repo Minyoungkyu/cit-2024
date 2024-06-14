@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.List;
 
+// 게임 플레이어 장비 아이템 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

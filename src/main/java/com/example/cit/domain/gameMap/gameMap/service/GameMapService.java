@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+// 게임 맵 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

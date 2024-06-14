@@ -7,6 +7,8 @@ import createClient, { type DefaultParamsOption } from 'openapi-fetch';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
+// 기본 컨트롤러 컴포넌트, 함수 
+
 toastr.options = {
   showDuration: 300,
   hideDuration: 300,

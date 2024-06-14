@@ -4,6 +4,8 @@ import 'ace-builds/src-noconflict/theme-monokai'; // 사용할 테마
 import 'ace-builds/src-noconflict/ext-language_tools';
 import rq from '$lib/rq/rq.svelte';
 
+//  에이스 에디터 설정 
+
 var Range = ace.require('ace/range').Range;
 
 let editorAutoClose = $state(!!rq.member.player.editorAutoClose);

@@ -1,6 +1,8 @@
 <script lang="ts">
     const { activeTransitionAnimation } = $props<{ activeTransitionAnimation: () => void }>();
 
+    // 미니게임 2-4 사이드 바 컴포넌트
+
     function onClickToStart() {
         activeTransitionAnimation();
         setTimeout(() => {

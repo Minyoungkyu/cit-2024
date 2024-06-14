@@ -22,9 +22,10 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
+// 행정구역 컨트롤러
 @RestController
 @RequestMapping(value = "/api/v1/ads", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-@Tag(name = "ApiV1AdController", description = "게임 맵 조회 컨트롤러")
+@Tag(name = "ApiV1AdController", description = "행정구역 조회 컨트롤러")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ApiV1AdministrativeDistrictController {

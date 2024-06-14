@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+// 게임로그 전체 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

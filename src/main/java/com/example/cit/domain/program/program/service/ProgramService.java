@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+// 관리자용 사업 관련 전체 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

@@ -23,6 +23,8 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
+//게임관련 전체 로그 컨트롤러
+
 @RestController
 @RequestMapping(value = "/api/v1/logs", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @Tag(name = "ApiV1LogController", description = "전체 로그 통합 컨트롤러")

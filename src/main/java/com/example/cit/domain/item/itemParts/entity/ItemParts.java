@@ -6,6 +6,7 @@ import lombok.*;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 장비 부위
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

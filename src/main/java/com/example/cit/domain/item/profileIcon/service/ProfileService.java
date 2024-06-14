@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+// 플레이어 프로필 아이콘 관련 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

@@ -6,6 +6,8 @@
 
     import { showCharacterStatusModal } from "./playerStatusStore";
 
+    // 스테이지 난이도 선택 사이드바 컴포넌트
+
     const { widthValue, scaleMultiplier, gameMapId, stepsLevelCount, playerLogList, difficultySelectorMsg, difficultySelectorName, activeTransitionAnimation } = 
         $props<{ widthValue:Number, scaleMultiplier:Number, gameMapId: number, stepsLevelCount: number, playerLogList: components['schemas']['PlayerLogDto'][],
          difficultySelectorMsg: string, difficultySelectorName: string, activeTransitionAnimation: () => void }>();
@@ -24,7 +26,7 @@
     let isUnLockNormal: boolean = $state(false);
     let isUnLockHard: boolean = $state(false);
 
-    rq.test().then((res) => {
+    rq.unlock().then((res) => {
         ress = res;
         isUnLockEasy = ress!.some((log: number) => log >= gameMapId && log < gameMapId + stepsLevelCount);
         isUnLockNormal = ress!.some((log: number) => log >= normalDifficultyThreshold + 1 && log < hardDifficultyThreshold + 1);

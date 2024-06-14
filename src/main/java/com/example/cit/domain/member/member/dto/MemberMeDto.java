@@ -11,6 +11,7 @@ import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 로그인 관리, 마이페이지 관리를 위한 membre DTO
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class MemberMeDto {

@@ -860,23 +860,23 @@
 		if (gameMapDto.level === 3 || (gameMapDto.difficulty === '0' && gameMapDto.level === 2)) {
 			openLayer = true;
 			setTimeout(() => {
-				window.location.href = `/game/${gameMapDto.stage}`;
+				window.location.replace(`/game/${gameMapDto.stage}`);
 			}, 500);
 		} else if (gameMapDto.difficulty === '0') {
 			openLayer = true;
 			setTimeout(() => {
-				window.location.href = `/game/tutorial/${nextLevel}`;
+				window.location.replace(`/game/tutorial/${nextLevel}`);
 			}, 500);
 		} else {
 			openLayer = true;
 			setTimeout(() => {
-				window.location.href = `/game/${gameMapDto.stage}/${nextLevel}`;
+				window.location.replace(`/game/${gameMapDto.stage}/${nextLevel}`);
 			}, 500);
 		}
 	}
 
 	function routeToSage() {
-		window.location.href = `/game/${gameMapDto.stage}`;
+		window.location.replace(`/game/${gameMapDto.stage}`);
 	}
 
 	function showModal() {
@@ -1276,7 +1276,7 @@
 
 			<div
 				class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer"
-				on:click={() => (window.location.href = `/game/${gameMapDto.stage}`)}
+				on:click={() => (window.location.replace(`/game/${gameMapDto.stage}`))}
 				style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"
 			></div>
 

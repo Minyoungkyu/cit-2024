@@ -7,6 +7,8 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 
+// 게임 맵 DTO
+
 public record GameMapDto(
         @NonNull long id,
         @NonNull LocalDateTime createDate,

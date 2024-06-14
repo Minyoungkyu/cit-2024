@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// 사업 진행률 관련 dto
+
 public record ProgramProgressDto (
         long id,
         String programName,

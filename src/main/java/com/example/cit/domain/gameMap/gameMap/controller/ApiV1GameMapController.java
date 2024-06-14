@@ -25,6 +25,8 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
+// 게임 플레이 맵 조회 컨트롤러
+
 @RestController
 @RequestMapping(value = "/api/v1/gameMaps", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @Tag(name = "ApiV1GameMapController", description = "게임 맵 조회 컨트롤러")

@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 
+// 업적 DTO
 public record AchievementDto(
         @NonNull Long id,
         LocalDateTime createDate,

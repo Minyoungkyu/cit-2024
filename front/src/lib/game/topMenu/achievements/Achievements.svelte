@@ -2,6 +2,8 @@
 	import rq from "$lib/rq/rq.svelte";
 	import type { components } from "$lib/types/api/v1/schema";
 
+    // 도전과제, 업적 컴포넌트
+
     let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
     let adjustScale = $state(0);
 

@@ -5,6 +5,8 @@
 
     import { shopGemsModalOpen } from "$lib/game/shopStore";
 
+    // 상점 컴포넌트
+
     let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
     let adjustScale = $state(0);
 

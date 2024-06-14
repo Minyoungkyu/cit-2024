@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// 유저 - 장비 아이템 관련 전체 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

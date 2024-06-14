@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 
+// 게임 플레이어 장비 DTO
 public record ItemDto(
         @NonNull Long id,
         @NonNull LocalDateTime createDate,

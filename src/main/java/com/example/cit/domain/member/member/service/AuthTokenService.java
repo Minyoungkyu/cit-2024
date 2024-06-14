@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+// jwt 토큰 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

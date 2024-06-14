@@ -9,6 +9,7 @@ import lombok.*;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
+// 게임 플레이어 장비 아이템 jpa 엔티티
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

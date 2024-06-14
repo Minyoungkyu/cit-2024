@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+// 플레이어 게임 맵 해금 추적을 위한 게임로그 전체 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

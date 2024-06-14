@@ -11,6 +11,7 @@ import lombok.*;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
+// 유저 - 프로필 아이콘 매핑 테이블 entity
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

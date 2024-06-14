@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 사업 세부 내용 dto
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class ProgramDetailDto {

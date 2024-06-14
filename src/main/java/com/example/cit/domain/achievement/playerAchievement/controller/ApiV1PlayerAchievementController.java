@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+// 플레이어-업적 컨트롤러
+
 @RestController
 @RequestMapping(value = "/api/v1/playerAchievement", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @Tag(name = "ApiV1PlayerAchievementController", description = "플레이어 달성 업적 컨트롤러")

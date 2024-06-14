@@ -4,6 +4,8 @@
 	import { onMount } from 'svelte';
     import { showCharacterStatusModal } from './playerStatusStore';
 	import { plugin } from 'postcss';
+
+    //  캐릭터 인벤토리 팝업 컴포넌트
     
     let { widthValue, scaleMultiplier, gameMapDto, requiredPartsList, activeTransitionAnimation } 
     = $props<{ widthValue:Number, scaleMultiplier:Number, gameMapDto: components['schemas']['GameMapDto'] | undefined, 

@@ -24,6 +24,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
+// 도시, 지역 조회 컨트롤러
 @RestController
 @RequestMapping(value = "/api/v1/regions", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @Tag(name = "ApiV1RegionController", description = "게임 맵 조회 컨트롤러")

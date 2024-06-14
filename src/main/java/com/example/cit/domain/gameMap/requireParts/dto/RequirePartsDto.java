@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 
+// 게임 맵 요구 장비 DTO
 public record RequirePartsDto(
         @NonNull long id,
         @NonNull long itemPartsId

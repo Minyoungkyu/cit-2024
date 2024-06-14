@@ -11,6 +11,8 @@ import lombok.*;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 맵, 유저, 정보를 담은 게임로그 부모 엔티티
+
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

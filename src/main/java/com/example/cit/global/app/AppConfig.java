@@ -10,6 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
+// 에플리케이션 기본 설정
+
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {

@@ -11,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+// jpa base time 관련 entity
+
 @MappedSuperclass
 @Getter
 @Setter(AccessLevel.PROTECTED)

@@ -6,6 +6,8 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 
+// 플레이어 프로필 아이콘 DTO
+
 public record ProfileDto(
         @NonNull Long id,
         @NonNull LocalDateTime createDate,

@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 
 import static com.example.cit.domain.school.schoolClass.entity.QSchoolClass.schoolClass;
 
+// 유저 계정 관련 전체 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

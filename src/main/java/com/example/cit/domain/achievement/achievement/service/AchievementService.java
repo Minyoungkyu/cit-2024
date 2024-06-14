@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// 업적 서비스 로직
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

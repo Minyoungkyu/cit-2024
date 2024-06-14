@@ -2,6 +2,7 @@ package com.example.cit.domain.school.school.dto;
 
 import com.example.cit.domain.school.school.entity.School;
 
+// 학교별 진행률 추적을 위한 dto
 public record SchoolProgressDto(
         long id,
         String region,

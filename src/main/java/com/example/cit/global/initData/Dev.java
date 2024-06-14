@@ -34,6 +34,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 //@Profile("dev")
+// 기본 자료
 @Configuration
 @RequiredArgsConstructor
 public class Dev {

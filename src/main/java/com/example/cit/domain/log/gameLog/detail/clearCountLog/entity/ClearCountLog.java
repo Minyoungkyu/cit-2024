@@ -9,6 +9,7 @@ import lombok.*;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 게임 클리어 횟수 로그(자식)
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

@@ -11,6 +11,7 @@ import lombok.*;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 게임 실행 로그 (자식)
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

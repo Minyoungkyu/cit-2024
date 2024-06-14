@@ -8,6 +8,7 @@ import lombok.*;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 킬 수 카운트 로그 (자식)
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)

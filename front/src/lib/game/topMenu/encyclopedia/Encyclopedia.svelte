@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
     import { codeArray } from './codeArray';
 
+    // 코드 도감 컴포넌트
+
     let { scaleMultiplier, resolution, closeFc } = $props<{ scaleMultiplier:number, resolution:number, closeFc:() => void }>();
     let adjustScale = $state(0);
     

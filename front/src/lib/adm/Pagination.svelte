@@ -1,6 +1,8 @@
 <script lang="ts">
     import rq from '$lib/rq/rq.svelte';
     import type { PageDto } from '$lib/types';
+
+    // 페이지 네이션 컴포넌트
   
     const { page, pageDelta = 1 } = $props<{ page: PageDto; pageDelta?: number }>();
   

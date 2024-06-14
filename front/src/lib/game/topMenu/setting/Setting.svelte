@@ -2,6 +2,8 @@
     import './page.css'
     import rq from '$lib/rq/rq.svelte';
 
+    // 게임 설정 컴포넌트
+
     let { scaleMultiplier, resolution, closeFc } = $props<{ scaleMultiplier:number, resolution:number, closeFc:() => void }>();
     let adjustScale = $state(0);
 

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 학급 별 진도관리를 위한 dto
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class SchoolClassLearningDto {

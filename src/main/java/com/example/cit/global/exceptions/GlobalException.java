@@ -4,6 +4,7 @@ import com.example.cit.global.rsData.RsData;
 import com.example.cit.standard.base.Empty;
 import lombok.Getter;
 
+// exception handler
 @Getter
 public class GlobalException extends RuntimeException {
     private final RsData<Empty> rsData;

@@ -16,6 +16,7 @@ import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 관리자 상태 관리용 회원 DTO
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class MemberProgramAdmDto {

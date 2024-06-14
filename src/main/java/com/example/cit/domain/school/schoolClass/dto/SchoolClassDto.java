@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 학급 관련 기본 정보 dto
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class SchoolClassDto {

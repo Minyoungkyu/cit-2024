@@ -214,7 +214,7 @@
 
         batchPlayLog();
 
-        window.location.href = `/game/${routeStage}`;
+        window.location.replace(`/game/${routeStage}`);
     }
 
     function closeSetting() {
@@ -277,7 +277,7 @@
                 <Cocos {gameMapDto} {isCoReady} on:ready="{e => isCoReady = e.detail.isCoReady}"/>
             </div>
 
-            <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.href = `/game/${gameMapDto.stage}`}
+            <div class="absolute w-[134px] h-[134px] top-[2%] left-[1%] z-[10] cursor-pointer" on:click={() => window.location.replace(`/game/${gameMapDto.stage}`)}
                 style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;">
             </div>
             

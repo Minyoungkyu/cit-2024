@@ -17,6 +17,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import java.util.Map;
 import java.util.Optional;
 
+// request 관련 로직 모음
 @Component
 @RequestScope
 @RequiredArgsConstructor

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import static com.example.cit.domain.school.school.entity.QSchool.school;
 import static lombok.AccessLevel.PROTECTED;
 
+// 사업 list 를 위한 dto
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class ProgramInputDto {

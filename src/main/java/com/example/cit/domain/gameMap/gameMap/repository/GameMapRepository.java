@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+// 게임 맵 jpa 리포지토리
 public interface GameMapRepository extends JpaRepository<GameMap, Long> {
     Optional<GameMap> findByStepAndLevel(String tutorial, int i);
 

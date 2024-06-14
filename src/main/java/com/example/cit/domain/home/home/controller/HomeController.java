@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+// 백엔드 서버 상태 확인 용
 @Controller
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

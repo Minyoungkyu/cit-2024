@@ -9,6 +9,8 @@ import org.springframework.data.domain.Persistable;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+// jpa base entity
+
 @MappedSuperclass
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

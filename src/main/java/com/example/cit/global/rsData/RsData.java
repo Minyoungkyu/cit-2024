@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 
 import static lombok.AccessLevel.PRIVATE;
 
+// API 응답 데이터
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 @Getter

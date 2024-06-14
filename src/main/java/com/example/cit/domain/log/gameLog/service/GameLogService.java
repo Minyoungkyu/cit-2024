@@ -23,6 +23,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+// 게임로그 전체 서비스 로직
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

@@ -3,6 +3,8 @@
     import { onMount } from "svelte";
     import type { components } from '$lib/types/api/v1/schema';
 
+    // 플레이어 랭킹 컴포넌트
+
     let { scaleMultiplier, resolution } = $props<{ scaleMultiplier:number, resolution:number }>();
     let adjustScale = $state(0);
 

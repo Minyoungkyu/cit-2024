@@ -2,6 +2,8 @@
     import rq from "$lib/rq/rq.svelte";
 	import { onMount } from "svelte";
     
+    //  튜툐리얼 사이드 바 컴포넌트
+
     const { activeTransitionAnimation } = $props<{ activeTransitionAnimation: () => void }>();
     let rountGameId = $state(1);
 

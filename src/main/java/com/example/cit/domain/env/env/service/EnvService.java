@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// 환경설정 서비스 로직
 @Service
 @RequiredArgsConstructor
 public class EnvService {

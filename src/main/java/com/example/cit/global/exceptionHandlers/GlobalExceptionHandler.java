@@ -19,6 +19,7 @@ import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+// exception handler
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {

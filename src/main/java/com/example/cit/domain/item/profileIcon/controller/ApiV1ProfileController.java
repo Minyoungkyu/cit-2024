@@ -22,6 +22,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.util.MimeTypeUtils.ALL_VALUE;
 
+// 플레이어 프로필 아이콘 컨트롤러
 @RestController
 @RequestMapping(value = "/api/v1/profile", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @Tag(name = "ApiV1ProfileController", description = "프로필 아이콘 컨트롤러")

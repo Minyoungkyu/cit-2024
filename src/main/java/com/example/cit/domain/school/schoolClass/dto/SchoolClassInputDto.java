@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 학급 list 를 위한 dto
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class SchoolClassInputDto {

@@ -19,6 +19,8 @@ import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
+// 맴버 마이페이지 DTo
+
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class ClassMemberDto {
