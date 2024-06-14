@@ -32,7 +32,7 @@
     //// test
     let ress: number[] | undefined = $state([])
 
-    rq.test().then((res) => {
+    rq.unlock().then((res) => {
         ress = res;
     });
 
@@ -152,18 +152,6 @@
                 console.error('Invalid error parameter format:', e);
             }
         }
-
-        // now on test
-        const handlePopState = (event: PopStateEvent) => {
-            location.reload(); // 페이지를 새로 고침
-        };
-
-        window.addEventListener('popstate', handlePopState);
-
-        onDestroy(() => {
-            window.removeEventListener('popstate', handlePopState);
-        });
-        // 
 
         rq.fetchAndInitializeInventories();
         rq.fetchAndInitializeProfileInventories();

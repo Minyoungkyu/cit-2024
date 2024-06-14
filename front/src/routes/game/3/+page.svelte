@@ -32,7 +32,7 @@
     //// test
     let ress: number[] | undefined = $state([])
 
-    rq.test().then((res) => {
+    rq.unlock().then((res) => {
         ress = res;
     });
 

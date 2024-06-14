@@ -399,8 +399,8 @@ class Rq {
     }
   }
 
-  public async test() {
-    const { data } = await this.apiEndPoints().GET('/api/v1/members/test');
+  public async unlock() {
+    const { data } = await this.apiEndPoints().GET('/api/v1/members/unlock');
 
     if (data) {
       return data.data.idList;
