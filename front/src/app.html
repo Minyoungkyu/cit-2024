@@ -12,6 +12,7 @@
 
 		<script>
     		window.addEventListener('popstate', function(event) {
+                console.log('hihi');
                 history.pushState(null, null, location.href);
     		});
 
