@@ -1,10 +1,15 @@
-name: deploy-frontend
+name: deploy
 on:
   push:
     paths:
-      - '.github/workflows/deploy-frontend.yml'
+      - '.github/workflows/**'
+      - 'src/**'
+      - 'gradle'
+      - 'gradlew'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'Dockerfile'
       - 'front/**'
-      - 'cocos/**'
     branches:
       - main
 jobs:
@@ -31,6 +36,58 @@ jobs:
           body: ${{ steps.create_tag.outputs.changelog }}
           draft: false
           prerelease: false
+  buildBackendImageAndPush:
+    if: "!contains(github.event.head_commit.message, '[skip actions]')"
+    name: 백엔드 도커 이미지 빌드와 푸시
+    needs: makeTagAndRelease
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker Buildx 설치
+        uses: docker/setup-buildx-action@v2
+      - name: 레지스트리 로그인
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
+        env:
+          OWNER: "${{ github.repository_owner }}"
+      - name: application-secret.yml 생성
+        env:
+          ACTIONS_STEP_DEBUG: true
+          APPLICATION_SECRET_YML: ${{ secrets.APPLICATION_SECRET_YML }}
+        run: echo "$APPLICATION_SECRET_YML" > src/main/resources/application-secret.yml
+      - name: 빌드 앤 푸시
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ env.OWNER_LC }}/cit:${{ needs.makeTagAndRelease.outputs.tag_name }},
+            ghcr.io/${{ env.OWNER_LC }}/cit:latest
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_1_SSH_HOST }}
+          username: ${{ secrets.SERVER_1_SSH_USERNAME }}
+          password: ${{ secrets.SERVER_1_SSH_PASSWORD }}
+          port: ${{ secrets.SERVER_1_SSH_PORT }}
+          script: |
+            docker pull ghcr.io/minyoungkyu/cit:latest
+            docker stop cit_1
+            docker rm cit_1
+            docker run \
+                -p 8021:8080 \
+                -d \
+                -e TZ=Asia/Seoul \
+                -v /docker_projects/cit_1/volume/gen:/gen \
+                --name cit_1 \
+                ghcr.io/minyoungkyu/cit:latest
+            echo 'y' | docker image prune
   buildFrontendImageAndPush:
     if: "!contains(github.event.head_commit.message, '[skip actions]')"
     name: 프론트엔드 도커 이미지 빌드와 푸시
@@ -67,13 +124,13 @@ jobs:
           password: ${{ secrets.SERVER_1_SSH_PASSWORD }}
           port: ${{ secrets.SERVER_1_SSH_PORT }}
           script: |
+            docker pull ghcr.io/minyoungkyu/cit_front:latest
             docker stop cit_front_1
-            docker rm -f cit_front_1
-            docker rmi -f ghcr.io/minyoungkyu/cit_front:latest
+            docker rm cit_front_1
             docker run \
                 -p 8022:3000 \
                 -d \
                 --name cit_front_1 \
                 -e TZ=Asia/Seoul \
                 ghcr.io/minyoungkyu/cit_front:latest
-            echo 'y' | docker image prune            
+            echo 'y' | docker image prune
