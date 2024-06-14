@@ -1,4 +1,4 @@
-name: deploy
+name: deploy-frontend
 on:
   push:
     paths:
@@ -76,3 +76,4 @@ jobs:
                 --name cit_front_1 \
                 -e TZ=Asia/Seoul \
                 ghcr.io/minyoungkyu/cit_front:latest
+            
