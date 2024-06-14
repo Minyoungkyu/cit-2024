@@ -327,8 +327,8 @@ export interface paths {
     /** 계정 단건 조회 */
     get: operations["getSchoolClass_1"];
   };
-  "/api/v1/members/test": {
-    /** 테스트 */
+  "/api/v1/members/unlock": {
+    /** 해금맵 id 조회 */
     get: operations["test_1"];
   };
   "/api/v1/members/system": {
@@ -1558,15 +1558,15 @@ export interface components {
       msg: string;
       data: components["schemas"]["MemberDetailResponseBody"];
     };
-    IdListTestResponseBody: {
+    IdListUnlockResponseBody: {
       idList: number[];
     };
-    RsDataIdListTestResponseBody: {
+    RsDataIdListUnlockResponseBody: {
       resultCode: string;
       /** Format: int32 */
       statusCode: number;
       msg: string;
-      data: components["schemas"]["IdListTestResponseBody"];
+      data: components["schemas"]["IdListUnlockResponseBody"];
     };
     GetSystemAdminResponseBody: {
       itemPage: components["schemas"]["PageDtoMemberDto"];
@@ -3597,13 +3597,13 @@ export interface operations {
       };
     };
   };
-  /** 테스트 */
+  /** 해금맵 id 조회 */
   test_1: {
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["RsDataIdListTestResponseBody"];
+          "application/json": components["schemas"]["RsDataIdListUnlockResponseBody"];
         };
       };
       /** @description Bad Request */

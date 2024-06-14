@@ -225,17 +225,17 @@ public class ApiV1MemberController {
         );
     }
 
-    public record IdListTestResponseBody(@NonNull List<Long> idList) {}
+    public record IdListUnlockResponseBody(@NonNull List<Long> idList) {}
 
-    @GetMapping(value = "/test", consumes = ALL_VALUE)
-    @Operation(summary = "테스트")
+    @GetMapping(value = "/unlock", consumes = ALL_VALUE)
+    @Operation(summary = "해금맵 id 조회")
     @SecurityRequirement(name = "bearerAuth")
-    public RsData<IdListTestResponseBody> test() {
+    public RsData<IdListUnlockResponseBody> test() {
         List<Long> unLockMapIds = Optional.ofNullable(rq.getMember().getStudentClass())
                 .map(SchoolClass::getUnLockMapIds)
                 .orElse(Collections.emptyList());
 
-        return RsData.of(new IdListTestResponseBody(unLockMapIds));
+        return RsData.of(new IdListUnlockResponseBody(unLockMapIds));
     }
     public record GetSystemAdminResponseBody(@NonNull PageDto<MemberDto> itemPage) {}
 
