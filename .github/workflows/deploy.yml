@@ -87,10 +87,11 @@ jobs:
                 -v /docker_projects/cit_1/volume/gen:/gen \
                 --name cit_1 \
                 ghcr.io/minyoungkyu/cit:latest
+            echo 'y' | docker image prune
   buildFrontendImageAndPush:
     if: "!contains(github.event.head_commit.message, '[skip actions]')"
     name: 프론트엔드 도커 이미지 빌드와 푸시
-    needs: makeTagAndRelease
+    needs: [ makeTagAndRelease, buildBackendImageAndPush ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -132,3 +133,4 @@ jobs:
                 --name cit_front_1 \
                 -e TZ=Asia/Seoul \
                 ghcr.io/minyoungkyu/cit_front:latest
+            echo 'y' | docker image prune
