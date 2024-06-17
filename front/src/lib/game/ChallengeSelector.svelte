@@ -10,7 +10,7 @@
     function onClickToStart() {
         activeTransitionAnimation();
         setTimeout(() => {
-            window.location.href = '/game/tutorial/' + rountGameId;
+            window.location.href = '/game/3/95';
         }, 500);
     }
 
@@ -52,13 +52,14 @@
     style="background-image:url('/img/map/ui_stage_Gradation.png');">
     <div class="flex flex-col w-[501px]">
         <div class="w-full mr-16">
-            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:5px 10px gray">Tutorial</div>
+            <div class="text-[70px] font-extrabold text-white text-right mr-[50px]" style="text-shadow:5px 10px gray">Challenge</div>
         </div>
         <div class="flex flex-col items-end w-full">
             <div class="w-[501px] h-[52px]" style="background-image:url('/img/map/ui_mission_top.png');"></div>
             <div class="w-[450px] h-[500px] flex justify-start">
                 <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">
-                    {'지구의 환경이 심각하게 오염되어 더 이상 살 수 없는 상태가 되었습니다.\n이제 여러분은 인류의 미래를 위해 우주로 떠나 미지의 행성을 개척해야 합니다. \n우주 탐사를 위해 기본적인 이동 방법을 배워봅시다.'}
+                    <!-- ToDo: mission info -->
+                    {''} 
                 </div>
             </div>
         </div>

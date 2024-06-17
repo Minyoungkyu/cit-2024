@@ -6,9 +6,8 @@
     import './page.css'
 
     import DifficultySelector from '$lib/game/DifficultySelector.svelte';
-    import TutorialSelector from '$lib/game/TutorialSelector.svelte';
-    import MiniGame1Selector from '$lib/game/MiniGame1Selector.svelte';
     import TransitioningCloseLayer from '$lib/game/TransitioningCloseLayer.svelte';
+    import ChallengeSelector from '$lib/game/ChallengeSelector.svelte';
 
     import Shop from '$lib/game/topMenu/shop/Shop.svelte';
     import Encyclopedia from '$lib/game/topMenu/encyclopedia/Encyclopedia.svelte';
@@ -558,6 +557,21 @@
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-gray-400 italic" style="">THREE - FOUR</div>
         </div>
         {/if}
+
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[33%] left-[35%] cursor-pointer" on:click={() => toggleDropdown(0)} data-gameMapId="86"
+            style="bottom:33%;left:35%;background-image: url(/img/map/ui_stage_{(isDropdownOpen[0] ? '3' : '2')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
+            <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="color:{(isDropdownOpen[0] ? 'rgb(255 210 87);' : 'rgb(64 226 255);')}">챌린지</div>
+            <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="color:{(isDropdownOpen[0] ? 'rgb(255 210 87);' : 'rgb(64 226 255);')}">challenge</div>
+        </div>
+            {#if isDropdownOpen[0]}
+                <div
+                    class="absolute right-[0] top-[0] z-[98]"
+                    style="transform-origin:top right;transform:scale({scaleMultiplier})"
+                >
+                    <ChallengeSelector {activeTransitionAnimation} />
+                </div>
+            {/if}
+
     </div>
 </div>
 

@@ -979,7 +979,7 @@ export const codeArray = [
         `
         while True:
             if checkFront() == "폭탄":
-                get("폭탄")
+                getBomb()
         `
     },
     {
