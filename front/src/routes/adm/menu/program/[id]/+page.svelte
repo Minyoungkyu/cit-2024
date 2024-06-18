@@ -29,8 +29,8 @@
 
     let showAd = $state(true);
 
-    let regionInput = $state(programDto.city);
-    let adInput = $state(programDto.administrativeDistrict);
+    let regionInput = $state('시도');
+    let adInput = $state('행정구');
     let agencyInput = $state(programDto.schoolsNames) as components['schemas']['SchoolInputListDto'][];
     let agencyInputText = $state('');
     let memberInput = $state(programDto.responsibleMemberNames) as components['schemas']['MemberInputListDto'][];
