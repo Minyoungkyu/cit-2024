@@ -817,17 +817,15 @@ public class DevInit2 {
     @Order(12)
     ApplicationRunner initUser() {
         return args -> {
-            if (memberRepository.findByUsername("system").isEmpty()) {
-                Member memberSystemAdmin1 = memberService.join("system", "tmd0605", "시스템관리자", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
-                memberSystemAdmin1.setRefreshToken("system");
-                Member memberSystemAdmin2 = memberService.join("system2", "tmd0605", "시스템관리자2", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+            if (memberRepository.findByUsername("systemhadeul").isEmpty()) {
+                Member memberSystemAdmin1 = memberService.join("systemhadeul", "gkemf2024!", "시스템관리자", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                memberSystemAdmin1.setRefreshToken("systemhadeul");
+                Member memberSystemAdmin2 = memberService.join("system2", "tmd0614", "시스템관리자2", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
                 memberSystemAdmin2.setRefreshToken("system2");
-                Member memberSystemAdmin3 = memberService.join("system3", "tmd0605", "시스템관리자3", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                Member memberSystemAdmin3 = memberService.join("system3", "tmd0614", "시스템관리자3", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
                 memberSystemAdmin3.setRefreshToken("system3");
-                Member memberSystemAdmin4 = memberService.join("system4", "tmd0605", "시스템관리자4", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
+                Member memberSystemAdmin4 = memberService.join("system4", "tmd0614", "시스템관리자4", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
                 memberSystemAdmin4.setRefreshToken("system4");
-                Member memberSystemAdmin5 = memberService.join("system5", "tmd0605", "시스템관리자5", "010-1234-1234", 4, "부서1", "직급1", "123-456-7890").getData();
-                memberSystemAdmin5.setRefreshToken("system5");
             }
         };
     }

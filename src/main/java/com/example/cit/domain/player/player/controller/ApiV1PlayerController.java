@@ -94,7 +94,6 @@ public class ApiV1PlayerController {
             @Valid @RequestBody UpdatePlayerSetting body
     ) {
         playerService.updatePlayerSetting(rq.getMember(), body.playerDto());
-        System.out.println("helo");
     }
 
 }

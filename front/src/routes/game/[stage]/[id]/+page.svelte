@@ -209,7 +209,7 @@
 			}
 
 			if (lastNumber) {
-				updateErrorHighlight(Number(lastNumber - 2067 - cocosInfoLength));
+				updateErrorHighlight(Number(lastNumber - 2068 - cocosInfoLength));
 			}
 			const errorPattern = /\b\w+Error\b:.*/;
 			const errorMessage = longText.split('\n').find((line: string) => errorPattern.test(line));
@@ -763,6 +763,7 @@
 
 	function handlePlay() {
 		if (isPause) {
+			// if(framePerSecond === 120) (window as any).GameFrameDouble();
 			isReplay = true;
 			playCanPause = true;
 			(window as any).ExternalResumeGame();

@@ -59,7 +59,7 @@
             <div class="w-[450px] h-[500px] flex justify-start">
                 <div class="text-[25px] font-bold text-white mt-12" style="white-space:pre-wrap;">
                     <!-- ToDo: mission info -->
-                    {''} 
+                    {'우주 해적을 성공적으로 제압하였습니다.\n\n미션: 코드이썬에서 파이썬 프로그래밍 기초를 습득하였습니다.\n이제 여러분이 직접 도전할 수 있는 스테이지입니다.\n다음 문제에 도전해 보세요'}
                 </div>
             </div>
         </div>

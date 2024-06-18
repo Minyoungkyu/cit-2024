@@ -107,7 +107,8 @@ class Character:
         self.info_print_index = self.update_print_index()
         self.hero_do_print = False
 
-        self.hero_cannot_jump_stage = ['2-2Normal1','2-2Hard1',
+        self.hero_cannot_jump_stage = ['1-1Easy1','1-1Easy2','1-1Easy3','1-1Normal1','1-1Normal2','1-1Normal3','1-1Hard1','1-1Hard2','1-1Hard3',
+                                       '2-2Normal1','2-2Hard1',
                                        '2-3Easy1','2-3Easy2','2-3Normal1','2-3Normal2','2-3Hard1','2-3Hard2',
                                        '3-4Easy1','3-4Easy2','3-4Easy3','3-4Normal1','3-4Normal2','3-4Normal3','3-4Hard1','3-4Hard2','3-4Hard3']
         

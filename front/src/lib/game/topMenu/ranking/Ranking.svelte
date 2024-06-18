@@ -59,8 +59,8 @@
             </div>
             <div class="w-[404.8px] h-[107.2px] flex items-center justify-center" style="background-image:url('/img/map/ui_user_inf_off.png');background-size:contain;">
                 <div class="flex flex-row justify-between w-full px-14">
-                    <div class="text-[40px] front-bold italic" style="color:rgb(64 226 255);">Lv. {rq.getPlayerLeve()}</div>
-                    <div class="text-[40px] front-bold italic" style="color:rgb(64 226 255);">{rq.member.player.nickname}</div>
+                    <div class="text-[30px] front-bold italic" style="color:rgb(64 226 255);">Lv. {rq.getPlayerLeve()}</div>
+                    <div class="text-[30px] front-bold italic" style="color:rgb(64 226 255);">{rq.member.player.nickname}</div>
                 </div>
             </div>
             {#if rq.member.authorities.length == 1}

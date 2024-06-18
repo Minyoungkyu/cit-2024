@@ -70,6 +70,19 @@ public class GameMapService {
     public GameMap checkAccessAndGetGameMap(Long gameMapId) {
 
         Member member = rq.getMember();
+
+        if (gameMapId == 95) {
+            playerLogRepository.findByUserIdAndGameMapIdAndLogTypeAndDetailIntGreaterThanEqual(member.getId(), 94L, "STAGECLEAR", 1)
+                    .ifPresentOrElse(
+                            log -> {},
+                            () -> {
+                                if(member.getRoleLevel() < 2) throw new GlobalException("403-1", "잘못된 접근입니다.");
+                            }
+                    );
+
+            return gameMapRepository.findById(94L).get() ;
+        }
+
         GameMap gameMap = gameMapRepository.findById(gameMapId)
                 .orElseThrow(() -> new GlobalException("404-1", "잘못된 접근입니다."));
 

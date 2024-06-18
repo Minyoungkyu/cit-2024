@@ -15,6 +15,11 @@
         }
     });
 
+    const originalEffectVolume = rq.member.player.effectVolume;
+    const originalBackgroundVolume = rq.member.player.backgroundVolume;
+    const originalEditorAutoComplete = rq.member.player.editorAutoComplete;
+    const originalEditorAutoClose = rq.member.player.editorAutoClose;
+
     let currentEffectVolume = $state(rq.member.player.effectVolume);
     let currentBackgroundVolume = $state(rq.member.player.backgroundVolume);
 
@@ -54,6 +59,15 @@
 
         closeFc();
     }
+
+    function close() {
+        rq.member.player.effectVolume = originalEffectVolume;
+        rq.member.player.backgroundVolume = originalBackgroundVolume;
+        rq.member.player.editorAutoComplete = originalEditorAutoComplete;
+        rq.member.player.editorAutoClose = originalEditorAutoClose;
+
+        closeFc();
+    }
 </script>
 
 <div class="setting_box flex justify-center items-end mt-[10%] relative" style="transform:scale(0.8) scale({adjustScale});pointer-events:auto;">
@@ -61,7 +75,7 @@
 
         <div class="absolute w-[46px] h-[46px] top-[25px] right-[30px] cursor-pointer" 
             style="background-image:url('/img/inGame/btn_popup_close.png');transform-origin:top right;transform:scale(1);"
-            on:click={() => closeFc()}>
+            on:click={() => close()}>
         </div>
 
         <div class="w-full h-[401px] flex flex-col items-center">

@@ -16,7 +16,8 @@
 	// const { data } = $props<{
 	// 	data: { gameMapDto: components['schemas']['GameMapDto']; };
 	// }>();
-	// const { gameMapDto } = data;
+	// const gameMapDtoo = data!.gameMapDto;
+
 
 	const gameMapDto: components['schemas']['GameMapDto'] = {
 		id: 95,
@@ -26,9 +27,16 @@
 		step: '3-5',
 		difficulty: 'Easy',
 		level: 1,
-		editorAutoComplete: '',
-		editorMessage: '',
-		clearGoal: '',
+		editorAutoComplete: 'go(),for i in range(),turnLeft(),turnRight()',
+		editorMessage: dedent
+		`
+		# 각 방의 스위치를 밟으면 전리품이 노란색 마커 위에 떨어지고 각 스위치는 세번씩 작동합니다.
+		`,
+		clearGoal: dedent
+		`
+		전리품 24개 획득하기
+		코드 80줄 이하로 작성하기
+		`,
 		cocosInfo: dedent
 		`
 		stage = {
@@ -91,15 +99,24 @@
 			]
 		}
 		`,
-		guideText: '',
+		guideText: dedent
+		`
+		전리품 획득
+
+		우주 해적을 성공적으로 제압하였습니다.
+
+		미션: 코드이썬에서 파이썬 프로그래밍 기초를 습득하였습니다.
+
+		이제 여러분이 직접 도전할 수 있는 스테이지입니다.
+
+		다음 문제에 도전해 보세요
+		`,
 		guideImage: '',
-		commandGuide: '',
+		commandGuide: 'go(),for i in range(),turnLeft(),turnRight()',
 		rewardExp: 0,
 		rewardJewel: 0,
-		maxBonusCriteria: 0,
+		maxBonusCriteria: 80,
 	}
-
-	console.log(gameMapDto.cocosInfo);
 
 	const usingMedicineStage = [49, 52, 55];
 	const usingKitStage = [50, 53, 56, 91, 92, 93, 94];
@@ -213,42 +230,6 @@
 		return finalPercentage;
 	}
 
-	async function loadSwitchLog() {
-		const { data } = await rq.apiEndPointsWithFetch(fetch).GET(`/api/v1/playerLogs/switch`, {
-			params: {
-				query: {
-					step: gameMapDto.step,
-					diff: gameMapDto.difficulty
-				}
-			}
-		});
-
-		let maxLevel = 0;
-
-		if (gameMapDto.step == 'tutorial') maxLevel = 2;
-		else maxLevel = 3;
-
-		let newList = [];
-		let level = 1;
-		let switchLogList = data!.data.switchLogList;
-
-		currentGameLog = switchLogList.find((log) => log.gameMapId === gameMapDto.id);
-
-		while (level <= maxLevel) {
-			const matchingLog = switchLogList.find((log) => log.gameMapLevel == level);
-
-			if (matchingLog) {
-				newList.push(matchingLog);
-			} else {
-				newList.push(null);
-			}
-
-			level++;
-		}
-
-		return newList;
-	}
-
 	async function executePython(): Promise<void> {
 		showSuccessPop = false;
 		showFailPop = false;
@@ -290,7 +271,7 @@
 			}
 
 			if (lastNumber) {
-				updateErrorHighlight(Number(lastNumber - 2067 - cocosInfoLength));
+				updateErrorHighlight(Number(lastNumber - 2068 - cocosInfoLength));
 			}
 			const errorPattern = /\b\w+Error\b:.*/;
 			const errorMessage = longText.split('\n').find((line: string) => errorPattern.test(line));
@@ -345,8 +326,6 @@
 		const parsedData = JSON.parse(result.result);
 		const lastItem = parsedData[parsedData.length - 1];
 		let resultCode = lastItem.status === 1 ? 1 : 0;
-
-		batchGameLog(resultCode);
 	}
 
 	function calculateBonus(shortestLength: number, userLength: number) {
@@ -360,34 +339,6 @@
 		}
 
 		return baseScore + bonusPoints;
-	}
-
-	async function batchGameLog(result: number) {
-		await rq.apiEndPointsWithFetch(fetch).POST(`/api/v1/gameLogs/batchGameLog`, {
-			body: {
-				gameMapDto: gameMapDto,
-				result: result,
-				editorAutoComplete: rq.member.player.editorAutoComplete,
-				editorAutoClose: rq.member.player.editorAutoClose,
-				killCount: killCount
-			}
-		});
-	}
-
-	async function batchPlayLog(playerScore: number) {
-		const { response } = await rq
-			.apiEndPointsWithFetch(fetch)
-			.POST(`/api/v1/playerLogs/batchPlayLog`, {
-				body: {
-					gameMapDto: gameMapDto,
-					playerScore: playerScore,
-					result: 'clear'
-				}
-			});
-
-		if (!response.ok) {
-			rq.msgError('서버 오류 발생');
-		}
 	}
 
 	// let i = 0;
@@ -790,7 +741,7 @@
 				if (frame.player.food_count >= foodGoals[0].count) {
 					clearGoalColorArray[i] = 'rgb(255 210 87)';
 				}
-			} else if (clearGoalList[i].includes('로켓부품')) {
+			} else if (clearGoalList[i].includes('전리품')) {
 				let rocketGoals = stageObject.stage.goal_list.filter(
 					(goal: any) => goal.type === 'rocket_parts'
 				);
@@ -799,10 +750,6 @@
 				}
 			} else if (clearGoalList[i].includes('줄 이하')) {
 				checkLineCount = false;
-				if (gameMapDto.difficulty !== 'Hard') {
-					checkLineCount = true;
-					return;
-				}
 
 				let codeLineGoals = stageObject.stage.goal_list.filter((goal: any) => goal.goal === 'line');
 				if (lineCounter <= codeLineGoals[0].count) {
@@ -913,27 +860,7 @@
 	}
 
 	async function doComplete() {
-		try {
-			await batchPlayLog(playerScore);
-
-			if (
-				gameMapDto.level === 3 ||
-				(gameMapDto.difficulty === '0' && gameMapDto.level === 2) ||
-				(gameMapDto.step == 'tutorial' && gameMapDto.level === 2)
-			) {
-				if (currentGameLog && currentGameLog.detailInt === 0) {
-					rq.member.player.gems += gameMapDto.rewardJewel;
-					rq.member.player.exp += gameMapDto.rewardExp;
-					showSuccessPop = false;
-					showClearPopup = true;
-					return;
-				}
-			}
-
-			routeToNext();
-		} catch (error) {
-			console.error('Error completing the action:', error);
-		}
+		window.location.replace('/game/3');
 	}
 
 	function routeToNext() {
@@ -1010,28 +937,6 @@
 		editor.moveCursorToPosition(newPosition);
 		editor.scrollToLine(newPosition.row, true, true, function () {});
 		editor.commands.exec('addLineAfter', editor);
-	}
-
-	function guideToNext() {
-		if (currentGuideIndex == btnGuideArray.length - 1) {
-			return;
-		}
-		currentGuideIndex++;
-
-		btnGuideArray.fill(false);
-
-		btnGuideArray[currentGuideIndex] = true;
-	}
-
-	function guideToPrev() {
-		if (currentGuideIndex == 0) {
-			return;
-		}
-		currentGuideIndex--;
-
-		btnGuideArray.fill(false);
-
-		btnGuideArray[currentGuideIndex] = true;
 	}
 
 	function closeSetting() {
@@ -1299,42 +1204,6 @@
 				style="background-image:url('/img/inGame/btn_back.png');transform:scale(0.4) scale({scaleMultiplier2}); transform-origin:left top;"
 			></div>
 
-			{#await loadSwitchLog() then data}
-				<div
-					class="flex flex-row gap-4 absolute top-[2%] left-[10%]"
-					style="transform:scale({scaleMultiplier2});transform-origin:left top;{showBtnGuide &&
-					btnGuideArray[7]
-						? 'box-shadow:0 0px 20px 20px rgb(255, 255, 255, 0.5);z-index:999;'
-						: ''}"
-				>
-					{#each data as switchLog, index}
-						{#if switchLog || rq.member.authorities.length >= 2}
-							<div
-								class="switchBtn w-[55px] h-[55px] cursor-pointer"
-								on:mouseenter={(e) => hoverMouse(e, index + 1)}
-								on:mouseleave={(e) => resetBackground(e, index + 1)}
-								on:click={() =>
-									window.location.replace(
-										`/game/${gameMapDto.stage}/${gameMapDto.id - gameMapDto.level + index + 1}`
-									)}
-								style="background-image:url('/img/inGame/btn_{index + 1}_{gameMapDto.level ==
-								index + 1
-									? 'ho'
-									: 'on'}.png');background-size:contain;{index + 1 == gameMapDto.level
-									? 'pointer-events:none;'
-									: ''}"
-							></div>
-						{:else}
-							<div
-								class="w-[55px] h-[55px]"
-								style="background-image:url('/img/inGame/btn_{index +
-									1}_off.png');background-size:contain;"
-							></div>
-						{/if}
-					{/each}
-				</div>
-			{/await}
-
 			{#if showFailPop}
 				<div
 					class="w-full h-full absolute top-0 left-0 z-[99] unfold-animation flex flex-col justify-center items-center text-red-500 text-[80px]"
@@ -1366,7 +1235,7 @@
 			{/if}
 			{#if showSuccessPop}
 				<div
-					class="w-full h-full absolute top-0 left-0 z-[99] unfold-animation flex justify-center items-center text-white"
+					class="w-full h-full absolute top-0 left-0 z-[99] flex justify-center items-center text-white unfold-animation"
 					style="background-image:url('/img/inGame/mini1_popup6.png');background-size:contain;background-repeat:no-repeat;background-position:center;"
 				>
 					<div
@@ -1374,20 +1243,24 @@
 						style="transform:scale({scaleMultiplier2});"
 					>
 						<div class="flex flex-col items-start">
-							<div>
-								클리어점수 : {baseScore}P
+							<div class="text-[120px] italic" style="color:rgb(64 226 255);">
+								success
+								<!-- <span class="text-red-500">s</span>
+								<span class="text-orange-500">u</span>
+								<span class="text-yellow-500">c</span>
+								<span class="text-green-500">c</span>
+								<span class="text-blue-500">e</span>
+								<span class="text-blue-700">s</span>
+								<span class="text-purple-600">s</span> -->
 							</div>
-							<div class="flex flex-row gap-4 justify-center">
-								<div>
-									라인 보너스 : + {playerScore - baseScore}P
-								</div>
-								<div class="text-[18px] flex items-end">
+							<div class="w-full border-b mt-[-30px] border-[4px]" style="border-color:rgb(68 226 255);"></div>
+							<div class="flex flex-row gap-4 w-full justify-start items-start mt-[10px]">
+								<!-- <div class="text-[18px] flex items-end w-full">
 									최소 라인수({gameMapDto.maxBonusCriteria})
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<div class="text-[50px]">
-							합계({playerScore}P / <span style="color: gold;">{baseScore * 2}P</span>)
 						</div>
 						<div class="w-full flex justify-end mt-[-60px] ml-[300px]">
 							<div
@@ -1535,9 +1408,6 @@
 								class="text-[30px] font-[900] flex flex-row ml-[30px]"
 								style="color:{clearGoalColorArray[index]};"
 							>
-								{#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
-									<div class="w-[40px] h-[20px]"></div>
-								{:else}
 									<div class="w-[40px] h-[20px]">
 										{#if clearGoalColorArray[index] === 'rgb(255 210 87)'}
 											◆
@@ -1545,16 +1415,9 @@
 											◇
 										{/if}
 									</div>
-								{/if}
-								{#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
-									<!-- <div class="mt-[20px]">
-                                    {goal} (권장)
-                                </div> -->
-								{:else}
 									<div>
 										{goal}
 									</div>
-								{/if}
 							</div>
 						{/each}
 					</div>
@@ -1562,7 +1425,7 @@
 						class="w-[547px] h-[71px]"
 						style="background-image:url('/img/inGame/ui_goal_end.png');"
 					>
-						{#each clearGoalList as goal, index}
+						<!-- {#each clearGoalList as goal, index}
 							{#if goal.includes('줄 이하') && gameMapDto.difficulty !== 'Hard'}
 								<div
 									class="text-[30px] font-[900] flex flex-row ml-[85px]"
@@ -1571,7 +1434,7 @@
 									{goal} (권장)
 								</div>
 							{/if}
-						{/each}
+						{/each} -->
 					</div>
 				</div>
 			</div>
@@ -1664,12 +1527,12 @@
 							style="background-image:url('/img/inGame/btn_coodbook.png');"
 							on:click={() => (openEncyclopedia = true)}
 						></div>
-						<div
+						<!-- <div
 							class="cursor-pointer w-[34px] h-[34px] scale-[0.8]"
 							style="background-image:url('/img/inGame/btn_help.png')"
 							on:click={showModal}
-						></div>
-						<div
+						></div> -->
+						<!-- <div
 							bind:this={hintModal}
 							class="w-[702px] h-[1080px] rounded-lg flex flex-col items-center justify-center absolute z-[99] top-0 right-0 origin-top-right {showGuide
 								? ''
@@ -1725,7 +1588,6 @@
 									style="background-image:url('/img/inGame/btn_action4.png');background-size:100% 100%"
 									on:click={() => closeModal()}
 								>
-									<!--closeModal()-->
 									<div class="w-[208px] h-[74px]" style="">
 										<div
 											class="font-[900] text-[35px] flex justify-center leading-[80px]"
@@ -1736,7 +1598,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div
 							class="w-[34px] h-[34px] cursor-pointer"
 							on:click={() => (showResetConfirm = true)}
@@ -1843,7 +1705,7 @@
 	</div>
 </div>
 
-<!-- <TransitioningOpenLayer isCoReady={showStart} {openLayer} /> -->
+<TransitioningOpenLayer isCoReady={showStart} {openLayer} />
 
 <style>
 	.container {

@@ -69,6 +69,8 @@
     const stageNeedIds = [58, 61, 70, 79]; // Todo: 각 step, easy 난이도 마지막 레벨 맵의 id를 입력
 
     function findHighestStageStartId(highestClearedId: number): number { // 클리어한 최고 gameMapId 로 해금 스테이지 구하기 함수
+        if (highestClearedId === 94) return 95;
+
         if (highestClearedId > 88) return 999;
 
         for (let i = stageNeedIds.length - 1; i >= 0; i--) {
@@ -81,6 +83,10 @@
 
     function isOpen(stageId: number) { // 스테이지 해금 여부 확인 함수
         return gameMapIds.some(id => id >= stageId && id < stageId + 9);
+    }
+
+    function isChallengeOpen() {
+        return playerLogList.some(log => log.gameMapId === 94 && log.detailInt! >= 1);
     }
 
     let isDropdownOpen = $state([false, false, false, false, false]); // 드롭다운 메뉴 상태 추적
@@ -558,7 +564,8 @@
         </div>
         {/if}
 
-        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[33%] left-[35%] cursor-pointer" on:click={() => toggleDropdown(0)} data-gameMapId="86"
+        {#if isChallengeOpen()}
+        <div class="stage_btn absolute w-[406px] h-[219px] bottom-[33%] left-[35%] cursor-pointer" on:click={() => toggleDropdown(0)} data-gameMapId="95"
             style="bottom:33%;left:35%;background-image: url(/img/map/ui_stage_{(isDropdownOpen[0] ? '3' : '2')}.png); transform:scale(0.67) scale({scaleMultiplier2});transform-origin:bottom left;">            
             <div class="stage-text absolute right-[7%] top-[-13px] text-[55px] text-white font-bold" style="color:{(isDropdownOpen[0] ? 'rgb(255 210 87);' : 'rgb(64 226 255);')}">챌린지</div>
             <div class="stage-text inE absolute right-[14%] top-[33%] text-[25px] text-white italic" style="color:{(isDropdownOpen[0] ? 'rgb(255 210 87);' : 'rgb(64 226 255);')}">challenge</div>
@@ -571,6 +578,7 @@
                     <ChallengeSelector {activeTransitionAnimation} />
                 </div>
             {/if}
+        {/if}
 
     </div>
 </div>
