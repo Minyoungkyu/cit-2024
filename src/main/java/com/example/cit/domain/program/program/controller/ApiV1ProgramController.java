@@ -236,8 +236,7 @@ public class ApiV1ProgramController {
                 "사업명",
                 "시작날짜",
                 "종료날짜",
-                "시도",
-                "행정구",
+                "지역",
                 "담당자",
                 "사용기관"
         });
@@ -262,7 +261,6 @@ public class ApiV1ProgramController {
                     String.valueOf(program.getStartDate()),
                     String.valueOf(program.getEndDate()),
                     program.getCity(),
-                    program.getAdministrativeDistrict(),
                     memberNames,
                     schoolNames,
             });

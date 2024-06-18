@@ -147,7 +147,7 @@
                     <!-- <td >{program.id}</td> -->
                     <td >{program.name}</td>
                     <td >{program.startDate} ~ {program.endDate}</td>
-                    <td >{program.city}&nbsp;{program.administrativeDistrict}</td>
+                    <td class="overflow-hidden whitespace-nowrap truncate max-w-[250px]">{program.city.split(',').join(', ')}</td>
                     <td >{program.responsibleMemberNames.map(item => item).join(', ')}</td>
                     <td class="overflow-hidden whitespace-nowrap truncate max-w-xs">{program.schoolsNames.join(', ')}</td>
                     <td>

@@ -18,7 +18,7 @@
 </script>
 
 <ul class="menu sideMenuContainer bg-gray-100 text-gray-800 min-w-[170px] w-[250px] h-screen relative p-0 overflow-hidden">
-    <li class="text-[30px] font-bold mt-6 mb-[6vh] items-center cursor-pointer" 
+    <li class="text-[30px] font-bold mt-[7PX] mb-[30px] items-center cursor-pointer" 
         on:click={() => {
             if (rq.member.authorities.length >= 3) {
                 window.location.href = '/adm/menu/dashBoard';
@@ -27,7 +27,10 @@
             }
         }}
     >
-        CODE-YTHON
+        <div class="leading-[25px]">
+            MISSION
+            CODE-YTHON
+        </div>
     </li>
     {#each menuItems as { label, path, role, icon }}
         {#if rq.member.authorities.length >= role}

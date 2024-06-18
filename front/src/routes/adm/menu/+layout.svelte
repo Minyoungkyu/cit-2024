@@ -66,7 +66,7 @@
                         {rq.member.name} 님
                     </a>
                 </div>
-                <div class="top-content cursor-pointer" on:click={() => rq.goTo('/game/1')}>
+                <div class="top-content cursor-pointer" on:click={() => window.location.href = ('/game/1')}>
                     <i class="fa-solid fa-door-open"></i>
                     <span>게임으로 이동</span>
                 </div>

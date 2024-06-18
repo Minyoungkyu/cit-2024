@@ -36,8 +36,8 @@
                         progressRate.memberNames!.length > 0 ? progressRate.memberNames : "-"
                     }
                 </td>
-                <td>2024.06.05</td>
-                <td>2024.06.05</td>
+                <td>{progressRate.startDate}</td>
+                <td>{progressRate.endDate}</td>
                 <td class="w-[400px]">
                     <progress class="progress progress-primary w-[300px]" 
                         value={progressRate.schoolProgressDtoList

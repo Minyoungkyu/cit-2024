@@ -203,13 +203,18 @@
         //     return;
         // }
 
-        if(regionInput === '시도' || (regionInput !== '전국' && adInput === '행정구')) {
-            rq.msgError('지역을 입력해주세요.');
-            return;
-        }
+        // if(regionInput === '시도' || (regionInput !== '전국' && adInput === '행정구')) {
+        //     rq.msgError('지역을 입력해주세요.');
+        //     return;
+        // }
 
-        if(regionInput === '전국') {
-            adInput = '';
+        // if(regionInput === '전국') {
+        //     adInput = '';
+        // }
+
+        if (areaInput.length === 0) {
+            rq.msgError('지역을 추가해주세요.');
+            return;
         }
 
         const { data, error } = await rq.apiEndPoints().PUT('/api/v1/programs/modify', {
@@ -218,8 +223,10 @@
                 // name: form.programName.value,
                 startDate: form.startDate.value,
                 endDate: form.endDate.value,
-                region: regionInput,
-                ad: adInput,
+                // region: regionInput,
+                // ad: adInput,
+                region: areaInput.toString(),
+                ad: '',
                 agency: agencyInput,
                 member: memberInput
             }
@@ -290,6 +297,36 @@
         adInput = '행정구';
     }
 
+    let areaInput:string[] = $state(programDto.city.split(','));
+    
+    function addAreaInput() {
+
+        if (regionInput === '시도') {
+            rq.msgError('시도를 선택해주세요.');
+            return;
+        }
+
+        if (regionInput !== '전국' && adInput === '행정구') {
+            rq.msgError('행정구를 선택해주세요.');
+            return;
+        }
+
+        if(regionInput === '전국') {
+            adInput = '';
+        }
+        
+        if (areaInput.includes(regionInput + ' ' + adInput)) {
+            rq.msgError('이미 추가된 지역입니다.');
+            return;
+        }
+
+        areaInput.push(regionInput + ' ' + adInput);
+    }
+
+    function removeAreaInput(area:string) {
+        areaInput.splice(areaInput.indexOf(area), 1);
+    }
+
     onMount(() => {
         if (regionInput === '전국') {
             showAd = false;
@@ -345,37 +382,53 @@
                 <tr>
                     <td class="border-b p-1 text-[15px] w-[150px] font-bold">지역<span class="ml-1 text-red-500">*</span></td>
                     <td class="border-b p-3">
-                      <div class="flex flex-row gap-6">
-                          <div>
-                              <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" 
-                                bind:this={selectElementRg}
-                                on:focus={handleFocusRg}
-                                on:blur={handleBlurRg}
-                                on:change={adInputReset}
-                                bind:value={regionInput}>
-                                  <option disabled selected={regionInput == '시도'}>시도</option>
-                                  <option value="전국">전국</option>
-                                  {#each regions as region}
-                                      <option value={region.name}>{region.name}</option>
-                                  {/each}
-                              </select>
+                      <div class="flex flex-col">
+                          <div class="flex flex-row gap-6">
+                              <div>
+                                  <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" 
+                                    bind:this={selectElementRg}
+                                    on:focus={handleFocusRg}
+                                    on:blur={handleBlurRg}
+                                    on:change={adInputReset}
+                                    bind:value={regionInput}>
+                                      <option disabled selected={regionInput == '시도'}>시도</option>
+                                      <option value="전국">전국</option>
+                                      {#each regions as region}
+                                          <option value={region.name}>{region.name}</option>
+                                      {/each}
+                                  </select>
+                              </div>
+                              {#if showAd}
+                              <div>
+                                  <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" 
+                                    on:focus={() => { loadAd(); handleFocusAd();}} 
+                                    bind:value={adInput}
+                                    bind:this={selectElementAd}
+                                    on:blur={handleBlurAd}
+                                    >
+                                      <option disabled selected={adInput == '행정구'}>행정구</option>
+                                      <option value="전체">전체</option>
+                                      {#each ads as ad}
+                                          <option value={ad.name}>{ad.name}</option>
+                                      {/each}
+                                  </select>
+                              </div>
+                              {/if}
+    
+                              <div class="btn btn-outline" on:click={() => addAreaInput()}>지역 추가</div>
                           </div>
-                          {#if showAd}
-                          <div>
-                              <select class="border-[1px] rounded-lg h-[48px] w-[150px] text-center" style="border-color:rgb(210 212 215);outline-color:rgb(210 212 215);" 
-                                on:focus={() => { loadAd(); handleFocusAd();}} 
-                                bind:value={adInput}
-                                bind:this={selectElementAd}
-                                on:blur={handleBlurAd}
-                                >
-                                  <option disabled selected={adInput == '행정구'}>행정구</option>
-                                  <option value="전체">전체</option>
-                                  {#each ads as ad}
-                                      <option value={ad.name}>{ad.name}</option>
-                                  {/each}
-                              </select>
-                          </div>
-                          {/if}
+
+                          {#each areaInput as area}
+                            <div class="flex flex-row gap-2 text-[15px] ml-4 mt-2">
+                                <div class="w-full text-left">
+                                    {area}
+                                    <span class="ml-2 cursor-pointer" 
+                                    >
+                                        <i class="fa-regular fa-trash-can text-red-500" on:click={() => removeAreaInput(area)}></i>
+                                    </span>
+                                </div>
+                            </div>
+                          {/each}
                       </div>
   
                     </td>
