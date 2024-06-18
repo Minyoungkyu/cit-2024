@@ -404,8 +404,10 @@ public class MemberService {
     }
 
     public List<MemberInputListDto> getProgramMembers() {
-        return memberRepository.findByRoleLevelGreaterThanEqual(3);
+//        return memberRepository.findByRoleLevelGreaterThanEqual(3);
+        return memberRepository.findByRoleLevel(3).stream().map(MemberInputListDto::new).toList();
     }
+
 
     public List<MemberInputListDto> getClassMembers() {
         return memberRepository.findByRoleLevel(2).stream().map(MemberInputListDto::new).toList();
