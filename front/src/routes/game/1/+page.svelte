@@ -18,10 +18,11 @@
 	import Setting from '$lib/game/topMenu/setting/Setting.svelte';
 
 	import { shopGemsModalOpen } from '$lib/game/shopStore';
+	import TopMenu from '../../adm/menu/topMenu.svelte';
 
 	let userDevice = $state('');
 	let topMenuArray = $state(Array.from({ length: 7 }, (v, i) => (i === 0 ? true : false)));
-	const topMenuArrayText = ['스테이지', '상점', '코드 도감', '도전과제', '랭킹', '프로필', '설정'];
+	const topMenuArrayText = ['스테이지', '상점', '코드 도감', '도전과제', '랭킹', '내 프로필', '설정'];
 	let currentMenuIndex = $state(0);
 
 	let myAudio: HTMLAudioElement;
@@ -293,6 +294,18 @@
 	function activeTransitionAnimation() {
 		isTransitioning = true;
 	}
+
+	function openShop() {
+		topMenuArray = topMenuArray.map(() => false);
+		topMenuArray[1] = true;
+		currentMenuIndex = 1;
+	}
+
+	function openEncyclopedia() {
+		topMenuArray = topMenuArray.map(() => false);
+		topMenuArray[2] = true;
+		currentMenuIndex = 2;
+	}
 </script>
 
 <audio loop bind:this={myAudio}>
@@ -558,7 +571,7 @@
 				class="h-full absolute flex items-center justify-center z-[61]"
 				style="width:{widthValue}px;pointer-events:none;"
 			>
-				<Achievements {scaleMultiplier} resolution={adjustResolution} />
+				<Achievements {scaleMultiplier} resolution={adjustResolution} {openShop} {openEncyclopedia}/>
 			</div>
 		{/if}
 

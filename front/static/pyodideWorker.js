@@ -342,7 +342,7 @@ class Character:
         total_frames = int(self.set_time * self.fps)
         self.data["player"]["status"] = items[item]
         for _ in range(total_frames):
-            self.frame_append(0)
+            self.frame_append(line_num - start_line)
         self.data["player"]["status"] = 0
 
     def print_fail(self, status, target_id, line_num):
@@ -602,8 +602,8 @@ class Character:
         elif item_type == 'rocket_parts':
             return '로켓부품'
         elif item_type == 'laser_switch' or item_type == 'drop_switch' or item_type == 'variation_switch':
-        #     return '스위치'
-            return '없음'
+            return '스위치'
+        #    return '없음'
         elif item_type == 'print_point':
             return 'Print 지점'
         elif item_type == 'info_point':
@@ -1473,15 +1473,20 @@ class Character:
         target_pos = (player_pos[0] + offset[0], player_pos[1] + offset[1])
         target_pos2 = (player_pos[0] + offset2[0], player_pos[1] + offset2[1])
 
-        if target_pos[0] > len(self.data['stage']['tile'][0]) or target_pos[1] > len(self.data['stage']['tile']) or target_pos[0] < 0 or target_pos[1] < 0:
-            return '없음'
+        if target_pos[0] >= len(self.data['stage']['tile'][0]) or target_pos[1] >= len(self.data['stage']['tile']) or target_pos[0] < 0 or target_pos[1] < 0: # 맵 밖
+            return "벽"
+        if target_pos2[0] > len(self.data['stage']['tile'][0]) or target_pos2[1] > len(self.data['stage']['tile']) or target_pos2[0] < 0 or target_pos2[1] < 0: # 맵 밖
+            return "벽"
+        if self.data['stage']['tile'][target_pos[1]][target_pos[0]] == 2: # 벽
+            return "벽"
         
         for item in self.data['stage']['init_item_list']:
             if item['type'] == 'bomb':
                 if (tuple(item['pos']) == target_pos or tuple(item['pos']) == target_pos2) and item['status'] != self.item_off_status:
                     return '폭탄'
-            # elif item['type'] == 'bomb' and item['pos'] == target_pos2 and item['status'] != self.item_off_status:
-            #     return '폭탄'
+            elif item['type'] == 'door':
+                if (tuple(item['pos']) == target_pos or tuple(item['pos']) == target_pos2) and item['status'] != self.item_off_status:
+                    return '문'
 
         return '없음'
     
@@ -2084,7 +2089,7 @@ hero.check_print_status()
 while not hero.check_monster(0):
     pass  
 
-if hero.get_frames()[-1]["status"] == 0:
+if len(hero.get_frames()) > 0 and hero.get_frames()[-1]["status"] == 0:
     hero.end_game_frame_append()
 
 frames = hero.get_frames()  

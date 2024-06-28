@@ -209,7 +209,7 @@
 			}
 
 			if (lastNumber) {
-				updateErrorHighlight(Number(lastNumber - 2068 - cocosInfoLength));
+				updateErrorHighlight(Number(lastNumber - 2073 - cocosInfoLength));
 			}
 			const errorPattern = /\b\w+Error\b:.*/;
 			const errorMessage = longText.split('\n').find((line: string) => errorPattern.test(line));
@@ -899,6 +899,7 @@
 	let preventNextNewline: boolean = $state(false);
 
 	function appendCodeToEditor(value: string) {
+		console.log(value);
 		let cursorPosition = editor.getCursorPosition();
 
 		if (value === 'tab') {

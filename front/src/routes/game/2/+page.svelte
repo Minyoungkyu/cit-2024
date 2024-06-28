@@ -20,7 +20,7 @@
 
     let userDevice = $state('');
     let topMenuArray = $state(Array.from({length: 7}, (v, i) => i === 0 ? true : false));
-    const topMenuArrayText = ['스테이지', '상점', '코드 도감', '도전과제', '랭킹', '프로필', '설정' ];
+    const topMenuArrayText = ['스테이지', '상점', '코드 도감', '도전과제', '랭킹', '내 프로필', '설정' ];
     let currentMenuIndex = $state(0);
 
     let myAudio: HTMLAudioElement;
@@ -109,7 +109,6 @@
     }
 
     function onClickTopMenu(index: number) {
-        console.log(topMenuArray);
         topMenuArray = topMenuArray.map(() => false);
         topMenuArray[index] = true;
         currentMenuIndex = index;
@@ -278,6 +277,18 @@
     function activeTransitionAnimation() {
         isTransitioning = true;
     }
+
+    function openShop() {
+		topMenuArray = topMenuArray.map(() => false);
+		topMenuArray[1] = true;
+		currentMenuIndex = 1;
+	}
+
+	function openEncyclopedia() {
+		topMenuArray = topMenuArray.map(() => false);
+		topMenuArray[2] = true;
+		currentMenuIndex = 2;
+	}
 </script>
 
 <audio loop bind:this={myAudio}>
@@ -423,7 +434,7 @@
                 style="background-image:url('/img/shop/background_menu.jpg');background-size:cover;width:{widthValue}px;">
             </div>
             <div class="h-full absolute flex items-center justify-center z-[61]" style="width:{widthValue}px;pointer-events:none;">
-                <Achievements scaleMultiplier={scaleMultiplier} resolution={adjustResolution}/>
+                <Achievements scaleMultiplier={scaleMultiplier} resolution={adjustResolution} {openShop} {openEncyclopedia}/>
             </div>
         {/if}
 

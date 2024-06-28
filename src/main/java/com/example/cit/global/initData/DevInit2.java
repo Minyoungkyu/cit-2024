@@ -709,13 +709,13 @@ public class DevInit2 {
                 );
                 Achievement ac4 = achievementService.createAchievement(
                         "화끈하게 가자!",
-                        "우주해적 세트 모두 구매",
+                        "상점에서 우주해적 세트 모두 구매",
                         "PURCHASE EQUIPMENT SET",
                         0, 0, 2500, null
                 );
                 Achievement ac5 = achievementService.createAchievement(
                         "이것봐 야광 고양이야!",
-                        "네온고양이 세트 모두 구매",
+                        "상점에서 네온고양이 세트 모두 구매",
                         "PURCHASE EQUIPMENT SET",
                         1, 0, 2500, null
                 );
