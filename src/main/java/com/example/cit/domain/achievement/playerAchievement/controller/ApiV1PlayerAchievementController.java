@@ -28,6 +28,7 @@ public class ApiV1PlayerAchievementController {
     @Operation(summary = "플레이어 도감확인 업적")
     @PreAuthorize("hasRole('MEMBER')")
     @SecurityRequirement(name = "bearerAuth")
+    @Transactional
     public void postPlayerAchievement() {
         playerAchievementService.checkPlayerEncyAchievement();
     }
