@@ -5,29 +5,12 @@ declare global {
     }
   }
   
-  export async function loadPyodide() {
-    if (!window.pyodide) {
-      await new Promise<void>((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = '/pyodide.js'; 
-        script.onload = () => resolve();
-        script.onerror = reject;
-        document.body.appendChild(script);
-      });
-  
-      window.pyodide = await window.loadPyodide({
-        indexURL: "/pyodide/" 
-      });
-    }
-    return window.pyodide;
-  }
-
 let pyodideWorker:any = null;
+let isWorking = false;
 
 function getPyodideWorker() {
     if (pyodideWorker === null) {
-        pyodideWorker = new Worker('/pyodideWorker.obfuscated.js');
-        // pyodideWorker.obfuscated.js
+        pyodideWorker = new Worker('/pyodideWorker.obfuscated.js'); // /pyodideWorker.obfuscated.js
 
         pyodideWorker.onmessage = (event:any) => {
             if (pyodideWorker.callback) {
@@ -48,9 +31,9 @@ function getPyodideWorker() {
     return pyodideWorker;
 }
 
-export async function runPythonCode2(stageData:any, userInput: any) {
+export async function runPythonCode1(stageData:any, userInput: any) {
     try {
-        const result = await runPythonCodeWithTimeout(stageData, userInput, 3000);
+        const result = await runPythonCodeInit(stageData, userInput);
         return result; 
     } catch (error) {
         if(stageData !== "" && userInput !== "") {
@@ -59,10 +42,54 @@ export async function runPythonCode2(stageData:any, userInput: any) {
     }
 }
 
+
+export async function runPythonCode2(stageData:any, userInput: any) {
+
+    
+    if ( isWorking ) return;
+
+    try {
+
+        const result = await runPythonCodeWithTimeout(stageData, userInput, 20000);
+
+        isWorking = false;
+        return result; 
+    } catch (error) {
+        if(stageData !== "" && userInput !== "") {
+            return error;
+        }
+    }
+}
+
+function runPythonCodeInit(stageData:any, userInput:any) {
+    return new Promise((resolve, reject) => {
+        let worker = getPyodideWorker();
+
+        worker.onmessage = (event: any) => {
+            resolve(event.data);
+
+            worker.onmessage = null;
+            worker.onerror = null;
+        };
+
+        worker.onerror = (error:any) => {
+            reject(error);
+
+            worker.onmessage = null;
+            worker.onerror = null;
+        };
+
+        worker.postMessage({ stageData, userInput })
+    });
+}
+
+
 function runPythonCodeWithTimeout(stageData:any, userInput:any, timeout:any) {
     return new Promise((resolve, reject) => {
         let worker = getPyodideWorker();
         let timeoutId: any;
+
+        isWorking = true;
 
         worker.onmessage = (event: any) => {
             clearTimeout(timeoutId);
@@ -82,17 +109,24 @@ function runPythonCodeWithTimeout(stageData:any, userInput:any, timeout:any) {
             worker.onerror = null;
         };
 
-        worker.postMessage({ stageData, userInput });
+        worker.postMessage({ stageData, userInput })
 
         timeoutId = setTimeout(() => {
             worker.terminate();
+
+            isWorking = false;
+
             pyodideWorker = null; 
-            runPythonCode2("", "");
+            runPythonCode1("", "");
             reject(new Error('파이썬 코드 실행 시간 초과')); 
         }, timeout);
 
     });
 }
+
+
+
+
 
 // export async function runPythonCode2(pyodide: any, stageData:any, userInput: any) {
 //     try {

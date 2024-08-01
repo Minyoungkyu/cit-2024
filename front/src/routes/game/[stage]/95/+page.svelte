@@ -5,7 +5,7 @@
 	import type { components } from '$lib/types/api/v1/schema';
 	import { setupAceEditor } from '$lib/aceEdit/aceEditorSetup.svelte';
 	import Cocos from '$lib/cocos/cocos.svelte';
-	import { runPythonCode2 } from '$lib/pyodide/pyodide';
+	import { runPythonCode2, runPythonCode1 } from '$lib/pyodide/pyodide';
 	import './page.css';
 	import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
 
@@ -129,6 +129,7 @@
 	let framesData: [] = $state([]); // 파이썬 실행 결과 프레임 데이터
 	let frameUpdateIntervalId: any = $state(null); // 에디터 하이라이터, 프로그레스바 업데이트 인터벌 아이디
 	let isCoReady: boolean = $state(false);
+	let isWorkerWorking: boolean = $state(false);
 
 	let showStart: boolean = $state(false);
 	let showGuide: boolean = $state(false);
@@ -233,6 +234,7 @@
 	async function executePython(): Promise<void> {
 		showSuccessPop = false;
 		showFailPop = false;
+		isWorkerWorking = true;
 
 		//Todo: 실행에 대한 로그 수집
 		isReplay = false;
@@ -256,6 +258,7 @@
 		currentLineCounter = lineCounter;
 
 		let result: any = await runPythonCode2(gameMapDto.cocosInfo, editorContent);
+		isWorkerWorking = false;
 
 		if (result.error) {
 			let cocosInfoLength = gameMapDto.cocosInfo.split('\n').length;
@@ -403,7 +406,7 @@
 	onMount(async () => {
 		rq.fetchAndInitializeInventories();
 		window.addEventListener('beforeunload', saveEditorState);
-		runPythonCode2('', '');
+		runPythonCode1('', '');
 	});
 
 	const originalHeight = 1080;
@@ -1653,8 +1656,14 @@
 							: ''}"
 						on:click={() => {
 							canExecute ? executePython() : reExecute();
-						}}>실행</button
+						}}
 					>
+						{#if isWorkerWorking}
+							<span class="loading loading-spinner loading-lg"></span>
+						{:else}
+							실행
+						{/if}
+					</button>
 					<button
 						class="w-[299px] h-[102px] text-[44px] font-[900] italic leading-[2.5] {showCompleteBtn
 							? 'cursor-pointer'

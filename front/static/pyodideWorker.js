@@ -2096,13 +2096,26 @@ frames = hero.get_frames()
 json.dumps(frames)     
 `
 
+importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
+
+async function loadPyodideAndPackages() {
+    self.pyodide = await loadPyodide({
+        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/"
+    });
+    await self.pyodide.loadPackagesFromImports(`
+        import inspect
+        import json
+        import sys
+        import random
+        from collections import Counter
+    `);
+}
+
+let pyodideReadyPromise = loadPyodideAndPackages();
+
 addEventListener('message', async (event) => {
-    if (!self.pyodide) {
-        importScripts('/pyodide.js');
-        self.pyodide = await loadPyodide({
-            indexURL: "/pyodide/"
-        });
-    }
+
+    await pyodideReadyPromise;
 
     try {
         const { stageData, userInput } = event.data;
@@ -2120,3 +2133,5 @@ addEventListener('message', async (event) => {
         }
     }
 });
+
+

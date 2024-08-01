@@ -15,7 +15,7 @@
 	import { onMount } from 'svelte';
     import type { components } from '$lib/types/api/v1/schema';
     import Cocos from '$lib/cocos/cocos.svelte';
-    import { runPythonCode2 } from '$lib/pyodide/pyodide';
+    import { runPythonCode2, runPythonCode1 } from '$lib/pyodide/pyodide';
     import './page.css';
     import TransitioningOpenLayer from '$lib/game/TransitioningOpenLayer.svelte';
 
@@ -98,9 +98,9 @@
         }
     });
     
-    onMount(async () => {
-        runPythonCode2("", "");
-    });
+    // onMount(async () => {
+    //     runPythonCode1("", "");
+    // });
 
     const originalHeight = 1080;
     let scaleMultiplier = $state(0);
